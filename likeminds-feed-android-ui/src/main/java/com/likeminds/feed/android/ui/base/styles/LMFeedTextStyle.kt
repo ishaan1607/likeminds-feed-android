@@ -2,6 +2,7 @@ package com.likeminds.feed.android.ui.base.styles
 
 import android.graphics.Typeface
 import android.text.TextUtils.TruncateAt
+import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.ui.utils.ViewStyle
@@ -76,6 +77,8 @@ class LMFeedTextStyle private constructor(
 
     fun apply(textView: LMFeedTextView) {
         textView.apply {
+            val txtColor = ContextCompat.getColor(context, this@LMFeedTextStyle.textColor)
+            this.setTextColor(txtColor)
             this.textSize = this@LMFeedTextStyle.textSize.toFloat()
         }
     }
