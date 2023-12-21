@@ -2,6 +2,7 @@ package com.likeminds.feed.android.ui.base.styles
 
 import android.graphics.Typeface
 import android.text.TextUtils.TruncateAt
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedTextView
@@ -18,7 +19,7 @@ class LMFeedTextStyle private constructor(
 ) : ViewStyle {
 
     class Builder {
-        private var textColor: Int = R.color.colorPrimary
+        private var textColor: Int = R.color.black
         private var textSize: Int = R.dimen.lm_feed_ui_text_small
         private var fontResource: Int? = null
         private var fontAssetsPath: String? = null
