@@ -1,8 +1,10 @@
 package com.likeminds.feed.android.ui.theme
 
+import androidx.annotation.FontRes
 import com.likeminds.feed.android.ui.theme.model.LMFeedSetThemeRequest
 
 object LMFeedTheme {
+    @FontRes
     private var fontResource: Int? = null
     private var fontAssetsPath: String? = null
 

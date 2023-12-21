@@ -2,8 +2,7 @@ package com.likeminds.feed.android.ui.base.styles
 
 import android.graphics.Typeface
 import android.text.TextUtils.TruncateAt
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
+import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.likeminds.feed.android.ui.R
@@ -16,7 +15,7 @@ class LMFeedTextStyle private constructor(
     @ColorRes val textColor: Int,
     @DimenRes val textSize: Int,
     val textAllCaps: Boolean,
-    val fontResource: Int?,
+    @FontRes val fontResource: Int?,
     val fontAssetsPath: String?,
     val typeface: Int,
     val maxLines: Int?,
@@ -29,6 +28,8 @@ class LMFeedTextStyle private constructor(
         private var textColor: Int = R.color.black
         private var textSize: Int = R.dimen.lm_feed_ui_text_small
         private var textAllCaps: Boolean = false
+
+        @FontRes
         private var fontResource: Int? = null
         private var fontAssetsPath: String? = null
         private var typeface: Int = Typeface.NORMAL
@@ -48,7 +49,7 @@ class LMFeedTextStyle private constructor(
             this.textAllCaps = textAllCaps
         }
 
-        fun fontResource(fontResource: Int?) = apply {
+        fun fontResource(@FontRes fontResource: Int?) = apply {
             this.fontResource = fontResource
         }
 
@@ -103,6 +104,8 @@ class LMFeedTextStyle private constructor(
             this.setTextColor(textColor)
 
             this.textSize = this@LMFeedTextStyle.textSize.toFloat()
+
+            this.isAllCaps = textAllCaps
 
             if (this@LMFeedTextStyle.maxLines != null) {
                 this.maxLines = this@LMFeedTextStyle.maxLines
