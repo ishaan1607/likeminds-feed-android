@@ -21,6 +21,7 @@ class LMFeedTextStyle private constructor(
     val maxLines: Int?,
     val ellipsize: TruncateAt?,
     val padding: LMFeedPadding?,
+    @ColorRes val backgroundColor: Int?
 ) : ViewStyle {
 
     class Builder {
@@ -36,6 +37,9 @@ class LMFeedTextStyle private constructor(
         private var maxLines: Int? = null
         private var ellipsize: TruncateAt? = null
         private var padding: LMFeedPadding? = null
+
+        @ColorRes
+        private var backgroundColor: Int? = null
 
         fun textColor(@ColorRes textColor: Int) = apply {
             this.textColor = textColor
@@ -73,6 +77,10 @@ class LMFeedTextStyle private constructor(
             this.padding = padding
         }
 
+        fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
+            this.backgroundColor = backgroundColor
+        }
+
         fun build() = LMFeedTextStyle(
             textColor,
             textSize,
@@ -82,7 +90,8 @@ class LMFeedTextStyle private constructor(
             typeface,
             maxLines,
             ellipsize,
-            padding
+            padding,
+            backgroundColor
         )
     }
 
@@ -96,6 +105,7 @@ class LMFeedTextStyle private constructor(
             .maxLines(maxLines)
             .ellipsize(ellipsize)
             .padding(padding)
+            .backgroundColor(backgroundColor)
     }
 
     fun apply(textView: LMFeedTextView) {
@@ -113,6 +123,12 @@ class LMFeedTextStyle private constructor(
 
             if (this@LMFeedTextStyle.ellipsize != null) {
                 this.ellipsize = this@LMFeedTextStyle.ellipsize
+            }
+
+            if (this@LMFeedTextStyle.backgroundColor != null) {
+                val backgroundColor =
+                    ContextCompat.getColor(context, this@LMFeedTextStyle.backgroundColor)
+                this.setBackgroundColor(backgroundColor)
             }
 
             setFont(this)
