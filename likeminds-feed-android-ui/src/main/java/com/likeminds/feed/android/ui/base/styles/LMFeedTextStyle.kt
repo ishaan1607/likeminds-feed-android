@@ -2,10 +2,12 @@ package com.likeminds.feed.android.ui.base.styles
 
 import android.graphics.Typeface
 import android.text.TextUtils.TruncateAt
+import android.widget.TextView
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.likeminds.feed.android.ui.R
+import com.likeminds.feed.android.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.ui.utils.ViewStyle
@@ -108,7 +110,15 @@ class LMFeedTextStyle private constructor(
             .backgroundColor(backgroundColor)
     }
 
-    fun apply(textView: LMFeedTextView) {
+    fun apply(lmFeedTextView: LMFeedTextView) {
+        applyImpl(lmFeedTextView)
+    }
+
+    fun apply(lmFeedEditText: LMFeedEditText) {
+        applyImpl(lmFeedEditText)
+    }
+
+    private fun applyImpl(textView: TextView) {
         textView.apply {
             val textColor = ContextCompat.getColor(context, this@LMFeedTextStyle.textColor)
             this.setTextColor(textColor)
@@ -144,7 +154,7 @@ class LMFeedTextStyle private constructor(
         }
     }
 
-    private fun setFont(textView: LMFeedTextView) {
+    private fun setFont(textView: TextView) {
         textView.apply {
             val defaultFont = LMFeedTheme.getFontResources()
             when {

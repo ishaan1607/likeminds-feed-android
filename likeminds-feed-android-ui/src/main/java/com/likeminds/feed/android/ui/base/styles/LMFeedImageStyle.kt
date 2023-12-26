@@ -109,3 +109,7 @@ class LMFeedImageStyle private constructor(
         }
     }
 }
+
+fun LMFeedImageView.setStyle(viewStyle: LMFeedImageStyle) {
+    viewStyle.apply(this)
+}
