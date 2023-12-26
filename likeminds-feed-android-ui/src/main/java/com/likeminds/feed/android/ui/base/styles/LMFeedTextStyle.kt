@@ -117,8 +117,12 @@ class LMFeedTextStyle private constructor(
         applyImpl(lmFeedEditText)
     }
 
-    fun apply(lmFeedButton: LMFeedButton){
+    fun apply(lmFeedButton: LMFeedButton) {
         applyImpl(lmFeedButton)
+    }
+
+    fun apply(lmFeedFAB: LMFeedFAB) {
+        applyImpl(lmFeedFAB)
     }
 
     private fun applyImpl(textView: TextView) {
