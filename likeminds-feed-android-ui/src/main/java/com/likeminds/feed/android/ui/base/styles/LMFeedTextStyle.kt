@@ -7,8 +7,7 @@ import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.likeminds.feed.android.ui.R
-import com.likeminds.feed.android.ui.base.views.LMFeedEditText
-import com.likeminds.feed.android.ui.base.views.LMFeedTextView
+import com.likeminds.feed.android.ui.base.views.*
 import com.likeminds.feed.android.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.ui.utils.ViewStyle
 import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
@@ -116,6 +115,10 @@ class LMFeedTextStyle private constructor(
 
     fun apply(lmFeedEditText: LMFeedEditText) {
         applyImpl(lmFeedEditText)
+    }
+
+    fun apply(lmFeedButton: LMFeedButton){
+        applyImpl(lmFeedButton)
     }
 
     private fun applyImpl(textView: TextView) {
