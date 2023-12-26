@@ -1,18 +1,26 @@
 package com.likeminds.feed.android.ui.theme.model
 
+import androidx.annotation.FontRes
+
 // todo: add other theme parameters
 class LMFeedSetThemeRequest private constructor(
-    val fonts: LMFeedFonts?
+    @FontRes
+    val fontResource: Int?,
+    val fontAssetsPath: String?
 ) {
     class Builder {
-        private var fonts: LMFeedFonts? = null
+        @FontRes
+        private var fontResource: Int? = null
+        private var fontAssetsPath: String? = null
 
-        fun fonts(fonts: LMFeedFonts?) = apply { this.fonts = fonts }
+        fun fontResource(@FontRes fontResource: Int?) = apply { this.fontResource = fontResource }
+        fun fontAssetsPath(fontAssetsPath: String?) = apply { this.fontAssetsPath = fontAssetsPath }
 
-        fun build() = LMFeedSetThemeRequest(fonts)
+        fun build() = LMFeedSetThemeRequest(fontResource, fontAssetsPath)
     }
 
     fun toBuilder(): Builder {
-        return Builder().fonts(fonts)
+        return Builder().fontResource(fontResource)
+            .fontAssetsPath(fontAssetsPath)
     }
 }
