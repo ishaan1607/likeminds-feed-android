@@ -171,3 +171,7 @@ class LMFeedFABStyle(
             .iconPadding(iconPadding)
     }
 }
+
+fun LMFeedFAB.setStyle(viewStyle: LMFeedFABStyle) {
+    viewStyle.apply(this)
+}
