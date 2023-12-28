@@ -11,19 +11,19 @@ import kotlin.math.roundToInt
 
 /**
  * [LMFeedButtonStyle] helps you to customize a [LMFeedButton] with the following properties
- * @property textStyle : [LMFeedTextStyle] this will help to customize the text of the button
+ * @property textStyle : [LMFeedTextStyle] to customize the text of the button
  *
- * @property backgroundColor: [Int] should be in format of [ColorRes] to add background color of the button | Default value =  [R.color.majorelle_blue]
- * @property strokeColor: [Int] should be in format of [ColorRes] to add border color of the button | Default value = [null]
- * @property strokeWidth: [Int] should be in format of [DimenRes] to add border width of the button | Default value = [null]
- * @property elevation: [Int] should be in format of [DimenRes] to add custom elevation of the button | Default value = [null]
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the button | Default value =  [R.color.majorelle_blue]
+ * @property strokeColor: [Int] should be in format of [ColorRes] to customize the border color of the button | Default value = [null]
+ * @property strokeWidth: [Int] should be in format of [DimenRes] to customize the border width of the button | Default value = [null]
+ * @property elevation: [Int] should be in format of [DimenRes] to customize the elevation of the button | Default value = [null]
  *
  *
- * @property icon: [Int] should be in format of [DrawableRes] to add custom icon of the button | Default value = [null]
- * @property iconTint:[Int] should be in format of [ColorRes] to change custom icon color | Default value = [null]
- * @property iconSize: [Int] should be in format of [DimenRes] to change custom size of the icon | Default value = [null]
- * @property iconGravity: [Int] should be in format of [IconGravity] to change gravity of the icon | Default value = [ICON_GRAVITY_START]
- * @property iconPadding: [Int] should be in the format of [DimenRes] to change padding of the icon | Default value = [null]
+ * @property icon: [Int] should be in format of [DrawableRes] to customize the icon of the button | Default value = [null]
+ * @property iconTint:[Int] should be in format of [ColorRes] to customize the icon color | Default value = [null]
+ * @property iconSize: [Int] should be in format of [DimenRes] to customize the size of the icon | Default value = [null]
+ * @property iconGravity: [Int] should be in format of [IconGravity] to customize the gravity of the icon | Default value = [ICON_GRAVITY_START]
+ * @property iconPadding: [Int] should be in the format of [DimenRes] to customize the padding of the icon | Default value = [null]
  **/
 class LMFeedButtonStyle private constructor(
     //text related
@@ -114,7 +114,7 @@ class LMFeedButtonStyle private constructor(
 
     fun apply(button: LMFeedButton) {
         button.apply {
-            //all text related styling
+            // applies all text related styling
             textStyle.apply(this)
 
             //button related styling

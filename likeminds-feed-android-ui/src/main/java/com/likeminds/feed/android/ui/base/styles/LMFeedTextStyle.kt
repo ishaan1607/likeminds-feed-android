@@ -15,7 +15,6 @@ import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 /**
  * [LMFeedTextStyle] helps you to customize a [LMFeedTextView] with the following properties
  * @property textColor : [Int] to customize the color of the text
- *
  * @property textSize: [Int] should be in format of [DimenRes] to customize the size of the text | Default value =  [R.dimen.lm_feed_ui_text_small]
  * @property textAllCaps: [Boolean] to customize whether the text should be all caps or not | Default value = [false]
  * @property fontResource: [Int] should be in format of [FontRes] to customize the font of the text using font resources | Default value = [null]

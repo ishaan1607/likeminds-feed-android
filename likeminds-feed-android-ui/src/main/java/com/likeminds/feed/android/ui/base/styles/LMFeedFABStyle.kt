@@ -3,14 +3,32 @@ package com.likeminds.feed.android.ui.base.styles
 import android.content.res.ColorStateList
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
+import com.google.android.material.button.MaterialButton.IconGravity
 import com.likeminds.feed.android.ui.R
+import com.likeminds.feed.android.ui.base.views.LMFeedButton
 import com.likeminds.feed.android.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.ui.utils.ViewStyle
 import kotlin.math.roundToInt
 
+/**
+ * [LMFeedFABStyle] helps you to customize a [LMFeedFAB] with the following properties
+ * @property textStyle : [LMFeedTextStyle] to customize the text of the FAB
+ * @property isExtended : [Boolean] to customize whether the FAB is extended or not
+ *
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the FAB | Default value =  [R.color.majorelle_blue]
+ * @property strokeColor: [Int] should be in format of [ColorRes] to customize the border color of the FAB | Default value = [null]
+ * @property strokeWidth: [Int] should be in format of [DimenRes] to customize the border width of the FAB | Default value = [null]
+ * @property elevation: [Int] should be in format of [DimenRes] to customize the elevation of the FAB | Default value = [null]
+ *
+ *
+ * @property icon: [Int] should be in format of [DrawableRes] to customize the icon of the FAB | Default value = [null]
+ * @property iconTint:[Int] should be in format of [ColorRes] to customize the icon color | Default value = [null]
+ * @property iconSize: [Int] should be in format of [DimenRes] to customize the size of the icon | Default value = [null]
+ * @property iconPadding: [Int] should be in the format of [DimenRes] to customize the padding of the icon | Default value = [null]
+ **/
 class LMFeedFABStyle(
-    val isExtended: Boolean,
     val textStyle: LMFeedTextStyle?,
+    val isExtended: Boolean,
 
     //fab related
     @ColorRes val backgroundColor: Int,
@@ -55,8 +73,8 @@ class LMFeedFABStyle(
         @DimenRes
         private var iconPadding: Int? = null
 
-        fun isExtended(isExtended: Boolean) = apply { this.isExtended = isExtended }
         fun textStyle(textStyle: LMFeedTextStyle?) = apply { this.textStyle = textStyle }
+        fun isExtended(isExtended: Boolean) = apply { this.isExtended = isExtended }
 
         fun backgroundColor(@ColorRes backgroundColor: Int) =
             apply { this.backgroundColor = backgroundColor }
@@ -76,8 +94,8 @@ class LMFeedFABStyle(
         fun iconPadding(iconPadding: Int?) = apply { this.iconPadding = iconPadding }
 
         fun build() = LMFeedFABStyle(
-            isExtended,
             textStyle,
+            isExtended,
             backgroundColor,
             strokeColor,
             strokeWidth,
@@ -172,6 +190,9 @@ class LMFeedFABStyle(
     }
 }
 
+/**
+ * Util function that helps to apply all the styling [LMFeedFABStyle] to [LMFeedFAB]
+ **/
 fun LMFeedFAB.setStyle(viewStyle: LMFeedFABStyle) {
     viewStyle.apply(this)
 }

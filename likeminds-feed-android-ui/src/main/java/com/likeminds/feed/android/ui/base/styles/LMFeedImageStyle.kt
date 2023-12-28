@@ -12,8 +12,6 @@ import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 
 /**
  * [LMFeedImageStyle] helps you to customize a [LMFeedTextView] with the following properties
- * @property textColor : [Int] to customize the color of the text
- *
  * @property imageSrc: [Any] to customize the image source | Default value =  [R.drawable.lm_feed_picture_placeholder]
  * @property drawableSrc: [Any] to customize the drawable source | Default value = [R.drawable.lm_feed_picture_placeholder]
  * @property isCircle: [Boolean] to customize whether the image is circular or not | Default value = [false]
