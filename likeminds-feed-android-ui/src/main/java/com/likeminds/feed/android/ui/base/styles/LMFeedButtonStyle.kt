@@ -10,7 +10,7 @@ import com.likeminds.feed.android.ui.base.views.LMFeedButton
 import kotlin.math.roundToInt
 
 /**
- * [LMFeedButtonStyle] help you customize a button in the following way
+ * [LMFeedButtonStyle] helps you to customize a [LMFeedButton] with the following properties
  * @property textStyle : [LMFeedTextStyle] this will help to customize the text of the button
  *
  * @property backgroundColor: [Int] should be in format of [ColorRes] to add background color of the button | Default value =  [R.color.majorelle_blue]
@@ -200,7 +200,7 @@ class LMFeedButtonStyle private constructor(
 }
 
 /**
-* Util functions to helps to apply all the styling [LMFeedButtonStyle] to [LMFeedButton]
+* Util function that helps to apply all the styling [LMFeedButtonStyle] to [LMFeedButton]
  **/
 fun LMFeedButton.setStyle(viewStyle: LMFeedButtonStyle) {
     viewStyle.apply(this)

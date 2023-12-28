@@ -12,6 +12,20 @@ import com.likeminds.feed.android.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.ui.utils.ViewStyle
 import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedTextStyle] helps you to customize a [LMFeedTextView] with the following properties
+ * @property textColor : [Int] to customize the color of the text
+ *
+ * @property textSize: [Int] should be in format of [DimenRes] to customize the size of the text | Default value =  [R.dimen.lm_feed_ui_text_small]
+ * @property textAllCaps: [Boolean] to customize whether the text should be all caps or not | Default value = [false]
+ * @property fontResource: [Int] should be in format of [FontRes] to customize the font of the text using font resources | Default value = [null]
+ * @property fontAssetsPath: [String] to to customize the font of the text using the path of the font assets | Default value = [null]
+ * @property typeface: [Int] to customize the typeface of the button | Default value = [null]
+ * @property maxLines:[Int] to customize the max lines for a text | Default value = [null]
+ * @property ellipsize: [TruncateAt] to customize how to ellipsize the text  | Default value = [null]
+ * @property padding: [LMFeedPadding] to customize the padding of the text | Default value = [null]
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the text | Default value = [null]
+ **/
 class LMFeedTextStyle private constructor(
     @ColorRes val textColor: Int,
     @DimenRes val textSize: Int,
@@ -109,18 +123,22 @@ class LMFeedTextStyle private constructor(
             .backgroundColor(backgroundColor)
     }
 
+    // applies the [LMFeedTextStyle] to [LMFeedTextView]
     fun apply(lmFeedTextView: LMFeedTextView) {
         applyImpl(lmFeedTextView)
     }
 
+    // applies the [LMFeedTextStyle] to [LMFeedEditText]
     fun apply(lmFeedEditText: LMFeedEditText) {
         applyImpl(lmFeedEditText)
     }
 
+    // applies the [LMFeedTextStyle] to [LMFeedButton]
     fun apply(lmFeedButton: LMFeedButton) {
         applyImpl(lmFeedButton)
     }
 
+    // applies the [LMFeedTextStyle] to [LMFeedFAB]
     fun apply(lmFeedFAB: LMFeedFAB) {
         applyImpl(lmFeedFAB)
     }
@@ -148,8 +166,10 @@ class LMFeedTextStyle private constructor(
                 this.setBackgroundColor(backgroundColor)
             }
 
+            // sets font
             setFont(this)
 
+            // text padding
             if (padding != null) {
                 setPadding(
                     padding.paddingLeft,
@@ -161,6 +181,7 @@ class LMFeedTextStyle private constructor(
         }
     }
 
+    // sets font to the text view
     private fun setFont(textView: TextView) {
         textView.apply {
             val defaultFont = LMFeedTheme.getFontResources()
@@ -189,6 +210,9 @@ class LMFeedTextStyle private constructor(
     }
 }
 
+/**
+ * Util function that helps to apply all the styling [LMFeedTextStyle] to [LMFeedTextView]
+ **/
 fun LMFeedTextView.setStyle(viewStyle: LMFeedTextStyle) {
     viewStyle.apply(this)
 }
