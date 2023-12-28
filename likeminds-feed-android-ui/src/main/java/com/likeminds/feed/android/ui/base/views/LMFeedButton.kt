@@ -4,6 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.button.MaterialButton
 
+/**
+ * Represents a material button
+ * To customize this view use [LMFeedButtonStyle]
+ */
 class LMFeedButton : MaterialButton {
 
     constructor(context: Context) : super(context) {
