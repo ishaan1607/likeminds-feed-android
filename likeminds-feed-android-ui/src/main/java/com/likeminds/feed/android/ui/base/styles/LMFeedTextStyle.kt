@@ -146,20 +146,27 @@ class LMFeedTextStyle private constructor(
     private fun applyImpl(textView: TextView) {
         textView.apply {
             val textColor = ContextCompat.getColor(context, this@LMFeedTextStyle.textColor)
+
+            // sets the text color
             this.setTextColor(textColor)
 
+            // sets the text size
             this.textSize = this@LMFeedTextStyle.textSize.toFloat()
 
+            // sets whether the text is all caps or not
             this.isAllCaps = textAllCaps
 
+            // sets max lines to the text view
             if (this@LMFeedTextStyle.maxLines != null) {
                 this.maxLines = this@LMFeedTextStyle.maxLines
             }
 
+            // sets ellipsize to the text view
             if (this@LMFeedTextStyle.ellipsize != null) {
                 this.ellipsize = this@LMFeedTextStyle.ellipsize
             }
 
+            // sets background color of the text
             if (this@LMFeedTextStyle.backgroundColor != null) {
                 val backgroundColor =
                     ContextCompat.getColor(context, this@LMFeedTextStyle.backgroundColor)
@@ -169,7 +176,7 @@ class LMFeedTextStyle private constructor(
             // sets font
             setFont(this)
 
-            // text padding
+            // sets text padding
             if (padding != null) {
                 setPadding(
                     padding.paddingLeft,

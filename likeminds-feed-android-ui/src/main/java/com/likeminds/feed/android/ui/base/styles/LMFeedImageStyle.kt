@@ -1,14 +1,27 @@
 package com.likeminds.feed.android.ui.base.styles
 
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
+import android.text.TextUtils.TruncateAt
+import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedImageView
+import com.likeminds.feed.android.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
 import com.likeminds.feed.android.ui.utils.ViewStyle
 import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedImageStyle] helps you to customize a [LMFeedTextView] with the following properties
+ * @property textColor : [Int] to customize the color of the text
+ *
+ * @property imageSrc: [Any] to customize the image source | Default value =  [R.drawable.lm_feed_picture_placeholder]
+ * @property drawableSrc: [Any] to customize the drawable source | Default value = [R.drawable.lm_feed_picture_placeholder]
+ * @property isCircle: [Boolean] to customize whether the image is circular or not | Default value = [false]
+ * @property showGreyScale: [Boolean] to customize whether to show grey scale or not | Default value = [false]
+ * @property cornerRadius: [Int] should be in format of [DimenRes] to customize the corner radius of the image | Default value = [null]
+ * @property padding: [LMFeedPadding] to customize the padding of the image | Default value = [null]
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the image | Default value = [null]
+ **/
 class LMFeedImageStyle private constructor(
     val imageSrc: Any,
     val drawableSrc: Any,
@@ -83,6 +96,8 @@ class LMFeedImageStyle private constructor(
 
     fun apply(imageView: LMFeedImageView) {
         imageView.apply {
+
+            // loads image and drawable as per the passed values
             LMFeedImageBindingUtil.loadImage(
                 this,
                 imageSrc,
@@ -92,12 +107,14 @@ class LMFeedImageStyle private constructor(
                 showGreyScale
             )
 
+            // sets background color of the image
             if (this@LMFeedImageStyle.backgroundColor != null) {
                 val backgroundColor =
                     ContextCompat.getColor(context, this@LMFeedImageStyle.backgroundColor)
                 this.setBackgroundColor(backgroundColor)
             }
 
+            // sets text padding
             if (padding != null) {
                 setPadding(
                     padding.paddingLeft,
@@ -110,6 +127,9 @@ class LMFeedImageStyle private constructor(
     }
 }
 
+/**
+ * Util function that helps to apply all the styling [LMFeedImageStyle] to [LMFeedImageView]
+ **/
 fun LMFeedImageView.setStyle(viewStyle: LMFeedImageStyle) {
     viewStyle.apply(this)
 }
