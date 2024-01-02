@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.ui.base.styles
 
 import android.graphics.Typeface
+import android.graphics.fonts.FontStyle
 import android.text.TextUtils.TruncateAt
 import android.widget.TextView
 import androidx.annotation.*
@@ -186,6 +187,16 @@ class LMFeedTextStyle private constructor(
                 }
             }
         }
+    }
+
+    override fun toString(): String {
+        return """
+            textSize: $textSize
+            textAllCaps: $textAllCaps
+            textColor: $textColor
+            fontResource: $fontResource
+            padding: $padding
+        """.trimIndent()
     }
 }
 

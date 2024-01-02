@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    Standard Margins-->
+    <dimen name="lm_feed_standard_margin">16dp</dimen>
+
+    <!--    Universal Feed Screen-->
+    <dimen name="lm_feed_create_new_post_text_size">15sp</dimen>
+    <dimen name="lm_feed_create_new_post_padding">20dp</dimen>
+    <dimen name="lm_feed_create_new_post_icon_size">30dp</dimen>
+</resources>

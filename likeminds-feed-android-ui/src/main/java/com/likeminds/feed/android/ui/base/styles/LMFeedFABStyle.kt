@@ -6,11 +6,11 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.ui.utils.ViewStyle
+import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 import kotlin.math.roundToInt
 
 class LMFeedFABStyle(
     val isExtended: Boolean,
-    val textStyle: LMFeedTextStyle?,
 
     //fab related
     @ColorRes val backgroundColor: Int,
@@ -22,12 +22,16 @@ class LMFeedFABStyle(
     @DrawableRes val icon: Int?,
     @ColorRes val iconTint: Int?,
     @DimenRes val iconSize: Int?,
-    @DimenRes val iconPadding: Int?
+    @DimenRes val iconPadding: Int?,
+
+    //text related
+    @ColorRes
+    val textColor: Int,
+    val textAllCaps: Boolean,
 ) : ViewStyle {
 
     class Builder {
-        private var isExtended: Boolean = false
-        private var textStyle: LMFeedTextStyle? = null
+        private var isExtended: Boolean = true
 
         //fab related
         @ColorRes
@@ -55,8 +59,13 @@ class LMFeedFABStyle(
         @DimenRes
         private var iconPadding: Int? = null
 
+        //text related
+        @ColorRes
+        private var textColor: Int = R.color.white
+
+        private var textAllCaps: Boolean = false
+
         fun isExtended(isExtended: Boolean) = apply { this.isExtended = isExtended }
-        fun textStyle(textStyle: LMFeedTextStyle?) = apply { this.textStyle = textStyle }
 
         fun backgroundColor(@ColorRes backgroundColor: Int) =
             apply { this.backgroundColor = backgroundColor }
@@ -67,17 +76,22 @@ class LMFeedFABStyle(
 
         fun elevation(@DimenRes elevation: Int?) = apply { this.elevation = elevation }
 
-        fun icon(icon: Int?) = apply { this.icon = icon }
+        fun icon(@DrawableRes icon: Int?) = apply { this.icon = icon }
 
-        fun iconTint(iconTint: Int?) = apply { this.iconTint = iconTint }
+        fun iconTint(@ColorRes iconTint: Int?) = apply { this.iconTint = iconTint }
 
-        fun iconSize(iconSize: Int?) = apply { this.iconSize = iconSize }
+        fun iconSize(@DimenRes iconSize: Int?) = apply { this.iconSize = iconSize }
 
-        fun iconPadding(iconPadding: Int?) = apply { this.iconPadding = iconPadding }
+        fun iconPadding(@DimenRes iconPadding: Int?) = apply { this.iconPadding = iconPadding }
+
+        fun textColor(@ColorRes textColor: Int) = apply { this.textColor = textColor }
+
+        fun textAllCaps(textAllCaps: Boolean) = apply { this.textAllCaps = textAllCaps }
+
+        fun padding(padding: LMFeedPadding?) = apply { this.padding = padding }
 
         fun build() = LMFeedFABStyle(
             isExtended,
-            textStyle,
             backgroundColor,
             strokeColor,
             strokeWidth,
@@ -85,16 +99,28 @@ class LMFeedFABStyle(
             icon,
             iconTint,
             iconSize,
-            iconPadding
+            iconPadding,
+            textColor,
+            textAllCaps,
+            padding
         )
     }
 
     fun apply(fab: LMFeedFAB) {
         fab.apply {
             //text related
-            textStyle?.apply(this)
+            this.setTextColor(ContextCompat.getColor(context, this@LMFeedFABStyle.textColor))
+            this.isAllCaps = this@LMFeedFABStyle.textAllCaps
 
-            this.isExtended = this@LMFeedFABStyle.isExtended
+            if (padding != null) {
+                setPadding(
+                    this@LMFeedFABStyle.padding.paddingLeft,
+                    this@LMFeedFABStyle.padding.paddingTop,
+                    this@LMFeedFABStyle.padding.paddingRight,
+                    this@LMFeedFABStyle.padding.paddingBottom
+                )
+            }
+
 
             //button related styling
             backgroundTintList = ColorStateList.valueOf(
@@ -160,7 +186,6 @@ class LMFeedFABStyle(
 
     fun toBuilder(): Builder {
         return Builder().isExtended(isExtended)
-            .textStyle(textStyle)
             .backgroundColor(backgroundColor)
             .strokeColor(strokeColor)
             .strokeWidth(strokeWidth)
@@ -169,6 +194,16 @@ class LMFeedFABStyle(
             .iconTint(iconTint)
             .iconSize(iconSize)
             .iconPadding(iconPadding)
+    }
+
+    override fun toString(): String {
+        return """
+            isExtended: $isExtended
+            backgroundColor: $backgroundColor
+            icon: $icon
+            iconTint: $iconTint
+            iconSize: $iconSize
+        """.trimIndent()
     }
 }
 
