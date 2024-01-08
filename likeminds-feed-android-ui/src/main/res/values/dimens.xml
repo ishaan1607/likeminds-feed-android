@@ -11,7 +11,7 @@
     <dimen name="lm_feed_ui_divider_height">1dp</dimen>
 
     <dimen name="lm_feed_ui_elevation_big">8dp</dimen>
-    <dimen name="lm_feed_ui_elevation_small">3dp</dimen>
+    <dimen name="lm_feed_ui_elevation_small">4dp</dimen>
 
     <!--AvatarView-->
     <dimen name="lm_feed_ui_avatar_size_extra_tiny">18dp</dimen>
@@ -206,5 +206,8 @@
     <dimen name="lm_feed_ui_message_composer_overlapping_content_floating_locked_height">52dp</dimen>
     <dimen name="lm_feed_ui_message_composer_overlapping_content_floating_hold_height">48dp</dimen>
     <dimen name="lm_feed_ui_message_composer_overlapping_content_floating_hold_padding">8dp</dimen>
+
+    <!--Header View-->
+    <dimen name="lm_feed_header_view_title_text_size">22sp</dimen>
 
 </resources>

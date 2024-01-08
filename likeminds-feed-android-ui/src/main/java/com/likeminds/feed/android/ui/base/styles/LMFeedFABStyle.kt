@@ -28,6 +28,9 @@ class LMFeedFABStyle(
     @ColorRes
     val textColor: Int,
     val textAllCaps: Boolean,
+
+    //padding
+    val padding: LMFeedPadding?
 ) : ViewStyle {
 
     class Builder {
@@ -64,6 +67,8 @@ class LMFeedFABStyle(
         private var textColor: Int = R.color.white
 
         private var textAllCaps: Boolean = false
+
+        private var padding: LMFeedPadding? = null
 
         fun isExtended(isExtended: Boolean) = apply { this.isExtended = isExtended }
 

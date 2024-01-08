@@ -1,8 +1,9 @@
 package com.likeminds.feed.android.ui.base.styles
 
 import android.graphics.Typeface
-import android.graphics.fonts.FontStyle
 import android.text.TextUtils.TruncateAt
+import android.util.Log
+import android.util.TypedValue
 import android.widget.TextView
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
@@ -29,6 +30,8 @@ class LMFeedTextStyle private constructor(
     class Builder {
         @ColorRes
         private var textColor: Int = R.color.black
+
+        @DimenRes
         private var textSize: Int = R.dimen.lm_feed_ui_text_small
         private var textAllCaps: Boolean = false
 
@@ -47,7 +50,7 @@ class LMFeedTextStyle private constructor(
             this.textColor = textColor
         }
 
-        fun textSize(textSize: Int) = apply {
+        fun textSize(@DimenRes textSize: Int) = apply {
             this.textSize = textSize
         }
 
@@ -131,7 +134,10 @@ class LMFeedTextStyle private constructor(
             val textColor = ContextCompat.getColor(context, this@LMFeedTextStyle.textColor)
             this.setTextColor(textColor)
 
-            this.textSize = this@LMFeedTextStyle.textSize.toFloat()
+            this.setTextSize(
+                TypedValue.COMPLEX_UNIT_PX,
+                context.resources.getDimension(this@LMFeedTextStyle.textSize)
+            )
 
             this.isAllCaps = textAllCaps
 
@@ -163,25 +169,30 @@ class LMFeedTextStyle private constructor(
     }
 
     private fun setFont(textView: TextView) {
+        Log.d("PUI", "setFont: ")
         textView.apply {
             val defaultFont = LMFeedTheme.getFontResources()
             when {
                 fontResource != null -> {
+                    Log.d("PUI", "setFont: 1")
                     val font = ResourcesCompat.getFont(context, fontResource)
                     setTypeface(font, this@LMFeedTextStyle.typeface)
                 }
 
                 fontAssetsPath != null -> {
+                    Log.d("PUI", "setFont: 2")
                     val font = Typeface.createFromAsset(context.assets, fontAssetsPath)
                     setTypeface(font, this@LMFeedTextStyle.typeface)
                 }
 
                 defaultFont.first != null -> {
+                    Log.d("PUI", "setFont: 3")
                     val font = ResourcesCompat.getFont(context, (defaultFont.first ?: 0))
                     setTypeface(font, this@LMFeedTextStyle.typeface)
                 }
 
                 else -> {
+                    Log.d("PUI", "setFont: 4")
                     val font = Typeface.createFromAsset(context.assets, defaultFont.second)
                     setTypeface(font, this@LMFeedTextStyle.typeface)
                 }

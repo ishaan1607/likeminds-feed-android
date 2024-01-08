@@ -5,19 +5,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.likeminds.feed.android.integration.R
 import com.likeminds.feed.android.integration.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.integration.util.StyleTransformer
-import com.likeminds.feed.android.integration.util.extensions.findListener
 import com.likeminds.feed.android.ui.base.styles.setStyle
+import com.likeminds.feed.android.ui.base.views.LMFeedFAB
+import com.likeminds.feed.android.ui.widgets.headerview.views.LMFeedHeaderView
 
 open class LMFeedUniversalFeedFragment : Fragment() {
-
-    protected var createNewPostClickListener: CreateNewPostClickListener? = null
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        createNewPostClickListener = findListener()
     }
 
     override fun onCreateView(
@@ -26,12 +25,30 @@ open class LMFeedUniversalFeedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = LmFeedFragmentUniversalFeedBinding.inflate(layoutInflater)
-        setCreateNewPostButton()
+        customizeCreateNewPostButton(binding.fabNewPost)
+        customizeUniversalFeedHeaderView(binding.headerViewUniversal)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.apply {
+            fabNewPost.setOnClickListener {
+                onCreateNewPostClick()
+            }
+
+            headerViewUniversal.setNavigationIconClickListener {
+                onNavigationIconClick()
+            }
+
+            headerViewUniversal.setSearchIconClickListener {
+                onSearchIconClick()
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -39,32 +56,32 @@ open class LMFeedUniversalFeedFragment : Fragment() {
     }
 
     override fun onDetach() {
-        createNewPostClickListener = null
         super.onDetach()
     }
 
-    protected open fun setCreateNewPostButton() {
-        binding.fabNewPost.apply {
-            val style = StyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle
-
-            Log.d(
-                "PUI", """
-                style: $style
-            """.trimIndent()
-            )
-
-            setStyle(style)
-            setOnClickListener {
-                if (createNewPostClickListener != null) {
-                    createNewPostClickListener?.onCreateNewPostClick()
-                } else {
-                    Log.d("PUI", "default createNewPostClickListener")
-                }
-            }
+    protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
+        fabNewPost.apply {
+            setStyle(StyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)
         }
     }
 
-    public fun interface CreateNewPostClickListener {
-        public fun onCreateNewPostClick()
+    protected open fun onCreateNewPostClick() {
+        Log.d("PUI", "default onCreateNewPostClick")
+    }
+
+    protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {
+       headerViewUniversal.apply {
+            setStyle(StyleTransformer.universalFeedFragmentViewStyle.headerViewStyle)
+
+            setTitleText(getString(R.string.feed))
+        }
+    }
+
+    protected open fun onNavigationIconClick() {
+        Log.d("PUI", "default onNavigationIconClick")
+    }
+
+    protected open fun onSearchIconClick() {
+        Log.d("PUI", "default onSearchIconClick")
     }
 }

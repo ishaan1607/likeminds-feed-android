@@ -10,7 +10,6 @@ import androidx.appcompat.widget.AppCompatImageView
  */
 class LMFeedImageView : AppCompatImageView {
     constructor(context: Context) : super(context) {
-
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
