@@ -4,8 +4,6 @@ import com.likeminds.feed.android.integration.universalfeed.view.LMFeedUniversal
 import com.likeminds.feed.android.integration.util.StyleTransformer
 import com.likeminds.feed.android.ui.base.styles.setStyle
 import com.likeminds.feed.android.ui.base.views.LMFeedFAB
-import com.likeminds.feed.android.ui.widgets.headerview.views.LMFeedHeaderView
-import com.likeminds.feedexample.R
 
 class CustomLMUniversalFeedFragment : LMFeedUniversalFeedFragment() {
 
