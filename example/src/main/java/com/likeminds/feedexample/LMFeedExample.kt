@@ -12,7 +12,7 @@ class LMFeedExample : Application() {
         LMFeedIntegration.setup(
             "4f881a74-8d0b-4c73-9f60-3d2370216392",
             LMFeedSetThemeRequest.Builder()
-                .fontResource(R.font.roboto)
+                .fontResource(R.font.lm_feed_core_roboto)
                 .build()
         )
     }

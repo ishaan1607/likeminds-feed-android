@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
-import com.likeminds.feed.android.ui.utils.ViewStyle
+import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 
 class LMFeedImageStyle private constructor(
@@ -17,7 +17,7 @@ class LMFeedImageStyle private constructor(
     @DimenRes val cornerRadius: Int?,
     val padding: LMFeedPadding?,
     @ColorRes val backgroundColor: Int?
-) : ViewStyle {
+) : LMFeedViewStyle {
 
     class Builder {
         private var imageSrc: Any = R.drawable.lm_feed_picture_placeholder

@@ -10,9 +10,9 @@ import com.likeminds.feed.android.ui.base.styles.setStyle
 import com.likeminds.feed.android.ui.databinding.LmFeedHeaderViewBinding
 import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
 import com.likeminds.feed.android.ui.utils.LMFeedOnClickListener
-import com.likeminds.feed.android.ui.utils.ViewUtils.hide
-import com.likeminds.feed.android.ui.utils.ViewUtils.setTint
-import com.likeminds.feed.android.ui.utils.ViewUtils.show
+import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.setTint
+import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.ui.widgets.headerview.styles.LMFeedHeaderViewStyle
 
 class LMFeedHeaderView : ConstraintLayout {

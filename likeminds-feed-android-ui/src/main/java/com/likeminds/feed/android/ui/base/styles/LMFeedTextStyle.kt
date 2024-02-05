@@ -11,7 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.*
 import com.likeminds.feed.android.ui.theme.LMFeedTheme
-import com.likeminds.feed.android.ui.utils.ViewStyle
+import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 
 class LMFeedTextStyle private constructor(
@@ -25,7 +25,7 @@ class LMFeedTextStyle private constructor(
     val ellipsize: TruncateAt?,
     val padding: LMFeedPadding?,
     @ColorRes val backgroundColor: Int?
-) : ViewStyle {
+) : LMFeedViewStyle {
 
     class Builder {
         @ColorRes

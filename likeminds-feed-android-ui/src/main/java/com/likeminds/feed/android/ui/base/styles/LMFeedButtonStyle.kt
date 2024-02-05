@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton.IconGravity
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedButton
+import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 import kotlin.math.roundToInt
 
 /**
@@ -41,7 +42,7 @@ class LMFeedButtonStyle private constructor(
     @DimenRes val iconSize: Int?,
     @IconGravity val iconGravity: Int?,
     @DimenRes val iconPadding: Int?
-) {
+) : LMFeedViewStyle {
 
     class Builder {
         private var textStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()

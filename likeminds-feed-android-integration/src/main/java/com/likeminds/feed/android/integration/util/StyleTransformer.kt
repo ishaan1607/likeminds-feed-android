@@ -1,6 +1,6 @@
 package com.likeminds.feed.android.integration.util
 
-import com.likeminds.feed.android.integration.universalfeed.view.LMFeedUniversalFeedFragmentViewStyle
+import com.likeminds.feed.android.integration.universalfeed.viewstyle.LMFeedUniversalFeedFragmentViewStyle
 
 object StyleTransformer {
 

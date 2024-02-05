@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import androidx.annotation.*
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 
 class LMFeedHeaderViewStyle private constructor(
@@ -19,7 +20,7 @@ class LMFeedHeaderViewStyle private constructor(
     @DrawableRes val searchIcon: Int?,
     @ColorRes val searchIconTint: Int?,
     val searchIconPadding: LMFeedPadding?,
-) {
+) : LMFeedViewStyle {
 
     class Builder {
         private var titleTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()

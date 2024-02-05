@@ -28,8 +28,8 @@
             android:id="@+id/fab_new_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/lm_feed_standard_margin"
-            android:layout_marginBottom="@dimen/lm_feed_standard_margin"
+            android:layout_marginEnd="@dimen/lm_feed_core_standard_margin"
+            android:layout_marginBottom="@dimen/lm_feed_core_standard_margin"
             android:text="@string/lm_feed_new_s"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

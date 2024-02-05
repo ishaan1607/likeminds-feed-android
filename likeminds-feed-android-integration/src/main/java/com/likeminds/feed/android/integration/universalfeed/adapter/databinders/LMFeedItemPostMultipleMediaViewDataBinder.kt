@@ -1,10 +1,10 @@
-package com.likeminds.feed.android.integration.universalfeed.view.adapter.databinders
+package com.likeminds.feed.android.integration.universalfeed.adapter.databinders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.feed.android.integration.databinding.LmFeedItemPostMultipleMediaBinding
 import com.likeminds.feed.android.integration.universalfeed.model.LMFeedPostViewData
-import com.likeminds.feed.android.integration.universalfeed.view.adapter.LMFeedUniversalFeedAdapterListener
+import com.likeminds.feed.android.integration.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.integration.util.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.integration.util.base.model.ITEM_POST_MULTIPLE_MEDIA
 

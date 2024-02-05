@@ -1,6 +1,6 @@
-package com.likeminds.feed.android.integration.universalfeed.view.adapter
+package com.likeminds.feed.android.integration.universalfeed.adapter
 
-import com.likeminds.feed.android.integration.universalfeed.view.adapter.databinders.*
+import com.likeminds.feed.android.integration.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.integration.util.base.*
 
 class LMFeedUniversalFeedAdapter constructor(

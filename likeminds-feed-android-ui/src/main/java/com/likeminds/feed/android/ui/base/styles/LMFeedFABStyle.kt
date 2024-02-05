@@ -5,7 +5,7 @@ import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedFAB
-import com.likeminds.feed.android.ui.utils.ViewStyle
+import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 import kotlin.math.roundToInt
 
@@ -31,7 +31,7 @@ class LMFeedFABStyle(
 
     //padding
     val padding: LMFeedPadding?
-) : ViewStyle {
+) : LMFeedViewStyle {
 
     class Builder {
         private var isExtended: Boolean = true

@@ -5,14 +5,14 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedEditText
-import com.likeminds.feed.android.ui.utils.ViewStyle
+import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 
 class LMFeedEditTextStyle private constructor(
     val inputTextStyle: LMFeedTextStyle,
     @ColorRes
     val hintTextColor: Int?,
     val inputType: Int?
-) : ViewStyle {
+) : LMFeedViewStyle {
 
     class Builder {
         private var inputTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
