@@ -38,7 +38,7 @@ class LMFeedFABStyle(
 
         //fab related
         @ColorRes
-        private var backgroundColor: Int = R.color.majorelle_blue
+        private var backgroundColor: Int = R.color.lm_feed_majorelle_blue
 
         @ColorRes
         private var strokeColor: Int? = null
@@ -64,7 +64,7 @@ class LMFeedFABStyle(
 
         //text related
         @ColorRes
-        private var textColor: Int = R.color.white
+        private var textColor: Int = R.color.lm_feed_white
 
         private var textAllCaps: Boolean = false
 

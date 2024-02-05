@@ -16,7 +16,7 @@ class LMFeedEditTextStyle private constructor(
 
     class Builder {
         private var inputTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
-            .textColor(R.color.white)
+            .textColor(R.color.lm_feed_white)
             .typeface(Typeface.NORMAL)
             .build()
 

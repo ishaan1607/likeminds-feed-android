@@ -12,7 +12,7 @@ class CustomLMUniversalFeedFragment : LMFeedUniversalFeedFragment() {
 
         var buttonStyle = fragmentStyle.createNewPostButtonViewStyle
         buttonStyle = buttonStyle.toBuilder()
-            .backgroundColor(com.likeminds.feed.android.ui.R.color.azure)
+            .backgroundColor(com.likeminds.feed.android.ui.R.color.lm_feed_azure)
             .build()
 
         fragmentStyle = fragmentStyle.toBuilder()

@@ -73,7 +73,7 @@ open class LMFeedUniversalFeedFragment : Fragment() {
        headerViewUniversal.apply {
             setStyle(StyleTransformer.universalFeedFragmentViewStyle.headerViewStyle)
 
-            setTitleText(getString(R.string.feed))
+            setTitleText(getString(R.string.lm_feed_feed))
         }
     }
 

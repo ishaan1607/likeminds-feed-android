@@ -45,12 +45,12 @@ class LMFeedButtonStyle private constructor(
 
     class Builder {
         private var textStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
-            .textColor(R.color.white)
+            .textColor(R.color.lm_feed_white)
             .typeface(Typeface.BOLD)
             .build()
 
         @ColorRes
-        private var backgroundColor: Int = R.color.majorelle_blue
+        private var backgroundColor: Int = R.color.lm_feed_majorelle_blue
 
         @ColorRes
         private var strokeColor: Int? = null
@@ -200,7 +200,7 @@ class LMFeedButtonStyle private constructor(
 }
 
 /**
-* Util functions to helps to apply all the styling [LMFeedButtonStyle] to [LMFeedButton]
+ * Util functions to helps to apply all the styling [LMFeedButtonStyle] to [LMFeedButton]
  **/
 fun LMFeedButton.setStyle(viewStyle: LMFeedButtonStyle) {
     viewStyle.apply(this)

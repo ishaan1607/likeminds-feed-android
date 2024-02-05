@@ -29,10 +29,10 @@ class LMFeedTextStyle private constructor(
 
     class Builder {
         @ColorRes
-        private var textColor: Int = R.color.black
+        private var textColor: Int = R.color.lm_feed_black
 
         @DimenRes
-        private var textSize: Int = R.dimen.lm_feed_ui_text_small
+        private var textSize: Int = R.dimen.lm_feed_text_small
         private var textAllCaps: Boolean = false
 
         @FontRes

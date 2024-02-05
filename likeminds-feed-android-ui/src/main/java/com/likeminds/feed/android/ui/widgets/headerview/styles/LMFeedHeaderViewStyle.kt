@@ -23,17 +23,17 @@ class LMFeedHeaderViewStyle private constructor(
 
     class Builder {
         private var titleTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
-            .textColor(R.color.black)
+            .textColor(R.color.lm_feed_black)
             .typeface(Typeface.NORMAL)
             .build()
 
         private var subtitleTextStyle: LMFeedTextStyle? = null
 
         @ColorRes
-        private var backgroundColor: Int = R.color.white
+        private var backgroundColor: Int = R.color.lm_feed_white
 
         @DimenRes
-        private var elevation: Int = R.dimen.lm_feed_ui_elevation_small
+        private var elevation: Int = R.dimen.lm_feed_elevation_small
 
         @DrawableRes
         private var navigationIcon: Int? = null
