@@ -1,7 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.viewstyle
 
 import android.text.TextUtils
-import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.integration.R
 import com.likeminds.feed.android.ui.base.styles.*
 import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
@@ -25,8 +25,12 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
             .icon(R.drawable.lm_feed_core_ic_new_post_plus)
             .iconTint(com.likeminds.feed.android.ui.R.color.lm_feed_white)
             .iconSize(R.dimen.lm_feed_core_create_new_post_icon_size)
-            .textColor(com.likeminds.feed.android.ui.R.color.lm_feed_white)
-            .textAllCaps(true)
+            .textStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(com.likeminds.feed.android.ui.R.color.lm_feed_white)
+                    .textAllCaps(true)
+                    .build()
+            )
             .build()
 
         private var createNewPostButtonViewStyle = createPostFabStyle

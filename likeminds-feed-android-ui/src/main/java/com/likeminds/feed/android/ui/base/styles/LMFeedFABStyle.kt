@@ -24,9 +24,7 @@ class LMFeedFABStyle private constructor(
     @DimenRes val iconPadding: Int?,
 
     //text related
-    @ColorRes
-    val textColor: Int,
-    val textAllCaps: Boolean
+    val textStyle: LMFeedTextStyle?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -59,10 +57,7 @@ class LMFeedFABStyle private constructor(
         private var iconPadding: Int? = null
 
         //text related
-        @ColorRes
-        private var textColor: Int = R.color.lm_feed_white
-
-        private var textAllCaps: Boolean = false
+        private var textStyle: LMFeedTextStyle? = null
 
         fun isExtended(isExtended: Boolean) = apply { this.isExtended = isExtended }
 
@@ -83,9 +78,7 @@ class LMFeedFABStyle private constructor(
 
         fun iconPadding(@DimenRes iconPadding: Int?) = apply { this.iconPadding = iconPadding }
 
-        fun textColor(@ColorRes textColor: Int) = apply { this.textColor = textColor }
-
-        fun textAllCaps(textAllCaps: Boolean) = apply { this.textAllCaps = textAllCaps }
+        fun textStyle(textStyle: LMFeedTextStyle) = apply { this.textStyle = textStyle }
 
         fun build() = LMFeedFABStyle(
             isExtended,
@@ -97,16 +90,14 @@ class LMFeedFABStyle private constructor(
             iconTint,
             iconSize,
             iconPadding,
-            textColor,
-            textAllCaps
+            textStyle
         )
     }
 
     fun apply(fab: LMFeedFAB) {
         fab.apply {
             //text related
-            this.setTextColor(ContextCompat.getColor(context, this@LMFeedFABStyle.textColor))
-            this.isAllCaps = this@LMFeedFABStyle.textAllCaps
+            textStyle?.apply(this)
 
             //button related styling
             isExtended = this@LMFeedFABStyle.isExtended
