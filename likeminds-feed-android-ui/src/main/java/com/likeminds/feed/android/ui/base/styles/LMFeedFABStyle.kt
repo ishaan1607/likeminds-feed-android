@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
-import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 import kotlin.math.roundToInt
 
 class LMFeedFABStyle private constructor(
@@ -27,10 +26,7 @@ class LMFeedFABStyle private constructor(
     //text related
     @ColorRes
     val textColor: Int,
-    val textAllCaps: Boolean,
-
-    //padding
-    val padding: LMFeedPadding?
+    val textAllCaps: Boolean
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -68,8 +64,6 @@ class LMFeedFABStyle private constructor(
 
         private var textAllCaps: Boolean = false
 
-        private var padding: LMFeedPadding? = null
-
         fun isExtended(isExtended: Boolean) = apply { this.isExtended = isExtended }
 
         fun backgroundColor(@ColorRes backgroundColor: Int) =
@@ -93,8 +87,6 @@ class LMFeedFABStyle private constructor(
 
         fun textAllCaps(textAllCaps: Boolean) = apply { this.textAllCaps = textAllCaps }
 
-        fun padding(padding: LMFeedPadding?) = apply { this.padding = padding }
-
         fun build() = LMFeedFABStyle(
             isExtended,
             backgroundColor,
@@ -106,8 +98,7 @@ class LMFeedFABStyle private constructor(
             iconSize,
             iconPadding,
             textColor,
-            textAllCaps,
-            padding
+            textAllCaps
         )
     }
 
@@ -117,17 +108,9 @@ class LMFeedFABStyle private constructor(
             this.setTextColor(ContextCompat.getColor(context, this@LMFeedFABStyle.textColor))
             this.isAllCaps = this@LMFeedFABStyle.textAllCaps
 
-            if (padding != null) {
-                setPadding(
-                    this@LMFeedFABStyle.padding.paddingLeft,
-                    this@LMFeedFABStyle.padding.paddingTop,
-                    this@LMFeedFABStyle.padding.paddingRight,
-                    this@LMFeedFABStyle.padding.paddingBottom
-                )
-            }
-
-
             //button related styling
+            isExtended = this@LMFeedFABStyle.isExtended
+
             backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
                     context,

@@ -89,15 +89,15 @@ class LMFeedButtonStyle private constructor(
 
         fun elevation(@DimenRes elevation: Int?) = apply { this.elevation = elevation }
 
-        fun icon(icon: Int?) = apply { this.icon = icon }
+        fun icon(@DrawableRes icon: Int?) = apply { this.icon = icon }
 
-        fun iconTint(iconTint: Int?) = apply { this.iconTint = iconTint }
+        fun iconTint(@ColorRes iconTint: Int?) = apply { this.iconTint = iconTint }
 
-        fun iconSize(iconSize: Int?) = apply { this.iconSize = iconSize }
+        fun iconSize(@DimenRes iconSize: Int?) = apply { this.iconSize = iconSize }
 
-        fun iconGravity(iconGravity: Int?) = apply { this.iconGravity = iconGravity }
+        fun iconGravity(@IconGravity iconGravity: Int?) = apply { this.iconGravity = iconGravity }
 
-        fun iconPadding(iconPadding: Int?) = apply { this.iconPadding = iconPadding }
+        fun iconPadding(@DimenRes iconPadding: Int?) = apply { this.iconPadding = iconPadding }
 
         fun build() = LMFeedButtonStyle(
             textStyle,
