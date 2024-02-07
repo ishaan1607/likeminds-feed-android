@@ -11,17 +11,18 @@ import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 
 class LMFeedImageStyle private constructor(
     val imageSrc: Any,
-    val drawableSrc: Any,
+    val placeholderSrc: Any?,
     val isCircle: Boolean,
     val showGreyScale: Boolean,
     @DimenRes val cornerRadius: Int?,
     val padding: LMFeedPadding?,
-    @ColorRes val backgroundColor: Int?
+    @ColorRes val backgroundColor: Int?,
+    val alpha: Float?
 ) : LMFeedViewStyle {
 
     class Builder {
         private var imageSrc: Any = R.drawable.lm_feed_picture_placeholder
-        private var drawableSrc: Any = R.drawable.lm_feed_picture_placeholder
+        private var placeholderSrc: Any? = null
         private var isCircle: Boolean = false
         private var showGreyScale: Boolean = false
 
@@ -31,13 +32,14 @@ class LMFeedImageStyle private constructor(
 
         @ColorRes
         private var backgroundColor: Int? = null
+        private var alpha: Float? = null
 
         fun imageSrc(imageSrc: Any) = apply {
             this.imageSrc = imageSrc
         }
 
-        fun drawableSrc(drawableSrc: Any) = apply {
-            this.drawableSrc = drawableSrc
+        fun placeholderSrc(drawableSrc: Any?) = apply {
+            this.placeholderSrc = drawableSrc
         }
 
         fun isCircle(isCircle: Boolean) = apply {
@@ -60,25 +62,29 @@ class LMFeedImageStyle private constructor(
             this.backgroundColor = backgroundColor
         }
 
+        fun alpha(alpha: Float?) = apply { this.alpha = alpha }
+
         fun build() = LMFeedImageStyle(
             imageSrc,
-            drawableSrc,
+            placeholderSrc,
             isCircle,
             showGreyScale,
             cornerRadius,
             padding,
-            backgroundColor
+            backgroundColor,
+            alpha
         )
     }
 
     fun toBuilder(): Builder {
         return Builder().imageSrc(imageSrc)
-            .drawableSrc(drawableSrc)
+            .placeholderSrc(placeholderSrc)
             .isCircle(isCircle)
             .showGreyScale(showGreyScale)
             .cornerRadius(cornerRadius)
             .padding(padding)
             .backgroundColor(backgroundColor)
+            .alpha(alpha)
     }
 
     fun apply(imageView: LMFeedImageView) {
@@ -86,7 +92,7 @@ class LMFeedImageStyle private constructor(
             LMFeedImageBindingUtil.loadImage(
                 this,
                 imageSrc,
-                drawableSrc,
+                placeholderSrc,
                 isCircle,
                 cornerRadius ?: 0,
                 showGreyScale
@@ -105,6 +111,10 @@ class LMFeedImageStyle private constructor(
                     padding.paddingRight,
                     padding.paddingBottom
                 )
+            }
+
+            if (this@LMFeedImageStyle.alpha != null) {
+                this.alpha = this@LMFeedImageStyle.alpha
             }
         }
     }

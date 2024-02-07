@@ -9,7 +9,7 @@ import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 import kotlin.math.roundToInt
 
-class LMFeedFABStyle(
+class LMFeedFABStyle private constructor(
     val isExtended: Boolean,
 
     //fab related

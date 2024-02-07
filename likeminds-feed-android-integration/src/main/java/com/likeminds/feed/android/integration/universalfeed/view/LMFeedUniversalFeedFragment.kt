@@ -11,6 +11,7 @@ import com.likeminds.feed.android.integration.util.StyleTransformer
 import com.likeminds.feed.android.ui.base.styles.setStyle
 import com.likeminds.feed.android.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.ui.widgets.headerview.views.LMFeedHeaderView
+import com.likeminds.feed.android.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 
 open class LMFeedUniversalFeedFragment : Fragment() {
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
@@ -27,6 +28,7 @@ open class LMFeedUniversalFeedFragment : Fragment() {
         binding = LmFeedFragmentUniversalFeedBinding.inflate(layoutInflater)
         customizeCreateNewPostButton(binding.fabNewPost)
         customizeUniversalFeedHeaderView(binding.headerViewUniversal)
+        customizeNoPostLayout(binding.layoutNoPost)
         return binding.root
     }
 
@@ -47,6 +49,10 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 
             headerViewUniversal.setSearchIconClickListener {
                 onSearchIconClick()
+            }
+
+            layoutNoPost.setActionFABClickListener {
+                onCreateNewPostClick()
             }
         }
     }
@@ -70,7 +76,7 @@ open class LMFeedUniversalFeedFragment : Fragment() {
     }
 
     protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {
-       headerViewUniversal.apply {
+        headerViewUniversal.apply {
             setStyle(StyleTransformer.universalFeedFragmentViewStyle.headerViewStyle)
 
             setTitleText(getString(R.string.lm_feed_feed))
@@ -83,5 +89,15 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 
     protected open fun onSearchIconClick() {
         Log.d("PUI", "default onSearchIconClick")
+    }
+
+    protected open fun customizeNoPostLayout(layoutNoPost: LMFeedNoEntityLayoutView) {
+        layoutNoPost.apply {
+            setStyle(StyleTransformer.universalFeedFragmentViewStyle.noPostLayoutViewStyle)
+
+            setTitleText(getString(R.string.lm_feed_no_s_to_show))
+            setSubtitleText(getString(R.string.lm_feed_be_the_first_one_to_s_here))
+            setActionCTAText(getString(R.string.lm_feed_new_s))
+        }
     }
 }

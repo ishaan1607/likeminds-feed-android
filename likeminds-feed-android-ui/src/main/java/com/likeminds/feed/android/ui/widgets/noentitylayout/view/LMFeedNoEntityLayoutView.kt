@@ -54,6 +54,10 @@ class LMFeedNoEntityLayoutView : ConstraintLayout {
         binding.tvNoEntitySubtitle.text = subtitle
     }
 
+    fun setActionCTAText(ctaAction: String) {
+        binding.fabAction.text = ctaAction
+    }
+
     /**
      * Sets click listener on the action FAB of the no entity layout view
      *
