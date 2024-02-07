@@ -9,9 +9,9 @@ import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 
 class LMFeedEditTextStyle private constructor(
     val inputTextStyle: LMFeedTextStyle,
-    @ColorRes
-    val hintTextColor: Int?,
-    val inputType: Int?
+    @ColorRes val hintTextColor: Int?,
+    val inputType: Int?,
+    @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -24,6 +24,9 @@ class LMFeedEditTextStyle private constructor(
         private var hintTextColor: Int? = null
         private var inputType: Int? = null
 
+        @ColorRes
+        private var backgroundColor: Int? = null
+
         fun inputTextStyle(inputTextStyle: LMFeedTextStyle) =
             apply { this.inputTextStyle = inputTextStyle }
 
@@ -31,17 +34,21 @@ class LMFeedEditTextStyle private constructor(
             apply { this.hintTextColor = hintTextColor }
 
         fun inputType(inputType: Int?) = apply { this.inputType = inputType }
+        fun backgroundColor(@ColorRes backgroundColor: Int?) =
+            apply { this.backgroundColor = backgroundColor }
 
         fun build() = LMFeedEditTextStyle(
             inputTextStyle,
             hintTextColor,
-            inputType
+            inputType,
+            backgroundColor
         )
 
         fun toBuilder(): Builder {
             return Builder().inputTextStyle(inputTextStyle)
                 .hintTextColor(hintTextColor)
                 .inputType(inputType)
+                .backgroundColor(backgroundColor)
         }
     }
 
@@ -55,6 +62,10 @@ class LMFeedEditTextStyle private constructor(
 
             if (this@LMFeedEditTextStyle.inputType != null) {
                 inputType = this@LMFeedEditTextStyle.inputType
+            }
+
+            if (backgroundColor != null) {
+                setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
             }
         }
     }

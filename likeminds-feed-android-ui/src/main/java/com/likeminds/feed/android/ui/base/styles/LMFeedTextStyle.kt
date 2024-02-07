@@ -2,7 +2,6 @@ package com.likeminds.feed.android.ui.base.styles
 
 import android.graphics.Typeface
 import android.text.TextUtils.TruncateAt
-import android.util.Log
 import android.util.TypedValue
 import android.widget.TextView
 import androidx.annotation.*
@@ -12,7 +11,6 @@ import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.*
 import com.likeminds.feed.android.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
-import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 
 class LMFeedTextStyle private constructor(
     @ColorRes val textColor: Int,
@@ -23,8 +21,8 @@ class LMFeedTextStyle private constructor(
     val typeface: Int,
     val maxLines: Int?,
     val ellipsize: TruncateAt?,
-    val padding: LMFeedPadding?,
-    @ColorRes val backgroundColor: Int?
+    @ColorRes val backgroundColor: Int?,
+    val textAlignment: Int?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -41,10 +39,10 @@ class LMFeedTextStyle private constructor(
         private var typeface: Int = Typeface.NORMAL
         private var maxLines: Int? = null
         private var ellipsize: TruncateAt? = null
-        private var padding: LMFeedPadding? = null
 
         @ColorRes
         private var backgroundColor: Int? = null
+        private var textAlignment: Int? = null
 
         fun textColor(@ColorRes textColor: Int) = apply {
             this.textColor = textColor
@@ -78,12 +76,12 @@ class LMFeedTextStyle private constructor(
             this.ellipsize = ellipsize
         }
 
-        fun padding(padding: LMFeedPadding?) = apply {
-            this.padding = padding
-        }
-
         fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
             this.backgroundColor = backgroundColor
+        }
+
+        fun textAlignment(textAlignment: Int?) = apply {
+            this.textAlignment = textAlignment
         }
 
         fun build() = LMFeedTextStyle(
@@ -95,8 +93,8 @@ class LMFeedTextStyle private constructor(
             typeface,
             maxLines,
             ellipsize,
-            padding,
-            backgroundColor
+            backgroundColor,
+            textAlignment
         )
     }
 
@@ -109,8 +107,8 @@ class LMFeedTextStyle private constructor(
             .typeface(typeface)
             .maxLines(maxLines)
             .ellipsize(ellipsize)
-            .padding(padding)
             .backgroundColor(backgroundColor)
+            .textAlignment(textAlignment)
     }
 
     fun apply(lmFeedTextView: LMFeedTextView) {
@@ -134,6 +132,8 @@ class LMFeedTextStyle private constructor(
             val textColor = ContextCompat.getColor(context, this@LMFeedTextStyle.textColor)
             this.setTextColor(textColor)
 
+            this.textAlignment = textAlignment
+
             this.setTextSize(
                 TypedValue.COMPLEX_UNIT_PX,
                 context.resources.getDimension(this@LMFeedTextStyle.textSize)
@@ -156,43 +156,29 @@ class LMFeedTextStyle private constructor(
             }
 
             setFont(this)
-
-            if (padding != null) {
-                setPadding(
-                    padding.paddingLeft,
-                    padding.paddingTop,
-                    padding.paddingRight,
-                    padding.paddingBottom
-                )
-            }
         }
     }
 
     private fun setFont(textView: TextView) {
-        Log.d("PUI", "setFont: ")
         textView.apply {
             val defaultFont = LMFeedTheme.getFontResources()
             when {
                 fontResource != null -> {
-                    Log.d("PUI", "setFont: 1")
                     val font = ResourcesCompat.getFont(context, fontResource)
                     setTypeface(font, this@LMFeedTextStyle.typeface)
                 }
 
                 fontAssetsPath != null -> {
-                    Log.d("PUI", "setFont: 2")
                     val font = Typeface.createFromAsset(context.assets, fontAssetsPath)
                     setTypeface(font, this@LMFeedTextStyle.typeface)
                 }
 
                 defaultFont.first != null -> {
-                    Log.d("PUI", "setFont: 3")
                     val font = ResourcesCompat.getFont(context, (defaultFont.first ?: 0))
                     setTypeface(font, this@LMFeedTextStyle.typeface)
                 }
 
                 else -> {
-                    Log.d("PUI", "setFont: 4")
                     val font = Typeface.createFromAsset(context.assets, defaultFont.second)
                     setTypeface(font, this@LMFeedTextStyle.typeface)
                 }
@@ -206,7 +192,6 @@ class LMFeedTextStyle private constructor(
             textAllCaps: $textAllCaps
             textColor: $textColor
             fontResource: $fontResource
-            padding: $padding
         """.trimIndent()
     }
 }

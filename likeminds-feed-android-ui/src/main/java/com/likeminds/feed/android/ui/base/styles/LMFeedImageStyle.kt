@@ -7,16 +7,14 @@ import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
 import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
-import com.likeminds.feed.android.ui.utils.model.LMFeedPadding
 
 class LMFeedImageStyle private constructor(
     val imageSrc: Any,
     val placeholderSrc: Any?,
     val isCircle: Boolean,
     val showGreyScale: Boolean,
-    @DimenRes val cornerRadius: Int?,
-    val padding: LMFeedPadding?,
-    @ColorRes val backgroundColor: Int?,
+    val cornerRadius: Int?,
+    @ColorRes val imageTint: Int?,
     val alpha: Float?
 ) : LMFeedViewStyle {
 
@@ -26,12 +24,10 @@ class LMFeedImageStyle private constructor(
         private var isCircle: Boolean = false
         private var showGreyScale: Boolean = false
 
-        @DimenRes
         private var cornerRadius: Int? = null
-        private var padding: LMFeedPadding? = null
 
         @ColorRes
-        private var backgroundColor: Int? = null
+        private var imageTint: Int? = null
         private var alpha: Float? = null
 
         fun imageSrc(imageSrc: Any) = apply {
@@ -50,16 +46,12 @@ class LMFeedImageStyle private constructor(
             this.showGreyScale = showGreyScale
         }
 
-        fun cornerRadius(@DimenRes cornerRadius: Int?) = apply {
+        fun cornerRadius(cornerRadius: Int?) = apply {
             this.cornerRadius = cornerRadius
         }
 
-        fun padding(padding: LMFeedPadding?) = apply {
-            this.padding = padding
-        }
-
-        fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
-            this.backgroundColor = backgroundColor
+        fun imageTint(@ColorRes imageTint: Int?) = apply {
+            this.imageTint = imageTint
         }
 
         fun alpha(alpha: Float?) = apply { this.alpha = alpha }
@@ -70,8 +62,7 @@ class LMFeedImageStyle private constructor(
             isCircle,
             showGreyScale,
             cornerRadius,
-            padding,
-            backgroundColor,
+            imageTint,
             alpha
         )
     }
@@ -82,8 +73,7 @@ class LMFeedImageStyle private constructor(
             .isCircle(isCircle)
             .showGreyScale(showGreyScale)
             .cornerRadius(cornerRadius)
-            .padding(padding)
-            .backgroundColor(backgroundColor)
+            .imageTint(imageTint)
             .alpha(alpha)
     }
 
@@ -98,19 +88,9 @@ class LMFeedImageStyle private constructor(
                 showGreyScale
             )
 
-            if (this@LMFeedImageStyle.backgroundColor != null) {
-                val backgroundColor =
-                    ContextCompat.getColor(context, this@LMFeedImageStyle.backgroundColor)
-                this.setBackgroundColor(backgroundColor)
-            }
-
-            if (padding != null) {
-                setPadding(
-                    padding.paddingLeft,
-                    padding.paddingTop,
-                    padding.paddingRight,
-                    padding.paddingBottom
-                )
+            if (this@LMFeedImageStyle.imageTint != null) {
+                val imageTint = ContextCompat.getColorStateList(this.context, R.color.lm_feed_azure)
+                this.imageTintList = imageTint
             }
 
             if (this@LMFeedImageStyle.alpha != null) {
