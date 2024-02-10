@@ -1,15 +1,15 @@
 package com.likeminds.feed.android.ui.base.styles
 
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import com.likeminds.feed.android.ui.R
-import com.likeminds.feed.android.ui.base.views.LMFeedImageView
+import com.likeminds.feed.android.ui.base.views.LMFeedIcon
 import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
 import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 
-class LMFeedImageStyle private constructor(
-    val imageSrc: Any,
-    val placeholderSrc: Any?,
+class LMFeedIconStyle private constructor(
+    @DrawableRes val activeSrc: Int?,
+    @DrawableRes val inActiveSrc: Int?,
     val isCircle: Boolean,
     val showGreyScale: Boolean,
     val cornerRadius: Int?,
@@ -18,8 +18,11 @@ class LMFeedImageStyle private constructor(
 ) : LMFeedViewStyle {
 
     class Builder {
-        private var imageSrc: Any = R.drawable.lm_feed_picture_placeholder
-        private var placeholderSrc: Any? = null
+        @DrawableRes
+        private var activeSrc: Int? = null
+
+        @DrawableRes
+        private var inActiveSrc: Int? = null
         private var isCircle: Boolean = false
         private var showGreyScale: Boolean = false
         private var cornerRadius: Int? = null
@@ -28,12 +31,12 @@ class LMFeedImageStyle private constructor(
         private var imageTint: Int? = null
         private var alpha: Float? = null
 
-        fun imageSrc(imageSrc: Any) = apply {
-            this.imageSrc = imageSrc
+        fun activeSrc(@DrawableRes activeSrc: Int?) = apply {
+            this.activeSrc = activeSrc
         }
 
-        fun placeholderSrc(drawableSrc: Any?) = apply {
-            this.placeholderSrc = drawableSrc
+        fun inActiveSrc(@DrawableRes inActiveSrc: Int?) = apply {
+            this.inActiveSrc = inActiveSrc
         }
 
         fun isCircle(isCircle: Boolean) = apply {
@@ -54,9 +57,9 @@ class LMFeedImageStyle private constructor(
 
         fun alpha(alpha: Float?) = apply { this.alpha = alpha }
 
-        fun build() = LMFeedImageStyle(
-            imageSrc,
-            placeholderSrc,
+        fun build() = LMFeedIconStyle(
+            activeSrc,
+            inActiveSrc,
             isCircle,
             showGreyScale,
             cornerRadius,
@@ -66,8 +69,8 @@ class LMFeedImageStyle private constructor(
     }
 
     fun toBuilder(): Builder {
-        return Builder().imageSrc(imageSrc)
-            .placeholderSrc(placeholderSrc)
+        return Builder().activeSrc(activeSrc)
+            .inActiveSrc(inActiveSrc)
             .isCircle(isCircle)
             .showGreyScale(showGreyScale)
             .cornerRadius(cornerRadius)
@@ -75,29 +78,30 @@ class LMFeedImageStyle private constructor(
             .alpha(alpha)
     }
 
-    fun apply(imageView: LMFeedImageView) {
-        imageView.apply {
+    fun apply(icon: LMFeedIcon) {
+        icon.apply {
             LMFeedImageBindingUtil.loadImage(
                 this,
-                imageSrc,
-                placeholderSrc,
+                inActiveSrc,
+                null,
                 isCircle,
                 cornerRadius ?: 0,
                 showGreyScale
             )
 
-            if (this@LMFeedImageStyle.imageTint != null) {
-                val imageTint = ContextCompat.getColorStateList(this.context, this@LMFeedImageStyle.imageTint)
+            if (this@LMFeedIconStyle.imageTint != null) {
+                val imageTint =
+                    ContextCompat.getColorStateList(this.context, this@LMFeedIconStyle.imageTint)
                 this.imageTintList = imageTint
             }
 
-            if (this@LMFeedImageStyle.alpha != null) {
-                this.alpha = this@LMFeedImageStyle.alpha
+            if (this@LMFeedIconStyle.alpha != null) {
+                this.alpha = this@LMFeedIconStyle.alpha
             }
         }
     }
 }
 
-fun LMFeedImageView.setStyle(viewStyle: LMFeedImageStyle) {
+fun LMFeedIcon.setStyle(viewStyle: LMFeedIconStyle) {
     viewStyle.apply(this)
 }

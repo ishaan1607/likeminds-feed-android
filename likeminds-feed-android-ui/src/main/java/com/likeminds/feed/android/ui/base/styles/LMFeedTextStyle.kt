@@ -22,7 +22,12 @@ class LMFeedTextStyle private constructor(
     val maxLines: Int?,
     val ellipsize: TruncateAt?,
     @ColorRes val backgroundColor: Int?,
-    val textAlignment: Int?
+    val textAlignment: Int?,
+    @DrawableRes val drawableLeftSrc: Int?,
+    @DrawableRes val drawableTopSrc: Int?,
+    @DrawableRes val drawableRightSrc: Int?,
+    @DrawableRes val drawableBottomSrc: Int?,
+    @DimenRes val drawablePadding: Int?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -43,6 +48,21 @@ class LMFeedTextStyle private constructor(
         @ColorRes
         private var backgroundColor: Int? = null
         private var textAlignment: Int? = null
+
+        @DrawableRes
+        private var drawableLeftSrc: Int? = null
+
+        @DrawableRes
+        private var drawableTopSrc: Int? = null
+
+        @DrawableRes
+        private var drawableRightSrc: Int? = null
+
+        @DrawableRes
+        private var drawableBottomSrc: Int? = null
+
+        @DimenRes
+        private var drawablePadding: Int? = null
 
         fun textColor(@ColorRes textColor: Int) = apply {
             this.textColor = textColor
@@ -84,6 +104,26 @@ class LMFeedTextStyle private constructor(
             this.textAlignment = textAlignment
         }
 
+        fun drawableLeftSrc(@DrawableRes drawableLeftSrc: Int?) = apply {
+            this.drawableLeftSrc = drawableLeftSrc
+        }
+
+        fun drawableTopSrc(@DrawableRes drawableTopSrc: Int?) = apply {
+            this.drawableTopSrc = drawableTopSrc
+        }
+
+        fun drawableRightSrc(@DrawableRes drawableRightSrc: Int?) = apply {
+            this.drawableRightSrc = drawableRightSrc
+        }
+
+        fun drawableBottomSrc(@DrawableRes drawableBottomSrc: Int?) = apply {
+            this.drawableBottomSrc = drawableBottomSrc
+        }
+
+        fun drawablePadding(@DimenRes drawablePadding: Int?) = apply {
+            this.drawablePadding = drawablePadding
+        }
+
         fun build() = LMFeedTextStyle(
             textColor,
             textSize,
@@ -94,7 +134,12 @@ class LMFeedTextStyle private constructor(
             maxLines,
             ellipsize,
             backgroundColor,
-            textAlignment
+            textAlignment,
+            drawableLeftSrc,
+            drawableTopSrc,
+            drawableRightSrc,
+            drawableBottomSrc,
+            drawablePadding
         )
     }
 
@@ -109,6 +154,11 @@ class LMFeedTextStyle private constructor(
             .ellipsize(ellipsize)
             .backgroundColor(backgroundColor)
             .textAlignment(textAlignment)
+            .drawableLeftSrc(drawableLeftSrc)
+            .drawableTopSrc(drawableTopSrc)
+            .drawableRightSrc(drawableRightSrc)
+            .drawableBottomSrc(drawableRightSrc)
+            .drawablePadding(drawablePadding)
     }
 
     fun apply(lmFeedTextView: LMFeedTextView) {
@@ -154,6 +204,17 @@ class LMFeedTextStyle private constructor(
                     ContextCompat.getColor(context, this@LMFeedTextStyle.backgroundColor)
                 this.setBackgroundColor(backgroundColor)
             }
+
+            // sets drawable to the text view
+            setCompoundDrawablesWithIntrinsicBounds(
+                drawableLeftSrc ?: 0,
+                drawableTopSrc ?: 0,
+                drawableRightSrc ?: 0,
+                drawableBottomSrc ?: 0
+            )
+
+            // sets drawable padding
+            compoundDrawablePadding = resources.getDimensionPixelSize(drawablePadding ?: 0)
 
             setFont(this)
         }

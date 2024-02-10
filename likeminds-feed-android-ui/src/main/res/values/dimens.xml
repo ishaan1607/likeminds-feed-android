@@ -12,4 +12,8 @@
     <!--    Elevation Size-->
     <dimen name="lm_feed_elevation_big">8dp</dimen>
     <dimen name="lm_feed_elevation_small">4dp</dimen>
+
+    <!--    Padding Size-->
+    <dimen name="lm_feed_padding_big">8dp</dimen>
+    <dimen name="lm_feed_passing_small">4dp</dimen>
 </resources>

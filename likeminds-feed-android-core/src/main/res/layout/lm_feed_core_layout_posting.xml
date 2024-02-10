@@ -34,7 +34,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_post_thumbnail"
             app:layout_constraintTop_toTopOf="parent"
-            app:lm_feed_fontType="regular"
             tools:text="@string/lm_feed_creating_s" />
 
         <!--        <com.likeminds.feedsx.branding.customview.LMFeedProgressBar-->
@@ -65,8 +64,7 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:lm_feed_fontType="regular" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/iv_posted"

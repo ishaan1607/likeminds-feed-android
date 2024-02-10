@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import com.likeminds.feed.android.core.util.StyleTransformer
+import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
 import com.likeminds.feed.android.integration.R
 import com.likeminds.feed.android.integration.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.ui.base.styles.*
@@ -67,7 +67,7 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
         fabNewPost.apply {
-            setStyle(StyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)
+            setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)
         }
     }
 
@@ -77,7 +77,7 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 
     protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {
         headerViewUniversal.apply {
-            setStyle(StyleTransformer.universalFeedFragmentViewStyle.headerViewStyle)
+            setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.headerViewStyle)
 
             setTitleText(getString(R.string.lm_feed_feed))
         }
@@ -93,7 +93,7 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 
     protected open fun customizeNoPostLayout(layoutNoPost: LMFeedNoEntityLayoutView) {
         layoutNoPost.apply {
-            setStyle(StyleTransformer.universalFeedFragmentViewStyle.noPostLayoutViewStyle)
+            setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.noPostLayoutViewStyle)
 
             setTitleText(getString(R.string.lm_feed_no_s_to_show))
             setSubtitleText(getString(R.string.lm_feed_be_the_first_one_to_s_here))
