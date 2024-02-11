@@ -21,8 +21,6 @@ class LMFeedPostFooterViewStyle private constructor(
         private var likeIconStyle: LMFeedIconStyle = LMFeedIconStyle.Builder()
             .activeSrc(R.drawable.lm_feed_ic_like_filled)
             .inActiveSrc(R.drawable.lm_feed_ic_like_unfilled)
-            .isCircle(false)
-            .showGreyScale(false)
             .build()
         private var commentTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textColor(R.color.lm_feed_grey)

@@ -9,7 +9,6 @@ import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPos
 import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
 import com.likeminds.feed.android.ui.base.styles.*
 import com.likeminds.feed.android.ui.databinding.LmFeedPostFooterViewBinding
-import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
 import com.likeminds.feed.android.ui.utils.LMFeedOnClickListener
 import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.hide
 
@@ -68,13 +67,9 @@ class LMFeedPostFooterView : ConstraintLayout {
             iconStyle.inActiveSrc
         }
 
-        LMFeedImageBindingUtil.loadImage(
-            view = binding.ivLike,
-            file = likeIcon,
-            isCircle = iconStyle.isCircle,
-            cornerRadius = (iconStyle.cornerRadius ?: 0),
-            showGreyScale = iconStyle.showGreyScale
-        )
+        if (likeIcon != null) {
+            binding.ivLike.setImageDrawable(ContextCompat.getDrawable(context, likeIcon))
+        }
     }
 
     /**

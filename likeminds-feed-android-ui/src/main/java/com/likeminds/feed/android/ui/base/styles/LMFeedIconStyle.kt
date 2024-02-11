@@ -4,15 +4,11 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.ui.base.views.LMFeedIcon
-import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
 import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 
 class LMFeedIconStyle private constructor(
     @DrawableRes val activeSrc: Int?,
     @DrawableRes val inActiveSrc: Int?,
-    val isCircle: Boolean,
-    val showGreyScale: Boolean,
-    val cornerRadius: Int?,
     @ColorRes val imageTint: Int?,
     val alpha: Float?
 ) : LMFeedViewStyle {
@@ -23,9 +19,6 @@ class LMFeedIconStyle private constructor(
 
         @DrawableRes
         private var inActiveSrc: Int? = null
-        private var isCircle: Boolean = false
-        private var showGreyScale: Boolean = false
-        private var cornerRadius: Int? = null
 
         @ColorRes
         private var imageTint: Int? = null
@@ -39,18 +32,6 @@ class LMFeedIconStyle private constructor(
             this.inActiveSrc = inActiveSrc
         }
 
-        fun isCircle(isCircle: Boolean) = apply {
-            this.isCircle = isCircle
-        }
-
-        fun showGreyScale(showGreyScale: Boolean) = apply {
-            this.showGreyScale = showGreyScale
-        }
-
-        fun cornerRadius(cornerRadius: Int?) = apply {
-            this.cornerRadius = cornerRadius
-        }
-
         fun imageTint(@ColorRes imageTint: Int?) = apply {
             this.imageTint = imageTint
         }
@@ -60,9 +41,6 @@ class LMFeedIconStyle private constructor(
         fun build() = LMFeedIconStyle(
             activeSrc,
             inActiveSrc,
-            isCircle,
-            showGreyScale,
-            cornerRadius,
             imageTint,
             alpha
         )
@@ -71,23 +49,15 @@ class LMFeedIconStyle private constructor(
     fun toBuilder(): Builder {
         return Builder().activeSrc(activeSrc)
             .inActiveSrc(inActiveSrc)
-            .isCircle(isCircle)
-            .showGreyScale(showGreyScale)
-            .cornerRadius(cornerRadius)
             .imageTint(imageTint)
             .alpha(alpha)
     }
 
     fun apply(icon: LMFeedIcon) {
         icon.apply {
-            LMFeedImageBindingUtil.loadImage(
-                this,
-                inActiveSrc,
-                null,
-                isCircle,
-                cornerRadius ?: 0,
-                showGreyScale
-            )
+            if (inActiveSrc != null) {
+                this.setImageDrawable(ContextCompat.getDrawable(context, inActiveSrc))
+            }
 
             if (this@LMFeedIconStyle.imageTint != null) {
                 val imageTint =

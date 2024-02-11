@@ -2,11 +2,11 @@ package com.likeminds.feed.android.core.post.viewstyle
 
 import android.text.TextUtils
 import android.view.View
+import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPostFooterViewStyle
+import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
 import com.likeminds.feed.android.integration.R
 import com.likeminds.feed.android.ui.base.styles.*
 import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
-import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPostFooterViewStyle
-import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
 
 class LMFeedPostViewStyle private constructor(
     //post header layout
@@ -73,8 +73,6 @@ class LMFeedPostViewStyle private constructor(
                     LMFeedIconStyle.Builder()
                         .activeSrc(com.likeminds.feed.android.ui.R.drawable.lm_feed_ic_like_filled)
                         .inActiveSrc(com.likeminds.feed.android.ui.R.drawable.lm_feed_ic_like_unfilled)
-                        .isCircle(false)
-                        .showGreyScale(false)
                         .build()
                 )
                 .likeTextStyle(
@@ -101,15 +99,11 @@ class LMFeedPostViewStyle private constructor(
                     LMFeedIconStyle.Builder()
                         .activeSrc(com.likeminds.feed.android.ui.R.drawable.lm_feed_ic_bookmark_filled)
                         .inActiveSrc(com.likeminds.feed.android.ui.R.drawable.lm_feed_ic_bookmark_unfilled)
-                        .isCircle(false)
-                        .showGreyScale(false)
                         .build()
                 )
                 .shareIconStyle(
                     LMFeedIconStyle.Builder()
                         .inActiveSrc(com.likeminds.feed.android.ui.R.drawable.lm_feed_ic_share)
-                        .isCircle(false)
-                        .showGreyScale(false)
                         .build()
                 )
                 .build()

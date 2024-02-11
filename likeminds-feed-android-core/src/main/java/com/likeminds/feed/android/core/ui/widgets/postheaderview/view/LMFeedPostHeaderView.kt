@@ -87,12 +87,30 @@ class LMFeedPostHeaderView : ConstraintLayout {
     }
 
     /**
+     * Shows the pinned icon if the post is pinned.
+     *
+     * @param isPinned - whether the post is pinned or not.
+     */
+    fun setPostPinned(isPinned: Boolean) {
+        binding.ivPin.apply {
+            if (isPinned) {
+                show()
+            } else {
+                hide()
+            }
+        }
+    }
+
+    /**
      * Sets the custom title of the post author
      *
      * @param customTitle - string to be set for author custom title.
      */
     fun setAuthorCustomTitle(customTitle: String) {
-        binding.tvCustomTitle.text = customTitle
+        binding.tvCustomTitle.apply {
+            show()
+            text = customTitle
+        }
     }
 
     // todo: set menu items and click listeners

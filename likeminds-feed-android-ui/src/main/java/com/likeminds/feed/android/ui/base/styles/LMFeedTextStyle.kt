@@ -214,7 +214,9 @@ class LMFeedTextStyle private constructor(
             )
 
             // sets drawable padding
-            compoundDrawablePadding = resources.getDimensionPixelSize(drawablePadding ?: 0)
+            if (drawablePadding != null) {
+                compoundDrawablePadding = resources.getDimensionPixelOffset(drawablePadding)
+            }
 
             setFont(this)
         }
