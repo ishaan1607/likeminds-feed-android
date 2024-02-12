@@ -38,81 +38,6 @@ class LMFeedPostHeaderView : ConstraintLayout {
 
     private val binding = LmFeedPostHeaderViewBinding.inflate(inflater, this, true)
 
-    // todo: ask how to set image through image view style or by using this
-    /**
-     * Sets author image view.
-     *
-     * @param imageSrc - image source to be set as author image.
-     */
-    fun setAuthorImage(imageSrc: Any) {
-        val authorImageViewStyle =
-            LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle.authorImageViewStyle
-
-        LMFeedImageBindingUtil.loadImage(
-            binding.ivAuthorImage,
-            imageSrc,
-            authorImageViewStyle.placeholderSrc,
-            authorImageViewStyle.isCircle,
-            (authorImageViewStyle.cornerRadius ?: 0),
-            authorImageViewStyle.showGreyScale,
-        )
-    }
-
-    /**
-     * Sets the name of the post author
-     *
-     * @param authorName - string to be set for author name.
-     */
-    fun setAuthorName(authorName: String) {
-        binding.tvAuthorName.text = authorName
-    }
-
-    /**
-     * Sets the time the post was created.
-     *
-     * @param createdAtTimeStamp - timestamp when the post was created.
-     */
-    fun setTimestamp(createdAtTimeStamp: Long) {
-        binding.tvTime.text = LMFeedTimeUtil.getRelativeTimeInString(createdAtTimeStamp)
-    }
-
-    /**
-     * Shows the `Edited` text if the post was edited.
-     *
-     * @param isEdited - whether the post was edited or not.
-     */
-    fun setPostEdited(isEdited: Boolean) {
-        binding.viewDotEdited.isVisible = isEdited
-        binding.tvEdited.isVisible = isEdited
-    }
-
-    /**
-     * Shows the pinned icon if the post is pinned.
-     *
-     * @param isPinned - whether the post is pinned or not.
-     */
-    fun setPostPinned(isPinned: Boolean) {
-        binding.ivPin.apply {
-            if (isPinned) {
-                show()
-            } else {
-                hide()
-            }
-        }
-    }
-
-    /**
-     * Sets the custom title of the post author
-     *
-     * @param customTitle - string to be set for author custom title.
-     */
-    fun setAuthorCustomTitle(customTitle: String) {
-        binding.tvCustomTitle.apply {
-            show()
-            text = customTitle
-        }
-    }
-
     // todo: set menu items and click listeners
 
     fun setStyle(postHeaderViewStyle: LMFeedPostHeaderViewStyle) {
@@ -189,5 +114,83 @@ class LMFeedPostHeaderView : ConstraintLayout {
 
     private fun configureAuthorImage(authorImageViewStyle: LMFeedImageStyle) {
         binding.ivAuthorImage.setStyle(authorImageViewStyle)
+    }
+
+    /**
+     * Sets author image view.
+     *
+     * @param imageSrc - image source to be set as author image.
+     */
+    fun setAuthorImage(imageSrc: Any) {
+        val authorImageViewStyle =
+            LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle.authorImageViewStyle
+
+        LMFeedImageBindingUtil.loadImage(
+            binding.ivAuthorImage,
+            imageSrc,
+            authorImageViewStyle.placeholderSrc,
+            authorImageViewStyle.isCircle,
+            (authorImageViewStyle.cornerRadius ?: 0),
+            authorImageViewStyle.showGreyScale,
+        )
+    }
+
+    /**
+     * Sets the name of the post author
+     *
+     * @param authorName - string to be set for author name.
+     */
+    fun setAuthorName(authorName: String) {
+        binding.tvAuthorName.text = authorName
+    }
+
+    /**
+     * Sets the time the post was created.
+     *
+     * @param createdAtTimeStamp - timestamp when the post was created.
+     */
+    fun setTimestamp(createdAtTimeStamp: Long) {
+        binding.tvTime.text = LMFeedTimeUtil.getRelativeTimeInString(createdAtTimeStamp)
+    }
+
+    /**
+     * Shows the `Edited` text if the post was edited.
+     *
+     * @param isEdited - whether the post was edited or not.
+     */
+    fun setPostEdited(isEdited: Boolean) {
+        binding.viewDotEdited.isVisible = isEdited
+        binding.tvEdited.isVisible = isEdited
+    }
+
+    /**
+     * Shows the pinned icon if the post is pinned.
+     *
+     * @param isPinned - whether the post is pinned or not.
+     */
+    fun setPinIcon(isPinned: Boolean) {
+        binding.ivPin.apply {
+            if (isPinned) {
+                show()
+            } else {
+                hide()
+            }
+        }
+    }
+
+    /**
+     * Sets the custom title of the post author
+     *
+     * @param customTitle - string to be set for author custom title.
+     */
+    fun setAuthorCustomTitle(customTitle: String?) {
+        binding.tvCustomTitle.apply {
+            if (customTitle == null) {
+                hide()
+            } else {
+                show()
+                text = customTitle
+            }
+        }
     }
 }

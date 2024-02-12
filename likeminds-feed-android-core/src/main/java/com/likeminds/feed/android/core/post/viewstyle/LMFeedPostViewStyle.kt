@@ -9,9 +9,11 @@ import com.likeminds.feed.android.ui.base.styles.*
 import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
 
 class LMFeedPostViewStyle private constructor(
-    //post header layout
+    //post header style
     val postHeaderViewStyle: LMFeedPostHeaderViewStyle,
-    //post footer layout
+    // post text content style
+    val postContentTextStyle: LMFeedTextStyle,
+    //post footer style
     val postFooterViewStyle: LMFeedPostFooterViewStyle
 ) : LMFeedViewStyle {
 
@@ -67,6 +69,14 @@ class LMFeedPostViewStyle private constructor(
                 )
                 .build()
 
+        // todo: ask about see more
+        private var postContentTextStyle: LMFeedTextStyle =
+            LMFeedTextStyle.Builder()
+                .textColor(com.likeminds.feed.android.ui.R.color.lm_feed_grey)
+                .textSize(com.likeminds.feed.android.ui.R.dimen.lm_feed_text_large)
+                .fontResource(R.font.lm_feed_core_roboto)
+                .build()
+
         private var postFooterViewStyle: LMFeedPostFooterViewStyle =
             LMFeedPostFooterViewStyle.Builder()
                 .likeIconStyle(
@@ -112,18 +122,24 @@ class LMFeedPostViewStyle private constructor(
             this.postHeaderViewStyle = postHeaderViewStyle
         }
 
+        fun postContentTextStyle(postContentTextStyle: LMFeedTextStyle) = apply {
+            this.postContentTextStyle = postContentTextStyle
+        }
+
         fun postFooterViewStyle(postFooterViewStyle: LMFeedPostFooterViewStyle) = apply {
             this.postFooterViewStyle = postFooterViewStyle
         }
 
         fun build() = LMFeedPostViewStyle(
             postHeaderViewStyle,
+            postContentTextStyle,
             postFooterViewStyle
         )
     }
 
     fun toBuilder(): Builder {
         return Builder().postHeaderViewStyle(postHeaderViewStyle)
+            .postContentTextStyle(postContentTextStyle)
             .postFooterViewStyle(postFooterViewStyle)
     }
 }

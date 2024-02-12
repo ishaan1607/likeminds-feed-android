@@ -62,7 +62,7 @@
             tools:textSize="14sp" />
 
         <com.likeminds.feed.android.ui.base.views.LMFeedIcon
-            android:id="@+id/iv_bookmark"
+            android:id="@+id/iv_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="18dp"

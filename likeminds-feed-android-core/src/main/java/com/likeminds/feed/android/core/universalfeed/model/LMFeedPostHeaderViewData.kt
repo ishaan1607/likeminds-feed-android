@@ -6,7 +6,8 @@ class LMFeedPostHeaderViewData private constructor(
     val isEdited: Boolean,
     val isPinned: Boolean,
     val userId: String,
-    val user: LMFeedUserViewData
+    val user: LMFeedUserViewData,
+    val createdAt: Long
 ) : LMFeedBaseViewType {
 
     override val viewType: Int
@@ -17,17 +18,20 @@ class LMFeedPostHeaderViewData private constructor(
         private var isPinned: Boolean = false
         private var userId: String = ""
         private var user: LMFeedUserViewData = LMFeedUserViewData.Builder().build()
+        private var createdAt: Long = 0L
 
         fun isEdited(isEdited: Boolean) = apply { this.isEdited = isEdited }
         fun isPinned(isPinned: Boolean) = apply { this.isPinned = isPinned }
         fun userId(userId: String) = apply { this.userId = userId }
         fun user(user: LMFeedUserViewData) = apply { this.user = user }
+        fun createdAt(createdAt: Long) = apply { this.createdAt = createdAt }
 
         fun build() = LMFeedPostHeaderViewData(
             isEdited,
             isPinned,
             userId,
-            user
+            user,
+            createdAt
         )
     }
 
@@ -37,5 +41,6 @@ class LMFeedPostHeaderViewData private constructor(
             .isPinned(isPinned)
             .userId(userId)
             .user(user)
+            .createdAt(createdAt)
     }
 }

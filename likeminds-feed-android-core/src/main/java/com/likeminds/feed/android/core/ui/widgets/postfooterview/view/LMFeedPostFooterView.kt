@@ -35,6 +35,50 @@ class LMFeedPostFooterView : ConstraintLayout {
 
     private val binding = LmFeedPostFooterViewBinding.inflate(inflater, this, true)
 
+    fun setStyle(postFooterViewStyle: LMFeedPostFooterViewStyle) {
+
+        //set background color
+        if (postFooterViewStyle.backgroundColor != null) {
+            setBackgroundColor(ContextCompat.getColor(context, postFooterViewStyle.backgroundColor))
+        }
+
+        configuresLikeText(postFooterViewStyle.likeTextStyle)
+        configureLikesIcon(postFooterViewStyle.likeIconStyle)
+        configureCommentsText(postFooterViewStyle.commentTextStyle)
+        configureSaveIcon(postFooterViewStyle.saveIconStyle)
+        configureShareIcon(postFooterViewStyle.shareIconStyle)
+    }
+
+    private fun configuresLikeText(likeTextStyle: LMFeedTextStyle?) {
+        binding.tvLikesCount.apply {
+            if (likeTextStyle == null) {
+                hide()
+            } else {
+                setStyle(likeTextStyle)
+            }
+        }
+    }
+
+    private fun configureLikesIcon(likeIconStyle: LMFeedIconStyle) {
+        binding.ivLike.setStyle(likeIconStyle)
+    }
+
+    private fun configureCommentsText(commentTextStyle: LMFeedTextStyle) {
+        binding.tvCommentsCount.setStyle(commentTextStyle)
+    }
+
+    private fun configureSaveIcon(saveIconStyle: LMFeedIconStyle?) {
+        if (saveIconStyle != null) {
+            binding.ivSave.setStyle(saveIconStyle)
+        }
+    }
+
+    private fun configureShareIcon(shareIconStyle: LMFeedIconStyle?) {
+        if (shareIconStyle != null) {
+            binding.ivShare.setStyle(shareIconStyle)
+        }
+    }
+
     /**
      * Sets likes count text to the likes text view.
      *
@@ -77,7 +121,7 @@ class LMFeedPostFooterView : ConstraintLayout {
      *
      * @param listener [LMFeedOnClickListener] interface to have click listener
      */
-    fun setLikeClickListener(listener: LMFeedOnClickListener) {
+    fun setLikeIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivLike.setOnClickListener {
             listener.onClick()
         }
@@ -106,12 +150,38 @@ class LMFeedPostFooterView : ConstraintLayout {
     }
 
     /**
+     * Sets active/inactive save icon.
+     *
+     * @param isSaved - whether the post is saved or not.
+     */
+    fun setSaveIcon(isSaved: Boolean = false) {
+        binding.ivSave.apply {
+            val iconStyle = LMFeedStyleTransformer.postViewStyle.postFooterViewStyle.saveIconStyle
+
+            if (iconStyle == null) {
+                hide()
+                return
+            }
+
+            val saveIcon = if (isSaved) {
+                iconStyle.activeSrc
+            } else {
+                iconStyle.inActiveSrc
+            }
+
+            if (saveIcon != null) {
+                setImageDrawable(ContextCompat.getDrawable(context, saveIcon))
+            }
+        }
+    }
+
+    /**
      * Sets click listener on the save icon
      *
      * @param listener [LMFeedOnClickListener] interface to have click listener
      */
-    fun setSaveListener(listener: LMFeedOnClickListener) {
-        binding.ivBookmark.setOnClickListener {
+    fun setSaveIconListener(listener: LMFeedOnClickListener) {
+        binding.ivSave.setOnClickListener {
             listener.onClick()
         }
     }
@@ -121,53 +191,9 @@ class LMFeedPostFooterView : ConstraintLayout {
      *
      * @param listener [LMFeedOnClickListener] interface to have click listener
      */
-    fun setShareListener(listener: LMFeedOnClickListener) {
+    fun setShareIconListener(listener: LMFeedOnClickListener) {
         binding.ivShare.setOnClickListener {
             listener.onClick()
-        }
-    }
-
-    fun setStyle(postFooterViewStyle: LMFeedPostFooterViewStyle) {
-
-        //set background color
-        if (postFooterViewStyle.backgroundColor != null) {
-            setBackgroundColor(ContextCompat.getColor(context, postFooterViewStyle.backgroundColor))
-        }
-
-        configuresLikeText(postFooterViewStyle.likeTextStyle)
-        configureLikesIcon(postFooterViewStyle.likeIconStyle)
-        configureCommentsText(postFooterViewStyle.commentTextStyle)
-        configureSaveIcon(postFooterViewStyle.saveIconStyle)
-        configureShareIcon(postFooterViewStyle.shareIconStyle)
-    }
-
-    private fun configuresLikeText(likeTextStyle: LMFeedTextStyle?) {
-        binding.tvLikesCount.apply {
-            if (likeTextStyle == null) {
-                hide()
-            } else {
-                setStyle(likeTextStyle)
-            }
-        }
-    }
-
-    private fun configureLikesIcon(likeIconStyle: LMFeedIconStyle) {
-        binding.ivLike.setStyle(likeIconStyle)
-    }
-
-    private fun configureCommentsText(commentTextStyle: LMFeedTextStyle) {
-        binding.tvCommentsCount.setStyle(commentTextStyle)
-    }
-
-    private fun configureSaveIcon(saveIconStyle: LMFeedIconStyle?) {
-        if (saveIconStyle != null) {
-            binding.ivBookmark.setStyle(saveIconStyle)
-        }
-    }
-
-    private fun configureShareIcon(shareIconStyle: LMFeedIconStyle?) {
-        if (shareIconStyle != null) {
-            binding.ivShare.setStyle(shareIconStyle)
         }
     }
 }

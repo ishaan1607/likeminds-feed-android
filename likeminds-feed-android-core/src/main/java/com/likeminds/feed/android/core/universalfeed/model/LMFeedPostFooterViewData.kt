@@ -2,7 +2,7 @@ package com.likeminds.feed.android.core.universalfeed.model
 
 import com.likeminds.feed.android.core.util.base.LMFeedBaseViewType
 
-class LMFeedFooterViewData private constructor(
+class LMFeedPostFooterViewData private constructor(
     val likesCount: Int,
     val commentsCount: Int,
     val isSaved: Boolean,
@@ -23,7 +23,7 @@ class LMFeedFooterViewData private constructor(
         fun isSaved(isSaved: Boolean) = apply { this.isSaved = isSaved }
         fun isLiked(isLiked: Boolean) = apply { this.isLiked = isLiked }
 
-        fun build() = LMFeedFooterViewData(
+        fun build() = LMFeedPostFooterViewData(
             likesCount,
             commentsCount,
             isSaved,
