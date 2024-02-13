@@ -9,6 +9,7 @@ const val ITEM_POST_SINGLE_VIDEO = 3
 const val ITEM_POST_DOCUMENTS = 4
 const val ITEM_POST_LINK = 5
 const val ITEM_POST_MULTIPLE_MEDIA = 6
+const val ITEM_OVERFLOW_MENU_ITEM = 7
 
 @IntDef(
     ITEM_NONE,
@@ -18,6 +19,7 @@ const val ITEM_POST_MULTIPLE_MEDIA = 6
     ITEM_POST_DOCUMENTS,
     ITEM_POST_LINK,
     ITEM_POST_MULTIPLE_MEDIA,
+    ITEM_OVERFLOW_MENU_ITEM
 )
 
 @Retention(AnnotationRetention.SOURCE)

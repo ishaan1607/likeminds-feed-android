@@ -4,6 +4,7 @@ import android.text.TextUtils
 import android.view.View
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPostFooterViewStyle
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
+import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostMediaStyle
 import com.likeminds.feed.android.integration.R
 import com.likeminds.feed.android.ui.base.styles.*
 import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
@@ -14,7 +15,9 @@ class LMFeedPostViewStyle private constructor(
     // post text content style
     val postContentTextStyle: LMFeedTextStyle,
     //post footer style
-    val postFooterViewStyle: LMFeedPostFooterViewStyle
+    val postFooterViewStyle: LMFeedPostFooterViewStyle,
+    //post media style
+    val postMediaStyle: LMFeedPostMediaStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -118,6 +121,9 @@ class LMFeedPostViewStyle private constructor(
                 )
                 .build()
 
+        private var postMediaStyle: LMFeedPostMediaStyle = LMFeedPostMediaStyle.Builder()
+            .build()
+
         fun postHeaderViewStyle(postHeaderViewStyle: LMFeedPostHeaderViewStyle) = apply {
             this.postHeaderViewStyle = postHeaderViewStyle
         }
@@ -130,10 +136,15 @@ class LMFeedPostViewStyle private constructor(
             this.postFooterViewStyle = postFooterViewStyle
         }
 
+        fun postMediaStyle(postMediaStyle: LMFeedPostMediaStyle) = apply {
+            this.postMediaStyle = postMediaStyle
+        }
+
         fun build() = LMFeedPostViewStyle(
             postHeaderViewStyle,
             postContentTextStyle,
-            postFooterViewStyle
+            postFooterViewStyle,
+            postMediaStyle
         )
     }
 
@@ -141,5 +152,6 @@ class LMFeedPostViewStyle private constructor(
         return Builder().postHeaderViewStyle(postHeaderViewStyle)
             .postContentTextStyle(postContentTextStyle)
             .postFooterViewStyle(postFooterViewStyle)
+            .postMediaStyle(postMediaStyle)
     }
 }
