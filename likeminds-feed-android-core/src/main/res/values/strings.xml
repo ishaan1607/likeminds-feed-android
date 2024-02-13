@@ -18,4 +18,5 @@
         <item quantity="one">1 Comment</item>
         <item quantity="other">%d Comments</item>
     </plurals>
+    <string name="lm_feed_see_more">&#160;See More</string>
 </resources>

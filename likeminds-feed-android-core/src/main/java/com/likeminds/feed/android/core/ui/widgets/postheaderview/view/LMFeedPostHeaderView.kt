@@ -10,8 +10,7 @@ import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPos
 import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
 import com.likeminds.feed.android.ui.base.styles.*
 import com.likeminds.feed.android.ui.databinding.LmFeedPostHeaderViewBinding
-import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
-import com.likeminds.feed.android.ui.utils.LMFeedTimeUtil
+import com.likeminds.feed.android.ui.utils.*
 import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.show
 
@@ -37,8 +36,6 @@ class LMFeedPostHeaderView : ConstraintLayout {
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
 
     private val binding = LmFeedPostHeaderViewBinding.inflate(inflater, this, true)
-
-    // todo: set menu items and click listeners
 
     fun setStyle(postHeaderViewStyle: LMFeedPostHeaderViewStyle) {
 
@@ -191,6 +188,30 @@ class LMFeedPostHeaderView : ConstraintLayout {
                 show()
                 text = customTitle
             }
+        }
+    }
+
+    /**
+     * Sets click listener on the author frame
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setAuthorFrameClickListener(listener: LMFeedOnClickListener) {
+        binding.viewAuthorFrame.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    // todo: set menu items and click listeners
+
+    /**
+     * Sets click listener on the menu icon
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setMenuIconClickListener(listener: LMFeedOnClickListener) {
+        binding.ivPostMenu.setOnClickListener {
+            listener.onClick()
         }
     }
 }

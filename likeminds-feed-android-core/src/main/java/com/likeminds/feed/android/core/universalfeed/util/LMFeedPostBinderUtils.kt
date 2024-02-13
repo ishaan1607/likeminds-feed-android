@@ -1,14 +1,25 @@
 package com.likeminds.feed.android.core.universalfeed.util
 
+import android.text.*
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.util.Linkify
+import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.text.util.LinkifyCompat
+import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.util.LMFeedSeeMoreUtil
 import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.util.LMFeedValueUtils.getValidTextForLinkify
+import com.likeminds.feed.android.core.util.link.LMFeedLinkMovementMethod
 import com.likeminds.feed.android.integration.R
 import com.likeminds.feed.android.ui.base.styles.setStyle
 import com.likeminds.feed.android.ui.base.views.LMFeedTextView
+import com.likeminds.feed.android.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.show
 
@@ -17,28 +28,53 @@ object LMFeedPostBinderUtils {
     // customizes the header view of the post and attaches all the relevant listeners
     fun customizePostHeaderView(
         authorFrame: LMFeedPostHeaderView,
-        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
+        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
+        userViewData: LMFeedUserViewData
     ) {
         val postHeaderViewStyle =
             LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle
 
         authorFrame.setStyle(postHeaderViewStyle)
 
-        // todo: set header click listeners and menu items with click listeners
+        authorFrame.setAuthorFrameClickListener {
+            val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+            coreCallback?.openProfile(userViewData)
+        }
+
+        authorFrame.setMenuIconClickListener {
+            // todo: add the required parameters
+            universalFeedAdapterListener.onPostMenuIconClick()
+        }
     }
 
     // customizes the content view of the post and attaches all the relevant listeners
     fun customizePostContentView(
         tvPostContent: LMFeedTextView,
-        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
+        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
+        postId: String
     ) {
-        val postContentTextStyle =
-            LMFeedStyleTransformer.postViewStyle.postContentTextStyle
+        tvPostContent.apply {
+            val postContentTextStyle =
+                LMFeedStyleTransformer.postViewStyle.postContentTextStyle
 
-        tvPostContent.setStyle(postContentTextStyle)
+            setStyle(postContentTextStyle)
 
-        tvPostContent.setOnClickListener {
-            universalFeedAdapterListener.onPostContentClick()
+            // todo: test this otherwise move this to setTextContent function
+            setOnClickListener {
+                universalFeedAdapterListener.onPostContentClick(postId)
+            }
+
+            val linkifyLinks =
+                (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
+            LinkifyCompat.addLinks(this, linkifyLinks)
+            movementMethod = LMFeedLinkMovementMethod { url ->
+                setOnClickListener {
+                    return@setOnClickListener
+                }
+
+                universalFeedAdapterListener.handleLinkClick(url)
+                true
+            }
         }
     }
 
@@ -80,13 +116,13 @@ object LMFeedPostBinderUtils {
         contentView: LMFeedTextView,
         data: LMFeedPostViewData,
         position: Int,
-        listener: LMFeedUniversalFeedAdapterListener,
+        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
         returnBinder: () -> Unit,
         executeBinder: () -> Unit
     ) {
         if (data.fromPostLiked || data.fromPostSaved || data.fromVideoAction) {
             // update fromLiked/fromSaved variables and return from binder
-            listener.updateFromLikedSaved(position)
+            universalFeedAdapterListener.updateFromLikedSaved(position)
             returnBinder()
         } else {
             // call all the common functions
@@ -101,6 +137,7 @@ object LMFeedPostBinderUtils {
             setPostContentViewData(
                 contentView,
                 data.contentViewData,
+                universalFeedAdapterListener,
                 position
             )
 
@@ -117,8 +154,6 @@ object LMFeedPostBinderUtils {
             setPinIcon(headerViewData.isPinned)
             setPostEdited(headerViewData.isEdited)
 
-            // todo: handle menu items
-
             // post author data
             val author = headerViewData.user
             setAuthorName(author.name)
@@ -133,10 +168,13 @@ object LMFeedPostBinderUtils {
     private fun setPostContentViewData(
         contentView: LMFeedTextView,
         contentViewData: LMFeedPostContentViewData,
+        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
         position: Int
     ) {
         contentView.apply {
             val text = contentViewData.text ?: return
+            val maxLines = (LMFeedStyleTransformer.postViewStyle.postContentTextStyle.maxLines
+                ?: LMFeedTheme.DEFAULT_POST_MAX_LINES)
 
             /**
              * Text is modified as Linkify doesn't accept texts with these specific unicode characters
@@ -147,13 +185,74 @@ object LMFeedPostBinderUtils {
             var alreadySeenFullContent = contentViewData.alreadySeenFullContent == true
 
             if (textForLinkify.isEmpty()) {
-                contentView.hide()
+                hide()
                 return
             } else {
-                contentView.show()
+                show()
             }
 
-            // todo: implement see more and tagging, also ask how we can handle deep links etc. here
+            val seeMoreColor = ContextCompat.getColor(
+                context,
+                com.likeminds.feed.android.ui.R.color.lm_feed_brown_grey
+            )
+
+            val seeMore = SpannableStringBuilder(context.getString(R.string.lm_feed_see_more))
+            seeMore.setSpan(
+                ForegroundColorSpan(seeMoreColor),
+                0,
+                seeMore.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            val seeMoreClickableSpan = object : ClickableSpan() {
+                override fun onClick(view: View) {
+                    setOnClickListener {
+                        return@setOnClickListener
+                    }
+
+                    alreadySeenFullContent = true
+                    universalFeedAdapterListener.updatePostSeenFullContent(position, true)
+                }
+
+                override fun updateDrawState(textPaint: TextPaint) {
+                    textPaint.isUnderlineText = false
+                }
+            }
+
+            // post is used here to get lines count in the text view
+            post {
+                // todo: add member tagging decoder here
+
+                val shortText: String? = LMFeedSeeMoreUtil.getShortContent(
+                    contentView,
+                    maxLines,
+                    LMFeedTheme.getPostCharacterLimit()
+                )
+
+                val trimmedText =
+                    if (!alreadySeenFullContent && !shortText.isNullOrEmpty()) {
+                        editableText.subSequence(0, shortText.length)
+                    } else {
+                        editableText
+                    }
+
+                val seeMoreSpannableStringBuilder = SpannableStringBuilder()
+                if (!alreadySeenFullContent && !shortText.isNullOrEmpty()) {
+                    seeMoreSpannableStringBuilder.append("...")
+                    seeMoreSpannableStringBuilder.append(seeMore)
+                    seeMoreSpannableStringBuilder.setSpan(
+                        seeMoreClickableSpan,
+                        3,
+                        seeMore.length + 3,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+
+                this.text = TextUtils.concat(
+                    trimmedText,
+                    seeMoreSpannableStringBuilder
+                )
+            }
         }
     }
 

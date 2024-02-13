@@ -69,11 +69,11 @@ class LMFeedPostViewStyle private constructor(
                 )
                 .build()
 
-        // todo: ask about see more
         private var postContentTextStyle: LMFeedTextStyle =
             LMFeedTextStyle.Builder()
                 .textColor(com.likeminds.feed.android.ui.R.color.lm_feed_grey)
                 .textSize(com.likeminds.feed.android.ui.R.dimen.lm_feed_text_large)
+                .maxLines(3)
                 .fontResource(R.font.lm_feed_core_roboto)
                 .build()
 

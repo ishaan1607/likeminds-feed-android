@@ -6,12 +6,16 @@
     <data>
 
         <variable
+            name="position"
+            type="int" />
+
+        <variable
             name="postId"
             type="String" />
 
         <variable
-            name="position"
-            type="int" />
+            name="user"
+            type="com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

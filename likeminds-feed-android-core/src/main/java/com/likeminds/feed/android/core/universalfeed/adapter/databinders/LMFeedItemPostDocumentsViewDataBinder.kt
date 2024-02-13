@@ -26,12 +26,14 @@ class LMFeedItemPostDocumentsViewDataBinder(
         binding.apply {
             LMFeedPostBinderUtils.customizePostHeaderView(
                 postHeader,
-                universalFeedAdapterListener
+                universalFeedAdapterListener,
+                user
             )
 
             LMFeedPostBinderUtils.customizePostContentView(
                 tvPostContent,
-                universalFeedAdapterListener
+                universalFeedAdapterListener,
+                postId
             )
 
             LMFeedPostBinderUtils.customizePostFooterView(
@@ -50,24 +52,31 @@ class LMFeedItemPostDocumentsViewDataBinder(
         data: LMFeedPostViewData,
         position: Int
     ) {
-        // updates the data in the post footer view
-        LMFeedPostBinderUtils.setPostFooterViewData(
-            binding.postFooter,
-            data.footerViewData
-        )
+        binding.apply {
+            // set variables in the binding
+            this.position = position
+            postId = data.id
+            user = data.headerViewData.user
 
-        // checks whether to bind complete data or not and execute corresponding lambda function
-        LMFeedPostBinderUtils.setPostBindData(
-            binding.postHeader,
-            binding.tvPostContent,
-            data,
-            position,
-            universalFeedAdapterListener,
-            returnBinder = {
-                return@setPostBindData
-            }, executeBinder = {
-                // todo: initialize documents view here
-            }
-        )
+            // updates the data in the post footer view
+            LMFeedPostBinderUtils.setPostFooterViewData(
+                postFooter,
+                data.footerViewData
+            )
+
+            // checks whether to bind complete data or not and execute corresponding lambda function
+            LMFeedPostBinderUtils.setPostBindData(
+                postHeader,
+                tvPostContent,
+                data,
+                position,
+                universalFeedAdapterListener,
+                returnBinder = {
+                    return@setPostBindData
+                }, executeBinder = {
+                    // todo: initialize documents view here
+                }
+            )
+        }
     }
 }
