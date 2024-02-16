@@ -2,12 +2,14 @@ package com.likeminds.feed.android.core.universalfeed.adapter.databinders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
+import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.util.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.util.base.model.ITEM_POST_SINGLE_IMAGE
 import com.likeminds.feed.android.integration.databinding.LmFeedItemPostSingleImageBinding
+import com.likeminds.feed.android.ui.base.styles.setStyle
 
 class LMFeedItemPostSingleImageViewDataBinder(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
@@ -33,15 +35,22 @@ class LMFeedItemPostSingleImageViewDataBinder(
             LMFeedPostBinderUtils.customizePostContentView(
                 tvPostContent,
                 universalFeedAdapterListener,
-                postId
+                (postId ?: "")
             )
 
             LMFeedPostBinderUtils.customizePostFooterView(
                 postFooter,
                 universalFeedAdapterListener,
-                postId,
+                (postId ?: ""),
                 position
             )
+
+            //set styles to the image media in the post
+            val postImageMediaStyle =
+                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle
+                    ?: return@apply
+
+            ivPost.setStyle(postImageMediaStyle)
         }
         return binding
     }
@@ -73,7 +82,12 @@ class LMFeedItemPostSingleImageViewDataBinder(
                 returnBinder = {
                     return@setPostBindData
                 }, executeBinder = {
-                    // todo: initialize single image view here
+                    // binds the image to the single image post view
+                    LMFeedPostBinderUtils.bindPostSingleImage(
+                        ivPost,
+                        data.mediaViewData,
+                        universalFeedAdapterListener
+                    )
                 }
             )
         }

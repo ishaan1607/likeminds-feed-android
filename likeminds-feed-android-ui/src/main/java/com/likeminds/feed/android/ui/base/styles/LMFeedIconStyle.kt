@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.ui.base.styles
 
+import android.widget.ImageView.ScaleType
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -10,7 +11,8 @@ class LMFeedIconStyle private constructor(
     @DrawableRes val activeSrc: Int?,
     @DrawableRes val inActiveSrc: Int?,
     @ColorRes val imageTint: Int?,
-    val alpha: Float?
+    val alpha: Float?,
+    val scaleType: ScaleType?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -23,6 +25,7 @@ class LMFeedIconStyle private constructor(
         @ColorRes
         private var imageTint: Int? = null
         private var alpha: Float? = null
+        private var scaleType: ScaleType? = null
 
         fun activeSrc(@DrawableRes activeSrc: Int?) = apply {
             this.activeSrc = activeSrc
@@ -37,12 +40,14 @@ class LMFeedIconStyle private constructor(
         }
 
         fun alpha(alpha: Float?) = apply { this.alpha = alpha }
+        fun scaleType(scaleType: ScaleType?) = apply { this.scaleType = scaleType }
 
         fun build() = LMFeedIconStyle(
             activeSrc,
             inActiveSrc,
             imageTint,
-            alpha
+            alpha,
+            scaleType
         )
     }
 
@@ -51,12 +56,17 @@ class LMFeedIconStyle private constructor(
             .inActiveSrc(inActiveSrc)
             .imageTint(imageTint)
             .alpha(alpha)
+            .scaleType(scaleType)
     }
 
     fun apply(icon: LMFeedIcon) {
         icon.apply {
             if (inActiveSrc != null) {
                 this.setImageDrawable(ContextCompat.getDrawable(context, inActiveSrc))
+            }
+
+            if (this@LMFeedIconStyle.scaleType != null) {
+                this.scaleType = this@LMFeedIconStyle.scaleType
             }
 
             if (this@LMFeedIconStyle.imageTint != null) {

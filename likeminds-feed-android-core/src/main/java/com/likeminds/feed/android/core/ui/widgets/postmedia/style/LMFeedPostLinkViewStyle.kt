@@ -1,15 +1,22 @@
 package com.likeminds.feed.android.core.ui.widgets.postmedia.style
 
 import android.text.TextUtils
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
 import com.likeminds.feed.android.integration.R
 import com.likeminds.feed.android.ui.base.styles.LMFeedImageStyle
 import com.likeminds.feed.android.ui.base.styles.LMFeedTextStyle
 
-class LMFeedLinkStyle private constructor(
+class LMFeedPostLinkViewStyle private constructor(
     val linkTitleStyle: LMFeedTextStyle,
     val linkDescriptionStyle: LMFeedTextStyle?,
     val linkUrlStyle: LMFeedTextStyle?,
     val linkImageStyle: LMFeedImageStyle,
+    @DimenRes val linkBoxCornerRadius: Int?,
+    @DimenRes val linkBoxElevation: Int?,
+    @ColorRes val linkBoxStrokeColor: Int?,
+    @DimenRes val linkBoxStrokeWidth: Int?,
+    @ColorRes val backgroundColor: Int?
 ) {
 
     class Builder {
@@ -28,6 +35,21 @@ class LMFeedLinkStyle private constructor(
             .isCircle(false)
             .build()
 
+        @DimenRes
+        private var linkBoxCornerRadius: Int? = null
+
+        @DimenRes
+        private var linkBoxElevation: Int? = null
+
+        @ColorRes
+        private var linkBoxStrokeColor: Int? = null
+
+        @DimenRes
+        private var linkBoxStrokeWidth: Int? = null
+
+        @ColorRes
+        private var backgroundColor: Int? = null
+
         fun linkTitleStyle(linkTitleStyle: LMFeedTextStyle) =
             apply { this.linkTitleStyle = linkTitleStyle }
 
@@ -40,11 +62,31 @@ class LMFeedLinkStyle private constructor(
         fun linkImageStyle(linkImageStyle: LMFeedImageStyle) =
             apply { this.linkImageStyle = linkImageStyle }
 
-        fun build() = LMFeedLinkStyle(
+        fun linkBoxCornerRadius(@DimenRes linkBoxCornerRadius: Int?) =
+            apply { this.linkBoxCornerRadius = linkBoxCornerRadius }
+
+        fun linkBoxElevation(@DimenRes linkBoxElevation: Int?) =
+            apply { this.linkBoxElevation = linkBoxElevation }
+
+        fun linkBoxStrokeColor(@ColorRes linkBoxStrokeColor: Int?) =
+            apply { this.linkBoxStrokeColor = linkBoxStrokeColor }
+
+        fun linkBoxStrokeWidth(@DimenRes linkBoxStrokeWidth: Int?) =
+            apply { this.linkBoxStrokeWidth = linkBoxStrokeWidth }
+
+        fun backgroundColor(@ColorRes backgroundColor: Int?) =
+            apply { this.backgroundColor = backgroundColor }
+
+        fun build() = LMFeedPostLinkViewStyle(
             linkTitleStyle,
             linkDescriptionStyle,
             linkUrlStyle,
-            linkImageStyle
+            linkImageStyle,
+            linkBoxCornerRadius,
+            linkBoxElevation,
+            linkBoxStrokeColor,
+            linkBoxStrokeWidth,
+            backgroundColor
         )
     }
 
@@ -53,5 +95,10 @@ class LMFeedLinkStyle private constructor(
             .linkDescriptionStyle(linkDescriptionStyle)
             .linkUrlStyle(linkUrlStyle)
             .linkImageStyle(linkImageStyle)
+            .linkBoxStrokeColor(linkBoxStrokeColor)
+            .linkBoxStrokeWidth(linkBoxStrokeWidth)
+            .backgroundColor(backgroundColor)
+            .linkBoxCornerRadius(linkBoxCornerRadius)
+            .linkBoxElevation(linkBoxElevation)
     }
 }

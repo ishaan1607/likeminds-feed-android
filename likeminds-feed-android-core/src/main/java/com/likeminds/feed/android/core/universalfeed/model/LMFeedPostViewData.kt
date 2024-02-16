@@ -1,6 +1,8 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
+import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.util.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.util.base.model.*
 
 class LMFeedPostViewData private constructor(
     val id: String,
@@ -14,7 +16,31 @@ class LMFeedPostViewData private constructor(
 ) : LMFeedBaseViewType {
 
     override val viewType: Int
-        get() = TODO("Not yet implemented")
+        get() = when {
+            (mediaViewData.attachments.size == 1 && mediaViewData.attachments.first().attachmentType == IMAGE) -> {
+                ITEM_POST_SINGLE_IMAGE
+            }
+
+            (mediaViewData.attachments.size == 1 && mediaViewData.attachments.first().attachmentType == VIDEO) -> {
+                ITEM_POST_SINGLE_VIDEO
+            }
+
+            (mediaViewData.attachments.isNotEmpty() && mediaViewData.attachments.first().attachmentType == DOCUMENT) -> {
+                ITEM_POST_DOCUMENTS
+            }
+
+            (mediaViewData.attachments.size > 1 && (mediaViewData.attachments.first().attachmentType == IMAGE || mediaViewData.attachments.first().attachmentType == VIDEO)) -> {
+                ITEM_POST_MULTIPLE_MEDIA
+            }
+
+            (mediaViewData.attachments.size == 1 && mediaViewData.attachments.first().attachmentType == LINK) -> {
+                ITEM_POST_LINK
+            }
+
+            else -> {
+                ITEM_POST_TEXT_ONLY
+            }
+        }
 
     class Builder {
         private var id: String = ""

@@ -33,13 +33,13 @@ class LMFeedItemPostDocumentsViewDataBinder(
             LMFeedPostBinderUtils.customizePostContentView(
                 tvPostContent,
                 universalFeedAdapterListener,
-                postId
+                (postId ?: "")
             )
 
             LMFeedPostBinderUtils.customizePostFooterView(
                 postFooter,
                 universalFeedAdapterListener,
-                postId,
+                (postId ?: ""),
                 position
             )
         }

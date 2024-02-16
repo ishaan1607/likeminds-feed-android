@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.ui.base.styles
 
+import android.widget.ImageView.ScaleType
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.ui.R
@@ -14,7 +15,8 @@ class LMFeedImageStyle private constructor(
     val showGreyScale: Boolean,
     val cornerRadius: Int?,
     @ColorRes val imageTint: Int?,
-    val alpha: Float?
+    val alpha: Float?,
+    val scaleType: ScaleType?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -27,6 +29,7 @@ class LMFeedImageStyle private constructor(
         @ColorRes
         private var imageTint: Int? = null
         private var alpha: Float? = null
+        private var scaleType: ScaleType? = null
 
         fun imageSrc(imageSrc: Any) = apply {
             this.imageSrc = imageSrc
@@ -53,6 +56,7 @@ class LMFeedImageStyle private constructor(
         }
 
         fun alpha(alpha: Float?) = apply { this.alpha = alpha }
+        fun scaleType(scaleType: ScaleType?) = apply { this.scaleType = scaleType }
 
         fun build() = LMFeedImageStyle(
             imageSrc,
@@ -61,7 +65,8 @@ class LMFeedImageStyle private constructor(
             showGreyScale,
             cornerRadius,
             imageTint,
-            alpha
+            alpha,
+            scaleType
         )
     }
 
@@ -73,6 +78,7 @@ class LMFeedImageStyle private constructor(
             .cornerRadius(cornerRadius)
             .imageTint(imageTint)
             .alpha(alpha)
+            .scaleType(scaleType)
     }
 
     fun apply(imageView: LMFeedImageView) {
@@ -86,8 +92,13 @@ class LMFeedImageStyle private constructor(
                 showGreyScale
             )
 
+            if (this@LMFeedImageStyle.scaleType != null) {
+                this.scaleType = this@LMFeedImageStyle.scaleType
+            }
+
             if (this@LMFeedImageStyle.imageTint != null) {
-                val imageTint = ContextCompat.getColorStateList(this.context, this@LMFeedImageStyle.imageTint)
+                val imageTint =
+                    ContextCompat.getColorStateList(this.context, this@LMFeedImageStyle.imageTint)
                 this.imageTintList = imageTint
             }
 

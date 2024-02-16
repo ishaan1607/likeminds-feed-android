@@ -12,7 +12,7 @@ object LMFeedCore {
         application: Application,
         apiKey: String,
         lmFeedTheme: LMFeedSetThemeRequest,
-        lmFeedCoreCallback: LMFeedCoreCallback?
+        lmFeedCoreCallback: LMFeedCoreCallback? = null
     ) {
         this.apiKey = apiKey
         LMFeedTheme.setTheme(lmFeedTheme)

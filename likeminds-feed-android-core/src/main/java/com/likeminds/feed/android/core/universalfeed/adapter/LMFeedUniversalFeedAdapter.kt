@@ -1,9 +1,10 @@
 package com.likeminds.feed.android.core.universalfeed.adapter
 
+import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.util.base.*
 
-class LMFeedUniversalFeedAdapter constructor(
+class LMFeedUniversalFeedAdapter(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
 ) : LMFeedBaseRecyclerAdapter<LMFeedBaseViewType>() {
 
@@ -72,4 +73,10 @@ interface LMFeedUniversalFeedAdapterListener {
 
     //triggered when the menu icon of the post is clicked
     fun onPostMenuIconClick()
+
+    //triggered when the image media of the post is clicked
+    fun onPostImageMediaClick()
+
+    //triggered when the link media of the post is clicked
+    fun onPostLinkMediaClick(linkOGTags: LMFeedLinkOGTagsViewData)
 }

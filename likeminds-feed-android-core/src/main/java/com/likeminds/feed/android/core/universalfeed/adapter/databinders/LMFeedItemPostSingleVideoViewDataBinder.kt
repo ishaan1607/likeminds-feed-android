@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
+import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.util.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.util.base.model.ITEM_POST_SINGLE_VIDEO
 import com.likeminds.feed.android.integration.databinding.LmFeedItemPostSingleVideoBinding
@@ -33,15 +34,22 @@ class LMFeedItemPostSingleVideoViewDataBinder(
             LMFeedPostBinderUtils.customizePostContentView(
                 tvPostContent,
                 universalFeedAdapterListener,
-                postId
+                (postId ?: "")
             )
 
             LMFeedPostBinderUtils.customizePostFooterView(
                 postFooter,
                 universalFeedAdapterListener,
-                postId,
+                (postId ?: ""),
                 position
             )
+
+            //set video media style to post video view
+            val postVideoMediaStyle =
+                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle
+                    ?: return@apply
+
+            postVideoView.setStyle(postVideoMediaStyle)
         }
 
         return binding

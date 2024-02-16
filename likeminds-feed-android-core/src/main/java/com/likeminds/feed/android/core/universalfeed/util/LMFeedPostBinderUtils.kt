@@ -8,8 +8,10 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.text.util.LinkifyCompat
 import com.likeminds.feed.android.core.LMFeedCoreApplication
+import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
+import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostLinkMediaView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
 import com.likeminds.feed.android.core.util.LMFeedSeeMoreUtil
@@ -18,8 +20,10 @@ import com.likeminds.feed.android.core.util.LMFeedValueUtils.getValidTextForLink
 import com.likeminds.feed.android.core.util.link.LMFeedLinkMovementMethod
 import com.likeminds.feed.android.integration.R
 import com.likeminds.feed.android.ui.base.styles.setStyle
+import com.likeminds.feed.android.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.ui.theme.LMFeedTheme
+import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
 import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.show
 
@@ -29,7 +33,7 @@ object LMFeedPostBinderUtils {
     fun customizePostHeaderView(
         authorFrame: LMFeedPostHeaderView,
         universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-        userViewData: LMFeedUserViewData
+        userViewData: LMFeedUserViewData?
     ) {
         val postHeaderViewStyle =
             LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle
@@ -37,6 +41,10 @@ object LMFeedPostBinderUtils {
         authorFrame.setStyle(postHeaderViewStyle)
 
         authorFrame.setAuthorFrameClickListener {
+            if (userViewData == null) {
+                return@setAuthorFrameClickListener
+            }
+
             val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
             coreCallback?.openProfile(userViewData)
         }
@@ -54,9 +62,7 @@ object LMFeedPostBinderUtils {
         postId: String
     ) {
         tvPostContent.apply {
-            val postContentTextStyle =
-                LMFeedStyleTransformer.postViewStyle.postContentTextStyle
-
+            val postContentTextStyle = LMFeedStyleTransformer.postViewStyle.postContentTextStyle
             setStyle(postContentTextStyle)
 
             // todo: test this otherwise move this to setTextContent function
@@ -286,6 +292,43 @@ object LMFeedPostBinderUtils {
                 )
             }
             setCommentsCount(commentsCountText)
+        }
+    }
+
+    fun bindPostSingleImage(
+        ivPost: LMFeedImageView,
+        mediaData: LMFeedMediaViewData,
+        adapterListener: LMFeedUniversalFeedAdapterListener
+    ) {
+        val postImageMediaStyle =
+            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
+
+        LMFeedImageBindingUtil.loadImage(
+            ivPost,
+            mediaData.attachments.first().attachmentMeta.url,
+            placeholder = postImageMediaStyle.placeholderSrc
+        )
+
+        ivPost.setOnClickListener {
+            // todo: add required data here
+            adapterListener.onPostImageMediaClick()
+        }
+    }
+
+    fun bindPostMediaLinkView(
+        linkView: LMFeedPostLinkMediaView,
+        linkOgTags: LMFeedLinkOGTagsViewData,
+        adapterListener: LMFeedUniversalFeedAdapterListener
+    ) {
+        linkView.apply {
+            setLinkTitle(linkOgTags.title)
+            setLinkDescription(linkOgTags.description)
+            setLinkImage(linkOgTags.url)
+            setLinkUrl(linkOgTags.url)
+
+            setLinkClickListener {
+                adapterListener.onPostLinkMediaClick(linkOgTags)
+            }
         }
     }
 }

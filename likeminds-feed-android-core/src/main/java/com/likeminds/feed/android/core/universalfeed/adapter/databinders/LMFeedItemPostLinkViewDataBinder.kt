@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
+import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.util.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.util.base.model.ITEM_POST_LINK
 import com.likeminds.feed.android.integration.databinding.LmFeedItemPostLinkBinding
@@ -33,15 +34,22 @@ class LMFeedItemPostLinkViewDataBinder(
             LMFeedPostBinderUtils.customizePostContentView(
                 tvPostContent,
                 universalFeedAdapterListener,
-                postId
+                (postId ?: "")
             )
 
             LMFeedPostBinderUtils.customizePostFooterView(
                 postFooter,
                 universalFeedAdapterListener,
-                postId,
+                (postId ?: ""),
                 position
             )
+
+            //set link media style to post link view
+            val postLinkViewStyle =
+                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postLinkViewStyle
+                    ?: return@apply
+
+            postLinkView.setStyle(postLinkViewStyle)
         }
 
         return binding
@@ -74,7 +82,14 @@ class LMFeedItemPostLinkViewDataBinder(
                 returnBinder = {
                     return@setPostBindData
                 }, executeBinder = {
-                    // todo: initialize link view here
+                    //handles the link view
+                    val linkAttachment = data.mediaViewData.attachments.first()
+                    val ogTags = linkAttachment.attachmentMeta.ogTags
+                    LMFeedPostBinderUtils.bindPostMediaLinkView(
+                        postLinkView,
+                        ogTags,
+                        universalFeedAdapterListener
+                    )
                 }
             )
         }

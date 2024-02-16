@@ -58,6 +58,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
             if (menuIconStyle == null) {
                 hide()
             } else {
+                show()
                 setStyle(menuIconStyle)
             }
         }
@@ -68,6 +69,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
             if (pinIconStyle == null) {
                 hide()
             } else {
+                show()
                 setStyle(pinIconStyle)
             }
         }
@@ -78,6 +80,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
             if (authorCustomTitleTextStyle == null) {
                 hide()
             } else {
+                show()
                 setStyle(authorCustomTitleTextStyle)
             }
         }
@@ -89,8 +92,8 @@ class LMFeedPostHeaderView : ConstraintLayout {
                 tvEdited.hide()
                 viewDotEdited.hide()
             } else {
-                tvEdited.setStyle(postEditedTextStyle)
                 viewDotEdited.show()
+                tvEdited.setStyle(postEditedTextStyle)
             }
         }
     }
@@ -100,6 +103,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
             if (timestampTextStyle == null) {
                 hide()
             } else {
+                show()
                 setStyle(timestampTextStyle)
             }
         }
