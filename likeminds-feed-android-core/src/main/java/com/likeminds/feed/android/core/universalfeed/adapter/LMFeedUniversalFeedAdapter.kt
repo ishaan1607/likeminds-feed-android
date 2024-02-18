@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.universalfeed.adapter
 
+import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.util.base.*
@@ -79,4 +80,7 @@ interface LMFeedUniversalFeedAdapterListener {
 
     //triggered when the link media of the post is clicked
     fun onPostLinkMediaClick(linkOGTags: LMFeedLinkOGTagsViewData)
+
+    //triggered when the document media in the post is clicker
+    fun onPostDocumentMediaClick(document: LMFeedAttachmentViewData)
 }

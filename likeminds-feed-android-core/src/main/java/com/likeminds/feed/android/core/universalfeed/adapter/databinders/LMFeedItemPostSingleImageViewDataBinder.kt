@@ -45,6 +45,11 @@ class LMFeedItemPostSingleImageViewDataBinder(
                 position
             )
 
+            ivPost.setOnClickListener {
+                // todo: add required data here
+                universalFeedAdapterListener.onPostImageMediaClick()
+            }
+
             //set styles to the image media in the post
             val postImageMediaStyle =
                 LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle
@@ -85,8 +90,7 @@ class LMFeedItemPostSingleImageViewDataBinder(
                     // binds the image to the single image post view
                     LMFeedPostBinderUtils.bindPostSingleImage(
                         ivPost,
-                        data.mediaViewData,
-                        universalFeedAdapterListener
+                        data.mediaViewData
                     )
                 }
             )

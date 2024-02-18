@@ -16,6 +16,10 @@
         <variable
             name="user"
             type="com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData" />
+
+        <variable
+            name="linkOgTags"
+            type="com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

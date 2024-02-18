@@ -5,7 +5,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostDocumentsMediaStyle
+import com.likeminds.feed.android.integration.R
 import com.likeminds.feed.android.integration.databinding.LmFeedPostDocumentsMediaViewBinding
 import com.likeminds.feed.android.ui.base.styles.*
 import com.likeminds.feed.android.ui.utils.LMFeedOnClickListener
@@ -107,26 +109,54 @@ class LMFeedPostDocumentsMediaView : ConstraintLayout {
      *
      * @param documentName - string to be set for name of the document.
      */
-    fun setDocumentName(documentName: String) {
-        binding.tvDocumentName.text = documentName
+    fun setDocumentName(documentName: String?) {
+        binding.tvDocumentName.text = documentName ?: context.getString(R.string.lm_feed_documents)
     }
 
     /**
      * Sets the number of pages in document media in the post
      *
-     * @param documentPages - string to be set for number of pages in document.
+     * @param documentPages - number of pages in the document.
      */
-    fun setDocumentPages(documentPages: String) {
-        binding.tvDocumentPages.text = documentPages
+    fun setDocumentPages(documentPages: Int?) {
+        binding.tvDocumentPages.apply {
+            val noOfPage = documentPages ?: 0
+
+            if (noOfPage > 0) {
+                show()
+                text = context.resources.getQuantityString(
+                    R.plurals.lm_feed_placeholder_pages,
+                    noOfPage,
+                    noOfPage
+                )
+            } else {
+                hide()
+            }
+        }
     }
 
+    // todo: ask if we should write the logic here or simply pass the string from outside and set here?
     /**
      * Sets the size of document media in the post
      *
-     * @param documentSize - string to be set for the size of the document.
+     * @param documentSize - size of documents in long.
      */
-    fun setDocumentSize(documentSize: String) {
-        binding.tvDocumentSize.text = documentSize
+    fun setDocumentSize(documentSize: Long?) {
+        binding.apply {
+            if (documentSize != null) {
+                tvDocumentSize.show()
+                // todo: add this once media is implemented
+//                tvDocumentSize.text = MediaUtils.getFileSizeText(attachmentMeta.size)
+                if (tvDocumentSize.isVisible) {
+                    viewMetaDot1.show()
+                } else {
+                    viewMetaDot1.hide()
+                }
+            } else {
+                tvDocumentSize.hide()
+                viewMetaDot1.hide()
+            }
+        }
     }
 
     /**
@@ -134,8 +164,17 @@ class LMFeedPostDocumentsMediaView : ConstraintLayout {
      *
      * @param documentType - string to be set for the type of the document.
      */
-    fun setDocumentType(documentType: String) {
-        binding.tvDocumentType.text = documentType
+    fun setDocumentType(documentType: String?) {
+        binding.apply {
+            if (!documentType.isNullOrEmpty() && (tvDocumentName.isVisible || tvDocumentSize.isVisible)) {
+                tvDocumentType.show()
+                tvDocumentType.text = documentType
+                viewMetaDot2.show()
+            } else {
+                tvDocumentType.hide()
+                viewMetaDot2.hide()
+            }
+        }
     }
 
     /**

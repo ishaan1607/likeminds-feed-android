@@ -8,9 +8,11 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.text.util.LinkifyCompat
 import com.likeminds.feed.android.core.LMFeedCoreApplication
+import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
+import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostDocumentsMediaView
 import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostLinkMediaView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
@@ -35,23 +37,25 @@ object LMFeedPostBinderUtils {
         universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
         userViewData: LMFeedUserViewData?
     ) {
-        val postHeaderViewStyle =
-            LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle
+        authorFrame.apply {
+            val postHeaderViewStyle =
+                LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle
 
-        authorFrame.setStyle(postHeaderViewStyle)
+            setStyle(postHeaderViewStyle)
 
-        authorFrame.setAuthorFrameClickListener {
-            if (userViewData == null) {
-                return@setAuthorFrameClickListener
+            setAuthorFrameClickListener {
+                if (userViewData == null) {
+                    return@setAuthorFrameClickListener
+                }
+
+                val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+                coreCallback?.openProfile(userViewData)
             }
 
-            val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
-            coreCallback?.openProfile(userViewData)
-        }
-
-        authorFrame.setMenuIconClickListener {
-            // todo: add the required parameters
-            universalFeedAdapterListener.onPostMenuIconClick()
+            setMenuIconClickListener {
+                // todo: add the required parameters
+                universalFeedAdapterListener.onPostMenuIconClick()
+            }
         }
     }
 
@@ -91,29 +95,31 @@ object LMFeedPostBinderUtils {
         postId: String,
         position: Int
     ) {
-        val postFooterViewStyle =
-            LMFeedStyleTransformer.postViewStyle.postFooterViewStyle
+        postActionsLayout.apply {
+            val postFooterViewStyle =
+                LMFeedStyleTransformer.postViewStyle.postFooterViewStyle
 
-        postActionsLayout.setStyle(postFooterViewStyle)
+            setStyle(postFooterViewStyle)
 
-        postActionsLayout.setLikeIconClickListener {
-            universalFeedAdapterListener.onPostLikeClick(position)
-        }
+            setLikeIconClickListener {
+                universalFeedAdapterListener.onPostLikeClick(position)
+            }
 
-        postActionsLayout.setLikesCountClickListener {
-            universalFeedAdapterListener.onPostLikesCountClick(postId)
-        }
+            setLikesCountClickListener {
+                universalFeedAdapterListener.onPostLikesCountClick(postId)
+            }
 
-        postActionsLayout.setCommentsCountClickListener {
-            universalFeedAdapterListener.onPostCommentsCountClick(postId)
-        }
+            setCommentsCountClickListener {
+                universalFeedAdapterListener.onPostCommentsCountClick(postId)
+            }
 
-        postActionsLayout.setSaveIconListener {
-            universalFeedAdapterListener.onPostSaveClick(postId)
-        }
+            setSaveIconListener {
+                universalFeedAdapterListener.onPostSaveClick(postId)
+            }
 
-        postActionsLayout.setShareIconListener {
-            universalFeedAdapterListener.onPostShareClick(postId)
+            setShareIconListener {
+                universalFeedAdapterListener.onPostShareClick(postId)
+            }
         }
     }
 
@@ -297,8 +303,7 @@ object LMFeedPostBinderUtils {
 
     fun bindPostSingleImage(
         ivPost: LMFeedImageView,
-        mediaData: LMFeedMediaViewData,
-        adapterListener: LMFeedUniversalFeedAdapterListener
+        mediaData: LMFeedMediaViewData
     ) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
@@ -308,27 +313,31 @@ object LMFeedPostBinderUtils {
             mediaData.attachments.first().attachmentMeta.url,
             placeholder = postImageMediaStyle.placeholderSrc
         )
-
-        ivPost.setOnClickListener {
-            // todo: add required data here
-            adapterListener.onPostImageMediaClick()
-        }
     }
 
     fun bindPostMediaLinkView(
         linkView: LMFeedPostLinkMediaView,
-        linkOgTags: LMFeedLinkOGTagsViewData,
-        adapterListener: LMFeedUniversalFeedAdapterListener
+        linkOgTags: LMFeedLinkOGTagsViewData
     ) {
         linkView.apply {
             setLinkTitle(linkOgTags.title)
             setLinkDescription(linkOgTags.description)
             setLinkImage(linkOgTags.url)
             setLinkUrl(linkOgTags.url)
+        }
+    }
 
-            setLinkClickListener {
-                adapterListener.onPostLinkMediaClick(linkOgTags)
-            }
+    fun bindPostMediaDocument(
+        binding: LMFeedPostDocumentsMediaView,
+        document: LMFeedAttachmentViewData
+    ) {
+        binding.apply {
+            val attachmentMeta = document.attachmentMeta
+
+            setDocumentName(attachmentMeta.name)
+            setDocumentPages(attachmentMeta.pageCount)
+            setDocumentSize(attachmentMeta.size)
+            setDocumentType(attachmentMeta.format)
         }
     }
 }

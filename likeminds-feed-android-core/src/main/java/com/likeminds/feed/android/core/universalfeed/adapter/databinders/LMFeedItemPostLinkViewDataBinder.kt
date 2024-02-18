@@ -44,7 +44,11 @@ class LMFeedItemPostLinkViewDataBinder(
                 position
             )
 
-            //set link media style to post link view
+            postLinkView.setLinkClickListener {
+                universalFeedAdapterListener.onPostLinkMediaClick(linkOgTags)
+            }
+
+            //sets link media style to post link view
             val postLinkViewStyle =
                 LMFeedStyleTransformer.postViewStyle.postMediaStyle.postLinkViewStyle
                     ?: return@apply
@@ -61,10 +65,14 @@ class LMFeedItemPostLinkViewDataBinder(
         position: Int
     ) {
         binding.apply {
-            // set variables in the binding
+            val linkAttachment = data.mediaViewData.attachments.first()
+            val ogTags = linkAttachment.attachmentMeta.ogTags
+
+            //sets variables in the binding
             this.position = position
             postId = data.id
             user = data.headerViewData.user
+            linkOgTags = ogTags
 
             // updates the data in the post footer view
             LMFeedPostBinderUtils.setPostFooterViewData(
@@ -83,12 +91,9 @@ class LMFeedItemPostLinkViewDataBinder(
                     return@setPostBindData
                 }, executeBinder = {
                     //handles the link view
-                    val linkAttachment = data.mediaViewData.attachments.first()
-                    val ogTags = linkAttachment.attachmentMeta.ogTags
                     LMFeedPostBinderUtils.bindPostMediaLinkView(
                         postLinkView,
-                        ogTags,
-                        universalFeedAdapterListener
+                        ogTags
                     )
                 }
             )

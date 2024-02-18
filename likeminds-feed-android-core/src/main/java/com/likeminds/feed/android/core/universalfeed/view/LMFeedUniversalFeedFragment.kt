@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -28,13 +29,17 @@ open class LMFeedUniversalFeedFragment : Fragment() {
         binding = LmFeedFragmentUniversalFeedBinding.inflate(layoutInflater)
         customizeCreateNewPostButton(binding.fabNewPost)
         customizeUniversalFeedHeaderView(binding.headerViewUniversal)
-        customizeNoPostLayout(binding.layoutNoPost)
+//        customizeNoPostLayout(binding.layoutNoPost)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
+
+        binding.videoView.startPlayingRemoteUri(
+            Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+        )
     }
 
     private fun initListeners() {
@@ -51,9 +56,9 @@ open class LMFeedUniversalFeedFragment : Fragment() {
                 onSearchIconClick()
             }
 
-            layoutNoPost.setActionFABClickListener {
-                onCreateNewPostClick()
-            }
+//            layoutNoPost.setActionFABClickListener {
+//                onCreateNewPostClick()
+//            }
         }
     }
 

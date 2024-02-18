@@ -20,4 +20,9 @@
     </plurals>
     <string name="lm_feed_see_more">&#160;See More</string>
     <string name="lm_feed_link">Link</string>
+    <string name="lm_feed_documents">Documents</string>
+    <plurals name="lm_feed_placeholder_pages">
+        <item quantity="one">1 Page</item>
+        <item quantity="other">%d Pages</item>
+    </plurals>
 </resources>

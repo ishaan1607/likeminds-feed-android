@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.ui.widgets.postmedia.view
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import androidx.core.content.ContextCompat
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.StyledPlayerView
@@ -11,9 +12,9 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.util.Util
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostVideoMediaStyle
+import com.likeminds.feed.android.core.util.LMFeedVideoCache
 import com.likeminds.feed.android.ui.R
 import com.likeminds.feed.android.ui.base.views.LMFeedProgressBar
-import com.likeminds.feed.android.core.util.LMFeedVideoCache
 import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.show
 
@@ -101,8 +102,8 @@ class LMFeedPostVideoMediaView @JvmOverloads constructor(
     /**
      * This will reuse the player and will play new URI (remote url) we have provided
      */
-    fun startPlayingRemoteUri(videoUri: Uri, progressBar: LMFeedProgressBar) {
-        this.progressBar = progressBar
+    fun startPlayingRemoteUri(videoUri: Uri) {
+//        this.progressBar = progressBar
         val mediaSource =
             ProgressiveMediaSource.Factory(cacheDataSourceFactory)
                 .createMediaSource(MediaItem.fromUri(videoUri))
@@ -141,5 +142,23 @@ class LMFeedPostVideoMediaView @JvmOverloads constructor(
 
     fun setStyle(postVideoMediaStyle: LMFeedPostVideoMediaStyle) {
 
+        //set background color of the video view
+        if (postVideoMediaStyle.backgroundColor != null) {
+            setShutterBackgroundColor(
+                ContextCompat.getColor(
+                    context,
+                    postVideoMediaStyle.backgroundColor
+                )
+            )
+        }
+
+        keepScreenOn = postVideoMediaStyle.keepScreenOn
+
+        if (postVideoMediaStyle.showController) {
+            controllerShowTimeoutMs = 0
+            controllerAutoShow = true
+        } else {
+            controllerAutoShow = false
+        }
     }
 }
