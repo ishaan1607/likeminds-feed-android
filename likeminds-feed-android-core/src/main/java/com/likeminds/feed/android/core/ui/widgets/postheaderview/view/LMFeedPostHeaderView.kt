@@ -12,6 +12,7 @@ import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPos
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedPostHeaderView : ConstraintLayout {
 
@@ -204,8 +205,6 @@ class LMFeedPostHeaderView : ConstraintLayout {
             listener.onClick()
         }
     }
-
-    // todo: set menu items and click listeners
 
     /**
      * Sets click listener on the menu icon

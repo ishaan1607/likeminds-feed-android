@@ -12,7 +12,7 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
-import com.likeminds.feed.android.ui.base.views.LMFeedFAB
+import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 
 open class LMFeedUniversalFeedFragment : Fragment() {
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding

@@ -28,7 +28,7 @@ class LMFeedItemPostLinkViewDataBinder(
             LMFeedPostBinderUtils.customizePostHeaderView(
                 postHeader,
                 universalFeedAdapterListener,
-                user
+                headerViewData
             )
 
             LMFeedPostBinderUtils.customizePostContentView(
@@ -72,7 +72,7 @@ class LMFeedItemPostLinkViewDataBinder(
             //sets variables in the binding
             this.position = position
             postId = data.id
-            user = data.headerViewData.user
+            headerViewData = data.headerViewData
             linkOgTags = ogTags
 
             // updates the data in the post footer view

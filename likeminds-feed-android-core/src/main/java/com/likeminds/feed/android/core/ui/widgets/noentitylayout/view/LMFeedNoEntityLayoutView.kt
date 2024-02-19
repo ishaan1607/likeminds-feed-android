@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedNoEntityLayoutViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
-import com.likeminds.feed.android.core.utils.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 

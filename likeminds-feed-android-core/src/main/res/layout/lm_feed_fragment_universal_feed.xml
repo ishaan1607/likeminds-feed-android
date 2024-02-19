@@ -50,7 +50,7 @@
 
         <!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedFAB
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
             android:id="@+id/fab_new_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

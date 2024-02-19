@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:background="@color/lm_feed_white">
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedImageView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_author_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -25,7 +25,7 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             tools:ignore="UnusedAttribute"
             tools:text="sfldsfdsafasdfafsdfdsfdsfdfasfskfldkf" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_custom_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             tools:text="Community Manager"
             tools:visibility="visible" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
             app:layout_constraintTop_toTopOf="@+id/tv_time"
             tools:visibility="visible" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_edited"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
             tools:fontFamily="@font/lm_feed_roboto"
             tools:visibility="visible" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedIcon
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
             android:id="@+id/iv_pin"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -130,7 +130,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedIcon
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
             android:id="@+id/iv_post_menu"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

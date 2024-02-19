@@ -29,7 +29,7 @@ class LMFeedItemPostSingleImageViewDataBinder(
             LMFeedPostBinderUtils.customizePostHeaderView(
                 postHeader,
                 universalFeedAdapterListener,
-                user
+                headerViewData
             )
 
             LMFeedPostBinderUtils.customizePostContentView(
@@ -69,7 +69,7 @@ class LMFeedItemPostSingleImageViewDataBinder(
             // set variables in the binding
             this.position = position
             postId = data.id
-            user = data.headerViewData.user
+            headerViewData = data.headerViewData
 
             // updates the data in the post footer view
             LMFeedPostBinderUtils.setPostFooterViewData(

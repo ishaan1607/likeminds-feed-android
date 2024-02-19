@@ -12,6 +12,8 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
+import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
@@ -24,8 +26,6 @@ import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLin
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
-import com.likeminds.feed.android.ui.base.views.LMFeedImageView
-import com.likeminds.feed.android.ui.base.views.LMFeedTextView
 
 object LMFeedPostBinderUtils {
 
@@ -33,7 +33,7 @@ object LMFeedPostBinderUtils {
     fun customizePostHeaderView(
         authorFrame: LMFeedPostHeaderView,
         universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-        userViewData: LMFeedUserViewData?
+        headerViewData: LMFeedPostHeaderViewData?
     ) {
         authorFrame.apply {
             val postHeaderViewStyle =
@@ -42,16 +42,16 @@ object LMFeedPostBinderUtils {
             setStyle(postHeaderViewStyle)
 
             setAuthorFrameClickListener {
-                if (userViewData == null) {
+                if (headerViewData?.user == null) {
                     return@setAuthorFrameClickListener
                 }
 
                 val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
-                coreCallback?.openProfile(userViewData)
+                coreCallback?.openProfile(headerViewData.user)
             }
 
             setMenuIconClickListener {
-                // todo: add the required parameters
+                // todo: add required params and extend in the fragment
                 universalFeedAdapterListener.onPostMenuIconClick()
             }
         }

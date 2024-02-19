@@ -27,7 +27,7 @@ class LMFeedItemPostTextOnlyViewDataBinder(
             LMFeedPostBinderUtils.customizePostHeaderView(
                 postHeader,
                 universalFeedAdapterListener,
-                user
+                headerViewData
             )
 
             LMFeedPostBinderUtils.customizePostContentView(
@@ -55,7 +55,7 @@ class LMFeedItemPostTextOnlyViewDataBinder(
         binding.apply {
             this.position = position
             postId = data.id
-            user = data.headerViewData.user
+            headerViewData = data.headerViewData
 
             // updates the data in the post footer view
             LMFeedPostBinderUtils.setPostFooterViewData(

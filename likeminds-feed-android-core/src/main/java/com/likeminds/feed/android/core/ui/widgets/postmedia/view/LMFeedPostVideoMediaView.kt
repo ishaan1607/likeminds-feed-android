@@ -14,7 +14,7 @@ import com.google.android.exoplayer2.util.Util
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostVideoMediaStyle
 import com.likeminds.feed.android.core.utils.LMFeedVideoCache
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.ui.base.views.LMFeedProgressBar
+import com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 

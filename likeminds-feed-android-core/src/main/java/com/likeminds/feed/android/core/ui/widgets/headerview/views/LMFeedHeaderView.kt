@@ -10,7 +10,7 @@ import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.styles.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedImageBindingUtil
-import com.likeminds.feed.android.core.utils.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.setTint
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show

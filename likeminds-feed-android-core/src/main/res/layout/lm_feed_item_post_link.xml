@@ -14,8 +14,8 @@
             type="String" />
 
         <variable
-            name="user"
-            type="com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData" />
+            name="headerViewData"
+            type="com.likeminds.feed.android.core.universalfeed.model.LMFeedPostHeaderViewData" />
 
         <variable
             name="linkOgTags"
@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_post_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

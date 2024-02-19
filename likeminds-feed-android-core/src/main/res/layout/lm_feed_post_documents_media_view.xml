@@ -9,7 +9,7 @@
         android:background="@drawable/lm_feed_background_document"
         android:foreground="?selectableItemBackground">
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedIcon
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
             android:id="@+id/iv_document_icon"
             android:layout_width="28dp"
             android:layout_height="37dp"
@@ -21,7 +21,7 @@
             tools:scaleType="fitXY"
             tools:src="@drawable/lm_feed_ic_pdf" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_document_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="16sp" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_document_pages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             app:layout_constraintStart_toEndOf="@+id/tv_document_pages"
             app:layout_constraintTop_toTopOf="@+id/tv_document_pages" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_document_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
             app:layout_constraintStart_toEndOf="@+id/tv_document_size"
             app:layout_constraintTop_toTopOf="@+id/tv_document_size" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_document_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

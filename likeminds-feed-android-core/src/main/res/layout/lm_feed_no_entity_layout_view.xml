@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:background="@color/lm_feed_white">
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedImageView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_image"
             android:layout_width="54dp"
             android:layout_height="54dp"
@@ -19,7 +19,7 @@
             tools:ignore="ContentDescription"
             tools:src="@drawable/lm_feed_picture_placeholder" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_no_entity_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_image"
             tools:text="No Post to show" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_no_entity_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_no_entity_title"
             tools:text="Be the first one to share a post" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedFAB
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
             android:id="@+id/fab_action"
             android:layout_width="wrap_content"
             android:layout_height="40dp"

@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.universalfeed.model
 
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 
+// todo: add menu items here
 class LMFeedPostHeaderViewData private constructor(
     val isEdited: Boolean,
     val isPinned: Boolean,

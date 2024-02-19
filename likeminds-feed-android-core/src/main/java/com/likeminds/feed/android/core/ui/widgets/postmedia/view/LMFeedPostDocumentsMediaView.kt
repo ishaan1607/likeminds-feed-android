@@ -10,7 +10,7 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostDocumentsMediaViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostDocumentsMediaStyle
-import com.likeminds.feed.android.core.utils.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 
@@ -135,7 +135,6 @@ class LMFeedPostDocumentsMediaView : ConstraintLayout {
         }
     }
 
-    // todo: ask if we should write the logic here or simply pass the string from outside and set here?
     /**
      * Sets the size of document media in the post
      *
