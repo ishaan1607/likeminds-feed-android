@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedTextView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_customisable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

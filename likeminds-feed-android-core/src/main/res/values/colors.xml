@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="lm_feed_white">#FFFFFF</color>
+    <color name="lm_feed_majorelle_blue">#5046E5</color>
+    <color name="lm_feed_black">#000000</color>
+    <color name="lm_feed_grey">#666666</color>
+    <color name="lm_feed_dark_grey">#333333</color>
+    <color name="lm_feed_blue">#2196F3</color>
+    <color name="lm_feed_azure">#1da1f2</color>
+    <color name="lm_feed_cultured">#F5F5F5</color>
+    <color name="lm_feed_raisin_black">#222020</color>
+    <color name="lm_feed_brown_grey">#9b9b9b</color>
+    <color name="lm_feed_light_grayish_blue">#e6ebf5</color>
 </resources>

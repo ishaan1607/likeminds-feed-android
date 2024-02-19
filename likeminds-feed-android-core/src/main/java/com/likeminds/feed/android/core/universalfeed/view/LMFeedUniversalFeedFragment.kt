@@ -1,17 +1,18 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
-import com.likeminds.feed.android.core.util.StyleTransformer
-import com.likeminds.feed.android.ui.base.styles.setStyle
-import com.likeminds.feed.android.ui.base.views.LMFeedFAB
-import com.likeminds.feed.android.ui.widgets.headerview.views.LMFeedHeaderView
-import com.likeminds.feed.android.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
+import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 
 open class LMFeedUniversalFeedFragment : Fragment() {
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
@@ -28,13 +29,17 @@ open class LMFeedUniversalFeedFragment : Fragment() {
         binding = LmFeedFragmentUniversalFeedBinding.inflate(layoutInflater)
         customizeCreateNewPostButton(binding.fabNewPost)
         customizeUniversalFeedHeaderView(binding.headerViewUniversal)
-        customizeNoPostLayout(binding.layoutNoPost)
+//        customizeNoPostLayout(binding.layoutNoPost)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
+
+        binding.videoView.startPlayingRemoteUri(
+            Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+        )
     }
 
     private fun initListeners() {
@@ -51,9 +56,9 @@ open class LMFeedUniversalFeedFragment : Fragment() {
                 onSearchIconClick()
             }
 
-            layoutNoPost.setActionFABClickListener {
-                onCreateNewPostClick()
-            }
+//            layoutNoPost.setActionFABClickListener {
+//                onCreateNewPostClick()
+//            }
         }
     }
 
@@ -67,7 +72,7 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
         fabNewPost.apply {
-            setStyle(StyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)
+            setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)
         }
     }
 
@@ -77,7 +82,7 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 
     protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {
         headerViewUniversal.apply {
-            setStyle(StyleTransformer.universalFeedFragmentViewStyle.headerViewStyle)
+            setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.headerViewStyle)
 
             setTitleText(getString(R.string.lm_feed_feed))
         }
@@ -93,7 +98,7 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 
     protected open fun customizeNoPostLayout(layoutNoPost: LMFeedNoEntityLayoutView) {
         layoutNoPost.apply {
-            setStyle(StyleTransformer.universalFeedFragmentViewStyle.noPostLayoutViewStyle)
+            setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.noPostLayoutViewStyle)
 
             setTitleText(getString(R.string.lm_feed_no_s_to_show))
             setSubtitleText(getString(R.string.lm_feed_be_the_first_one_to_s_here))

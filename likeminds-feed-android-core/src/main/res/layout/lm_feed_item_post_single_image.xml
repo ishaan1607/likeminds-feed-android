@@ -3,11 +3,69 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="position"
+            type="int" />
+
+        <variable
+            name="postId"
+            type="String" />
+
+        <variable
+            name="headerViewData"
+            type="com.likeminds.feed.android.core.universalfeed.model.LMFeedPostHeaderViewData" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/lm_feed_white"
         android:paddingHorizontal="16dp">
+
+        <com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
+            android:id="@+id/post_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_post_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="1sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_header"
+            tools:fontFamily="@font/lm_feed_roboto"
+            tools:text="Congrats to @talasha.sawant &amp; @kate92kt for being Community Hood CMs Of the Week! They both are founders of @_towardsabetteryou_  that is for mental &amp; emotional wellbeing ... See more"
+            tools:textColor="@color/lm_feed_grey"
+            tools:textSize="16sp" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
+            android:id="@+id/iv_post"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_post_content"
+            tools:scaleType="centerCrop"
+            tools:srcCompat="@drawable/lm_feed_ic_pdf" />
+
+        <com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
+            android:id="@+id/post_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_post" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

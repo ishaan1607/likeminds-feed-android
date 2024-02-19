@@ -1,14 +1,23 @@
 package com.likeminds.feed.android.core
 
-import com.likeminds.feed.android.ui.theme.LMFeedTheme
-import com.likeminds.feed.android.ui.theme.model.LMFeedSetThemeRequest
+import android.app.Application
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
+import com.likeminds.feed.android.core.ui.theme.model.LMFeedSetThemeRequest
 
 object LMFeedCore {
 
     private var apiKey: String? = null
 
-    fun setup(apiKey: String, lmFeedTheme: LMFeedSetThemeRequest) {
+    fun setup(
+        application: Application,
+        apiKey: String,
+        lmFeedTheme: LMFeedSetThemeRequest,
+        lmFeedCoreCallback: LMFeedCoreCallback? = null
+    ) {
         this.apiKey = apiKey
         LMFeedTheme.setTheme(lmFeedTheme)
+
+        val coreApplication = LMFeedCoreApplication.getInstance()
+        coreApplication.initCoreApplication(application, lmFeedCoreCallback)
     }
 }

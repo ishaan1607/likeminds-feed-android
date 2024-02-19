@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="lm_feed_app_name">LikeMinds-Android-Feed</string>
     <string name="lm_feed_new_s">New %s</string>
     <string name="lm_feed_feed">Feed</string>
     <string name="lm_feed_no_s_to_show">No %s to show</string>
@@ -8,4 +9,23 @@
     <string name="lm_feed_be_the_first_one_to_comment">Be the first one to comment</string>
     <string name="lm_feed_creating_s">Creating %s</string>
     <string name="lm_feed_retry">Retry</string>
+    <string name="lm_feed_like">Like</string>
+    <plurals name="lm_feed_likes">
+        <item quantity="one">1 Like</item>
+        <item quantity="other">%d Likes</item>
+    </plurals>
+    <string name="lm_feed_add_comment">Add Comment</string>
+    <plurals name="lm_feed_comments">
+        <item quantity="one">1 Comment</item>
+        <item quantity="other">%d Comments</item>
+    </plurals>
+    <string name="lm_feed_see_more">&#160;See More</string>
+    <string name="lm_feed_link">Link</string>
+    <string name="lm_feed_documents">Documents</string>
+    <plurals name="lm_feed_placeholder_pages">
+        <item quantity="one">1 Page</item>
+        <item quantity="other">%d Pages</item>
+    </plurals>
+    <string name="lm_feed_edited">Edited</string>
+    <string name="lm_feed_just_now">Just now</string>
 </resources>

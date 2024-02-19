@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/lm_feed_white"
+        tools:cardCornerRadius="8dp"
+        tools:cardElevation="0dp"
+        tools:strokeColor="@color/lm_feed_light_grayish_blue"
+        tools:strokeWidth="2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground">
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
+                android:id="@+id/iv_link"
+                android:layout_width="match_parent"
+                android:layout_height="216dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:id="@+id/tv_link_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:maxLines="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_link"
+                tools:text="Twitter will soon let you schedule your tweets"
+                tools:textColor="@color/lm_feed_grey"
+                tools:textSize="16sp" />
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:id="@+id/tv_link_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="2sp"
+                android:maxLines="2"
+                app:layout_constraintEnd_toEndOf="@+id/tv_link_title"
+                app:layout_constraintStart_toStartOf="@+id/tv_link_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_link_title"
+                tools:text="The new feature has already been implemented in the United States and Other Eu…"
+                tools:textColor="@color/lm_feed_grey"
+                tools:textSize="12sp" />
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:id="@+id/tv_link_url"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="2sp"
+                android:singleLine="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/tv_link_title"
+                app:layout_constraintStart_toStartOf="@+id/tv_link_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_link_description"
+                tools:text="www.youtube.com"
+                tools:textColor="@color/lm_feed_grey"
+                tools:textSize="12sp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

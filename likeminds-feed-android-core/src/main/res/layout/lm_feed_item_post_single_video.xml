@@ -1,9 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="position"
+            type="int" />
+
+        <variable
+            name="postId"
+            type="String" />
+
+        <variable
+            name="headerViewData"
+            type="com.likeminds.feed.android.core.universalfeed.model.LMFeedPostHeaderViewData" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/lm_feed_white"
+        android:paddingHorizontal="16dp">
+
+        <com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
+            android:id="@+id/post_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_post_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="1sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_header"
+            tools:fontFamily="@font/lm_feed_roboto"
+            tools:textColor="@color/lm_feed_grey"
+            tools:textSize="16sp" />
+
+        <!-- TODO: check if we can remove scaleType from here  -->
+        <com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostVideoMediaView
+            android:id="@+id/post_video_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_post_content"
+            app:shutter_background_color="@android:color/white"
+            app:use_artwork="true"
+            app:use_controller="false" />
+
+        <com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
+            android:id="@+id/post_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/post_video_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
