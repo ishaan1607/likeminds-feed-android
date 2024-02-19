@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
-import com.likeminds.feed.android.integration.R
-import com.likeminds.feed.android.integration.databinding.LmFeedFragmentUniversalFeedBinding
-import com.likeminds.feed.android.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
+import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.ui.base.views.LMFeedFAB
-import com.likeminds.feed.android.ui.widgets.headerview.views.LMFeedHeaderView
-import com.likeminds.feed.android.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 
 open class LMFeedUniversalFeedFragment : Fragment() {
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding

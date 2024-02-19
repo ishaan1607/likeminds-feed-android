@@ -1,8 +1,8 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
 import com.likeminds.feed.android.core.post.model.*
-import com.likeminds.feed.android.core.util.base.LMFeedBaseViewType
-import com.likeminds.feed.android.core.util.base.model.*
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.model.*
 
 class LMFeedPostViewData private constructor(
     val id: String,

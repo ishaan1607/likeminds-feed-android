@@ -5,16 +5,14 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
+import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.databinding.LmFeedPostLinkMediaViewBinding
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostLinkViewStyle
-import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
-import com.likeminds.feed.android.core.util.LMFeedValueUtils.isImageValid
-import com.likeminds.feed.android.integration.R
-import com.likeminds.feed.android.integration.databinding.LmFeedPostLinkMediaViewBinding
-import com.likeminds.feed.android.ui.base.styles.*
-import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
-import com.likeminds.feed.android.ui.utils.LMFeedOnClickListener
-import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.hide
-import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.isImageValid
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import java.util.Locale
 import kotlin.math.roundToInt
 

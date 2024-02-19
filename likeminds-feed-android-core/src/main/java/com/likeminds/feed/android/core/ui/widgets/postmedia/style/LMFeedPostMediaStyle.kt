@@ -1,7 +1,7 @@
 package com.likeminds.feed.android.core.ui.widgets.postmedia.style
 
-import com.likeminds.feed.android.ui.base.styles.LMFeedImageStyle
-import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedPostMediaStyle private constructor(
     //style for image media in a post

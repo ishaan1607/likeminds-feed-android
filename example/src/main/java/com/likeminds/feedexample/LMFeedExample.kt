@@ -2,7 +2,7 @@ package com.likeminds.feedexample
 
 import android.app.Application
 import com.likeminds.feed.android.core.LMFeedCore
-import com.likeminds.feed.android.ui.theme.model.LMFeedSetThemeRequest
+import com.likeminds.feed.android.core.ui.theme.model.LMFeedSetThemeRequest
 
 
 class LMFeedExample : Application() {

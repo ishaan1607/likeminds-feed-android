@@ -1,8 +1,8 @@
 package com.likeminds.feed.android.core
 
 import android.app.Application
-import com.likeminds.feed.android.ui.theme.LMFeedTheme
-import com.likeminds.feed.android.ui.theme.model.LMFeedSetThemeRequest
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
+import com.likeminds.feed.android.core.ui.theme.model.LMFeedSetThemeRequest
 
 object LMFeedCore {
 

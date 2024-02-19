@@ -3,7 +3,7 @@ package com.likeminds.feed.android.core.universalfeed.adapter
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
-import com.likeminds.feed.android.core.util.base.*
+import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedUniversalFeedAdapter(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener

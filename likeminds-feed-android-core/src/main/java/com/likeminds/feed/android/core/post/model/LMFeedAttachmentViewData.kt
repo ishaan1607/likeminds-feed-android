@@ -1,8 +1,8 @@
 package com.likeminds.feed.android.core.post.model
 
-import com.likeminds.feed.android.core.util.base.LMFeedBaseViewType
-import com.likeminds.feed.android.core.util.base.model.ITEM_POST_ATTACHMENT
-import com.likeminds.feed.android.core.util.base.model.ITEM_POST_DOCUMENTS_ITEM
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_ATTACHMENT
+import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_DOCUMENTS_ITEM
 
 class LMFeedAttachmentViewData private constructor(
     @LMFeedAttachmentType var attachmentType: Int,

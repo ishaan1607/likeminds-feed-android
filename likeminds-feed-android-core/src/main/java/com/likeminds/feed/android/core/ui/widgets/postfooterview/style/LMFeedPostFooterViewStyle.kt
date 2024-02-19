@@ -2,10 +2,11 @@ package com.likeminds.feed.android.core.ui.widgets.postfooterview.style
 
 import android.view.View
 import androidx.annotation.ColorRes
-import com.likeminds.feed.android.ui.R
-import com.likeminds.feed.android.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
+
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
+import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 
 class LMFeedPostFooterViewStyle private constructor(
     val likeIconStyle: LMFeedIconStyle,
@@ -25,7 +26,7 @@ class LMFeedPostFooterViewStyle private constructor(
         private var commentTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textColor(R.color.lm_feed_grey)
             .textSize(R.dimen.lm_feed_text_medium)
-            .fontResource(R.font.lm_feed_ui_roboto)
+            .fontResource(R.font.lm_feed_roboto)
             .textAllCaps(false)
             .textAlignment(View.TEXT_ALIGNMENT_CENTER)
             .drawableLeftSrc(R.drawable.lm_feed_ic_comment)

@@ -2,9 +2,10 @@ package com.likeminds.feed.android.core.ui.widgets.postheaderview.style
 
 import android.text.TextUtils
 import androidx.annotation.ColorRes
-import com.likeminds.feed.android.ui.R
-import com.likeminds.feed.android.ui.base.styles.*
-import com.likeminds.feed.android.ui.utils.LMFeedViewStyle
+
+import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedPostHeaderViewStyle private constructor(
     val authorImageViewStyle: LMFeedImageStyle,
@@ -27,7 +28,7 @@ class LMFeedPostHeaderViewStyle private constructor(
             .textColor(R.color.lm_feed_raisin_black)
             .maxLines(1)
             .ellipsize(TextUtils.TruncateAt.END)
-            .fontResource(R.font.lm_feed_ui_roboto_medium)
+            .fontResource(R.font.lm_feed_roboto_medium)
             .build()
         private var timestampTextStyle: LMFeedTextStyle? = null
         private var postEditedTextStyle: LMFeedTextStyle? = null

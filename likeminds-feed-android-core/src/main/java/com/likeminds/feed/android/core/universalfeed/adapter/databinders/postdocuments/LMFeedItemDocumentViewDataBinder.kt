@@ -2,13 +2,13 @@ package com.likeminds.feed.android.core.universalfeed.adapter.databinders.postdo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.likeminds.feed.android.core.databinding.LmFeedItemDocumentBinding
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
-import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
-import com.likeminds.feed.android.core.util.base.LMFeedViewDataBinder
-import com.likeminds.feed.android.core.util.base.model.ITEM_POST_DOCUMENTS_ITEM
-import com.likeminds.feed.android.integration.databinding.LmFeedItemDocumentBinding
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
+import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_DOCUMENTS_ITEM
 
 class LMFeedItemDocumentViewDataBinder(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
@@ -27,7 +27,8 @@ class LMFeedItemDocumentViewDataBinder(
         binding.apply {
             //sets click listener to the documents item
             documentItem.setDocumentClickListener {
-                universalFeedAdapterListener.onPostDocumentMediaClick(documentData)
+                val document = documentData ?: return@setDocumentClickListener
+                universalFeedAdapterListener.onPostDocumentMediaClick(document)
             }
 
             val postDocumentMediaStyle =

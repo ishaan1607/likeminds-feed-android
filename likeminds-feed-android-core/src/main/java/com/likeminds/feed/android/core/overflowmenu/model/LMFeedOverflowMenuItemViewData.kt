@@ -1,8 +1,8 @@
 package com.likeminds.feed.android.core.overflowmenu.model
 
 import androidx.annotation.DrawableRes
-import com.likeminds.feed.android.core.util.base.LMFeedBaseViewType
-import com.likeminds.feed.android.core.util.base.model.ITEM_OVERFLOW_MENU_ITEM
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.model.ITEM_OVERFLOW_MENU_ITEM
 
 class LMFeedOverflowMenuItemViewData private constructor(
     @LMFeedOverflowMenuItemId

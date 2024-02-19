@@ -2,12 +2,12 @@ package com.likeminds.feed.android.core.universalfeed.adapter.databinders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.likeminds.feed.android.core.databinding.LmFeedItemPostMultipleMediaBinding
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
-import com.likeminds.feed.android.core.util.base.LMFeedViewDataBinder
-import com.likeminds.feed.android.core.util.base.model.ITEM_POST_MULTIPLE_MEDIA
-import com.likeminds.feed.android.integration.databinding.LmFeedItemPostMultipleMediaBinding
+import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
+import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_MULTIPLE_MEDIA
 
 class LMFeedItemPostMultipleMediaViewDataBinder(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener

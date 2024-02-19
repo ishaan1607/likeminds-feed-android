@@ -8,26 +8,24 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.text.util.LinkifyCompat
 import com.likeminds.feed.android.core.LMFeedCoreApplication
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostDocumentsMediaView
 import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostLinkMediaView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
-import com.likeminds.feed.android.core.util.LMFeedSeeMoreUtil
-import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
-import com.likeminds.feed.android.core.util.LMFeedValueUtils.getValidTextForLinkify
-import com.likeminds.feed.android.core.util.link.LMFeedLinkMovementMethod
-import com.likeminds.feed.android.integration.R
-import com.likeminds.feed.android.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 import com.likeminds.feed.android.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.ui.base.views.LMFeedTextView
-import com.likeminds.feed.android.ui.theme.LMFeedTheme
-import com.likeminds.feed.android.ui.utils.LMFeedImageBindingUtil
-import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.hide
-import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.show
 
 object LMFeedPostBinderUtils {
 
@@ -205,7 +203,7 @@ object LMFeedPostBinderUtils {
 
             val seeMoreColor = ContextCompat.getColor(
                 context,
-                com.likeminds.feed.android.ui.R.color.lm_feed_brown_grey
+                R.color.lm_feed_brown_grey
             )
 
             val seeMore = SpannableStringBuilder(context.getString(R.string.lm_feed_see_more))

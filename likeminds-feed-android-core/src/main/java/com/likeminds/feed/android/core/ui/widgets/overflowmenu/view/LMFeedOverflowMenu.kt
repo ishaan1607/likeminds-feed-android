@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.Menu.NONE
 import android.view.View
 import android.widget.PopupMenu
-import com.likeminds.feed.android.ui.utils.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.LMFeedOnClickListener
 
 class LMFeedOverflowMenu(context: Context, view: View, gravity: Int) :
     PopupMenu(context, view, gravity) {

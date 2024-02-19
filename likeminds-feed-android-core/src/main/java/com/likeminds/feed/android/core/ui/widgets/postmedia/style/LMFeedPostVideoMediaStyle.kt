@@ -1,7 +1,7 @@
 package com.likeminds.feed.android.core.ui.widgets.postmedia.style
 
 import androidx.annotation.ColorRes
-import com.likeminds.feed.android.ui.base.styles.LMFeedIconStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 
 // todo: see videoScalingMode
 class LMFeedPostVideoMediaStyle private constructor(

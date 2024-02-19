@@ -1,6 +1,6 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
-import com.likeminds.feed.android.core.util.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 
 class LMFeedPostHeaderViewData private constructor(
     val isEdited: Boolean,

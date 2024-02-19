@@ -5,12 +5,12 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.likeminds.feed.android.core.databinding.LmFeedPostFooterViewBinding
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPostFooterViewStyle
-import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
-import com.likeminds.feed.android.ui.base.styles.*
-import com.likeminds.feed.android.ui.databinding.LmFeedPostFooterViewBinding
-import com.likeminds.feed.android.ui.utils.LMFeedOnClickListener
-import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 
 class LMFeedPostFooterView : ConstraintLayout {
 

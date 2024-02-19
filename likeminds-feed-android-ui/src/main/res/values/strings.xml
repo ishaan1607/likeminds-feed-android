@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="lm_feed_app_name">LikeMinds-Android-Feed</string>
-    <string name="lm_feed_edited">Edited</string>
-    <string name="lm_feed_just_now">Just now</string>
-</resources>

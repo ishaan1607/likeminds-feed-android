@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.likeminds.feed.android.core.databinding.LmFeedPostHeaderViewBinding
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
-import com.likeminds.feed.android.core.util.LMFeedStyleTransformer
-import com.likeminds.feed.android.ui.base.styles.*
-import com.likeminds.feed.android.ui.databinding.LmFeedPostHeaderViewBinding
-import com.likeminds.feed.android.ui.utils.*
-import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.hide
-import com.likeminds.feed.android.ui.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 
 class LMFeedPostHeaderView : ConstraintLayout {
 

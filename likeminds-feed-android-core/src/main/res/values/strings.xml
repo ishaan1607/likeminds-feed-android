@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="lm_feed_app_name">LikeMinds-Android-Feed</string>
     <string name="lm_feed_new_s">New %s</string>
     <string name="lm_feed_feed">Feed</string>
     <string name="lm_feed_no_s_to_show">No %s to show</string>
@@ -25,4 +26,6 @@
         <item quantity="one">1 Page</item>
         <item quantity="other">%d Pages</item>
     </plurals>
+    <string name="lm_feed_edited">Edited</string>
+    <string name="lm_feed_just_now">Just now</string>
 </resources>

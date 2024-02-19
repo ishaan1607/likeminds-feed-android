@@ -1,7 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.adapter
 
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.postdocuments.LMFeedItemDocumentViewDataBinder
-import com.likeminds.feed.android.core.util.base.*
+import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedDocumentsAdapter(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener

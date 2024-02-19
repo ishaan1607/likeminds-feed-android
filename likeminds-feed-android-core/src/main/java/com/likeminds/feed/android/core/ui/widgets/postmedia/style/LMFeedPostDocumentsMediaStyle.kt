@@ -2,9 +2,10 @@ package com.likeminds.feed.android.core.ui.widgets.postmedia.style
 
 import android.text.TextUtils
 import androidx.annotation.ColorRes
-import com.likeminds.feed.android.integration.R
-import com.likeminds.feed.android.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+
 
 class LMFeedPostDocumentsMediaStyle private constructor(
     val documentNameStyle: LMFeedTextStyle,
@@ -19,9 +20,9 @@ class LMFeedPostDocumentsMediaStyle private constructor(
     class Builder {
         private var documentNameStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .maxLines(1)
-            .textColor(com.likeminds.feed.android.ui.R.color.lm_feed_grey)
-            .textSize(com.likeminds.feed.android.ui.R.dimen.lm_feed_text_large)
-            .fontResource(R.font.lm_feed_core_roboto_medium)
+            .textColor(R.color.lm_feed_grey)
+            .textSize(R.dimen.lm_feed_text_large)
+            .fontResource(R.font.lm_feed_roboto_medium)
             .ellipsize(TextUtils.TruncateAt.END)
             .build()
 
