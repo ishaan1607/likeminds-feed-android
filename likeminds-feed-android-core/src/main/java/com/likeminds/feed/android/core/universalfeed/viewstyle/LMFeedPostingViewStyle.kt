@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.viewstyle
 
-import com.likeminds.feed.android.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.base.styles.*
+
 
 class LMFeedPostingViewStyle private constructor(
     val attachmentThumbnailImageStyle: LMFeedImageStyle?,
@@ -10,6 +11,7 @@ class LMFeedPostingViewStyle private constructor(
     val postingDoneImageStyle: LMFeedImageStyle
 ) {
 
+    //todo: ishaan add styles
     class Builder {
         private var attachmentThumbnailImageStyle: LMFeedImageStyle? = null
         private var postingHeadingTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder().build()

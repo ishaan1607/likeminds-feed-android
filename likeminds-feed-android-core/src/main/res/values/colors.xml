@@ -11,4 +11,6 @@
     <color name="lm_feed_raisin_black">#222020</color>
     <color name="lm_feed_brown_grey">#9b9b9b</color>
     <color name="lm_feed_light_grayish_blue">#e6ebf5</color>
+    <color name="lm_feed_turquoise">#06C3AF</color>
+    <color name="lm_feed_light_grey">#eeeeee</color>
 </resources>

@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:background="@color/lm_feed_white">
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedImageView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_post_thumbnail"
             android:layout_width="49dp"
             android:layout_height="42dp"
@@ -36,7 +36,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/lm_feed_creating_s" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedProgressBar
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
             android:id="@+id/posting_progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="24dp"
@@ -66,7 +66,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.likeminds.feed.android.ui.base.views.LMFeedImageView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_posted"
             android:layout_width="24dp"
             android:layout_height="24dp"

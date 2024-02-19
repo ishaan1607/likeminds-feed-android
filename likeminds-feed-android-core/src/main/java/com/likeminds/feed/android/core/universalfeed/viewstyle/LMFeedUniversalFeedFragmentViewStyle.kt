@@ -90,6 +90,7 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
                 )
                 .build()
 
+        //todo: ishaan add styles
         private var postingViewStyle: LMFeedPostingViewStyle = LMFeedPostingViewStyle.Builder()
             .build()
 
