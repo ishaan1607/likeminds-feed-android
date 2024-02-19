@@ -1,7 +1,6 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -9,10 +8,10 @@ import androidx.fragment.app.Fragment
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
-import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 
 open class LMFeedUniversalFeedFragment : Fragment() {
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
@@ -30,6 +29,7 @@ open class LMFeedUniversalFeedFragment : Fragment() {
         customizeCreateNewPostButton(binding.fabNewPost)
         customizeUniversalFeedHeaderView(binding.headerViewUniversal)
 //        customizeNoPostLayout(binding.layoutNoPost)
+        customizePostingLayout(binding.layoutPosting)
         return binding.root
     }
 
@@ -37,9 +37,9 @@ open class LMFeedUniversalFeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
 
-        binding.videoView.startPlayingRemoteUri(
-            Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-        )
+//        binding.videoView.startPlayingRemoteUri(
+//            Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+//        )
     }
 
     private fun initListeners() {
@@ -59,6 +59,10 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 //            layoutNoPost.setActionFABClickListener {
 //                onCreateNewPostClick()
 //            }
+
+            layoutPosting.setRetryCTAClickListener {
+                onRetryUploadClicked()
+            }
         }
     }
 
@@ -104,5 +108,19 @@ open class LMFeedUniversalFeedFragment : Fragment() {
             setSubtitleText(getString(R.string.lm_feed_be_the_first_one_to_s_here))
             setActionCTAText(getString(R.string.lm_feed_new_s))
         }
+    }
+
+    protected open fun customizePostingLayout(layoutPosting: LMFeedPostingView) {
+        layoutPosting.apply {
+            setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.postingViewStyle)
+
+
+            setPostingText(getString(R.string.lm_feed_creating_s))
+            setRetryCTAText(getString(R.string.lm_feed_retry))
+        }
+    }
+
+    protected open fun onRetryUploadClicked() {
+        Log.d("PUI", "default onRetryUploadClicked")
     }
 }

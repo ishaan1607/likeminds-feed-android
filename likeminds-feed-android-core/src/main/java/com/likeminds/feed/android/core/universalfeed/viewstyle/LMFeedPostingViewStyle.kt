@@ -1,5 +1,8 @@
 package com.likeminds.feed.android.core.universalfeed.viewstyle
 
+import android.text.TextUtils
+import androidx.annotation.ColorRes
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 
 
@@ -8,16 +11,32 @@ class LMFeedPostingViewStyle private constructor(
     val postingHeadingTextStyle: LMFeedTextStyle,
     val progressStyle: LMFeedProgressBarStyle,
     val retryButtonTextStyle: LMFeedTextStyle,
-    val postingDoneImageStyle: LMFeedImageStyle
+    val postingDoneImageStyle: LMFeedImageStyle,
+    @ColorRes val backgroundColor: Int?
 ) {
-
-    //todo: ishaan add styles
     class Builder {
         private var attachmentThumbnailImageStyle: LMFeedImageStyle? = null
-        private var postingHeadingTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder().build()
-        private var progressStyle: LMFeedProgressBarStyle = LMFeedProgressBarStyle.Builder().build()
-        private var retryButtonTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder().build()
-        private var postingDoneImageStyle: LMFeedImageStyle = LMFeedImageStyle.Builder().build()
+        private var postingHeadingTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
+            .textSize(R.dimen.lm_feed_text_medium)
+            .textColor(R.color.lm_feed_dark_grey)
+            .ellipsize(TextUtils.TruncateAt.END)
+            .build()
+        private var progressStyle: LMFeedProgressBarStyle = LMFeedProgressBarStyle.Builder()
+            .isIndeterminate(false)
+            .progressColor(R.color.lm_feed_majorelle_blue)
+            .build()
+        private var retryButtonTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
+            .textColor(R.color.lm_feed_grey)
+            .textSize(R.dimen.lm_feed_text_medium)
+            .ellipsize(TextUtils.TruncateAt.END)
+            .build()
+        private var postingDoneImageStyle: LMFeedImageStyle = LMFeedImageStyle.Builder()
+            .isCircle(true)
+            .imageSrc(R.drawable.lm_feed_ic_completed_green)
+            .build()
+
+        @ColorRes
+        private var backgroundColor: Int? = null
 
 
         fun attachmentThumbnailImageStyle(attachmentThumbnailImageStyle: LMFeedImageStyle?) =
@@ -35,12 +54,17 @@ class LMFeedPostingViewStyle private constructor(
         fun postingDoneImageStyle(postingDoneImageStyle: LMFeedImageStyle) =
             apply { this.postingDoneImageStyle = postingDoneImageStyle }
 
+        fun backgroundColor(backgroundColor: Int?) = apply {
+            this.backgroundColor = backgroundColor
+        }
+
         fun build() = LMFeedPostingViewStyle(
             attachmentThumbnailImageStyle,
             postingHeadingTextStyle,
             progressStyle,
             retryButtonTextStyle,
-            postingDoneImageStyle
+            postingDoneImageStyle,
+            backgroundColor
         )
     }
 
@@ -50,5 +74,6 @@ class LMFeedPostingViewStyle private constructor(
             .progressStyle(progressStyle)
             .retryButtonTextStyle(retryButtonTextStyle)
             .postingHeadingTextStyle(postingHeadingTextStyle)
+            .backgroundColor(backgroundColor)
     }
 }

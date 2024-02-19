@@ -24,7 +24,7 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
         private val createPostFabStyle: LMFeedFABStyle = LMFeedFABStyle.Builder()
             .isExtended(false)
             .backgroundColor(R.color.lm_feed_majorelle_blue)
-            .icon(R.drawable.lm_feed_core_ic_new_post_plus)
+            .icon(R.drawable.lm_feed_ic_new_post_plus)
             .iconTint(R.color.lm_feed_white)
             .iconSize(R.dimen.lm_feed_create_new_post_icon_size)
             .textStyle(
@@ -47,7 +47,7 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
                     .build()
             )
             .backgroundColor(R.color.lm_feed_white)
-            .searchIcon(R.drawable.lm_feed_core_ic_search_icon)
+            .searchIcon(R.drawable.lm_feed_ic_search_icon)
             .searchIconTint(R.color.lm_feed_black)
             .searchIconPadding(
                 LMFeedPadding(
@@ -76,7 +76,7 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
                     LMFeedImageStyle.Builder()
                         .isCircle(false)
                         .showGreyScale(false)
-                        .imageSrc(R.drawable.lm_feed_core_ic_post)
+                        .imageSrc(R.drawable.lm_feed_ic_post)
                         .alpha(0.6f)
                         .build()
                 )
@@ -90,7 +90,6 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
                 )
                 .build()
 
-        //todo: ishaan add styles
         private var postingViewStyle: LMFeedPostingViewStyle = LMFeedPostingViewStyle.Builder()
             .build()
 
