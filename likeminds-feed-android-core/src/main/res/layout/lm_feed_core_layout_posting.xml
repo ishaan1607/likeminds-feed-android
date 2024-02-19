@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:background="@color/lm_feed_white">
 
-        <ImageView
+        <com.likeminds.feed.android.ui.base.views.LMFeedImageView
             android:id="@+id/iv_post_thumbnail"
             android:layout_width="49dp"
             android:layout_height="42dp"
@@ -37,19 +37,19 @@
             app:lm_feed_fontType="regular"
             tools:text="@string/lm_feed_creating_s" />
 
-        <!--        <com.likeminds.feedsx.branding.customview.LMFeedProgressBar-->
-        <!--            android:id="@+id/posting_progress"-->
-        <!--            style="?android:attr/progressBarStyleHorizontal"-->
-        <!--            android:layout_width="24dp"-->
-        <!--            android:layout_height="24dp"-->
-        <!--            android:layout_marginEnd="12dp"-->
-        <!--            android:background="@drawable/circular_shape"-->
-        <!--            android:indeterminate="false"-->
-        <!--            android:max="100"-->
-        <!--            android:progressDrawable="@drawable/circular_progress_bar"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <com.likeminds.feed.android.ui.base.views.LMFeedProgressBar
+            android:id="@+id/posting_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/lm_feed_core_circular_shape"
+            android:indeterminate="false"
+            android:max="100"
+            android:progressDrawable="@drawable/lm_feed_core_circular_progress_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.likeminds.feed.android.ui.base.views.LMFeedTextView
             android:id="@+id/tv_retry"
@@ -68,7 +68,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:lm_feed_fontType="regular" />
 
-        <ImageView
+        <com.likeminds.feed.android.ui.base.views.LMFeedImageView
             android:id="@+id/iv_posted"
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -77,8 +77,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/lm_feed_core_ic_completed_green"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@drawable/lm_feed_core_ic_completed_green" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

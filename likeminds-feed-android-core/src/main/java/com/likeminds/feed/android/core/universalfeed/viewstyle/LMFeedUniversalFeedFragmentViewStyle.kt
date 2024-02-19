@@ -14,7 +14,9 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
     //header
     val headerViewStyle: LMFeedHeaderViewStyle,
     //no post layout
-    val noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle
+    val noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle,
+    //posting view
+    val postingViewStyle: LMFeedPostingViewStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -84,6 +86,9 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
                 )
                 .build()
 
+        private var postingViewStyle: LMFeedPostingViewStyle = LMFeedPostingViewStyle.Builder()
+            .build()
+
         fun createNewPostButtonViewStyle(createNewPostButtonViewStyle: LMFeedFABStyle) = apply {
             this.createNewPostButtonViewStyle = createNewPostButtonViewStyle
         }
@@ -95,10 +100,14 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
         fun noPostLayoutViewStyle(noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle) =
             apply { this.noPostLayoutViewStyle = noPostLayoutViewStyle }
 
+        fun postingViewStyle(postingViewStyle: LMFeedPostingViewStyle) =
+            apply { this.postingViewStyle = postingViewStyle }
+
         fun build() = LMFeedUniversalFeedFragmentViewStyle(
             createNewPostButtonViewStyle,
             headerViewStyle,
-            noPostLayoutViewStyle
+            noPostLayoutViewStyle,
+            postingViewStyle
         )
     }
 
@@ -106,5 +115,6 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
         return Builder().headerViewStyle(headerViewStyle)
             .createNewPostButtonViewStyle(createNewPostButtonViewStyle)
             .noPostLayoutViewStyle(noPostLayoutViewStyle)
+            .postingViewStyle(postingViewStyle)
     }
 }

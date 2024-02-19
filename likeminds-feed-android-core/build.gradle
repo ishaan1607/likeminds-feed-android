@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace 'com.likeminds.feed.android.integration'
+    namespace 'com.likeminds.feed.android.core'
     compileSdk 34
 
     defaultConfig {
@@ -33,4 +33,4 @@ android {
     }
 }
 
-apply from: "lm-feed-integration-dependencies.gradle"
+apply from: "lm-feed-core-dependencies.gradle"
