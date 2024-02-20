@@ -3,12 +3,15 @@ package com.likeminds.feedexample
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.likeminds.feed.android.core.LMFeedCore
 import com.likeminds.feedexample.universalfeed.CustomLMUniversalFeedFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        LMFeedCore.initiateUser("Ishaan Jain", "89000", "device-23444")
 
         val containerViewId = R.id.frame_layout
         val fragment = CustomLMUniversalFeedFragment()

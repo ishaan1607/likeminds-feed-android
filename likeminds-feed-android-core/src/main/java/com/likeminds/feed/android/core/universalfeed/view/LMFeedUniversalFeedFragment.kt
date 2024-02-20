@@ -5,20 +5,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
+import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 
 open class LMFeedUniversalFeedFragment : Fragment() {
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
+    protected val lmFeedUniversalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,10 +67,6 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
     }
 
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
