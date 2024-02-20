@@ -3,162 +3,168 @@ package com.likeminds.feed.android.core.ui.widgets.postmedia.view
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import android.view.LayoutInflater
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
-import com.google.android.exoplayer2.ui.StyledPlayerView
-import com.google.android.exoplayer2.upstream.DefaultAllocator
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
-import com.google.android.exoplayer2.upstream.cache.CacheDataSource
-import com.google.android.exoplayer2.util.Util
-import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostVideoMediaStyle
-import com.likeminds.feed.android.core.utils.LMFeedVideoCache
-import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
+import com.likeminds.feed.android.core.databinding.LmFeedPostVideoMediaViewBinding
+import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostVideoMediaViewStyle
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 
-// todo: add customization for video
-class LMFeedPostVideoMediaView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
-) : StyledPlayerView(context, attrs, defStyleAttr) {
+class LMFeedPostVideoMediaView : ConstraintLayout {
 
-    private lateinit var exoPlayer: ExoPlayer
-    private var progressBar: LMFeedProgressBar? = null
+    constructor(context: Context) : super(context) {
+    }
 
-    private var lastPos: Long = 0
+    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
+    }
 
-    // creates an instance with DataSourceFactory for reading and writing cache
-    private val cacheDataSourceFactory by lazy {
-        CacheDataSource.Factory()
-            .setCache(LMFeedVideoCache.getInstance(context))
-            .setUpstreamDataSourceFactory(
-                DefaultHttpDataSource.Factory()
-                    .setUserAgent(
-                        Util.getUserAgent(
-                            context, context.getString(
-                                R.string.lm_feed_app_name
-                            )
-                        )
+    constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
+        context,
+        attributeSet,
+        defStyle
+    ) {
+    }
+
+    private val inflater =
+        (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
+
+    private val binding = LmFeedPostVideoMediaViewBinding.inflate(inflater, this, true)
+
+    fun setStyle(postVideoMediaViewStyle: LMFeedPostVideoMediaViewStyle) {
+
+        postVideoMediaViewStyle.apply {
+            //set background color
+            backgroundColor?.let {
+                binding.postVideoView.setShutterBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        backgroundColor
                     )
-            )
-            .setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR)
-    }
-
-    init {
-        descendantFocusability = FOCUS_AFTER_DESCENDANTS
-        init()
-    }
-
-    // initializes the exoplayer and sets player
-    private fun init() {
-        // used to configure ms of media to buffer before starting playback
-        val defaultLoadControl = DefaultLoadControl.Builder()
-            .setBufferDurationsMs(
-                DefaultLoadControl.DEFAULT_MAX_BUFFER_MS,
-                DefaultLoadControl.DEFAULT_MAX_BUFFER_MS,
-                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
-                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS
-            )
-            .setAllocator(DefaultAllocator(true, 16))
-            .setPrioritizeTimeOverSizeThresholds(true)
-            .build()
-
-        exoPlayer = ExoPlayer.Builder(context)
-            .setLoadControl(defaultLoadControl)
-            .build()
-
-        exoPlayer.repeatMode = Player.REPEAT_MODE_ONE
-        exoPlayer.playWhenReady = false
-        player = exoPlayer
-
-        exoPlayer.addListener(object : Player.Listener {
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                super.onPlaybackStateChanged(playbackState)
-                when (playbackState) {
-                    Player.STATE_READY -> {
-                        alpha = 1f
-                        progressBar?.hide()
-                    }
-
-                    Player.STATE_BUFFERING -> {
-                        progressBar?.show()
-                    }
-
-                    Player.STATE_IDLE -> {
-                        progressBar?.hide()
-                    }
-
-                    Player.STATE_ENDED -> {
-                        progressBar?.hide()
-                    }
-                }
+                )
             }
-        })
+
+            configureVideoView(postVideoMediaViewStyle)
+            configureVideoThumbnail(videoThumbnailStyle)
+            configurePlayIcon(videoPlayPauseButton, showController)
+            configureMuteIcon(videoMuteUnmuteButton)
+        }
+    }
+
+    private fun configureVideoView(postVideoMediaViewStyle: LMFeedPostVideoMediaViewStyle) {
+        binding.postVideoView.apply {
+            setStyle(postVideoMediaViewStyle)
+        }
+    }
+
+    private fun configureVideoThumbnail(videoThumbnailStyle: LMFeedImageStyle?) {
+        binding.ivVideoThumbnail.apply {
+            if (videoThumbnailStyle != null) {
+                setStyle(videoThumbnailStyle)
+                show()
+            } else {
+                hide()
+            }
+        }
+    }
+
+    private fun configurePlayIcon(videoPlayPauseButton: LMFeedIconStyle?, showController: Boolean) {
+        binding.apply {
+            if (showController || videoPlayPauseButton == null) {
+                ivPlayPauseVideo.hide()
+            } else {
+                ivPlayPauseVideo.setStyle(videoPlayPauseButton)
+                show()
+            }
+        }
+    }
+
+    private fun configureMuteIcon(videoMuteUnmuteButton: LMFeedIconStyle?) {
+        binding.ivMuteUnmuteVideo.apply {
+            if (videoMuteUnmuteButton == null) {
+                hide()
+            } else {
+                setStyle(videoMuteUnmuteButton)
+                show()
+            }
+        }
     }
 
     /**
-     * This will reuse the player and will play new URI (remote url) we have provided
-     */
-    fun startPlayingRemoteUri(videoUri: Uri) {
-//        this.progressBar = progressBar
-        val mediaSource =
-            ProgressiveMediaSource.Factory(cacheDataSourceFactory)
-                .createMediaSource(MediaItem.fromUri(videoUri))
-        exoPlayer.setMediaSource(mediaSource)
-        exoPlayer.seekTo(lastPos)
-        exoPlayer.playWhenReady = true
-        exoPlayer.prepare()
-    }
-
-    /**
-     * This will reuse the player and will play new URI (local uri) we have provided
-     */
-    fun startPlayingLocalUri(videoUri: Uri, progressBar: LMFeedProgressBar) {
-        this.progressBar = progressBar
-        val mediaSource = MediaItem.fromUri(videoUri)
-        exoPlayer.setMediaItem(mediaSource)
-        exoPlayer.seekTo(lastPos)
-        exoPlayer.playWhenReady = true
-        exoPlayer.prepare()
-    }
-
-    /**
-     * This will stop the player, but stopping the player shows black screen
-     * so to cover that we set alpha to 0 of player
-     * and lastFrame of player using imageView over player to make it look like paused player
+     * Sets play/pause icon.
      *
-     * If we will not stop the player, only pause it, then it can cause memory issue due to overload of player
-     * and paused player can not be played with new URL, after stopping the player we can reuse that with new URL
-     *
+     * @param isPlaying - whether the video is playing or not
      */
-    fun removePlayer() {
-        exoPlayer.playWhenReady = false
-        lastPos = exoPlayer.currentPosition
-        exoPlayer.stop()
-    }
+    fun setPlayPauseIcon(isPlaying: Boolean = false) {
+        val iconStyle =
+            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle?.videoPlayPauseButton
+                ?: return
 
-    fun setStyle(postVideoMediaStyle: LMFeedPostVideoMediaStyle) {
+        val playPauseIcon = if (isPlaying) {
+            iconStyle.activeSrc
+        } else {
+            iconStyle.inActiveSrc
+        }
 
-        //set background color of the video view
-        if (postVideoMediaStyle.backgroundColor != null) {
-            setShutterBackgroundColor(
-                ContextCompat.getColor(
+        if (playPauseIcon != null) {
+            binding.ivPlayPauseVideo.setImageDrawable(
+                ContextCompat.getDrawable(
                     context,
-                    postVideoMediaStyle.backgroundColor
+                    playPauseIcon
                 )
             )
         }
+    }
 
-        keepScreenOn = postVideoMediaStyle.keepScreenOn
+    /**
+     * Sets mute/unmute icon.
+     *
+     * @param isMute - whether the video playing is mute or not
+     */
+    fun setMuteUnmuteIcon(isMute: Boolean = false) {
+        val iconStyle =
+            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle?.videoMuteUnmuteButton
+                ?: return
 
-        if (postVideoMediaStyle.showController) {
-            controllerShowTimeoutMs = 0
-            controllerAutoShow = true
+        val muteUnmuteIcon = if (isMute) {
+            iconStyle.activeSrc
         } else {
-            controllerAutoShow = false
+            iconStyle.inActiveSrc
+        }
+
+        if (muteUnmuteIcon != null) {
+            binding.ivMuteUnmuteVideo.setImageDrawable(
+                ContextCompat.getDrawable(
+                    context,
+                    muteUnmuteIcon
+                )
+            )
         }
     }
+
+    /**
+     * This will play new URI we have provided
+     * @param isVideoLocal - whether the played video is local or not
+     */
+    fun playVideo(uri: Uri, isVideoLocal: Boolean) {
+        binding.apply {
+            if (isVideoLocal) {
+                postVideoView.startPlayingLocalUri(
+                    uri,
+                    pbVideoLoader,
+                    ivVideoThumbnail
+                )
+            } else {
+                postVideoView.startPlayingRemoteUri(
+                    uri,
+                    pbVideoLoader,
+                    ivVideoThumbnail
+                )
+            }
+        }
+    }
+
+    // todo: add click listeners and thumbnail
 }

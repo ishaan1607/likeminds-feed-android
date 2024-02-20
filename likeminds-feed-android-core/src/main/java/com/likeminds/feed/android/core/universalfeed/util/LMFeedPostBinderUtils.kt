@@ -306,10 +306,14 @@ object LMFeedPostBinderUtils {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
 
+        //todo: move this to image view
         LMFeedImageBindingUtil.loadImage(
             ivPost,
             mediaData.attachments.first().attachmentMeta.url,
-            placeholder = postImageMediaStyle.placeholderSrc
+            placeholder = postImageMediaStyle.placeholderSrc,
+            isCircle = postImageMediaStyle.isCircle,
+            cornerRadius = (postImageMediaStyle.cornerRadius ?: 0),
+            showGreyScale = postImageMediaStyle.showGreyScale,
         )
     }
 

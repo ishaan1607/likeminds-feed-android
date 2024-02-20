@@ -80,7 +80,4 @@ interface LMFeedUniversalFeedAdapterListener {
 
     //triggered when the link media of the post is clicked
     fun onPostLinkMediaClick(linkOGTags: LMFeedLinkOGTagsViewData)
-
-    //triggered when the document media in the post is clicker
-    fun onPostDocumentMediaClick(document: LMFeedAttachmentViewData)
 }

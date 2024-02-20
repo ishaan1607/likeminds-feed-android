@@ -7,7 +7,7 @@ import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 
 
-class LMFeedPostDocumentsMediaStyle private constructor(
+class LMFeedPostDocumentsMediaViewStyle private constructor(
     val documentNameStyle: LMFeedTextStyle,
     val documentIconStyle: LMFeedIconStyle?,
     val documentPageCountStyle: LMFeedTextStyle?,
@@ -56,7 +56,7 @@ class LMFeedPostDocumentsMediaStyle private constructor(
         fun backgroundColor(@ColorRes backgroundColor: Int?) =
             apply { this.backgroundColor = backgroundColor }
 
-        fun build() = LMFeedPostDocumentsMediaStyle(
+        fun build() = LMFeedPostDocumentsMediaViewStyle(
             documentNameStyle,
             documentIconStyle,
             documentPageCountStyle,

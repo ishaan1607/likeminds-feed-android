@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostDocumentsMediaViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostDocumentsMediaStyle
+import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostDocumentsMediaViewStyle
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -37,7 +37,7 @@ class LMFeedPostDocumentsMediaView : ConstraintLayout {
 
     private val binding = LmFeedPostDocumentsMediaViewBinding.inflate(inflater, this, true)
 
-    fun setStyle(postDocumentMediaViewStyle: LMFeedPostDocumentsMediaStyle) {
+    fun setStyle(postDocumentMediaViewStyle: LMFeedPostDocumentsMediaViewStyle) {
 
         //set background color
         if (postDocumentMediaViewStyle.backgroundColor != null) {

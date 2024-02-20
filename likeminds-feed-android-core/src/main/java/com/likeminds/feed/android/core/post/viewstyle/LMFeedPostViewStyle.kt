@@ -4,7 +4,7 @@ import android.text.TextUtils
 import android.view.View
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPostFooterViewStyle
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
-import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostMediaStyle
+import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostMediaViewStyle
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
@@ -17,7 +17,7 @@ class LMFeedPostViewStyle private constructor(
     //post footer style
     val postFooterViewStyle: LMFeedPostFooterViewStyle,
     //post media style
-    val postMediaStyle: LMFeedPostMediaStyle
+    val postMediaStyle: LMFeedPostMediaViewStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -121,7 +121,7 @@ class LMFeedPostViewStyle private constructor(
                 )
                 .build()
 
-        private var postMediaStyle: LMFeedPostMediaStyle = LMFeedPostMediaStyle.Builder()
+        private var postMediaStyle: LMFeedPostMediaViewStyle = LMFeedPostMediaViewStyle.Builder()
             .build()
 
         fun postHeaderViewStyle(postHeaderViewStyle: LMFeedPostHeaderViewStyle) = apply {
@@ -136,7 +136,7 @@ class LMFeedPostViewStyle private constructor(
             this.postFooterViewStyle = postFooterViewStyle
         }
 
-        fun postMediaStyle(postMediaStyle: LMFeedPostMediaStyle) = apply {
+        fun postMediaStyle(postMediaStyle: LMFeedPostMediaViewStyle) = apply {
             this.postMediaStyle = postMediaStyle
         }
 

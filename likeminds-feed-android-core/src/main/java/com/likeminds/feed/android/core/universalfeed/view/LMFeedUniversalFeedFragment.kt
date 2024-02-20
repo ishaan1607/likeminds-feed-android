@@ -36,10 +36,6 @@ open class LMFeedUniversalFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
-
-        binding.videoView.startPlayingRemoteUri(
-            Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-        )
     }
 
     private fun initListeners() {
