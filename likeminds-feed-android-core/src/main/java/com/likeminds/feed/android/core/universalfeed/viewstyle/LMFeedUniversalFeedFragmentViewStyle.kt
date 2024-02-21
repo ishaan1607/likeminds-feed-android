@@ -3,10 +3,10 @@ package com.likeminds.feed.android.core.universalfeed.viewstyle
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.utils.LMFeedViewStyle
-import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 import com.likeminds.feed.android.core.ui.widgets.headerview.styles.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
+import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
 class LMFeedUniversalFeedFragmentViewStyle private constructor(
     //create post button

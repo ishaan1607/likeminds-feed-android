@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.viewstyle
 
-import com.likeminds.feed.android.ui.base.styles.*
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 
 class LMFeedPostingViewStyle private constructor(
     val attachmentThumbnailImageStyle: LMFeedImageStyle?,
@@ -8,7 +9,7 @@ class LMFeedPostingViewStyle private constructor(
     val progressStyle: LMFeedProgressBarStyle,
     val retryButtonTextStyle: LMFeedTextStyle,
     val postingDoneImageStyle: LMFeedImageStyle
-) {
+) : LMFeedViewStyle {
 
     class Builder {
         private var attachmentThumbnailImageStyle: LMFeedImageStyle? = null

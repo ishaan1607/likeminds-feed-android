@@ -5,7 +5,7 @@ import com.likeminds.feed.android.core.universalfeed.adapter.databinders.postdoc
 import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedDocumentsAdapter(
-    private val documentsAdapterListener: LMFeedDocumentsAdapterListener
+    private val documentsAdapterListener: LMFeedDocumentsPostAdapterListener
 ) : LMFeedBaseRecyclerAdapter<LMFeedBaseViewType>() {
 
     init {
@@ -22,8 +22,8 @@ class LMFeedDocumentsAdapter(
     }
 }
 
-interface LMFeedDocumentsAdapterListener {
+interface LMFeedDocumentsPostAdapterListener {
 
-    //triggered when the document media in the post is clicker
+    //triggered when the document media in the post is clicked
     fun onPostDocumentMediaClick(document: LMFeedAttachmentViewData)
 }

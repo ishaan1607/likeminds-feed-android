@@ -6,6 +6,7 @@ import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 
 class LMFeedPostLinkViewStyle private constructor(
@@ -18,7 +19,7 @@ class LMFeedPostLinkViewStyle private constructor(
     @ColorRes val linkBoxStrokeColor: Int?,
     @DimenRes val linkBoxStrokeWidth: Int?,
     @ColorRes val backgroundColor: Int?
-) {
+) : LMFeedViewStyle {
 
     class Builder {
         private var linkTitleStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()

@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.universalfeed.adapter
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
 import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedUniversalFeedAdapter(
@@ -42,6 +43,10 @@ class LMFeedUniversalFeedAdapter(
 
         return viewDataBinders
     }
+
+    operator fun get(position: Int): LMFeedBaseViewType? {
+        return items().getItemInList(position)
+    }
 }
 
 interface LMFeedUniversalFeedAdapterListener {
@@ -80,4 +85,13 @@ interface LMFeedUniversalFeedAdapterListener {
 
     //triggered when the link media of the post is clicked
     fun onPostLinkMediaClick(linkOGTags: LMFeedLinkOGTagsViewData)
+
+    //triggered when the image media of multiple media is clicked
+    fun onPostMultipleMediaImageClick(image: LMFeedAttachmentViewData)
+
+    //triggered when the video media of multiple media is clicked
+    fun onPostMultipleMediaVideoClick(video: LMFeedAttachmentViewData)
+
+    //triggered when the page of the view pager is changed
+    fun onPostMultipleMediaPageChangeCallback(position: Int)
 }

@@ -6,6 +6,7 @@ import com.likeminds.feed.android.core.databinding.LmFeedItemPostMultipleMediaBi
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_MULTIPLE_MEDIA
 
@@ -42,6 +43,13 @@ class LMFeedItemPostMultipleMediaViewDataBinder(
                 (postId ?: ""),
                 position
             )
+
+            //sets link media style to multiple media view
+            val postMultipleMediaViewStyle =
+                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postMultipleMediaStyle
+                    ?: return@apply
+
+            multipleMediaView.setStyle(postMultipleMediaViewStyle)
         }
 
         return binding
@@ -74,7 +82,11 @@ class LMFeedItemPostMultipleMediaViewDataBinder(
                 returnBinder = {
                     return@setPostBindData
                 }, executeBinder = {
-                    // todo: initialize media view here
+                    LMFeedPostBinderUtils.bindMultipleMediaView(
+                        multipleMediaView,
+                        data.mediaViewData,
+                        universalFeedAdapterListener
+                    )
                 }
             )
         }

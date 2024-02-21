@@ -11,7 +11,9 @@ class LMFeedPostMediaViewStyle private constructor(
     //style for link media in a post
     val postLinkViewStyle: LMFeedPostLinkViewStyle?,
     //style for documents media in a post
-    val postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle?
+    val postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle?,
+    //style for multiple media carousel in a post
+    val postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -19,6 +21,7 @@ class LMFeedPostMediaViewStyle private constructor(
         private var postVideoMediaStyle: LMFeedPostVideoMediaViewStyle? = null
         private var postLinkStyle: LMFeedPostLinkViewStyle? = null
         private var postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle? = null
+        private var postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle? = null
 
         fun postImageMediaStyle(postImageMediaStyle: LMFeedImageStyle?) =
             apply { this.postImageMediaStyle = postImageMediaStyle }
@@ -32,11 +35,17 @@ class LMFeedPostMediaViewStyle private constructor(
         fun postDocumentsMediaStyle(postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle?) =
             apply { this.postDocumentsMediaStyle = postDocumentsMediaStyle }
 
+        fun postMultipleMediaStyle(postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle?) =
+            apply {
+                this.postMultipleMediaStyle = postMultipleMediaStyle
+            }
+
         fun build() = LMFeedPostMediaViewStyle(
             postImageMediaStyle,
             postVideoMediaStyle,
             postLinkStyle,
-            postDocumentsMediaStyle
+            postDocumentsMediaStyle,
+            postMultipleMediaStyle
         )
     }
 
@@ -45,5 +54,6 @@ class LMFeedPostMediaViewStyle private constructor(
             .postVideoMediaStyle(postVideoMediaStyle)
             .postLinkStyle(postLinkViewStyle)
             .postDocumentsMediaStyle(postDocumentsMediaStyle)
+            .postMultipleMediaStyle(postMultipleMediaStyle)
     }
 }

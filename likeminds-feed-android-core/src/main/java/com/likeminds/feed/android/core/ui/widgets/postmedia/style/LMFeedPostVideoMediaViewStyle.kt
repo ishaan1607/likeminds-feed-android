@@ -3,8 +3,8 @@ package com.likeminds.feed.android.core.ui.widgets.postmedia.style
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
-// todo: see videoScalingMode
 class LMFeedPostVideoMediaViewStyle private constructor(
     val videoThumbnailStyle: LMFeedImageStyle?,
     val videoPlayPauseButton: LMFeedIconStyle?,
@@ -12,7 +12,7 @@ class LMFeedPostVideoMediaViewStyle private constructor(
     val showController: Boolean,
     val keepScreenOn: Boolean,
     @ColorRes val backgroundColor: Int?
-) {
+) : LMFeedViewStyle {
 
     class Builder {
         private var videoThumbnailStyle: LMFeedImageStyle? = null

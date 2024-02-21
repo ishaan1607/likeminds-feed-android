@@ -33,12 +33,14 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
 
     private val binding = LmFeedPostVideoMediaViewBinding.inflate(inflater, this, true)
 
+    val videoView = binding.videoView
+
     fun setStyle(postVideoMediaViewStyle: LMFeedPostVideoMediaViewStyle) {
 
         postVideoMediaViewStyle.apply {
             //set background color
             backgroundColor?.let {
-                binding.postVideoView.setShutterBackgroundColor(
+                binding.videoView.setShutterBackgroundColor(
                     ContextCompat.getColor(
                         context,
                         backgroundColor
@@ -54,7 +56,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
     }
 
     private fun configureVideoView(postVideoMediaViewStyle: LMFeedPostVideoMediaViewStyle) {
-        binding.postVideoView.apply {
+        binding.videoView.apply {
             setStyle(postVideoMediaViewStyle)
         }
     }
@@ -151,13 +153,13 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
     fun playVideo(uri: Uri, isVideoLocal: Boolean) {
         binding.apply {
             if (isVideoLocal) {
-                postVideoView.startPlayingLocalUri(
+                videoView.startPlayingLocalUri(
                     uri,
                     pbVideoLoader,
                     ivVideoThumbnail
                 )
             } else {
-                postVideoView.startPlayingRemoteUri(
+                videoView.startPlayingRemoteUri(
                     uri,
                     pbVideoLoader,
                     ivVideoThumbnail

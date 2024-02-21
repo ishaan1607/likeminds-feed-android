@@ -8,7 +8,7 @@
         android:layout_height="wrap_content">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedVideoView
-            android:id="@+id/post_video_view"
+            android:id="@+id/video_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="12dp"
@@ -41,10 +41,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/post_video_view"
+            app:layout_constraintBottom_toBottomOf="@id/video_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/post_video_view"
+            app:layout_constraintTop_toTopOf="@id/video_view"
             tools:ignore="ContentDescription" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
@@ -53,10 +53,10 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/post_video_view"
+            app:layout_constraintBottom_toBottomOf="@id/video_view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/post_video_view"
+            app:layout_constraintTop_toTopOf="@id/video_view"
             app:srcCompat="@drawable/lm_feed_ic_play"
             tools:ignore="ContentDescription"
             tools:visibility="visible" />
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@id/post_video_view"
+            app:layout_constraintBottom_toBottomOf="@id/video_view"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="ContentDescription"
             tools:srcCompat="@drawable/lm_feed_ic_unmute"

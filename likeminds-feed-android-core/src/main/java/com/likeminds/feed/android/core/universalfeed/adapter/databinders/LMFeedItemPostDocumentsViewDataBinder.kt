@@ -75,6 +75,7 @@ class LMFeedItemPostDocumentsViewDataBinder(
                     return@setPostBindData
                 }, executeBinder = {
                     // todo: initialize documents view here
+
                 }
             )
         }

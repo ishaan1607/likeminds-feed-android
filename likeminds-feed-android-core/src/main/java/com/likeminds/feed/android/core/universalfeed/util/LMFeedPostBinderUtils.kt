@@ -9,22 +9,22 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.util.LinkifyCompat
 import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
-import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
+import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostDocumentsMediaView
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostLinkMediaView
+import com.likeminds.feed.android.core.ui.widgets.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_IMAGE
+import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_VIDEO
 import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 
 object LMFeedPostBinderUtils {
@@ -340,6 +340,47 @@ object LMFeedPostBinderUtils {
             setDocumentPages(attachmentMeta.pageCount)
             setDocumentSize(attachmentMeta.size)
             setDocumentType(attachmentMeta.format)
+        }
+    }
+
+    fun bindMultipleMediaImageView(ivPost: LMFeedImageView, attachment: LMFeedAttachmentViewData) {
+        val postImageMediaStyle =
+            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
+
+        //todo: move this to image view
+        LMFeedImageBindingUtil.loadImage(
+            ivPost,
+            attachment.attachmentMeta.url,
+            placeholder = postImageMediaStyle.placeholderSrc,
+            isCircle = postImageMediaStyle.isCircle,
+            cornerRadius = (postImageMediaStyle.cornerRadius ?: 0),
+            showGreyScale = postImageMediaStyle.showGreyScale,
+        )
+    }
+
+    fun bindMultipleMediaView(
+        multipleMediaView: LMFeedPostMultipleMediaView,
+        data: LMFeedMediaViewData,
+        listener: LMFeedUniversalFeedAdapterListener
+    ) {
+        multipleMediaView.apply {
+            val attachments = data.attachments.map {
+                when (it.attachmentType) {
+                    IMAGE -> {
+                        it.toBuilder().dynamicViewType(ITEM_MULTIPLE_MEDIA_IMAGE).build()
+                    }
+
+                    VIDEO -> {
+                        it.toBuilder().dynamicViewType(ITEM_MULTIPLE_MEDIA_VIDEO).build()
+                    }
+
+                    else -> {
+                        it
+                    }
+                }
+            }
+
+            setViewPager(listener, attachments)
         }
     }
 }

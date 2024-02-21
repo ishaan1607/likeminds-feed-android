@@ -5,6 +5,7 @@ import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 
 class LMFeedPostDocumentsMediaViewStyle private constructor(
@@ -15,7 +16,7 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
     val documentTypeStyle: LMFeedTextStyle?,
     val visibleDocumentsLimit: Int?,
     @ColorRes val backgroundColor: Int?
-) {
+) : LMFeedViewStyle {
 
     class Builder {
         private var documentNameStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()

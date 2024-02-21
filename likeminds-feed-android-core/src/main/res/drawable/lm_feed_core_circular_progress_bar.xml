@@ -9,7 +9,7 @@
         android:shape="ring"
         android:thickness="3dp"
         android:useLevel="true">
-        <solid android:color="@color/lm_feed_turquoise" />
+        <solid android:color="@color/lm_feed_majorelle_blue" />
     </shape>
 
 </rotate>

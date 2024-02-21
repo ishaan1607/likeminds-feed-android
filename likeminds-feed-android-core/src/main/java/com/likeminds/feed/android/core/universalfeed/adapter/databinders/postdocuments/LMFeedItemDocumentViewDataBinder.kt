@@ -4,14 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemDocumentBinding
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
-import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedDocumentsAdapterListener
+import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedDocumentsPostAdapterListener
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_DOCUMENTS_ITEM
 
 class LMFeedItemDocumentViewDataBinder(
-    private val documentsAdapterListener: LMFeedDocumentsAdapterListener
+    private val documentsAdapterListener: LMFeedDocumentsPostAdapterListener
 ) : LMFeedViewDataBinder<LmFeedItemDocumentBinding, LMFeedAttachmentViewData>() {
 
     override val viewType: Int
