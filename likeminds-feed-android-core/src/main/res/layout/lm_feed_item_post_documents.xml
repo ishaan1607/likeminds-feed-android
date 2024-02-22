@@ -14,8 +14,8 @@
             type="String" />
 
         <variable
-            name="headerViewData"
-            type="com.likeminds.feed.android.core.universalfeed.model.LMFeedPostHeaderViewData" />
+            name="postViewData"
+            type="com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,36 +45,14 @@
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="16sp" />
 
-        <!--TODO: add custom recycler view here-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_documents"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:descendantFocusability="blocksDescendants"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_post_content"
-            tools:itemCount="3"
-            tools:listitem="@layout/lm_feed_post_documents_media_view"
-            tools:visibility="visible" />
-
-        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
-            android:id="@+id/tv_show_more"
+        <com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostDocumentsMediaView
+            android:id="@+id/post_documents_media_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_documents"
-            tools:fontFamily="@font/lm_feed_roboto"
-            tools:text="+1 more"
-            tools:textColor="@color/lm_feed_majorelle_blue"
-            tools:textSize="16sp"
-            tools:textStyle="normal"
-            tools:visibility="visible" />
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_post_content" />
 
         <com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
             android:id="@+id/post_footer"

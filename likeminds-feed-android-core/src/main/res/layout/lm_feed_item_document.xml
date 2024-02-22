@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostDocumentsMediaView
+        <com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostDocumentView
             android:id="@+id/document_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

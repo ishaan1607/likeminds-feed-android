@@ -329,8 +329,17 @@ object LMFeedPostBinderUtils {
         }
     }
 
+    fun bindPostDocuments(
+        postDocumentsMediaView: LMFeedPostDocumentsMediaView,
+        mediaData: LMFeedMediaViewData,
+        listener: LMFeedUniversalFeedAdapterListener
+    ) {
+        //sets documents adapter and handles show more functionality of documents
+        postDocumentsMediaView.setAdapter(mediaData, listener)
+    }
+
     fun bindPostMediaDocument(
-        binding: LMFeedPostDocumentsMediaView,
+        binding: LMFeedPostDocumentView,
         document: LMFeedAttachmentViewData
     ) {
         binding.apply {
@@ -343,19 +352,21 @@ object LMFeedPostBinderUtils {
         }
     }
 
-    fun bindMultipleMediaImageView(ivPost: LMFeedImageView, attachment: LMFeedAttachmentViewData) {
+    fun bindMultipleMediaImageView(ivPost: LMFeedImageView, attachment: LMFeedAttachmentViewData?) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
 
-        //todo: move this to image view
-        LMFeedImageBindingUtil.loadImage(
-            ivPost,
-            attachment.attachmentMeta.url,
-            placeholder = postImageMediaStyle.placeholderSrc,
-            isCircle = postImageMediaStyle.isCircle,
-            cornerRadius = (postImageMediaStyle.cornerRadius ?: 0),
-            showGreyScale = postImageMediaStyle.showGreyScale,
-        )
+        attachment?.let {
+            //todo: move this to image view
+            LMFeedImageBindingUtil.loadImage(
+                ivPost,
+                attachment.attachmentMeta.url,
+                placeholder = postImageMediaStyle.placeholderSrc,
+                isCircle = postImageMediaStyle.isCircle,
+                cornerRadius = (postImageMediaStyle.cornerRadius ?: 0),
+                showGreyScale = postImageMediaStyle.showGreyScale,
+            )
+        }
     }
 
     fun bindMultipleMediaView(
@@ -380,6 +391,7 @@ object LMFeedPostBinderUtils {
                 }
             }
 
+            //sets multiple media view pager
             setViewPager(listener, attachments)
         }
     }

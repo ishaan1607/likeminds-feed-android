@@ -27,7 +27,9 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
 
         binding.apply {
             ivPost.setOnClickListener {
-                listener.onPostMultipleMediaImageClick(image)
+                image?.let { imageViewData ->
+                    listener.onPostMultipleMediaImageClick(imageViewData)
+                }
             }
 
             //sets image media style to multiple media image view

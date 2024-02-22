@@ -6,6 +6,7 @@ import com.likeminds.feed.android.core.databinding.LmFeedItemPostDocumentsBindin
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_DOCUMENTS
 
@@ -27,7 +28,7 @@ class LMFeedItemPostDocumentsViewDataBinder(
             LMFeedPostBinderUtils.customizePostHeaderView(
                 postHeader,
                 universalFeedAdapterListener,
-                headerViewData
+                postViewData?.headerViewData
             )
 
             LMFeedPostBinderUtils.customizePostContentView(
@@ -42,6 +43,19 @@ class LMFeedItemPostDocumentsViewDataBinder(
                 (postId ?: ""),
                 position
             )
+
+            postDocumentsMediaView.setShowMoreTextClickListener(
+                postViewData,
+                position,
+                universalFeedAdapterListener
+            )
+
+            //sets documents media style to documents view
+            val postDocumentsMediaViewStyle =
+                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postDocumentsMediaStyle
+                    ?: return@apply
+
+            postDocumentsMediaView.setStyle(postDocumentsMediaViewStyle)
         }
 
         return binding
@@ -56,7 +70,7 @@ class LMFeedItemPostDocumentsViewDataBinder(
             // set variables in the binding
             this.position = position
             postId = data.id
-            headerViewData = data.headerViewData
+            postViewData = data
 
             // updates the data in the post footer view
             LMFeedPostBinderUtils.setPostFooterViewData(
@@ -74,8 +88,12 @@ class LMFeedItemPostDocumentsViewDataBinder(
                 returnBinder = {
                     return@setPostBindData
                 }, executeBinder = {
-                    // todo: initialize documents view here
-
+                    //sets the documents media view
+                    LMFeedPostBinderUtils.bindPostDocuments(
+                        postDocumentsMediaView,
+                        data.mediaViewData,
+                        universalFeedAdapterListener
+                    )
                 }
             )
         }

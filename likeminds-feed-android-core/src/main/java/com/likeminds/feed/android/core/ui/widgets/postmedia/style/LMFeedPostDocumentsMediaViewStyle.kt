@@ -14,7 +14,8 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
     val documentPageCountStyle: LMFeedTextStyle?,
     val documentSizeStyle: LMFeedTextStyle?,
     val documentTypeStyle: LMFeedTextStyle?,
-    val visibleDocumentsLimit: Int?,
+    val documentShowMoreStyle: LMFeedTextStyle?,
+    val visibleDocumentsLimit: Int,
     @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
@@ -31,7 +32,10 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
         private var documentPageCountStyle: LMFeedTextStyle? = null
         private var documentSizeStyle: LMFeedTextStyle? = null
         private var documentTypeStyle: LMFeedTextStyle? = null
-        private var visibleDocumentsLimit: Int? = null
+        private var documentShowMoreStyle: LMFeedTextStyle? = null
+
+        //todo: set these values in a const
+        private var visibleDocumentsLimit: Int = 3
 
         @ColorRes
         private var backgroundColor: Int? = null
@@ -51,7 +55,10 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
         fun documentTypeStyle(documentTypeStyle: LMFeedTextStyle?) =
             apply { this.documentTypeStyle = documentTypeStyle }
 
-        fun visibleDocumentsLimit(visibleDocumentsLimit: Int?) =
+        fun documentShowMoreStyle(documentShowMoreStyle: LMFeedTextStyle?) =
+            apply { this.documentShowMoreStyle = documentShowMoreStyle }
+
+        fun visibleDocumentsLimit(visibleDocumentsLimit: Int) =
             apply { this.visibleDocumentsLimit = visibleDocumentsLimit }
 
         fun backgroundColor(@ColorRes backgroundColor: Int?) =
@@ -63,6 +70,7 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
             documentPageCountStyle,
             documentSizeStyle,
             documentTypeStyle,
+            documentShowMoreStyle,
             visibleDocumentsLimit,
             backgroundColor
         )
@@ -74,6 +82,7 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
             .documentPageCountStyle(documentPageCountStyle)
             .documentSizeStyle(documentSizeStyle)
             .documentTypeStyle(documentTypeStyle)
+            .documentShowMoreStyle(documentShowMoreStyle)
             .visibleDocumentsLimit(visibleDocumentsLimit)
             .backgroundColor(backgroundColor)
     }

@@ -4,7 +4,7 @@ import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.base.model.*
 
-class LMFeedPostViewData private constructor(
+class  LMFeedPostViewData private constructor(
     val id: String,
     val headerViewData: LMFeedPostHeaderViewData,
     val contentViewData: LMFeedPostContentViewData,
