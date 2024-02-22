@@ -1,20 +1,23 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
+import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
+import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
+import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
-import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 
-open class LMFeedUniversalFeedFragment : Fragment() {
+open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterListener {
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
 
     override fun onAttach(context: Context) {
@@ -29,13 +32,14 @@ open class LMFeedUniversalFeedFragment : Fragment() {
         binding = LmFeedFragmentUniversalFeedBinding.inflate(layoutInflater)
         customizeCreateNewPostButton(binding.fabNewPost)
         customizeUniversalFeedHeaderView(binding.headerViewUniversal)
-//        customizeNoPostLayout(binding.layoutNoPost)
+        customizeNoPostLayout(binding.layoutNoPost)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
+        initUI()
     }
 
     private fun initListeners() {
@@ -52,10 +56,21 @@ open class LMFeedUniversalFeedFragment : Fragment() {
                 onSearchIconClick()
             }
 
-//            layoutNoPost.setActionFABClickListener {
-//                onCreateNewPostClick()
-//            }
+            layoutNoPost.setActionFABClickListener {
+                onCreateNewPostClick()
+            }
         }
+    }
+
+    private fun initUI() {
+        initUniversalFeedRecyclerView()
+    }
+
+    private fun initUniversalFeedRecyclerView() {
+        binding.rvUniversal.apply {
+            setAdapter(this@LMFeedUniversalFeedFragment)
+        }
+
     }
 
     override fun onDestroyView() {
@@ -64,6 +79,74 @@ open class LMFeedUniversalFeedFragment : Fragment() {
 
     override fun onDetach() {
         super.onDetach()
+    }
+
+    override fun onPostContentClick(postId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostLikeClick(position: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostLikesCountClick(postId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostCommentsCountClick(postId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostSaveClick(postId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostShareClick(postId: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateFromLikedSaved(position: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun updatePostSeenFullContent(position: Int, alreadySeenFullContent: Boolean) {
+        TODO("Not yet implemented")
+    }
+
+    override fun handleLinkClick(url: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostMenuIconClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostImageMediaClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostLinkMediaClick(linkOGTags: LMFeedLinkOGTagsViewData) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostDocumentMediaClick(document: LMFeedAttachmentViewData) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostMultipleMediaImageClick(image: LMFeedAttachmentViewData) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostMultipleMediaVideoClick(video: LMFeedAttachmentViewData) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostMultipleMediaPageChangeCallback(position: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPostMultipleDocumentsExpanded(postData: LMFeedPostViewData, position: Int) {
+        TODO("Not yet implemented")
     }
 
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {

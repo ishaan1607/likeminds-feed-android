@@ -2,12 +2,14 @@ package com.likeminds.feed.android.core.post.viewstyle
 
 import android.text.TextUtils
 import android.view.View
+import android.widget.ImageView
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPostFooterViewStyle
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 
 class LMFeedPostViewStyle private constructor(
     //post header style
@@ -124,18 +126,70 @@ class LMFeedPostViewStyle private constructor(
         private var postMediaStyle: LMFeedPostMediaViewStyle = LMFeedPostMediaViewStyle.Builder()
             .postImageMediaStyle(
                 LMFeedImageStyle.Builder()
+                    .placeholderSrc(LMFeedViewUtils.getShimmer())
+                    .scaleType(ImageView.ScaleType.CENTER_CROP)
                     .build()
             )
             .postVideoMediaStyle(
                 LMFeedPostVideoMediaViewStyle.Builder()
+                    .backgroundColor(R.color.lm_feed_white)
                     .build()
             )
             .postLinkStyle(
                 LMFeedPostLinkViewStyle.Builder()
+                    .linkTitleStyle(
+                        LMFeedTextStyle.Builder()
+                            .fontResource(R.font.lm_feed_roboto)
+                            .textColor(R.color.lm_feed_grey)
+                            .textSize(R.dimen.lm_feed_text_medium)
+                            .build()
+                    )
+                    .linkDescriptionStyle(
+                        LMFeedTextStyle.Builder()
+                            .fontResource(R.font.lm_feed_roboto)
+                            .textColor(R.color.lm_feed_grey)
+                            .textSize(R.dimen.lm_feed_text_medium)
+                            .build()
+                    )
                     .build()
             )
             .postDocumentsMediaStyle(
                 LMFeedPostDocumentsMediaViewStyle.Builder()
+                    .documentIconStyle(
+                        LMFeedIconStyle.Builder()
+                            .inActiveSrc(R.drawable.lm_feed_ic_pdf)
+                            .scaleType(ImageView.ScaleType.FIT_XY)
+                            .build()
+                    )
+                    .documentPageCountStyle(
+                        LMFeedTextStyle.Builder()
+                            .fontResource(R.font.lm_feed_roboto)
+                            .textColor(R.color.lm_feed_grey)
+                            .textSize(R.dimen.lm_feed_text_medium)
+                            .build()
+                    )
+                    .documentSizeStyle(
+                        LMFeedTextStyle.Builder()
+                            .fontResource(R.font.lm_feed_roboto)
+                            .textColor(R.color.lm_feed_grey)
+                            .textSize(R.dimen.lm_feed_text_medium)
+                            .build()
+                    )
+                    .documentTypeStyle(
+                        LMFeedTextStyle.Builder()
+                            .fontResource(R.font.lm_feed_roboto)
+                            .textColor(R.color.lm_feed_grey)
+                            .textSize(R.dimen.lm_feed_text_medium)
+                            .build()
+                    )
+                    .documentShowMoreStyle(
+                        LMFeedTextStyle.Builder()
+                            .fontResource(R.font.lm_feed_roboto)
+                            .textColor(R.color.lm_feed_majorelle_blue)
+                            .textSize(R.dimen.lm_feed_text_large)
+                            .build()
+                    )
+                    .backgroundColor(R.color.lm_feed_light_grayish_blue)
                     .build()
             )
             .postMultipleMediaStyle(

@@ -13,10 +13,10 @@ import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 
-class LMFeedDocumentListView(
+class LMFeedDocumentListView @JvmOverloads constructor(
     context: Context,
-    attrs: AttributeSet?,
-    defStyleAttr: Int
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
     private val linearLayoutManager: LinearLayoutManager

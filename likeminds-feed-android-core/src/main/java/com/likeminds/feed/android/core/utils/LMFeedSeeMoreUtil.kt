@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.utils
 
 import android.widget.TextView
+import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 
 object LMFeedSeeMoreUtil {
 
@@ -8,7 +9,7 @@ object LMFeedSeeMoreUtil {
      * This function is for getting short text content for the see more feature
      */
     fun getShortContent(
-        textView: TextView,
+        textView: LMFeedTextView,
         maxLines: Int,
         seeMoreCountLimit: Int
     ): String? {

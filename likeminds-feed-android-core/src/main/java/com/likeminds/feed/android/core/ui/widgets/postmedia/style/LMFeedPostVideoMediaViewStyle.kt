@@ -19,7 +19,7 @@ class LMFeedPostVideoMediaViewStyle private constructor(
         private var videoPlayPauseButton: LMFeedIconStyle? = null
         private var videoMuteUnmuteButton: LMFeedIconStyle? = null
         private var showController: Boolean = false
-        private var keepScreenOn: Boolean = false
+        private var keepScreenOn: Boolean = true
 
         @ColorRes
         private var backgroundColor: Int? = null

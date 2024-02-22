@@ -1,37 +1,32 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_CONTENT
 
 class LMFeedPostContentViewData private constructor(
     val text: String?,
-    val alreadySeenFullContent: Boolean?,
-    val isExpanded: Boolean,
+    val alreadySeenFullContent: Boolean?
 ) : LMFeedBaseViewType {
 
     override val viewType: Int
-        get() = TODO("Not yet implemented")
+        get() = ITEM_POST_CONTENT
 
     class Builder {
         private var text: String? = null
         private var alreadySeenFullContent: Boolean? = null
-        private var isExpanded: Boolean = false
 
         fun text(text: String?) = apply { this.text = text }
         fun alreadySeenFullContent(alreadySeenFullContent: Boolean?) =
             apply { this.alreadySeenFullContent = alreadySeenFullContent }
 
-        fun isExpanded(isExpanded: Boolean) = apply { this.isExpanded = isExpanded }
-
         fun build() = LMFeedPostContentViewData(
             text,
-            alreadySeenFullContent,
-            isExpanded
+            alreadySeenFullContent
         )
     }
 
     fun toBuilder(): Builder {
         return Builder().text(text)
             .alreadySeenFullContent(alreadySeenFullContent)
-            .isExpanded(isExpanded)
     }
 }

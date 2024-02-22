@@ -4,7 +4,9 @@ import android.text.*
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.util.Linkify
+import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.util.LinkifyCompat
 import com.likeminds.feed.android.core.LMFeedCoreApplication
@@ -232,6 +234,10 @@ object LMFeedPostBinderUtils {
             // post is used here to get lines count in the text view
             post {
                 // todo: add member tagging decoder here
+                contentView.setText(
+                    (contentViewData.text),
+                    TextView.BufferType.EDITABLE
+                )
 
                 val shortText: String? = LMFeedSeeMoreUtil.getShortContent(
                     contentView,
@@ -239,12 +245,16 @@ object LMFeedPostBinderUtils {
                     LMFeedTheme.getPostCharacterLimit()
                 )
 
+                Log.d("PUI", "setPostContentViewData1: $shortText")
+
                 val trimmedText =
                     if (!alreadySeenFullContent && !shortText.isNullOrEmpty()) {
                         editableText.subSequence(0, shortText.length)
                     } else {
                         editableText
                     }
+
+                Log.d("PUI", "setPostContentViewData: $trimmedText")
 
                 val seeMoreSpannableStringBuilder = SpannableStringBuilder()
                 if (!alreadySeenFullContent && !shortText.isNullOrEmpty()) {
