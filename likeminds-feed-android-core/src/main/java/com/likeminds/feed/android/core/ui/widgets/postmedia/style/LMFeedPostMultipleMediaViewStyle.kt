@@ -1,12 +1,24 @@
 package com.likeminds.feed.android.core.ui.widgets.postmedia.style
 
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
+import androidx.annotation.*
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.zhpan.indicator.annotation.AIndicatorSlideMode
 import com.zhpan.indicator.annotation.AIndicatorStyle
+import com.zhpan.indicator.enums.IndicatorStyle
 
+/**
+ * [LMFeedPostMultipleMediaViewStyle] helps you customize a button in the following way
+ * @property indicatorActiveColor : [Int] should be in format of [ColorRes] to customize the color of the active indicator | Default value =  [R.color.majorelle_blue]
+ * @property indicatorInActiveColor : [Int] this will help to customize the color of the inactive indicator | Default value =  [R.color.lm_feed_cloudy_blue]
+ *
+ * @property indicatorActiveWidth: [Int] should be in format of [DimenRes] to customize the width of the active indicator | Default value =  [10dp]
+ * @property indicatorStyle: [Int] should be in format of [AIndicatorStyle] to customize the style of the inactive indicator | Default value = [IndicatorStyle.CIRCLE]
+ * @property indicatorInactiveWidth: [Int] should be in format of [DimenRes] to customize width of the button | Default value = [null]
+ * @property indicatorHeight: [Int] should be in format of [DimenRes] to customize the height of the height of the indicator. Works for indicator style = [IndicatorStyle.DASH] & [IndicatorStyle.ROUND_RECT] | Default value = [null]
+ * @property indicatorSpacing: [Int] should be in format of [DimenRes] to customize the spacing between the indicators | Default value = [null]
+ * @property indicatorSlideMode:[Int] should be in format of [AIndicatorSlideMode] to customize the slide mode of the indicator | Default value = [null]
+ **/
 class LMFeedPostMultipleMediaViewStyle private constructor(
     @ColorRes val indicatorActiveColor: Int,
     @ColorRes val indicatorInActiveColor: Int,

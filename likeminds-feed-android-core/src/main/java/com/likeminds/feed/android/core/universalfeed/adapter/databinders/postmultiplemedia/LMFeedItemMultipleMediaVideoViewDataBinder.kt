@@ -7,14 +7,14 @@ import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
-import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_IMAGE
+import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_VIDEO
 
 class LMFeedItemMultipleMediaVideoViewDataBinder(
     val listener: LMFeedUniversalFeedAdapterListener
 ) : LMFeedViewDataBinder<LmFeedItemMultipleMediaVideoBinding, LMFeedAttachmentViewData>() {
 
     override val viewType: Int
-        get() = ITEM_MULTIPLE_MEDIA_IMAGE
+        get() = ITEM_MULTIPLE_MEDIA_VIDEO
 
     override fun createBinder(parent: ViewGroup): LmFeedItemMultipleMediaVideoBinding {
         val binding = LmFeedItemMultipleMediaVideoBinding.inflate(

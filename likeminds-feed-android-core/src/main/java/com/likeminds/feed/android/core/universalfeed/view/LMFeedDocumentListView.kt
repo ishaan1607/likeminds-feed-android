@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.universalfeed.adapter.databinders.postdocuments
+package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -30,7 +30,7 @@ class LMFeedDocumentListView(
         linearLayoutManager = LinearLayoutManager(context)
         layoutManager = linearLayoutManager
 
-        // item decorator to add spacing between items
+        //item decorator to add spacing between items
         val dividerDrawable = ContextCompat.getDrawable(
             context,
             R.drawable.lm_feed_document_item_divider
@@ -51,6 +51,7 @@ class LMFeedDocumentListView(
         listener: LMFeedUniversalFeedAdapterListener
     ) {
         documentsAdapter = LMFeedDocumentsAdapter(listener)
+        adapter = documentsAdapter
         handleVisibleDocuments(mediaViewData, tvShowMore)
     }
 

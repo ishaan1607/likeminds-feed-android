@@ -20,8 +20,7 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
 ) : LMFeedViewStyle {
 
     class Builder {
-
-        private val createPostFabStyle: LMFeedFABStyle = LMFeedFABStyle.Builder()
+        private var createNewPostButtonViewStyle = LMFeedFABStyle.Builder()
             .isExtended(false)
             .backgroundColor(R.color.lm_feed_majorelle_blue)
             .icon(R.drawable.lm_feed_core_ic_new_post_plus)
@@ -34,8 +33,6 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
                     .build()
             )
             .build()
-
-        private var createNewPostButtonViewStyle = createPostFabStyle
 
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
             .titleTextStyle(
@@ -62,7 +59,7 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
         private var noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle =
             LMFeedNoEntityLayoutViewStyle.Builder()
                 .backgroundColor(R.color.lm_feed_white)
-                .actionStyle(createPostFabStyle)
+                .actionStyle(createNewPostButtonViewStyle)
                 .titleStyle(
                     LMFeedTextStyle.Builder()
                         .textSize(R.dimen.lm_feed_text_extra_large)

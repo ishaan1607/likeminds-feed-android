@@ -2,11 +2,11 @@ package com.likeminds.feed.android.core.post.viewstyle
 
 import android.text.TextUtils
 import android.view.View
-import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPostFooterViewStyle
-import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
-import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostMediaViewStyle
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPostFooterViewStyle
+import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
+import com.likeminds.feed.android.core.ui.widgets.postmedia.style.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedPostViewStyle private constructor(
@@ -14,10 +14,10 @@ class LMFeedPostViewStyle private constructor(
     val postHeaderViewStyle: LMFeedPostHeaderViewStyle,
     // post text content style
     val postContentTextStyle: LMFeedTextStyle,
-    //post footer style
-    val postFooterViewStyle: LMFeedPostFooterViewStyle,
     //post media style
-    val postMediaStyle: LMFeedPostMediaViewStyle
+    val postMediaStyle: LMFeedPostMediaViewStyle,
+    //post footer style
+    val postFooterViewStyle: LMFeedPostFooterViewStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -122,6 +122,27 @@ class LMFeedPostViewStyle private constructor(
                 .build()
 
         private var postMediaStyle: LMFeedPostMediaViewStyle = LMFeedPostMediaViewStyle.Builder()
+            .postImageMediaStyle(
+                LMFeedImageStyle.Builder()
+                    .build()
+            )
+            .postVideoMediaStyle(
+                LMFeedPostVideoMediaViewStyle.Builder()
+                    .build()
+            )
+            .postLinkStyle(
+                LMFeedPostLinkViewStyle.Builder()
+                    .build()
+            )
+            .postDocumentsMediaStyle(
+                LMFeedPostDocumentsMediaViewStyle.Builder()
+                    .build()
+            )
+            .postMultipleMediaStyle(
+                LMFeedPostMultipleMediaViewStyle.Builder()
+                    .indicatorSpacing(R.dimen.lm_feed_indicator_dots_spacing)
+                    .build()
+            )
             .build()
 
         fun postHeaderViewStyle(postHeaderViewStyle: LMFeedPostHeaderViewStyle) = apply {
@@ -132,26 +153,26 @@ class LMFeedPostViewStyle private constructor(
             this.postContentTextStyle = postContentTextStyle
         }
 
-        fun postFooterViewStyle(postFooterViewStyle: LMFeedPostFooterViewStyle) = apply {
-            this.postFooterViewStyle = postFooterViewStyle
-        }
-
         fun postMediaStyle(postMediaStyle: LMFeedPostMediaViewStyle) = apply {
             this.postMediaStyle = postMediaStyle
+        }
+
+        fun postFooterViewStyle(postFooterViewStyle: LMFeedPostFooterViewStyle) = apply {
+            this.postFooterViewStyle = postFooterViewStyle
         }
 
         fun build() = LMFeedPostViewStyle(
             postHeaderViewStyle,
             postContentTextStyle,
-            postFooterViewStyle,
-            postMediaStyle
+            postMediaStyle,
+            postFooterViewStyle
         )
     }
 
     fun toBuilder(): Builder {
         return Builder().postHeaderViewStyle(postHeaderViewStyle)
             .postContentTextStyle(postContentTextStyle)
-            .postFooterViewStyle(postFooterViewStyle)
             .postMediaStyle(postMediaStyle)
+            .postFooterViewStyle(postFooterViewStyle)
     }
 }
