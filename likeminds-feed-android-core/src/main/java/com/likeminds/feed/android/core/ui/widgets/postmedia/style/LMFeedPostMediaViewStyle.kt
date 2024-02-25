@@ -36,9 +36,7 @@ class LMFeedPostMediaViewStyle private constructor(
             apply { this.postDocumentsMediaStyle = postDocumentsMediaStyle }
 
         fun postMultipleMediaStyle(postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle?) =
-            apply {
-                this.postMultipleMediaStyle = postMultipleMediaStyle
-            }
+            apply { this.postMultipleMediaStyle = postMultipleMediaStyle }
 
         fun build() = LMFeedPostMediaViewStyle(
             postImageMediaStyle,

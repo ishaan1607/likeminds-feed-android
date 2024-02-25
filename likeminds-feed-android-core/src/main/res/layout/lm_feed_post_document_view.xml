@@ -27,8 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="3dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_document_type"
+            app:layout_constraintBottom_toTopOf="@id/guide_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/iv_document_icon"
             app:layout_constraintTop_toTopOf="@+id/iv_document_icon"
@@ -39,6 +38,13 @@
             tools:text="Getting started.png"
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="16sp" />
+        
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_document_pages"
@@ -55,7 +61,8 @@
             tools:text="2 Pages"
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="14sp"
-            tools:textStyle="normal" />
+            tools:textStyle="normal"
+            tools:visibility="visible" />
 
         <View
             android:id="@+id/view_meta_dot_1"
@@ -66,7 +73,8 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/tv_document_pages"
             app:layout_constraintStart_toEndOf="@+id/tv_document_pages"
-            app:layout_constraintTop_toTopOf="@+id/tv_document_pages" />
+            app:layout_constraintTop_toTopOf="@+id/tv_document_pages"
+            tools:visibility="visible" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_document_size"
@@ -82,7 +90,8 @@
             tools:text="23.5 MB"
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="14sp"
-            tools:textStyle="normal" />
+            tools:textStyle="normal"
+            tools:visibility="visible" />
 
         <View
             android:id="@+id/view_meta_dot_2"
@@ -93,7 +102,8 @@
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/tv_document_size"
             app:layout_constraintStart_toEndOf="@+id/tv_document_size"
-            app:layout_constraintTop_toTopOf="@+id/tv_document_size" />
+            app:layout_constraintTop_toTopOf="@+id/tv_document_size"
+            tools:visibility="visible" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_document_type"
@@ -110,7 +120,8 @@
             tools:textAllCaps="true"
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="14sp"
-            tools:textStyle="normal" />
+            tools:textStyle="normal"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

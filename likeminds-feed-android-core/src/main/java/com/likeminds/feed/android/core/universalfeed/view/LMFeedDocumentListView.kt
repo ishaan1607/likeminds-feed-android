@@ -62,9 +62,6 @@ class LMFeedDocumentListView @JvmOverloads constructor(
         val postDocumentsMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaStyle.postDocumentsMediaStyle ?: return
 
-        //if show more style is not provided then we will not show this view
-        postDocumentsMediaStyle.documentShowMoreStyle ?: return
-
         val visibleDocumentsLimit = postDocumentsMediaStyle.visibleDocumentsLimit
 
         val documents = mediaViewData.attachments
@@ -77,5 +74,8 @@ class LMFeedDocumentListView @JvmOverloads constructor(
             "+${documents.size - visibleDocumentsLimit} more".also { tvShowMore.text = it }
             documentsAdapter.replace(documents.take(visibleDocumentsLimit))
         }
+
+        //if show more style is not provided then we will not show this view
+        postDocumentsMediaStyle.documentShowMoreStyle ?: tvShowMore.hide()
     }
 }

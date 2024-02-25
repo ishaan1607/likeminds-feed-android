@@ -7,11 +7,10 @@ import android.widget.TextView
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
-import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.views.LMFeedButton
 
 class LMFeedTextStyle private constructor(
     @ColorRes val textColor: Int,
@@ -192,11 +191,8 @@ class LMFeedTextStyle private constructor(
 
             this.isAllCaps = textAllCaps
 
-            if (this@LMFeedTextStyle.maxLines != null) {
+            if (this@LMFeedTextStyle.maxLines != null && this@LMFeedTextStyle.ellipsize != null) {
                 this.maxLines = this@LMFeedTextStyle.maxLines
-            }
-
-            if (this@LMFeedTextStyle.ellipsize != null) {
                 this.ellipsize = this@LMFeedTextStyle.ellipsize
             }
 

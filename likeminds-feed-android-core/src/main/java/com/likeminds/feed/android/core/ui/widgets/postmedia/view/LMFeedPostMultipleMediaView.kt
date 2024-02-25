@@ -47,17 +47,17 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
 
             //sets active/inactive color for indicator
             setSliderColor(
-                context.getColor(postMultipleMediaStyle.indicatorActiveColor),
-                context.getColor(postMultipleMediaStyle.indicatorInActiveColor)
+                context.getColor(postMultipleMediaStyle.indicatorInActiveColor),
+                context.getColor(postMultipleMediaStyle.indicatorActiveColor)
             )
 
             //sets the active/inactive width for the indicator
             setSliderWidth(
-                resources.getDimension(postMultipleMediaStyle.indicatorActiveWidth),
                 resources.getDimension(
                     postMultipleMediaStyle.indicatorInactiveWidth
                         ?: postMultipleMediaStyle.indicatorActiveWidth
-                )
+                ),
+                resources.getDimension(postMultipleMediaStyle.indicatorActiveWidth)
             )
 
             //sets the style of the indicator
@@ -99,11 +99,11 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
             //registers page change callback
             viewpagerMultipleMedia.registerOnPageChangeCallback(multipleMediaOnPageChangeCallback)
 
-            //setups the indicator with the view pager
-            dotsIndicator.setupWithViewPager(viewpagerMultipleMedia)
-
             //replaces all the items in the multiple media post adapter
             multipleMediaPostAdapter.replace(attachments)
+
+            //setups the indicator with the view pager
+            dotsIndicator.setupWithViewPager(viewpagerMultipleMedia)
         }
     }
 }

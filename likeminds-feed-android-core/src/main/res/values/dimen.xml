@@ -28,5 +28,5 @@
 
     <!--    Media related-->
     <dimen name="lm_feed_indicator_dots_spacing">4dp</dimen>
-    <dimen name="lm_feed_indicator_dot_size">10dp</dimen>
+    <dimen name="lm_feed_indicator_dot_size">6dp</dimen>
 </resources>
