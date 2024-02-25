@@ -5,17 +5,19 @@ import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 
-class LMFeedPostDocumentsMediaStyle private constructor(
+class LMFeedPostDocumentsMediaViewStyle private constructor(
     val documentNameStyle: LMFeedTextStyle,
     val documentIconStyle: LMFeedIconStyle?,
     val documentPageCountStyle: LMFeedTextStyle?,
     val documentSizeStyle: LMFeedTextStyle?,
     val documentTypeStyle: LMFeedTextStyle?,
-    val visibleDocumentsLimit: Int?,
+    val documentShowMoreStyle: LMFeedTextStyle?,
+    val visibleDocumentsLimit: Int,
     @ColorRes val backgroundColor: Int?
-) {
+) : LMFeedViewStyle {
 
     class Builder {
         private var documentNameStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
@@ -30,7 +32,10 @@ class LMFeedPostDocumentsMediaStyle private constructor(
         private var documentPageCountStyle: LMFeedTextStyle? = null
         private var documentSizeStyle: LMFeedTextStyle? = null
         private var documentTypeStyle: LMFeedTextStyle? = null
-        private var visibleDocumentsLimit: Int? = null
+        private var documentShowMoreStyle: LMFeedTextStyle? = null
+
+        //todo: set these values in a const
+        private var visibleDocumentsLimit: Int = 3
 
         @ColorRes
         private var backgroundColor: Int? = null
@@ -50,18 +55,22 @@ class LMFeedPostDocumentsMediaStyle private constructor(
         fun documentTypeStyle(documentTypeStyle: LMFeedTextStyle?) =
             apply { this.documentTypeStyle = documentTypeStyle }
 
-        fun visibleDocumentsLimit(visibleDocumentsLimit: Int?) =
+        fun documentShowMoreStyle(documentShowMoreStyle: LMFeedTextStyle?) =
+            apply { this.documentShowMoreStyle = documentShowMoreStyle }
+
+        fun visibleDocumentsLimit(visibleDocumentsLimit: Int) =
             apply { this.visibleDocumentsLimit = visibleDocumentsLimit }
 
         fun backgroundColor(@ColorRes backgroundColor: Int?) =
             apply { this.backgroundColor = backgroundColor }
 
-        fun build() = LMFeedPostDocumentsMediaStyle(
+        fun build() = LMFeedPostDocumentsMediaViewStyle(
             documentNameStyle,
             documentIconStyle,
             documentPageCountStyle,
             documentSizeStyle,
             documentTypeStyle,
+            documentShowMoreStyle,
             visibleDocumentsLimit,
             backgroundColor
         )
@@ -73,6 +82,7 @@ class LMFeedPostDocumentsMediaStyle private constructor(
             .documentPageCountStyle(documentPageCountStyle)
             .documentSizeStyle(documentSizeStyle)
             .documentTypeStyle(documentTypeStyle)
+            .documentShowMoreStyle(documentShowMoreStyle)
             .visibleDocumentsLimit(visibleDocumentsLimit)
             .backgroundColor(backgroundColor)
     }

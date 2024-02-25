@@ -1,5 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.viewstyle
 
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
@@ -13,7 +15,8 @@ class LMFeedPostingViewStyle private constructor(
     val retryButtonTextStyle: LMFeedTextStyle,
     val postingDoneImageStyle: LMFeedImageStyle,
     @ColorRes val backgroundColor: Int?
-) {
+) : LMFeedViewStyle {
+
     class Builder {
         private var attachmentThumbnailImageStyle: LMFeedImageStyle? = null
         private var postingHeadingTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()

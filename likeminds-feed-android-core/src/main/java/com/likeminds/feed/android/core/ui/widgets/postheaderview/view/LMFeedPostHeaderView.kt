@@ -17,11 +17,9 @@ import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 class LMFeedPostHeaderView : ConstraintLayout {
 
     constructor(context: Context) : super(context) {
-
     }
 
     constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
-
     }
 
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
@@ -29,7 +27,6 @@ class LMFeedPostHeaderView : ConstraintLayout {
         attributeSet,
         defStyle
     ) {
-
     }
 
     private val inflater =
@@ -39,18 +36,20 @@ class LMFeedPostHeaderView : ConstraintLayout {
 
     fun setStyle(postHeaderViewStyle: LMFeedPostHeaderViewStyle) {
 
-        //set background color
-        if (postHeaderViewStyle.backgroundColor != null) {
-            setBackgroundColor(ContextCompat.getColor(context, postHeaderViewStyle.backgroundColor))
-        }
+        postHeaderViewStyle.apply {
+            //set background color
+            backgroundColor?.let {
+                setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
+            }
 
-        configureAuthorImage(postHeaderViewStyle.authorImageViewStyle)
-        configureAuthorName(postHeaderViewStyle.authorNameViewStyle)
-        configureTimestamp(postHeaderViewStyle.timestampTextStyle)
-        configureEditedTag(postHeaderViewStyle.postEditedTextStyle)
-        configureAuthorCustomTitle(postHeaderViewStyle.authorCustomTitleTextStyle)
-        configurePinIcon(postHeaderViewStyle.pinIconStyle)
-        configureMenuIcon(postHeaderViewStyle.menuIconStyle)
+            configureAuthorImage(authorImageViewStyle)
+            configureAuthorName(authorNameViewStyle)
+            configureTimestamp(timestampTextStyle)
+            configureEditedTag(postEditedTextStyle)
+            configureAuthorCustomTitle(authorCustomTitleTextStyle)
+            configurePinIcon(pinIconStyle)
+            configureMenuIcon(menuIconStyle)
+        }
     }
 
     private fun configureMenuIcon(menuIconStyle: LMFeedIconStyle?) {

@@ -81,9 +81,7 @@ class LMFeedItemPostSingleVideoViewDataBinder(
                 universalFeedAdapterListener,
                 returnBinder = {
                     return@setPostBindData
-                }, executeBinder = {
-                    // todo: initialize single video view here
-                }
+                }, executeBinder = {}
             )
         }
     }

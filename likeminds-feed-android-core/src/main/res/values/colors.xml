@@ -13,4 +13,5 @@
     <color name="lm_feed_light_grayish_blue">#e6ebf5</color>
     <color name="lm_feed_turquoise">#06C3AF</color>
     <color name="lm_feed_light_grey">#eeeeee</color>
-</resources>
+    <color name="lm_feed_cloudy_blue">#d0d8e2</color>
+    </resources>

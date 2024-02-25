@@ -5,20 +5,22 @@
     <data>
 
         <variable
-            name="documentData"
+            name="video"
             type="com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostDocumentView
-            android:id="@+id/document_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostVideoMediaView
+            android:id="@+id/post_video_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

@@ -45,7 +45,6 @@
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="16sp" />
 
-        <!-- TODO: check if we can remove scaleType from here  -->
         <com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostVideoMediaView
             android:id="@+id/post_video_view"
             android:layout_width="0dp"

@@ -14,6 +14,13 @@ object LMFeedValueUtils {
         return this?.isValidUrl() ?: false
     }
 
+    fun <T> List<T>.getItemInList(position: Int): T? {
+        if (position < 0 || position >= this.size) {
+            return null
+        }
+        return this[position]
+    }
+
     private fun String.isValidUrl(): Boolean {
         if (this.isEmpty()) {
             return false

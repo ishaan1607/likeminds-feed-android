@@ -1,15 +1,16 @@
-package com.likeminds.feed.android.core.utils
+package com.likeminds.feed.android.core.utils.user
 
 import android.util.Log
 import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
+import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import kotlinx.coroutines.*
 
 /**
  * This class helps to call `initiateUser()` API, to get access and refresh token
  */
-class ConnectUser private constructor(
+class LMFeedConnectUser private constructor(
     val apiKey: String,
     val userName: String,
     val uuid: String?,
@@ -27,7 +28,7 @@ class ConnectUser private constructor(
 
         fun deviceId(deviceId: String) = apply { this.deviceId = deviceId }
 
-        fun build(): ConnectUser {
+        fun build(): LMFeedConnectUser {
             //validate API key
             if (apiKey.isEmpty()) {
                 throw IllegalAccessException("API Key is not entered, it can't be empty. Please use InitiateUser.Builder() to add API Key.")
@@ -45,12 +46,15 @@ class ConnectUser private constructor(
             }
 
             //return the instance
-            return ConnectUser(apiKey, userName, uuid, deviceId)
+            return LMFeedConnectUser(apiKey, userName, uuid, deviceId)
         }
     }
 
     //initiate user API Call
-    fun initiateUser() {
+    fun initiateUser(
+        success: ((InitiateUserResponse?) -> Unit)? = null,
+        error: ((String?) -> Unit)? = null
+    ) {
         CoroutineScope(Dispatchers.IO).launch {
             val lmFeedClient = LMFeedClient.getInstance()
             val initiateRequest = InitiateUserRequest.Builder()
@@ -62,11 +66,18 @@ class ConnectUser private constructor(
                 .build()
 
             val initiateResponse = lmFeedClient.initiateUser(initiateRequest)
+
             Log.d(
                 LMFeedCoreApplication.LOG_TAG, """
                 initiate response: ${initiateResponse.success} ${initiateResponse.data?.user?.sdkClientInfo?.uuid}
             """.trimIndent()
             )
+
+            if (initiateResponse.success) {
+                success?.let { it(initiateResponse.data) }
+            } else {
+                error?.let { it(initiateResponse.errorMessage) }
+            }
         }
     }
 }

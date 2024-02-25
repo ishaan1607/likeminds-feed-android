@@ -2,10 +2,10 @@ package com.likeminds.feed.android.core.universalfeed.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
-import androidx.recyclerview.widget.RecyclerView
+import com.likeminds.feed.android.core.universalfeed.view.LMFeedUniversalFeedListView
 
 public fun LMFeedUniversalFeedViewModel.bindView(
-    view: RecyclerView,
+    view: LMFeedUniversalFeedListView,
     lifecycleOwner: LifecycleOwner
 ) {
     this.universalFeedResponse.observe(lifecycleOwner) { response ->
@@ -16,5 +16,14 @@ public fun LMFeedUniversalFeedViewModel.bindView(
             response: ${response.second.size}
         """.trimIndent()
         )
+
+        val page = response.first
+        val posts = response.second
+
+        if (page == 1){
+            view.replacePosts(posts)
+        }else{
+            view.addPosts(posts)
+        }
     }
 }
