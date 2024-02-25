@@ -1,6 +1,5 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -35,10 +34,23 @@ open class LMFeedUniversalFeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
+        observeResponses()
 
 //        binding.videoView.startPlayingRemoteUri(
 //            Uri.parse("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
 //        )
+    }
+
+    private fun observeResponses() {
+        lmFeedUniversalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
+            Log.d("PUI", "observer 2 fragment")
+            Log.d(
+                "PUI", """
+                    observer 2
+            response: ${response.second.size}
+        """.trimIndent()
+            )
+        }
     }
 
     private fun initListeners() {

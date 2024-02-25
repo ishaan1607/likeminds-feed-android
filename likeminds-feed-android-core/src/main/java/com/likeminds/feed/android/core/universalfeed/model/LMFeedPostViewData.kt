@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
 import com.likeminds.feed.android.core.post.model.*
+import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.base.model.*
 
@@ -10,6 +11,7 @@ class LMFeedPostViewData private constructor(
     val contentViewData: LMFeedPostContentViewData,
     val mediaViewData: LMFeedMediaViewData,
     val footerViewData: LMFeedPostFooterViewData,
+    val topicsViewData: List<LMFeedTopicViewData>,
     val fromPostLiked: Boolean,
     val fromPostSaved: Boolean,
     val fromVideoAction: Boolean,
@@ -52,6 +54,7 @@ class LMFeedPostViewData private constructor(
             LMFeedMediaViewData.Builder().build()
         private var footerViewData: LMFeedPostFooterViewData =
             LMFeedPostFooterViewData.Builder().build()
+        private var topicsViewData: List<LMFeedTopicViewData> = emptyList()
         private var fromPostLiked: Boolean = false
         private var fromPostSaved: Boolean = false
         private var fromVideoAction: Boolean = false
@@ -69,6 +72,9 @@ class LMFeedPostViewData private constructor(
         fun footerViewData(footerViewData: LMFeedPostFooterViewData) =
             apply { this.footerViewData = footerViewData }
 
+        fun topicsViewData(topicsViewData: List<LMFeedTopicViewData>) =
+            apply { this.topicsViewData = topicsViewData }
+
         fun fromPostLiked(fromPostLiked: Boolean) = apply { this.fromPostLiked = fromPostLiked }
         fun fromPostSaved(fromPostSaved: Boolean) = apply { this.fromPostSaved = fromPostSaved }
         fun fromVideoAction(fromVideoAction: Boolean) =
@@ -80,6 +86,7 @@ class LMFeedPostViewData private constructor(
             contentViewData,
             mediaViewData,
             footerViewData,
+            topicsViewData,
             fromPostLiked,
             fromPostSaved,
             fromVideoAction
