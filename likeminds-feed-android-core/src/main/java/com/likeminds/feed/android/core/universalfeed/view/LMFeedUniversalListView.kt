@@ -10,6 +10,7 @@ import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 
 class LMFeedUniversalListView @JvmOverloads constructor(
     context: Context,
@@ -21,6 +22,8 @@ class LMFeedUniversalListView @JvmOverloads constructor(
     private val dividerDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
 
     private lateinit var universalFeedAdapter: LMFeedUniversalFeedAdapter
+
+    val itemCount: Int get() = universalFeedAdapter.itemCount
 
     init {
         setHasFixedSize(true)
@@ -380,5 +383,24 @@ class LMFeedUniversalListView @JvmOverloads constructor(
                     .build()
             )
         )
+    }
+
+    /**
+     * Scroll to a position with offset from the top header
+     * @param position Index of the item to scroll to
+     */
+    fun scrollToPositionWithOffset(position: Int) {
+        post {
+            val px = (LMFeedViewUtils.dpToPx(75) * 1.5).toInt()
+            (layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                position,
+                px
+            )
+        }
+    }
+
+    fun update(position: Int, postItem: LMFeedPostViewData) {
+        Log.d("PUI", "update: $position")
+        universalFeedAdapter.update(position, postItem)
     }
 }

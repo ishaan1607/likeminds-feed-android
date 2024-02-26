@@ -23,6 +23,10 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     private lateinit var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper
 
+    companion object {
+        private const val LOG_TAG = "LMFeedUniversalFeedFragment"
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
@@ -172,6 +176,10 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         //todo:
     }
 
+    override fun onPostVideoMediaClick() {
+        //todo:
+    }
+
     override fun onPostLinkMediaClick(linkOGTags: LMFeedLinkOGTagsViewData) {
         //todo:
     }
@@ -188,12 +196,14 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         //todo:
     }
 
+    //called when the page in the multiple media post is changed
     override fun onPostMultipleMediaPageChangeCallback(position: Int) {
-        //todo:
+        onPostMultipleMediaPageChanged(position)
     }
 
+    //called when show more is clicked in the documents type post
     override fun onPostMultipleDocumentsExpanded(postData: LMFeedPostViewData, position: Int) {
-        //todo:
+        onPostDocumentsExpanded(postData, position)
     }
 
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
@@ -229,6 +239,32 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             setTitleText(getString(R.string.lm_feed_no_s_to_show))
             setSubtitleText(getString(R.string.lm_feed_be_the_first_one_to_s_here))
             setActionCTAText(getString(R.string.lm_feed_new_s))
+        }
+    }
+
+    protected open fun onPostMultipleMediaPageChanged(position: Int) {
+        Log.d(LOG_TAG, "onPostMultipleMediaPageChanged: $position")
+
+        // processes the current video whenever view pager's page is changed
+        postVideoAutoPlayHelper.playMostVisibleItem()
+    }
+
+    protected open fun onPostDocumentsExpanded(postData: LMFeedPostViewData, position: Int) {
+        Log.d("PUI", "onPostDocumentsExpanded: $position")
+        binding.rvUniversal.apply {
+            if (position == itemCount - 1) {
+                scrollToPositionWithOffset(position)
+            }
+
+            //updates the [isExpanded] for the document item to true
+            update(
+                position,
+                postData.toBuilder()
+                    .mediaViewData(postData.mediaViewData.toBuilder().isExpanded(true).build())
+                    .fromPostSaved(false)
+                    .fromPostLiked(false)
+                    .build()
+            )
         }
     }
 }

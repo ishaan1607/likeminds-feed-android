@@ -1,7 +1,10 @@
 package com.likeminds.feed.android.core.universalfeed.adapter.databinders
 
+import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.text.util.LinkifyCompat
+import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.feed.android.core.databinding.LmFeedItemPostSingleVideoBinding
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
@@ -9,6 +12,7 @@ import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_SINGLE_VIDEO
+import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 
 class LMFeedItemPostSingleVideoViewDataBinder(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
@@ -25,24 +29,13 @@ class LMFeedItemPostSingleVideoViewDataBinder(
         )
 
         binding.apply {
-            LMFeedPostBinderUtils.customizePostHeaderView(
-                postHeader,
-                universalFeedAdapterListener,
-                headerViewData
-            )
+            LMFeedPostBinderUtils.customizePostHeaderView(postHeader)
 
-            LMFeedPostBinderUtils.customizePostContentView(
-                tvPostContent,
-                universalFeedAdapterListener,
-                (postId ?: "")
-            )
+            LMFeedPostBinderUtils.customizePostContentView(tvPostContent)
 
-            LMFeedPostBinderUtils.customizePostFooterView(
-                postFooter,
-                universalFeedAdapterListener,
-                (postId ?: ""),
-                position
-            )
+            LMFeedPostBinderUtils.customizePostFooterView(postFooter)
+
+            setClickListeners(this)
 
             //set video media style to post video view
             val postVideoMediaStyle =
@@ -83,6 +76,65 @@ class LMFeedItemPostSingleVideoViewDataBinder(
                     return@setPostBindData
                 }, executeBinder = {}
             )
+        }
+    }
+
+    private fun setClickListeners(binding: LmFeedItemPostSingleVideoBinding) {
+        binding.apply {
+            postHeader.setMenuIconClickListener {
+                // todo: add required params and extend in the fragment
+                universalFeedAdapterListener.onPostMenuIconClick()
+            }
+
+            val postId = this.postId ?: return
+
+            // todo: test this otherwise move this to setTextContent function
+            tvPostContent.setOnClickListener {
+                universalFeedAdapterListener.onPostContentClick(postId)
+            }
+
+            val linkifyLinks =
+                (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
+            LinkifyCompat.addLinks(tvPostContent, linkifyLinks)
+            tvPostContent.movementMethod = LMFeedLinkMovementMethod { url ->
+                tvPostContent.setOnClickListener {
+                    return@setOnClickListener
+                }
+
+                universalFeedAdapterListener.handleLinkClick(url)
+                true
+            }
+
+            postHeader.setAuthorFrameClickListener {
+                val headerViewData = headerViewData ?: return@setAuthorFrameClickListener
+                val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+                coreCallback?.openProfile(headerViewData.user)
+            }
+
+            postVideoView.setOnClickListener {
+                // todo: add required data here
+                universalFeedAdapterListener.onPostVideoMediaClick()
+            }
+
+            postFooter.setLikeIconClickListener {
+                universalFeedAdapterListener.onPostLikeClick(position)
+            }
+
+            postFooter.setLikesCountClickListener {
+                universalFeedAdapterListener.onPostLikesCountClick(postId)
+            }
+
+            postFooter.setCommentsCountClickListener {
+                universalFeedAdapterListener.onPostCommentsCountClick(postId)
+            }
+
+            postFooter.setSaveIconListener {
+                universalFeedAdapterListener.onPostSaveClick(postId)
+            }
+
+            postFooter.setShareIconListener {
+                universalFeedAdapterListener.onPostShareClick(postId)
+            }
         }
     }
 }

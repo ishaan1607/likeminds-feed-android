@@ -10,8 +10,8 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostDocumentsMediaViewStyle
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedPostDocumentsMediaView : ConstraintLayout {
 
@@ -60,15 +60,9 @@ class LMFeedPostDocumentsMediaView : ConstraintLayout {
         }
     }
 
-    fun setShowMoreTextClickListener(
-        postViewData: LMFeedPostViewData?,
-        position: Int,
-        listener: LMFeedUniversalFeedAdapterListener
-    ) {
+    fun setShowMoreTextClickListener(listener: LMFeedOnClickListener) {
         binding.tvShowMore.setOnClickListener {
-            postViewData?.let { postViewData ->
-                listener.onPostMultipleDocumentsExpanded(postViewData, position)
-            }
+            listener.onClick()
         }
     }
 }

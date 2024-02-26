@@ -84,6 +84,9 @@ interface LMFeedUniversalFeedAdapterListener {
     //triggered when the image media of the post is clicked
     fun onPostImageMediaClick()
 
+    //triggered when the video media of the post is clicked
+    fun onPostVideoMediaClick()
+
     //triggered when the link media of the post is clicked
     fun onPostLinkMediaClick(linkOGTags: LMFeedLinkOGTagsViewData)
 

@@ -31,95 +31,31 @@ import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 
 object LMFeedPostBinderUtils {
 
-    // customizes the header view of the post and attaches all the relevant listeners
-    fun customizePostHeaderView(
-        authorFrame: LMFeedPostHeaderView,
-        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-        headerViewData: LMFeedPostHeaderViewData?
-    ) {
+    // customizes the header view of the post
+    fun customizePostHeaderView(authorFrame: LMFeedPostHeaderView) {
         authorFrame.apply {
             val postHeaderViewStyle =
                 LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle
 
             setStyle(postHeaderViewStyle)
-
-            setAuthorFrameClickListener {
-                if (headerViewData?.user == null) {
-                    return@setAuthorFrameClickListener
-                }
-
-                val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
-                coreCallback?.openProfile(headerViewData.user)
-            }
-
-            setMenuIconClickListener {
-                // todo: add required params and extend in the fragment
-                universalFeedAdapterListener.onPostMenuIconClick()
-            }
         }
     }
 
-    // customizes the content view of the post and attaches all the relevant listeners
-    fun customizePostContentView(
-        tvPostContent: LMFeedTextView,
-        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-        postId: String
-    ) {
+    // customizes the content view of the post
+    fun customizePostContentView(tvPostContent: LMFeedTextView) {
         tvPostContent.apply {
             val postContentTextStyle = LMFeedStyleTransformer.postViewStyle.postContentTextStyle
             setStyle(postContentTextStyle)
-
-            // todo: test this otherwise move this to setTextContent function
-            setOnClickListener {
-                universalFeedAdapterListener.onPostContentClick(postId)
-            }
-
-            val linkifyLinks =
-                (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
-            LinkifyCompat.addLinks(this, linkifyLinks)
-            movementMethod = LMFeedLinkMovementMethod { url ->
-                setOnClickListener {
-                    return@setOnClickListener
-                }
-
-                universalFeedAdapterListener.handleLinkClick(url)
-                true
-            }
         }
     }
 
-    // customizes the footer view of the post and attaches all the relevant listeners
-    fun customizePostFooterView(
-        postActionsLayout: LMFeedPostFooterView,
-        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-        postId: String,
-        position: Int
-    ) {
+    // customizes the footer view of the post
+    fun customizePostFooterView(postActionsLayout: LMFeedPostFooterView) {
         postActionsLayout.apply {
             val postFooterViewStyle =
                 LMFeedStyleTransformer.postViewStyle.postFooterViewStyle
 
             setStyle(postFooterViewStyle)
-
-            setLikeIconClickListener {
-                universalFeedAdapterListener.onPostLikeClick(position)
-            }
-
-            setLikesCountClickListener {
-                universalFeedAdapterListener.onPostLikesCountClick(postId)
-            }
-
-            setCommentsCountClickListener {
-                universalFeedAdapterListener.onPostCommentsCountClick(postId)
-            }
-
-            setSaveIconListener {
-                universalFeedAdapterListener.onPostSaveClick(postId)
-            }
-
-            setShareIconListener {
-                universalFeedAdapterListener.onPostShareClick(postId)
-            }
         }
     }
 

@@ -26,11 +26,7 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
         )
 
         binding.apply {
-            ivPost.setOnClickListener {
-                image?.let { imageViewData ->
-                    listener.onPostMultipleMediaImageClick(imageViewData)
-                }
-            }
+            setClickListeners(this)
 
             //sets image media style to multiple media image view
             val postImageMediaStyle =
@@ -54,6 +50,16 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
 
             // loads post image inside the multiple media image view
             LMFeedPostBinderUtils.bindMultipleMediaImageView(ivPost, image)
+        }
+    }
+
+    private fun setClickListeners(binding: LmFeedItemMultipleMediaImageBinding) {
+        binding.apply {
+            ivPost.setOnClickListener {
+                image?.let { imageViewData ->
+                    listener.onPostMultipleMediaImageClick(imageViewData)
+                }
+            }
         }
     }
 }
