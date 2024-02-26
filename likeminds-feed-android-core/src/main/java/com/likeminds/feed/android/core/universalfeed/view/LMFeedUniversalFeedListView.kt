@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
-import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.utils.LMFeedEndlessRecyclerViewScrollListener
 import com.likeminds.feed.android.core.utils.LMFeedPostVideoAutoPlayHelper
 
 class LMFeedUniversalFeedListView @JvmOverloads constructor(
@@ -16,11 +17,12 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
-    private val linearLayoutManager: LinearLayoutManager
+    val linearLayoutManager: LinearLayoutManager
     private val dividerDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
 
     private lateinit var universalFeedAdapter: LMFeedUniversalFeedAdapter
     private lateinit var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper
+    private lateinit var paginationScrollListener: LMFeedEndlessRecyclerViewScrollListener
 
     init {
         setHasFixedSize(true)
@@ -65,8 +67,20 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     fun setAdapter(
         listener: LMFeedUniversalFeedAdapterListener
     ) {
+        //setting adapter
         universalFeedAdapter = LMFeedUniversalFeedAdapter(listener)
         adapter = universalFeedAdapter
+    }
+
+    fun setPaginationScrollListener(scrollListener: LMFeedEndlessRecyclerViewScrollListener) {
+        paginationScrollListener = scrollListener
+        addOnScrollListener(scrollListener)
+    }
+
+    fun resetScrollListenerData() {
+        if (::paginationScrollListener.isInitialized) {
+            paginationScrollListener.resetData()
+        }
     }
 
     fun replacePosts(

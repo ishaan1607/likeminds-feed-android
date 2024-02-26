@@ -30,8 +30,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
-
-    protected val lmFeedUniversalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
+    private val lmFeedUniversalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -290,7 +289,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     protected open fun onFeedRefreshed() {
         mSwipeRefreshLayout.isRefreshing = true
-        // reset data for scroll listener
+        binding.rvUniversal.resetScrollListenerData()
         lmFeedUniversalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
     }
 }
