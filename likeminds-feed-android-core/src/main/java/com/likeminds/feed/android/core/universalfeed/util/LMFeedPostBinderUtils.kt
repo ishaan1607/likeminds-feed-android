@@ -4,7 +4,6 @@ import android.text.*
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.util.Linkify
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -21,7 +20,8 @@ import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPost
 import com.likeminds.feed.android.core.ui.widgets.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedSeeMoreUtil
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -184,7 +184,7 @@ object LMFeedPostBinderUtils {
         position: Int
     ) {
         contentView.apply {
-            val text = contentViewData.text ?: return
+            val postContent = contentViewData.text ?: return
             val maxLines = (LMFeedStyleTransformer.postViewStyle.postContentTextStyle.maxLines
                 ?: LMFeedTheme.DEFAULT_POST_MAX_LINES)
 
@@ -192,7 +192,7 @@ object LMFeedPostBinderUtils {
              * Text is modified as Linkify doesn't accept texts with these specific unicode characters
              * @see #Linkify.containsUnsupportedCharacters(String)
              */
-            val textForLinkify = text.getValidTextForLinkify()
+            val textForLinkify = postContent.getValidTextForLinkify()
 
             var alreadySeenFullContent = contentViewData.alreadySeenFullContent == true
 
@@ -203,11 +203,7 @@ object LMFeedPostBinderUtils {
                 show()
             }
 
-            val seeMoreColor = ContextCompat.getColor(
-                context,
-                R.color.lm_feed_brown_grey
-            )
-
+            val seeMoreColor = ContextCompat.getColor(context, R.color.lm_feed_brown_grey)
             val seeMore = SpannableStringBuilder(context.getString(R.string.lm_feed_see_more))
             seeMore.setSpan(
                 ForegroundColorSpan(seeMoreColor),
@@ -215,13 +211,11 @@ object LMFeedPostBinderUtils {
                 seeMore.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-
             val seeMoreClickableSpan = object : ClickableSpan() {
                 override fun onClick(view: View) {
                     setOnClickListener {
                         return@setOnClickListener
                     }
-
                     alreadySeenFullContent = true
                     universalFeedAdapterListener.updatePostSeenFullContent(position, true)
                 }
@@ -234,7 +228,7 @@ object LMFeedPostBinderUtils {
             // post is used here to get lines count in the text view
             post {
                 // todo: add member tagging decoder here
-                contentView.setText(
+                setText(
                     (contentViewData.text),
                     TextView.BufferType.EDITABLE
                 )
@@ -245,16 +239,12 @@ object LMFeedPostBinderUtils {
                     LMFeedTheme.getPostCharacterLimit()
                 )
 
-                Log.d("PUI", "setPostContentViewData1: $shortText")
-
                 val trimmedText =
                     if (!alreadySeenFullContent && !shortText.isNullOrEmpty()) {
                         editableText.subSequence(0, shortText.length)
                     } else {
                         editableText
                     }
-
-                Log.d("PUI", "setPostContentViewData: $trimmedText")
 
                 val seeMoreSpannableStringBuilder = SpannableStringBuilder()
                 if (!alreadySeenFullContent && !shortText.isNullOrEmpty()) {
@@ -268,7 +258,7 @@ object LMFeedPostBinderUtils {
                     )
                 }
 
-                this.text = TextUtils.concat(
+                contentView.text = TextUtils.concat(
                     trimmedText,
                     seeMoreSpannableStringBuilder
                 )
@@ -316,15 +306,7 @@ object LMFeedPostBinderUtils {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
 
-        //todo: move this to image view
-        LMFeedImageBindingUtil.loadImage(
-            ivPost,
-            mediaData.attachments.first().attachmentMeta.url,
-            placeholder = postImageMediaStyle.placeholderSrc,
-            isCircle = postImageMediaStyle.isCircle,
-            cornerRadius = (postImageMediaStyle.cornerRadius ?: 0),
-            showGreyScale = postImageMediaStyle.showGreyScale,
-        )
+        ivPost.setImage(mediaData.attachments.first().attachmentMeta.url, postImageMediaStyle)
     }
 
     fun bindPostMediaLinkView(
@@ -367,15 +349,7 @@ object LMFeedPostBinderUtils {
             LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
 
         attachment?.let {
-            //todo: move this to image view
-            LMFeedImageBindingUtil.loadImage(
-                ivPost,
-                attachment.attachmentMeta.url,
-                placeholder = postImageMediaStyle.placeholderSrc,
-                isCircle = postImageMediaStyle.isCircle,
-                cornerRadius = (postImageMediaStyle.cornerRadius ?: 0),
-                showGreyScale = postImageMediaStyle.showGreyScale,
-            )
+            ivPost.setImage(attachment.attachmentMeta.url, postImageMediaStyle)
         }
     }
 

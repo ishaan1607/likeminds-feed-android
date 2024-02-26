@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.model.ITEM_USER
 
 class LMFeedUserViewData private constructor(
     val id: Int,
@@ -16,7 +17,7 @@ class LMFeedUserViewData private constructor(
 ) : LMFeedBaseViewType {
 
     override val viewType: Int
-        get() = TODO("Not yet implemented")
+        get() = ITEM_USER
 
     class Builder {
         private var id: Int = 0

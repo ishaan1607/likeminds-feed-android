@@ -11,10 +11,7 @@ class LMFeedPostHeaderViewData private constructor(
     val createdAt: Long,
     val updatedAt: Long,
     val menuItems: List<LMFeedOverflowMenuItemViewData>
-) : LMFeedBaseViewType {
-
-    override val viewType: Int
-        get() = TODO("Not yet implemented")
+) {
 
     class Builder {
         private var isEdited: Boolean = false

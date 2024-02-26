@@ -244,7 +244,7 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                     startNewPlayer(
                         itemPostSingleVideoBinding.postVideoView,
                         attachmentMeta.url,
-                        true
+                        false
                     )
                 }
                 lastPlayerView = videoView
@@ -277,7 +277,7 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                         startNewPlayer(
                             itemMultipleMediaVideoBinding.postVideoView,
                             attachmentMeta.url,
-                            true
+                            false
                         )
                     }
                     lastPlayerView = videoView

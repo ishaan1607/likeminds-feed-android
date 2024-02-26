@@ -49,6 +49,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
             }
 
             configureVideoView(postVideoMediaViewStyle)
+            configureProgressBar(videoProgressStyle)
             configureVideoThumbnail(videoThumbnailStyle)
             configurePlayIcon(videoPlayPauseButton, showController)
             configureMuteIcon(videoMuteUnmuteButton)
@@ -58,6 +59,17 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
     private fun configureVideoView(postVideoMediaViewStyle: LMFeedPostVideoMediaViewStyle) {
         binding.videoView.apply {
             setStyle(postVideoMediaViewStyle)
+        }
+    }
+
+    private fun configureProgressBar(videoProgressStyle: LMFeedProgressBarStyle?) {
+        binding.pbVideoLoader.apply {
+            if (videoProgressStyle != null) {
+                setStyle(videoProgressStyle)
+                show()
+            } else {
+                hide()
+            }
         }
     }
 
@@ -78,7 +90,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
                 ivPlayPauseVideo.hide()
             } else {
                 ivPlayPauseVideo.setStyle(videoPlayPauseButton)
-                show()
+                ivPlayPauseVideo.show()
             }
         }
     }
@@ -150,6 +162,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
      * This will play new URI we have provided
      * @param isVideoLocal - whether the played video is local or not
      */
+    //todo: add thumbnail here
     fun playVideo(uri: Uri, isVideoLocal: Boolean) {
         binding.apply {
             if (isVideoLocal) {

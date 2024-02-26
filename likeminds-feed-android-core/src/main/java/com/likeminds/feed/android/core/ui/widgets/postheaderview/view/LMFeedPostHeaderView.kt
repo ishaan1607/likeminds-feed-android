@@ -9,7 +9,8 @@ import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.databinding.LmFeedPostHeaderViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.LMFeedTimeUtil
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
@@ -125,14 +126,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
         val authorImageViewStyle =
             LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle.authorImageViewStyle
 
-        LMFeedImageBindingUtil.loadImage(
-            binding.ivAuthorImage,
-            imageSrc,
-            authorImageViewStyle.placeholderSrc,
-            authorImageViewStyle.isCircle,
-            (authorImageViewStyle.cornerRadius ?: 0),
-            authorImageViewStyle.showGreyScale,
-        )
+        binding.ivAuthorImage.setImage(imageSrc, authorImageViewStyle)
     }
 
     /**

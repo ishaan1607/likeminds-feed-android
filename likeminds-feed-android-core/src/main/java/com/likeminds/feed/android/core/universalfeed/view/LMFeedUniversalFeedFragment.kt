@@ -19,7 +19,8 @@ import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeed
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType

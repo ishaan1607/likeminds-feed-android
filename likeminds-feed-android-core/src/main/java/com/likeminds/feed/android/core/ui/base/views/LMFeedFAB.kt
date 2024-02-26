@@ -10,7 +10,6 @@ class LMFeedFAB : ExtendedFloatingActionButton {
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-
     }
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
@@ -18,6 +17,5 @@ class LMFeedFAB : ExtendedFloatingActionButton {
         attrs,
         defStyle
     ) {
-
     }
 }

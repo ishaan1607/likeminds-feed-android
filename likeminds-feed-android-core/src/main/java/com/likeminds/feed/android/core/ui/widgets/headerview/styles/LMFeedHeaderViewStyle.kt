@@ -1,12 +1,12 @@
 package com.likeminds.feed.android.core.ui.widgets.headerview.styles
 
 import android.graphics.Typeface
-import androidx.annotation.*
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
-import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
 class LMFeedHeaderViewStyle private constructor(
     val titleTextStyle: LMFeedTextStyle,
@@ -15,12 +15,8 @@ class LMFeedHeaderViewStyle private constructor(
     @DimenRes val elevation: Int,
 
     // icon related
-    @DrawableRes val navigationIcon: Int?,
-    @ColorRes val navigationIconTint: Int?,
-    val navigationIconPadding: LMFeedPadding?,
-    @DrawableRes val searchIcon: Int?,
-    @ColorRes val searchIconTint: Int?,
-    val searchIconPadding: LMFeedPadding?,
+    val navigationIconStyle: LMFeedIconStyle?,
+    val searchIconStyle: LMFeedIconStyle?,
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -37,21 +33,9 @@ class LMFeedHeaderViewStyle private constructor(
         @DimenRes
         private var elevation: Int = R.dimen.lm_feed_elevation_small
 
-        @DrawableRes
-        private var navigationIcon: Int? = null
+        private var navigationIconStyle: LMFeedIconStyle? = null
 
-        @ColorRes
-        private var navigationIconTint: Int? = null
-
-        private var navigationIconPadding: LMFeedPadding? = null
-
-        @DrawableRes
-        private var searchIcon: Int? = null
-
-        @ColorRes
-        private var searchIconTint: Int? = null
-
-        private var searchIconPadding: LMFeedPadding? = null
+        private var searchIconStyle: LMFeedIconStyle? = null
 
         fun titleTextStyle(titleTextStyle: LMFeedTextStyle) =
             apply { this.titleTextStyle = titleTextStyle }
@@ -64,26 +48,11 @@ class LMFeedHeaderViewStyle private constructor(
 
         fun elevation(@DimenRes elevation: Int) = apply { this.elevation = elevation }
 
-        fun navigationIcon(@DrawableRes navigationIcon: Int?) =
-            apply { this.navigationIcon = navigationIcon }
+        fun navigationIconStyle(navigationIconStyle: LMFeedIconStyle?) =
+            apply { this.navigationIconStyle = navigationIconStyle }
 
-        fun navigationIconTint(@ColorRes navigationIconTint: Int?) = apply {
-            this.navigationIconTint = navigationIconTint
-        }
-
-        fun navigationIconPadding(navigationIconPadding: LMFeedPadding?) = apply {
-            this.navigationIconPadding = navigationIconPadding
-        }
-
-        fun searchIcon(@DrawableRes searchIcon: Int?) =
-            apply { this.searchIcon = searchIcon }
-
-        fun searchIconTint(@ColorRes searchIconTint: Int?) = apply {
-            this.searchIconTint = searchIconTint
-        }
-
-        fun searchIconPadding(searchIconPadding: LMFeedPadding?) = apply {
-            this.searchIconPadding = searchIconPadding
+        fun searchIconStyle(searchIconStyle: LMFeedIconStyle?) = apply {
+            this.searchIconStyle = searchIconStyle
         }
 
         fun build() = LMFeedHeaderViewStyle(
@@ -91,12 +60,8 @@ class LMFeedHeaderViewStyle private constructor(
             subtitleTextStyle,
             backgroundColor,
             elevation,
-            navigationIcon,
-            navigationIconTint,
-            navigationIconPadding,
-            searchIcon,
-            searchIconTint,
-            searchIconPadding
+            navigationIconStyle,
+            searchIconStyle
         )
     }
 
@@ -105,11 +70,7 @@ class LMFeedHeaderViewStyle private constructor(
             .subtitleTextStyle(subtitleTextStyle)
             .backgroundColor(backgroundColor)
             .elevation(elevation)
-            .navigationIcon(navigationIcon)
-            .navigationIconTint(navigationIconTint)
-            .navigationIconPadding(navigationIconPadding)
-            .searchIcon(searchIcon)
-            .searchIconTint(searchIconTint)
-            .searchIconPadding(searchIconPadding)
+            .navigationIconStyle(navigationIconStyle)
+            .searchIconStyle(searchIconStyle)
     }
 }
