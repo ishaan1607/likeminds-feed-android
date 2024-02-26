@@ -55,6 +55,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         initiateAutoPlayer()
     }
 
+    override fun onPause() {
+        super.onPause()
+        destroyAutoPlayer()
+    }
+
     private fun initListeners() {
         binding.apply {
             fabNewPost.setOnClickListener {

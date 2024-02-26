@@ -2,7 +2,6 @@ package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
@@ -309,6 +308,17 @@ class LMFeedUniversalListView @JvmOverloads constructor(
                                         .postId("post-2")
                                         .build(),
                                     LMFeedAttachmentViewData.Builder()
+                                        .attachmentType(VIDEO)
+                                        .attachmentMeta(
+                                            LMFeedAttachmentMetaViewData.Builder()
+                                                .name("Image-1")
+                                                .size(10000)
+                                                .url("https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+                                                .build()
+                                        )
+                                        .postId("post-2")
+                                        .build(),
+                                    LMFeedAttachmentViewData.Builder()
                                         .attachmentType(IMAGE)
                                         .attachmentMeta(
                                             LMFeedAttachmentMetaViewData.Builder()
@@ -370,7 +380,7 @@ class LMFeedUniversalListView @JvmOverloads constructor(
                                             LMFeedAttachmentMetaViewData.Builder()
                                                 .name("Image-1")
                                                 .size(10000)
-                                                .url("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
+                                                .url("https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
                                                 .build()
                                         )
                                         .postId("post-2")
@@ -400,7 +410,6 @@ class LMFeedUniversalListView @JvmOverloads constructor(
     }
 
     fun update(position: Int, postItem: LMFeedPostViewData) {
-        Log.d("PUI", "update: $position")
         universalFeedAdapter.update(position, postItem)
     }
 }
