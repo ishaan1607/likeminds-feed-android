@@ -121,6 +121,8 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     private fun initUniversalFeedRecyclerView() {
+        LMFeedProgressBarHelper.showProgress(binding.progressBar)
+        lmFeedUniversalFeedViewModel.getFeed(1, null)
         binding.rvUniversal.apply {
             setAdapter(this@LMFeedUniversalFeedFragment)
 

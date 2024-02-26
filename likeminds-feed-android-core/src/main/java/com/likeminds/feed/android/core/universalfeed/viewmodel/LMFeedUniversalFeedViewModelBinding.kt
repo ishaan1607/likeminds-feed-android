@@ -8,7 +8,6 @@ public fun LMFeedUniversalFeedViewModel.bindView(
     view: LMFeedUniversalFeedListView,
     lifecycleOwner: LifecycleOwner
 ) {
-    getFeed(1)
     this.universalFeedResponse.observe(lifecycleOwner) { response ->
         Log.d("PUI", "observer 1 binding")
         Log.d(
