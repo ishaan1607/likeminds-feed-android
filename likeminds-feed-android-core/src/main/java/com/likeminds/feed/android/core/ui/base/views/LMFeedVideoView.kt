@@ -11,8 +11,10 @@ import com.google.android.exoplayer2.upstream.DefaultAllocator
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.upstream.cache.CacheDataSource
 import com.google.android.exoplayer2.util.Util
+import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostVideoMediaViewStyle
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedVideoCache
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -25,8 +27,7 @@ class LMFeedVideoView @JvmOverloads constructor(
 
     private lateinit var exoPlayer: ExoPlayer
     private var progressBar: LMFeedProgressBar? = null
-    private var thumbnail: LMFeedImageView? = null
-    private var thumbnailSrc: Any? = null
+    private var thumbnailView: LMFeedImageView? = null
 
     private var lastPos: Long = 0
 
@@ -79,23 +80,25 @@ class LMFeedVideoView @JvmOverloads constructor(
                 super.onPlaybackStateChanged(playbackState)
                 when (playbackState) {
                     Player.STATE_READY -> {
-                        Log.d("PUI", "STATE_READY: ")
-                        thumbnail?.hide()
+                        Log.d(LOG_TAG, "STATE_READY: ")
+                        show()
+                        thumbnailView?.hide()
                         progressBar?.hide()
                     }
 
                     Player.STATE_BUFFERING -> {
-                        thumbnail?.hide()
+                        Log.d(LOG_TAG, "STATE_BUFFERING: ")
                         progressBar?.show()
                     }
 
                     Player.STATE_IDLE -> {
+                        Log.d(LOG_TAG, "STATE_IDLE: ")
                         progressBar?.hide()
 
                     }
 
                     Player.STATE_ENDED -> {
-                        thumbnail?.hide()
+                        Log.d(LOG_TAG, "STATE_ENDED: ")
                         progressBar?.hide()
                     }
                 }
@@ -109,10 +112,11 @@ class LMFeedVideoView @JvmOverloads constructor(
     fun startPlayingRemoteUri(
         videoUri: Uri,
         progressBar: LMFeedProgressBar,
-        thumbnail: LMFeedImageView
+        thumbnailView: LMFeedImageView,
+        thumbnailSrc: Any? = null
     ) {
         this.progressBar = progressBar
-        this.thumbnail = thumbnail
+        setThumbnail(thumbnailView, thumbnailSrc)
 
         val mediaSource =
             ProgressiveMediaSource.Factory(cacheDataSourceFactory)
@@ -129,10 +133,11 @@ class LMFeedVideoView @JvmOverloads constructor(
     fun startPlayingLocalUri(
         videoUri: Uri,
         progressBar: LMFeedProgressBar,
-        thumbnail: LMFeedImageView
+        thumbnailView: LMFeedImageView,
+        thumbnailSrc: Any? = null
     ) {
         this.progressBar = progressBar
-        this.thumbnail = thumbnail
+        setThumbnail(thumbnailView, thumbnailSrc)
 
         val mediaSource = MediaItem.fromUri(videoUri)
         exoPlayer.setMediaItem(mediaSource)
@@ -158,18 +163,21 @@ class LMFeedVideoView @JvmOverloads constructor(
 
     fun setStyle(postVideoMediaStyle: LMFeedPostVideoMediaViewStyle) {
         keepScreenOn = postVideoMediaStyle.keepScreenOn
-
-        if (postVideoMediaStyle.showController) {
-            useController = true
-            controllerShowTimeoutMs = 0
-            controllerAutoShow = true
-        } else {
-            useController = false
-        }
+        useController = postVideoMediaStyle.showController
+        controllerAutoShow = postVideoMediaStyle.controllerAutoShow
+        controllerShowTimeoutMs = postVideoMediaStyle.controllerShowTimeoutMs
     }
 
-    // todo: test this
-    fun setThumbnail(thumbnail: Any?) {
-        this.thumbnailSrc = thumbnail
+    private fun setThumbnail(thumbnailView: LMFeedImageView, thumbnailSrc: Any?) {
+        this.thumbnailView = thumbnailView
+
+        val thumbnailStyle =
+            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle?.videoThumbnailStyle
+                ?: return
+
+        val finalThumbnailSrc = thumbnailSrc ?: thumbnailStyle.imageSrc
+
+        thumbnailView.show()
+        thumbnailView.setImage(finalThumbnailSrc, thumbnailStyle)
     }
 }

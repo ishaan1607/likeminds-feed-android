@@ -5,7 +5,6 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
-import com.likeminds.feed.android.core.utils.LMFeedImageBindingUtil
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedImageStyle private constructor(
@@ -83,14 +82,7 @@ class LMFeedImageStyle private constructor(
 
     fun apply(imageView: LMFeedImageView) {
         imageView.apply {
-            LMFeedImageBindingUtil.loadImage(
-                this,
-                imageSrc,
-                placeholderSrc,
-                isCircle,
-                cornerRadius ?: 0,
-                showGreyScale
-            )
+            setImage(imageSrc, this@LMFeedImageStyle)
 
             if (this@LMFeedImageStyle.scaleType != null) {
                 this.scaleType = this@LMFeedImageStyle.scaleType

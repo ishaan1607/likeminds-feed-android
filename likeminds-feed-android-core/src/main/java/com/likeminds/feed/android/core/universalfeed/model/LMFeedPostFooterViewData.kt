@@ -1,16 +1,11 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
-import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
-
 class LMFeedPostFooterViewData private constructor(
     val likesCount: Int,
     val commentsCount: Int,
     val isSaved: Boolean,
     val isLiked: Boolean
-) : LMFeedBaseViewType {
-
-    override val viewType: Int
-        get() = TODO("Not yet implemented")
+) {
 
     class Builder {
         private var likesCount: Int = 0

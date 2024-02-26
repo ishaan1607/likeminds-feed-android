@@ -9,7 +9,7 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostLinkMediaViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostLinkViewStyle
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.isImageValid
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -166,14 +166,7 @@ class LMFeedPostLinkMediaView : MaterialCardView {
         binding.ivLink.apply {
             if (imageSrc.isImageValid()) {
                 show()
-                LMFeedImageBindingUtil.loadImage(
-                    binding.ivLink,
-                    imageSrc,
-                    linkImageViewStyle.placeholderSrc,
-                    linkImageViewStyle.isCircle,
-                    (linkImageViewStyle.cornerRadius ?: 0),
-                    linkImageViewStyle.showGreyScale,
-                )
+                binding.ivLink.setImage(imageSrc, linkImageViewStyle)
             } else {
                 hide()
             }

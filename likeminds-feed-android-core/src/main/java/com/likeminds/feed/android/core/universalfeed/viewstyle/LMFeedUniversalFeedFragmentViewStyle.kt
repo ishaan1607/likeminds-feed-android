@@ -44,15 +44,19 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
                     .build()
             )
             .backgroundColor(R.color.lm_feed_white)
-            .searchIcon(R.drawable.lm_feed_core_ic_search_icon)
-            .searchIconTint(R.color.lm_feed_black)
-            .searchIconPadding(
-                LMFeedPadding(
-                    R.dimen.lm_feed_icon_padding,
-                    R.dimen.lm_feed_icon_padding,
-                    R.dimen.lm_feed_icon_padding,
-                    R.dimen.lm_feed_icon_padding
-                )
+            .searchIconStyle(
+                LMFeedIconStyle.Builder()
+                    .iconTint(R.color.lm_feed_black)
+                    .inActiveSrc(R.drawable.lm_feed_core_ic_search_icon)
+                    .iconPadding(
+                        LMFeedPadding(
+                            R.dimen.lm_feed_icon_padding,
+                            R.dimen.lm_feed_icon_padding,
+                            R.dimen.lm_feed_icon_padding,
+                            R.dimen.lm_feed_icon_padding
+                        )
+                    )
+                    .build()
             )
             .build()
 

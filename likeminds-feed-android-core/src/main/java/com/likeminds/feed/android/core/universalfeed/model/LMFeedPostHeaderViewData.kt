@@ -1,7 +1,5 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
-import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
-
 // todo: add menu items here
 class LMFeedPostHeaderViewData private constructor(
     val isEdited: Boolean,
@@ -9,10 +7,7 @@ class LMFeedPostHeaderViewData private constructor(
     val userId: String,
     val user: LMFeedUserViewData,
     val createdAt: Long
-) : LMFeedBaseViewType {
-
-    override val viewType: Int
-        get() = TODO("Not yet implemented")
+) {
 
     class Builder {
         private var isEdited: Boolean = false

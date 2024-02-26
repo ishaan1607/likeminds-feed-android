@@ -11,6 +11,8 @@ class LMFeedPostVideoMediaViewStyle private constructor(
     val videoMuteUnmuteButton: LMFeedIconStyle?,
     val showController: Boolean,
     val keepScreenOn: Boolean,
+    val controllerAutoShow: Boolean,
+    val controllerShowTimeoutMs: Int,
     @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
@@ -20,6 +22,8 @@ class LMFeedPostVideoMediaViewStyle private constructor(
         private var videoMuteUnmuteButton: LMFeedIconStyle? = null
         private var showController: Boolean = false
         private var keepScreenOn: Boolean = true
+        private var controllerAutoShow: Boolean = false
+        private var controllerShowTimeoutMs: Int = 0
 
         @ColorRes
         private var backgroundColor: Int? = null
@@ -35,6 +39,12 @@ class LMFeedPostVideoMediaViewStyle private constructor(
 
         fun showController(showController: Boolean) = apply { this.showController = showController }
         fun keepScreenOn(keepScreenOn: Boolean) = apply { this.keepScreenOn = keepScreenOn }
+        fun controllerAutoShow(controllerAutoShow: Boolean) =
+            apply { this.controllerAutoShow = controllerAutoShow }
+
+        fun controllerShowTimeoutMs(controllerShowTimeoutMs: Int) =
+            apply { this.controllerShowTimeoutMs = controllerShowTimeoutMs }
+
         fun backgroundColor(backgroundColor: Int?) =
             apply { this.backgroundColor = backgroundColor }
 
@@ -44,6 +54,8 @@ class LMFeedPostVideoMediaViewStyle private constructor(
             videoMuteUnmuteButton,
             showController,
             keepScreenOn,
+            controllerAutoShow,
+            controllerShowTimeoutMs,
             backgroundColor
         )
     }
@@ -54,6 +66,8 @@ class LMFeedPostVideoMediaViewStyle private constructor(
             .videoMuteUnmuteButton(videoMuteUnmuteButton)
             .showController(showController)
             .keepScreenOn(keepScreenOn)
+            .controllerAutoShow(controllerAutoShow)
+            .controllerShowTimeoutMs(controllerShowTimeoutMs)
             .backgroundColor(backgroundColor)
     }
 }

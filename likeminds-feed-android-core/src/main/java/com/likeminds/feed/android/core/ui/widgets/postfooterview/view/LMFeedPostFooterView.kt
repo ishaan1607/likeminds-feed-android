@@ -144,7 +144,7 @@ class LMFeedPostFooterView : ConstraintLayout {
      * @param listener [LMFeedOnClickListener] interface to have click listener
      */
     fun setCommentsCountClickListener(listener: LMFeedOnClickListener) {
-        binding.ivLike.setOnClickListener {
+        binding.tvCommentsCount.setOnClickListener {
             listener.onClick()
         }
     }

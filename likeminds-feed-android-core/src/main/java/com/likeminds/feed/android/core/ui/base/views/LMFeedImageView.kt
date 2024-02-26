@@ -3,6 +3,8 @@ package com.likeminds.feed.android.core.ui.base.views
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.utils.LMFeedImageBindingUtil
 
 /**
  * Represents a basic image view
@@ -20,5 +22,18 @@ class LMFeedImageView : AppCompatImageView {
         attrs,
         defStyle
     ) {
+    }
+
+    fun setImage(imageSrc: Any?, imageViewStyle: LMFeedImageStyle) {
+        imageViewStyle.apply {
+            LMFeedImageBindingUtil.loadImage(
+                this@LMFeedImageView,
+                imageSrc,
+                placeholderSrc,
+                isCircle,
+                cornerRadius ?: 0,
+                showGreyScale
+            )
+        }
     }
 }

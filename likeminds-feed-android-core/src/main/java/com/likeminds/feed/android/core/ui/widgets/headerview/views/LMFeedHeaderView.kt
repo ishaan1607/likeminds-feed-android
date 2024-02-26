@@ -9,11 +9,9 @@ import com.likeminds.feed.android.core.databinding.LmFeedHeaderViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.styles.LMFeedHeaderViewStyle
-import com.likeminds.feed.android.core.utils.LMFeedImageBindingUtil
-import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
-import com.likeminds.feed.android.core.utils.LMFeedViewUtils.setTint
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedHeaderView : ConstraintLayout {
 
@@ -38,10 +36,13 @@ class LMFeedHeaderView : ConstraintLayout {
 
     fun setStyle(headerViewStyle: LMFeedHeaderViewStyle) {
 
-        // sets background color
+        //sets background color
         setBackgroundColor(ContextCompat.getColor(context, headerViewStyle.backgroundColor))
 
-        // configure header view elements
+        //sets the elevation of the header view
+        elevation = resources.getDimension(headerViewStyle.elevation)
+
+        //configure header view elements
         configureTitle(headerViewStyle.titleTextStyle)
         configureSubtitle(headerViewStyle.subtitleTextStyle)
         configureNavigationIcon(headerViewStyle)
@@ -57,62 +58,30 @@ class LMFeedHeaderView : ConstraintLayout {
             if (subtitleTextStyle == null) {
                 hide()
             } else {
-                show()
                 setStyle(subtitleTextStyle)
+                show()
             }
         }
     }
 
     private fun configureNavigationIcon(headerViewStyle: LMFeedHeaderViewStyle) {
         binding.ivHeaderNavigation.apply {
-            if (headerViewStyle.navigationIcon == null) {
-                this.hide()
+            if (headerViewStyle.navigationIconStyle == null) {
+                hide()
             } else {
-                this.show()
-                LMFeedImageBindingUtil.loadImage(this, headerViewStyle.navigationIcon)
-
-                // set tint of the icon
-                if (headerViewStyle.navigationIconTint != null) {
-                    setTint(headerViewStyle.navigationIconTint)
-                }
-
-                // sets padding for navigation icon
-                val navigationIconPadding = headerViewStyle.navigationIconPadding
-                if (navigationIconPadding != null) {
-                    setPadding(
-                        navigationIconPadding.paddingLeft,
-                        navigationIconPadding.paddingTop,
-                        navigationIconPadding.paddingRight,
-                        navigationIconPadding.paddingBottom
-                    )
-                }
+                setStyle(headerViewStyle.navigationIconStyle)
+                show()
             }
         }
     }
 
     private fun configureSearchIcon(headerViewStyle: LMFeedHeaderViewStyle) {
         binding.ivHeaderSearch.apply {
-            if (headerViewStyle.searchIcon == null) {
-                this.hide()
+            if (headerViewStyle.searchIconStyle == null) {
+                hide()
             } else {
-                this.show()
-                LMFeedImageBindingUtil.loadImage(this, headerViewStyle.searchIcon)
-
-                // set tint of the icon
-                if (headerViewStyle.searchIconTint != null) {
-                    setTint(headerViewStyle.searchIconTint)
-                }
-
-                // sets padding for search icon
-                val searchIconPadding = headerViewStyle.searchIconPadding
-                if (searchIconPadding != null) {
-                    setPadding(
-                        resources.getDimensionPixelOffset(searchIconPadding.paddingLeft),
-                        resources.getDimensionPixelOffset(searchIconPadding.paddingTop),
-                        resources.getDimensionPixelOffset(searchIconPadding.paddingRight),
-                        resources.getDimensionPixelOffset(searchIconPadding.paddingBottom)
-                    )
-                }
+                setStyle(headerViewStyle.searchIconStyle)
+                show()
             }
         }
     }

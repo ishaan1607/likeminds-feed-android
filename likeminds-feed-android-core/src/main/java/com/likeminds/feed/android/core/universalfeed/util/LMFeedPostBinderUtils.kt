@@ -4,7 +4,6 @@ import android.text.*
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.util.Linkify
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -21,7 +20,8 @@ import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPost
 import com.likeminds.feed.android.core.ui.widgets.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedSeeMoreUtil
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -306,15 +306,7 @@ object LMFeedPostBinderUtils {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
 
-        //todo: move this to image view
-        LMFeedImageBindingUtil.loadImage(
-            ivPost,
-            mediaData.attachments.first().attachmentMeta.url,
-            placeholder = postImageMediaStyle.placeholderSrc,
-            isCircle = postImageMediaStyle.isCircle,
-            cornerRadius = (postImageMediaStyle.cornerRadius ?: 0),
-            showGreyScale = postImageMediaStyle.showGreyScale,
-        )
+        ivPost.setImage(mediaData.attachments.first().attachmentMeta.url, postImageMediaStyle)
     }
 
     fun bindPostMediaLinkView(
@@ -357,15 +349,7 @@ object LMFeedPostBinderUtils {
             LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
 
         attachment?.let {
-            //todo: move this to image view
-            LMFeedImageBindingUtil.loadImage(
-                ivPost,
-                attachment.attachmentMeta.url,
-                placeholder = postImageMediaStyle.placeholderSrc,
-                isCircle = postImageMediaStyle.isCircle,
-                cornerRadius = (postImageMediaStyle.cornerRadius ?: 0),
-                showGreyScale = postImageMediaStyle.showGreyScale,
-            )
+            ivPost.setImage(attachment.attachmentMeta.url, postImageMediaStyle)
         }
     }
 
