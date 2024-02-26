@@ -78,7 +78,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
                 ivPlayPauseVideo.hide()
             } else {
                 ivPlayPauseVideo.setStyle(videoPlayPauseButton)
-                show()
+                ivPlayPauseVideo.show()
             }
         }
     }

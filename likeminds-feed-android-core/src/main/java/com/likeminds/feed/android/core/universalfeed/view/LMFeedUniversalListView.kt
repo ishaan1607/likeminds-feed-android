@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
@@ -37,6 +38,8 @@ class LMFeedUniversalListView @JvmOverloads constructor(
         dividerDrawable?.let { drawable ->
             dividerDecoration.setDrawable(drawable)
         }
+
+        addItemDecoration(dividerDecoration)
     }
 
     fun setAdapter(
@@ -44,7 +47,9 @@ class LMFeedUniversalListView @JvmOverloads constructor(
     ) {
         universalFeedAdapter = LMFeedUniversalFeedAdapter(listener)
         adapter = universalFeedAdapter
+    }
 
+    fun replace(feed: List<LMFeedPostViewData>) {
         universalFeedAdapter.replace(
             listOf(
                 LMFeedPostViewData.Builder()

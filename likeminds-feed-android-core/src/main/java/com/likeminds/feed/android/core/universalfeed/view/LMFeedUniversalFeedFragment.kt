@@ -15,10 +15,13 @@ import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderV
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.utils.LMFeedPostVideoAutoPlayHelper
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 
 open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterListener {
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
+
+    private lateinit var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,6 +43,12 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         initUI()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        initiateAutoPlayer()
     }
 
     private fun initListeners() {
@@ -70,11 +79,49 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         binding.rvUniversal.apply {
             setAdapter(this@LMFeedUniversalFeedFragment)
         }
+        //todo: remove this
+        setFeedAndScrollToTop(listOf())
+    }
 
+    //set posts through diff utils and scroll to top of the feed
+    private fun setFeedAndScrollToTop(feed: List<LMFeedPostViewData>) {
+        binding.rvUniversal.apply {
+            replace(feed)
+            scrollToPosition(0)
+        }
+        refreshAutoPlayer()
+    }
+
+    /**
+     * Initializes the [postVideoAutoPlayHelper] with the recyclerView
+     * And starts observing
+     **/
+    private fun initiateAutoPlayer() {
+        postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper.getInstance(binding.rvUniversal)
+        postVideoAutoPlayHelper.attachScrollListenerForVideo()
+        postVideoAutoPlayHelper.playMostVisibleItem()
+    }
+
+    // removes the old player and refreshes auto play
+    private fun refreshAutoPlayer() {
+        if (!::postVideoAutoPlayHelper.isInitialized) {
+            initiateAutoPlayer()
+        }
+        postVideoAutoPlayHelper.removePlayer()
+        postVideoAutoPlayHelper.playMostVisibleItem()
+    }
+
+    // removes the player and destroys the [postVideoAutoPlayHelper]
+    private fun destroyAutoPlayer() {
+        if (::postVideoAutoPlayHelper.isInitialized) {
+            postVideoAutoPlayHelper.detachScrollListenerForVideo()
+            postVideoAutoPlayHelper.destroy()
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        destroyAutoPlayer()
     }
 
     override fun onDetach() {

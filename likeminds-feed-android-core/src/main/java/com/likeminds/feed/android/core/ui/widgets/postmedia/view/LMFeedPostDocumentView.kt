@@ -73,7 +73,6 @@ class LMFeedPostDocumentView : ConstraintLayout {
             if (documentPageCountStyle == null) {
                 hide()
             } else {
-                show()
                 setStyle(documentPageCountStyle)
             }
         }
@@ -84,7 +83,6 @@ class LMFeedPostDocumentView : ConstraintLayout {
             if (documentSizeStyle == null) {
                 hide()
             } else {
-                show()
                 setStyle(documentSizeStyle)
             }
         }
@@ -95,7 +93,6 @@ class LMFeedPostDocumentView : ConstraintLayout {
             if (documentTypeStyle == null) {
                 hide()
             } else {
-                show()
                 setStyle(documentTypeStyle)
             }
         }
@@ -140,8 +137,8 @@ class LMFeedPostDocumentView : ConstraintLayout {
     fun setDocumentSize(documentSize: Long?) {
         binding.apply {
             if (documentSize != null) {
-                tvDocumentSize.show()
                 // todo: add this once media is implemented
+//                tvDocumentSize.show()
 //                tvDocumentSize.text = MediaUtils.getFileSizeText(attachmentMeta.size)
                 if (tvDocumentSize.isVisible) {
                     viewMetaDot1.show()

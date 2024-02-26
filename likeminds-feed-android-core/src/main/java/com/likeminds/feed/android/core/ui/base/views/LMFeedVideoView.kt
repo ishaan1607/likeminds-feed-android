@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.ui.base.views
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import android.util.Log
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.StyledPlayerView
@@ -78,7 +79,7 @@ class LMFeedVideoView @JvmOverloads constructor(
                 super.onPlaybackStateChanged(playbackState)
                 when (playbackState) {
                     Player.STATE_READY -> {
-                        alpha = 1f
+                        Log.d("PUI", "STATE_READY: ")
                         thumbnail?.hide()
                         progressBar?.hide()
                     }
@@ -159,10 +160,11 @@ class LMFeedVideoView @JvmOverloads constructor(
         keepScreenOn = postVideoMediaStyle.keepScreenOn
 
         if (postVideoMediaStyle.showController) {
+            useController = true
             controllerShowTimeoutMs = 0
             controllerAutoShow = true
         } else {
-            controllerAutoShow = false
+            useController = false
         }
     }
 
