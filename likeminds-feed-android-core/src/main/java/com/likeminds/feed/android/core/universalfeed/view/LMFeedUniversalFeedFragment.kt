@@ -1,10 +1,12 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
@@ -15,13 +17,22 @@ import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderV
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
-import com.likeminds.feed.android.core.utils.LMFeedPostVideoAutoPlayHelper
+import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
+import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
+import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 
 open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterListener {
+
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
     private lateinit var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper
+
+    private val lmFeedUniversalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
 
     companion object {
         private const val LOG_TAG = "LMFeedUniversalFeedFragment"
@@ -40,19 +51,25 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         customizeCreateNewPostButton(binding.fabNewPost)
         customizeUniversalFeedHeaderView(binding.headerViewUniversal)
         customizeNoPostLayout(binding.layoutNoPost)
+        customizePostingLayout(binding.layoutPosting)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initListeners()
         initUI()
+        initListeners()
+        observeResponses()
     }
 
     override fun onResume() {
         super.onResume()
+        binding.rvUniversal.refreshAutoPlayer()
+    }
 
-        initiateAutoPlayer()
+    private fun initUI() {
+        initUniversalFeedRecyclerView()
+        initSwipeRefreshLayout()
     }
 
     override fun onPause() {
@@ -77,60 +94,90 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             layoutNoPost.setActionFABClickListener {
                 onCreateNewPostClick()
             }
+
+            layoutPosting.setRetryCTAClickListener {
+                onRetryUploadClicked()
+            }
         }
     }
 
-    private fun initUI() {
-        initUniversalFeedRecyclerView()
+    private fun observeResponses() {
+        lmFeedUniversalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
+            Log.d("PUI", "observer 2 fragment")
+            Log.d(
+                "PUI", """
+                    observer 2
+            response: ${response.second.size}
+        """.trimIndent()
+            )
+
+            LMFeedProgressBarHelper.hideProgress(binding.progressBar)
+            val page = response.first
+            val posts = response.second
+
+            if (mSwipeRefreshLayout.isRefreshing) {
+                checkForNoPost(posts)
+                binding.rvUniversal.apply {
+                    replacePosts(posts)
+                    scrollToPosition(0)
+                    refreshAutoPlayer()
+                }
+                mSwipeRefreshLayout.isRefreshing = false
+                return@observe
+            }
+
+            if (page == 1) {
+                checkForNoPost(posts)
+            } else {
+                binding.rvUniversal.refreshAutoPlayer()
+            }
+        }
     }
 
     private fun initUniversalFeedRecyclerView() {
+        LMFeedProgressBarHelper.showProgress(binding.progressBar)
+        lmFeedUniversalFeedViewModel.getFeed(1, null)
         binding.rvUniversal.apply {
             setAdapter(this@LMFeedUniversalFeedFragment)
+
+            lmFeedUniversalFeedViewModel.bindView(this, viewLifecycleOwner)
         }
-        //todo: remove this
-        setFeedAndScrollToTop(listOf())
     }
 
-    //set posts through diff utils and scroll to top of the feed
-    private fun setFeedAndScrollToTop(feed: List<LMFeedPostViewData>) {
-        binding.rvUniversal.apply {
-            replace(feed)
-            scrollToPosition(0)
+    private fun initSwipeRefreshLayout() {
+        mSwipeRefreshLayout = binding.swipeRefreshLayout
+        mSwipeRefreshLayout.apply {
+            setColorSchemeColors(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.lm_feed_majorelle_blue
+                )
+            )
+
+            setOnRefreshListener {
+                onFeedRefreshed()
+            }
         }
-        refreshAutoPlayer()
     }
 
-    /**
-     * Initializes the [postVideoAutoPlayHelper] with the recyclerView
-     * And starts observing
-     **/
-    private fun initiateAutoPlayer() {
-        postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper.getInstance(binding.rvUniversal)
-        postVideoAutoPlayHelper.attachScrollListenerForVideo()
-        postVideoAutoPlayHelper.playMostVisibleItem()
-    }
-
-    // removes the old player and refreshes auto play
-    private fun refreshAutoPlayer() {
-        if (!::postVideoAutoPlayHelper.isInitialized) {
-            initiateAutoPlayer()
-        }
-        postVideoAutoPlayHelper.removePlayer()
-        postVideoAutoPlayHelper.playMostVisibleItem()
-    }
-
-    // removes the player and destroys the [postVideoAutoPlayHelper]
-    private fun destroyAutoPlayer() {
-        if (::postVideoAutoPlayHelper.isInitialized) {
-            postVideoAutoPlayHelper.detachScrollListenerForVideo()
-            postVideoAutoPlayHelper.destroy()
+    private fun checkForNoPost(feed: List<LMFeedBaseViewType>) {
+        if (feed.isNotEmpty()) {
+            binding.apply {
+                layoutNoPost.hide()
+                fabNewPost.show()
+                rvUniversal.show()
+            }
+        } else {
+            binding.apply {
+                layoutNoPost.show()
+                fabNewPost.hide()
+                rvUniversal.hide()
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        destroyAutoPlayer()
     }
 
     override fun onDetach() {
@@ -138,47 +185,47 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostContentClick(postId: String) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun onPostLikeClick(position: Int) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun onPostLikesCountClick(postId: String) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun onPostCommentsCountClick(postId: String) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun onPostSaveClick(postId: String) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun onPostShareClick(postId: String) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun updateFromLikedSaved(position: Int) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun updatePostSeenFullContent(position: Int, alreadySeenFullContent: Boolean) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun handleLinkClick(url: String) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun onPostMenuIconClick() {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun onPostImageMediaClick() {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun onPostVideoMediaClick() {
@@ -186,19 +233,19 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostLinkMediaClick(linkOGTags: LMFeedLinkOGTagsViewData) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun onPostDocumentMediaClick(document: LMFeedAttachmentViewData) {
-        //todo:
+//        TODO(TODO"Not yet implemented")
     }
 
     override fun onPostMultipleMediaImageClick(image: LMFeedAttachmentViewData) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     override fun onPostMultipleMediaVideoClick(video: LMFeedAttachmentViewData) {
-        //todo:
+//        TODO("Not yet implemented")
     }
 
     //called when the page in the multiple media post is changed
@@ -245,6 +292,26 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             setSubtitleText(getString(R.string.lm_feed_be_the_first_one_to_s_here))
             setActionCTAText(getString(R.string.lm_feed_new_s))
         }
+    }
+
+    protected open fun customizePostingLayout(layoutPosting: LMFeedPostingView) {
+        layoutPosting.apply {
+            setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.postingViewStyle)
+
+
+            setPostingText(getString(R.string.lm_feed_creating_s))
+            setRetryCTAText(getString(R.string.lm_feed_retry))
+        }
+    }
+
+    protected open fun onRetryUploadClicked() {
+        Log.d("PUI", "default onRetryUploadClicked")
+    }
+
+    protected open fun onFeedRefreshed() {
+        mSwipeRefreshLayout.isRefreshing = true
+        binding.rvUniversal.resetScrollListenerData()
+        lmFeedUniversalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
     }
 
     protected open fun onPostMultipleMediaPageChanged(position: Int) {
