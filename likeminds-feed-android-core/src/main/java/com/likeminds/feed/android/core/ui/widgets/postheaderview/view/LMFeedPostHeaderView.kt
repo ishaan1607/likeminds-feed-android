@@ -126,6 +126,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
         var authorImageViewStyle =
             LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle.authorImageViewStyle
 
+        // todo: confirm
         if (authorImageViewStyle.placeholderSrc == null) {
             authorImageViewStyle = authorImageViewStyle.toBuilder().placeholderSrc(
                 LMFeedMemberImageUtil.getNameDrawable(
@@ -188,7 +189,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
      */
     fun setAuthorCustomTitle(customTitle: String?) {
         binding.tvCustomTitle.apply {
-            if (customTitle == null) {
+            if (customTitle.isNullOrEmpty()) {
                 hide()
             } else {
                 show()

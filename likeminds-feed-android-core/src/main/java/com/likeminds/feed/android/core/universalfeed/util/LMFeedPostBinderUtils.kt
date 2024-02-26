@@ -3,12 +3,9 @@ package com.likeminds.feed.android.core.universalfeed.util
 import android.text.*
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.text.util.Linkify
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.text.util.LinkifyCompat
-import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
@@ -27,7 +24,6 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_IMAGE
 import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_VIDEO
-import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 
 object LMFeedPostBinderUtils {
 
@@ -222,7 +218,7 @@ object LMFeedPostBinderUtils {
             }
             setLikesCount(likesCountText)
 
-            val commentsCountText = if (footerViewData.likesCount == 0) {
+            val commentsCountText = if (footerViewData.commentsCount == 0) {
                 context.getString(R.string.lm_feed_add_comment)
             } else {
                 context.resources.getQuantityString(
