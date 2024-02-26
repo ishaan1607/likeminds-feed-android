@@ -132,6 +132,11 @@ class LMFeedPostViewStyle private constructor(
             )
             .postVideoMediaStyle(
                 LMFeedPostVideoMediaViewStyle.Builder()
+                    .videoProgressStyle(
+                        LMFeedProgressBarStyle.Builder()
+                            .progressColor(R.color.lm_feed_majorelle_blue)
+                            .build()
+                    )
                     .backgroundColor(R.color.lm_feed_white)
                     .build()
             )

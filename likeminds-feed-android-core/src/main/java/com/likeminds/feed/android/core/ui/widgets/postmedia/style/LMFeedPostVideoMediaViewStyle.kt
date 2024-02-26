@@ -1,12 +1,12 @@
 package com.likeminds.feed.android.core.ui.widgets.postmedia.style
 
 import androidx.annotation.ColorRes
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedPostVideoMediaViewStyle private constructor(
     val videoThumbnailStyle: LMFeedImageStyle?,
+    val videoProgressStyle: LMFeedProgressBarStyle?,
     val videoPlayPauseButton: LMFeedIconStyle?,
     val videoMuteUnmuteButton: LMFeedIconStyle?,
     val showController: Boolean,
@@ -18,6 +18,7 @@ class LMFeedPostVideoMediaViewStyle private constructor(
 
     class Builder {
         private var videoThumbnailStyle: LMFeedImageStyle? = null
+        private var videoProgressStyle: LMFeedProgressBarStyle? = null
         private var videoPlayPauseButton: LMFeedIconStyle? = null
         private var videoMuteUnmuteButton: LMFeedIconStyle? = null
         private var showController: Boolean = false
@@ -30,6 +31,9 @@ class LMFeedPostVideoMediaViewStyle private constructor(
 
         fun videoThumbnailStyle(videoThumbnailStyle: LMFeedImageStyle?) =
             apply { this.videoThumbnailStyle = videoThumbnailStyle }
+
+        fun videoProgressStyle(videoProgressStyle: LMFeedProgressBarStyle?) =
+            apply { this.videoProgressStyle = videoProgressStyle }
 
         fun videoPlayPauseButton(videoPlayPauseButton: LMFeedIconStyle?) =
             apply { this.videoPlayPauseButton = videoPlayPauseButton }
@@ -50,6 +54,7 @@ class LMFeedPostVideoMediaViewStyle private constructor(
 
         fun build() = LMFeedPostVideoMediaViewStyle(
             videoThumbnailStyle,
+            videoProgressStyle,
             videoPlayPauseButton,
             videoMuteUnmuteButton,
             showController,
@@ -62,6 +67,7 @@ class LMFeedPostVideoMediaViewStyle private constructor(
 
     fun toBuilder(): Builder {
         return Builder().videoThumbnailStyle(videoThumbnailStyle)
+            .videoProgressStyle(videoProgressStyle)
             .videoPlayPauseButton(videoPlayPauseButton)
             .videoMuteUnmuteButton(videoMuteUnmuteButton)
             .showController(showController)
