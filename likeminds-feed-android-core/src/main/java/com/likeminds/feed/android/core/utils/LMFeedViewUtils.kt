@@ -1,9 +1,11 @@
 package com.likeminds.feed.android.core.utils
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
@@ -47,5 +49,10 @@ object LMFeedViewUtils {
             setShimmer(shimmer)
         }
         return shimmerDrawable
+    }
+
+    fun showShortToast(context: Context?, text: String?) {
+        if (context == null || text.isNullOrEmpty()) return
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
     }
 }

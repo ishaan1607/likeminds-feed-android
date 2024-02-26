@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -237,7 +238,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostDocumentMediaClick(document: LMFeedAttachmentViewData) {
-//        TODO(TODO"Not yet implemented")
+        onPostDocumentClick(document)
     }
 
     override fun onPostMultipleMediaImageClick(image: LMFeedAttachmentViewData) {
@@ -338,5 +339,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                     .build()
             )
         }
+    }
+
+    protected open fun onPostDocumentClick(document: LMFeedAttachmentViewData) {
+        //open the pdf using Android's document view
+        val pdfUri = Uri.parse(document.attachmentMeta.url ?: "")
+        LMFeedAndroidUtils.startDocumentViewer(requireContext(), pdfUri)
     }
 }

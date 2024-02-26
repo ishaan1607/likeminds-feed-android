@@ -28,4 +28,5 @@
     </plurals>
     <string name="lm_feed_edited">Edited</string>
     <string name="lm_feed_just_now">Just now</string>
+    <string name="no_application_found_to_open_this_document">No application found to open this document</string>
 </resources>
