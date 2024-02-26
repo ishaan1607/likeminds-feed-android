@@ -9,8 +9,8 @@ import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.databinding.LmFeedPostHeaderViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
-import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
-import com.likeminds.feed.android.core.utils.LMFeedTimeUtil
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
+import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
@@ -120,13 +120,22 @@ class LMFeedPostHeaderView : ConstraintLayout {
     /**
      * Sets author image view.
      *
-     * @param imageSrc - image source to be set as author image.
+     * @param user - data of the author.
      */
-    fun setAuthorImage(imageSrc: Any) {
-        val authorImageViewStyle =
+    fun setAuthorImage(user: LMFeedUserViewData) {
+        var authorImageViewStyle =
             LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle.authorImageViewStyle
 
-        binding.ivAuthorImage.setImage(imageSrc, authorImageViewStyle)
+        if (authorImageViewStyle.placeholderSrc == null) {
+            authorImageViewStyle = authorImageViewStyle.toBuilder().placeholderSrc(
+                LMFeedMemberImageUtil.getNameDrawable(
+                    user.sdkClientInfoViewData.uuid,
+                    user.name,
+                    authorImageViewStyle.isCircle,
+                ).first
+            ).build()
+        }
+        binding.ivAuthorImage.setImage(user.imageUrl, authorImageViewStyle)
     }
 
     /**

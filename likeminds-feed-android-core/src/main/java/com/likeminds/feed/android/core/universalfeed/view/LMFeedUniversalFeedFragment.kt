@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -19,8 +20,7 @@ import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeed
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
-import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
-import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
@@ -74,7 +74,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     override fun onPause() {
         super.onPause()
-        destroyAutoPlayer()
+        binding.rvUniversal.destroyAutoPlayer()
     }
 
     private fun initListeners() {
@@ -318,7 +318,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         Log.d(LOG_TAG, "onPostMultipleMediaPageChanged: $position")
 
         // processes the current video whenever view pager's page is changed
-        postVideoAutoPlayHelper.playMostVisibleItem()
+        binding.rvUniversal.refreshAutoPlayer()
     }
 
     protected open fun onPostDocumentsExpanded(postData: LMFeedPostViewData, position: Int) {

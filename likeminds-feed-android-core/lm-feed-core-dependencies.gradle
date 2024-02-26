@@ -16,5 +16,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    api 'community.likeminds:likemindsfeed:1.7.2000'
+    api 'community.likeminds:likemindsfeed:1.9.9'
 }

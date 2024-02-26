@@ -106,7 +106,7 @@ object LMFeedPostBinderUtils {
             val author = headerViewData.user
             setAuthorName(author.name)
             setAuthorCustomTitle(author.customTitle)
-            setAuthorImage(author.imageUrl)
+            setAuthorImage(author)
 
             setTimestamp(headerViewData.createdAt)
         }
