@@ -3,8 +3,10 @@ package com.likeminds.feed.android.core.universalfeed.view
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
@@ -17,10 +19,17 @@ import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeed
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
-import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 
 open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterListener {
+
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+
+
     protected val lmFeedUniversalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
 
     override fun onCreateView(
@@ -38,21 +47,19 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initListeners()
         initUI()
+        initListeners()
         observeResponses()
     }
 
-    private fun observeResponses() {
-        lmFeedUniversalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
-            Log.d("PUI", "observer 2 fragment")
-            Log.d(
-                "PUI", """
-                    observer 2
-            response: ${response.second.size}
-        """.trimIndent()
-            )
-        }
+    override fun onResume() {
+        super.onResume()
+        binding.rvUniversal.refreshAutoPlayer()
+    }
+
+    private fun initUI() {
+        initUniversalFeedRecyclerView()
+        initSwipeRefreshLayout()
     }
 
     private fun initListeners() {
@@ -79,9 +86,37 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         }
     }
 
-    private fun initUI() {
-        initUniversalFeedRecyclerView()
-        lmFeedUniversalFeedViewModel.getFeed(1)
+    private fun observeResponses() {
+        lmFeedUniversalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
+            Log.d("PUI", "observer 2 fragment")
+            Log.d(
+                "PUI", """
+                    observer 2
+            response: ${response.second.size}
+        """.trimIndent()
+            )
+
+            LMFeedProgressBarHelper.hideProgress(binding.progressBar)
+            val page = response.first
+            val posts = response.second
+
+            if (mSwipeRefreshLayout.isRefreshing) {
+                checkForNoPost(posts)
+                binding.rvUniversal.apply {
+                    replacePosts(posts)
+                    scrollToPosition(0)
+                    refreshAutoPlayer()
+                }
+                mSwipeRefreshLayout.isRefreshing = false
+                return@observe
+            }
+
+            if (page == 1) {
+                checkForNoPost(posts)
+            } else {
+                binding.rvUniversal.refreshAutoPlayer()
+            }
+        }
     }
 
     private fun initUniversalFeedRecyclerView() {
@@ -89,6 +124,38 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             setAdapter(this@LMFeedUniversalFeedFragment)
 
             lmFeedUniversalFeedViewModel.bindView(this, viewLifecycleOwner)
+        }
+    }
+
+    private fun initSwipeRefreshLayout() {
+        mSwipeRefreshLayout = binding.swipeRefreshLayout
+        mSwipeRefreshLayout.apply {
+            setColorSchemeColors(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.lm_feed_majorelle_blue
+                )
+            )
+
+            setOnRefreshListener {
+                onFeedRefreshed()
+            }
+        }
+    }
+
+    private fun checkForNoPost(feed: List<LMFeedBaseViewType>) {
+        if (feed.isNotEmpty()) {
+            binding.apply {
+                layoutNoPost.hide()
+                fabNewPost.show()
+                rvUniversal.show()
+            }
+        } else {
+            binding.apply {
+                layoutNoPost.show()
+                fabNewPost.hide()
+                rvUniversal.hide()
+            }
         }
     }
 
@@ -216,5 +283,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     protected open fun onRetryUploadClicked() {
         Log.d("PUI", "default onRetryUploadClicked")
+    }
+
+    protected open fun onFeedRefreshed() {
+        mSwipeRefreshLayout.isRefreshing = true
+        // reset data for scroll listener
+        lmFeedUniversalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
     }
 }

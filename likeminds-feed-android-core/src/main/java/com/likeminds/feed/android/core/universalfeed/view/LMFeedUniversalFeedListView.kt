@@ -8,6 +8,7 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.utils.LMFeedPostVideoAutoPlayHelper
 
 class LMFeedUniversalFeedListView @JvmOverloads constructor(
     context: Context,
@@ -19,6 +20,7 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     private val dividerDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
 
     private lateinit var universalFeedAdapter: LMFeedUniversalFeedAdapter
+    private lateinit var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper
 
     init {
         setHasFixedSize(true)
@@ -36,6 +38,28 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         dividerDrawable?.let { drawable ->
             dividerDecoration.setDrawable(drawable)
         }
+
+        //todo: testing required
+        initiateAutoPlayer()
+    }
+
+    /**
+     * Initializes the [postVideoAutoPlayHelper] with the recyclerView
+     * And starts observing
+     **/
+    private fun initiateAutoPlayer() {
+        postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper.getInstance(this)
+        postVideoAutoPlayHelper.attachScrollListenerForVideo()
+        postVideoAutoPlayHelper.playMostVisibleItem()
+    }
+
+    // removes the old player and refreshes auto play
+    fun refreshAutoPlayer() {
+        if (!::postVideoAutoPlayHelper.isInitialized) {
+            initiateAutoPlayer()
+        }
+        postVideoAutoPlayHelper.removePlayer()
+        postVideoAutoPlayHelper.playMostVisibleItem()
     }
 
     fun setAdapter(
@@ -43,47 +67,6 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     ) {
         universalFeedAdapter = LMFeedUniversalFeedAdapter(listener)
         adapter = universalFeedAdapter
-
-        universalFeedAdapter.replace(
-            listOf(
-                LMFeedPostViewData.Builder()
-                    .id("post-1")
-                    .headerViewData(
-                        LMFeedPostHeaderViewData.Builder()
-                            .isEdited(true)
-                            .isPinned(true)
-                            .userId("user-1")
-                            .user(
-                                LMFeedUserViewData.Builder()
-                                    .id(1)
-                                    .name("Shubh Gupta")
-                                    .imageUrl("https://images.unsplash.com/photo-1605559911160-a3d95d213904?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D")
-                                    .userUniqueId("user-1")
-//                                    .customTitle("Community Manager")
-                                    .isGuest(false)
-                                    .isDeleted(false)
-                                    .sdkClientInfoViewData(
-                                        LMFeedSDKClientInfoViewData.Builder()
-                                            .community(1)
-                                            .user(1)
-                                            .userUniqueId("user-1")
-                                            .uuid("user-1")
-                                            .build()
-                                    )
-                                    .uuid("user-1")
-                                    .build()
-                            )
-                            .build()
-                    )
-                    .contentViewData(
-                        LMFeedPostContentViewData.Builder()
-                            .text("Customizable UI")
-                            .alreadySeenFullContent(false)
-                            .build()
-                    )
-                    .build()
-            )
-        )
     }
 
     fun replacePosts(

@@ -72,5 +72,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/lm_feed_layout_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_view_universal" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

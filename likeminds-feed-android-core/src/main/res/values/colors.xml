@@ -14,4 +14,5 @@
     <color name="lm_feed_turquoise">#06C3AF</color>
     <color name="lm_feed_light_grey">#eeeeee</color>
     <color name="lm_feed_cloudy_blue">#d0d8e2</color>
+    <color name="lm_feed_background">#f9f9f9</color>
     </resources>

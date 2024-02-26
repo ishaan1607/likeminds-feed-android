@@ -48,6 +48,16 @@ class LMFeedUniversalFeedAdapter(
     operator fun get(position: Int): LMFeedBaseViewType? {
         return items().getItemInList(position)
     }
+
+    fun replaceTextOnlyBinder(viewDataBinder: LMFeedViewDataBinder<*, *>) {
+        val view = viewDataBinder.viewType
+
+        val indexOfViewData = this.supportedViewDataBinder.indexOfFirst {
+            it.viewType == view
+        }
+
+        this.supportedViewDataBinder[indexOfViewData] = viewDataBinder
+    }
 }
 
 interface LMFeedUniversalFeedAdapterListener {

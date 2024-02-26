@@ -8,6 +8,7 @@ public fun LMFeedUniversalFeedViewModel.bindView(
     view: LMFeedUniversalFeedListView,
     lifecycleOwner: LifecycleOwner
 ) {
+    getFeed(1)
     this.universalFeedResponse.observe(lifecycleOwner) { response ->
         Log.d("PUI", "observer 1 binding")
         Log.d(
@@ -20,9 +21,9 @@ public fun LMFeedUniversalFeedViewModel.bindView(
         val page = response.first
         val posts = response.second
 
-        if (page == 1){
+        if (page == 1) {
             view.replacePosts(posts)
-        }else{
+        } else {
             view.addPosts(posts)
         }
     }
