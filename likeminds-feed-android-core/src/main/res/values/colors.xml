@@ -2,6 +2,7 @@
 <resources>
     <color name="lm_feed_white">#FFFFFF</color>
     <color name="lm_feed_majorelle_blue">#5046E5</color>
+    <color name="lm_feed_majorelle_blue_10">#1A5046E5</color>
     <color name="lm_feed_black">#000000</color>
     <color name="lm_feed_grey">#666666</color>
     <color name="lm_feed_dark_grey">#333333</color>

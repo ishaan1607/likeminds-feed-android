@@ -29,4 +29,7 @@
     <!--    Media related-->
     <dimen name="lm_feed_indicator_dots_spacing">4dp</dimen>
     <dimen name="lm_feed_indicator_dot_size">6dp</dimen>
+
+    <dimen name="lm_feed_topic_chip_group_horizontal_spacing">4dp</dimen>
+    <dimen name="lm_feed_topic_chip_group_vertical_spacing">4dp</dimen>
 </resources>
