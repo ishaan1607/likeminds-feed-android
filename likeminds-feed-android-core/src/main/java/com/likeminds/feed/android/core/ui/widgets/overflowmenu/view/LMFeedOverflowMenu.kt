@@ -1,7 +1,6 @@
 package com.likeminds.feed.android.core.ui.widgets.overflowmenu.view
 
 import android.content.Context
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
@@ -31,7 +30,6 @@ class LMFeedOverflowMenu(context: Context, view: View) : PopupMenu(context, view
         menuItems: List<LMFeedOverflowMenuItemViewData>
     ) {
         menuItems.forEach { menuItem ->
-            Log.d("PUI", "addMenuItems: ${menuItem.id} ${menuItem.title}")
             menu.add(
                 Menu.NONE,
                 menuItem.id,

@@ -391,24 +391,44 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     protected open fun onPostMenuItemClick(menuId: Int, postViewData: LMFeedPostViewData) {
         when (menuId) {
             EDIT_POST_MENU_ITEM_ID -> {
-                Log.d("PUI", "EDIT_POST_MENU_ITEM_ID")
+                onEditPostMenuClick(menuId, postViewData)
             }
 
             DELETE_POST_MENU_ITEM_ID -> {
-                Log.d("PUI", "DELETE_POST_MENU_ITEM_ID")
+                onDeletePostMenuClick(menuId, postViewData)
             }
 
             REPORT_POST_MENU_ITEM_ID -> {
-                Log.d("PUI", "REPORT_POST_MENU_ITEM_ID")
+                onReportPostMenuClick(menuId, postViewData)
             }
 
             PIN_POST_MENU_ITEM_ID -> {
-                Log.d("PUI", "PIN_POST_MENU_ITEM_ID")
+                onPinPostMenuClick(menuId, postViewData)
             }
 
             UNPIN_POST_MENU_ITEM_ID -> {
-                Log.d("PUI", "UNPIN_POST_MENU_ITEM_ID")
+                onUnpinPostMenuClick(menuId, postViewData)
             }
         }
+    }
+
+    protected open fun onEditPostMenuClick(menuId: Int, postViewData: LMFeedPostViewData) {
+        //todo:
+    }
+
+    protected open fun onDeletePostMenuClick(menuId: Int, postViewData: LMFeedPostViewData) {
+        //todo:
+    }
+
+    protected open fun onReportPostMenuClick(menuId: Int, postViewData: LMFeedPostViewData) {
+        //todo:
+    }
+
+    protected open fun onPinPostMenuClick(menuId: Int, postViewData: LMFeedPostViewData) {
+        //todo:
+    }
+
+    protected open fun onUnpinPostMenuClick(menuId: Int, postViewData: LMFeedPostViewData) {
+        //todo:
     }
 }
