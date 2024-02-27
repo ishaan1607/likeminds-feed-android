@@ -94,4 +94,32 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     ) {
         universalFeedAdapter.addAll(posts)
     }
+
+    /**
+     * Adapter Util Block
+     **/
+
+    //get index and post from the adapter using postId
+    fun getIndexAndPostFromAdapter(postId: String): Pair<Int, LMFeedPostViewData>? {
+        val index = universalFeedAdapter.items().indexOfFirst {
+            (it is LMFeedPostViewData) && (it.id == postId)
+        }
+
+        if (index == -1) {
+            return null
+        }
+
+        val post = getPostFromAdapter(index) ?: return null
+
+        return Pair(index, post)
+    }
+
+    //get post from the adapter using index
+    fun getPostFromAdapter(position: Int): LMFeedPostViewData? {
+        return universalFeedAdapter.items()[position] as? LMFeedPostViewData
+    }
+
+    fun updatePostItem(position: Int, updatedPostItem: LMFeedPostViewData) {
+        universalFeedAdapter.update(position, updatedPostItem)
+    }
 }

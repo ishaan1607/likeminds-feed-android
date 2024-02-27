@@ -5,13 +5,29 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.base.BaseViewModel
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
+import com.likeminds.likemindsfeed.post.model.LikePostRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class LMFeedUniversalFeedViewModel : BaseViewModel() {
 
     private val _universalFeedResponse = MutableLiveData<Pair<Int, List<LMFeedPostViewData>>>()
     val universalFeedResponse: LiveData<Pair<Int, List<LMFeedPostViewData>>> =
         _universalFeedResponse
+
+    private val _postLikedResponse = MutableLiveData<Pair<String, Boolean>>()
+    val postLikedResponse: LiveData<Pair<String, Boolean>> = _postLikedResponse
+
+    private val errorMessageChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
+    val errorMessageEventFlow = errorMessageChannel.receiveAsFlow()
+
+    sealed class ErrorMessageEvent {
+        data class LikePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
+        data class SavePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
+        data class DeletePost(val errorMessage: String?) : ErrorMessageEvent()
+        data class PinPost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
+    }
 
     companion object {
         const val PAGE_SIZE = 20
@@ -43,6 +59,30 @@ class LMFeedUniversalFeedViewModel : BaseViewModel() {
             } else {
                 //for error
 //                errorMessageChannel.send(ErrorMessageEvent.UniversalFeed(response.errorMessage))
+            }
+        }
+    }
+
+    //for like/unlike a post
+    fun likePost(postId: String, postLiked: Boolean) {
+        viewModelScope.launchIO {
+            val request = LikePostRequest.Builder()
+                .postId(postId)
+                .build()
+
+            //call like post api
+            val response = lmFeedClient.likePost(request)
+
+            //check for error
+            if (response.success) {
+                _postLikedResponse.postValue(Pair(postId, postLiked))
+            } else {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.LikePost(
+                        postId,
+                        response.errorMessage
+                    )
+                )
             }
         }
     }

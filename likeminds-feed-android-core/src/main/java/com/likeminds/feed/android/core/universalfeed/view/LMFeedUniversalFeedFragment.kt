@@ -19,11 +19,13 @@ import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeed
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
-import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
-import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import kotlinx.coroutines.flow.onEach
 
 open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterListener {
 
@@ -88,14 +90,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     private fun observeResponses() {
         lmFeedUniversalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
-            Log.d("PUI", "observer 2 fragment")
-            Log.d(
-                "PUI", """
-                    observer 2
-            response: ${response.second.size}
-        """.trimIndent()
-            )
-
             LMFeedProgressBarHelper.hideProgress(binding.progressBar)
             val page = response.first
             val posts = response.second
@@ -117,6 +111,67 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                 binding.rvUniversal.refreshAutoPlayer()
             }
         }
+
+        lmFeedUniversalFeedViewModel.postLikedResponse.observe(viewLifecycleOwner) { response ->
+            LMFeedAnalytics.sendPostLikedEvent(
+                uuid = "",
+                postId = response.first,
+                postLiked = response.second
+            )
+        }
+
+        lmFeedUniversalFeedViewModel.errorMessageEventFlow.onEach { response ->
+            when (response) {
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.DeletePost -> {
+
+                }
+
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.LikePost -> {
+                    val postId = response.postId
+
+                    //get post and index
+                    val pair =
+                        binding.rvUniversal.getIndexAndPostFromAdapter(postId) ?: return@onEach
+                    val post = pair.second
+                    val index = pair.first
+
+                    val footerData = post.footerViewData
+
+                    val newLikesCount = if (footerData.isLiked) {
+                        footerData.likesCount - 1
+                    } else {
+                        footerData.likesCount + 1
+                    }
+
+                    val updatedIsLiked = !footerData.isLiked
+
+                    val updatedFooterData = footerData.toBuilder()
+                        .isLiked(updatedIsLiked)
+                        .likesCount(newLikesCount)
+                        .build()
+
+                    val updatedPostData = post.toBuilder()
+                        .footerViewData(updatedFooterData)
+                        .fromPostLiked(true)
+                        .build()
+
+                    binding.rvUniversal.updatePostItem(index, updatedPostData)
+
+                    onPostLikedError(
+                        response.errorMessage ?: getString(R.string.lm_feed_something_went_wrong),
+                        updatedPostData
+                    )
+                }
+
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.PinPost -> {
+
+                }
+
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.SavePost -> {
+
+                }
+            }
+        }.observeInLifecycle(viewLifecycleOwner)
     }
 
     private fun initUniversalFeedRecyclerView() {
@@ -173,8 +228,30 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostLikeClick(position: Int) {
-//        TODO("Not yet implemented")
+    override fun postLikeClicked(position: Int) {
+        val post = binding.rvUniversal.getPostFromAdapter(position)
+        post?.let {
+            val footerData = it.footerViewData
+            val newLikesCount = if (footerData.isLiked) {
+                footerData.likesCount - 1
+            } else {
+                footerData.likesCount + 1
+            }
+
+            val updatedIsLiked = !footerData.isLiked
+
+            val updatedFooterData = footerData.toBuilder()
+                .isLiked(updatedIsLiked)
+                .likesCount(newLikesCount)
+                .build()
+
+            val updatedPostData = it.toBuilder()
+                .footerViewData(updatedFooterData)
+                .fromPostLiked(true)
+                .build()
+
+            onPostLiked(position, updatedPostData)
+        }
     }
 
     override fun onPostLikesCountClick(postId: String) {
@@ -277,7 +354,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         layoutPosting.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.postingViewStyle)
 
-
             setPostingText(getString(R.string.lm_feed_creating_s))
             setRetryCTAText(getString(R.string.lm_feed_retry))
         }
@@ -291,5 +367,17 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         mSwipeRefreshLayout.isRefreshing = true
         binding.rvUniversal.resetScrollListenerData()
         lmFeedUniversalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
+    }
+
+    protected open fun onPostLiked(position: Int, post: LMFeedPostViewData) {
+        //call api
+        lmFeedUniversalFeedViewModel.likePost(post.id, post.footerViewData.isLiked)
+        //update recycler
+        binding.rvUniversal.updatePostItem(position, post)
+    }
+
+    protected open fun onPostLikedError(errorMessage: String, post: LMFeedPostViewData) {
+        //show error message
+        LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
     }
 }

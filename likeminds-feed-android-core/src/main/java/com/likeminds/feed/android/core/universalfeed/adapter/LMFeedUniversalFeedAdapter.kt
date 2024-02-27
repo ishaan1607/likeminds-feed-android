@@ -62,53 +62,53 @@ class LMFeedUniversalFeedAdapter(
 
 interface LMFeedUniversalFeedAdapterListener {
     //triggered when the user clicks on post content
-    fun onPostContentClick(postId: String)
+    fun onPostContentClick(postId: String) //todo
 
     //triggered when the user clicks on like icon
-    fun onPostLikeClick(position: Int)
+    fun postLikeClicked(position: Int) //Ishaan
 
     //triggered when the user clicks on likes count
-    fun onPostLikesCountClick(postId: String)
+    fun onPostLikesCountClick(postId: String) //todo
 
     //triggered when the user clicks on the comments count
-    fun onPostCommentsCountClick(postId: String)
+    fun onPostCommentsCountClick(postId: String) //todo
 
     //triggered when the user clicks on save post icon
-    fun onPostSaveClick(postId: String)
+    fun onPostSaveClick(postId: String) //ishaan
 
     //triggered when the user clicks on share icon
-    fun onPostShareClick(postId: String)
+    fun onPostShareClick(postId: String) //sid
 
     //triggered to update the data with re-inflation of the item
-    fun updateFromLikedSaved(position: Int)
+    fun updateFromLikedSaved(position: Int) //sid
 
     //triggered when the user clicks on "See More"
-    fun updatePostSeenFullContent(position: Int, alreadySeenFullContent: Boolean)
+    fun updatePostSeenFullContent(position: Int, alreadySeenFullContent: Boolean) //sid
 
     //triggered when a link from post content is clicked
-    fun handleLinkClick(url: String)
+    fun handleLinkClick(url: String) //sid
 
     //triggered when the menu icon of the post is clicked
-    fun onPostMenuIconClick()
+    fun onPostMenuIconClick() //sid
 
     //triggered when the image media of the post is clicked
-    fun onPostImageMediaClick()
+    fun onPostImageMediaClick() //todo
 
     //triggered when the link media of the post is clicked
-    fun onPostLinkMediaClick(linkOGTags: LMFeedLinkOGTagsViewData)
+    fun onPostLinkMediaClick(linkOGTags: LMFeedLinkOGTagsViewData) //sid
 
     //triggered when the document media in the post is clicked
-    fun onPostDocumentMediaClick(document: LMFeedAttachmentViewData)
+    fun onPostDocumentMediaClick(document: LMFeedAttachmentViewData) //sid
 
     //triggered when the image media of multiple media is clicked
-    fun onPostMultipleMediaImageClick(image: LMFeedAttachmentViewData)
+    fun onPostMultipleMediaImageClick(image: LMFeedAttachmentViewData) //todo
 
     //triggered when the video media of multiple media is clicked
-    fun onPostMultipleMediaVideoClick(video: LMFeedAttachmentViewData)
+    fun onPostMultipleMediaVideoClick(video: LMFeedAttachmentViewData) //todo
 
     //triggered when the page of the view pager is changed
-    fun onPostMultipleMediaPageChangeCallback(position: Int)
+    fun onPostMultipleMediaPageChangeCallback(position: Int) //sid
 
     //triggered when a user clicks on "See More" of document type post
-    fun onPostMultipleDocumentsExpanded(postData: LMFeedPostViewData, position: Int)
+    fun onPostMultipleDocumentsExpanded(postData: LMFeedPostViewData, position: Int) //sid
 }

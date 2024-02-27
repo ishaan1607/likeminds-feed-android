@@ -1,14 +1,17 @@
 package com.likeminds.feed.android.core.utils
 
+import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
+import com.likeminds.feed.android.core.R
 
 //view related utils class
 object LMFeedViewUtils {
@@ -47,5 +50,20 @@ object LMFeedViewUtils {
             setShimmer(shimmer)
         }
         return shimmerDrawable
+    }
+
+    fun showShortToast(context: Context?, text: String?) {
+        if (context == null || text.isNullOrEmpty()) return
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
+
+    // shows short toast with "Something went wrong!" message
+    fun showSomethingWentWrongToast(context: Context) {
+        showShortToast(context, context.getString(R.string.lm_feed_something_went_wrong))
+    }
+
+    // shows short toast with error message
+    fun showErrorMessageToast(context: Context, errorMessage: String?) {
+        showShortToast(context, errorMessage ?: context.getString(R.string.lm_feed_something_went_wrong))
     }
 }

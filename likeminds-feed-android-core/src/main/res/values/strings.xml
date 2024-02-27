@@ -28,4 +28,5 @@
     </plurals>
     <string name="lm_feed_edited">Edited</string>
     <string name="lm_feed_just_now">Just now</string>
+    <string name="lm_feed_something_went_wrong">Something went wrong!</string>
 </resources>

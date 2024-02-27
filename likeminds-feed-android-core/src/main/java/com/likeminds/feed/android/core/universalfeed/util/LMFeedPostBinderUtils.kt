@@ -102,7 +102,7 @@ object LMFeedPostBinderUtils {
             setStyle(postFooterViewStyle)
 
             setLikeIconClickListener {
-                universalFeedAdapterListener.onPostLikeClick(position)
+                universalFeedAdapterListener.postLikeClicked(position)
             }
 
             setLikesCountClickListener {
