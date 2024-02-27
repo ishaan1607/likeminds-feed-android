@@ -7,20 +7,16 @@ import android.widget.PopupMenu
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
 import com.likeminds.feed.android.core.utils.listeners.LMFeedMenuItemClickListener
 
-class LMFeedOverflowMenu(context: Context, view: View, gravity: Int) :
-    PopupMenu(context, view, gravity) {
+class LMFeedOverflowMenu(context: Context, view: View) : PopupMenu(context, view) {
 
     /**
      * Sets click listener on the menu icon
      *
      * @param listener [LMFeedMenuItemClickListener] interface to have click listener for menu item
      */
-    fun setMenuItemClickListener(
-        itemId: Int,
-        listener: LMFeedMenuItemClickListener
-    ) {
+    fun setMenuItemClickListener(listener: LMFeedMenuItemClickListener) {
         setOnMenuItemClickListener {
-            listener.onMenuItemClicked(itemId)
+            listener.onMenuItemClicked(it.itemId)
             true
         }
     }

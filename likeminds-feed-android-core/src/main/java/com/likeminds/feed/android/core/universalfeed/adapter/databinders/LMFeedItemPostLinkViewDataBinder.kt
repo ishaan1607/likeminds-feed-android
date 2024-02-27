@@ -90,8 +90,12 @@ class LMFeedItemPostLinkViewDataBinder(
     private fun setClickListeners(binding: LmFeedItemPostLinkBinding) {
         binding.apply {
             postHeader.setMenuIconClickListener {
-                // todo: add required params and extend in the fragment
-                universalFeedAdapterListener.onPostMenuIconClick()
+                val post = postViewData ?: return@setMenuIconClickListener
+                universalFeedAdapterListener.onPostMenuIconClick(
+                    position,
+                    postHeader.headerMenu,
+                    post
+                )
             }
 
             // todo: test this otherwise move this to setTextContent function

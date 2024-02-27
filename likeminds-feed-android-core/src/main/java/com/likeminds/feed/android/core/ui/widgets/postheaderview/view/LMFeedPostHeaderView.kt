@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.ui.widgets.postheaderview.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -29,6 +30,8 @@ class LMFeedPostHeaderView : ConstraintLayout {
         defStyle
     ) {
     }
+
+    val headerMenu: View get() = binding.ivPostMenu
 
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
@@ -126,7 +129,6 @@ class LMFeedPostHeaderView : ConstraintLayout {
         var authorImageViewStyle =
             LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle.authorImageViewStyle
 
-        //todo: confirm
         if (authorImageViewStyle.placeholderSrc == null) {
             authorImageViewStyle = authorImageViewStyle.toBuilder().placeholderSrc(
                 LMFeedMemberImageUtil.getNameDrawable(

@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.universalfeed.adapter
 
+import android.view.View
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
@@ -91,7 +92,11 @@ interface LMFeedUniversalFeedAdapterListener {
     fun handleLinkClick(url: String) //sid
 
     //triggered when the menu icon of the post is clicked
-    fun onPostMenuIconClick() //sid
+    fun onPostMenuIconClick(
+        position: Int,
+        anchorView: View,
+        postViewData: LMFeedPostViewData
+    ) //sid
 
     //triggered when the image media of the post is clicked
     fun onPostImageMediaClick(position: Int, postViewData: LMFeedPostViewData)
