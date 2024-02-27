@@ -66,7 +66,7 @@ object LMFeedPostBinderUtils {
     ) {
         if (data.fromPostLiked || data.fromPostSaved || data.fromVideoAction) {
             // update fromLiked/fromSaved variables and return from binder
-            universalFeedAdapterListener.updateFromLikedSaved(position)
+            universalFeedAdapterListener.updateFromLikedSaved(position, data)
             returnBinder()
         } else {
             // call all the common functions
@@ -80,7 +80,7 @@ object LMFeedPostBinderUtils {
             // sets the text content of the post
             setPostContentViewData(
                 contentView,
-                data.contentViewData,
+                data,
                 universalFeedAdapterListener,
                 position
             )
@@ -111,11 +111,12 @@ object LMFeedPostBinderUtils {
     // sets the data in the post content view
     private fun setPostContentViewData(
         contentView: LMFeedTextView,
-        contentViewData: LMFeedPostContentViewData,
+        postViewData: LMFeedPostViewData,
         universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
         position: Int
     ) {
         contentView.apply {
+            val contentViewData = postViewData.contentViewData
             val postContent = contentViewData.text ?: return
             val maxLines = (LMFeedStyleTransformer.postViewStyle.postContentTextStyle.maxLines
                 ?: LMFeedTheme.DEFAULT_POST_MAX_LINES)
@@ -149,7 +150,11 @@ object LMFeedPostBinderUtils {
                         return@setOnClickListener
                     }
                     alreadySeenFullContent = true
-                    universalFeedAdapterListener.updatePostSeenFullContent(position, true)
+                    universalFeedAdapterListener.updatePostSeenFullContent(
+                        position,
+                        true,
+                        postViewData
+                    )
                 }
 
                 override fun updateDrawState(textPaint: TextPaint) {
@@ -254,20 +259,26 @@ object LMFeedPostBinderUtils {
     }
 
     fun bindPostDocuments(
+        position: Int,
         postDocumentsMediaView: LMFeedPostDocumentsMediaView,
         mediaData: LMFeedMediaViewData,
         listener: LMFeedUniversalFeedAdapterListener
     ) {
         //sets documents adapter and handles show more functionality of documents
-        postDocumentsMediaView.setAdapter(mediaData, listener)
+        postDocumentsMediaView.setAdapter(
+            position,
+            mediaData,
+            listener
+        )
     }
 
     fun bindPostMediaDocument(
         binding: LMFeedPostDocumentView,
-        document: LMFeedAttachmentViewData
+        position: Int,
+        data: LMFeedAttachmentViewData
     ) {
         binding.apply {
-            val attachmentMeta = document.attachmentMeta
+            val attachmentMeta = data.attachmentMeta
 
             setDocumentName(attachmentMeta.name)
             setDocumentPages(attachmentMeta.pageCount)
@@ -286,6 +297,7 @@ object LMFeedPostBinderUtils {
     }
 
     fun bindMultipleMediaView(
+        position: Int,
         multipleMediaView: LMFeedPostMultipleMediaView,
         data: LMFeedMediaViewData,
         listener: LMFeedUniversalFeedAdapterListener
@@ -308,7 +320,11 @@ object LMFeedPostBinderUtils {
             }
 
             //sets multiple media view pager
-            setViewPager(listener, attachments)
+            setViewPager(
+                position,
+                listener,
+                attachments
+            )
         }
     }
 }

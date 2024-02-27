@@ -12,7 +12,8 @@ import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_IMAGE
 
 class LMFeedItemMultipleMediaImageViewDataBinder(
-    val listener: LMFeedUniversalFeedAdapterListener
+    private val parentPosition: Int,
+    private val listener: LMFeedUniversalFeedAdapterListener
 ) : LMFeedViewDataBinder<LmFeedItemMultipleMediaImageBinding, LMFeedAttachmentViewData>() {
 
     override val viewType: Int
@@ -46,19 +47,17 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
     ) {
         binding.apply {
             //set data to the binding
-            image = data
+            this.position = position
 
             // loads post image inside the multiple media image view
-            LMFeedPostBinderUtils.bindMultipleMediaImageView(ivPost, image)
+            LMFeedPostBinderUtils.bindMultipleMediaImageView(ivPost, data)
         }
     }
 
     private fun setClickListeners(binding: LmFeedItemMultipleMediaImageBinding) {
         binding.apply {
             ivPost.setOnClickListener {
-                image?.let { imageViewData ->
-                    listener.onPostMultipleMediaImageClick(imageViewData)
-                }
+                listener.onPostMultipleMediaImageClick(position, parentPosition)
             }
         }
     }

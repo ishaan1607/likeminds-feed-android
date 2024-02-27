@@ -106,6 +106,14 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         universalFeedAdapter.addAll(posts)
     }
 
+    fun update(position: Int, postItem: LMFeedPostViewData) {
+        universalFeedAdapter.update(position, postItem)
+    }
+
+    fun getPostAtIndex(index: Int): LMFeedPostViewData {
+        return (universalFeedAdapter[index] as LMFeedPostViewData)
+    }
+
     /**
      * Scroll to a position with offset from the top header
      * @param position Index of the item to scroll to
@@ -118,9 +126,5 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
                 px
             )
         }
-    }
-
-    fun update(position: Int, postItem: LMFeedPostViewData) {
-        universalFeedAdapter.update(position, postItem)
     }
 }

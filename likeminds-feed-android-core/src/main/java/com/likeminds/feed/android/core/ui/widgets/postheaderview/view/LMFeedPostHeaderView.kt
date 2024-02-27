@@ -126,7 +126,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
         var authorImageViewStyle =
             LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle.authorImageViewStyle
 
-        // todo: confirm
+        //todo: confirm
         if (authorImageViewStyle.placeholderSrc == null) {
             authorImageViewStyle = authorImageViewStyle.toBuilder().placeholderSrc(
                 LMFeedMemberImageUtil.getNameDrawable(

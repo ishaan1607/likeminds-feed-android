@@ -11,6 +11,7 @@ import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_DOCUMENTS_ITEM
 
 class LMFeedItemDocumentViewDataBinder(
+    private val parentPosition: Int,
     private val universalFeedAdapter: LMFeedUniversalFeedAdapterListener
 ) : LMFeedViewDataBinder<LmFeedItemDocumentBinding, LMFeedAttachmentViewData>() {
 
@@ -26,10 +27,7 @@ class LMFeedItemDocumentViewDataBinder(
 
         binding.apply {
             //sets click listener to the documents item
-            documentItem.setDocumentClickListener {
-                val document = documentData ?: return@setDocumentClickListener
-                universalFeedAdapter.onPostDocumentMediaClick(document)
-            }
+            setClickListeners(binding)
 
             val postDocumentMediaStyle =
                 LMFeedStyleTransformer.postViewStyle.postMediaStyle.postDocumentsMediaStyle
@@ -48,13 +46,22 @@ class LMFeedItemDocumentViewDataBinder(
     ) {
         binding.apply {
             //sets variables in the binding
-            documentData = data
+            this.position = position
 
             //sets data on the documents view
             LMFeedPostBinderUtils.bindPostMediaDocument(
                 documentItem,
+                position,
                 data
             )
+        }
+    }
+
+    private fun setClickListeners(binding: LmFeedItemDocumentBinding) {
+        binding.apply {
+            documentItem.setDocumentClickListener {
+                universalFeedAdapter.onPostDocumentMediaClick(position, parentPosition)
+            }
         }
     }
 }

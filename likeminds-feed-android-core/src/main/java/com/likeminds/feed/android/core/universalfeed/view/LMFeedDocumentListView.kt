@@ -47,11 +47,12 @@ class LMFeedDocumentListView @JvmOverloads constructor(
     }
 
     fun setAdapter(
+        parentPosition: Int,
         mediaViewData: LMFeedMediaViewData,
         tvShowMore: LMFeedTextView,
         listener: LMFeedUniversalFeedAdapterListener
     ) {
-        documentsAdapter = LMFeedDocumentsAdapter(listener)
+        documentsAdapter = LMFeedDocumentsAdapter(parentPosition, listener)
         adapter = documentsAdapter
         handleVisibleDocuments(mediaViewData, tvShowMore)
     }

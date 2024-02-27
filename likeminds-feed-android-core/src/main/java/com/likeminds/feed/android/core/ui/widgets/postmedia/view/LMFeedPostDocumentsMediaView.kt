@@ -48,11 +48,13 @@ class LMFeedPostDocumentsMediaView : ConstraintLayout {
     }
 
     fun setAdapter(
+        parentPosition: Int,
         mediaData: LMFeedMediaViewData,
         listener: LMFeedUniversalFeedAdapterListener
     ) {
         binding.apply {
             rvDocuments.setAdapter(
+                parentPosition,
                 mediaData,
                 tvShowMore,
                 listener

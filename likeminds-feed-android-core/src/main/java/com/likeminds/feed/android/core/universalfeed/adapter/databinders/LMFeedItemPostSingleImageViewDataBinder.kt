@@ -56,8 +56,7 @@ class LMFeedItemPostSingleImageViewDataBinder(
         binding.apply {
             // set variables in the binding
             this.position = position
-            postId = data.id
-            headerViewData = data.headerViewData
+            postViewData = data
 
             // updates the data in the post footer view
             LMFeedPostBinderUtils.setPostFooterViewData(
@@ -92,11 +91,10 @@ class LMFeedItemPostSingleImageViewDataBinder(
                 universalFeedAdapterListener.onPostMenuIconClick()
             }
 
-            val postId = this.postId ?: return
-
             // todo: test this otherwise move this to setTextContent function
             tvPostContent.setOnClickListener {
-                universalFeedAdapterListener.onPostContentClick(postId)
+                val post = postViewData ?: return@setOnClickListener
+                universalFeedAdapterListener.onPostContentClick(position, post)
             }
 
             val linkifyLinks =
@@ -112,34 +110,40 @@ class LMFeedItemPostSingleImageViewDataBinder(
             }
 
             postHeader.setAuthorFrameClickListener {
-                val headerViewData = headerViewData ?: return@setAuthorFrameClickListener
+                val post = postViewData ?: return@setAuthorFrameClickListener
+                val headerViewData = post.headerViewData
                 val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
                 coreCallback?.openProfile(headerViewData.user)
             }
 
             ivPost.setOnClickListener {
-                // todo: add required data here
-                universalFeedAdapterListener.onPostImageMediaClick()
+                val post = postViewData ?: return@setOnClickListener
+                universalFeedAdapterListener.onPostImageMediaClick(position, post)
             }
 
             postFooter.setLikeIconClickListener {
-                universalFeedAdapterListener.onPostLikeClick(position)
+                val post = postViewData ?: return@setLikeIconClickListener
+                universalFeedAdapterListener.onPostLikeClick(position, post)
             }
 
             postFooter.setLikesCountClickListener {
-                universalFeedAdapterListener.onPostLikesCountClick(postId)
+                val post = postViewData ?: return@setLikesCountClickListener
+                universalFeedAdapterListener.onPostLikesCountClick(position, post)
             }
 
             postFooter.setCommentsCountClickListener {
-                universalFeedAdapterListener.onPostCommentsCountClick(postId)
+                val post = postViewData ?: return@setCommentsCountClickListener
+                universalFeedAdapterListener.onPostCommentsCountClick(position, post)
             }
 
             postFooter.setSaveIconListener {
-                universalFeedAdapterListener.onPostSaveClick(postId)
+                val post = postViewData ?: return@setSaveIconListener
+                universalFeedAdapterListener.onPostSaveClick(position, post)
             }
 
             postFooter.setShareIconListener {
-                universalFeedAdapterListener.onPostShareClick(postId)
+                val post = postViewData ?: return@setShareIconListener
+                universalFeedAdapterListener.onPostShareClick(position, post)
             }
         }
     }
