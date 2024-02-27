@@ -14,6 +14,8 @@ import androidx.core.widget.ImageViewCompat
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
+import com.likeminds.feed.android.core.utils.base.model.*
 
 //view related utils class
 object LMFeedViewUtils {
@@ -84,5 +86,38 @@ object LMFeedViewUtils {
 
         saveBounceAnim.interpolator = LMFeedBounceInterpolator(0.2, 20.0)
         view.startAnimation(saveBounceAnim)
+    }
+
+    // returns type of post for analytics from the viewType of post
+    fun getPostTypeFromViewType(postViewType: Int?): String {
+        return when (postViewType) {
+            ITEM_POST_TEXT_ONLY -> {
+                LMFeedAnalytics.Keys.POST_TYPE_TEXT
+            }
+
+            ITEM_POST_SINGLE_IMAGE -> {
+                LMFeedAnalytics.Keys.POST_TYPE_IMAGE
+            }
+
+            ITEM_POST_SINGLE_VIDEO -> {
+                LMFeedAnalytics.Keys.POST_TYPE_VIDEO
+            }
+
+            ITEM_POST_DOCUMENTS -> {
+                LMFeedAnalytics.Keys.POST_TYPE_DOCUMENT
+            }
+
+            ITEM_POST_MULTIPLE_MEDIA -> {
+                LMFeedAnalytics.Keys.POST_TYPE_IMAGE_VIDEO
+            }
+
+            ITEM_POST_LINK -> {
+                LMFeedAnalytics.Keys.POST_TYPE_LINK
+            }
+
+            else -> {
+                LMFeedAnalytics.Keys.POST_TYPE_TEXT
+            }
+        }
     }
 }

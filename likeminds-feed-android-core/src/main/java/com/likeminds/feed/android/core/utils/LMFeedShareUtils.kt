@@ -19,7 +19,7 @@ object LMFeedShareUtils {
         postAsVariable: String
     ) {
         val shareLink = "$domain/post?post_id=$postId"
-        val shareTitle = context.getString(R.string.share_s, postAsVariable)
+        val shareTitle = context.getString(R.string.lm_feed_share_s, postAsVariable)
         shareLink(context, shareLink, shareTitle)
     }
 

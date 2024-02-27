@@ -19,7 +19,7 @@ object LMFeedAndroidUtils {
             e.printStackTrace()
             LMFeedViewUtils.showShortToast(
                 context,
-                context.getString(R.string.no_application_found_to_open_this_document)
+                context.getString(R.string.lm_feed_no_application_found_to_open_this_document)
             )
         }
     }

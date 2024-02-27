@@ -126,14 +126,18 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             )
         }
 
-        lmFeedUniversalFeedViewModel.postSavedResponse.observe(viewLifecycleOwner) { response ->
-            val post = response.first
+        lmFeedUniversalFeedViewModel.postSavedResponse.observe(viewLifecycleOwner) { post ->
             LMFeedAnalytics.sendPostSavedEvent(
                 uuid = post.headerViewData.user.sdkClientInfoViewData.uuid,
                 postId = post.id,
-                postSaved = response.second
+                postSaved = post.footerViewData.isSaved
             )
-            onPostSavedSuccess(post)
+            onPostSaveSuccess(post)
+        }
+
+        lmFeedUniversalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
+            LMFeedAnalytics.sendPostPinnedEvent(post)
+            onPostPinSuccess(post)
         }
 
         lmFeedUniversalFeedViewModel.errorMessageEventFlow.onEach { response ->
@@ -173,14 +177,40 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
                     binding.rvUniversal.updatePostItem(index, updatedPostData)
 
-                    onPostLikedError(
+                    onPostLikeError(
                         response.errorMessage ?: getString(R.string.lm_feed_something_went_wrong),
                         updatedPostData
                     )
                 }
 
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.PinPost -> {
+                    binding.rvUniversal.apply {
+                        val postId = response.postId
 
+                        //get post and index
+                        val pair = getIndexAndPostFromAdapter(postId) ?: return@onEach
+                        val post = pair.second
+                        val index = pair.first
+
+                        //update header view data
+                        val updatedHeaderView = post.headerViewData.toBuilder()
+                            .isPinned(!post.headerViewData.isPinned)
+                            .build()
+
+                        //update post view data
+                        val updatedPostViewData = post.toBuilder()
+                            .headerViewData(updatedHeaderView)
+                            .build()
+
+                        //update recycler view
+                        updatePostItem(index, updatedPostViewData)
+
+                        onPostPinError(
+                            response.errorMessage
+                                ?: getString(R.string.lm_feed_something_went_wrong),
+                            updatedPostViewData
+                        )
+                    }
                 }
 
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.SavePost -> {
@@ -192,6 +222,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                         val post = pair.second
                         val index = pair.first
 
+                        //update footer view data
                         val updatedFooterViewData = post.footerViewData.toBuilder()
                             .isSaved(!post.footerViewData.isSaved)
                             .build()
@@ -205,8 +236,9 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                         //update recycler view
                         updatePostItem(index, updatedPostViewData)
 
-                        onPostSavedError(
-                            response.errorMessage ?: getString(R.string.lm_feed_something_went_wrong),
+                        onPostSaveError(
+                            response.errorMessage
+                                ?: getString(R.string.lm_feed_something_went_wrong),
                             updatedPostViewData
                         )
                     }
@@ -328,10 +360,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             .build()
 
         //call api
-        lmFeedUniversalFeedViewModel.savePost(
-            updatedPostData,
-            updatedFooterData.isSaved
-        )
+        lmFeedUniversalFeedViewModel.savePost(updatedPostData)
         //update recycler
         binding.rvUniversal.updatePostItem(position, updatedPostData)
     }
@@ -394,7 +423,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         popupMenu.addMenuItems(menuItems)
 
         popupMenu.setMenuItemClickListener { menuId ->
-            onPostMenuItemClick(menuId, postViewData)
+            onPostMenuItemClick(position, menuId, postViewData)
         }
 
         popupMenu.show()
@@ -517,67 +546,193 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     //callback when post menu items are clicked
-    protected open fun onPostMenuItemClick(menuId: Int, postViewData: LMFeedPostViewData) {
+    protected open fun onPostMenuItemClick(
+        position: Int,
+        menuId: Int,
+        postViewData: LMFeedPostViewData
+    ) {
         when (menuId) {
             EDIT_POST_MENU_ITEM_ID -> {
-                onEditPostMenuClick(menuId, postViewData)
+                onEditPostMenuClick(
+                    position,
+                    menuId,
+                    postViewData
+                )
             }
 
             DELETE_POST_MENU_ITEM_ID -> {
-                onDeletePostMenuClick(menuId, postViewData)
+                onDeletePostMenuClick(
+                    position,
+                    menuId,
+                    postViewData
+                )
             }
 
             REPORT_POST_MENU_ITEM_ID -> {
-                onReportPostMenuClick(menuId, postViewData)
+                onReportPostMenuClick(
+                    position,
+                    menuId,
+                    postViewData
+                )
             }
 
             PIN_POST_MENU_ITEM_ID -> {
-                onPinPostMenuClick(menuId, postViewData)
+                onPinPostMenuClick(
+                    position,
+                    menuId,
+                    postViewData
+                )
             }
 
             UNPIN_POST_MENU_ITEM_ID -> {
-                onUnpinPostMenuClick(menuId, postViewData)
+                onUnpinPostMenuClick(
+                    position,
+                    menuId,
+                    postViewData
+                )
             }
         }
     }
 
-    protected open fun onEditPostMenuClick(menuId: Int, postViewData: LMFeedPostViewData) {
+    protected open fun onEditPostMenuClick(
+        position: Int,
+        menuId: Int,
+        post: LMFeedPostViewData
+    ) {
         //todo:
     }
 
-    protected open fun onDeletePostMenuClick(menuId: Int, postViewData: LMFeedPostViewData) {
+    protected open fun onDeletePostMenuClick(
+        position: Int,
+        menuId: Int,
+        post: LMFeedPostViewData
+    ) {
         //todo:
     }
 
-    protected open fun onReportPostMenuClick(menuId: Int, postViewData: LMFeedPostViewData) {
+    protected open fun onReportPostMenuClick(
+        position: Int,
+        menuId: Int,
+        post: LMFeedPostViewData
+    ) {
         //todo:
     }
 
-    protected open fun onPinPostMenuClick(menuId: Int, postViewData: LMFeedPostViewData) {
-        //todo:
+    protected open fun onPinPostMenuClick(
+        position: Int,
+        menuId: Int,
+        post: LMFeedPostViewData
+    ) {
+        //get pin menu item
+        val menuItems = post.headerViewData.menuItems.toMutableList()
+        val pinPostIndex = menuItems.indexOfFirst {
+            (it.id == PIN_POST_MENU_ITEM_ID)
+        }
+
+        //if pin item doesn't exist
+        if (pinPostIndex == -1) return
+
+        //update pin menu item
+        val pinPostMenuItem = menuItems[pinPostIndex]
+        val newPinPostMenuItem =
+            pinPostMenuItem.toBuilder().id(UNPIN_POST_MENU_ITEM_ID)
+                //todo: post as variable
+                .title(getString(R.string.lm_feed_unpin_this_s))
+                .build()
+        menuItems[pinPostIndex] = newPinPostMenuItem
+
+        //update the header view data
+        val updatedHeaderViewData = post.headerViewData.toBuilder()
+            .isPinned(!post.headerViewData.isPinned)
+            .menuItems(menuItems)
+            .build()
+
+        //update the post view data
+        val updatedPostViewData = post.toBuilder()
+            .headerViewData(updatedHeaderViewData)
+            .build()
+
+        //call api
+        lmFeedUniversalFeedViewModel.pinPost(updatedPostViewData)
+
+        //update recycler
+        binding.rvUniversal.updatePostItem(position, updatedPostViewData)
     }
 
-    protected open fun onUnpinPostMenuClick(menuId: Int, postViewData: LMFeedPostViewData) {
-        //todo:
+    protected open fun onUnpinPostMenuClick(
+        position: Int,
+        menuId: Int,
+        post: LMFeedPostViewData
+    ) {
+        val headerViewData = post.headerViewData
+        //get unpin menu item
+        val menuItems = headerViewData.menuItems.toMutableList()
+        val unPinPostIndex = menuItems.indexOfFirst {
+            (it.id == UNPIN_POST_MENU_ITEM_ID)
+        }
+
+        //if unpin item doesn't exist
+        if (unPinPostIndex == -1) return
+
+        //update unpin menu item
+        val unPinPostMenuItem = menuItems[unPinPostIndex]
+        val newUnPinPostMenuItem =
+            unPinPostMenuItem.toBuilder().id(PIN_POST_MENU_ITEM_ID)
+                .title(getString(R.string.lm_feed_pin_this_s))
+                .build()
+        menuItems[unPinPostIndex] = newUnPinPostMenuItem
+
+        //update header view data
+        val updatedHeaderViewData = headerViewData.toBuilder()
+            .isPinned(!headerViewData.isPinned)
+            .menuItems(menuItems)
+            .build()
+
+        //update the post view data
+        val updatedPostViewData = post.toBuilder()
+            .headerViewData(updatedHeaderViewData)
+            .build()
+
+        //call api
+        lmFeedUniversalFeedViewModel.pinPost(updatedPostViewData)
+
+        //update recycler
+        binding.rvUniversal.updatePostItem(position, updatedPostViewData)
     }
 
-    protected open fun onPostLikedError(errorMessage: String, post: LMFeedPostViewData) {
+    protected open fun onPostLikeError(errorMessage: String, post: LMFeedPostViewData) {
         //show error message
         LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
     }
 
-    protected open fun onPostSavedSuccess(post: LMFeedPostViewData) {
+    protected open fun onPostSaveSuccess(post: LMFeedPostViewData) {
         //todo: post variable
         //show toast message
         val toastMessage = if (post.footerViewData.isSaved) {
-            getString(R.string.s_saved)
+            getString(R.string.lm_feed_s_saved)
         } else {
-            getString(R.string.s_unsaved)
+            getString(R.string.lm_feed_s_unsaved)
         }
         LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
     }
 
-    protected open fun onPostSavedError(errorMessage: String, post: LMFeedPostViewData) {
+    protected open fun onPostSaveError(errorMessage: String, post: LMFeedPostViewData) {
+        //show error message
+        LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
+    }
+
+    protected open fun onPostPinSuccess(post: LMFeedPostViewData) {
+        //todo: post variable
+        //show toast message
+        val toastMessage = if (post.headerViewData.isPinned) {
+            getString(R.string.lm_feed_s_pinned_to_top)
+        } else {
+            getString(R.string.lm_feed_s_unpinned)
+        }
+        LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
+    }
+
+    protected open fun onPostPinError(errorMessage: String, post: LMFeedPostViewData) {
         //show error message
         LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
     }

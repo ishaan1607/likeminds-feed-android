@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         LMFeedCore.initiateUser(
             "Ishaan Jain",
-            "89000",
+            "gw",
             "device-23444",
             success = {
                 replaceFragment()

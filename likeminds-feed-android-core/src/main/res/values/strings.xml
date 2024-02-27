@@ -29,8 +29,12 @@
     <string name="lm_feed_edited">Edited</string>
     <string name="lm_feed_just_now">Just now</string>
     <string name="lm_feed_something_went_wrong">Something went wrong!</string>
-    <string name="no_application_found_to_open_this_document">No application found to open this document</string>
-    <string name="share_s">Share %s</string>
-    <string name="s_saved">%s Saved</string>
-    <string name="s_unsaved">%s Unsaved</string>
+    <string name="lm_feed_no_application_found_to_open_this_document">No application found to open this document</string>
+    <string name="lm_feed_share_s">Share %s</string>
+    <string name="lm_feed_s_saved">%s Saved</string>
+    <string name="lm_feed_s_unsaved">%s Unsaved</string>
+    <string name="lm_feed_pin_this_s">Pin This %s</string>
+    <string name="lm_feed_unpin_this_s">Unpin This %s</string>
+    <string name="lm_feed_s_pinned_to_top">%s pinned to top!</string>
+    <string name="lm_feed_s_unpinned">%s unpinned!</string>
 </resources>

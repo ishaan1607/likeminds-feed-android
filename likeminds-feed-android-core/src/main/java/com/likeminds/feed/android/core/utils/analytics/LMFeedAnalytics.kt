@@ -2,6 +2,8 @@ package com.likeminds.feed.android.core.utils.analytics
 
 import android.util.Log
 import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 
 object LMFeedAnalytics {
 
@@ -129,6 +131,27 @@ object LMFeedAnalytics {
             mapOf(
                 Keys.UUID to uuid,
                 Keys.POST_ID to postId
+            )
+        )
+    }
+
+    /**
+     * Triggers when the current user pins/unpins a post
+     */
+    fun sendPostPinnedEvent(post: LMFeedPostViewData) {
+        val headerViewData = post.headerViewData
+        val event = if (headerViewData.isPinned) {
+            Events.POST_PINNED
+        } else {
+            Events.POST_UNPINNED
+        }
+
+        track(
+            event,
+            mapOf(
+                Keys.UUID to headerViewData.user.sdkClientInfoViewData.uuid,
+                Keys.POST_ID to post.id,
+                "post_type" to LMFeedViewUtils.getPostTypeFromViewType(post.viewType),
             )
         )
     }
