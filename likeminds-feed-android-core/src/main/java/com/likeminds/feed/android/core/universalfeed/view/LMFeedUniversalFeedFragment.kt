@@ -29,8 +29,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
-    private lateinit var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper
-
     private val lmFeedUniversalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
 
     companion object {
@@ -115,21 +113,25 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             val posts = response.second
 
             if (mSwipeRefreshLayout.isRefreshing) {
-                checkForNoPost(posts)
-                binding.rvUniversal.apply {
-                    replacePosts(posts)
-                    scrollToPosition(0)
-                    refreshAutoPlayer()
-                }
+                checkPostsAndReplace(posts)
                 mSwipeRefreshLayout.isRefreshing = false
                 return@observe
             }
 
             if (page == 1) {
-                checkForNoPost(posts)
+                checkPostsAndReplace(posts)
             } else {
                 binding.rvUniversal.refreshAutoPlayer()
             }
+        }
+    }
+
+    private fun checkPostsAndReplace(posts: List<LMFeedPostViewData>) {
+        binding.rvUniversal.apply {
+            checkForNoPost(posts)
+            replacePosts(posts)
+            scrollToPosition(0)
+            refreshAutoPlayer()
         }
     }
 
@@ -204,19 +206,46 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostShareClick(position: Int, postViewData: LMFeedPostViewData) {
-//        TODO("Not yet implemented")
+        LMFeedShareUtils.sharePost(
+            requireContext(),
+            postViewData.id,
+            "https://take-this-in-config.com",
+            ""
+        )
+        //todo: post as variable and send event
     }
 
+    //updates the fromPostLiked/fromPostSaved variables and updates the rv list
     override fun updateFromLikedSaved(position: Int, postViewData: LMFeedPostViewData) {
-//        TODO("Not yet implemented")
+        val updatedPostData = postViewData.toBuilder()
+            .fromPostLiked(false)
+            .fromPostSaved(false)
+            .build()
+        binding.rvUniversal.updateWithoutNotifying(position, updatedPostData)
     }
 
+    // updates [alreadySeenFullContent] for the post
     override fun updatePostSeenFullContent(
         position: Int,
         alreadySeenFullContent: Boolean,
         postViewData: LMFeedPostViewData
     ) {
-        onSeeMoreClick(position, alreadySeenFullContent)
+        binding.rvUniversal.apply {
+            //update the content view data
+            val updatedContentViewData = postViewData.contentViewData.toBuilder()
+                .alreadySeenFullContent(alreadySeenFullContent)
+                .build()
+
+            //update the post view data
+            val updatedPostViewData = postViewData.toBuilder()
+                .contentViewData(updatedContentViewData)
+                .fromPostSaved(false)
+                .fromPostLiked(false)
+                .build()
+
+            //update the post item in the adapter
+            update(position, updatedPostViewData)
+        }
     }
 
     override fun handleLinkClick(url: String) {
@@ -232,10 +261,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostVideoMediaClick(position: Int, postViewData: LMFeedPostViewData) {
-        Log.d(
-            "PUI",
-            "onPostMultipleMediaVideoClick: position: $position parentPosition: ${postViewData.id}"
-        )
         //todo:
     }
 
@@ -244,7 +269,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostDocumentMediaClick(position: Int, parentPosition: Int) {
-        onPostDocumentClick(position, parentPosition)
+        //open the pdf using Android's document view
+        val postData = binding.rvUniversal.getPostAtIndex(parentPosition)
+        val documentUrl = postData.mediaViewData.attachments[position].attachmentMeta.url ?: ""
+        val pdfUri = Uri.parse(documentUrl)
+        LMFeedAndroidUtils.startDocumentViewer(requireContext(), pdfUri)
     }
 
     override fun onPostMultipleMediaImageClick(position: Int, parentPosition: Int) {
@@ -261,16 +290,31 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     //called when the page in the multiple media post is changed
     override fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {
-        Log.d(
-            "PUI",
-            "onPostMultipleMediaPageChangeCallback: position: $position parentPosition: $parentPosition"
-        )
-        onPostMultipleMediaPageChanged(position, parentPosition)
+        //processes the current video whenever view pager's page is changed
+        binding.rvUniversal.refreshAutoPlayer()
     }
 
     //called when show more is clicked in the documents type post
     override fun onPostMultipleDocumentsExpanded(position: Int, postViewData: LMFeedPostViewData) {
-        onPostDocumentsExpanded(position, postViewData)
+        binding.rvUniversal.apply {
+            if (position == itemCount - 1) {
+                scrollToPositionWithOffset(position)
+            }
+
+            val updatedMediaViewData = postViewData.mediaViewData
+                .toBuilder()
+                .isExpanded(true)
+                .build()
+
+            val updatedPostViewData = postViewData.toBuilder()
+                .mediaViewData(updatedMediaViewData)
+                .fromPostSaved(false)
+                .fromPostLiked(false)
+                .build()
+
+            //updates the [isExpanded] for the document item to true
+            update(position, updatedPostViewData)
+        }
     }
 
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
@@ -326,61 +370,5 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         mSwipeRefreshLayout.isRefreshing = true
         binding.rvUniversal.resetScrollListenerData()
         lmFeedUniversalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
-    }
-
-    //updates [alreadySeenFullContent] for the post
-    protected open fun onSeeMoreClick(position: Int, alreadySeenFullContent: Boolean) {
-        binding.rvUniversal.apply {
-            //get post from adapter
-            val postViewData = getPostAtIndex(position)
-            // update the post view data
-            val updatedPostViewData = postViewData.toBuilder()
-                .contentViewData(
-                    postViewData.contentViewData.toBuilder()
-                        .alreadySeenFullContent(alreadySeenFullContent)
-                        .build()
-                )
-                .fromPostSaved(false)
-                .fromPostLiked(false)
-                .build()
-
-            //update the post item in the adapter
-            update(position, updatedPostViewData)
-        }
-    }
-
-    protected open fun onPostMultipleMediaPageChanged(position: Int, parentPosition: Int) {
-        Log.d(LOG_TAG, "onPostMultipleMediaPageChanged: $position")
-
-        // processes the current video whenever view pager's page is changed
-        binding.rvUniversal.refreshAutoPlayer()
-    }
-
-    protected open fun onPostDocumentsExpanded(position: Int, postData: LMFeedPostViewData) {
-        Log.d("PUI", "onPostDocumentsExpanded: $position")
-
-        binding.rvUniversal.apply {
-            if (position == itemCount - 1) {
-                scrollToPositionWithOffset(position)
-            }
-
-            //updates the [isExpanded] for the document item to true
-            update(
-                position,
-                postData.toBuilder()
-                    .mediaViewData(postData.mediaViewData.toBuilder().isExpanded(true).build())
-                    .fromPostSaved(false)
-                    .fromPostLiked(false)
-                    .build()
-            )
-        }
-    }
-
-    protected open fun onPostDocumentClick(position: Int, parentPosition: Int) {
-        //open the pdf using Android's document view
-        val postData = binding.rvUniversal.getPostAtIndex(parentPosition)
-        val documentUrl = postData.mediaViewData.attachments[position].attachmentMeta.url ?: ""
-        val pdfUri = Uri.parse(documentUrl)
-        LMFeedAndroidUtils.startDocumentViewer(requireContext(), pdfUri)
     }
 }
