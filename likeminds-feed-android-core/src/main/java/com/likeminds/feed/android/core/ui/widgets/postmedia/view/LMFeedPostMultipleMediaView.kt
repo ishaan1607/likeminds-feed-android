@@ -78,6 +78,7 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
     }
 
     fun setViewPager(
+        parentPosition: Int,
         listener: LMFeedUniversalFeedAdapterListener,
         attachments: List<LMFeedAttachmentViewData>
     ) {
@@ -85,14 +86,14 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
             viewpagerMultipleMedia.isSaveEnabled = false
 
             //set adapter to the view pager
-            val multipleMediaPostAdapter = LMFeedMultipleMediaPostAdapter(listener)
+            val multipleMediaPostAdapter = LMFeedMultipleMediaPostAdapter(parentPosition, listener)
             viewpagerMultipleMedia.adapter = multipleMediaPostAdapter
 
             val multipleMediaOnPageChangeCallback = object : OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
 
-                    listener.onPostMultipleMediaPageChangeCallback(position)
+                    listener.onPostMultipleMediaPageChangeCallback(position, parentPosition)
                 }
             }
 

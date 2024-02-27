@@ -8,8 +8,7 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
-import com.likeminds.feed.android.core.utils.LMFeedEndlessRecyclerViewScrollListener
-import com.likeminds.feed.android.core.utils.LMFeedPostVideoAutoPlayHelper
+import com.likeminds.feed.android.core.utils.*
 
 class LMFeedUniversalFeedListView @JvmOverloads constructor(
     context: Context,
@@ -23,6 +22,8 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     private lateinit var universalFeedAdapter: LMFeedUniversalFeedAdapter
     private lateinit var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper
     private lateinit var paginationScrollListener: LMFeedEndlessRecyclerViewScrollListener
+
+    val itemCount: Int get() = universalFeedAdapter.itemCount
 
     init {
         setHasFixedSize(true)
@@ -40,6 +41,8 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         dividerDrawable?.let { drawable ->
             dividerDecoration.setDrawable(drawable)
         }
+
+        addItemDecoration(dividerDecoration)
 
         //todo: testing required
         initiateAutoPlayer()
@@ -62,6 +65,14 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         }
         postVideoAutoPlayHelper.removePlayer()
         postVideoAutoPlayHelper.playMostVisibleItem()
+    }
+
+    // removes the player and destroys the [postVideoAutoPlayHelper]
+    fun destroyAutoPlayer() {
+        if (::postVideoAutoPlayHelper.isInitialized) {
+            postVideoAutoPlayHelper.detachScrollListenerForVideo()
+            postVideoAutoPlayHelper.destroy()
+        }
     }
 
     fun setAdapter(
@@ -121,5 +132,19 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
 
     fun updatePostItem(position: Int, updatedPostItem: LMFeedPostViewData) {
         universalFeedAdapter.update(position, updatedPostItem)
+    }
+
+    /**
+     * Scroll to a position with offset from the top header
+     * @param position Index of the item to scroll to
+     */
+    fun scrollToPositionWithOffset(position: Int) {
+        post {
+            val px = (LMFeedViewUtils.dpToPx(75) * 1.5).toInt()
+            (layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                position,
+                px
+            )
+        }
     }
 }

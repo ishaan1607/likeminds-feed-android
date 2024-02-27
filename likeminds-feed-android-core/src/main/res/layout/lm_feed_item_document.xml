@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="documentData"
-            type="com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData" />
+            name="position"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

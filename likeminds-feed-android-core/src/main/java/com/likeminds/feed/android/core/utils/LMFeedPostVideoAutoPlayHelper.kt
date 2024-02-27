@@ -271,7 +271,7 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                     val videoView = itemMultipleMediaVideoBinding.postVideoView.videoView
 
                     if (lastPlayerView == null || lastPlayerView != videoView) {
-                        val attachmentMeta = data.mediaViewData.attachments.first().attachmentMeta
+                        val attachmentMeta = data.mediaViewData.attachments[currentItem].attachmentMeta
 
                         // todo: test this and check if [isVideoLocal] is correct or not
                         startNewPlayer(

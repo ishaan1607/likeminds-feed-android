@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="video"
-            type="com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData" />
+            name="position"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +16,7 @@
         <com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostVideoMediaView
             android:id="@+id/post_video_view"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

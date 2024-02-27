@@ -10,7 +10,8 @@ import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_VIDEO
 
 class LMFeedItemMultipleMediaVideoViewDataBinder(
-    val listener: LMFeedUniversalFeedAdapterListener
+    private val parentPosition: Int,
+    private val listener: LMFeedUniversalFeedAdapterListener
 ) : LMFeedViewDataBinder<LmFeedItemMultipleMediaVideoBinding, LMFeedAttachmentViewData>() {
 
     override val viewType: Int
@@ -24,11 +25,7 @@ class LMFeedItemMultipleMediaVideoViewDataBinder(
         )
 
         binding.apply {
-            postVideoView.setOnClickListener {
-                video?.let { videoViewData ->
-                    listener.onPostMultipleMediaVideoClick(videoViewData)
-                }
-            }
+            setClickListeners(this)
 
             //sets video media style to multiple media video view
             val postVideoMediaStyle =
@@ -48,7 +45,15 @@ class LMFeedItemMultipleMediaVideoViewDataBinder(
     ) {
         binding.apply {
             //set data to the binding
-            video = data
+            this.position = position
+        }
+    }
+
+    private fun setClickListeners(binding: LmFeedItemMultipleMediaVideoBinding) {
+        binding.apply {
+            postVideoView.setOnClickListener {
+                listener.onPostMultipleMediaVideoClick(position, parentPosition)
+            }
         }
     }
 }

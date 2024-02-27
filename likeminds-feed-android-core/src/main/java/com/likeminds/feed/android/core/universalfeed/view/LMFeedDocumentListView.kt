@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
@@ -46,11 +47,12 @@ class LMFeedDocumentListView @JvmOverloads constructor(
     }
 
     fun setAdapter(
+        parentPosition: Int,
         mediaViewData: LMFeedMediaViewData,
         tvShowMore: LMFeedTextView,
         listener: LMFeedUniversalFeedAdapterListener
     ) {
-        documentsAdapter = LMFeedDocumentsAdapter(listener)
+        documentsAdapter = LMFeedDocumentsAdapter(parentPosition, listener)
         adapter = documentsAdapter
         handleVisibleDocuments(mediaViewData, tvShowMore)
     }
@@ -64,12 +66,16 @@ class LMFeedDocumentListView @JvmOverloads constructor(
 
         val visibleDocumentsLimit = postDocumentsMediaStyle.visibleDocumentsLimit
 
+        Log.d("PUI", "handleVisibleDocuments: $visibleDocumentsLimit")
+
         val documents = mediaViewData.attachments
 
         if (mediaViewData.isExpanded || documents.size <= visibleDocumentsLimit) {
+            Log.d("PUI", "isExpanded: ${documents.size}")
             tvShowMore.hide()
             documentsAdapter.replace(documents)
         } else {
+            Log.d("PUI", "isExpanded not: ${documents.size}")
             tvShowMore.show()
             "+${documents.size - visibleDocumentsLimit} more".also { tvShowMore.text = it }
             documentsAdapter.replace(documents.take(visibleDocumentsLimit))

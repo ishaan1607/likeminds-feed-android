@@ -10,12 +10,8 @@
             type="int" />
 
         <variable
-            name="postId"
-            type="String" />
-
-        <variable
-            name="headerViewData"
-            type="com.likeminds.feed.android.core.universalfeed.model.LMFeedPostHeaderViewData" />
+            name="postViewData"
+            type="com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

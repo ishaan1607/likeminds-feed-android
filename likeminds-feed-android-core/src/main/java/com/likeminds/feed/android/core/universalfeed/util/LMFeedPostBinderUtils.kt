@@ -3,12 +3,9 @@ package com.likeminds.feed.android.core.universalfeed.util
 import android.text.*
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.text.util.Linkify
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.text.util.LinkifyCompat
-import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
@@ -27,99 +24,34 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_IMAGE
 import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_VIDEO
-import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 
 object LMFeedPostBinderUtils {
 
-    // customizes the header view of the post and attaches all the relevant listeners
-    fun customizePostHeaderView(
-        authorFrame: LMFeedPostHeaderView,
-        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-        headerViewData: LMFeedPostHeaderViewData?
-    ) {
+    // customizes the header view of the post
+    fun customizePostHeaderView(authorFrame: LMFeedPostHeaderView) {
         authorFrame.apply {
             val postHeaderViewStyle =
                 LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle
 
             setStyle(postHeaderViewStyle)
-
-            setAuthorFrameClickListener {
-                if (headerViewData?.user == null) {
-                    return@setAuthorFrameClickListener
-                }
-
-                val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
-                coreCallback?.openProfile(headerViewData.user)
-            }
-
-            setMenuIconClickListener {
-                // todo: add required params and extend in the fragment
-                universalFeedAdapterListener.onPostMenuIconClick()
-            }
         }
     }
 
-    // customizes the content view of the post and attaches all the relevant listeners
-    fun customizePostContentView(
-        tvPostContent: LMFeedTextView,
-        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-        postId: String
-    ) {
+    // customizes the content view of the post
+    fun customizePostContentView(tvPostContent: LMFeedTextView) {
         tvPostContent.apply {
             val postContentTextStyle = LMFeedStyleTransformer.postViewStyle.postContentTextStyle
             setStyle(postContentTextStyle)
-
-            // todo: test this otherwise move this to setTextContent function
-            setOnClickListener {
-                universalFeedAdapterListener.onPostContentClick(postId)
-            }
-
-            val linkifyLinks =
-                (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
-            LinkifyCompat.addLinks(this, linkifyLinks)
-            movementMethod = LMFeedLinkMovementMethod { url ->
-                setOnClickListener {
-                    return@setOnClickListener
-                }
-
-                universalFeedAdapterListener.handleLinkClick(url)
-                true
-            }
         }
     }
 
-    // customizes the footer view of the post and attaches all the relevant listeners
-    fun customizePostFooterView(
-        postActionsLayout: LMFeedPostFooterView,
-        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-        postId: String,
-        position: Int
-    ) {
+    // customizes the footer view of the post
+    fun customizePostFooterView(postActionsLayout: LMFeedPostFooterView) {
         postActionsLayout.apply {
             val postFooterViewStyle =
                 LMFeedStyleTransformer.postViewStyle.postFooterViewStyle
 
             setStyle(postFooterViewStyle)
-
-            setLikeIconClickListener {
-                universalFeedAdapterListener.postLikeClicked(position)
-            }
-
-            setLikesCountClickListener {
-                universalFeedAdapterListener.onPostLikesCountClick(postId)
-            }
-
-            setCommentsCountClickListener {
-                universalFeedAdapterListener.onPostCommentsCountClick(postId)
-            }
-
-            setSaveIconListener {
-                universalFeedAdapterListener.onPostSaveClick(postId)
-            }
-
-            setShareIconListener {
-                universalFeedAdapterListener.onPostShareClick(postId)
-            }
         }
     }
 
@@ -134,7 +66,7 @@ object LMFeedPostBinderUtils {
     ) {
         if (data.fromPostLiked || data.fromPostSaved || data.fromVideoAction) {
             // update fromLiked/fromSaved variables and return from binder
-            universalFeedAdapterListener.updateFromLikedSaved(position)
+            universalFeedAdapterListener.updateFromLikedSaved(position, data)
             returnBinder()
         } else {
             // call all the common functions
@@ -148,7 +80,7 @@ object LMFeedPostBinderUtils {
             // sets the text content of the post
             setPostContentViewData(
                 contentView,
-                data.contentViewData,
+                data,
                 universalFeedAdapterListener,
                 position
             )
@@ -170,7 +102,7 @@ object LMFeedPostBinderUtils {
             val author = headerViewData.user
             setAuthorName(author.name)
             setAuthorCustomTitle(author.customTitle)
-            setAuthorImage(author.imageUrl)
+            setAuthorImage(author)
 
             setTimestamp(headerViewData.createdAt)
         }
@@ -179,11 +111,12 @@ object LMFeedPostBinderUtils {
     // sets the data in the post content view
     private fun setPostContentViewData(
         contentView: LMFeedTextView,
-        contentViewData: LMFeedPostContentViewData,
+        postViewData: LMFeedPostViewData,
         universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
         position: Int
     ) {
         contentView.apply {
+            val contentViewData = postViewData.contentViewData
             val postContent = contentViewData.text ?: return
             val maxLines = (LMFeedStyleTransformer.postViewStyle.postContentTextStyle.maxLines
                 ?: LMFeedTheme.DEFAULT_POST_MAX_LINES)
@@ -217,7 +150,11 @@ object LMFeedPostBinderUtils {
                         return@setOnClickListener
                     }
                     alreadySeenFullContent = true
-                    universalFeedAdapterListener.updatePostSeenFullContent(position, true)
+                    universalFeedAdapterListener.updatePostSeenFullContent(
+                        position,
+                        true,
+                        postViewData
+                    )
                 }
 
                 override fun updateDrawState(textPaint: TextPaint) {
@@ -286,7 +223,7 @@ object LMFeedPostBinderUtils {
             }
             setLikesCount(likesCountText)
 
-            val commentsCountText = if (footerViewData.likesCount == 0) {
+            val commentsCountText = if (footerViewData.commentsCount == 0) {
                 context.getString(R.string.lm_feed_add_comment)
             } else {
                 context.resources.getQuantityString(
@@ -322,20 +259,26 @@ object LMFeedPostBinderUtils {
     }
 
     fun bindPostDocuments(
+        position: Int,
         postDocumentsMediaView: LMFeedPostDocumentsMediaView,
         mediaData: LMFeedMediaViewData,
         listener: LMFeedUniversalFeedAdapterListener
     ) {
         //sets documents adapter and handles show more functionality of documents
-        postDocumentsMediaView.setAdapter(mediaData, listener)
+        postDocumentsMediaView.setAdapter(
+            position,
+            mediaData,
+            listener
+        )
     }
 
     fun bindPostMediaDocument(
         binding: LMFeedPostDocumentView,
-        document: LMFeedAttachmentViewData
+        position: Int,
+        data: LMFeedAttachmentViewData
     ) {
         binding.apply {
-            val attachmentMeta = document.attachmentMeta
+            val attachmentMeta = data.attachmentMeta
 
             setDocumentName(attachmentMeta.name)
             setDocumentPages(attachmentMeta.pageCount)
@@ -354,6 +297,7 @@ object LMFeedPostBinderUtils {
     }
 
     fun bindMultipleMediaView(
+        position: Int,
         multipleMediaView: LMFeedPostMultipleMediaView,
         data: LMFeedMediaViewData,
         listener: LMFeedUniversalFeedAdapterListener
@@ -376,7 +320,11 @@ object LMFeedPostBinderUtils {
             }
 
             //sets multiple media view pager
-            setViewPager(listener, attachments)
+            setViewPager(
+                position,
+                listener,
+                attachments
+            )
         }
     }
 }
