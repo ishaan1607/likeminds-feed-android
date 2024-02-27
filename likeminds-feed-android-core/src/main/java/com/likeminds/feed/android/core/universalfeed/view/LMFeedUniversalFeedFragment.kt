@@ -11,10 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
+import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
+import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
@@ -252,8 +254,21 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostMenuIconClick() {
-//        TODO("Not yet implemented")
+    override fun onPostMenuIconClick(
+        position: Int,
+        anchorView: View,
+        postViewData: LMFeedPostViewData
+    ) {
+        val popupMenu = LMFeedOverflowMenu(requireContext(), anchorView)
+        val menuItems = postViewData.headerViewData.menuItems
+        Log.d("PUI", "setClickListeners: ${menuItems.size}")
+        popupMenu.addMenuItems(menuItems)
+
+        popupMenu.setMenuItemClickListener { menuId ->
+            onPostMenuItemClick(menuId, postViewData)
+        }
+
+        popupMenu.show()
     }
 
     override fun onPostImageMediaClick(position: Int, postViewData: LMFeedPostViewData) {
@@ -370,5 +385,30 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         mSwipeRefreshLayout.isRefreshing = true
         binding.rvUniversal.resetScrollListenerData()
         lmFeedUniversalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
+    }
+
+    //callback when post menu items are clicked
+    protected open fun onPostMenuItemClick(menuId: Int, postViewData: LMFeedPostViewData) {
+        when (menuId) {
+            EDIT_POST_MENU_ITEM_ID -> {
+                Log.d("PUI", "EDIT_POST_MENU_ITEM_ID")
+            }
+
+            DELETE_POST_MENU_ITEM_ID -> {
+                Log.d("PUI", "DELETE_POST_MENU_ITEM_ID")
+            }
+
+            REPORT_POST_MENU_ITEM_ID -> {
+                Log.d("PUI", "REPORT_POST_MENU_ITEM_ID")
+            }
+
+            PIN_POST_MENU_ITEM_ID -> {
+                Log.d("PUI", "PIN_POST_MENU_ITEM_ID")
+            }
+
+            UNPIN_POST_MENU_ITEM_ID -> {
+                Log.d("PUI", "UNPIN_POST_MENU_ITEM_ID")
+            }
+        }
     }
 }

@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedHeaderViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.styles.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -45,8 +44,8 @@ class LMFeedHeaderView : ConstraintLayout {
         //configure header view elements
         configureTitle(headerViewStyle.titleTextStyle)
         configureSubtitle(headerViewStyle.subtitleTextStyle)
-        configureNavigationIcon(headerViewStyle)
-        configureSearchIcon(headerViewStyle)
+        configureNavigationIcon(headerViewStyle.navigationIconStyle)
+        configureSearchIcon(headerViewStyle.searchIconStyle)
     }
 
     private fun configureTitle(titleTextStyle: LMFeedTextStyle) {
@@ -64,23 +63,23 @@ class LMFeedHeaderView : ConstraintLayout {
         }
     }
 
-    private fun configureNavigationIcon(headerViewStyle: LMFeedHeaderViewStyle) {
+    private fun configureNavigationIcon(navigationIconStyle: LMFeedIconStyle?) {
         binding.ivHeaderNavigation.apply {
-            if (headerViewStyle.navigationIconStyle == null) {
+            if (navigationIconStyle == null) {
                 hide()
             } else {
-                setStyle(headerViewStyle.navigationIconStyle)
+                setStyle(navigationIconStyle)
                 show()
             }
         }
     }
 
-    private fun configureSearchIcon(headerViewStyle: LMFeedHeaderViewStyle) {
+    private fun configureSearchIcon(searchIconStyle: LMFeedIconStyle?) {
         binding.ivHeaderSearch.apply {
-            if (headerViewStyle.searchIconStyle == null) {
+            if (searchIconStyle == null) {
                 hide()
             } else {
-                setStyle(headerViewStyle.searchIconStyle)
+                setStyle(searchIconStyle)
                 show()
             }
         }

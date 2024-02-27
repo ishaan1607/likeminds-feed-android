@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.adapter.databinders
 
 import android.text.util.Linkify
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.util.LinkifyCompat
@@ -72,8 +73,12 @@ class LMFeedItemPostTextOnlyViewDataBinder(
     private fun setClickListeners(binding: LmFeedItemPostTextOnlyBinding) {
         binding.apply {
             postHeader.setMenuIconClickListener {
-                // todo: add required params and extend in the fragment
-                universalFeedAdapterListener.onPostMenuIconClick()
+                val post = postViewData ?: return@setMenuIconClickListener
+                universalFeedAdapterListener.onPostMenuIconClick(
+                    position,
+                    postHeader.headerMenu,
+                    post
+                )
             }
 
             // todo: test this otherwise move this to setTextContent function
