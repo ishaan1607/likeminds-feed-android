@@ -6,6 +6,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.base.BaseViewModel
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.likemindsfeed.post.model.LikePostRequest
+import com.likeminds.likemindsfeed.post.model.SavePostRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -19,14 +20,20 @@ class LMFeedUniversalFeedViewModel : BaseViewModel() {
     private val _postLikedResponse = MutableLiveData<Pair<String, Boolean>>()
     val postLikedResponse: LiveData<Pair<String, Boolean>> = _postLikedResponse
 
+    private val _postSavedResponse = MutableLiveData<Pair<LMFeedPostViewData, Boolean>>()
+    val postSavedResponse: LiveData<Pair<LMFeedPostViewData, Boolean>> = _postSavedResponse
+
     private val errorMessageChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
     val errorMessageEventFlow = errorMessageChannel.receiveAsFlow()
 
     sealed class ErrorMessageEvent {
         data class LikePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
-        data class SavePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
+        data class SavePost(val postId: String, val errorMessage: String?) :
+            ErrorMessageEvent()
+
         data class DeletePost(val errorMessage: String?) : ErrorMessageEvent()
-        data class PinPost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
+        data class PinPost(val postViewData: LMFeedPostViewData, val errorMessage: String?) :
+            ErrorMessageEvent()
     }
 
     companion object {
@@ -80,6 +87,30 @@ class LMFeedUniversalFeedViewModel : BaseViewModel() {
                 errorMessageChannel.send(
                     ErrorMessageEvent.LikePost(
                         postId,
+                        response.errorMessage
+                    )
+                )
+            }
+        }
+    }
+
+    //for save/unsave a post
+    fun savePost(postViewData: LMFeedPostViewData, postSaved: Boolean) {
+        viewModelScope.launchIO {
+            val request = SavePostRequest.Builder()
+                .postId(postViewData.id)
+                .build()
+
+            //call like post api
+            val response = lmFeedClient.savePost(request)
+
+            //check for error
+            if (response.success) {
+                _postSavedResponse.postValue(Pair(postViewData, postSaved))
+            } else {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.SavePost(
+                        postViewData.id,
                         response.errorMessage
                     )
                 )

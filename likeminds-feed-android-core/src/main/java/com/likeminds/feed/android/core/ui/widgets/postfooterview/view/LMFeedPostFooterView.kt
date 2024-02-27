@@ -8,9 +8,10 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedPostFooterViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPostFooterViewStyle
-import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedPostFooterView : ConstraintLayout {
 
@@ -122,7 +123,9 @@ class LMFeedPostFooterView : ConstraintLayout {
      * @param listener [LMFeedOnClickListener] interface to have click listener
      */
     fun setLikeIconClickListener(listener: LMFeedOnClickListener) {
-        binding.ivLike.setOnClickListener {
+        binding.ivLike.setOnClickListener { view ->
+            // bounce animation for like button
+            LMFeedViewUtils.showBounceAnim(view.context, view)
             listener.onClick()
         }
     }

@@ -36,10 +36,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     private val lmFeedUniversalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
 
-    companion object {
-        private const val LOG_TAG = "LMFeedUniversalFeedFragment"
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
@@ -130,6 +126,16 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             )
         }
 
+        lmFeedUniversalFeedViewModel.postSavedResponse.observe(viewLifecycleOwner) { response ->
+            val post = response.first
+            LMFeedAnalytics.sendPostSavedEvent(
+                uuid = post.headerViewData.user.sdkClientInfoViewData.uuid,
+                postId = post.id,
+                postSaved = response.second
+            )
+            onPostSavedSuccess(post)
+        }
+
         lmFeedUniversalFeedViewModel.errorMessageEventFlow.onEach { response ->
             when (response) {
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.DeletePost -> {
@@ -178,7 +184,32 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                 }
 
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.SavePost -> {
+                    binding.rvUniversal.apply {
+                        val postId = response.postId
 
+                        //get post and index
+                        val pair = getIndexAndPostFromAdapter(postId) ?: return@onEach
+                        val post = pair.second
+                        val index = pair.first
+
+                        val updatedFooterViewData = post.footerViewData.toBuilder()
+                            .isSaved(!post.footerViewData.isSaved)
+                            .build()
+
+                        //update post view data
+                        val updatedPostViewData = post.toBuilder()
+                            .footerViewData(updatedFooterViewData)
+                            .fromPostSaved(true)
+                            .build()
+
+                        //update recycler view
+                        updatePostItem(index, updatedPostViewData)
+
+                        onPostSavedError(
+                            response.errorMessage ?: getString(R.string.lm_feed_something_went_wrong),
+                            updatedPostViewData
+                        )
+                    }
                 }
             }
         }.observeInLifecycle(viewLifecycleOwner)
@@ -248,34 +279,32 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostLikeClick(position: Int, postViewData: LMFeedPostViewData) {
-        postViewData.let {
-            val footerData = it.footerViewData
-            val newLikesCount = if (footerData.isLiked) {
-                footerData.likesCount - 1
-            } else {
-                footerData.likesCount + 1
-            }
-
-            val updatedIsLiked = !footerData.isLiked
-
-            val updatedFooterData = footerData.toBuilder()
-                .isLiked(updatedIsLiked)
-                .likesCount(newLikesCount)
-                .build()
-
-            val updatedPostData = it.toBuilder()
-                .footerViewData(updatedFooterData)
-                .fromPostLiked(true)
-                .build()
-
-            //call api
-            lmFeedUniversalFeedViewModel.likePost(
-                updatedPostData.id,
-                updatedPostData.footerViewData.isLiked
-            )
-            //update recycler
-            binding.rvUniversal.updatePostItem(position, updatedPostData)
+        val footerData = postViewData.footerViewData
+        val newLikesCount = if (footerData.isLiked) {
+            footerData.likesCount - 1
+        } else {
+            footerData.likesCount + 1
         }
+
+        val updatedIsLiked = !footerData.isLiked
+
+        val updatedFooterData = footerData.toBuilder()
+            .isLiked(updatedIsLiked)
+            .likesCount(newLikesCount)
+            .build()
+
+        val updatedPostData = postViewData.toBuilder()
+            .footerViewData(updatedFooterData)
+            .fromPostLiked(true)
+            .build()
+
+        //call api
+        lmFeedUniversalFeedViewModel.likePost(
+            updatedPostData.id,
+            updatedPostData.footerViewData.isLiked
+        )
+        //update recycler
+        binding.rvUniversal.updatePostItem(position, updatedPostData)
     }
 
     override fun onPostLikesCountClick(position: Int, postViewData: LMFeedPostViewData) {
@@ -287,7 +316,24 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostSaveClick(position: Int, postViewData: LMFeedPostViewData) {
-//        TODO("Not yet implemented")
+        val footerData = postViewData.footerViewData
+        val updatedFooterData = footerData.toBuilder()
+            .isSaved(!footerData.isSaved)
+            .build()
+
+        //todo: create toast message using post variable and show toast
+        val updatedPostData = postViewData.toBuilder()
+            .footerViewData(updatedFooterData)
+            .fromPostSaved(true)
+            .build()
+
+        //call api
+        lmFeedUniversalFeedViewModel.savePost(
+            updatedPostData,
+            updatedFooterData.isSaved
+        )
+        //update recycler
+        binding.rvUniversal.updatePostItem(position, updatedPostData)
     }
 
     override fun onPostShareClick(position: Int, postViewData: LMFeedPostViewData) {
@@ -477,6 +523,14 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                 onEditPostMenuClick(menuId, postViewData)
             }
 
+            DELETE_POST_MENU_ITEM_ID -> {
+                onDeletePostMenuClick(menuId, postViewData)
+            }
+
+            REPORT_POST_MENU_ITEM_ID -> {
+                onReportPostMenuClick(menuId, postViewData)
+            }
+
             PIN_POST_MENU_ITEM_ID -> {
                 onPinPostMenuClick(menuId, postViewData)
             }
@@ -508,6 +562,22 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     protected open fun onPostLikedError(errorMessage: String, post: LMFeedPostViewData) {
+        //show error message
+        LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
+    }
+
+    protected open fun onPostSavedSuccess(post: LMFeedPostViewData) {
+        //todo: post variable
+        //show toast message
+        val toastMessage = if (post.footerViewData.isSaved) {
+            getString(R.string.s_saved)
+        } else {
+            getString(R.string.s_unsaved)
+        }
+        LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
+    }
+
+    protected open fun onPostSavedError(errorMessage: String, post: LMFeedPostViewData) {
         //show error message
         LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
     }

@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.ColorRes
@@ -64,6 +66,23 @@ object LMFeedViewUtils {
 
     // shows short toast with error message
     fun showErrorMessageToast(context: Context, errorMessage: String?) {
-        showShortToast(context, errorMessage ?: context.getString(R.string.lm_feed_something_went_wrong))
+        showShortToast(
+            context,
+            errorMessage ?: context.getString(R.string.lm_feed_something_went_wrong)
+        )
+    }
+
+    // shoes bounce animation on the provided view
+    fun showBounceAnim(context: Context, view: View) {
+        // bounce animation for save button
+        val saveBounceAnim: Animation by lazy {
+            AnimationUtils.loadAnimation(
+                context,
+                R.anim.lm_feed_bounce
+            )
+        }
+
+        saveBounceAnim.interpolator = LMFeedBounceInterpolator(0.2, 20.0)
+        view.startAnimation(saveBounceAnim)
     }
 }

@@ -131,7 +131,7 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     }
 
     fun updateWithoutNotifying(position: Int, postItem: LMFeedPostViewData) {
-        universalFeedAdapter.update(position, postItem)
+        universalFeedAdapter.updateWithoutNotifyingRV(position, postItem)
     }
 
     fun updatePostItem(position: Int, updatedPostItem: LMFeedPostViewData) {

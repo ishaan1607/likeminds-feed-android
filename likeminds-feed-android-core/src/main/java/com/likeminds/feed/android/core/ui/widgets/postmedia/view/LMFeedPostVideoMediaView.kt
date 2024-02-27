@@ -162,7 +162,6 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
      * This will play new URI we have provided
      * @param isVideoLocal - whether the played video is local or not
      */
-    //todo: add thumbnail here
     fun playVideo(uri: Uri, isVideoLocal: Boolean) {
         binding.apply {
             if (isVideoLocal) {

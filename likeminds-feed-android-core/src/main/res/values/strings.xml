@@ -31,4 +31,6 @@
     <string name="lm_feed_something_went_wrong">Something went wrong!</string>
     <string name="no_application_found_to_open_this_document">No application found to open this document</string>
     <string name="share_s">Share %s</string>
+    <string name="s_saved">%s Saved</string>
+    <string name="s_unsaved">%s Unsaved</string>
 </resources>

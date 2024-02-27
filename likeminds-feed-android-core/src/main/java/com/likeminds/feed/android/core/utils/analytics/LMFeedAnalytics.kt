@@ -34,6 +34,8 @@ object LMFeedAnalytics {
         const val POST_SHARED = "Post shared"
         const val POST_LIKED = "Post Liked"
         const val POST_UNLIKED = "Post Unliked"
+        const val POST_SAVED = "Post Saved"
+        const val POST_UNSAVED = "Post Unsaved"
         const val COMMENT_LIKED = "Comment Liked"
         const val COMMENT_UNLIKED = "Comment Unliked"
 
@@ -88,11 +90,38 @@ object LMFeedAnalytics {
     /**
      * Triggers when the current user likes/unlikes a post
      */
-    fun sendPostLikedEvent(uuid: String, postId: String, postLiked: Boolean) {
+    fun sendPostLikedEvent(
+        uuid: String,
+        postId: String,
+        postLiked: Boolean
+    ) {
         val event = if (postLiked) {
             Events.POST_LIKED
         } else {
             Events.POST_UNLIKED
+        }
+
+        track(
+            event,
+            mapOf(
+                Keys.UUID to uuid,
+                Keys.POST_ID to postId
+            )
+        )
+    }
+
+    /**
+     * Triggers when the current user saves/unsaves a post
+     */
+    fun sendPostSavedEvent(
+        uuid: String,
+        postId: String,
+        postSaved: Boolean
+    ) {
+        val event = if (postSaved) {
+            Events.POST_SAVED
+        } else {
+            Events.POST_UNSAVED
         }
 
         track(
