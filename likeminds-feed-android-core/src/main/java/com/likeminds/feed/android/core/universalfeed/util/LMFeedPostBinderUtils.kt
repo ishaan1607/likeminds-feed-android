@@ -3,11 +3,13 @@ package com.likeminds.feed.android.core.universalfeed.util
 import android.text.*
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.post.model.*
+import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
@@ -15,6 +17,7 @@ import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.postmedia.view.*
+import com.likeminds.feed.android.core.ui.widgets.posttopicsview.view.LMFeedPostTopicsView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
 import com.likeminds.feed.android.core.utils.LMFeedSeeMoreUtil
@@ -28,8 +31,8 @@ import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_VIDE
 object LMFeedPostBinderUtils {
 
     // customizes the header view of the post
-    fun customizePostHeaderView(authorFrame: LMFeedPostHeaderView) {
-        authorFrame.apply {
+    fun customizePostHeaderView(postHeaderView: LMFeedPostHeaderView) {
+        postHeaderView.apply {
             val postHeaderViewStyle =
                 LMFeedStyleTransformer.postViewStyle.postHeaderViewStyle
 
@@ -38,20 +41,29 @@ object LMFeedPostBinderUtils {
     }
 
     // customizes the content view of the post
-    fun customizePostContentView(tvPostContent: LMFeedTextView) {
-        tvPostContent.apply {
+    fun customizePostContentView(postContent: LMFeedTextView) {
+        postContent.apply {
             val postContentTextStyle = LMFeedStyleTransformer.postViewStyle.postContentTextStyle
             setStyle(postContentTextStyle)
         }
     }
 
     // customizes the footer view of the post
-    fun customizePostFooterView(postActionsLayout: LMFeedPostFooterView) {
-        postActionsLayout.apply {
+    fun customizePostFooterView(postFooterView: LMFeedPostFooterView) {
+        postFooterView.apply {
             val postFooterViewStyle =
                 LMFeedStyleTransformer.postViewStyle.postFooterViewStyle
 
             setStyle(postFooterViewStyle)
+        }
+    }
+
+    //customizes the topics view of the
+    fun customizePostTopicsView(postTopicsView: LMFeedPostTopicsView) {
+        postTopicsView.apply {
+            val postTopicsViewStyle = LMFeedStyleTransformer.postViewStyle.postTopicsViewStyle
+
+            setStyle(postTopicsViewStyle)
         }
     }
 
@@ -60,6 +72,7 @@ object LMFeedPostBinderUtils {
         contentView: LMFeedTextView,
         data: LMFeedPostViewData,
         position: Int,
+        topicsView: LMFeedPostTopicsView,
         universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
         returnBinder: () -> Unit,
         executeBinder: () -> Unit
@@ -83,6 +96,11 @@ object LMFeedPostBinderUtils {
                 data,
                 universalFeedAdapterListener,
                 position
+            )
+
+            setPostTopicsViewData(
+                topicsView,
+                data.topicsViewData
             )
 
             executeBinder()
@@ -236,12 +254,31 @@ object LMFeedPostBinderUtils {
         }
     }
 
+    private fun setPostTopicsViewData(
+        lmFeedPostTopicsView: LMFeedPostTopicsView,
+        topics: List<LMFeedTopicViewData>
+    ) {
+        if (topics.isEmpty()) {
+            Log.d("PUI","topics are empty")
+            lmFeedPostTopicsView.hide()
+        } else {
+            Log.d("PUI","topics are not empty")
+            lmFeedPostTopicsView.apply {
+                show()
+                removeAllTopics()
+                topics.forEach { topic ->
+                    addTopic(topic)
+                }
+            }
+        }
+    }
+
     fun bindPostSingleImage(
         ivPost: LMFeedImageView,
         mediaData: LMFeedMediaViewData
     ) {
         val postImageMediaStyle =
-            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle ?: return
 
         ivPost.setImage(mediaData.attachments.first().attachmentMeta.url, postImageMediaStyle)
     }
@@ -289,7 +326,7 @@ object LMFeedPostBinderUtils {
 
     fun bindMultipleMediaImageView(ivPost: LMFeedImageView, attachment: LMFeedAttachmentViewData?) {
         val postImageMediaStyle =
-            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle ?: return
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle ?: return
 
         attachment?.let {
             ivPost.setImage(attachment.attachmentMeta.url, postImageMediaStyle)

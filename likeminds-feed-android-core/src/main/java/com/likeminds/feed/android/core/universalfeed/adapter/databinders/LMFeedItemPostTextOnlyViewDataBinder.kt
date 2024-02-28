@@ -35,6 +35,8 @@ class LMFeedItemPostTextOnlyViewDataBinder(
 
             LMFeedPostBinderUtils.customizePostFooterView(postFooter)
 
+            LMFeedPostBinderUtils.customizePostTopicsView(postTopics)
+
             setClickListeners(this)
         }
 
@@ -62,6 +64,7 @@ class LMFeedItemPostTextOnlyViewDataBinder(
                 tvPostContent,
                 data,
                 position,
+                postTopics,
                 universalFeedAdapterListener,
                 returnBinder = {
                     return@setPostBindData

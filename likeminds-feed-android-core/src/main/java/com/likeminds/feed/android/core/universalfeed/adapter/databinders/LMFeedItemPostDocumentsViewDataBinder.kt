@@ -35,11 +35,13 @@ class LMFeedItemPostDocumentsViewDataBinder(
 
             LMFeedPostBinderUtils.customizePostFooterView(postFooter)
 
+            LMFeedPostBinderUtils.customizePostTopicsView(postTopics)
+
             setClickListeners(this)
 
             //sets documents media style to documents view
             val postDocumentsMediaViewStyle =
-                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postDocumentsMediaStyle
+                LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
                     ?: return@apply
 
             postDocumentsMediaView.setStyle(postDocumentsMediaViewStyle)
@@ -70,6 +72,7 @@ class LMFeedItemPostDocumentsViewDataBinder(
                 tvPostContent,
                 data,
                 position,
+                postTopics,
                 universalFeedAdapterListener,
                 returnBinder = {
                     return@setPostBindData

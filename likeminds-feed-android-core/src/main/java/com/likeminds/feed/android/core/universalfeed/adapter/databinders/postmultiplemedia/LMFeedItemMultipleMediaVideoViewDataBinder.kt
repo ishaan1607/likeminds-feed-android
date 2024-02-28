@@ -29,7 +29,7 @@ class LMFeedItemMultipleMediaVideoViewDataBinder(
 
             //sets video media style to multiple media video view
             val postVideoMediaStyle =
-                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle
+                LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle
                     ?: return@apply
 
             postVideoView.setStyle(postVideoMediaStyle)

@@ -30,7 +30,7 @@ class LMFeedItemDocumentViewDataBinder(
             setClickListeners(binding)
 
             val postDocumentMediaStyle =
-                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postDocumentsMediaStyle
+                LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
                     ?: return@apply
 
             documentItem.setStyle(postDocumentMediaStyle)

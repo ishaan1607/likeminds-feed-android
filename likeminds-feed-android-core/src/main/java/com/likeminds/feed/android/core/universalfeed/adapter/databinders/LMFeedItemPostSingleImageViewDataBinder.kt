@@ -36,11 +36,13 @@ class LMFeedItemPostSingleImageViewDataBinder(
 
             LMFeedPostBinderUtils.customizePostFooterView(postFooter)
 
+            LMFeedPostBinderUtils.customizePostTopicsView(postTopics)
+
             setClickListeners(this)
 
             //set styles to the image media in the post
             val postImageMediaStyle =
-                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle
+                LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
                     ?: return@apply
 
             ivPost.setStyle(postImageMediaStyle)
@@ -70,6 +72,7 @@ class LMFeedItemPostSingleImageViewDataBinder(
                 tvPostContent,
                 data,
                 position,
+                postTopics,
                 universalFeedAdapterListener,
                 returnBinder = {
                     return@setPostBindData

@@ -35,11 +35,13 @@ class LMFeedItemPostSingleVideoViewDataBinder(
 
             LMFeedPostBinderUtils.customizePostFooterView(postFooter)
 
+            LMFeedPostBinderUtils.customizePostTopicsView(postTopics)
+
             setClickListeners(this)
 
             //set video media style to post video view
             val postVideoMediaStyle =
-                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle
+                LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle
                     ?: return@apply
 
             postVideoView.setStyle(postVideoMediaStyle)
@@ -70,6 +72,7 @@ class LMFeedItemPostSingleVideoViewDataBinder(
                 tvPostContent,
                 data,
                 position,
+                postTopics,
                 universalFeedAdapterListener,
                 returnBinder = {
                     return@setPostBindData

@@ -31,7 +31,7 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
 
             //sets image media style to multiple media image view
             val postImageMediaStyle =
-                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postImageMediaStyle
+                LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
                     ?: return@apply
 
             ivPost.setStyle(postImageMediaStyle)

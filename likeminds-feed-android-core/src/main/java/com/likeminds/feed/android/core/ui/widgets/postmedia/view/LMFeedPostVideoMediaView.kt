@@ -113,7 +113,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
      */
     fun setPlayPauseIcon(isPlaying: Boolean = false) {
         val iconStyle =
-            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle?.videoPlayPauseButton
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle?.videoPlayPauseButton
                 ?: return
 
         val playPauseIcon = if (isPlaying) {
@@ -139,7 +139,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
      */
     fun setMuteUnmuteIcon(isMute: Boolean = false) {
         val iconStyle =
-            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle?.videoMuteUnmuteButton
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle?.videoMuteUnmuteButton
                 ?: return
 
         val muteUnmuteIcon = if (isMute) {

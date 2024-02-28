@@ -15,6 +15,7 @@ class LMFeedPostTopicsViewStyle private constructor(
     @DimenRes val chipMinHeight: Int?,
     @DimenRes val chipStartPadding: Int?,
     @DimenRes val chipEndPadding: Int?,
+    @DimenRes val chipCornerRadius: Int,
     @ColorRes val chipTextColor: Int,
     @DimenRes val chipTextSize: Int
 ) : LMFeedViewStyle {
@@ -48,6 +49,9 @@ class LMFeedPostTopicsViewStyle private constructor(
         @DimenRes
         private var chipEndPadding: Int? = null
 
+        @DimenRes
+        private var chipCornerRadius: Int = R.dimen.lm_feed_corner_radius_regular
+
         @ColorRes
         private var chipTextColor: Int = R.color.lm_feed_majorelle_blue
 
@@ -79,6 +83,10 @@ class LMFeedPostTopicsViewStyle private constructor(
         fun chipEndPadding(@DimenRes chipEndPadding: Int?) =
             apply { this.chipEndPadding = chipEndPadding }
 
+        fun chipCornerRadius(@DimenRes chipCornerRadius: Int) = apply {
+            this.chipCornerRadius = chipCornerRadius
+        }
+
         fun chipTextColor(@ColorRes chipTextColor: Int) =
             apply { this.chipTextColor = chipTextColor }
 
@@ -94,6 +102,7 @@ class LMFeedPostTopicsViewStyle private constructor(
             chipMinHeight,
             chipStartPadding,
             chipEndPadding,
+            chipCornerRadius,
             chipTextColor,
             chipTextSize
         )
@@ -109,6 +118,7 @@ class LMFeedPostTopicsViewStyle private constructor(
             .chipMinHeight(chipMinHeight)
             .chipStartPadding(chipStartPadding)
             .chipEndPadding(chipEndPadding)
+            .chipCornerRadius(chipCornerRadius)
             .chipTextColor(chipTextColor)
             .chipTextSize(chipTextSize)
     }

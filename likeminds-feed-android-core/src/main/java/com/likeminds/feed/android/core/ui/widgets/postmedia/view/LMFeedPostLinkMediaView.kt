@@ -123,7 +123,7 @@ class LMFeedPostLinkMediaView : MaterialCardView {
      */
     fun setLinkDescription(linkDescription: String?) {
         binding.tvLinkDescription.apply {
-            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postLinkViewStyle?.linkDescriptionStyle
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postLinkViewStyle?.linkDescriptionStyle
                 ?: return@apply
 
             if (linkDescription.isNullOrBlank()) {
@@ -160,7 +160,7 @@ class LMFeedPostLinkMediaView : MaterialCardView {
      */
     fun setLinkImage(imageSrc: String?) {
         val linkImageViewStyle =
-            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postLinkViewStyle?.linkImageStyle
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postLinkViewStyle?.linkImageStyle
                 ?: return
 
         binding.ivLink.apply {

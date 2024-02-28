@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="zero_dp">0dp</dimen>
     <!--Header View-->
     <dimen name="lm_feed_header_view_title_text_size">22sp</dimen>
 
@@ -12,6 +13,9 @@
     <!--    Elevation Size-->
     <dimen name="lm_feed_elevation_big">8dp</dimen>
     <dimen name="lm_feed_elevation_small">4dp</dimen>
+
+    <!--    Corner radius-->
+    <dimen name="lm_feed_corner_radius_regular">4dp</dimen>
 
     <!--    Padding Size-->
     <dimen name="lm_feed_padding_big">8dp</dimen>
@@ -30,6 +34,7 @@
     <dimen name="lm_feed_indicator_dots_spacing">4dp</dimen>
     <dimen name="lm_feed_indicator_dot_size">6dp</dimen>
 
+    <!--    Chip related-->
     <dimen name="lm_feed_topic_chip_group_horizontal_spacing">4dp</dimen>
     <dimen name="lm_feed_topic_chip_group_vertical_spacing">4dp</dimen>
 </resources>

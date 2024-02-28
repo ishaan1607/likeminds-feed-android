@@ -116,7 +116,7 @@ class LMFeedVideoView @JvmOverloads constructor(
         thumbnailSrc: Any? = null
     ) {
         //progress style is null then we don't have to show the progressBar
-        if (LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle?.videoProgressStyle != null) {
+        if (LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle?.videoProgressStyle != null) {
             this.progressBar = progressBar
         }
 
@@ -141,7 +141,7 @@ class LMFeedVideoView @JvmOverloads constructor(
         thumbnailSrc: Any? = null
     ) {
         //progress style is null then we don't have to show the progressBar
-        if (LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle?.videoProgressStyle != null) {
+        if (LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle?.videoProgressStyle != null) {
             this.progressBar = progressBar
         }
 
@@ -180,7 +180,7 @@ class LMFeedVideoView @JvmOverloads constructor(
         this.thumbnailView = thumbnailView
 
         val thumbnailStyle =
-            LMFeedStyleTransformer.postViewStyle.postMediaStyle.postVideoMediaStyle?.videoThumbnailStyle
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle?.videoThumbnailStyle
                 ?: return
 
         val finalThumbnailSrc = thumbnailSrc ?: thumbnailStyle.imageSrc

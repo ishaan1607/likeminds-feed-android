@@ -35,11 +35,13 @@ class LMFeedItemPostLinkViewDataBinder(
 
             LMFeedPostBinderUtils.customizePostFooterView(postFooter)
 
+            LMFeedPostBinderUtils.customizePostTopicsView(postTopics)
+
             setClickListeners(this)
 
             //sets link media style to post link view
             val postLinkViewStyle =
-                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postLinkViewStyle
+                LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postLinkViewStyle
                     ?: return@apply
 
             postLinkView.setStyle(postLinkViewStyle)
@@ -73,6 +75,7 @@ class LMFeedItemPostLinkViewDataBinder(
                 tvPostContent,
                 data,
                 position,
+                postTopics,
                 universalFeedAdapterListener,
                 returnBinder = {
                     return@setPostBindData

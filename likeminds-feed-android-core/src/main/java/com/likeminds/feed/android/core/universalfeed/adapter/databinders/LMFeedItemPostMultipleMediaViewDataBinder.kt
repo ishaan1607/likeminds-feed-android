@@ -35,11 +35,13 @@ class LMFeedItemPostMultipleMediaViewDataBinder(
 
             LMFeedPostBinderUtils.customizePostFooterView(postFooter)
 
+            LMFeedPostBinderUtils.customizePostTopicsView(postTopics)
+
             setClickListeners(this)
 
             //sets link media style to multiple media view
             val postMultipleMediaViewStyle =
-                LMFeedStyleTransformer.postViewStyle.postMediaStyle.postMultipleMediaStyle
+                LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postMultipleMediaStyle
                     ?: return@apply
 
             multipleMediaView.setStyle(postMultipleMediaViewStyle)
@@ -70,6 +72,7 @@ class LMFeedItemPostMultipleMediaViewDataBinder(
                 tvPostContent,
                 data,
                 position,
+                postTopics,
                 universalFeedAdapterListener,
                 returnBinder = {
                     return@setPostBindData
