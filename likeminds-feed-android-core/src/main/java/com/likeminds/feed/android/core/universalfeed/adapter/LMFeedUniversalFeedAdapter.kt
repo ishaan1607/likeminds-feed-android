@@ -61,25 +61,25 @@ class LMFeedUniversalFeedAdapter(
 
 interface LMFeedUniversalFeedAdapterListener {
     //triggered when the user clicks on post content
-    fun onPostContentClick(position: Int, postViewData: LMFeedPostViewData) //todo
+    fun onPostContentClick(position: Int, postViewData: LMFeedPostViewData)
 
     //triggered when the user clicks on like icon
-    fun onPostLikeClick(position: Int, postViewData: LMFeedPostViewData) //Ishaan
+    fun onPostLikeClick(position: Int, postViewData: LMFeedPostViewData)
 
     //triggered when the user clicks on likes count
-    fun onPostLikesCountClick(position: Int, postViewData: LMFeedPostViewData) //todo
+    fun onPostLikesCountClick(position: Int, postViewData: LMFeedPostViewData)
 
     //triggered when the user clicks on the comments count
-    fun onPostCommentsCountClick(position: Int, postViewData: LMFeedPostViewData) //todo
+    fun onPostCommentsCountClick(position: Int, postViewData: LMFeedPostViewData)
 
     //triggered when the user clicks on save post icon
-    fun onPostSaveClick(position: Int, postViewData: LMFeedPostViewData) //ishaan
+    fun onPostSaveClick(position: Int, postViewData: LMFeedPostViewData)
 
     //triggered when the user clicks on share icon
-    fun onPostShareClick(position: Int, postViewData: LMFeedPostViewData) //sid
+    fun onPostShareClick(position: Int, postViewData: LMFeedPostViewData)
 
     //triggered to update the data with re-inflation of the item
-    fun updateFromLikedSaved(position: Int, postViewData: LMFeedPostViewData) //sid
+    fun updateFromLikedSaved(position: Int, postViewData: LMFeedPostViewData)
 
     //triggered when the user clicks on "See More"
     fun updatePostSeenFullContent(
@@ -89,7 +89,7 @@ interface LMFeedUniversalFeedAdapterListener {
     ) //sid
 
     //triggered when a link from post content is clicked
-    fun handleLinkClick(url: String) //sid
+    fun handleLinkClick(url: String)
 
     //triggered when the menu icon of the post is clicked
     fun onPostMenuIconClick(
@@ -102,23 +102,23 @@ interface LMFeedUniversalFeedAdapterListener {
     fun onPostImageMediaClick(position: Int, postViewData: LMFeedPostViewData)
 
     //triggered when the video media of the post is clicked
-    fun onPostVideoMediaClick(position: Int, postViewData: LMFeedPostViewData) //todo
+    fun onPostVideoMediaClick(position: Int, postViewData: LMFeedPostViewData)
 
     //triggered when the link media of the post is clicked
-    fun onPostLinkMediaClick(position: Int, postViewData: LMFeedPostViewData) //sid
+    fun onPostLinkMediaClick(position: Int, postViewData: LMFeedPostViewData)
 
     //triggered when the document media in the post is clicked
-    fun onPostDocumentMediaClick(position: Int, parentPosition: Int) //sid
+    fun onPostDocumentMediaClick(position: Int, parentPosition: Int)
 
     //triggered when the image media of multiple media is clicked
-    fun onPostMultipleMediaImageClick(position: Int, parentPosition: Int) //todo
+    fun onPostMultipleMediaImageClick(position: Int, parentPosition: Int)
 
     //triggered when the video media of multiple media is clicked
-    fun onPostMultipleMediaVideoClick(position: Int, parentPosition: Int) //todo
+    fun onPostMultipleMediaVideoClick(position: Int, parentPosition: Int)
 
     //triggered when the page of the view pager is changed
-    fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) //sid
+    fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int)
 
     //triggered when a user clicks on "See More" of document type post
-    fun onPostMultipleDocumentsExpanded(position: Int, postViewData: LMFeedPostViewData) //sid
+    fun onPostMultipleDocumentsExpanded(position: Int, postViewData: LMFeedPostViewData)
 }

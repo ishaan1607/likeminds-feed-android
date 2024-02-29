@@ -9,7 +9,7 @@ import com.likeminds.feed.android.core.databinding.LmFeedPostMultipleMediaViewBi
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostMultipleMediaViewStyle
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedMultipleMediaPostAdapter
+import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedMultipleMediaPostAdapter
 
 class LMFeedPostMultipleMediaView : ConstraintLayout {
 

@@ -123,7 +123,8 @@ class LMFeedItemPostSingleVideoViewDataBinder(
 
             postFooter.setLikeIconClickListener {
                 val post = postViewData ?: return@setLikeIconClickListener
-                universalFeedAdapterListener.onPostLikeClick(position, post)
+                val updatedPost = LMFeedPostBinderUtils.updatePostForLike(post)
+                universalFeedAdapterListener.onPostLikeClick(position, updatedPost)
             }
 
             postFooter.setLikesCountClickListener {
@@ -138,7 +139,8 @@ class LMFeedItemPostSingleVideoViewDataBinder(
 
             postFooter.setSaveIconListener {
                 val post = postViewData ?: return@setSaveIconListener
-                universalFeedAdapterListener.onPostSaveClick(position, post)
+                val updatedPost = LMFeedPostBinderUtils.updatePostForSave(post)
+                universalFeedAdapterListener.onPostSaveClick(position, updatedPost)
             }
 
             postFooter.setShareIconListener {

@@ -100,6 +100,7 @@ class  LMFeedPostViewData private constructor(
             .contentViewData(contentViewData)
             .mediaViewData(mediaViewData)
             .footerViewData(footerViewData)
+            .topicsViewData(topicsViewData)
             .fromPostLiked(fromPostLiked)
             .fromPostSaved(fromPostSaved)
             .fromVideoAction(fromVideoAction)

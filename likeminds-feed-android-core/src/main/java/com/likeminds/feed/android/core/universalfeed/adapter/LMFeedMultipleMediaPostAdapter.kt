@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.universalfeed.adapter.databinders
+package com.likeminds.feed.android.core.universalfeed.adapter
 
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.postmultiplemedia.LMFeedItemMultipleMediaImageViewDataBinder

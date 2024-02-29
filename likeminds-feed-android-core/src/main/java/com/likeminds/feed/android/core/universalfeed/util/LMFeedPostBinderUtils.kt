@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.universalfeed.util
 
+import android.content.Context
 import android.text.*
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
@@ -8,6 +9,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
 import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
@@ -67,6 +70,7 @@ object LMFeedPostBinderUtils {
         }
     }
 
+    //bind post data to specific views
     fun setPostBindData(
         headerView: LMFeedPostHeaderView,
         contentView: LMFeedTextView,
@@ -254,15 +258,16 @@ object LMFeedPostBinderUtils {
         }
     }
 
+    // sets the data in post topics view
     private fun setPostTopicsViewData(
         lmFeedPostTopicsView: LMFeedPostTopicsView,
         topics: List<LMFeedTopicViewData>
     ) {
         if (topics.isEmpty()) {
-            Log.d("PUI","topics are empty")
+            Log.d("PUI", "topics are empty")
             lmFeedPostTopicsView.hide()
         } else {
-            Log.d("PUI","topics are not empty")
+            Log.d("PUI", "topics are not empty")
             lmFeedPostTopicsView.apply {
                 show()
                 removeAllTopics()
@@ -271,6 +276,110 @@ object LMFeedPostBinderUtils {
                 }
             }
         }
+    }
+
+    // update post object for a like action
+    fun updatePostForLike(oldPostViewData: LMFeedPostViewData): LMFeedPostViewData {
+        val footerData = oldPostViewData.footerViewData
+        val newLikesCount = if (footerData.isLiked) {
+            footerData.likesCount - 1
+        } else {
+            footerData.likesCount + 1
+        }
+
+        val updatedIsLiked = !footerData.isLiked
+
+        val updatedFooterData = footerData.toBuilder()
+            .isLiked(updatedIsLiked)
+            .likesCount(newLikesCount)
+            .build()
+
+        return oldPostViewData.toBuilder()
+            .footerViewData(updatedFooterData)
+            .fromPostLiked(true)
+            .build()
+    }
+
+    // update post object for a save action
+    fun updatePostForSave(oldPostViewData: LMFeedPostViewData): LMFeedPostViewData {
+        val footerData = oldPostViewData.footerViewData
+        val updatedFooterData = footerData.toBuilder()
+            .isSaved(!footerData.isSaved)
+            .build()
+
+        return oldPostViewData.toBuilder()
+            .footerViewData(updatedFooterData)
+            .fromPostSaved(true)
+            .build()
+    }
+
+    // update post object for a pin action
+    fun updatePostForPin(
+        context: Context,
+        oldPostViewData: LMFeedPostViewData
+    ): LMFeedPostViewData? {
+        //get pin menu item
+        val menuItems = oldPostViewData.headerViewData.menuItems.toMutableList()
+        val pinPostIndex = menuItems.indexOfFirst {
+            (it.id == PIN_POST_MENU_ITEM_ID)
+        }
+
+        //if pin item doesn't exist
+        if (pinPostIndex == -1) return null
+
+        //update pin menu item
+        val pinPostMenuItem = menuItems[pinPostIndex]
+        val newPinPostMenuItem =
+            pinPostMenuItem.toBuilder().id(UNPIN_POST_MENU_ITEM_ID)
+                //todo: post as variable
+                .title(context.getString(R.string.lm_feed_unpin_this_s))
+                .build()
+        menuItems[pinPostIndex] = newPinPostMenuItem
+
+        //update the header view data
+        val updatedHeaderViewData = oldPostViewData.headerViewData.toBuilder()
+            .isPinned(!oldPostViewData.headerViewData.isPinned)
+            .menuItems(menuItems)
+            .build()
+
+        //update the post view data
+        return oldPostViewData.toBuilder()
+            .headerViewData(updatedHeaderViewData)
+            .build()
+    }
+
+    fun updatePostForUnpin(
+        context: Context,
+        oldPostViewData: LMFeedPostViewData
+    ): LMFeedPostViewData? {
+        val headerViewData = oldPostViewData.headerViewData
+        //get unpin menu item
+        val menuItems = headerViewData.menuItems.toMutableList()
+        val unPinPostIndex = menuItems.indexOfFirst {
+            (it.id == UNPIN_POST_MENU_ITEM_ID)
+        }
+
+        //if unpin item doesn't exist
+        if (unPinPostIndex == -1) return null
+
+        //update unpin menu item
+        val unPinPostMenuItem = menuItems[unPinPostIndex]
+        val newUnPinPostMenuItem =
+            unPinPostMenuItem.toBuilder().id(PIN_POST_MENU_ITEM_ID)
+                .title(context.getString(R.string.lm_feed_pin_this_s))
+                .build()
+        menuItems[unPinPostIndex] = newUnPinPostMenuItem
+
+        //update header view data
+        val updatedHeaderViewData = headerViewData.toBuilder()
+            .isPinned(!headerViewData.isPinned)
+            .menuItems(menuItems)
+            .build()
+
+        //update the post view data
+        return oldPostViewData.toBuilder()
+            .headerViewData(updatedHeaderViewData)
+            .build()
     }
 
     fun bindPostSingleImage(
