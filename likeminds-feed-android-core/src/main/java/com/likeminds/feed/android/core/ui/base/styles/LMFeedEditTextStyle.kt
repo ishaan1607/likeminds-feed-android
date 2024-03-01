@@ -44,13 +44,13 @@ class LMFeedEditTextStyle private constructor(
             inputType,
             backgroundColor
         )
+    }
 
-        fun toBuilder(): Builder {
-            return Builder().inputTextStyle(inputTextStyle)
-                .hintTextColor(hintTextColor)
-                .inputType(inputType)
-                .backgroundColor(backgroundColor)
-        }
+    fun toBuilder(): Builder {
+        return Builder().inputTextStyle(inputTextStyle)
+            .hintTextColor(hintTextColor)
+            .inputType(inputType)
+            .backgroundColor(backgroundColor)
     }
 
     fun apply(editText: LMFeedEditText) {

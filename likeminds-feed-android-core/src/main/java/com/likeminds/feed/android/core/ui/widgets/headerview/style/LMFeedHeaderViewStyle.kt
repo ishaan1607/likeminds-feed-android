@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.ui.widgets.headerview.styles
+package com.likeminds.feed.android.core.ui.widgets.headerview.style
 
 import android.graphics.Typeface
 import androidx.annotation.ColorRes

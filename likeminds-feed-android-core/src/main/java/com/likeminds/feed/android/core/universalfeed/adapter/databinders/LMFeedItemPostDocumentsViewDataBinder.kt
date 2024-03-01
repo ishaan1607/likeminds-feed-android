@@ -93,7 +93,7 @@ class LMFeedItemPostDocumentsViewDataBinder(
         binding.apply {
             postHeader.setMenuIconClickListener {
                 val post = postViewData ?: return@setMenuIconClickListener
-                universalFeedAdapterListener.onPostMenuIconClick(
+                universalFeedAdapterListener.onPostMenuIconClicked(
                     position,
                     postHeader.headerMenu,
                     post
@@ -103,7 +103,7 @@ class LMFeedItemPostDocumentsViewDataBinder(
             // todo: test this otherwise move this to setTextContent function
             tvPostContent.setOnClickListener {
                 val post = postViewData ?: return@setOnClickListener
-                universalFeedAdapterListener.onPostContentClick(position, post)
+                universalFeedAdapterListener.onPostContentClicked(position, post)
             }
 
             val linkifyLinks =
@@ -114,7 +114,7 @@ class LMFeedItemPostDocumentsViewDataBinder(
                     return@setOnClickListener
                 }
 
-                universalFeedAdapterListener.handleLinkClick(url)
+                universalFeedAdapterListener.onPostContentLinkClicked(url)
                 true
             }
 
@@ -132,28 +132,28 @@ class LMFeedItemPostDocumentsViewDataBinder(
             postFooter.setLikeIconClickListener {
                 val post = postViewData ?: return@setLikeIconClickListener
                 val updatedPost = LMFeedPostBinderUtils.updatePostForLike(post)
-                universalFeedAdapterListener.onPostLikeClick(position, updatedPost)
+                universalFeedAdapterListener.onPostLikeClicked(position, updatedPost)
             }
 
             postFooter.setLikesCountClickListener {
                 val post = postViewData ?: return@setLikesCountClickListener
-                universalFeedAdapterListener.onPostLikesCountClick(position, post)
+                universalFeedAdapterListener.onPostLikesCountClicked(position, post)
             }
 
             postFooter.setCommentsCountClickListener {
                 val post = postViewData ?: return@setCommentsCountClickListener
-                universalFeedAdapterListener.onPostCommentsCountClick(position, post)
+                universalFeedAdapterListener.onPostCommentsCountClicked(position, post)
             }
 
             postFooter.setSaveIconListener {
                 val post = postViewData ?: return@setSaveIconListener
                 val updatedPost = LMFeedPostBinderUtils.updatePostForSave(post)
-                universalFeedAdapterListener.onPostSaveClick(position, updatedPost)
+                universalFeedAdapterListener.onPostSaveClicked(position, updatedPost)
             }
 
             postFooter.setShareIconListener {
                 val post = postViewData ?: return@setShareIconListener
-                universalFeedAdapterListener.onPostShareClick(position, post)
+                universalFeedAdapterListener.onPostShareClicked(position, post)
             }
         }
     }

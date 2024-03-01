@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.ProgressBar
 
 class LMFeedProgressBar : ProgressBar {
+
     constructor(context: Context) : super(context) {
     }
 
@@ -16,6 +17,5 @@ class LMFeedProgressBar : ProgressBar {
         attrs,
         defStyle
     ) {
-
     }
 }

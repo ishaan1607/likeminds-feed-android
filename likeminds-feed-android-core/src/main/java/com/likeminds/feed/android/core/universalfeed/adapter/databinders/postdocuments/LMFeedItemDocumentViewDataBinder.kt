@@ -60,7 +60,7 @@ class LMFeedItemDocumentViewDataBinder(
     private fun setClickListeners(binding: LmFeedItemDocumentBinding) {
         binding.apply {
             documentItem.setDocumentClickListener {
-                universalFeedAdapter.onPostDocumentMediaClick(position, parentPosition)
+                universalFeedAdapter.onPostDocumentMediaClicked(position, parentPosition)
             }
         }
     }

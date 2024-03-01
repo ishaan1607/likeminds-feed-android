@@ -14,7 +14,7 @@ import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBi
 import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
-import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
+import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
@@ -307,11 +307,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         super.onDetach()
     }
 
-    override fun onPostContentClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostContentClicked(position: Int, postViewData: LMFeedPostViewData) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostLikeClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostLikeClicked(position: Int, postViewData: LMFeedPostViewData) {
         //call api
         lmFeedUniversalFeedViewModel.likePost(
             postViewData.id,
@@ -321,15 +321,15 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         binding.rvUniversal.updatePostItem(position, postViewData)
     }
 
-    override fun onPostLikesCountClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostLikesCountClicked(position: Int, postViewData: LMFeedPostViewData) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostCommentsCountClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostCommentsCountClicked(position: Int, postViewData: LMFeedPostViewData) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostSaveClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostSaveClicked(position: Int, postViewData: LMFeedPostViewData) {
         //todo: create toast message using post variable and show toast
         //call api
         lmFeedUniversalFeedViewModel.savePost(postViewData)
@@ -337,7 +337,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         binding.rvUniversal.updatePostItem(position, postViewData)
     }
 
-    override fun onPostShareClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostShareClicked(position: Int, postViewData: LMFeedPostViewData) {
         LMFeedShareUtils.sharePost(
             requireContext(),
             postViewData.id,
@@ -357,7 +357,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     // updates [alreadySeenFullContent] for the post
-    override fun updatePostSeenFullContent(
+    override fun onPostContentSeeMoreClicked(
         position: Int,
         alreadySeenFullContent: Boolean,
         postViewData: LMFeedPostViewData
@@ -380,11 +380,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         }
     }
 
-    override fun handleLinkClick(url: String) {
+    override fun onPostContentLinkClicked(url: String) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostMenuIconClick(
+    override fun onPostMenuIconClicked(
         position: Int,
         anchorView: View,
         postViewData: LMFeedPostViewData
@@ -401,19 +401,19 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         popupMenu.show()
     }
 
-    override fun onPostImageMediaClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostImageMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostVideoMediaClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostVideoMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
         //todo:
     }
 
-    override fun onPostLinkMediaClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostLinkMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostDocumentMediaClick(position: Int, parentPosition: Int) {
+    override fun onPostDocumentMediaClicked(position: Int, parentPosition: Int) {
         //open the pdf using Android's document view
         val postData = binding.rvUniversal.getPostFromAdapter(parentPosition) ?: return
         val documentUrl = postData.mediaViewData.attachments[position].attachmentMeta.url ?: ""
@@ -421,11 +421,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         LMFeedAndroidUtils.startDocumentViewer(requireContext(), pdfUri)
     }
 
-    override fun onPostMultipleMediaImageClick(position: Int, parentPosition: Int) {
+    override fun onPostMultipleMediaImageClicked(position: Int, parentPosition: Int) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostMultipleMediaVideoClick(position: Int, parentPosition: Int) {
+    override fun onPostMultipleMediaVideoClicked(position: Int, parentPosition: Int) {
         Log.d(
             "PUI",
             "onPostMultipleMediaVideoClick: position: $position parentPosition: $parentPosition"

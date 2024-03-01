@@ -3,14 +3,16 @@ package com.likeminds.feed.android.core.universalfeed.viewmodel
 import androidx.lifecycle.*
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
-import com.likeminds.feed.android.core.utils.base.BaseViewModel
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
+import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
-class LMFeedUniversalFeedViewModel : BaseViewModel() {
+class LMFeedUniversalFeedViewModel : ViewModel() {
+
+    private val lmFeedClient: LMFeedClient = LMFeedClient.getInstance()
 
     private val _universalFeedResponse = MutableLiveData<Pair<Int, List<LMFeedPostViewData>>>()
     val universalFeedResponse: LiveData<Pair<Int, List<LMFeedPostViewData>>> =

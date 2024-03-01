@@ -172,7 +172,7 @@ object LMFeedPostBinderUtils {
                         return@setOnClickListener
                     }
                     alreadySeenFullContent = true
-                    universalFeedAdapterListener.updatePostSeenFullContent(
+                    universalFeedAdapterListener.onPostContentSeeMoreClicked(
                         position,
                         true,
                         postViewData

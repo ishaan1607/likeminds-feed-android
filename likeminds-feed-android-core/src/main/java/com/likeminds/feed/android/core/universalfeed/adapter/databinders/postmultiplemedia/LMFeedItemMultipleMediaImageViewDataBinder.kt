@@ -57,7 +57,7 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
     private fun setClickListeners(binding: LmFeedItemMultipleMediaImageBinding) {
         binding.apply {
             ivPost.setOnClickListener {
-                listener.onPostMultipleMediaImageClick(position, parentPosition)
+                listener.onPostMultipleMediaImageClicked(position, parentPosition)
             }
         }
     }
