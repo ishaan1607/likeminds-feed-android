@@ -1,8 +1,7 @@
 package com.likeminds.feed.android.core.ui.base.styles
 
 import android.widget.ImageView.ScaleType
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
+import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
@@ -12,9 +11,11 @@ class LMFeedIconStyle private constructor(
     @DrawableRes val activeSrc: Int?,
     @DrawableRes val inActiveSrc: Int?,
     @ColorRes val iconTint: Int?,
+    @DimenRes val elevation: Int?,
     val alpha: Float?,
     val scaleType: ScaleType?,
-    val iconPadding: LMFeedPadding?
+    val iconPadding: LMFeedPadding?,
+    @ColorRes val backgroundColor: Int?,
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -26,9 +27,15 @@ class LMFeedIconStyle private constructor(
 
         @ColorRes
         private var iconTint: Int? = null
+
+        @DimenRes
+        private var elevation: Int? = null
         private var alpha: Float? = null
         private var scaleType: ScaleType? = null
         private var iconPadding: LMFeedPadding? = null
+
+        @ColorRes
+        private var backgroundColor: Int? = null
 
         fun activeSrc(@DrawableRes activeSrc: Int?) = apply {
             this.activeSrc = activeSrc
@@ -42,17 +49,24 @@ class LMFeedIconStyle private constructor(
             this.iconTint = iconTint
         }
 
+        fun elevation(@DimenRes elevation: Int?) = apply { this.elevation = elevation }
         fun alpha(alpha: Float?) = apply { this.alpha = alpha }
         fun scaleType(scaleType: ScaleType?) = apply { this.scaleType = scaleType }
         fun iconPadding(iconPadding: LMFeedPadding?) = apply { this.iconPadding = iconPadding }
+
+        fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
+            this.backgroundColor = backgroundColor
+        }
 
         fun build() = LMFeedIconStyle(
             activeSrc,
             inActiveSrc,
             iconTint,
+            elevation,
             alpha,
             scaleType,
-            iconPadding
+            iconPadding,
+            backgroundColor
         )
     }
 
@@ -60,9 +74,11 @@ class LMFeedIconStyle private constructor(
         return Builder().activeSrc(activeSrc)
             .inActiveSrc(inActiveSrc)
             .iconTint(iconTint)
+            .elevation(elevation)
             .alpha(alpha)
             .scaleType(scaleType)
             .iconPadding(iconPadding)
+            .backgroundColor(backgroundColor)
     }
 
     fun apply(icon: LMFeedIcon) {
@@ -81,6 +97,10 @@ class LMFeedIconStyle private constructor(
                 imageTintList = iconTint
             }
 
+            if (this@LMFeedIconStyle.elevation != null) {
+                this.elevation = resources.getDimension(this@LMFeedIconStyle.elevation)
+            }
+
             if (this@LMFeedIconStyle.alpha != null) {
                 alpha = this@LMFeedIconStyle.alpha
             }
@@ -93,6 +113,12 @@ class LMFeedIconStyle private constructor(
                     resources.getDimension(padding.paddingRight).toInt(),
                     resources.getDimension(padding.paddingBottom).toInt()
                 )
+            }
+
+            if (this@LMFeedIconStyle.backgroundColor != null) {
+                val backgroundColor =
+                    ContextCompat.getColor(context, this@LMFeedIconStyle.backgroundColor)
+                this.setBackgroundColor(backgroundColor)
             }
         }
     }

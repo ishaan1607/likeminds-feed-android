@@ -21,8 +21,11 @@ class LMFeedTextStyle private constructor(
     val typeface: Int,
     val maxLines: Int?,
     val ellipsize: TruncateAt?,
+    @DimenRes val maxHeight: Int?,
+    @DimenRes val minHeight: Int?,
     @ColorRes val backgroundColor: Int?,
     val textAlignment: Int?,
+    @DimenRes val elevation: Int?,
     @DrawableRes val drawableLeftSrc: Int?,
     @DrawableRes val drawableTopSrc: Int?,
     @DrawableRes val drawableRightSrc: Int?,
@@ -45,9 +48,18 @@ class LMFeedTextStyle private constructor(
         private var maxLines: Int? = null
         private var ellipsize: TruncateAt? = null
 
+        @DimenRes
+        private var maxHeight: Int? = null
+
+        @DimenRes
+        private var minHeight: Int? = null
+
         @ColorRes
         private var backgroundColor: Int? = null
         private var textAlignment: Int? = null
+
+        @DimenRes
+        private var elevation: Int? = null
 
         @DrawableRes
         private var drawableLeftSrc: Int? = null
@@ -96,12 +108,24 @@ class LMFeedTextStyle private constructor(
             this.ellipsize = ellipsize
         }
 
+        fun maxHeight(@DimenRes maxHeight: Int?) = apply {
+            this.maxHeight = maxHeight
+        }
+
+        fun minHeight(@DimenRes minHeight: Int?) = apply {
+            this.minHeight = minHeight
+        }
+
         fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
             this.backgroundColor = backgroundColor
         }
 
         fun textAlignment(textAlignment: Int?) = apply {
             this.textAlignment = textAlignment
+        }
+
+        fun elevation(@DimenRes elevation: Int?) = apply {
+            this.elevation = elevation
         }
 
         fun drawableLeftSrc(@DrawableRes drawableLeftSrc: Int?) = apply {
@@ -133,8 +157,11 @@ class LMFeedTextStyle private constructor(
             typeface,
             maxLines,
             ellipsize,
+            maxHeight,
+            minHeight,
             backgroundColor,
             textAlignment,
+            elevation,
             drawableLeftSrc,
             drawableTopSrc,
             drawableRightSrc,
@@ -152,8 +179,11 @@ class LMFeedTextStyle private constructor(
             .typeface(typeface)
             .maxLines(maxLines)
             .ellipsize(ellipsize)
+            .maxHeight(maxHeight)
+            .minHeight(minHeight)
             .backgroundColor(backgroundColor)
             .textAlignment(textAlignment)
+            .elevation(elevation)
             .drawableLeftSrc(drawableLeftSrc)
             .drawableTopSrc(drawableTopSrc)
             .drawableRightSrc(drawableRightSrc)
@@ -196,10 +226,22 @@ class LMFeedTextStyle private constructor(
                 this.ellipsize = this@LMFeedTextStyle.ellipsize
             }
 
+            if (this@LMFeedTextStyle.maxHeight != null) {
+                maxHeight = this@LMFeedTextStyle.maxHeight
+            }
+
+            if (this@LMFeedTextStyle.maxHeight != null) {
+                maxHeight = this@LMFeedTextStyle.maxHeight
+            }
+
             if (this@LMFeedTextStyle.backgroundColor != null) {
                 val backgroundColor =
                     ContextCompat.getColor(context, this@LMFeedTextStyle.backgroundColor)
                 this.setBackgroundColor(backgroundColor)
+            }
+
+            if (this@LMFeedTextStyle.elevation != null) {
+                elevation = resources.getDimension(this@LMFeedTextStyle.elevation)
             }
 
             // sets drawable to the text view

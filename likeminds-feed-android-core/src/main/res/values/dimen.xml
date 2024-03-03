@@ -37,4 +37,8 @@
     <!--    Chip related-->
     <dimen name="lm_feed_topic_chip_group_horizontal_spacing">4dp</dimen>
     <dimen name="lm_feed_topic_chip_group_vertical_spacing">4dp</dimen>
+
+    <!--    Min and max heights for input/text boxes -->
+    <dimen name="lm_feed_text_max_height">100dp</dimen>
+    <dimen name="lm_feed_text_min_height">48dp</dimen>
 </resources>
