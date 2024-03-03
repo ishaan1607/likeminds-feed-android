@@ -40,4 +40,5 @@
     <string name="lm_feed_replying_to_s">Replying to %s</string>
     <string name="lm_feed_write_a_comment">Write a comment</string>
     <string name="lm_feed_you_do_not_have_permission_to_comment">You do not have permission to comment</string>
+    <string name="lm_feed_request_not_processed">Couldn\'t process your request</string>
 </resources>

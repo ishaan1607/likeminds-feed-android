@@ -12,6 +12,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.core.overflowmenu.model.*
+import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
+import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
@@ -326,7 +328,14 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostCommentsCountClicked(position: Int, postViewData: LMFeedPostViewData) {
-//        TODO("Not yet implemented")
+        // sends comment list open event
+        LMFeedAnalytics.sendCommentListOpenEvent()
+
+        val postDetailExtras = LMFeedPostDetailExtras.Builder()
+            .postId(postViewData.id)
+            .isEditTextFocused(true)
+            .build()
+        LMFeedPostDetailActivity.start(requireContext(), postDetailExtras)
     }
 
     override fun onPostSaveClicked(position: Int, postViewData: LMFeedPostViewData) {
@@ -356,7 +365,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         binding.rvUniversal.updateWithoutNotifying(position, updatedPostData)
     }
 
-    // updates [alreadySeenFullContent] for the post
+    //updates [alreadySeenFullContent] for the post
     override fun onPostContentSeeMoreClicked(
         position: Int,
         alreadySeenFullContent: Boolean,
@@ -391,7 +400,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     ) {
         val popupMenu = LMFeedOverflowMenu(requireContext(), anchorView)
         val menuItems = postViewData.headerViewData.menuItems
-        Log.d("PUI", "setClickListeners: ${menuItems.size}")
         popupMenu.addMenuItems(menuItems)
 
         popupMenu.setMenuItemClickListener { menuId ->
@@ -402,7 +410,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostImageMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
-//        TODO("Not yet implemented")
+        val postDetailExtras = LMFeedPostDetailExtras.Builder()
+            .postId(postViewData.id)
+            .isEditTextFocused(false)
+            .build()
+        LMFeedPostDetailActivity.start(requireContext(), postDetailExtras)
     }
 
     override fun onPostVideoMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
@@ -426,10 +438,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostMultipleMediaVideoClicked(position: Int, parentPosition: Int) {
-        Log.d(
-            "PUI",
-            "onPostMultipleMediaVideoClick: position: $position parentPosition: $parentPosition"
-        )
 //        TODO("Not yet implemented")
     }
 
