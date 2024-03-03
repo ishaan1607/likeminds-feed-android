@@ -5,7 +5,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.likeminds.feed.android.core.databinding.LmFeedCommentComposerViewBinding
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.commentcomposer.style.LMFeedCommentComposerStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 
 class LMFeedCommentComposerView : ConstraintLayout {
 
@@ -30,5 +33,51 @@ class LMFeedCommentComposerView : ConstraintLayout {
 
     fun setStyle(commentComposerStyle: LMFeedCommentComposerStyle) {
 
+        configureCommentInput(commentComposerStyle.commentInputStyle)
+        configureCommentSend(commentComposerStyle.commentSendStyle)
+        configureCommentRestricted(commentComposerStyle.commentRestrictedStyle)
+        configureReplyingTo(commentComposerStyle.replyingToStyle)
+        configureRemoveReplyingTo(commentComposerStyle.removeReplyingToStyle)
+    }
+
+    private fun configureCommentInput(commentInputStyle: LMFeedEditTextStyle) {
+        binding.etComment.setStyle(commentInputStyle)
+    }
+
+    private fun configureCommentSend(commentSendStyle: LMFeedIconStyle) {
+        binding.ivCommentSend.setStyle(commentSendStyle)
+    }
+
+    private fun configureCommentRestricted(commentRestrictedStyle: LMFeedTextStyle?) {
+        binding.tvRestricted.apply {
+            if (commentRestrictedStyle == null) {
+                hide()
+            } else {
+                setStyle(commentRestrictedStyle)
+                show()
+            }
+        }
+    }
+
+    private fun configureReplyingTo(replyingToStyle: LMFeedTextStyle?) {
+        binding.tvReplyingTo.apply {
+            if (replyingToStyle == null) {
+                hide()
+            } else {
+                setStyle(replyingToStyle)
+                show()
+            }
+        }
+    }
+
+    private fun configureRemoveReplyingTo(removeReplyingToStyle: LMFeedIconStyle?) {
+        binding.ivRemoveReplyingTo.apply {
+            if (removeReplyingToStyle == null) {
+                hide()
+            } else {
+                setStyle(removeReplyingToStyle)
+                show()
+            }
+        }
     }
 }

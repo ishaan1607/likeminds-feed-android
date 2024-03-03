@@ -1,17 +1,48 @@
 package com.likeminds.feed.android.core.post.detail.viewstyle
 
+import android.text.TextUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.ui.widgets.commentcomposer.style.LMFeedCommentComposerStyle
+import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
 class LMFeedPostDetailFragmentViewStyle private constructor(
+    //header
+    val headerViewStyle: LMFeedHeaderViewStyle,
+    //comment composer view
     val commentComposerStyle: LMFeedCommentComposerStyle
 ) : LMFeedViewStyle {
 
     class Builder {
+        private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
+            .titleTextStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(R.color.lm_feed_black)
+                    .textSize(R.dimen.lm_feed_header_view_title_text_size)
+                    .maxLines(1)
+                    .ellipsize(TextUtils.TruncateAt.END)
+                    .build()
+            )
+            .backgroundColor(R.color.lm_feed_white)
+            .navigationIconStyle(
+                LMFeedIconStyle.Builder()
+                    .iconTint(R.color.lm_feed_black)
+                    .inActiveSrc(R.drawable.lm_feed_ic_arrow_back_black_24dp)
+                    .iconPadding(
+                        LMFeedPadding(
+                            R.dimen.lm_feed_icon_padding,
+                            R.dimen.lm_feed_icon_padding,
+                            R.dimen.lm_feed_icon_padding,
+                            R.dimen.lm_feed_icon_padding
+                        )
+                    )
+                    .build()
+            )
+            .build()
+
         private var commentComposerStyle: LMFeedCommentComposerStyle =
             LMFeedCommentComposerStyle.Builder()
                 .commentRestrictedStyle(
@@ -45,13 +76,19 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
                 )
                 .build()
 
-        fun commentComposerStyle(commentComposerStyle: LMFeedCommentComposerStyle) =
-            apply { this.commentComposerStyle = commentComposerStyle }
+        fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle) = apply {
+            this.headerViewStyle = headerViewStyle
+        }
 
-        fun build() = LMFeedPostDetailFragmentViewStyle(commentComposerStyle)
+        fun commentComposerStyle(commentComposerStyle: LMFeedCommentComposerStyle) = apply {
+            this.commentComposerStyle = commentComposerStyle
+        }
+
+        fun build() = LMFeedPostDetailFragmentViewStyle(headerViewStyle, commentComposerStyle)
     }
 
     fun toBuilder(): Builder {
         return Builder().commentComposerStyle(commentComposerStyle)
+            .headerViewStyle(headerViewStyle)
     }
 }
