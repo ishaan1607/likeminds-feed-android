@@ -39,6 +39,7 @@ open class LMFeedPostDetailFragment : Fragment() {
     }
 
     protected open fun customizeCommentComposer(commentComposer: LMFeedCommentComposerView) {
+        binding.commentComposer.setCommentInputBoxHint(getString(R.string.lm_feed_write_a_comment))
         commentComposer.setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.commentComposerStyle)
     }
 }

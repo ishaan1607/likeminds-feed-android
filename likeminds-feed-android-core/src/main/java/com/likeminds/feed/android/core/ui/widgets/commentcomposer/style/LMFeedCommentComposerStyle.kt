@@ -1,6 +1,6 @@
 package com.likeminds.feed.android.core.ui.widgets.commentcomposer.style
 
-import android.text.InputType
+import android.graphics.Typeface
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
@@ -21,13 +21,15 @@ class LMFeedCommentComposerStyle private constructor(
                     .maxHeight(R.dimen.lm_feed_text_max_height)
                     .minHeight(R.dimen.lm_feed_text_min_height)
                     .textColor(R.color.lm_feed_dark_grey)
+                    .typeface(Typeface.NORMAL)
+                    .fontResource(R.font.lm_feed_roboto)
                     .build()
             )
             .elevation(R.dimen.lm_feed_elevation_small)
             .hintTextColor(R.color.lm_feed_maastricht_blue_40)
-            .inputType((InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE))
             .backgroundColor(R.color.lm_feed_white)
             .build()
+
         private var commentSendStyle: LMFeedIconStyle = LMFeedIconStyle.Builder()
             .activeSrc(R.drawable.lm_feed_ic_comment_send_enable)
             .inActiveSrc(R.drawable.lm_feed_ic_comment_send_disable)

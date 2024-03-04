@@ -11,6 +11,7 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
+import kotlin.math.roundToInt
 
 class LMFeedTextStyle private constructor(
     @ColorRes val textColor: Int,
@@ -216,7 +217,7 @@ class LMFeedTextStyle private constructor(
 
             this.setTextSize(
                 TypedValue.COMPLEX_UNIT_PX,
-                context.resources.getDimension(this@LMFeedTextStyle.textSize)
+                resources.getDimension(this@LMFeedTextStyle.textSize)
             )
 
             this.isAllCaps = textAllCaps
@@ -227,11 +228,11 @@ class LMFeedTextStyle private constructor(
             }
 
             if (this@LMFeedTextStyle.maxHeight != null) {
-                maxHeight = this@LMFeedTextStyle.maxHeight
+                maxHeight = resources.getDimension(this@LMFeedTextStyle.maxHeight).roundToInt()
             }
 
-            if (this@LMFeedTextStyle.maxHeight != null) {
-                maxHeight = this@LMFeedTextStyle.maxHeight
+            if (this@LMFeedTextStyle.minHeight != null) {
+                minHeight = resources.getDimension(this@LMFeedTextStyle.minHeight).roundToInt()
             }
 
             if (this@LMFeedTextStyle.backgroundColor != null) {

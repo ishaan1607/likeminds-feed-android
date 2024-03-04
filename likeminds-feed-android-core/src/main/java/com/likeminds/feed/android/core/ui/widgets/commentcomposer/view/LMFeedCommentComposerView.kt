@@ -8,7 +8,6 @@ import com.likeminds.feed.android.core.databinding.LmFeedCommentComposerViewBind
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.commentcomposer.style.LMFeedCommentComposerStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
-import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 
 class LMFeedCommentComposerView : ConstraintLayout {
 
@@ -54,7 +53,6 @@ class LMFeedCommentComposerView : ConstraintLayout {
                 hide()
             } else {
                 setStyle(commentRestrictedStyle)
-                show()
             }
         }
     }
@@ -65,7 +63,6 @@ class LMFeedCommentComposerView : ConstraintLayout {
                 hide()
             } else {
                 setStyle(replyingToStyle)
-                show()
             }
         }
     }
@@ -76,8 +73,11 @@ class LMFeedCommentComposerView : ConstraintLayout {
                 hide()
             } else {
                 setStyle(removeReplyingToStyle)
-                show()
             }
         }
+    }
+
+    fun setCommentInputBoxHint(hint: String) {
+        binding.etComment.hint = hint
     }
 }

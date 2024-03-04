@@ -46,7 +46,7 @@
         <com.likeminds.feed.android.core.ui.widgets.commentcomposer.view.LMFeedCommentComposerView
             android:id="@+id/comment_composer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <include

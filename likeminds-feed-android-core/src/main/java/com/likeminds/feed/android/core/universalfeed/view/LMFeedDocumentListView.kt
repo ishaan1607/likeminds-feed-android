@@ -71,11 +71,9 @@ class LMFeedDocumentListView @JvmOverloads constructor(
         val documents = mediaViewData.attachments
 
         if (mediaViewData.isExpanded || documents.size <= visibleDocumentsLimit) {
-            Log.d("PUI", "isExpanded: ${documents.size}")
             tvShowMore.hide()
             documentsAdapter.replace(documents)
         } else {
-            Log.d("PUI", "isExpanded not: ${documents.size}")
             tvShowMore.show()
             "+${documents.size - visibleDocumentsLimit} more".also { tvShowMore.text = it }
             documentsAdapter.replace(documents.take(visibleDocumentsLimit))
