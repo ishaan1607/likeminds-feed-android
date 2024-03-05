@@ -1,12 +1,14 @@
 package com.likeminds.feed.android.core.post.detail.adapter
 
 import com.likeminds.feed.android.core.post.detail.adapter.databinders.*
+import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedPostDetailAdapter(
-    private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
+    private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
+    private val postDetailAdapterListener: LMFeedPostDetailAdapterListener
 ) : LMFeedBaseRecyclerAdapter<LMFeedBaseViewType>() {
 
     init {
@@ -19,7 +21,7 @@ class LMFeedPostDetailAdapter(
         val itemCommentsCountViewDataBinder = LMFeedItemCommentsCountViewDataBinder()
         viewDataBinders.add(itemCommentsCountViewDataBinder)
 
-        val itemCommentViewDataBinder = LMFeedItemCommentViewDataBinder()
+        val itemCommentViewDataBinder = LMFeedItemCommentViewDataBinder(postDetailAdapterListener)
         viewDataBinders.add(itemCommentViewDataBinder)
 
         val itemPostTextOnlyBinder =
@@ -61,9 +63,15 @@ interface LMFeedPostDetailAdapterListener {
         //triggered when the user clicks on "See More" on comment content
     }
 
-    fun onCommentLiked(
-
-    ) {
+    fun onCommentLiked(position: Int, comment: LMFeedCommentViewData) {
         //triggered when the user likes a comment
+    }
+
+    fun onCommentLikesCountClicked(position: Int, comment: LMFeedCommentViewData) {
+        //triggered when the user clicks on the comment's likes count
+    }
+
+    fun onCommentReplyClicked(position: Int, comment: LMFeedCommentViewData) {
+        //triggered when the user clicks on reply on a comment
     }
 }

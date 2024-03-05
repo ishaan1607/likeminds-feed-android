@@ -4,7 +4,6 @@ import android.content.Context
 import android.text.*
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -20,7 +19,6 @@ import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.*
 import com.likeminds.feed.android.core.ui.widgets.post.posttopicsview.view.LMFeedPostTopicsView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
@@ -265,10 +263,8 @@ object LMFeedPostBinderUtils {
         topics: List<LMFeedTopicViewData>
     ) {
         if (topics.isEmpty()) {
-            Log.d("PUI", "topics are empty")
             lmFeedPostTopicsView.hide()
         } else {
-            Log.d("PUI", "topics are not empty")
             lmFeedPostTopicsView.apply {
                 show()
                 removeAllTopics()

@@ -70,7 +70,7 @@ interface LMFeedUniversalFeedAdapterListener {
     }
 
     fun onPostLikesCountClicked(position: Int, postViewData: LMFeedPostViewData) {
-        //triggered when the user clicks on likes count
+        //triggered when the user clicks on the post's likes count
     }
 
     fun onPostCommentsCountClicked(position: Int, postViewData: LMFeedPostViewData) {

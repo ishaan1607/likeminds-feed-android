@@ -5,11 +5,16 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.databinding.LmFeedCommentViewBinding
-import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
+import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
 
 class LMFeedCommentView : ConstraintLayout {
 
@@ -138,6 +143,126 @@ class LMFeedCommentView : ConstraintLayout {
                 viewDotEdited.show()
                 tvEdited.setStyle(commentEditedTextStyle)
             }
+        }
+    }
+
+    /**
+     * Sets commenter image view.
+     *
+     * @param user - data of the commenter.
+     */
+    fun setCommenterImage(user: LMFeedUserViewData) {
+        var commenterImageViewStyle =
+            LMFeedStyleTransformer.postDetailFragmentViewStyle.commentViewStyle.commenterImageViewStyle
+                ?: return
+
+        if (commenterImageViewStyle.placeholderSrc == null) {
+            commenterImageViewStyle = commenterImageViewStyle.toBuilder().placeholderSrc(
+                LMFeedUserImageUtil.getNameDrawable(
+                    user.sdkClientInfoViewData.uuid,
+                    user.name,
+                    commenterImageViewStyle.isCircle,
+                ).first
+            ).build()
+        }
+        binding.ivCommenterImage.setImage(user.imageUrl, commenterImageViewStyle)
+    }
+
+    /**
+     * Sets the name of the commenter author
+     *
+     * @param commenterName - string to be set for commenter's name.
+     */
+    fun setCommenterName(commenterName: String) {
+        binding.tvCommenterName.text = commenterName
+    }
+
+    /**
+     * Sets the time the comment was created.
+     *
+     * @param createdAtTimeStamp - timestamp when the comment was created.
+     */
+    fun setTimestamp(createdAtTimeStamp: Long) {
+        binding.tvCommentTime.text = LMFeedTimeUtil.getRelativeTimeInString(createdAtTimeStamp)
+    }
+
+    /**
+     * Shows the `Edited` text if the comment was edited.
+     *
+     * @param isEdited - whether the comment was edited or not.
+     */
+    fun setCommentEdited(isEdited: Boolean) {
+        binding.viewDotEdited.isVisible = isEdited
+        binding.tvEdited.isVisible = isEdited
+    }
+
+    /**
+     * Sets active/inactive like icon.
+     *
+     * @param isLiked - whether the comment is liked or not.
+     */
+    fun setLikesIcon(isLiked: Boolean = false) {
+        val iconStyle =
+            LMFeedStyleTransformer.postDetailFragmentViewStyle.commentViewStyle.likeIconStyle
+
+        val likeIcon = if (isLiked) {
+            iconStyle.activeSrc
+        } else {
+            iconStyle.inActiveSrc
+        }
+
+        if (likeIcon != null) {
+            binding.ivLike.setImageDrawable(ContextCompat.getDrawable(context, likeIcon))
+        }
+    }
+
+    /**
+     * Sets likes count text to the likes text view.
+     *
+     * @param likesCount - string to be set for likes count.
+     */
+    fun setLikesCount(likesCount: String) {
+        binding.tvLikesCount.apply {
+            if (likesCount.isEmpty()) {
+                hide()
+            } else {
+                text = likesCount
+            }
+        }
+    }
+
+    /**
+     * Sets click listener on the like icon
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setLikesCountClickListener(listener: LMFeedOnClickListener) {
+        binding.tvLikesCount.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    /**
+     * Sets click listener on the like icon
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setLikeIconClickListener(listener: LMFeedOnClickListener) {
+        binding.ivLike.setOnClickListener { view ->
+            // bounce animation for like button
+            LMFeedViewUtils.showBounceAnim(view.context, view)
+            listener.onClick()
+        }
+    }
+
+    /**
+     * Sets click listener on the reply text
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setReplyClickListener(listener: LMFeedOnClickListener) {
+        binding.tvReply.setOnClickListener {
+            listener.onClick()
         }
     }
 }
