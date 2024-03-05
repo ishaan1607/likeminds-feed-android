@@ -6,9 +6,9 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.post.detail.adapter.LMFeedPostDetailAdapter
+import com.likeminds.feed.android.core.post.detail.adapter.LMFeedReplyAdapter
 
-class LMFeedPostDetailListView @JvmOverloads constructor(
+class LMFeedReplyListView@JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -16,7 +16,7 @@ class LMFeedPostDetailListView @JvmOverloads constructor(
 
     val linearLayoutManager: LinearLayoutManager
 
-    private lateinit var postDetailAdapter: LMFeedPostDetailAdapter
+    private lateinit var replyAdapter: LMFeedReplyAdapter
 
     init {
         setHasFixedSize(true)
@@ -26,5 +26,17 @@ class LMFeedPostDetailListView @JvmOverloads constructor(
         if (itemAnimator is SimpleItemAnimator) {
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
+
+        addItemDecoration((object : ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: State
+            ) {
+                super.getItemOffsets(outRect, view, parent, state)
+                outRect.top = R.dimen.lm_feed_reply_item_top_margin
+            }
+        }))
     }
 }

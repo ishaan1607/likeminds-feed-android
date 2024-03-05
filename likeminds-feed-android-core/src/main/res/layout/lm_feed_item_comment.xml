@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp">
+
+        <com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.style.LMFeedCommentView
+            android:id="@+id/comment_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_replies"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:isScrollContainer="false"
+            android:paddingHorizontal="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comment_view"
+            tools:itemCount="3"
+            tools:listitem="@layout/lm_feed_comment_view" />
+
+        <View
+            android:id="@+id/comment_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="32dp"
+            android:background="@color/lm_feed_blue_separator"
+            app:layout_constraintTop_toBottomOf="@id/rv_replies"
+            app:layout_goneMarginTop="20dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

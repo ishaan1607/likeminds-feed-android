@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.likeminds.feed.android.core.databinding.*
 import com.likeminds.feed.android.core.ui.base.views.LMFeedVideoView
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostVideoMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder

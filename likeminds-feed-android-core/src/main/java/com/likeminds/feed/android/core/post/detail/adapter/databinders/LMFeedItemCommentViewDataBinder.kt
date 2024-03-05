@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemCommentBinding
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_COMMENT
 
@@ -19,6 +20,8 @@ class LMFeedItemCommentViewDataBinder :
             parent,
             false
         )
+
+        binding.commentView.setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.commentViewStyle)
 
         return binding
     }

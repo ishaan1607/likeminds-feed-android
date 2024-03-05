@@ -17,10 +17,11 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
-import com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
-import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
+import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
+import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.ui.widgets.postmedia.view.*
-import com.likeminds.feed.android.core.ui.widgets.posttopicsview.view.LMFeedPostTopicsView
+import com.likeminds.feed.android.core.ui.widgets.post.posttopicsview.view.LMFeedPostTopicsView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
 import com.likeminds.feed.android.core.utils.LMFeedSeeMoreUtil
