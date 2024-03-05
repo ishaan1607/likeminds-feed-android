@@ -1,7 +1,6 @@
 package com.likeminds.feed.android.core.post.detail.adapter
 
-import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedItemCommentsCountViewDataBinder
-import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedItemNoCommentsFoundViewDataBinder
+import com.likeminds.feed.android.core.post.detail.adapter.databinders.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.utils.base.*
@@ -19,6 +18,9 @@ class LMFeedPostDetailAdapter(
 
         val itemCommentsCountViewDataBinder = LMFeedItemCommentsCountViewDataBinder()
         viewDataBinders.add(itemCommentsCountViewDataBinder)
+
+        val itemCommentViewDataBinder = LMFeedItemCommentViewDataBinder()
+        viewDataBinders.add(itemCommentViewDataBinder)
 
         val itemPostTextOnlyBinder =
             LMFeedItemPostTextOnlyViewDataBinder(universalFeedAdapterListener)

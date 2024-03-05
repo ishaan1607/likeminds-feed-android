@@ -16,11 +16,9 @@ import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 class LMFeedPostFooterView : ConstraintLayout {
 
     constructor(context: Context) : super(context) {
-
     }
 
     constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
-
     }
 
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
@@ -28,7 +26,6 @@ class LMFeedPostFooterView : ConstraintLayout {
         attributeSet,
         defStyle
     ) {
-
     }
 
     private val inflater =
@@ -38,16 +35,18 @@ class LMFeedPostFooterView : ConstraintLayout {
 
     fun setStyle(postFooterViewStyle: LMFeedPostFooterViewStyle) {
 
-        //set background color
-        if (postFooterViewStyle.backgroundColor != null) {
-            setBackgroundColor(ContextCompat.getColor(context, postFooterViewStyle.backgroundColor))
-        }
+        postFooterViewStyle.apply {
+            //set background color
+            backgroundColor?.let {
+                setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
+            }
 
-        configuresLikeText(postFooterViewStyle.likeTextStyle)
-        configureLikesIcon(postFooterViewStyle.likeIconStyle)
-        configureCommentsText(postFooterViewStyle.commentTextStyle)
-        configureSaveIcon(postFooterViewStyle.saveIconStyle)
-        configureShareIcon(postFooterViewStyle.shareIconStyle)
+            configuresLikeText(likeTextStyle)
+            configureLikesIcon(likeIconStyle)
+            configureCommentsText(commentTextStyle)
+            configureSaveIcon(saveIconStyle)
+            configureShareIcon(shareIconStyle)
+        }
     }
 
     private fun configuresLikeText(likeTextStyle: LMFeedTextStyle?) {
