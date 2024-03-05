@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.utils
+package com.likeminds.feed.android.core.utils.video
 
 import android.graphics.Rect
 import android.net.Uri

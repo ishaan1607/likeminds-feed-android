@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.utils
+package com.likeminds.feed.android.core.utils.video
 
 import android.content.Context
 import com.google.android.exoplayer2.database.StandaloneDatabaseProvider

@@ -6,12 +6,17 @@ import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.ui.widgets.commentcomposer.style.LMFeedCommentComposerStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
+import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
 class LMFeedPostDetailFragmentViewStyle private constructor(
     //header
     val headerViewStyle: LMFeedHeaderViewStyle,
+    //comments count view style
+    val commentsCountViewStyle: LMFeedTextStyle,
+    //no comments found view
+    val noCommentsFoundViewStyle: LMFeedNoEntityLayoutViewStyle,
     //comment composer view
     val commentComposerStyle: LMFeedCommentComposerStyle
 ) : LMFeedViewStyle {
@@ -42,6 +47,28 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
                     .build()
             )
             .build()
+
+        private var commentsCountViewStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
+            .textSize(R.dimen.lm_feed_text_medium)
+            .textColor(R.color.lm_feed_raisin_black)
+            .fontResource(R.font.lm_feed_roboto_medium)
+            .build()
+
+        private var noCommentsFoundViewStyle: LMFeedNoEntityLayoutViewStyle =
+            LMFeedNoEntityLayoutViewStyle.Builder()
+                .titleStyle(
+                    LMFeedTextStyle.Builder()
+                        .textColor(R.color.lm_feed_dark_grey)
+                        .textSize(R.dimen.lm_feed_text_large)
+                        .build()
+                )
+                .subtitleStyle(
+                    LMFeedTextStyle.Builder()
+                        .textColor(R.color.lm_feed_grey)
+                        .textSize(R.dimen.lm_feed_text_medium)
+                        .build()
+                )
+                .build()
 
         private var commentComposerStyle: LMFeedCommentComposerStyle =
             LMFeedCommentComposerStyle.Builder()
@@ -80,15 +107,31 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
             this.headerViewStyle = headerViewStyle
         }
 
+        fun commentsCountViewStyle(commentsCountViewStyle: LMFeedTextStyle) = apply {
+            this.commentsCountViewStyle = commentsCountViewStyle
+        }
+
+        fun noCommentsFoundViewStyle(noCommentsFoundViewStyle: LMFeedNoEntityLayoutViewStyle) =
+            apply {
+                this.noCommentsFoundViewStyle = noCommentsFoundViewStyle
+            }
+
         fun commentComposerStyle(commentComposerStyle: LMFeedCommentComposerStyle) = apply {
             this.commentComposerStyle = commentComposerStyle
         }
 
-        fun build() = LMFeedPostDetailFragmentViewStyle(headerViewStyle, commentComposerStyle)
+        fun build() = LMFeedPostDetailFragmentViewStyle(
+            headerViewStyle,
+            commentsCountViewStyle,
+            noCommentsFoundViewStyle,
+            commentComposerStyle
+        )
     }
 
     fun toBuilder(): Builder {
         return Builder().commentComposerStyle(commentComposerStyle)
+            .commentsCountViewStyle(commentsCountViewStyle)
+            .noCommentsFoundViewStyle(noCommentsFoundViewStyle)
             .headerViewStyle(headerViewStyle)
     }
 }

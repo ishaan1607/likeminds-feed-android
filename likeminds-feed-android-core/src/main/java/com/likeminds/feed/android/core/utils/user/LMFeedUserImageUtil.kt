@@ -1,9 +1,10 @@
-package com.likeminds.feed.android.core.utils
+package com.likeminds.feed.android.core.utils.user
 
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.generator.LMFeedColorGenerator
 import com.likeminds.feed.android.core.utils.generator.LMFeedTextDrawable
 
-object LMFeedMemberImageUtil {
+object LMFeedUserImageUtil {
 
     private val SIXTY_PX = LMFeedViewUtils.dpToPx(60)
 

@@ -9,6 +9,7 @@ import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeed
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 
 class LMFeedUniversalFeedListView @JvmOverloads constructor(
     context: Context,

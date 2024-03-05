@@ -15,7 +15,7 @@ import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.widgets.postmedia.style.LMFeedPostVideoMediaViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
-import com.likeminds.feed.android.core.utils.LMFeedVideoCache
+import com.likeminds.feed.android.core.utils.video.LMFeedVideoCache
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 

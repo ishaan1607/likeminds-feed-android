@@ -15,6 +15,7 @@ import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
 
 class LMFeedPostHeaderView : ConstraintLayout {
 
@@ -131,7 +132,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
 
         if (authorImageViewStyle.placeholderSrc == null) {
             authorImageViewStyle = authorImageViewStyle.toBuilder().placeholderSrc(
-                LMFeedMemberImageUtil.getNameDrawable(
+                LMFeedUserImageUtil.getNameDrawable(
                     user.sdkClientInfoViewData.uuid,
                     user.name,
                     authorImageViewStyle.isCircle,
