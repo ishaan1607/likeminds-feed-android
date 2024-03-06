@@ -19,12 +19,14 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
     val commentsCountViewStyle: LMFeedTextStyle,
     //comment view style
     val commentViewStyle: LMFeedCommentViewStyle,
+    //reply view style
+    val replyViewStyle: LMFeedCommentViewStyle,
     //no comments found view
     val noCommentsFoundViewStyle: LMFeedNoEntityLayoutViewStyle,
     //comment composer view
     val commentComposerStyle: LMFeedCommentComposerStyle,
     //view more reply view style
-    val viewMoreReplyStyle: LMFeedViewMoreStyle
+    val viewMoreReplyStyle: LMFeedViewMoreStyle,
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -83,6 +85,35 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
             .replyCountTextStyle(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_majorelle_blue)
+                    .textSize(R.dimen.lm_feed_text_small)
+                    .fontResource(R.font.lm_feed_roboto)
+                    .build()
+            )
+            .timestampTextStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(R.color.lm_feed_maastricht_blue_40)
+                    .textSize(R.dimen.lm_feed_text_small)
+                    .fontResource(R.font.lm_feed_roboto)
+                    .build()
+            )
+            .commentEditedTextStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(R.color.lm_feed_maastricht_blue_40)
+                    .textSize(R.dimen.lm_feed_text_small)
+                    .fontResource(R.font.lm_feed_roboto)
+                    .build()
+            )
+            .build()
+
+        private var replyViewStyle: LMFeedCommentViewStyle = LMFeedCommentViewStyle.Builder()
+            .menuIconStyle(
+                LMFeedIconStyle.Builder()
+                    .inActiveSrc(R.drawable.lm_feed_ic_overflow_menu)
+                    .build()
+            )
+            .likeTextStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(R.color.lm_feed_maastricht_blue_40)
                     .textSize(R.dimen.lm_feed_text_small)
                     .fontResource(R.font.lm_feed_roboto)
                     .build()
@@ -174,6 +205,10 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
             this.commentViewStyle = commentViewStyle
         }
 
+        fun replyViewStyle(replyViewStyle: LMFeedCommentViewStyle) = apply {
+            this.replyViewStyle = replyViewStyle
+        }
+
         fun noCommentsFoundViewStyle(noCommentsFoundViewStyle: LMFeedNoEntityLayoutViewStyle) =
             apply {
                 this.noCommentsFoundViewStyle = noCommentsFoundViewStyle
@@ -191,6 +226,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
             headerViewStyle,
             commentsCountViewStyle,
             commentViewStyle,
+            replyViewStyle,
             noCommentsFoundViewStyle,
             commentComposerStyle,
             viewMoreReplyStyle
@@ -201,6 +237,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
         return Builder().commentComposerStyle(commentComposerStyle)
             .commentsCountViewStyle(commentsCountViewStyle)
             .commentViewStyle(commentViewStyle)
+            .replyViewStyle(replyViewStyle)
             .noCommentsFoundViewStyle(noCommentsFoundViewStyle)
             .headerViewStyle(headerViewStyle)
             .viewMoreReplyStyle(viewMoreReplyStyle)

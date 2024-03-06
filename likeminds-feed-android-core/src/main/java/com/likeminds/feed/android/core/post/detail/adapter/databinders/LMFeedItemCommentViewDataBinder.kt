@@ -152,7 +152,7 @@ class LMFeedItemCommentViewDataBinder(
                 replaceReplies(repliesList)
             } else {
                 // if a subset of replies are fetched then also add [ViewMoreReplyViewData]
-                val nextPage = (repliesList.size / LMFeedPostDetailViewModel.REPLIES_THRESHOLD) + 1
+                val nextPage = (repliesList.size / LMFeedPostDetailViewModel.REPLIES_PAGE_SIZE) + 1
                 val viewMoreReply = LMFeedViewMoreReplyViewData.Builder()
                     .totalCommentsCount(data.repliesCount)
                     .currentCount(data.replies.size)

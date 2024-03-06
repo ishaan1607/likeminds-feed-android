@@ -1,10 +1,389 @@
 package com.likeminds.feed.android.core.post.detail.viewmodel
 
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
+import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
+import com.likeminds.feed.android.core.utils.coroutine.launchIO
+import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.comment.model.*
+import com.likeminds.likemindsfeed.post.model.GetPostRequest
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class LMFeedPostDetailViewModel : ViewModel() {
 
+    private val lmFeedClient: LMFeedClient = LMFeedClient.getInstance()
+
+    // it holds the Pair of [page] and [postViewData]
+    private val _postResponse = MutableLiveData<Pair<Int, LMFeedPostViewData>>()
+    val postResponse: LiveData<Pair<Int, LMFeedPostViewData>> = _postResponse
+
+    private val _addCommentResponse = MutableLiveData<LMFeedCommentViewData>()
+    val addCommentResponse: LiveData<LMFeedCommentViewData> = _addCommentResponse
+
+    private val _editCommentResponse = MutableLiveData<LMFeedCommentViewData>()
+    val editCommentResponse: LiveData<LMFeedCommentViewData> = _editCommentResponse
+
+    //todo: check if we need parentCommentId or not
+    // it holds pair of [parentCommentId] and [replyComment]
+    private val _addReplyResponse = MutableLiveData<Pair<String, LMFeedCommentViewData>>()
+    val addReplyResponse: LiveData<Pair<String, LMFeedCommentViewData>> = _addReplyResponse
+
+    // it holds the Pair of [page] and [commentViewData]
+    private val _getCommentResponse = MutableLiveData<Pair<Int, LMFeedCommentViewData>>()
+    val getCommentResponse: LiveData<Pair<Int, LMFeedCommentViewData>> = _getCommentResponse
+
+    /**
+     * it holds the Pair of [commentId] and [parentCommentId]
+     * if comment level is 0 then [parentCommentId] is null
+     * if comment level is 1 then [parentCommentId] is non null
+     */
+    private val _deleteCommentResponse = MutableLiveData<Pair<String, String?>>()
+    val deleteCommentResponse: LiveData<Pair<String, String?>> = _deleteCommentResponse
+
+    sealed class ErrorMessageEvent {
+        data class GetPost(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class LikeComment(
+            val commentId: String,
+            val errorMessage: String?
+        ) : ErrorMessageEvent()
+
+        data class AddComment(
+            val tempId: String,
+            val errorMessage: String?
+        ) : ErrorMessageEvent()
+
+        data class ReplyComment(
+            val parentCommentId: String,
+            val tempId: String,
+            val errorMessage: String?
+        ) : ErrorMessageEvent()
+
+        data class EditComment(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class DeleteComment(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class GetComment(val errorMessage: String?) : ErrorMessageEvent()
+    }
+
+    private val errorMessageChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
+    val errorMessageEventFlow = errorMessageChannel.receiveAsFlow()
+
     companion object {
-        const val REPLIES_THRESHOLD = 5
+        const val PAGE_SIZE = 10
+        const val REPLIES_PAGE_SIZE = 5
+    }
+
+    // to getPost and paginated comments
+    fun getPost(postId: String, page: Int) {
+        viewModelScope.launchIO {
+            // builds api request
+            val request = GetPostRequest.Builder()
+                .postId(postId)
+                .page(page)
+                .pageSize(PAGE_SIZE)
+                .build()
+
+            // calls api
+            val response = lmFeedClient.getPost(request)
+
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val post = data.post
+                val users = data.users
+                val topics = data.topics
+                _postResponse.postValue(
+                    Pair(
+                        page,
+                        LMFeedViewDataConvertor.convertPost(
+                            post,
+                            users,
+                            topics
+                        )
+                    )
+                )
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.GetPost(response.errorMessage))
+            }
+        }
+    }
+
+    //for like/unlike a comment
+    fun likeComment(
+        postId: String,
+        commentId: String,
+        commentLiked: Boolean
+    ) {
+        viewModelScope.launchIO {
+            val request = LikeCommentRequest.Builder()
+                .postId(postId)
+                .commentId(commentId)
+                .build()
+
+
+            //call like post api
+            val response = lmFeedClient.likeComment(request)
+
+            //check for error
+            if (response.success) {
+                //todo: ask if we have to give callbacks on api success or send events here only
+//                sendCommentLikedEvent(postId, commentId, commentLiked)
+            } else {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.LikeComment(
+                        commentId,
+                        response.errorMessage
+                    )
+                )
+            }
+        }
+    }
+
+    //for adding comment on post
+    fun addComment(
+        postId: String,
+        tempId: String,
+        text: String
+    ) {
+        viewModelScope.launchIO {
+            // initializes temp id for local handling of comment
+
+            // builds api request
+            val request = AddCommentRequest.Builder()
+                .postId(postId)
+                .text(text)
+                .tempId(tempId)
+                .build()
+
+            // calls api
+            val response = lmFeedClient.addComment(request)
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val comment = data.comment
+                val users = data.users
+                //todo: ask if we have to give callbacks on api success or send events here only
+//                sendCommentPostedEvent(postId, comment.id)
+
+                _addCommentResponse.postValue(
+                    LMFeedViewDataConvertor.convertComment(
+                        comment,
+                        users,
+                        postId
+                    )
+                )
+            } else {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.AddComment(
+                        tempId,
+                        response.errorMessage
+                    )
+                )
+            }
+        }
+    }
+
+    // for editing comment on post
+    fun editComment(
+        postId: String,
+        commentId: String,
+        text: String
+    ) {
+        viewModelScope.launchIO {
+            // builds api request
+            val request = EditCommentRequest.Builder()
+                .postId(postId)
+                .commentId(commentId)
+                .text(text)
+                .build()
+
+            // calls api
+            val response = lmFeedClient.editComment(request)
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val comment = data.comment
+                val users = data.users
+
+                _editCommentResponse.postValue(
+                    LMFeedViewDataConvertor.convertComment(
+                        comment,
+                        users,
+                        postId
+                    )
+                )
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.EditComment(response.errorMessage))
+            }
+        }
+    }
+
+    // for replying on a comment on the post
+    fun replyComment(
+        parentCommentCreatorUUID: String,
+        postId: String,
+        parentCommentId: String,
+        text: String,
+        tempId: String
+    ) {
+        viewModelScope.launchIO {
+            // builds api request
+            val request = ReplyCommentRequest.Builder()
+                .postId(postId)
+                .commentId(parentCommentId)
+                .text(text)
+                .tempId(tempId)
+                .build()
+
+            // calls api
+            val response = lmFeedClient.replyComment(request)
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val comment = data.comment
+                val users = data.users
+                // todo: event
+//                sendReplyPostedEvent(
+//                    parentCommentCreatorUUID,
+//                    postId,
+//                    parentCommentId,
+//                    comment.id
+//                )
+
+                _addReplyResponse.postValue(
+                    Pair(
+                        parentCommentId,
+                        LMFeedViewDataConvertor.convertComment(
+                            comment,
+                            users,
+                            postId,
+                            parentCommentId
+                        )
+                    )
+                )
+            } else {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.ReplyComment(
+                        parentCommentId,
+                        tempId,
+                        response.errorMessage
+                    )
+                )
+            }
+        }
+    }
+
+    // to get comment with paginated replies
+    fun getComment(
+        postId: String,
+        commentId: String,
+        page: Int
+    ) {
+        viewModelScope.launchIO {
+            // builds api request
+            val request = GetCommentRequest.Builder()
+                .postId(postId)
+                .commentId(commentId)
+                .page(page)
+                .pageSize(REPLIES_PAGE_SIZE)
+                .build()
+
+            // calls api
+            val response = lmFeedClient.getComment(request)
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val comment = data.comment
+                val users = data.users
+                _getCommentResponse.postValue(
+                    Pair(
+                        page,
+                        LMFeedViewDataConvertor.convertComment(
+                            comment,
+                            users,
+                            postId
+                        )
+                    )
+                )
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.GetComment(response.errorMessage))
+            }
+        }
+    }
+
+    // for deleting comment/reply
+    fun deleteComment(
+        postId: String,
+        commentId: String,
+        parentCommentId: String? = null,
+        reason: String? = null
+    ) {
+        viewModelScope.launchIO {
+            val request = DeleteCommentRequest.Builder()
+                .postId(postId)
+                .commentId(commentId)
+                .reason(reason)
+                .build()
+
+            //call delete comment api
+            val response = lmFeedClient.deleteComment(request)
+
+            if (response.success) {
+//                sendCommentReplyDeletedEvent(
+//                    postId,
+//                    commentId,
+//                    parentCommentId
+//                )
+                _deleteCommentResponse.postValue(Pair(commentId, parentCommentId))
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.DeleteComment(response.errorMessage))
+            }
+        }
+    }
+
+    //todo:
+    // gets user from db and check if it has comment rights or not
+    fun checkCommentRights() {
+        viewModelScope.launchIO {
+//            val userId = userPreferences.getUserUniqueId()
+//
+//            // fetches user with rights from DB with user.id
+//            val userWithRights = userWithRightsRepository.getUserWithRights(userId)
+//            val memberState = userWithRights.user.state
+//            val memberRights = userWithRights.memberRights
+//
+//            _hasCommentRights.postValue(
+//                MemberRightUtil.hasCommentRight(
+//                    memberState,
+//                    memberRights
+//                )
+//            )
+        }
+    }
+
+    // returns [CommentViewData] for local handling of comment
+    fun getCommentViewDataForLocalHandling(
+        postId: String,
+        createdAt: Long,
+        tempId: String,
+        text: String,
+        parentCommentId: String?,
+        level: Int = 0
+    ): LMFeedCommentViewData {
+        // adds comment locally
+        return LMFeedCommentViewData.Builder()
+            .postId(postId)
+            .user(
+                LMFeedUserViewData.Builder()
+                    //todo update here
+//                    .name(userPreferences.getUserName())
+                    .build()
+            )
+            .createdAt(createdAt)
+            .id(tempId)
+            .tempId(tempId)
+            .text(text)
+            .parentId(parentCommentId)
+            .level(level)
+            .build()
     }
 }

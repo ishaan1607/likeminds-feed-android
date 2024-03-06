@@ -1,9 +1,11 @@
 package com.likeminds.feed.android.core.utils
 
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
+import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
@@ -222,5 +224,90 @@ object LMFeedViewDataConvertor {
             .isEnabled(topic.isEnabled)
             .isSelected(false)
             .build()
+    }
+
+    /**
+     * converts [Comment] which is network model to [LMFeedCommentViewData]
+     * @param postId: id of the post
+     * @param usersMap: Map of [String, User]
+     * @param parentCommentId: Id of the comment to which the user has replied
+     */
+    fun convertComment(
+        comment: Comment,
+        usersMap: Map<String, User>,
+        postId: String,
+        parentCommentId: String? = null
+    ): LMFeedCommentViewData {
+        val commentCreator = comment.uuid
+        val user = usersMap[commentCreator]
+        val replies = comment.replies?.toMutableList()
+        val parentId = parentCommentId ?: comment.parentComment?.id
+
+        val userViewData = if (user == null) {
+            createDeletedUser()
+        } else {
+            convertUser(user)
+        }
+
+        return LMFeedCommentViewData.Builder()
+            .id(comment.id)
+            .postId(postId)
+            .isLiked(comment.isLiked)
+            .isEdited(comment.isEdited)
+            .userId(commentCreator)
+            .text(comment.text)
+            .level(comment.level)
+            .likesCount(comment.likesCount)
+            .repliesCount(comment.commentsCount)
+            .user(userViewData)
+            .createdAt(comment.createdAt)
+            .updatedAt(comment.updatedAt)
+            .menuItems(convertOverflowMenuItems(comment.menuItems))
+            .replies(
+                convertComments(
+                    replies,
+                    usersMap,
+                    postId,
+                    comment.id
+                )
+            )
+            .parentId(parentId)
+            .parentComment(
+                comment.parentComment?.let {
+                    convertComment(
+                        it,
+                        usersMap,
+                        postId
+                    )
+                }
+            )
+            .uuid(commentCreator)
+            .tempId(comment.tempId)
+            .build()
+    }
+
+    /**
+     * convert list of [Comment] and usersMap [Map] of String to User
+     * to list of [CommentViewData]
+     *
+     * @param comments: list of [Comment]
+     * @param usersMap: [Map] of String to User
+     * @param postId: postId of post
+     * */
+    private fun convertComments(
+        comments: MutableList<Comment>?,
+        usersMap: Map<String, User>,
+        postId: String,
+        parentCommentId: String? = null
+    ): MutableList<LMFeedCommentViewData> {
+        if (comments == null) return mutableListOf()
+        return comments.map { comment ->
+            convertComment(
+                comment,
+                usersMap,
+                postId,
+                parentCommentId
+            )
+        }.toMutableList()
     }
 }
