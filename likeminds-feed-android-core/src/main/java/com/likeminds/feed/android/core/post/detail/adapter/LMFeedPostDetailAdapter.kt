@@ -5,11 +5,13 @@ import com.likeminds.feed.android.core.post.detail.adapter.databinders.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
 import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedPostDetailAdapter(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-    private val postDetailAdapterListener: LMFeedPostDetailAdapterListener
+    private val postDetailAdapterListener: LMFeedPostDetailAdapterListener,
+    private val replyAdapterListener: LMFeedReplyAdapterListener
 ) : LMFeedBaseRecyclerAdapter<LMFeedBaseViewType>() {
 
     init {
@@ -22,7 +24,8 @@ class LMFeedPostDetailAdapter(
         val itemCommentsCountViewDataBinder = LMFeedItemCommentsCountViewDataBinder()
         viewDataBinders.add(itemCommentsCountViewDataBinder)
 
-        val itemCommentViewDataBinder = LMFeedItemCommentViewDataBinder(postDetailAdapterListener)
+        val itemCommentViewDataBinder =
+            LMFeedItemCommentViewDataBinder(postDetailAdapterListener, replyAdapterListener)
         viewDataBinders.add(itemCommentViewDataBinder)
 
         val itemPostTextOnlyBinder =
@@ -53,6 +56,10 @@ class LMFeedPostDetailAdapter(
         viewDataBinders.add(itemNoCommentsFoundBinder)
 
         return viewDataBinders
+    }
+
+    operator fun get(position: Int): LMFeedBaseViewType? {
+        return items().getItemInList(position)
     }
 }
 

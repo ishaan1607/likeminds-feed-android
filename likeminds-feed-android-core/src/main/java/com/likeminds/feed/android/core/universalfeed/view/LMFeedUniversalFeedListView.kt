@@ -107,6 +107,14 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         universalFeedAdapter.addAll(posts)
     }
 
+    fun updateWithoutNotifying(position: Int, postItem: LMFeedPostViewData) {
+        universalFeedAdapter.updateWithoutNotifyingRV(position, postItem)
+    }
+
+    fun updatePostItem(position: Int, updatedPostItem: LMFeedPostViewData) {
+        universalFeedAdapter.update(position, updatedPostItem)
+    }
+
     /**
      * Adapter Util Block
      **/
@@ -129,14 +137,6 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     //get post from the adapter using index
     fun getPostFromAdapter(position: Int): LMFeedPostViewData? {
         return universalFeedAdapter.items()[position] as? LMFeedPostViewData
-    }
-
-    fun updateWithoutNotifying(position: Int, postItem: LMFeedPostViewData) {
-        universalFeedAdapter.updateWithoutNotifyingRV(position, postItem)
-    }
-
-    fun updatePostItem(position: Int, updatedPostItem: LMFeedPostViewData) {
-        universalFeedAdapter.update(position, updatedPostItem)
     }
 
     /**

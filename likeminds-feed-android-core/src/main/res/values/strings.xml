@@ -47,4 +47,8 @@
     </plurals>
     <string name="lm_feed_view_more_replies">View more replies</string>
     <string name="lm_feed_placeholder_replies">%1$d of %2$d</string>
+    <plurals name="lm_feed_comments_small">
+        <item quantity="one">1 comment</item>
+        <item quantity="other">%d comments</item>
+    </plurals>
 </resources>

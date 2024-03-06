@@ -6,6 +6,7 @@ import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.likeminds.feed.android.core.databinding.*
+import com.likeminds.feed.android.core.post.detail.adapter.LMFeedPostDetailAdapter
 import com.likeminds.feed.android.core.ui.base.views.LMFeedVideoView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
@@ -207,18 +208,17 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                     )
                 }
 
-                //todo: for post detail fragment
-//                is PostDetailAdapter -> {
-//                    if (pos != 0) {
-//                        return
-//                    }
-//                    val item = this[pos]
-//                    handleVideoPlay(
-//                        pos,
-//                        (item?.viewType ?: 0),
-//                        item as PostViewData
-//                    )
-//                }
+                is LMFeedPostDetailAdapter -> {
+                    if (pos != 0) {
+                        return
+                    }
+                    val item = this[pos]
+                    handleVideoPlay(
+                        pos,
+                        (item?.viewType ?: 0),
+                        item as LMFeedPostViewData
+                    )
+                }
             }
         }
     }

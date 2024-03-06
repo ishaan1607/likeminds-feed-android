@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.ColorRes
@@ -119,5 +120,12 @@ object LMFeedViewUtils {
                 LMFeedAnalytics.Keys.POST_TYPE_TEXT
             }
         }
+    }
+
+    //closes the keyboard if it is open
+    fun hideKeyboard(view: View) {
+        val imm =
+            view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

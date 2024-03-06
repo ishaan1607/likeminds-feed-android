@@ -37,7 +37,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
-    private val lmFeedUniversalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
+    private val universalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -103,7 +103,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     private fun observeResponses() {
-        lmFeedUniversalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
+        universalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
             LMFeedProgressBarHelper.hideProgress(binding.progressBar)
             val page = response.first
             val posts = response.second
@@ -121,7 +121,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             }
         }
 
-        lmFeedUniversalFeedViewModel.postLikedResponse.observe(viewLifecycleOwner) { response ->
+        universalFeedViewModel.postLikedResponse.observe(viewLifecycleOwner) { response ->
             LMFeedAnalytics.sendPostLikedEvent(
                 uuid = "",
                 postId = response.first,
@@ -129,7 +129,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             )
         }
 
-        lmFeedUniversalFeedViewModel.postSavedResponse.observe(viewLifecycleOwner) { post ->
+        universalFeedViewModel.postSavedResponse.observe(viewLifecycleOwner) { post ->
             LMFeedAnalytics.sendPostSavedEvent(
                 uuid = post.headerViewData.user.sdkClientInfoViewData.uuid,
                 postId = post.id,
@@ -138,12 +138,12 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             onPostSaveSuccess(post)
         }
 
-        lmFeedUniversalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
+        universalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
             LMFeedAnalytics.sendPostPinnedEvent(post)
             onPostPinSuccess(post)
         }
 
-        lmFeedUniversalFeedViewModel.errorMessageEventFlow.onEach { response ->
+        universalFeedViewModel.errorMessageEventFlow.onEach { response ->
             when (response) {
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.DeletePost -> {
 
@@ -261,11 +261,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     private fun initUniversalFeedRecyclerView() {
         LMFeedProgressBarHelper.showProgress(binding.progressBar)
-        lmFeedUniversalFeedViewModel.getFeed(1, null)
+        universalFeedViewModel.getFeed(1, null)
         binding.rvUniversal.apply {
             setAdapter(this@LMFeedUniversalFeedFragment)
 
-            lmFeedUniversalFeedViewModel.bindView(this, viewLifecycleOwner)
+            universalFeedViewModel.bindView(this, viewLifecycleOwner)
         }
     }
 
@@ -315,7 +315,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     override fun onPostLikeClicked(position: Int, postViewData: LMFeedPostViewData) {
         //call api
-        lmFeedUniversalFeedViewModel.likePost(
+        universalFeedViewModel.likePost(
             postViewData.id,
             postViewData.footerViewData.isLiked
         )
@@ -341,7 +341,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     override fun onPostSaveClicked(position: Int, postViewData: LMFeedPostViewData) {
         //todo: create toast message using post variable and show toast
         //call api
-        lmFeedUniversalFeedViewModel.savePost(postViewData)
+        universalFeedViewModel.savePost(postViewData)
         //update recycler
         binding.rvUniversal.updatePostItem(position, postViewData)
     }
@@ -522,7 +522,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     protected open fun onFeedRefreshed() {
         mSwipeRefreshLayout.isRefreshing = true
         binding.rvUniversal.resetScrollListenerData()
-        lmFeedUniversalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
+        universalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
     }
 
     //callback when post menu items are clicked
@@ -614,7 +614,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         post: LMFeedPostViewData
     ) {
         //call api
-        lmFeedUniversalFeedViewModel.pinPost(post)
+        universalFeedViewModel.pinPost(post)
 
         //update recycler
         binding.rvUniversal.updatePostItem(position, post)
@@ -626,7 +626,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         post: LMFeedPostViewData
     ) {
         //call api
-        lmFeedUniversalFeedViewModel.pinPost(post)
+        universalFeedViewModel.pinPost(post)
 
         //update recycler
         binding.rvUniversal.updatePostItem(position, post)
