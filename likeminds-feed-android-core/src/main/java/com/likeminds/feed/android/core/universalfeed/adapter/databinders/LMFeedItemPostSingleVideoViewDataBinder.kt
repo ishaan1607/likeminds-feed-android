@@ -98,6 +98,7 @@ class LMFeedItemPostSingleVideoViewDataBinder(
                 universalFeedAdapterListener.onPostContentClicked(position, post)
             }
 
+            //todo: move this to content view
             val linkifyLinks =
                 (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
             LinkifyCompat.addLinks(tvPostContent, linkifyLinks)

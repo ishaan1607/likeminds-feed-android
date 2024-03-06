@@ -7,8 +7,10 @@ import android.view.View
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedReplyAdapter
+import com.likeminds.feed.android.core.post.detail.adapter.LMFeedReplyAdapterListener
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 
-class LMFeedReplyListView@JvmOverloads constructor(
+class LMFeedReplyListView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -38,5 +40,16 @@ class LMFeedReplyListView@JvmOverloads constructor(
                 outRect.top = R.dimen.lm_feed_reply_item_top_margin
             }
         }))
+    }
+
+    fun setAdapter(listener: LMFeedReplyAdapterListener) {
+        replyAdapter = LMFeedReplyAdapter(listener)
+        adapter = replyAdapter
+    }
+
+    fun replaceReplies(
+        replies: List<LMFeedBaseViewType>
+    ) {
+        replyAdapter.replace(replies)
     }
 }

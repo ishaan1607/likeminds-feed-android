@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.post.detail.adapter
 
+import android.view.View
 import com.likeminds.feed.android.core.post.detail.adapter.databinders.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
@@ -57,9 +58,7 @@ class LMFeedPostDetailAdapter(
 
 interface LMFeedPostDetailAdapterListener {
 
-    fun onCommentContentSeeMoreClicked(
-
-    ) {
+    fun onCommentContentSeeMoreClicked(position: Int, comment: LMFeedCommentViewData) {
         //triggered when the user clicks on "See More" on comment content
     }
 
@@ -73,5 +72,17 @@ interface LMFeedPostDetailAdapterListener {
 
     fun onCommentReplyClicked(position: Int, comment: LMFeedCommentViewData) {
         //triggered when the user clicks on reply on a comment
+    }
+
+    fun onCommentMenuIconClicked(
+        position: Int,
+        anchorView: View,
+        comment: LMFeedCommentViewData
+    ) {
+        //triggered when the menu item of any comment is clicked
+    }
+
+    fun onCommentContentLinkClicked(url: String) {
+        //triggered when link in the reply content is clicked
     }
 }

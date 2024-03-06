@@ -129,7 +129,8 @@ object LMFeedPostBinderUtils {
         }
     }
 
-    // sets the data in the post content view
+    //todo: ask if we should move this to [LMFeedContentView]
+    //sets the data in the post content view
     private fun setPostContentViewData(
         contentView: LMFeedTextView,
         postViewData: LMFeedPostViewData,
@@ -192,7 +193,7 @@ object LMFeedPostBinderUtils {
                 )
 
                 val shortText: String? = LMFeedSeeMoreUtil.getShortContent(
-                    contentView,
+                    this,
                     maxLines,
                     LMFeedTheme.getPostCharacterLimit()
                 )
@@ -216,7 +217,7 @@ object LMFeedPostBinderUtils {
                     )
                 }
 
-                contentView.text = TextUtils.concat(
+                text = TextUtils.concat(
                     trimmedText,
                     seeMoreSpannableStringBuilder
                 )

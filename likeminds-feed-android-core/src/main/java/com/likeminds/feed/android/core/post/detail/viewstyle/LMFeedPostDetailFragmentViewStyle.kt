@@ -8,6 +8,7 @@ import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.style.
 import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
+import com.likeminds.feed.android.core.ui.widgets.viewmore.style.LMFeedViewMoreStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
@@ -21,7 +22,9 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
     //no comments found view
     val noCommentsFoundViewStyle: LMFeedNoEntityLayoutViewStyle,
     //comment composer view
-    val commentComposerStyle: LMFeedCommentComposerStyle
+    val commentComposerStyle: LMFeedCommentComposerStyle,
+    //view more reply view style
+    val viewMoreReplyStyle: LMFeedViewMoreStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -149,6 +152,16 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
                 )
                 .build()
 
+        private var viewMoreReplyStyle = LMFeedViewMoreStyle.Builder()
+            .visibleCountTextStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(R.color.lm_feed_dark_grayish_blue)
+                    .textSize(R.dimen.lm_feed_text_small)
+                    .fontResource(R.font.lm_feed_roboto)
+                    .build()
+            )
+            .build()
+
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle) = apply {
             this.headerViewStyle = headerViewStyle
         }
@@ -170,12 +183,17 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
             this.commentComposerStyle = commentComposerStyle
         }
 
+        fun viewMoreReplyStyle(viewMoreReplyStyle: LMFeedViewMoreStyle) = apply {
+            this.viewMoreReplyStyle = viewMoreReplyStyle
+        }
+
         fun build() = LMFeedPostDetailFragmentViewStyle(
             headerViewStyle,
             commentsCountViewStyle,
             commentViewStyle,
             noCommentsFoundViewStyle,
-            commentComposerStyle
+            commentComposerStyle,
+            viewMoreReplyStyle
         )
     }
 
@@ -185,5 +203,6 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
             .commentViewStyle(commentViewStyle)
             .noCommentsFoundViewStyle(noCommentsFoundViewStyle)
             .headerViewStyle(headerViewStyle)
+            .viewMoreReplyStyle(viewMoreReplyStyle)
     }
 }

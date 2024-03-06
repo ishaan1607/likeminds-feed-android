@@ -1,18 +1,29 @@
 package com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.style
 
 import android.content.Context
+import android.text.*
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
+import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.isVisible
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedCommentViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
+import com.likeminds.feed.android.core.utils.link.LMFeedOnLinkClickListener
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
 
@@ -30,6 +41,8 @@ class LMFeedCommentView : ConstraintLayout {
         defStyle
     ) {
     }
+
+    val commentMenu: View get() = binding.ivCommentMenu
 
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
@@ -178,6 +191,99 @@ class LMFeedCommentView : ConstraintLayout {
     }
 
     /**
+     * Sets the name of the commenter author
+     *
+     * @param commentText - string to be set for comment text.
+     * @param alreadySeenFullContent - whether the comment content was seen completely or not.
+     * @param onCommentSeeMoreClickListener [LMFeedOnClickListener] - interface to have click listener
+     */
+    fun setCommentContent(
+        commentText: String,
+        alreadySeenFullContent: Boolean?,
+        onCommentSeeMoreClickListener: LMFeedOnClickListener
+    ) {
+        binding.tvCommentContent.apply {
+
+            /**
+             * Text is modified as Linkify doesn't accept texts with these specific unicode characters
+             * @see #Linkify.containsUnsupportedCharacters(String)
+             */
+            val textForLinkify = commentText.getValidTextForLinkify()
+
+            var alreadySeen = alreadySeenFullContent == true
+
+            if (textForLinkify.isEmpty()) {
+                hide()
+                return
+            } else {
+                show()
+            }
+
+            // span for seeMore feature
+            val seeMoreColor = ContextCompat.getColor(context, R.color.lm_feed_brown_grey)
+            val seeMore = SpannableStringBuilder(context.getString(R.string.lm_feed_see_more))
+            seeMore.setSpan(
+                ForegroundColorSpan(seeMoreColor),
+                0,
+                seeMore.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            val seeMoreClickableSpan = object : ClickableSpan() {
+                override fun onClick(view: View) {
+                    alreadySeen = true
+                    onCommentSeeMoreClickListener.onClick()
+                }
+
+                override fun updateDrawState(textPaint: TextPaint) {
+                    textPaint.isUnderlineText = false
+                }
+            }
+
+            // post is used here to get lines count in the text view
+            post {
+                // decodes tags in text and creates span around those tags
+                //todo: member tagging
+                setText(
+                    commentText,
+                    TextView.BufferType.EDITABLE
+                )
+
+                // gets short text to set with seeMore
+                val shortText: String? = LMFeedSeeMoreUtil.getShortContent(
+                    this,
+                    3,
+                    500
+                )
+
+                val trimmedText =
+                    if (!alreadySeen && !shortText.isNullOrEmpty()) {
+                        editableText.subSequence(0, shortText.length)
+                    } else {
+                        editableText
+                    }
+
+                val seeMoreSpannableStringBuilder = SpannableStringBuilder()
+                if (!alreadySeen && !shortText.isNullOrEmpty()) {
+                    seeMoreSpannableStringBuilder.append("...")
+                    seeMoreSpannableStringBuilder.append(seeMore)
+                    seeMoreSpannableStringBuilder.setSpan(
+                        seeMoreClickableSpan,
+                        3,
+                        seeMore.length + 3,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
+
+                // appends see more text at last
+                text = TextUtils.concat(
+                    trimmedText,
+                    seeMoreSpannableStringBuilder
+                )
+            }
+        }
+    }
+
+    /**
      * Sets the time the comment was created.
      *
      * @param createdAtTimeStamp - timestamp when the comment was created.
@@ -232,6 +338,22 @@ class LMFeedCommentView : ConstraintLayout {
     }
 
     /**
+     * Sets replies count text to the reply count text view.
+     *
+     * @param repliesCount - string to be set for replies count.
+     */
+    fun setRepliesCount(repliesCount: String) {
+        binding.apply {
+            if (repliesCount.isEmpty()) {
+                groupReplies.hide()
+            } else {
+                groupReplies.show()
+                tvReplyCount.text = repliesCount
+            }
+        }
+    }
+
+    /**
      * Sets click listener on the like icon
      *
      * @param listener [LMFeedOnClickListener] interface to have click listener
@@ -263,6 +385,32 @@ class LMFeedCommentView : ConstraintLayout {
     fun setReplyClickListener(listener: LMFeedOnClickListener) {
         binding.tvReply.setOnClickListener {
             listener.onClick()
+        }
+    }
+
+    /**
+     * Sets click listener on the menu icon
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setMenuIconClickListener(listener: LMFeedOnClickListener) {
+        binding.ivCommentMenu.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    fun linkifyCommentContent(linkClickListener: LMFeedOnLinkClickListener) {
+        binding.apply {
+            val linkifyLinks =
+                (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
+            LinkifyCompat.addLinks(tvCommentContent, linkifyLinks)
+            tvCommentContent.movementMethod = LMFeedLinkMovementMethod { url ->
+                tvCommentContent.setOnClickListener {
+                    return@setOnClickListener
+                }
+
+                linkClickListener.onLinkClicked((url))
+            }
         }
     }
 }

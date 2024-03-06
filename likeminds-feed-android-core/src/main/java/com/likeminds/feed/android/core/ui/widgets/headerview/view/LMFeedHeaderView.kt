@@ -35,17 +35,19 @@ class LMFeedHeaderView : ConstraintLayout {
 
     fun setStyle(headerViewStyle: LMFeedHeaderViewStyle) {
 
-        //sets background color
-        setBackgroundColor(ContextCompat.getColor(context, headerViewStyle.backgroundColor))
+        headerViewStyle.apply {
+            //sets background color
+            setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
 
-        //sets the elevation of the header view
-        elevation = resources.getDimension(headerViewStyle.elevation)
+            //sets the elevation of the header view
+            this@LMFeedHeaderView.elevation = resources.getDimension(elevation)
 
-        //configure header view elements
-        configureTitle(headerViewStyle.titleTextStyle)
-        configureSubtitle(headerViewStyle.subtitleTextStyle)
-        configureNavigationIcon(headerViewStyle.navigationIconStyle)
-        configureSearchIcon(headerViewStyle.searchIconStyle)
+            //configure header view elements
+            configureTitle(titleTextStyle)
+            configureSubtitle(subtitleTextStyle)
+            configureNavigationIcon(navigationIconStyle)
+            configureSearchIcon(searchIconStyle)
+        }
     }
 
     private fun configureTitle(titleTextStyle: LMFeedTextStyle) {
