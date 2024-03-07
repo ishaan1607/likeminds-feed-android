@@ -32,12 +32,12 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
 
     sealed class ErrorMessageEvent {
         data class LikePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
-        data class SavePost(val postId: String, val errorMessage: String?) :
-            ErrorMessageEvent()
+
+        data class SavePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
 
         data class DeletePost(val errorMessage: String?) : ErrorMessageEvent()
-        data class PinPost(val postId: String, val errorMessage: String?) :
-            ErrorMessageEvent()
+
+        data class PinPost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
     }
 
     companion object {

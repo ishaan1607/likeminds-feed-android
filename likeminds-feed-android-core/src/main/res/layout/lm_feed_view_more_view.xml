@@ -19,7 +19,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:fontFamily="@font/lm_feed_roboto_medium"
             tools:ignore="UnusedAttribute"
-            tools:text="View more"
+            tools:text="@string/lm_feed_view_more_replies"
             tools:textColor="@color/lm_feed_dark_grayish_blue"
             tools:textSize="14sp" />
 

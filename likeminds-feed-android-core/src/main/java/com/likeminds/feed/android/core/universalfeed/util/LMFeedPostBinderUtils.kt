@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
 import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
@@ -172,11 +173,8 @@ object LMFeedPostBinderUtils {
                         return@setOnClickListener
                     }
                     alreadySeenFullContent = true
-                    universalFeedAdapterListener.onPostContentSeeMoreClicked(
-                        position,
-                        true,
-                        postViewData
-                    )
+                    val updatedPost =  updatePostForSeeFullContent(postViewData)
+                    universalFeedAdapterListener.onPostContentSeeMoreClicked(position, updatedPost)
                 }
 
                 override fun updateDrawState(textPaint: TextPaint) {
@@ -377,6 +375,31 @@ object LMFeedPostBinderUtils {
         //update the post view data
         return oldPostViewData.toBuilder()
             .headerViewData(updatedHeaderViewData)
+            .build()
+    }
+
+    // update post object for document expanded action
+    fun updatePostForDocumentExpanded(oldPostViewData: LMFeedPostViewData): LMFeedPostViewData {
+        val mediaData = oldPostViewData.mediaViewData
+
+        val updatedMediaData = mediaData.toBuilder()
+            .isExpanded(true)
+            .build()
+
+        return oldPostViewData.toBuilder()
+            .mediaViewData(updatedMediaData)
+            .build()
+    }
+
+    //updates post object for a see full content action and returns updated post
+    fun updatePostForSeeFullContent(oldPostViewData: LMFeedPostViewData): LMFeedPostViewData {
+        val contentViewData = oldPostViewData.contentViewData.toBuilder()
+            .alreadySeenFullContent(true)
+            .build()
+
+        //return updated comment view data
+        return oldPostViewData.toBuilder()
+            .contentViewData(contentViewData)
             .build()
     }
 

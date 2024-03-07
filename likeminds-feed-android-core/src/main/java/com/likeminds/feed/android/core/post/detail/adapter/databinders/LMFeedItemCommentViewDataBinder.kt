@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.post.detail.adapter.databinders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedItemCommentBinding
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedPostDetailAdapterListener
@@ -64,8 +65,17 @@ class LMFeedItemCommentViewDataBinder(
 
             val context = root.context
 
+            commentView.setReplyText(context.getString(R.string.lm_feed_reply))
             commentView.setCommenterImage(data.user)
             commentView.setCommenterName(data.user.name)
+            commentView.setCommentContent(
+                data.text,
+                data.alreadySeenFullContent
+            ) {
+                val updatedComment =
+                    LMFeedPostDetailBinderUtils.updateCommentForSeeFullContent(data)
+                postDetailAdapterListener.onCommentContentSeeMoreClicked(position, updatedComment)
+            }
             commentView.setTimestamp(data.createdAt)
             commentView.setCommentEdited(data.isEdited)
             commentView.setLikesIcon(data.isLiked)
@@ -99,11 +109,9 @@ class LMFeedItemCommentViewDataBinder(
 
                 if (data.replies.isNotEmpty()) {
                     rvReplies.show()
-                    commentSeparator.hide()
                     handleViewMore(this, data)
                 } else {
                     rvReplies.hide()
-                    commentSeparator.show()
                 }
             }
         }
@@ -130,6 +138,16 @@ class LMFeedItemCommentViewDataBinder(
             commentView.setReplyClickListener {
                 val comment = commentViewData ?: return@setReplyClickListener
                 postDetailAdapterListener.onCommentReplyClicked(position, comment)
+            }
+
+            commentView.setReplyCountClickListener {
+                val comment = commentViewData ?: return@setReplyCountClickListener
+                rvReplies.isVisible = !rvReplies.isVisible
+                postDetailAdapterListener.onCommentReplyCountClicked(
+                    position,
+                    comment,
+                    rvReplies.isVisible
+                )
             }
 
             commentView.setMenuIconClickListener {

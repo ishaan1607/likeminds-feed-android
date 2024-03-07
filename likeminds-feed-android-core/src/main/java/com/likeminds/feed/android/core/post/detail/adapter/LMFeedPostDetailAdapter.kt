@@ -81,6 +81,14 @@ interface LMFeedPostDetailAdapterListener {
         //triggered when the user clicks on reply on a comment
     }
 
+    fun onCommentReplyCountClicked(
+        position: Int,
+        comment: LMFeedCommentViewData,
+        areRepliesVisible: Boolean
+    ) {
+        //triggered when the user clicks on reply count on a comment
+    }
+
     fun onCommentMenuIconClicked(
         position: Int,
         anchorView: View,

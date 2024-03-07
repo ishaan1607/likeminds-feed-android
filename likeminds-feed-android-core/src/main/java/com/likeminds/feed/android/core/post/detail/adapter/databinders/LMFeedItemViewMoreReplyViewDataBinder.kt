@@ -43,7 +43,7 @@ class LMFeedItemViewMoreReplyViewDataBinder(
             val context = root.context
 
             viewMoreReply.setViewMoreText(context.getString(R.string.lm_feed_view_more_replies))
-            viewMoreReply.setViewMoreText(
+            viewMoreReply.setVisibleCount(
                 context.getString(
                     R.string.lm_feed_placeholder_replies,
                     data.currentCount,

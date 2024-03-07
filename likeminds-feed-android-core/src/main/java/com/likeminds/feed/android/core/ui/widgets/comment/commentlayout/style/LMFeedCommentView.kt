@@ -128,11 +128,11 @@ class LMFeedCommentView : ConstraintLayout {
     }
 
     private fun configureReplyCountText(replyCountTextStyle: LMFeedTextStyle?) {
-        binding.tvReplyCount.apply {
+        binding.apply {
             if (replyCountTextStyle == null) {
-                hide()
+                groupReplies.hide()
             } else {
-                setStyle(replyCountTextStyle)
+                tvReplyCount.setStyle(replyCountTextStyle)
             }
         }
     }
@@ -153,7 +153,6 @@ class LMFeedCommentView : ConstraintLayout {
                 tvEdited.hide()
                 viewDotEdited.hide()
             } else {
-                viewDotEdited.show()
                 tvEdited.setStyle(commentEditedTextStyle)
             }
         }
@@ -338,6 +337,21 @@ class LMFeedCommentView : ConstraintLayout {
     }
 
     /**
+     * Sets the reply text for the reply text view
+     *
+     * @param replyText - string to be set for reply text.
+     */
+    fun setReplyText(replyText: String) {
+        binding.tvReply.apply {
+            if (replyText.isEmpty()) {
+                hide()
+            } else {
+                text = replyText
+            }
+        }
+    }
+
+    /**
      * Sets replies count text to the reply count text view.
      *
      * @param repliesCount - string to be set for replies count.
@@ -384,6 +398,17 @@ class LMFeedCommentView : ConstraintLayout {
      */
     fun setReplyClickListener(listener: LMFeedOnClickListener) {
         binding.tvReply.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    /**
+     * Sets click listener on the reply count text
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setReplyCountClickListener(listener: LMFeedOnClickListener) {
+        binding.tvReplyCount.setOnClickListener {
             listener.onClick()
         }
     }

@@ -7,12 +7,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <View
+            android:id="@+id/post_comments_separator"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:background="@color/lm_feed_cultured"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_comments_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="4dp"
             android:lineSpacingExtra="1sp"
             app:layout_constraintBottom_toBottomOf="parent"

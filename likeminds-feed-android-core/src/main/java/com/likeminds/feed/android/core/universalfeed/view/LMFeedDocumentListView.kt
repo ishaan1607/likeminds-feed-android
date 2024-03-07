@@ -2,7 +2,6 @@ package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
@@ -62,11 +61,10 @@ class LMFeedDocumentListView @JvmOverloads constructor(
         tvShowMore: LMFeedTextView,
     ) {
         val postDocumentsMediaStyle =
-            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle ?: return
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
+                ?: return
 
         val visibleDocumentsLimit = postDocumentsMediaStyle.visibleDocumentsLimit
-
-        Log.d("PUI", "handleVisibleDocuments: $visibleDocumentsLimit")
 
         val documents = mediaViewData.attachments
 

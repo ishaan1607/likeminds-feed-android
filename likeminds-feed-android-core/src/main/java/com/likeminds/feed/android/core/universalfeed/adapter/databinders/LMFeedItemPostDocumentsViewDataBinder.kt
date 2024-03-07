@@ -126,7 +126,11 @@ class LMFeedItemPostDocumentsViewDataBinder(
 
             postDocumentsMediaView.setShowMoreTextClickListener {
                 val post = postViewData ?: return@setShowMoreTextClickListener
-                universalFeedAdapterListener.onPostMultipleDocumentsExpanded(position, post)
+                val updatedPostData = LMFeedPostBinderUtils.updatePostForDocumentExpanded(post)
+                universalFeedAdapterListener.onPostMultipleDocumentsExpanded(
+                    position,
+                    updatedPostData
+                )
             }
 
             postFooter.setLikeIconClickListener {

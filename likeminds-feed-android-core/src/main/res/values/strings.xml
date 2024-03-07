@@ -51,4 +51,6 @@
         <item quantity="one">1 comment</item>
         <item quantity="other">%d comments</item>
     </plurals>
+    <string name="lm_feed_comment_deleted">Comment Deleted!</string>
+    <string name="lm_feed_reply">Reply</string>
 </resources>

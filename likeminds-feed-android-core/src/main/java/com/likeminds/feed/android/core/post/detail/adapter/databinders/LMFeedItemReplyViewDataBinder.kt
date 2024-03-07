@@ -7,6 +7,7 @@ import com.likeminds.feed.android.core.databinding.LmFeedItemReplyViewBinding
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedReplyAdapterListener
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.util.LMFeedPostDetailBinderUtils
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_REPLY
 
@@ -25,6 +26,7 @@ class LMFeedItemReplyViewDataBinder(
         )
 
         binding.apply {
+            replyView.setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.replyViewStyle)
             setClickListeners(this)
         }
 

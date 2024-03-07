@@ -8,7 +8,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.comment.model.*
-import com.likeminds.likemindsfeed.post.model.GetPostRequest
+import com.likeminds.likemindsfeed.post.model.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
@@ -35,6 +35,9 @@ class LMFeedPostDetailViewModel : ViewModel() {
     private val _getCommentResponse = MutableLiveData<Pair<Int, LMFeedCommentViewData>>()
     val getCommentResponse: LiveData<Pair<Int, LMFeedCommentViewData>> = _getCommentResponse
 
+    private val _hasCommentRights = MutableLiveData(true)
+    val hasCommentRights: LiveData<Boolean> = _hasCommentRights
+
     /**
      * it holds the Pair of [commentId] and [parentCommentId]
      * if comment level is 0 then [parentCommentId] is null
@@ -43,8 +46,25 @@ class LMFeedPostDetailViewModel : ViewModel() {
     private val _deleteCommentResponse = MutableLiveData<Pair<String, String?>>()
     val deleteCommentResponse: LiveData<Pair<String, String?>> = _deleteCommentResponse
 
+    private val _postLikedResponse = MutableLiveData<Pair<String, Boolean>>()
+    val postLikedResponse: LiveData<Pair<String, Boolean>> = _postLikedResponse
+
+    private val _postSavedResponse = MutableLiveData<LMFeedPostViewData>()
+    val postSavedResponse: LiveData<LMFeedPostViewData> = _postSavedResponse
+
+    private val _postPinnedResponse = MutableLiveData<LMFeedPostViewData>()
+    val postPinnedResponse: LiveData<LMFeedPostViewData> = _postPinnedResponse
+
     sealed class ErrorMessageEvent {
         data class GetPost(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class LikePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
+
+        data class SavePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
+
+        data class DeletePost(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class PinPost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
 
         data class LikeComment(
             val commentId: String,
@@ -336,6 +356,77 @@ class LMFeedPostDetailViewModel : ViewModel() {
                 _deleteCommentResponse.postValue(Pair(commentId, parentCommentId))
             } else {
                 errorMessageChannel.send(ErrorMessageEvent.DeleteComment(response.errorMessage))
+            }
+        }
+    }
+
+    //for like/unlike a post
+    fun likePost(postId: String, postLiked: Boolean) {
+        viewModelScope.launchIO {
+            val request = LikePostRequest.Builder()
+                .postId(postId)
+                .build()
+
+            //call like post api
+            val response = lmFeedClient.likePost(request)
+
+            //check for error
+            if (response.success) {
+                _postLikedResponse.postValue(Pair(postId, postLiked))
+            } else {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.LikePost(
+                        postId,
+                        response.errorMessage
+                    )
+                )
+            }
+        }
+    }
+
+    //for save/unsave a post
+    fun savePost(postViewData: LMFeedPostViewData) {
+        viewModelScope.launchIO {
+            val request = SavePostRequest.Builder()
+                .postId(postViewData.id)
+                .build()
+
+            //call like post api
+            val response = lmFeedClient.savePost(request)
+
+            //check for error
+            if (response.success) {
+                _postSavedResponse.postValue(postViewData)
+            } else {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.SavePost(
+                        postViewData.id,
+                        response.errorMessage
+                    )
+                )
+            }
+        }
+    }
+
+    //for pin/unpin post
+    fun pinPost(postViewData: LMFeedPostViewData) {
+        viewModelScope.launchIO {
+            val request = PinPostRequest.Builder()
+                .postId(postViewData.id)
+                .build()
+
+            //call pin api
+            val response = lmFeedClient.pinPost(request)
+
+            if (response.success) {
+                _postPinnedResponse.postValue(postViewData)
+            } else {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.PinPost(
+                        postViewData.id,
+                        response.errorMessage
+                    )
+                )
             }
         }
     }

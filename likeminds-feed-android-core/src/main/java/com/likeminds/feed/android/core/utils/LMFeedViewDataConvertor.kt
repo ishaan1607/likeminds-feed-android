@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.utils
 
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
+import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentsCountViewData
 import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.*
@@ -87,6 +88,13 @@ object LMFeedViewDataConvertor {
             .commentsCount(post.commentsCount)
             .isSaved(post.isSaved)
             .isLiked(post.isLiked)
+            .replies(
+                convertComments(
+                    replies,
+                    usersMap,
+                    postId
+                )
+            )
             .build()
 
         //creating a final instance
@@ -227,6 +235,31 @@ object LMFeedViewDataConvertor {
     }
 
     /**
+     * convert list of [Comment] and usersMap [Map] of String to User
+     * to list of [CommentViewData]
+     *
+     * @param comments: list of [Comment]
+     * @param usersMap: [Map] of String to User
+     * @param postId: postId of post
+     * */
+    private fun convertComments(
+        comments: MutableList<Comment>?,
+        usersMap: Map<String, User>,
+        postId: String,
+        parentCommentId: String? = null
+    ): MutableList<LMFeedCommentViewData> {
+        if (comments == null) return mutableListOf()
+        return comments.map { comment ->
+            convertComment(
+                comment,
+                usersMap,
+                postId,
+                parentCommentId
+            )
+        }.toMutableList()
+    }
+
+    /**
      * converts [Comment] which is network model to [LMFeedCommentViewData]
      * @param postId: id of the post
      * @param usersMap: Map of [String, User]
@@ -286,28 +319,9 @@ object LMFeedViewDataConvertor {
             .build()
     }
 
-    /**
-     * convert list of [Comment] and usersMap [Map] of String to User
-     * to list of [CommentViewData]
-     *
-     * @param comments: list of [Comment]
-     * @param usersMap: [Map] of String to User
-     * @param postId: postId of post
-     * */
-    private fun convertComments(
-        comments: MutableList<Comment>?,
-        usersMap: Map<String, User>,
-        postId: String,
-        parentCommentId: String? = null
-    ): MutableList<LMFeedCommentViewData> {
-        if (comments == null) return mutableListOf()
-        return comments.map { comment ->
-            convertComment(
-                comment,
-                usersMap,
-                postId,
-                parentCommentId
-            )
-        }.toMutableList()
+    fun convertCommentsCount(commentsCount: Int): LMFeedCommentsCountViewData {
+        return LMFeedCommentsCountViewData.Builder()
+            .commentsCount(commentsCount)
+            .build()
     }
 }

@@ -5,13 +5,13 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.databinding.LmFeedCommentComposerViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.style.LMFeedCommentComposerStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedCommentComposerView : ConstraintLayout {
@@ -99,19 +99,23 @@ class LMFeedCommentComposerView : ConstraintLayout {
         val iconStyle =
             LMFeedStyleTransformer.postDetailFragmentViewStyle.commentComposerStyle.commentSendStyle
 
-        val commentSendIcon = if (isEnabled) {
-            iconStyle.activeSrc
-        } else {
-            iconStyle.inActiveSrc
-        }
+        binding.ivCommentSend.apply {
+            this.isEnabled = isEnabled
 
-        if (commentSendIcon != null) {
-            binding.ivCommentSend.setImageDrawable(
-                ContextCompat.getDrawable(
-                    context,
-                    commentSendIcon
+            val commentSendIcon = if (isEnabled) {
+                iconStyle.activeSrc
+            } else {
+                iconStyle.inActiveSrc
+            }
+
+            if (commentSendIcon != null) {
+                setImageDrawable(
+                    ContextCompat.getDrawable(
+                        context,
+                        commentSendIcon
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -137,10 +141,36 @@ class LMFeedCommentComposerView : ConstraintLayout {
         }
     }
 
-    fun replyingVisibility(isVisible: Boolean) {
+    /**
+     * Shows the replying if user is replying to the comment
+     *
+     * @param replyingTo - name of the user to which current user is replying, if this is empty then we hide replyingTo view
+     */
+    fun setReplyingView(replyingTo: String) {
         binding.apply {
-            tvReplyingTo.isVisible = isVisible
-            ivRemoveReplyingTo.isVisible = isVisible
+            if (replyingTo.isEmpty()) {
+                tvReplyingTo.hide()
+                ivRemoveReplyingTo.hide()
+            } else {
+                tvReplyingTo.show()
+                ivRemoveReplyingTo.show()
+
+                tvReplyingTo.text = replyingTo
+            }
+        }
+    }
+
+    fun handleCommentRights(hasCommentRights: Boolean) {
+        binding.apply {
+            if (hasCommentRights) {
+                etComment.show()
+                ivCommentSend.show()
+                tvRestricted.hide()
+            } else {
+                etComment.hide()
+                ivCommentSend.hide()
+                tvRestricted.show()
+            }
         }
     }
 }

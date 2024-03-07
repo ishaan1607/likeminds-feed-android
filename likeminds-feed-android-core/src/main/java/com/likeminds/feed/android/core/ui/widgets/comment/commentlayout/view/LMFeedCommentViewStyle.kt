@@ -51,8 +51,8 @@ class LMFeedCommentViewStyle private constructor(
         private var menuIconStyle: LMFeedIconStyle? = null
 
         private var likeIconStyle: LMFeedIconStyle = LMFeedIconStyle.Builder()
-            .activeSrc(R.drawable.lm_feed_ic_like_filled)
-            .inActiveSrc(R.drawable.lm_feed_ic_like_unfilled)
+            .activeSrc(R.drawable.lm_feed_ic_like_comment_filled)
+            .inActiveSrc(R.drawable.lm_feed_ic_like_comment_unfilled)
             .build()
 
         private var likeTextStyle: LMFeedTextStyle? = null

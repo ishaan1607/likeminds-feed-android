@@ -366,26 +366,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     //updates [alreadySeenFullContent] for the post
-    override fun onPostContentSeeMoreClicked(
-        position: Int,
-        alreadySeenFullContent: Boolean,
-        postViewData: LMFeedPostViewData
-    ) {
+    override fun onPostContentSeeMoreClicked(position: Int, postViewData: LMFeedPostViewData) {
         binding.rvUniversal.apply {
-            //update the content view data
-            val updatedContentViewData = postViewData.contentViewData.toBuilder()
-                .alreadySeenFullContent(alreadySeenFullContent)
-                .build()
-
-            //update the post view data
-            val updatedPostViewData = postViewData.toBuilder()
-                .contentViewData(updatedContentViewData)
-                .fromPostSaved(false)
-                .fromPostLiked(false)
-                .build()
 
             //update the post item in the adapter
-            updatePostItem(position, updatedPostViewData)
+            updatePostItem(position, postViewData)
         }
     }
 

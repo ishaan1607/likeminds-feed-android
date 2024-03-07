@@ -89,11 +89,7 @@ interface LMFeedUniversalFeedAdapterListener {
         //triggered to update the data with re-inflation of the item
     }
 
-    fun onPostContentSeeMoreClicked(
-        position: Int,
-        alreadySeenFullContent: Boolean,
-        postViewData: LMFeedPostViewData
-    ) {
+    fun onPostContentSeeMoreClicked(position: Int, postViewData: LMFeedPostViewData) {
         //triggered when the user clicks on "See More" on post content
     }
 
