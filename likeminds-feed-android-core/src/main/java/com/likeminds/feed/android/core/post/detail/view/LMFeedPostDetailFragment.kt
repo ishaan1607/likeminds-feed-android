@@ -1,7 +1,6 @@
 package com.likeminds.feed.android.core.post.detail.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -136,7 +135,6 @@ open class LMFeedPostDetailFragment :
                 object : LMFeedEndlessRecyclerViewScrollListener(linearLayoutManager) {
                     override fun onLoadMore(currentPage: Int) {
                         if (currentPage > 0) {
-                            Log.d("PUI", "load more is called $currentPage")
                             postDetailViewModel.getPost(postDetailExtras.postId, currentPage)
                         }
                     }
