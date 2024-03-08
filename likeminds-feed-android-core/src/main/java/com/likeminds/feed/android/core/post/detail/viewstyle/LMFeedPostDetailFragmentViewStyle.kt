@@ -39,6 +39,14 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
             )
+            .subtitleTextStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(R.color.lm_feed_grey)
+                    .maxLines(1)
+                    .ellipsize(TextUtils.TruncateAt.END)
+                    .textSize(R.dimen.lm_feed_text_medium)
+                    .build()
+            )
             .backgroundColor(R.color.lm_feed_white)
             .navigationIconStyle(
                 LMFeedIconStyle.Builder()

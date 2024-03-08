@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.post.detail.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -97,7 +98,7 @@ open class LMFeedPostDetailFragment :
         headerViewPostDetail.apply {
             setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.headerViewStyle)
 
-            setTitleText(getString(R.string.lm_feed_feed))
+            setTitleText(getString(R.string.lm_feed_s_post))
         }
     }
 
@@ -220,9 +221,13 @@ open class LMFeedPostDetailFragment :
 
     // initializes text-watcher and click listeners
     private fun initListeners() {
-        binding.commentComposer.apply {
-            setCommentSendClickListener {
-                val text = etComment.text
+        binding.apply {
+            headerViewPostDetail.setNavigationIconClickListener {
+                onNavigationIconClick()
+            }
+
+            commentComposer.setCommentSendClickListener {
+                val text = commentComposer.etComment.text
                 //todo:
                 val updatedText = "$text"
 //                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
@@ -241,15 +246,19 @@ open class LMFeedPostDetailFragment :
                         addComment(postId, updatedText)
                     }
                 }
-                LMFeedViewUtils.hideKeyboard(this)
-                etComment.text = null
+                LMFeedViewUtils.hideKeyboard(commentComposer)
+                commentComposer.etComment.text = null
             }
-            setCommentSendButton(false)
+            commentComposer.setCommentSendButton(false)
 
-            setRemoveReplyingToClickListener {
+            commentComposer.setRemoveReplyingToClickListener {
                 hideReplyingToView()
             }
         }
+    }
+
+    protected open fun onNavigationIconClick() {
+        Log.d("PUI", "default onNavigationIconClick")
     }
 
     // adds the comment locally and calls api

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityEntityType
 import com.likeminds.feed.android.core.databinding.LmFeedActivityActivityFeedBinding
 
 class LMFeedActivityFeedActivity : AppCompatActivity() {
@@ -21,7 +20,7 @@ class LMFeedActivityFeedActivity : AppCompatActivity() {
     companion object {
         @JvmStatic
         fun start(context: Context) {
-            val intent = Intent(context, LMFeedActivityEntityType::class.java)
+            val intent = Intent(context, LMFeedActivityFeedActivity::class.java)
             context.startActivity(intent)
         }
 

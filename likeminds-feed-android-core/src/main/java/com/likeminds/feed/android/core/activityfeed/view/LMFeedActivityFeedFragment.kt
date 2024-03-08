@@ -2,13 +2,16 @@ package com.likeminds.feed.android.core.activityfeed.view
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.activityfeed.adapter.LMFeedActivityFeedAdapterListener
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
 import com.likeminds.feed.android.core.activityfeed.viewmodel.LMFeedActivityFeedViewModel
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentActivityFeedBinding
+import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -16,7 +19,7 @@ import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import kotlinx.coroutines.flow.onEach
 
-class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterListener {
+open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterListener {
 
     private lateinit var binding: LmFeedFragmentActivityFeedBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
@@ -29,8 +32,32 @@ class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterListener
         savedInstanceState: Bundle?
     ): View {
         binding = LmFeedFragmentActivityFeedBinding.inflate(layoutInflater)
-        //todo: customize here
-        return binding.root
+
+        binding.apply {
+            customizeActivityFeedHeaderView(headerViewActivityFeed)
+
+            //set background color
+            val backgroundColor =
+                LMFeedStyleTransformer.activityFeedFragmentViewStyle.backgroundColor
+            backgroundColor?.let { color ->
+                root.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        color
+                    )
+                )
+            }
+
+            return root
+        }
+    }
+
+    protected open fun customizeActivityFeedHeaderView(headerViewActivityFeed: LMFeedHeaderView) {
+        headerViewActivityFeed.apply {
+            setStyle(LMFeedStyleTransformer.activityFeedFragmentViewStyle.headerViewStyle)
+
+            setTitleText(getString(R.string.lm_feed_notification_feed))
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,7 +92,13 @@ class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterListener
     //todo: set loader color using style
     private fun initSwipeRefreshLayout() {
         mSwipeRefreshLayout = binding.swipeRefreshLayout
-        mSwipeRefreshLayout.setColorSchemeColors()
+        mSwipeRefreshLayout.setColorSchemeColors(
+            //todo: change this color as per the style
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.lm_feed_majorelle_blue
+            )
+        )
 
         mSwipeRefreshLayout.setOnRefreshListener {
             refreshNotificationFeed()
