@@ -12,6 +12,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedActivity
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
+import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
+import com.likeminds.feed.android.core.likes.model.POST
+import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
@@ -325,7 +328,12 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostLikesCountClicked(position: Int, postViewData: LMFeedPostViewData) {
-//        TODO("Not yet implemented")
+        //show the likes screen
+        val likesScreenExtras = LMFeedLikesScreenExtras.Builder()
+            .postId(postViewData.id)
+            .entityType(POST)
+            .build()
+        LMFeedLikesActivity.start(requireContext(), likesScreenExtras)
     }
 
     override fun onPostCommentsCountClicked(position: Int, postViewData: LMFeedPostViewData) {

@@ -16,6 +16,12 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LMFeedAppTheme.NoActionBar" />
+
+        <activity
+            android:name=".likes.view.LMFeedLikesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/LMFeedAppTheme.NoActionBar" />
     </application>
 
 </manifest>

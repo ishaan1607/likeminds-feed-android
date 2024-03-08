@@ -81,6 +81,7 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
                 object : LMFeedEndlessRecyclerViewScrollListener(linearLayoutManager) {
                     override fun onLoadMore(currentPage: Int) {
                         if (currentPage > 0) {
+                            // calls api for paginated data
                             activityFeedViewModel.getActivityFeed(currentPage)
                         }
                     }
@@ -101,19 +102,17 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
         )
 
         mSwipeRefreshLayout.setOnRefreshListener {
-            refreshNotificationFeed()
+            fetchData(true)
         }
     }
 
-    //refresh the whole notification feed
-    private fun refreshNotificationFeed() {
-        mSwipeRefreshLayout.isRefreshing = true
-        binding.rvActivityFeed.resetScrollListenerData()
-        activityFeedViewModel.getActivityFeed(1)
-    }
-
-    private fun fetchData() {
-        LMFeedProgressBarHelper.showProgress(binding.progressBar)
+    private fun fetchData(fromRefresh: Boolean = false) {
+        if (fromRefresh) {
+            mSwipeRefreshLayout.isRefreshing = true
+            binding.rvActivityFeed.resetScrollListenerData()
+        } else {
+            LMFeedProgressBarHelper.showProgress(binding.progressBar)
+        }
         activityFeedViewModel.getActivityFeed(1)
     }
 

@@ -1,8 +1,10 @@
 package com.likeminds.feed.android.core.utils
 
 import com.likeminds.feed.android.core.activityfeed.viewstyle.LMFeedActivityFeedFragmentViewStyle
+import com.likeminds.feed.android.core.likes.viewstyle.LMFeedLikesFragmentViewStyle
 import com.likeminds.feed.android.core.post.detail.viewstyle.LMFeedPostDetailFragmentViewStyle
 import com.likeminds.feed.android.core.post.viewstyle.LMFeedPostViewStyle
+import com.likeminds.feed.android.core.ui.widgets.user.style.LMFeedUserViewStyle
 import com.likeminds.feed.android.core.universalfeed.viewstyle.LMFeedUniversalFeedFragmentViewStyle
 
 object LMFeedStyleTransformer {
@@ -21,4 +23,8 @@ object LMFeedStyleTransformer {
     @JvmStatic
     var activityFeedFragmentViewStyle: LMFeedActivityFeedFragmentViewStyle =
         LMFeedActivityFeedFragmentViewStyle.Builder().build()
+
+    @JvmStatic
+    var likesFragmentViewStyle: LMFeedLikesFragmentViewStyle =
+        LMFeedLikesFragmentViewStyle.Builder().build()
 }
