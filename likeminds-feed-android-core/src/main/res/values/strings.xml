@@ -61,4 +61,13 @@
         <item quantity="one">1 like</item>
         <item quantity="other">%d likes</item>
     </plurals>
-</resources>
+    <string name="lm_feed_report_sub_header">You would be able to report this %s after selecting a problem.</string>
+    <string name="lm_feed_comment">Comment</string>
+    <string name="lm_feed_report">Report</string>
+    <string name="lm_feed_report_abuse">Report Abuse</string>
+    <string name="lm_feed_please_specify_the_problem_to_continue">Please specify the problem to continue</string>
+    <string name="lm_feed_write_description">Write Description</string>
+    <string name="lm_feed_selected_at_least_one_report_tag">Please select at least one report tag.</string>
+    <string name="lm_feed_please_enter_a_reason">Please enter a reason.</string>
+
+    </resources>

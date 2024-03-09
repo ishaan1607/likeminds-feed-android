@@ -6,8 +6,8 @@ import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton.IconGravity
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedButton
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import kotlin.math.roundToInt
 
 /**
@@ -25,6 +25,7 @@ import kotlin.math.roundToInt
  * @property iconSize: [Int] should be in format of [DimenRes] to change custom size of the icon | Default value = [null]
  * @property iconGravity: [Int] should be in format of [IconGravity] to change gravity of the icon | Default value = [ICON_GRAVITY_START]
  * @property iconPadding: [Int] should be in the format of [DimenRes] to change padding of the icon | Default value = [null]
+ * @property cornerRadius: [Int] should be in the format of [DimenRes] to change corner radius of the button | Default value = [null]
  **/
 class LMFeedButtonStyle private constructor(
     //text related
@@ -41,7 +42,8 @@ class LMFeedButtonStyle private constructor(
     @ColorRes val iconTint: Int?,
     @DimenRes val iconSize: Int?,
     @IconGravity val iconGravity: Int?,
-    @DimenRes val iconPadding: Int?
+    @DimenRes val iconPadding: Int?,
+    @DimenRes val cornerRadius: Int?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -78,6 +80,9 @@ class LMFeedButtonStyle private constructor(
         @DimenRes
         private var iconPadding: Int? = null
 
+        @DimenRes
+        private var cornerRadius: Int? = null
+
         fun textStyle(textStyle: LMFeedTextStyle) = apply { this.textStyle = textStyle }
 
         fun backgroundColor(@ColorRes backgroundColor: Int) =
@@ -99,6 +104,8 @@ class LMFeedButtonStyle private constructor(
 
         fun iconPadding(@DimenRes iconPadding: Int?) = apply { this.iconPadding = iconPadding }
 
+        fun cornerRadius(@DimenRes cornerRadius: Int?) = apply { this.cornerRadius = cornerRadius }
+
         fun build() = LMFeedButtonStyle(
             textStyle,
             backgroundColor,
@@ -109,7 +116,8 @@ class LMFeedButtonStyle private constructor(
             iconTint,
             iconSize,
             iconGravity,
-            iconPadding
+            iconPadding,
+            cornerRadius
         )
     }
 
@@ -119,16 +127,17 @@ class LMFeedButtonStyle private constructor(
             textStyle.apply(this)
 
             //button related styling
+            val backgroundColor = this@LMFeedButtonStyle.backgroundColor
             backgroundTintList = ColorStateList.valueOf(
                 ContextCompat.getColor(
                     context,
-                    this@LMFeedButtonStyle.backgroundColor
+                    backgroundColor
                 )
             )
 
             //stroke color
             val strokeColor = this@LMFeedButtonStyle.strokeColor
-            if (strokeColor != null) {
+            strokeColor?.let {
                 this.strokeColor = ColorStateList.valueOf(
                     ContextCompat.getColor(
                         context,
@@ -139,25 +148,25 @@ class LMFeedButtonStyle private constructor(
 
             //stroke width
             val strokeWidth = this@LMFeedButtonStyle.strokeWidth
-            if (strokeWidth != null) {
+            strokeWidth?.let {
                 this.strokeWidth = resources.getDimension(strokeWidth).roundToInt()
             }
 
             //elevation
             val elevation = this@LMFeedButtonStyle.elevation
-            if (elevation != null) {
+            elevation?.let {
                 this.elevation = resources.getDimension(elevation)
             }
 
             //icon related
             val icon = this@LMFeedButtonStyle.icon
-            if (icon != null) {
+            icon?.let {
                 this.icon = ContextCompat.getDrawable(context, icon)
             }
 
             //iconTint
             val iconTint = this@LMFeedButtonStyle.iconTint
-            if (iconTint != null) {
+            iconTint?.let {
                 this.iconTint = ColorStateList.valueOf(
                     ContextCompat.getColor(
                         context,
@@ -168,20 +177,26 @@ class LMFeedButtonStyle private constructor(
 
             //iconSize
             val iconSize = this@LMFeedButtonStyle.iconSize
-            if (iconSize != null) {
+            iconSize?.let {
                 this.iconSize = resources.getDimension(iconSize).roundToInt()
             }
 
             //iconGravity
             val iconGravity = this@LMFeedButtonStyle.iconGravity
-            if (iconGravity != null) {
+            iconGravity?.let {
                 this.iconGravity = iconGravity
             }
 
             //iconPadding
             val iconPadding = this@LMFeedButtonStyle.iconPadding
-            if (iconPadding != null) {
+            iconPadding?.let {
                 this.iconPadding = resources.getDimension(iconPadding).roundToInt()
+            }
+
+            //corner radius
+            val cornerRadius = this@LMFeedButtonStyle.cornerRadius
+            cornerRadius?.let {
+                this.cornerRadius = resources.getDimension(cornerRadius).toInt()
             }
         }
     }
@@ -197,6 +212,7 @@ class LMFeedButtonStyle private constructor(
             .iconSize(iconSize)
             .iconGravity(iconGravity)
             .iconPadding(iconPadding)
+            .cornerRadius(cornerRadius)
     }
 }
 

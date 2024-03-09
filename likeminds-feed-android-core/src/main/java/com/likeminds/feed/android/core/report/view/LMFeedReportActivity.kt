@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.likes.view
+package com.likeminds.feed.android.core.report.view
 
 import android.content.Context
 import android.content.Intent
@@ -7,61 +7,60 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.databinding.LmFeedActivityLikesBinding
-import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
+import com.likeminds.feed.android.core.databinding.LmFeedActivityReportBinding
+import com.likeminds.feed.android.core.report.model.LMFeedReportExtras
 import com.likeminds.feed.android.core.utils.*
 
-class LMFeedLikesActivity : AppCompatActivity() {
+class LMFeedReportActivity : AppCompatActivity() {
 
-    private lateinit var binding: LmFeedActivityLikesBinding
+    private lateinit var binding: LmFeedActivityReportBinding
 
-    private lateinit var likesScreenExtras: LMFeedLikesScreenExtras
+    private lateinit var reportExtras: LMFeedReportExtras
 
     //Navigation
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
 
     companion object {
-        const val LM_FEED_LIKES_SCREEN_EXTRAS = "LM_FEED_LIKES_SCREEN_EXTRAS"
-        const val LM_FEED_LIKES_SCREEN_BUNDLE = "LM_FEED_LIKES_SCREEN_BUNDLE"
-        const val TAG = "LMFeedLikesActivity"
+        const val LM_FEED_REPORT_EXTRAS = "LM_FEED_REPORT_EXTRAS"
+        const val LM_FEED_REPORT_BUNDLE = "LM_FEED_REPORT_BUNDLE"
+        const val TAG = "LMFeedReportActivity"
 
         @JvmStatic
-        fun start(context: Context, extras: LMFeedLikesScreenExtras) {
-            val intent = Intent(context, LMFeedLikesActivity::class.java)
+        fun start(context: Context, extras: LMFeedReportExtras) {
+            val intent = Intent(context, LMFeedReportActivity::class.java)
             val bundle = Bundle()
-            bundle.putParcelable(LM_FEED_LIKES_SCREEN_EXTRAS, extras)
-            intent.putExtra(LM_FEED_LIKES_SCREEN_BUNDLE, bundle)
+            bundle.putParcelable(LM_FEED_REPORT_EXTRAS, extras)
+            intent.putExtra(LM_FEED_REPORT_BUNDLE, bundle)
             context.startActivity(intent)
         }
 
         @JvmStatic
-        fun getIntent(context: Context, extras: LMFeedLikesScreenExtras): Intent {
-            val intent = Intent(context, LMFeedLikesActivity::class.java)
+        fun getIntent(context: Context, extras: LMFeedReportExtras): Intent {
+            val intent = Intent(context, LMFeedReportActivity::class.java)
             val bundle = Bundle()
-            bundle.putParcelable(LM_FEED_LIKES_SCREEN_EXTRAS, extras)
-            intent.putExtra(LM_FEED_LIKES_SCREEN_BUNDLE, bundle)
+            bundle.putParcelable(LM_FEED_REPORT_EXTRAS, extras)
+            intent.putExtra(LM_FEED_REPORT_BUNDLE, bundle)
             return intent
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = LmFeedActivityLikesBinding.inflate(layoutInflater)
+        binding = LmFeedActivityReportBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val bundle = intent.getBundleExtra(LM_FEED_LIKES_SCREEN_BUNDLE)
+        val bundle = intent.getBundleExtra(LM_FEED_REPORT_BUNDLE)
 
         if (bundle != null) {
-            likesScreenExtras = LMFeedExtrasUtil.getParcelable(
+            reportExtras = LMFeedExtrasUtil.getParcelable(
                 bundle,
-                LM_FEED_LIKES_SCREEN_EXTRAS,
-                LMFeedLikesScreenExtras::class.java
+                LM_FEED_REPORT_EXTRAS,
+                LMFeedReportExtras::class.java
             ) ?: throw emptyExtrasException(TAG)
 
             val args = Bundle().apply {
-                putParcelable(LM_FEED_LIKES_SCREEN_EXTRAS, likesScreenExtras)
+                putParcelable(LM_FEED_REPORT_EXTRAS, reportExtras)
             }
 
             //Navigation

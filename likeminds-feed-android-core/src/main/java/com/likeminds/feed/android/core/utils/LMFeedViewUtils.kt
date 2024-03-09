@@ -4,17 +4,19 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.ColorRes
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.ui.widgets.snackbar.style.LMFeedSnackbar
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.model.*
 
@@ -60,6 +62,18 @@ object LMFeedViewUtils {
     fun showShortToast(context: Context?, text: String?) {
         if (context == null || text.isNullOrEmpty()) return
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+    }
+
+    // shows short length snackbar
+    fun showShortSnack(view: View, text: String?, anchorView: View? = null) {
+        if (text.isNullOrEmpty()) {
+            return
+        }
+        val snackBar = LMFeedSnackbar.make(view, text)
+        anchorView?.let {
+            snackBar.setAnchorView(anchorView)
+        }
+        snackBar.show()
     }
 
     // shows short toast with "Something went wrong!" message
@@ -127,5 +141,35 @@ object LMFeedViewUtils {
         val imm =
             view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    //find parent for a particular view
+    fun View?.findSuitableParent(): ViewGroup? {
+        var view = this
+        var fallback: ViewGroup? = null
+        do {
+            if (view is CoordinatorLayout) {
+                // We've found a CoordinatorLayout, use it
+                return view
+            } else if (view is FrameLayout) {
+                if (view.id == android.R.id.content) {
+                    // If we've hit the decor content view, then we didn't find a CoL in the
+                    // hierarchy, so use it.
+                    return view
+                } else {
+                    // It's not the content view but we'll use it as our fallback
+                    fallback = view
+                }
+            }
+
+            if (view != null) {
+                // Else, we will loop and crawl up the view hierarchy and try to find a parent
+                val parent = view.parent
+                view = if (parent is View) parent else null
+            }
+        } while (view != null)
+
+        // If we reach here then we didn't find a CoL or a suitable content view so we'll fallback
+        return fallback
     }
 }

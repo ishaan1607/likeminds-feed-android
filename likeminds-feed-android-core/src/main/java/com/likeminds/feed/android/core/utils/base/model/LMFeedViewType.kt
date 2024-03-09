@@ -24,6 +24,7 @@ const val ITEM_COMMENTS_COUNT = 18
 const val ITEM_VIEW_MORE_REPLY = 19
 const val ITEM_ACTIVITY_FEED = 20
 const val ITEM_LIKES_SCREEN = 21
+const val ITEM_REPORT_TAG = 22
 
 @IntDef(
     ITEM_NONE,
@@ -47,7 +48,8 @@ const val ITEM_LIKES_SCREEN = 21
     ITEM_COMMENTS_COUNT,
     ITEM_VIEW_MORE_REPLY,
     ITEM_ACTIVITY_FEED,
-    ITEM_LIKES_SCREEN
+    ITEM_LIKES_SCREEN,
+    ITEM_REPORT_TAG
 )
 
 @Retention(AnnotationRetention.SOURCE)

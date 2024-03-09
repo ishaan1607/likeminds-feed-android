@@ -45,4 +45,6 @@
     <!--    Post detail screen -->
     <dimen name="lm_feed_reply_item_top_margin">20dp</dimen>
 
+    <!--    Report Screen -->
+    <dimen name="lm_feed_report_button_corner_radius">24dp</dimen>
 </resources>
