@@ -217,7 +217,7 @@ class LMFeedButtonStyle private constructor(
 }
 
 /**
- * Util functions to helps to apply all the styling [LMFeedButtonStyle] to [LMFeedButton]
+ * Util function to helps to apply all the styling [LMFeedButtonStyle] to [LMFeedButton]
  **/
 fun LMFeedButton.setStyle(viewStyle: LMFeedButtonStyle) {
     viewStyle.apply(this)

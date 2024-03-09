@@ -25,11 +25,11 @@ class LMFeedPostTopicsViewStyle private constructor(
 
         @DimenRes
         private var chipGroupHorizontalSpacing: Int =
-            R.dimen.lm_feed_topic_chip_group_horizontal_spacing
+            R.dimen.lm_feed_default_chip_group_horizontal_spacing
 
         @DimenRes
         private var chipGroupVerticalSpacing: Int =
-            R.dimen.lm_feed_topic_chip_group_vertical_spacing
+            R.dimen.lm_feed_default_chip_group_horizontal_spacing
 
         @ColorRes
         private var chipBackgroundColor: Int = R.color.lm_feed_majorelle_blue_10
