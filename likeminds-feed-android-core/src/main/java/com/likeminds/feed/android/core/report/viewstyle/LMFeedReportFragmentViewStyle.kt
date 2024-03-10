@@ -10,11 +10,21 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
 class LMFeedReportFragmentViewStyle private constructor(
+    //header view style
     val headerViewStyle: LMFeedHeaderViewStyle,
+    //report header text style
     val reportHeaderStyle: LMFeedTextStyle,
+    //report sub header text style
     val reportSubHeaderStyle: LMFeedTextStyle,
+    //report reason input style
     val reportReasonInputStyle: LMFeedEditTextStyle,
+    //report submit button style
     val reportButtonStyle: LMFeedButtonStyle,
+    //report tag view style
+    val reportTagStyle: LMFeedTextStyle,
+    //selected report tag stroke and text color
+    @ColorRes val selectedReportTagColor: Int,
+    //report screen background color
     @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
@@ -22,18 +32,10 @@ class LMFeedReportFragmentViewStyle private constructor(
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
             .titleTextStyle(
                 LMFeedTextStyle.Builder()
-                    .textColor(R.color.lm_feed_black)
+                    .textColor(R.color.lm_feed_blood_orange)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
-                    .build()
-            )
-            .subtitleTextStyle(
-                LMFeedTextStyle.Builder()
-                    .textColor(R.color.lm_feed_grey)
-                    .maxLines(1)
-                    .ellipsize(TextUtils.TruncateAt.END)
-                    .textSize(R.dimen.lm_feed_text_medium)
                     .build()
             )
             .backgroundColor(R.color.lm_feed_white)
@@ -89,6 +91,16 @@ class LMFeedReportFragmentViewStyle private constructor(
             .cornerRadius(R.dimen.lm_feed_report_button_corner_radius)
             .build()
 
+        private var reportTagStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
+            .ellipsize(TextUtils.TruncateAt.END)
+            .maxLines(1)
+            .textSize(R.dimen.lm_feed_text_large)
+            .textColor(R.color.lm_feed_brown_grey)
+            .build()
+
+        @ColorRes
+        private var selectedReportTagColor: Int = R.color.lm_feed_majorelle_blue
+
         @ColorRes
         private var backgroundColor: Int? = null
 
@@ -112,6 +124,14 @@ class LMFeedReportFragmentViewStyle private constructor(
             this.reportButtonStyle = reportButtonStyle
         }
 
+        fun reportTagStyle(reportTagStyle: LMFeedTextStyle) = apply {
+            this.reportTagStyle = reportTagStyle
+        }
+
+        fun selectedReportTagColor(@ColorRes selectedReportTagColor: Int) = apply {
+            this.selectedReportTagColor = selectedReportTagColor
+        }
+
         fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
             this.backgroundColor = backgroundColor
         }
@@ -122,6 +142,8 @@ class LMFeedReportFragmentViewStyle private constructor(
             reportSubHeaderStyle,
             reportReasonInputStyle,
             reportButtonStyle,
+            reportTagStyle,
+            selectedReportTagColor,
             backgroundColor
         )
     }
@@ -132,6 +154,8 @@ class LMFeedReportFragmentViewStyle private constructor(
             .reportSubHeaderStyle(reportSubHeaderStyle)
             .reportReasonInputStyle(reportReasonInputStyle)
             .reportButtonStyle(reportButtonStyle)
+            .reportTagStyle(reportTagStyle)
+            .selectedReportTagColor(selectedReportTagColor)
             .backgroundColor(backgroundColor)
     }
 }

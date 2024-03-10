@@ -266,7 +266,7 @@ object LMFeedPostBinderUtils {
                 show()
                 removeAllChips()
                 topics.forEach { topic ->
-                    addChip(topic.name)
+                    addChip(topic.name, LMFeedStyleTransformer.postViewStyle.postTopicChipsStyle)
                 }
             }
         }

@@ -17,22 +17,22 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_report_tag"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Inappropriate Language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:background="@drawable/lm_feed_bg_report_tags"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:paddingStart="17dp"
             android:paddingTop="9dp"
             android:paddingEnd="17dp"
             android:paddingBottom="9dp"
             android:text="@{reportTagViewData.name}"
-            android:textSize="15sp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ellipsize="end"
+            tools:maxLines="1"
+            tools:text="Inappropriate Language"
+            tools:textSize="15sp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

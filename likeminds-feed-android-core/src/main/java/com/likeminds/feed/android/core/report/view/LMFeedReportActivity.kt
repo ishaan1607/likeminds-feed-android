@@ -67,7 +67,7 @@ class LMFeedReportActivity : AppCompatActivity() {
             navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navController = navHostFragment.navController
-            navController.setGraph(R.navigation.lm_feed_nav_graph_likes, args)
+            navController.setGraph(R.navigation.lm_feed_nav_graph_report, args)
         } else {
             redirectActivity()
         }

@@ -32,7 +32,7 @@ class LMFeedReportViewModel : ViewModel() {
                 .type(REPORT_TAG_TYPE)
                 .build()
 
-
+            reportTagsFetched(lmFeedClient.getReportTags(request))
         }
     }
 

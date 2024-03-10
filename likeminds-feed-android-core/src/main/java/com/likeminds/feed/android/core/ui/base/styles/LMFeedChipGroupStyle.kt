@@ -8,15 +8,12 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedChipGroupStyle private constructor(
     val isSingleLine: Boolean,
-    val isSingleSelection: Boolean,
     @DimenRes val chipGroupHorizontalSpacing: Int,
     @DimenRes val chipGroupVerticalSpacing: Int,
 ) : LMFeedViewStyle {
 
     class Builder {
         private var isSingleLine: Boolean = false
-
-        private var isSingleSelection: Boolean = true
 
         @DimenRes
         private var chipGroupHorizontalSpacing: Int =
@@ -30,10 +27,6 @@ class LMFeedChipGroupStyle private constructor(
             this.isSingleLine = isSingleLine
         }
 
-        fun isSingleSelection(isSingleSelection: Boolean) = apply {
-            this.isSingleSelection = isSingleSelection
-        }
-
         fun chipGroupHorizontalSpacing(@DimenRes chipGroupHorizontalSpacing: Int) = apply {
             this.chipGroupHorizontalSpacing = chipGroupHorizontalSpacing
         }
@@ -44,7 +37,6 @@ class LMFeedChipGroupStyle private constructor(
 
         fun build() = LMFeedChipGroupStyle(
             isSingleLine,
-            isSingleSelection,
             chipGroupHorizontalSpacing,
             chipGroupVerticalSpacing,
         )
@@ -53,7 +45,6 @@ class LMFeedChipGroupStyle private constructor(
     fun apply(chipGroup: LMFeedChipGroup) {
         chipGroup.apply {
             isSingleLine = this@LMFeedChipGroupStyle.isSingleLine
-            isSingleSelection = this@LMFeedChipGroupStyle.isSingleSelection
 
             setChipSpacingHorizontalResource(this@LMFeedChipGroupStyle.chipGroupHorizontalSpacing)
             setChipSpacingVerticalResource(this@LMFeedChipGroupStyle.chipGroupVerticalSpacing)
@@ -62,7 +53,6 @@ class LMFeedChipGroupStyle private constructor(
 
     fun toBuilder(): Builder {
         return Builder().isSingleLine(isSingleLine)
-            .isSingleSelection(isSingleSelection)
             .chipGroupHorizontalSpacing(chipGroupHorizontalSpacing)
             .chipGroupVerticalSpacing(chipGroupVerticalSpacing)
     }

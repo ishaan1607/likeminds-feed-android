@@ -10,12 +10,9 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedChip
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedChipStyle private constructor(
-    @ColorRes val activeChipBackgroundColor: Int?,
-    @ColorRes val inActiveChipBackgroundColor: Int?,
-    @ColorRes val activeChipStrokeColor: Int?,
-    @ColorRes val inActiveChipStrokeColor: Int?,
-    @ColorRes val activeChipTextColor: Int,
-    @ColorRes val inActiveChipTextColor: Int,
+    @ColorRes val chipBackgroundColor: Int?,
+    @ColorRes val chipStrokeColor: Int?,
+    @ColorRes val chipTextColor: Int,
     @DimenRes val chipStrokeWidth: Int?,
     @DimenRes val chipMinHeight: Int?,
     @DimenRes val chipStartPadding: Int?,
@@ -26,22 +23,13 @@ class LMFeedChipStyle private constructor(
 
     class Builder {
         @ColorRes
-        private var activeChipBackgroundColor: Int? = null
+        private var chipBackgroundColor: Int? = null
 
         @ColorRes
-        private var inActiveChipBackgroundColor: Int? = null
+        private var chipStrokeColor: Int? = null
 
         @ColorRes
-        private var activeChipStrokeColor: Int? = null
-
-        @ColorRes
-        private var inActiveChipStrokeColor: Int? = null
-
-        @ColorRes
-        private var activeChipTextColor: Int = R.color.lm_feed_majorelle_blue
-
-        @ColorRes
-        private var inActiveChipTextColor: Int = R.color.lm_feed_grey
+        private var chipTextColor: Int = R.color.lm_feed_majorelle_blue
 
         @DimenRes
         private var chipStrokeWidth: Int? = null
@@ -61,28 +49,16 @@ class LMFeedChipStyle private constructor(
         @DimenRes
         private var chipTextSize: Int = R.dimen.lm_feed_text_medium
 
-        fun activeChipBackgroundColor(@ColorRes activeChipBackgroundColor: Int?) = apply {
-            this.activeChipBackgroundColor = activeChipBackgroundColor
+        fun chipBackgroundColor(@ColorRes chipBackgroundColor: Int?) = apply {
+            this.chipBackgroundColor = chipBackgroundColor
         }
 
-        fun inActiveChipBackgroundColor(@ColorRes inActiveChipBackgroundColor: Int?) = apply {
-            this.inActiveChipBackgroundColor = inActiveChipBackgroundColor
+        fun chipStrokeColor(@ColorRes chipStrokeColor: Int?) = apply {
+            this.chipStrokeColor = chipStrokeColor
         }
 
-        fun activeChipStrokeColor(@ColorRes activeChipBackgroundColor: Int?) = apply {
-            this.activeChipBackgroundColor = activeChipBackgroundColor
-        }
-
-        fun inActiveChipStrokeColor(@ColorRes inActiveChipBackgroundColor: Int?) = apply {
-            this.inActiveChipBackgroundColor = inActiveChipBackgroundColor
-        }
-
-        fun activeChipTextColor(@ColorRes activeChipTextColor: Int) = apply {
-            this.activeChipTextColor = activeChipTextColor
-        }
-
-        fun inActiveChipTextColor(@ColorRes inActiveChipTextColor: Int) = apply {
-            this.inActiveChipTextColor = inActiveChipTextColor
+        fun chipTextColor(@ColorRes chipTextColor: Int) = apply {
+            this.chipTextColor = chipTextColor
         }
 
         fun chipStrokeWidth(@DimenRes chipStrokeWidth: Int?) = apply {
@@ -110,12 +86,9 @@ class LMFeedChipStyle private constructor(
         }
 
         fun build() = LMFeedChipStyle(
-            activeChipBackgroundColor,
-            inActiveChipBackgroundColor,
-            activeChipStrokeColor,
-            inActiveChipStrokeColor,
-            activeChipTextColor,
-            inActiveChipTextColor,
+            chipBackgroundColor,
+            chipStrokeColor,
+            chipTextColor,
             chipStrokeWidth,
             chipMinHeight,
             chipStartPadding,
@@ -128,8 +101,8 @@ class LMFeedChipStyle private constructor(
     fun apply(chip: LMFeedChip) {
         chip.apply {
             //chip background color
-            inActiveChipBackgroundColor?.let {
-                setChipBackgroundColorResource(inActiveChipBackgroundColor)
+            this@LMFeedChipStyle.chipBackgroundColor?.let {
+                setChipBackgroundColorResource(this@LMFeedChipStyle.chipBackgroundColor)
             }
 
             //chip stroke width
@@ -140,8 +113,8 @@ class LMFeedChipStyle private constructor(
             }
 
             //chip stroke color
-            inActiveChipStrokeColor?.let {
-                setChipStrokeColorResource(inActiveChipStrokeColor)
+            this@LMFeedChipStyle.chipStrokeColor?.let {
+                setChipStrokeColorResource(this@LMFeedChipStyle.chipStrokeColor)
             }
 
             //chip min height
@@ -176,7 +149,7 @@ class LMFeedChipStyle private constructor(
                 ColorStateList.valueOf(
                     ContextCompat.getColor(
                         context,
-                        this@LMFeedChipStyle.inActiveChipTextColor
+                        this@LMFeedChipStyle.chipTextColor
                     )
                 )
             )
@@ -186,10 +159,9 @@ class LMFeedChipStyle private constructor(
     }
 
     fun toBuilder(): Builder {
-        return Builder().activeChipBackgroundColor(activeChipBackgroundColor)
-            .inActiveChipBackgroundColor(inActiveChipBackgroundColor)
-            .activeChipTextColor(activeChipTextColor)
-            .inActiveChipTextColor(inActiveChipTextColor)
+        return Builder().chipBackgroundColor(chipBackgroundColor)
+            .chipTextColor(chipTextColor)
+            .chipStrokeColor(chipStrokeColor)
             .chipStrokeWidth(chipStrokeWidth)
             .chipMinHeight(chipMinHeight)
             .chipStartPadding(chipStartPadding)

@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/fragment_likes"
         android:name="com.likeminds.feed.android.core.likes.view.LMFeedLikesFragment"
-        android:label="LikesFragment"
+        android:label="LMFeedLikesFragment"
         tools:layout="@layout/lm_feed_fragment_likes" />
 </navigation>

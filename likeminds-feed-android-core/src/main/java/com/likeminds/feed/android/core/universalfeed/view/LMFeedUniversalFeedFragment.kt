@@ -1,10 +1,12 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +20,11 @@ import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
+import com.likeminds.feed.android.core.report.model.LMFeedReportExtras
+import com.likeminds.feed.android.core.report.model.REPORT_TYPE_POST
+import com.likeminds.feed.android.core.report.view.LMFeedReportActivity
+import com.likeminds.feed.android.core.report.view.LMFeedReportFragment.Companion.LM_FEED_REPORT_RESULT
+import com.likeminds.feed.android.core.report.view.LMFeedReportSuccessDialog
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
@@ -596,12 +603,43 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         //todo:
     }
 
+    // launcher to start [ReportActivity] and show success dialog for result
+    private val reportPostLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data?.getStringExtra(LM_FEED_REPORT_RESULT)
+                //todo:
+//                val entityType = if (data == "Post") {
+////                    lmFeedHelperViewModel.getPostVariable()
+////                        .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+//                } else {
+//                    data
+//                }
+//                LMFeedReportSuccessDialog(entityType ?: "").show(
+//                    childFragmentManager,
+//                    LMFeedReportSuccessDialog.TAG
+//                )
+            }
+        }
+
     protected open fun onReportPostMenuClick(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
     ) {
-        //todo:
+        //create extras for [ReportActivity]
+        val reportExtras = LMFeedReportExtras.Builder()
+            .entityId(post.id)
+            .uuid(post.headerViewData.user.sdkClientInfoViewData.uuid)
+            .entityType(REPORT_TYPE_POST)
+            .postViewType(post.viewType)
+            .build()
+
+        //get Intent for [ReportActivity]
+        val intent = LMFeedReportActivity.getIntent(requireContext(), reportExtras)
+
+        //start [ReportActivity] and check for result
+        reportPostLauncher.launch(intent)
     }
 
     protected open fun onPinPostMenuClick(

@@ -6,13 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentReportBinding
+import com.likeminds.feed.android.core.report.adapter.LMFeedReportTagAdapterListener
 import com.likeminds.feed.android.core.report.model.*
-import com.likeminds.feed.android.core.report.view.LMFeedReportActivity.Companion.LM_FEED_REPORT_EXTRAS
 import com.likeminds.feed.android.core.report.viewmodel.LMFeedReportViewModel
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.*
@@ -20,7 +21,7 @@ import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderVi
 import com.likeminds.feed.android.core.utils.*
 import java.util.Locale
 
-open class LMFeedReportFragment : Fragment() {
+open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
 
     private lateinit var binding: LmFeedFragmentReportBinding
 
@@ -32,7 +33,7 @@ open class LMFeedReportFragment : Fragment() {
     private lateinit var reasonOrTag: String
 
     companion object {
-        const val TAG = "ReportFragment"
+        const val TAG = "LMFeedReportFragment"
         const val LM_FEED_REPORT_RESULT = "LM_FEED_REPORT_RESULT"
     }
 
@@ -44,7 +45,7 @@ open class LMFeedReportFragment : Fragment() {
     private fun receiveExtras() {
         reportExtras = LMFeedExtrasUtil.getParcelable(
             arguments,
-            LM_FEED_REPORT_EXTRAS,
+            LMFeedReportActivity.LM_FEED_REPORT_EXTRAS,
             LMFeedReportExtras::class.java
         ) ?: throw emptyExtrasException(TAG)
     }
@@ -114,10 +115,19 @@ open class LMFeedReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewAsType()
+        initUI()
         initListeners()
         fetchData()
         observeData()
+    }
+
+    private fun initUI() {
+        initRecyclerView()
+        initViewAsType()
+    }
+
+    private fun initRecyclerView() {
+        binding.rvReportTags.setAdapter(this)
     }
 
     //set headers and sub header as per report type
@@ -157,49 +167,50 @@ open class LMFeedReportFragment : Fragment() {
     }
 
     protected open fun onReportSubmitted() {
-        //get selected tag
-        // todo:
-//            tagSelected = mAdapter.items()
-//                .map { it as ReportTagViewData }
-//                .find { it.isSelected }
+        binding.apply {
+            //get selected tag
+            tagSelected = rvReportTags.items()
+                .map { it as LMFeedReportTagViewData }
+                .find { it.isSelected }
 
-        //get reason for [edittext]
-        val reason = binding.etReason.text?.trim().toString()
-        val isOthersSelected = tagSelected?.name?.contains("Others", true)
+            //get reason for [edittext]
+            val reason = etReason.text?.trim().toString()
+            val isOthersSelected = tagSelected?.name?.contains("Others", true)
 
-        //if no tag is selected
-        if (tagSelected == null) {
-            LMFeedViewUtils.showShortSnack(
-                binding.root,
-                getString(R.string.lm_feed_selected_at_least_one_report_tag)
+            //if no tag is selected
+            if (tagSelected == null) {
+                LMFeedViewUtils.showShortSnack(
+                    root,
+                    getString(R.string.lm_feed_selected_at_least_one_report_tag)
+                )
+                return
+            }
+
+            //if [Others] is selected but reason is empty
+            if (isOthersSelected == true && reason.isEmpty()) {
+                LMFeedViewUtils.showShortSnack(
+                    root,
+                    getString(R.string.lm_feed_please_enter_a_reason)
+                )
+                return
+            }
+
+            // update [reasonOrTag] with tag value or reason
+            reasonOrTag = if (isOthersSelected == true) {
+                reason
+            } else {
+                tagSelected?.name ?: reason
+            }
+
+            //call post api
+            reportViewModel.postReport(
+                reportExtras.entityId,
+                reportExtras.uuid,
+                reportExtras.entityType,
+                tagSelected?.id,
+                reason
             )
-            return
         }
-
-        //if [Others] is selected but reason is empty
-        if (isOthersSelected == true && reason.isEmpty()) {
-            LMFeedViewUtils.showShortSnack(
-                binding.root,
-                getString(R.string.lm_feed_please_enter_a_reason)
-            )
-            return
-        }
-
-        // update [reasonOrTag] with tag value or reason
-        reasonOrTag = if (isOthersSelected == true) {
-            reason
-        } else {
-            tagSelected?.name ?: reason
-        }
-
-        //call post api
-        reportViewModel.postReport(
-            reportExtras.entityId,
-            reportExtras.uuid,
-            reportExtras.entityType,
-            tagSelected?.id,
-            reason
-        )
     }
 
     private fun fetchData() {
@@ -208,8 +219,7 @@ open class LMFeedReportFragment : Fragment() {
 
     private fun observeData() {
         reportViewModel.listOfTagViewData.observe(viewLifecycleOwner) { tags ->
-            //todo: replace items
-//            mAdapter.replace(tags)
+            binding.rvReportTags.replaceReportTags(tags)
         }
 
         reportViewModel.errorMessage.observe(viewLifecycleOwner) { error ->
@@ -236,6 +246,24 @@ open class LMFeedReportFragment : Fragment() {
                 requireActivity().setResult(Activity.RESULT_OK, intent)
                 requireActivity().finish()
             }
+        }
+    }
+
+    override fun onReportTagSelected(reportTagViewData: LMFeedReportTagViewData) {
+        super.onReportTagSelected(reportTagViewData)
+
+        binding.apply {
+            //check if [Others] is selected, edit text for reason should be visible
+            etReason.isVisible = reportTagViewData.name.contains("Others", true)
+
+            //replace list in adapter and only highlight selected tag
+            rvReportTags.replaceReportTags(
+                rvReportTags.items()
+                    .map {
+                        (it as LMFeedReportTagViewData).toBuilder()
+                            .isSelected(it.id == reportTagViewData.id)
+                            .build()
+                    })
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.ui.base.styles
 
+import android.content.res.ColorStateList
 import android.graphics.Typeface
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -68,7 +69,12 @@ class LMFeedEditTextStyle private constructor(
             }
 
             if (backgroundColor != null) {
-                setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
+                backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        context,
+                        this@LMFeedEditTextStyle.backgroundColor
+                    )
+                )
             }
         }
     }

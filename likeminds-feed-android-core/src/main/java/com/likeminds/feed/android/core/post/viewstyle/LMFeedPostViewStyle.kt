@@ -215,9 +215,9 @@ class LMFeedPostViewStyle private constructor(
 
         private var postTopicChipStyle: LMFeedChipStyle =
             LMFeedChipStyle.Builder()
-                .inActiveChipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
+                .chipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
                 .chipCornerRadius(R.dimen.lm_feed_corner_radius_regular)
-                .inActiveChipTextColor(R.color.lm_feed_majorelle_blue)
+                .chipTextColor(R.color.lm_feed_majorelle_blue)
                 .chipTextSize(R.dimen.lm_feed_text_medium)
                 .build()
 

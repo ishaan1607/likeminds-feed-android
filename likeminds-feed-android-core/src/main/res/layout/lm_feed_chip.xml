@@ -2,18 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="buttonColor"
-            type="int" />
-    </data>
-
     <com.likeminds.feed.android.core.ui.base.views.LMFeedChip
-        android:id="@+id/chip_topic"
+        android:id="@+id/chip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="false"
         android:textSize="14sp"
         android:textStyle="normal"
         tools:text="Alternative Rock" />
