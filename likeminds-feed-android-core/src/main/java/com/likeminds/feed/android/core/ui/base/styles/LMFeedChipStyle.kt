@@ -10,8 +10,10 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedChip
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedChipStyle private constructor(
-    @ColorRes val activeChipBackgroundColor: Int,
-    @ColorRes val inActiveChipBackgroundColor: Int,
+    @ColorRes val activeChipBackgroundColor: Int?,
+    @ColorRes val inActiveChipBackgroundColor: Int?,
+    @ColorRes val activeChipStrokeColor: Int?,
+    @ColorRes val inActiveChipStrokeColor: Int?,
     @ColorRes val activeChipTextColor: Int,
     @ColorRes val inActiveChipTextColor: Int,
     @DimenRes val chipStrokeWidth: Int?,
@@ -24,10 +26,16 @@ class LMFeedChipStyle private constructor(
 
     class Builder {
         @ColorRes
-        private var activeChipBackgroundColor: Int = R.color.lm_feed_majorelle_blue_10
+        private var activeChipBackgroundColor: Int? = null
 
         @ColorRes
-        private var inActiveChipBackgroundColor: Int = R.color.lm_feed_brown_grey
+        private var inActiveChipBackgroundColor: Int? = null
+
+        @ColorRes
+        private var activeChipStrokeColor: Int? = null
+
+        @ColorRes
+        private var inActiveChipStrokeColor: Int? = null
 
         @ColorRes
         private var activeChipTextColor: Int = R.color.lm_feed_majorelle_blue
@@ -37,9 +45,6 @@ class LMFeedChipStyle private constructor(
 
         @DimenRes
         private var chipStrokeWidth: Int? = null
-
-        @ColorRes
-        private var chipStrokeColor: Int? = null
 
         @DimenRes
         private var chipMinHeight: Int? = null
@@ -56,11 +61,19 @@ class LMFeedChipStyle private constructor(
         @DimenRes
         private var chipTextSize: Int = R.dimen.lm_feed_text_medium
 
-        fun activeChipBackgroundColor(@ColorRes activeChipBackgroundColor: Int) = apply {
+        fun activeChipBackgroundColor(@ColorRes activeChipBackgroundColor: Int?) = apply {
             this.activeChipBackgroundColor = activeChipBackgroundColor
         }
 
-        fun inActiveChipBackgroundColor(@ColorRes inActiveChipBackgroundColor: Int) = apply {
+        fun inActiveChipBackgroundColor(@ColorRes inActiveChipBackgroundColor: Int?) = apply {
+            this.inActiveChipBackgroundColor = inActiveChipBackgroundColor
+        }
+
+        fun activeChipStrokeColor(@ColorRes activeChipBackgroundColor: Int?) = apply {
+            this.activeChipBackgroundColor = activeChipBackgroundColor
+        }
+
+        fun inActiveChipStrokeColor(@ColorRes inActiveChipBackgroundColor: Int?) = apply {
             this.inActiveChipBackgroundColor = inActiveChipBackgroundColor
         }
 
@@ -99,6 +112,8 @@ class LMFeedChipStyle private constructor(
         fun build() = LMFeedChipStyle(
             activeChipBackgroundColor,
             inActiveChipBackgroundColor,
+            activeChipStrokeColor,
+            inActiveChipStrokeColor,
             activeChipTextColor,
             inActiveChipTextColor,
             chipStrokeWidth,
@@ -113,14 +128,20 @@ class LMFeedChipStyle private constructor(
     fun apply(chip: LMFeedChip) {
         chip.apply {
             //chip background color
-            setChipBackgroundColorResource(inActiveChipTextColor)
+            inActiveChipBackgroundColor?.let {
+                setChipBackgroundColorResource(inActiveChipBackgroundColor)
+            }
 
             //chip stroke width
             if (this@LMFeedChipStyle.chipStrokeWidth == null) {
                 setChipStrokeWidthResource(R.dimen.zero_dp)
             } else {
                 setChipStrokeWidthResource(this@LMFeedChipStyle.chipStrokeWidth)
-                setChipStrokeColorResource(this@LMFeedChipStyle.inActiveChipBackgroundColor)
+            }
+
+            //chip stroke color
+            inActiveChipStrokeColor?.let {
+                setChipStrokeColorResource(inActiveChipStrokeColor)
             }
 
             //chip min height
@@ -159,6 +180,8 @@ class LMFeedChipStyle private constructor(
                     )
                 )
             )
+
+            setEnsureMinTouchTargetSize(false)
         }
     }
 

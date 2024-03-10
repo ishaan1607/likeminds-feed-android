@@ -28,8 +28,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.likeminds.feed.android.core.ui.widgets.post.posttopicsview.view.LMFeedPostTopicsView
-            android:id="@+id/post_topics"
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedChipGroup
+            android:id="@+id/post_topics_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -47,7 +47,7 @@
             android:lineSpacingExtra="1sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/post_topics"
+            app:layout_constraintTop_toBottomOf="@id/post_topics_group"
             tools:fontFamily="@font/lm_feed_roboto"
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="16sp" />

@@ -8,7 +8,6 @@ import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.style.LMFeedPostFooterViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.*
-import com.likeminds.feed.android.core.ui.widgets.post.posttopicsview.style.LMFeedPostTopicsViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 
@@ -21,8 +20,10 @@ class LMFeedPostViewStyle private constructor(
     val postMediaViewStyle: LMFeedPostMediaViewStyle,
     //post footer style
     val postFooterViewStyle: LMFeedPostFooterViewStyle,
-    //post topics style
-    val postTopicsViewStyle: LMFeedPostTopicsViewStyle
+    //post topics chip group style
+    val postTopicsGroupStyle: LMFeedChipGroupStyle,
+    //post topics chip style
+    val postTopicChipsStyle: LMFeedChipStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -208,13 +209,15 @@ class LMFeedPostViewStyle private constructor(
                 )
                 .build()
 
-        private var postTopicsViewStyle: LMFeedPostTopicsViewStyle =
-            LMFeedPostTopicsViewStyle.Builder()
-                .chipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
-                .chipGroupHorizontalSpacing(R.dimen.lm_feed_topic_chip_group_horizontal_spacing)
-                .chipGroupVerticalSpacing(R.dimen.lm_feed_topic_chip_group_vertical_spacing)
+        private var postTopicsGroupStyle: LMFeedChipGroupStyle =
+            LMFeedChipGroupStyle.Builder()
+                .build()
+
+        private var postTopicChipStyle: LMFeedChipStyle =
+            LMFeedChipStyle.Builder()
+                .inActiveChipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
                 .chipCornerRadius(R.dimen.lm_feed_corner_radius_regular)
-                .chipTextColor(R.color.lm_feed_majorelle_blue)
+                .inActiveChipTextColor(R.color.lm_feed_majorelle_blue)
                 .chipTextSize(R.dimen.lm_feed_text_medium)
                 .build()
 
@@ -234,15 +237,21 @@ class LMFeedPostViewStyle private constructor(
             this.postFooterViewStyle = postFooterViewStyle
         }
 
-        fun postTopicsViewStyle(postTopicsViewStyle: LMFeedPostTopicsViewStyle) =
-            apply { this.postTopicsViewStyle = postTopicsViewStyle }
+        fun postTopicsGroupStyle(postTopicsGroupStyle: LMFeedChipGroupStyle) = apply {
+            this.postTopicsGroupStyle = postTopicsGroupStyle
+        }
+
+        fun postTopicChipStyle(postTopicChipStyle: LMFeedChipStyle) = apply {
+            this.postTopicChipStyle = postTopicChipStyle
+        }
 
         fun build() = LMFeedPostViewStyle(
             postHeaderViewStyle,
             postContentTextStyle,
             postMediaViewStyle,
             postFooterViewStyle,
-            postTopicsViewStyle
+            postTopicsGroupStyle,
+            postTopicChipStyle
         )
     }
 
@@ -251,6 +260,7 @@ class LMFeedPostViewStyle private constructor(
             .postContentTextStyle(postContentTextStyle)
             .postMediaViewStyle(postMediaViewStyle)
             .postFooterViewStyle(postFooterViewStyle)
-            .postTopicsViewStyle(postTopicsViewStyle)
+            .postTopicsGroupStyle(postTopicsGroupStyle)
+            .postTopicChipStyle(postTopicChipsStyle)
     }
 }

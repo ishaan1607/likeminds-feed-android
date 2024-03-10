@@ -20,7 +20,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lm_feed_fontType="regular"
             tools:text="Inappropriate Language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +32,6 @@
             android:paddingEnd="17dp"
             android:paddingBottom="9dp"
             android:text="@{reportTagViewData.name}"
-            android:textColor="@{reportTagViewData.isSelected ? buttonColor : @color/grey}"
             android:textSize="15sp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -42,88 +42,88 @@ class LMFeedPostTopicsView : ConstraintLayout {
     }
 
     fun setChipStyle(chip: Chip, postTopicsViewStyle: LMFeedPostTopicsViewStyle) {
-        chip.apply {
-
-            //chip background
-            setChipBackgroundColorResource(postTopicsViewStyle.chipBackgroundColor)
-
-            //chip stroke width
-            if (postTopicsViewStyle.chipStrokeWidth == null) {
-                setChipStrokeWidthResource(R.dimen.zero_dp)
-            } else {
-                setChipStrokeWidthResource(postTopicsViewStyle.chipStrokeWidth)
-            }
-
-            //chip stroke width
-            postTopicsViewStyle.chipStrokeWidth?.let {
-                setChipStrokeWidthResource(it)
-            }
-
-            //chip min height
-            postTopicsViewStyle.chipMinHeight?.let {
-                setChipMinHeightResource(it)
-            }
-
-            //chip start padding
-            postTopicsViewStyle.chipStartPadding?.let {
-                setChipStartPaddingResource(it)
-            }
-
-            //chip end padding
-            postTopicsViewStyle.chipEndPadding?.let {
-                setChipEndPaddingResource(it)
-            }
-
-            val shape = this.shapeAppearanceModel.toBuilder()
-                .setAllCornerSizes(context.resources.getDimension(postTopicsViewStyle.chipCornerRadius))
-                .build()
-
-            shapeAppearanceModel = shape
-        }
+//        chip.apply {
+//
+//            //chip background
+//            setChipBackgroundColorResource(postTopicsViewStyle.chipBackgroundColor)
+//
+//            //chip stroke width
+//            if (postTopicsViewStyle.chipStrokeWidth == null) {
+//                setChipStrokeWidthResource(R.dimen.zero_dp)
+//            } else {
+//                setChipStrokeWidthResource(postTopicsViewStyle.chipStrokeWidth)
+//            }
+//
+//            //chip stroke width
+//            postTopicsViewStyle.chipStrokeWidth?.let {
+//                setChipStrokeWidthResource(it)
+//            }
+//
+//            //chip min height
+//            postTopicsViewStyle.chipMinHeight?.let {
+//                setChipMinHeightResource(it)
+//            }
+//
+//            //chip start padding
+//            postTopicsViewStyle.chipStartPadding?.let {
+//                setChipStartPaddingResource(it)
+//            }
+//
+//            //chip end padding
+//            postTopicsViewStyle.chipEndPadding?.let {
+//                setChipEndPaddingResource(it)
+//            }
+//
+//            val shape = this.shapeAppearanceModel.toBuilder()
+//                .setAllCornerSizes(context.resources.getDimension(postTopicsViewStyle.chipCornerRadius))
+//                .build()
+//
+//            shapeAppearanceModel = shape
+//        }
     }
 
     private fun configureChipGroup(postTopicsViewStyle: LMFeedPostTopicsViewStyle) {
-        binding.cgTopics.apply {
-            isSingleLine = postTopicsViewStyle.isSingleLine
-            setChipSpacingHorizontalResource(postTopicsViewStyle.chipGroupHorizontalSpacing)
-            setChipSpacingVerticalResource(postTopicsViewStyle.chipGroupVerticalSpacing)
-        }
+//        binding.cgTopics.apply {
+//            isSingleLine = postTopicsViewStyle.isSingleLine
+//            setChipSpacingHorizontalResource(postTopicsViewStyle.chipGroupHorizontalSpacing)
+//            setChipSpacingVerticalResource(postTopicsViewStyle.chipGroupVerticalSpacing)
+//        }
     }
 
     fun removeAllTopics() {
         binding.cgTopics.removeAllViews()
     }
 
-    fun addTopic(topicViewData: LMFeedTopicViewData) {
-        val context = binding.cgTopics.context
-        val chipBinding = LmFeedTopicChipBinding.inflate(
-            LayoutInflater.from(context),
-            binding.cgTopics,
-            false
-        )
-
-        val topicStyle = LMFeedStyleTransformer.postViewStyle.postTopicsViewStyle
-
-        chipBinding.chipTopic.apply {
-            //text related
-            text = topicViewData.name
-            setTextSize(
-                TypedValue.COMPLEX_UNIT_PX,
-                context.resources.getDimension(topicStyle.chipTextSize)
-            )
-            setTextColor(
-                ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        context,
-                        topicStyle.chipTextColor
-                    )
-                )
-            )
-            setEnsureMinTouchTargetSize(false)
-
-            this@LMFeedPostTopicsView.setChipStyle(this, topicStyle)
-        }
-
-        binding.cgTopics.addView(chipBinding.chipTopic)
-    }
+//    fun addTopic(topicViewData: LMFeedTopicViewData) {
+//        val context = binding.cgTopics.context
+//        val chipBinding = LmFeedTopicChipBinding.inflate(
+//            LayoutInflater.from(context),
+//            binding.cgTopics,
+//            false
+//        )
+//
+//        val topicStyle = LMFeedStyleTransformer.postViewStyle.postTopicsViewStyle
+//
+//        chipBinding.chipTopic.apply {
+//            //text related
+//            text = topicViewData.name
+//            setTextSize(
+//                TypedValue.COMPLEX_UNIT_PX,
+//                context.resources.getDimension(topicStyle.chipTextSize)
+//            )
+//            setTextColor(
+//                ColorStateList.valueOf(
+//                    ContextCompat.getColor(
+//                        context,
+//                        topicStyle.chipTextColor
+//                    )
+//                )
+//            )
+//            setEnsureMinTouchTargetSize(false)
+//
+//            this@LMFeedPostTopicsView.setChipStyle(this, topicStyle)
+//        }
+//
+//        binding.cgTopics.addView(chipBinding.chipTopic)
+//    }
 }
