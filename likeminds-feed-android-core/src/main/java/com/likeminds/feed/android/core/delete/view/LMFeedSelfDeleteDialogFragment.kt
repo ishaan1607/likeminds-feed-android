@@ -2,7 +2,6 @@ package com.likeminds.feed.android.core.delete.view
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
@@ -26,9 +25,7 @@ open class LMFeedSelfDeleteDialogFragment :
             deleteExtras: LMFeedDeleteExtras
         ) {
             LMFeedSelfDeleteDialogFragment().apply {
-                Log.d("PUI", "showDialog: ")
                 arguments = Bundle().apply {
-                    Log.d("PUI", "showDialog: $deleteExtras")
                     putParcelable(LM_FEED_SELF_DELETE_EXTRAS, deleteExtras)
                 }
             }.show(supportFragmentManager, TAG)
@@ -44,7 +41,6 @@ open class LMFeedSelfDeleteDialogFragment :
         super.onAttach(context)
         try {
             selfDeleteDialogListener = parentFragment as LMFeedSelfDeleteDialogListener?
-            Log.d("PUI", "selfDeleteDialogListener: $selfDeleteDialogListener")
         } catch (e: ClassCastException) {
             throw ClassCastException("Calling fragment must implement LMFeedSelfDeleteDialogListener interface")
         }
@@ -64,7 +60,6 @@ open class LMFeedSelfDeleteDialogFragment :
                 LMFeedDeleteExtras::class.java
             ) ?: throw emptyExtrasException(TAG)
         }
-        Log.d("PUI", "receiveExtras: $deletedExtras")
     }
 
     override fun onCreateView(
@@ -95,9 +90,11 @@ open class LMFeedSelfDeleteDialogFragment :
 
     private fun initUI() {
         binding.alertDialogDelete.apply {
+            setPositiveButtonEnabled(true)
+
             if (deletedExtras.entityType == DELETE_TYPE_POST) {
+                //todo:
 //                val postAsVariable = deleteExtras.postAsVariable
-                setPositiveButtonEnabled(true)
                 setAlertTitle(
                     getString(
                         R.string.lm_feed_delete_s_question,

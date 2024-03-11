@@ -24,8 +24,7 @@ import com.likeminds.feed.android.core.post.detail.model.*
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity.Companion.LM_FEED_POST_DETAIL_EXTRAS
 import com.likeminds.feed.android.core.post.detail.viewmodel.LMFeedPostDetailViewModel
 import com.likeminds.feed.android.core.report.model.*
-import com.likeminds.feed.android.core.report.view.LMFeedReportActivity
-import com.likeminds.feed.android.core.report.view.LMFeedReportFragment
+import com.likeminds.feed.android.core.report.view.*
 import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.view.LMFeedCommentComposerView
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
@@ -1105,6 +1104,7 @@ open class LMFeedPostDetailFragment :
                 val data = result.data?.getStringExtra(LMFeedReportFragment.LM_FEED_REPORT_RESULT)
 
                 //todo:
+                val entityType = "Post"
 //                val entityType = if (data == "Post") {
 //                    lmFeedHelperViewModel.getPostVariable()
 //                        .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
@@ -1112,10 +1112,10 @@ open class LMFeedPostDetailFragment :
 //                    data
 //                }
 //
-//                LMFeedReportSuccessDialog(entityType ?: "").show(
-//                    childFragmentManager,
-//                    LMFeedReportSuccessDialog.TAG
-//                )
+                LMFeedReportSuccessDialogFragment(entityType ?: "").show(
+                    childFragmentManager,
+                    LMFeedReportSuccessDialogFragment.TAG
+                )
             }
         }
 

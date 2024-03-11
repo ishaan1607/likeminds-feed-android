@@ -5,6 +5,7 @@ import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
@@ -24,6 +25,8 @@ class LMFeedReportFragmentViewStyle private constructor(
     val reportTagStyle: LMFeedTextStyle,
     //selected report tag stroke and text color
     @ColorRes val selectedReportTagColor: Int,
+    //style for report success dialog
+    val reportSuccessDialogFragmentStyle: LMFeedAlertDialogStyle,
     //report screen background color
     @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
@@ -101,6 +104,29 @@ class LMFeedReportFragmentViewStyle private constructor(
         @ColorRes
         private var selectedReportTagColor: Int = R.color.lm_feed_majorelle_blue
 
+        private var reportSuccessDialogFragmentStyle: LMFeedAlertDialogStyle =
+            LMFeedAlertDialogStyle.Builder()
+                .alertSubtitleText(
+                    LMFeedTextStyle.Builder()
+                        .textColor(R.color.lm_feed_grey)
+                        .textSize(R.dimen.lm_feed_text_medium)
+                        .typeface(Typeface.NORMAL)
+                        .fontResource(R.font.lm_feed_roboto)
+                        .build()
+                )
+                .alertPositiveButtonStyle(
+                    LMFeedTextStyle.Builder()
+                        .textAllCaps(true)
+                        .textColor(R.color.lm_feed_black_20)
+                        .textSize(R.dimen.lm_feed_text_small)
+                        .typeface(Typeface.NORMAL)
+                        .fontResource(R.font.lm_feed_roboto_medium)
+                        .build()
+                )
+                .alertBoxElevation(R.dimen.lm_feed_elevation_small)
+                .alertBoxCornerRadius(R.dimen.lm_feed_corner_radius_small)
+                .build()
+
         @ColorRes
         private var backgroundColor: Int? = null
 
@@ -132,6 +158,11 @@ class LMFeedReportFragmentViewStyle private constructor(
             this.selectedReportTagColor = selectedReportTagColor
         }
 
+        fun reportSuccessDialogFragmentStyle(reportSuccessDialogFragmentStyle: LMFeedAlertDialogStyle) =
+            apply {
+                this.reportSuccessDialogFragmentStyle = reportSuccessDialogFragmentStyle
+            }
+
         fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
             this.backgroundColor = backgroundColor
         }
@@ -144,6 +175,7 @@ class LMFeedReportFragmentViewStyle private constructor(
             reportButtonStyle,
             reportTagStyle,
             selectedReportTagColor,
+            reportSuccessDialogFragmentStyle,
             backgroundColor
         )
     }
@@ -156,6 +188,7 @@ class LMFeedReportFragmentViewStyle private constructor(
             .reportButtonStyle(reportButtonStyle)
             .reportTagStyle(reportTagStyle)
             .selectedReportTagColor(selectedReportTagColor)
+            .reportSuccessDialogFragmentStyle(reportSuccessDialogFragmentStyle)
             .backgroundColor(backgroundColor)
     }
 }

@@ -153,6 +153,24 @@ class LMFeedAlertDialogView : CardView {
     }
 
     /**
+     * Sets text for positive button for alert dialog
+     *
+     * @param positiveButtonText Text for the positive button in dialog
+     */
+    fun setAlertPositiveButtonText(positiveButtonText: String) {
+        binding.tvAlertConfirm.text = positiveButtonText
+    }
+
+    /**
+     * Sets text for negative button for alert dialog
+     *
+     * @param negativeButtonText Text for the negative button in dialog
+     */
+    fun setAlertNegativeButtonText(negativeButtonText: String) {
+        binding.tvAlertCancel.text = negativeButtonText
+    }
+
+    /**
      * Sets alert input reason visibility
      *
      * @param isVisible whether to make the input reason visible or hide

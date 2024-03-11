@@ -24,7 +24,7 @@ import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
 import com.likeminds.feed.android.core.report.model.LMFeedReportExtras
 import com.likeminds.feed.android.core.report.model.REPORT_TYPE_POST
-import com.likeminds.feed.android.core.report.view.LMFeedReportActivity
+import com.likeminds.feed.android.core.report.view.*
 import com.likeminds.feed.android.core.report.view.LMFeedReportFragment.Companion.LM_FEED_REPORT_RESULT
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
@@ -677,16 +677,17 @@ open class LMFeedUniversalFeedFragment :
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data?.getStringExtra(LM_FEED_REPORT_RESULT)
                 //todo:
+                val entityType = "Post"
 //                val entityType = if (data == "Post") {
-////                    lmFeedHelperViewModel.getPostVariable()
-////                        .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+//                    lmFeedHelperViewModel.getPostVariable()
+//                        .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
 //                } else {
 //                    data
 //                }
-//                LMFeedReportSuccessDialog(entityType ?: "").show(
-//                    childFragmentManager,
-//                    LMFeedReportSuccessDialog.TAG
-//                )
+                LMFeedReportSuccessDialogFragment(entityType ?: "").show(
+                    childFragmentManager,
+                    LMFeedReportSuccessDialogFragment.TAG
+                )
             }
         }
 
