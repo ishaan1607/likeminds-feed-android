@@ -72,6 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:hint="@string/lm_feed_reason_for_deleting"
                     android:includeFontPadding="false"
                     android:lineSpacingExtra="4sp"
                     android:textColor="@color/lm_feed_black"
@@ -79,8 +80,7 @@
                     android:textSize="14sp"
                     android:textStyle="normal"
                     tools:drawableEndCompat="@drawable/lm_feed_ic_arrow_drop_down"
-                    tools:fontFamily="@font/lm_feed_roboto"
-                    tools:hint="@string/lm_feed_reason_for_deleting" />
+                    tools:fontFamily="@font/lm_feed_roboto" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView

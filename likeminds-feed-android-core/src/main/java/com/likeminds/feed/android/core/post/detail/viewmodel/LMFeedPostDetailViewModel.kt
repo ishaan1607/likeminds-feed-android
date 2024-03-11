@@ -46,6 +46,9 @@ class LMFeedPostDetailViewModel : ViewModel() {
     private val _deleteCommentResponse = MutableLiveData<Pair<String, String?>>()
     val deleteCommentResponse: LiveData<Pair<String, String?>> = _deleteCommentResponse
 
+    private val _deletePostResponse = MutableLiveData<String>()
+    val deletePostResponse: LiveData<String> = _deletePostResponse
+
     private val _postLikedResponse = MutableLiveData<Pair<String, Boolean>>()
     val postLikedResponse: LiveData<Pair<String, Boolean>> = _postLikedResponse
 
@@ -326,6 +329,31 @@ class LMFeedPostDetailViewModel : ViewModel() {
                 )
             } else {
                 errorMessageChannel.send(ErrorMessageEvent.GetComment(response.errorMessage))
+            }
+        }
+    }
+
+    //for delete post
+    fun deletePost(
+        post: LMFeedPostViewData,
+        reason: String? = null
+    ) {
+        viewModelScope.launchIO {
+            val request = DeletePostRequest.Builder()
+                .postId(post.id)
+                .deleteReason(reason)
+                .build()
+
+            //call delete post api
+            val response = lmFeedClient.deletePost(request)
+
+            if (response.success) {
+                //todo: event
+                // sends post deleted event
+//                sendPostDeletedEvent(post, reason)
+                _deletePostResponse.postValue(post.id)
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.DeletePost(response.errorMessage))
             }
         }
     }

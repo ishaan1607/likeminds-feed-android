@@ -17,8 +17,8 @@ open class LMFeedAdminDeleteDialogFragment
     LMFeedReasonChooseBottomSheetListener {
 
     companion object {
-        private const val TAG = "LMFeedDeleteContentDialogFragment"
-        private const val LM_FEED_DELETE_EXTRAS = "LM_FEED_DELETE_EXTRAS"
+        private const val TAG = "LMFeedAdminDeleteDialogFragment"
+        private const val LM_FEED_ADMIN_DELETE_EXTRAS = "LM_FEED_ADMIN_DELETE_EXTRAS"
 
         @JvmStatic
         fun showDialog(
@@ -26,7 +26,7 @@ open class LMFeedAdminDeleteDialogFragment
         ) {
             LMFeedAdminDeleteDialogFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(LM_FEED_DELETE_EXTRAS, deleteExtras)
+                    putParcelable(LM_FEED_ADMIN_DELETE_EXTRAS, deleteExtras)
                 }
             }.show(supportFragmentManager, TAG)
         }
@@ -35,12 +35,12 @@ open class LMFeedAdminDeleteDialogFragment
     private lateinit var binding: LmFeedDialogFragmentAdminDeleteBinding
     private lateinit var deleteExtras: LMFeedDeleteExtras
 
-    private var deleteDialogListener: LMFeedDeleteDialogListener? = null
+    private var deleteDialogListener: LMFeedAdminDeleteDialogListener? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            deleteDialogListener = parentFragment as LMFeedDeleteDialogListener?
+            deleteDialogListener = parentFragment as LMFeedAdminDeleteDialogListener?
         } catch (e: ClassCastException) {
             throw ClassCastException("Calling fragment must implement LMFeedDeleteDialogListener interface")
         }
@@ -56,7 +56,7 @@ open class LMFeedAdminDeleteDialogFragment
         arguments?.let {
             deleteExtras = LMFeedExtrasUtil.getParcelable(
                 it,
-                LM_FEED_DELETE_EXTRAS,
+                LM_FEED_ADMIN_DELETE_EXTRAS,
                 LMFeedDeleteExtras::class.java
             ) ?: throw emptyExtrasException(TAG)
         }
@@ -85,12 +85,12 @@ open class LMFeedAdminDeleteDialogFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initView()
+        initUI()
         initListeners()
     }
 
     //sets data as per content type [COMMENT/POST]
-    private fun initView() {
+    private fun initUI() {
         binding.apply {
             if (deleteExtras.entityType == DELETE_TYPE_POST) {
                 //todo:
@@ -179,6 +179,6 @@ open class LMFeedAdminDeleteDialogFragment
     }
 }
 
-interface LMFeedDeleteDialogListener {
+interface LMFeedAdminDeleteDialogListener {
     fun onEntityDeletedByAdmin(deleteExtras: LMFeedDeleteExtras, reason: String)
 }

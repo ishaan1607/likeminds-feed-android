@@ -15,8 +15,7 @@ import com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedActiv
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.core.delete.model.DELETE_TYPE_POST
 import com.likeminds.feed.android.core.delete.model.LMFeedDeleteExtras
-import com.likeminds.feed.android.core.delete.view.LMFeedAdminDeleteDialogFragment
-import com.likeminds.feed.android.core.delete.view.LMFeedDeleteDialogListener
+import com.likeminds.feed.android.core.delete.view.*
 import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
 import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
@@ -48,7 +47,8 @@ import kotlinx.coroutines.flow.onEach
 open class LMFeedUniversalFeedFragment :
     Fragment(),
     LMFeedUniversalFeedAdapterListener,
-    LMFeedDeleteDialogListener {
+    LMFeedAdminDeleteDialogListener,
+    LMFeedSelfDeleteDialogListener {
 
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
@@ -428,7 +428,7 @@ open class LMFeedUniversalFeedFragment :
         popupMenu.addMenuItems(menuItems)
 
         popupMenu.setMenuItemClickListener { menuId ->
-            onPostMenuItemClick(position, menuId, postViewData)
+            onPostMenuItemClicked(position, menuId, postViewData)
         }
 
         popupMenu.show()
@@ -496,8 +496,15 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onEntityDeletedByAdmin(deleteExtras: LMFeedDeleteExtras, reason: String) {
-        val post = binding.rvUniversal.getIndexAndPostFromAdapter(deleteExtras.postId)?.second ?: return
+        val post =
+            binding.rvUniversal.getIndexAndPostFromAdapter(deleteExtras.postId)?.second ?: return
         universalFeedViewModel.deletePost(post, reason)
+    }
+
+    override fun onEntityDeletedByAuthor(deleteExtras: LMFeedDeleteExtras) {
+        val post =
+            binding.rvUniversal.getIndexAndPostFromAdapter(deleteExtras.postId)?.second ?: return
+        universalFeedViewModel.deletePost(post)
     }
 
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
@@ -558,14 +565,14 @@ open class LMFeedUniversalFeedFragment :
     }
 
     //callback when post menu items are clicked
-    protected open fun onPostMenuItemClick(
+    protected open fun onPostMenuItemClicked(
         position: Int,
         menuId: Int,
         postViewData: LMFeedPostViewData
     ) {
         when (menuId) {
             EDIT_POST_MENU_ITEM_ID -> {
-                onEditPostMenuClick(
+                onEditPostMenuClicked(
                     position,
                     menuId,
                     postViewData
@@ -573,7 +580,7 @@ open class LMFeedUniversalFeedFragment :
             }
 
             DELETE_POST_MENU_ITEM_ID -> {
-                onDeletePostMenuClick(
+                onDeletePostMenuClicked(
                     position,
                     menuId,
                     postViewData
@@ -581,7 +588,7 @@ open class LMFeedUniversalFeedFragment :
             }
 
             REPORT_POST_MENU_ITEM_ID -> {
-                onReportPostMenuClick(
+                onReportPostMenuClicked(
                     position,
                     menuId,
                     postViewData
@@ -593,7 +600,7 @@ open class LMFeedUniversalFeedFragment :
                     LMFeedPostBinderUtils.updatePostForPin(requireContext(), postViewData)
 
                 updatedPostViewData?.let {
-                    onPinPostMenuClick(
+                    onPinPostMenuClicked(
                         position,
                         menuId,
                         it
@@ -606,7 +613,7 @@ open class LMFeedUniversalFeedFragment :
                     LMFeedPostBinderUtils.updatePostForUnpin(requireContext(), postViewData)
 
                 updatedPost?.let {
-                    onUnpinPostMenuClick(
+                    onUnpinPostMenuClicked(
                         position,
                         menuId,
                         it
@@ -616,7 +623,7 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
-    protected open fun onEditPostMenuClick(
+    protected open fun onEditPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
@@ -624,7 +631,7 @@ open class LMFeedUniversalFeedFragment :
         //todo:
     }
 
-    protected open fun onDeletePostMenuClick(
+    protected open fun onDeletePostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
@@ -643,11 +650,10 @@ open class LMFeedUniversalFeedFragment :
 
         if (postCreatorUUID == loggedInUserUUID) {
             // if the post was created by current user
-            //todo:
-//            LMFeedSelfDeleteDialogFragment.showDialog(
-//                childFragmentManager,
-//                deleteExtras
-//            )
+            LMFeedSelfDeleteDialogFragment.showDialog(
+                childFragmentManager,
+                deleteExtras
+            )
         } else {
             // if the post was not created by current user and they are admin
             LMFeedAdminDeleteDialogFragment.showDialog(
@@ -676,7 +682,7 @@ open class LMFeedUniversalFeedFragment :
             }
         }
 
-    protected open fun onReportPostMenuClick(
+    protected open fun onReportPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
@@ -696,7 +702,7 @@ open class LMFeedUniversalFeedFragment :
         reportPostLauncher.launch(intent)
     }
 
-    protected open fun onPinPostMenuClick(
+    protected open fun onPinPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
@@ -708,7 +714,7 @@ open class LMFeedUniversalFeedFragment :
         binding.rvUniversal.updatePostItem(position, post)
     }
 
-    protected open fun onUnpinPostMenuClick(
+    protected open fun onUnpinPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData

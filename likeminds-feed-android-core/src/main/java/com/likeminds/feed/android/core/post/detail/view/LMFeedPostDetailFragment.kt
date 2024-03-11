@@ -1,9 +1,11 @@
 package com.likeminds.feed.android.core.post.detail.view
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -11,6 +13,8 @@ import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentPostDetailBinding
+import com.likeminds.feed.android.core.delete.model.*
+import com.likeminds.feed.android.core.delete.view.*
 import com.likeminds.feed.android.core.likes.model.*
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
@@ -19,6 +23,9 @@ import com.likeminds.feed.android.core.post.detail.adapter.LMFeedReplyAdapterLis
 import com.likeminds.feed.android.core.post.detail.model.*
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity.Companion.LM_FEED_POST_DETAIL_EXTRAS
 import com.likeminds.feed.android.core.post.detail.viewmodel.LMFeedPostDetailViewModel
+import com.likeminds.feed.android.core.report.model.*
+import com.likeminds.feed.android.core.report.view.LMFeedReportActivity
+import com.likeminds.feed.android.core.report.view.LMFeedReportFragment
 import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.view.LMFeedCommentComposerView
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
@@ -35,7 +42,9 @@ open class LMFeedPostDetailFragment :
     Fragment(),
     LMFeedUniversalFeedAdapterListener,
     LMFeedPostDetailAdapterListener,
-    LMFeedReplyAdapterListener {
+    LMFeedReplyAdapterListener,
+    LMFeedAdminDeleteDialogListener,
+    LMFeedSelfDeleteDialogListener {
 
     private lateinit var binding: LmFeedFragmentPostDetailBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
@@ -528,20 +537,24 @@ open class LMFeedPostDetailFragment :
         //todo: implement delete
 
         // observes deletePostResponse LiveData
-//        postActionsViewModel.deletePostResponse.observe(viewLifecycleOwner) {
-//            // notifies the subscribers about the deletion of post
+        postDetailViewModel.deletePostResponse.observe(viewLifecycleOwner) {
+            //todo:
+
+            // notifies the subscribers about the deletion of post
 //            postEvent.notify(Pair(postDetailExtras.postId, null))
-//
-//            LMFeedViewUtils.showShortToast(
-//                requireContext(),
-//                getString(
-//                    R.string.s_deleted,
+
+            LMFeedViewUtils.showShortToast(
+                requireContext(),
+                getString(
+                    R.string.s_deleted,
+                    //todo:
+
 //                    lmFeedHelperViewModel.getPostVariable()
 //                        .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-//                )
-//            )
-//            requireActivity().finish()
-//        }
+                )
+            )
+            requireActivity().finish()
+        }
 
         //observes pinPostResponse LiveData
         postDetailViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
@@ -1012,6 +1025,134 @@ open class LMFeedPostDetailFragment :
         }
     }
 
+    //processes edit comment/reply request
+    private fun editCommentEntity(comment: LMFeedCommentViewData) {
+        binding.apply {
+            val parentCommentId = comment.parentId
+            // gets text of the comment/reply
+            val commentText =
+                if (parentCommentId == null) {
+                    comment.text
+                } else {
+                    val parentComment =
+                        rvPostDetails.getIndexAndCommentFromAdapter(parentCommentId)?.second
+                            ?: return
+
+                    val reply = rvPostDetails.getIndexAndReplyFromComment(parentComment, comment.id)
+                        ?: return
+
+                    reply.second.text
+                }
+
+            // updates the edittext with the comment to be edited
+            editCommentId = comment.id
+            parentId = parentCommentId
+            //todo: tagging
+            // decodes the comment text and sets to the edit text
+//                MemberTaggingDecoder.decode(
+//                    etComment,
+//                    commentText,
+//                    LMFeedBranding.getTextLinkColor()
+//                )
+            commentComposer.etComment.setSelection(commentComposer.etComment.length())
+            commentComposer.etComment.setSelection(commentComposer.etComment.length())
+            commentComposer.etComment.focusAndShowKeyboard()
+        }
+    }
+
+    private fun deleteCommentEntity(comment: LMFeedCommentViewData) {
+        val deleteExtras = LMFeedDeleteExtras.Builder()
+            .postId(comment.postId)
+            .commentId(comment.id)
+            .entityType(DELETE_TYPE_COMMENT)
+            .parentCommentId(comment.parentId)
+            .build()
+
+        val creatorUUID = comment.user.sdkClientInfoViewData.uuid
+        showDeleteDialog(creatorUUID, deleteExtras)
+    }
+
+    private fun showDeleteDialog(creatorUUID: String, deleteExtras: LMFeedDeleteExtras) {
+        //todo:
+        val loggedInUUID = ""
+        if (creatorUUID == loggedInUUID) {
+            // when user deletes their own entity
+            LMFeedSelfDeleteDialogFragment.showDialog(
+                childFragmentManager,
+                deleteExtras
+            )
+        } else {
+            // when CM deletes other user's entity
+            LMFeedAdminDeleteDialogFragment.showDialog(
+                childFragmentManager,
+                deleteExtras
+            )
+        }
+    }
+
+    // launcher to start [ReportActivity] and show success dialog for result
+    private val reportPostLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data?.getStringExtra(LMFeedReportFragment.LM_FEED_REPORT_RESULT)
+
+                //todo:
+//                val entityType = if (data == "Post") {
+//                    lmFeedHelperViewModel.getPostVariable()
+//                        .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+//                } else {
+//                    data
+//                }
+//
+//                LMFeedReportSuccessDialog(entityType ?: "").show(
+//                    childFragmentManager,
+//                    LMFeedReportSuccessDialog.TAG
+//                )
+            }
+        }
+
+    private fun reportPostEntity(post: LMFeedPostViewData) {
+        val creatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
+
+        //create extras for [ReportActivity]
+        val reportExtras = LMFeedReportExtras.Builder()
+            .entityId(post.id)
+            .uuid(creatorUUID)
+            .entityType(REPORT_TYPE_POST)
+            .postId(post.id)
+            .postViewType(post.viewType)
+            .build()
+
+        //get Intent for [ReportActivity]
+        val intent = LMFeedReportActivity.getIntent(requireContext(), reportExtras)
+
+        //start [ReportActivity] and check for result
+        reportPostLauncher.launch(intent)
+    }
+
+    private fun reportCommentEntity(
+        @LMFeedReportType
+        reportType: Int,
+        comment: LMFeedCommentViewData
+    ) {
+        val creatorUUID = comment.user.sdkClientInfoViewData.uuid
+
+        //create extras for [ReportActivity]
+        val reportExtras = LMFeedReportExtras.Builder()
+            .entityId(comment.id)
+            .uuid(creatorUUID)
+            .entityType(reportType)
+            .postId(comment.postId)
+            .parentCommentId(comment.parentId)
+            .build()
+
+        //get Intent for [ReportActivity]
+        val intent = LMFeedReportActivity.getIntent(requireContext(), reportExtras)
+
+        //start [ReportActivity] and check for result
+        reportPostLauncher.launch(intent)
+    }
+
     override fun onCommentContentLinkClicked(url: String) {
         super.onCommentContentLinkClicked(url)
 
@@ -1166,21 +1307,64 @@ open class LMFeedPostDetailFragment :
         popupMenu.addMenuItems(menuItems)
 
         popupMenu.setMenuItemClickListener { menuId ->
-            onPostMenuItemClick(position, menuId, postViewData)
+            onPostMenuItemClicked(position, menuId, postViewData)
         }
 
         popupMenu.show()
     }
 
+    // callback when other's post is deleted by CM
+    override fun onEntityDeletedByAdmin(deleteExtras: LMFeedDeleteExtras, reason: String) {
+        binding.rvPostDetails.apply {
+            when (deleteExtras.entityType) {
+                DELETE_TYPE_POST -> {
+                    val post = getItem(postDataPosition) as LMFeedPostViewData
+                    postDetailViewModel.deletePost(post, reason)
+                }
+
+                DELETE_TYPE_COMMENT -> {
+                    val commentId = deleteExtras.commentId ?: return
+                    postDetailViewModel.deleteComment(
+                        deleteExtras.postId,
+                        commentId,
+                        parentCommentId = deleteExtras.parentCommentId,
+                        reason = reason
+                    )
+                }
+            }
+        }
+    }
+
+    // callback when self post is deleted by user
+    override fun onEntityDeletedByAuthor(deleteExtras: LMFeedDeleteExtras) {
+        binding.rvPostDetails.apply {
+            when (deleteExtras.entityType) {
+                DELETE_TYPE_POST -> {
+                    val post = getItem(postDataPosition) as LMFeedPostViewData
+                    postDetailViewModel.deletePost(post)
+                }
+
+                DELETE_TYPE_COMMENT -> {
+                    val commentId = deleteExtras.commentId ?: return
+                    postDetailViewModel.deleteComment(
+                        deleteExtras.postId,
+                        commentId,
+                        parentCommentId = deleteExtras.parentCommentId
+                    )
+                }
+            }
+        }
+    }
+
     //callback when post menu items are clicked
-    protected open fun onPostMenuItemClick(
+    protected open fun onPostMenuItemClicked(
         position: Int,
         menuId: Int,
         postViewData: LMFeedPostViewData
     ) {
         when (menuId) {
             EDIT_POST_MENU_ITEM_ID -> {
-                onEditPostMenuClick(
+                onEditPostMenuClicked(
                     position,
                     menuId,
                     postViewData
@@ -1188,7 +1372,7 @@ open class LMFeedPostDetailFragment :
             }
 
             DELETE_POST_MENU_ITEM_ID -> {
-                onDeletePostMenuClick(
+                onDeletePostMenuClicked(
                     position,
                     menuId,
                     postViewData
@@ -1196,7 +1380,7 @@ open class LMFeedPostDetailFragment :
             }
 
             REPORT_POST_MENU_ITEM_ID -> {
-                onReportPostMenuClick(
+                onReportPostMenuClicked(
                     position,
                     menuId,
                     postViewData
@@ -1208,7 +1392,7 @@ open class LMFeedPostDetailFragment :
                     LMFeedPostBinderUtils.updatePostForPin(requireContext(), postViewData)
 
                 updatedPostViewData?.let {
-                    onPinPostMenuClick(
+                    onPinPostMenuClicked(
                         position,
                         menuId,
                         it
@@ -1221,7 +1405,7 @@ open class LMFeedPostDetailFragment :
                     LMFeedPostBinderUtils.updatePostForUnpin(requireContext(), postViewData)
 
                 updatedPost?.let {
-                    onUnpinPostMenuClick(
+                    onUnpinPostMenuClicked(
                         position,
                         menuId,
                         it
@@ -1231,7 +1415,7 @@ open class LMFeedPostDetailFragment :
         }
     }
 
-    protected open fun onEditPostMenuClick(
+    protected open fun onEditPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
@@ -1239,23 +1423,47 @@ open class LMFeedPostDetailFragment :
         //todo:
     }
 
-    protected open fun onDeletePostMenuClick(
+    protected open fun onDeletePostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
     ) {
+        val deleteExtras = LMFeedDeleteExtras.Builder()
+            .postId(post.id)
+            .entityType(DELETE_TYPE_POST)
+            //todo:
+//            .postAsVariable(lmFeedHelperViewModel.getPostVariable())
+            .build()
+
+        val postCreatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
+
         //todo:
+        val loggedInUserUUID = ""
+
+        if (postCreatorUUID == loggedInUserUUID) {
+            // if the post was created by current user
+            LMFeedSelfDeleteDialogFragment.showDialog(
+                childFragmentManager,
+                deleteExtras
+            )
+        } else {
+            // if the post was not created by current user and they are admin
+            LMFeedAdminDeleteDialogFragment.showDialog(
+                childFragmentManager,
+                deleteExtras
+            )
+        }
     }
 
-    protected open fun onReportPostMenuClick(
+    protected open fun onReportPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
     ) {
-        //todo:
+        reportPostEntity(post)
     }
 
-    protected open fun onPinPostMenuClick(
+    protected open fun onPinPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
@@ -1267,7 +1475,7 @@ open class LMFeedPostDetailFragment :
         binding.rvPostDetails.updateItem(postDataPosition, post)
     }
 
-    protected open fun onUnpinPostMenuClick(
+    protected open fun onUnpinPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
@@ -1348,7 +1556,7 @@ open class LMFeedPostDetailFragment :
         popupMenu.addMenuItems(menuItems)
 
         popupMenu.setMenuItemClickListener { menuId ->
-            onCommentMenuItemClicked(
+            onReplyMenuItemClicked(
                 position,
                 menuId,
                 reply
@@ -1361,35 +1569,114 @@ open class LMFeedPostDetailFragment :
     private fun onCommentMenuItemClicked(
         position: Int,
         menuId: Int,
+        comment: LMFeedCommentViewData
+    ) {
+        when (menuId) {
+            EDIT_COMMENT_MENU_ITEM_ID -> {
+                onEditCommentMenuClicked(
+                    position,
+                    menuId,
+                    comment
+                )
+            }
+
+            DELETE_COMMENT_MENU_ITEM_ID -> {
+                onDeleteCommentMenuClicked(
+                    position,
+                    menuId,
+                    comment
+                )
+            }
+
+            REPORT_COMMENT_MENU_ITEM_ID -> {
+                onReportCommentMenuClicked(
+                    position,
+                    menuId,
+                    comment
+                )
+            }
+        }
+    }
+
+    //processes edit comment request
+    protected open fun onEditCommentMenuClicked(
+        position: Int,
+        menuId: Int,
+        comment: LMFeedCommentViewData
+    ) {
+        editCommentEntity(comment)
+    }
+
+    protected open fun onDeleteCommentMenuClicked(
+        position: Int,
+        menuId: Int,
+        comment: LMFeedCommentViewData
+    ) {
+        deleteCommentEntity(comment)
+    }
+
+    protected open fun onReportCommentMenuClicked(
+        position: Int,
+        menuId: Int,
+        comment: LMFeedCommentViewData
+    ) {
+        reportCommentEntity(REPORT_TYPE_COMMENT, comment)
+    }
+
+    protected open fun onReplyMenuItemClicked(
+        position: Int,
+        menuId: Int,
         reply: LMFeedCommentViewData
     ) {
         when (menuId) {
             EDIT_COMMENT_MENU_ITEM_ID -> {
-                //todo:
-//                editComment(reply.id, reply.parentId)
+                onEditReplyMenuClicked(
+                    position,
+                    menuId,
+                    reply
+                )
             }
 
             DELETE_COMMENT_MENU_ITEM_ID -> {
-                //todo:
-//                deleteComment(
-//                    reply.postId,
-//                    reply.id,
-//                    reply.user.sdkClientInfoViewData.uuid,
-//                    reply.parentId
-//                )
+                onDeleteReplyMenuClicked(
+                    position,
+                    menuId,
+                    reply
+                )
             }
 
             REPORT_COMMENT_MENU_ITEM_ID -> {
-                //todo:
-//                reportEntity(
-//                    reply.id,
-//                    reply.user.sdkClientInfoViewData.uuid,
-//                    REPORT_TYPE_REPLY,
-//                    reply.postId,
-//                    parentCommentId = reply.parentId
-//                )
+                onReportReplyMenuClicked(
+                    position,
+                    menuId,
+                    reply
+                )
             }
         }
+    }
+
+    protected open fun onEditReplyMenuClicked(
+        position: Int,
+        menuId: Int,
+        reply: LMFeedCommentViewData
+    ) {
+        editCommentEntity(reply)
+    }
+
+    protected open fun onDeleteReplyMenuClicked(
+        position: Int,
+        menuId: Int,
+        reply: LMFeedCommentViewData
+    ) {
+        deleteCommentEntity(reply)
+    }
+
+    protected open fun onReportReplyMenuClicked(
+        position: Int,
+        menuId: Int,
+        reply: LMFeedCommentViewData
+    ) {
+        reportCommentEntity(REPORT_TYPE_REPLY, reply)
     }
 
     override fun onPostMultipleDocumentsExpanded(position: Int, postViewData: LMFeedPostViewData) {
