@@ -482,6 +482,7 @@ class LMFeedPostDetailViewModel : ViewModel() {
     // returns [CommentViewData] for local handling of comment
     fun getCommentViewDataForLocalHandling(
         postId: String,
+        creatorUserName: String,
         createdAt: Long,
         tempId: String,
         text: String,
@@ -493,8 +494,7 @@ class LMFeedPostDetailViewModel : ViewModel() {
             .postId(postId)
             .user(
                 LMFeedUserViewData.Builder()
-                    //todo update here
-//                    .name(userPreferences.getUserName())
+                    .name(creatorUserName)
                     .build()
             )
             .createdAt(createdAt)

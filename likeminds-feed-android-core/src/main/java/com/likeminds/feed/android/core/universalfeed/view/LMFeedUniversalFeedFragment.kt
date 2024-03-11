@@ -42,6 +42,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import kotlinx.coroutines.flow.onEach
 
 open class LMFeedUniversalFeedFragment :
@@ -170,7 +171,7 @@ open class LMFeedUniversalFeedFragment :
                 LMFeedViewUtils.showShortToast(
                     requireContext(),
                     getString(
-                        R.string.s_deleted,
+                        R.string.lm_feed_s_deleted,
 //                        lmFeedHelperViewModel.getPostVariable()
 //                            .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
                     )
@@ -645,10 +646,17 @@ open class LMFeedUniversalFeedFragment :
 
         val postCreatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
 
-        //todo:
-        val loggedInUserUUID = ""
+        val userPreferences = LMFeedUserPreferences(requireContext())
+        val loggedInUUID = userPreferences.getUUID()
 
-        if (postCreatorUUID == loggedInUserUUID) {
+        Log.d(
+            "PUI", """
+            postCreatorUUID: $postCreatorUUID
+            loggedInUUID: $loggedInUUID
+        """.trimIndent()
+        )
+
+        if (postCreatorUUID == loggedInUUID) {
             // if the post was created by current user
             LMFeedSelfDeleteDialogFragment.showDialog(
                 childFragmentManager,

@@ -22,7 +22,8 @@ open class LMFeedAdminDeleteDialogFragment
 
         @JvmStatic
         fun showDialog(
-            supportFragmentManager: FragmentManager, deleteExtras: LMFeedDeleteExtras
+            supportFragmentManager: FragmentManager,
+            deleteExtras: LMFeedDeleteExtras
         ) {
             LMFeedAdminDeleteDialogFragment().apply {
                 arguments = Bundle().apply {
@@ -42,7 +43,7 @@ open class LMFeedAdminDeleteDialogFragment
         try {
             deleteDialogListener = parentFragment as LMFeedAdminDeleteDialogListener?
         } catch (e: ClassCastException) {
-            throw ClassCastException("Calling fragment must implement LMFeedDeleteDialogListener interface")
+            throw ClassCastException("Calling fragment must implement LMFeedAdminDeleteDialogListener interface")
         }
     }
 
@@ -91,24 +92,24 @@ open class LMFeedAdminDeleteDialogFragment
 
     //sets data as per content type [COMMENT/POST]
     private fun initUI() {
-        binding.apply {
+        binding.alertDialogDelete.apply {
             if (deleteExtras.entityType == DELETE_TYPE_POST) {
                 //todo:
-                alertDialogDelete.setAlertTitle(
+                setAlertTitle(
                     getString(
                         R.string.lm_feed_delete_s_question,
 //                        deleteExtras.postAsVariable.pluralizeOrCapitalize(WordAction.ALL_SMALL_SINGULAR)
                     )
                 )
-                alertDialogDelete.setAlertSubtitle(
+                setAlertSubtitle(
                     getString(
                         R.string.lm_feed_delete_s_message,
 //                        deleteExtras.postAsVariable.pluralizeOrCapitalize(WordAction.ALL_SMALL_SINGULAR)
                     )
                 )
             } else {
-                alertDialogDelete.setAlertTitle(getString(R.string.lm_feed_delete_comment_question))
-                alertDialogDelete.setAlertSubtitle(getString(R.string.lm_feed_delete_comment_message))
+                setAlertTitle(getString(R.string.lm_feed_delete_comment_question))
+                setAlertSubtitle(getString(R.string.lm_feed_delete_comment_message))
             }
         }
     }
@@ -170,6 +171,7 @@ open class LMFeedAdminDeleteDialogFragment
 
             if (reasonViewData.value == "Others") {
                 alertDialogDelete.setAlertInputReasonVisibility(true)
+                alertDialogDelete.setAlertInputHint(getString(R.string.lm_feed_enter_reason))
                 alertDialogDelete.setPositiveButtonEnabled(false)
             } else {
                 alertDialogDelete.setAlertInputReasonVisibility(false)

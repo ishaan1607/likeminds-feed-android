@@ -36,6 +36,7 @@ import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import kotlinx.coroutines.flow.onEach
 
 open class LMFeedPostDetailFragment :
@@ -281,9 +282,13 @@ open class LMFeedPostDetailFragment :
             // calls api
             postDetailViewModel.addComment(postId, tempId, updatedText)
 
+            val userPreferences = LMFeedUserPreferences(requireContext())
+            val creatorUserName = userPreferences.getUserName()
+
             // adds comment locally
             val commentViewData = postDetailViewModel.getCommentViewDataForLocalHandling(
                 postId,
+                creatorUserName,
                 createdAt,
                 tempId,
                 updatedText,
@@ -366,9 +371,13 @@ open class LMFeedPostDetailFragment :
             )
             hideReplyingToView()
 
+            val userPreferences = LMFeedUserPreferences(requireContext())
+            val creatorUserName = userPreferences.getUserName()
+
             // view data of comment with level-1
             val replyViewData = postDetailViewModel.getCommentViewDataForLocalHandling(
                 postId,
+                creatorUserName,
                 createdAt,
                 tempId,
                 updatedText,
@@ -534,8 +543,6 @@ open class LMFeedPostDetailFragment :
             }
         }
 
-        //todo: implement delete
-
         // observes deletePostResponse LiveData
         postDetailViewModel.deletePostResponse.observe(viewLifecycleOwner) {
             //todo:
@@ -546,7 +553,7 @@ open class LMFeedPostDetailFragment :
             LMFeedViewUtils.showShortToast(
                 requireContext(),
                 getString(
-                    R.string.s_deleted,
+                    R.string.lm_feed_s_deleted,
                     //todo:
 
 //                    lmFeedHelperViewModel.getPostVariable()
@@ -1073,8 +1080,9 @@ open class LMFeedPostDetailFragment :
     }
 
     private fun showDeleteDialog(creatorUUID: String, deleteExtras: LMFeedDeleteExtras) {
-        //todo:
-        val loggedInUUID = ""
+        val userPreferences = LMFeedUserPreferences(requireContext())
+        val loggedInUUID = userPreferences.getUUID()
+
         if (creatorUUID == loggedInUUID) {
             // when user deletes their own entity
             LMFeedSelfDeleteDialogFragment.showDialog(
@@ -1437,10 +1445,10 @@ open class LMFeedPostDetailFragment :
 
         val postCreatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
 
-        //todo:
-        val loggedInUserUUID = ""
+        val userPreferences = LMFeedUserPreferences(requireContext())
+        val loggedInUUID = userPreferences.getUUID()
 
-        if (postCreatorUUID == loggedInUserUUID) {
+        if (postCreatorUUID == loggedInUUID) {
             // if the post was created by current user
             LMFeedSelfDeleteDialogFragment.showDialog(
                 childFragmentManager,

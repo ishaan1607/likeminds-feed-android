@@ -12,8 +12,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         LMFeedCore.initiateUser(
+            this,
             "Ishaan Jain",
-            "anurag",
+            "\uD83C\uDF1A\uD83C\uDF1A",
             "device-23444",
             success = {
                 replaceFragment()

@@ -105,23 +105,22 @@ class LMFeedAlertDialogView : CardView {
     }
 
     private fun customizeAlertSelector(alertSelectorStyle: LMFeedTextStyle?) {
-        binding.tvAlertSelector.apply {
+        binding.apply {
             if (alertSelectorStyle == null) {
-                hide()
+                cvAlertSelector.hide()
             } else {
-                setStyle(alertSelectorStyle)
-                show()
+                tvAlertSelector.setStyle(alertSelectorStyle)
+                cvAlertSelector.show()
             }
         }
     }
 
     private fun customizeAlertInput(alertInputStyle: LMFeedEditTextStyle?) {
-        binding.etReason.apply {
+        binding.apply {
             if (alertInputStyle == null) {
-                hide()
+                cvAlertInput.hide()
             } else {
-                setStyle(alertInputStyle)
-                show()
+                etReason.setStyle(alertInputStyle)
             }
         }
     }
@@ -160,6 +159,15 @@ class LMFeedAlertDialogView : CardView {
      */
     fun setAlertInputReasonVisibility(isVisible: Boolean) {
         binding.cvAlertInput.isVisible = isVisible
+    }
+
+    /**
+     * Sets hint to the alert input
+     *
+     * @param hint hint to be set for the alert input
+     */
+    fun setAlertInputHint(hint: String) {
+        binding.etReason.hint = hint
     }
 
     /**

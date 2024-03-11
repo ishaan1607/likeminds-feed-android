@@ -77,8 +77,9 @@
     <string name="lm_feed_confirm">Confirm</string>
     <string name="lm_feed_delete_s_question">Delete %s?</string>
     <string name="lm_feed_delete_s_message">Are you sure you want to delete this %s? This action cannot be reversed.</string>
-    <string name="lm_feed_s_deleted">%s Deleted!</string>
+    <string name="lm_feed_lm_feed_s_deleted">%s Deleted!</string>
     <string name="lm_feed_delete_comment_question">Delete comment?</string>
     <string name="lm_feed_delete_comment_message">Are you sure you want to delete this comment? This action cannot be reversed.</string>
-    <string name="s_deleted">%s Deleted!</string>
+    <string name="lm_feed_s_deleted">%s Deleted!</string>
+    <string name="lm_feed_enter_reason">Enter reason</string>
 </resources>

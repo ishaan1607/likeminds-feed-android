@@ -11,7 +11,7 @@ class LMFeedExample : Application() {
         super.onCreate()
         LMFeedCore.setup(
             this,
-            "6b51af13-ce28-444b-a571-53a3fb125444",
+            "4f881a74-8d0b-4c73-9f60-3d2370216392",
             LMFeedSetThemeRequest.Builder()
                 .fontResource(R.font.roboto)
                 .build()

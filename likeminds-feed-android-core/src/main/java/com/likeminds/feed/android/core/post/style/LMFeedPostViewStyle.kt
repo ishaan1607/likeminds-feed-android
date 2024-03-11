@@ -10,6 +10,7 @@ import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFe
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils
+import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
 class LMFeedPostViewStyle private constructor(
     //post header style
@@ -74,6 +75,14 @@ class LMFeedPostViewStyle private constructor(
                 .menuIconStyle(
                     LMFeedIconStyle.Builder()
                         .inActiveSrc(R.drawable.lm_feed_ic_overflow_menu)
+                        .iconPadding(
+                            LMFeedPadding(
+                                R.dimen.lm_feed_icon_padding,
+                                R.dimen.lm_feed_icon_padding,
+                                R.dimen.lm_feed_icon_padding,
+                                R.dimen.lm_feed_icon_padding
+                            )
+                        )
                         .build()
                 )
                 .build()
