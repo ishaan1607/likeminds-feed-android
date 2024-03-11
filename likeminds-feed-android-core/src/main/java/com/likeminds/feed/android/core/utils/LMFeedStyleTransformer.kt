@@ -1,11 +1,13 @@
 package com.likeminds.feed.android.core.utils
 
-import com.likeminds.feed.android.core.activityfeed.viewstyle.LMFeedActivityFeedFragmentViewStyle
-import com.likeminds.feed.android.core.likes.viewstyle.LMFeedLikesFragmentViewStyle
+import com.likeminds.feed.android.core.activityfeed.style.LMFeedActivityFeedFragmentViewStyle
+import com.likeminds.feed.android.core.delete.style.LMFeedAdminDeleteDialogFragmentStyle
+import com.likeminds.feed.android.core.likes.style.LMFeedLikesFragmentViewStyle
 import com.likeminds.feed.android.core.post.detail.viewstyle.LMFeedPostDetailFragmentViewStyle
-import com.likeminds.feed.android.core.post.viewstyle.LMFeedPostViewStyle
-import com.likeminds.feed.android.core.report.viewstyle.LMFeedReportFragmentViewStyle
-import com.likeminds.feed.android.core.universalfeed.viewstyle.LMFeedUniversalFeedFragmentViewStyle
+import com.likeminds.feed.android.core.post.style.LMFeedPostViewStyle
+import com.likeminds.feed.android.core.report.style.LMFeedReportFragmentViewStyle
+import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
+import com.likeminds.feed.android.core.universalfeed.style.LMFeedUniversalFeedFragmentViewStyle
 
 object LMFeedStyleTransformer {
 
@@ -31,4 +33,12 @@ object LMFeedStyleTransformer {
     @JvmStatic
     var reportFragmentViewStyle: LMFeedReportFragmentViewStyle =
         LMFeedReportFragmentViewStyle.Builder().build()
+
+    @JvmStatic
+    var adminDeleteDialogFragmentStyle: LMFeedAdminDeleteDialogFragmentStyle =
+        LMFeedAdminDeleteDialogFragmentStyle.Builder().build()
+
+    @JvmStatic
+    var selfDeleteDialogFragmentStyle: LMFeedAlertDialogStyle =
+        LMFeedAlertDialogStyle.Builder().build()
 }

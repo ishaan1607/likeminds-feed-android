@@ -15,6 +15,7 @@
     <dimen name="lm_feed_elevation_small">4dp</dimen>
 
     <!--    Corner radius-->
+    <dimen name="lm_feed_corner_radius_small">2dp</dimen>
     <dimen name="lm_feed_corner_radius_regular">4dp</dimen>
 
     <!--    Padding Size-->

@@ -27,6 +27,7 @@ class LMFeedTextStyle private constructor(
     @ColorRes val backgroundColor: Int?,
     val textAlignment: Int?,
     @DimenRes val elevation: Int?,
+    @ColorRes val hintTextColor: Int?,
     @DrawableRes val drawableLeftSrc: Int?,
     @DrawableRes val drawableTopSrc: Int?,
     @DrawableRes val drawableRightSrc: Int?,
@@ -61,6 +62,9 @@ class LMFeedTextStyle private constructor(
 
         @DimenRes
         private var elevation: Int? = null
+
+        @ColorRes
+        private var hintTextColor: Int? = null
 
         @DrawableRes
         private var drawableLeftSrc: Int? = null
@@ -129,6 +133,10 @@ class LMFeedTextStyle private constructor(
             this.elevation = elevation
         }
 
+        fun hintTextColor(@ColorRes hintTextColor: Int?) = apply {
+            this.hintTextColor = hintTextColor
+        }
+
         fun drawableLeftSrc(@DrawableRes drawableLeftSrc: Int?) = apply {
             this.drawableLeftSrc = drawableLeftSrc
         }
@@ -163,6 +171,7 @@ class LMFeedTextStyle private constructor(
             backgroundColor,
             textAlignment,
             elevation,
+            hintTextColor,
             drawableLeftSrc,
             drawableTopSrc,
             drawableRightSrc,
@@ -185,6 +194,7 @@ class LMFeedTextStyle private constructor(
             .backgroundColor(backgroundColor)
             .textAlignment(textAlignment)
             .elevation(elevation)
+            .hintTextColor(hintTextColor)
             .drawableLeftSrc(drawableLeftSrc)
             .drawableTopSrc(drawableTopSrc)
             .drawableRightSrc(drawableRightSrc)
@@ -243,6 +253,15 @@ class LMFeedTextStyle private constructor(
 
             if (this@LMFeedTextStyle.elevation != null) {
                 elevation = resources.getDimension(this@LMFeedTextStyle.elevation)
+            }
+
+            this@LMFeedTextStyle.hintTextColor?.let {
+                setHintTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        this@LMFeedTextStyle.hintTextColor
+                    )
+                )
             }
 
             // sets drawable to the text view

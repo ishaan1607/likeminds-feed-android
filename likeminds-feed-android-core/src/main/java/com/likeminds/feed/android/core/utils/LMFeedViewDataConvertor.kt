@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.utils
 
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityEntityViewData
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
+import com.likeminds.feed.android.core.delete.model.LMFeedReasonChooseViewData
 import com.likeminds.feed.android.core.likes.model.LMFeedLikeViewData
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
@@ -481,6 +482,20 @@ object LMFeedViewDataConvertor {
                 .isSelected(false)
                 .build()
         }
+    }
+
+    /**
+     * convert list of [ReportTag] to list of [LMFeedReasonChooseViewData]
+     * @param tags: list of [ReportTag]
+     * */
+    fun convertDeleteTag(
+        tags: List<ReportTag>
+    ): MutableList<LMFeedReasonChooseViewData> {
+        return tags.map { tag ->
+            LMFeedReasonChooseViewData.Builder()
+                .value(tag.name)
+                .build()
+        }.toMutableList()
     }
 
     fun convertCommentsCount(commentsCount: Int): LMFeedCommentsCountViewData {

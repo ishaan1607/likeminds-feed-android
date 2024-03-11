@@ -16,7 +16,7 @@ import androidx.core.widget.ImageViewCompat
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.widgets.snackbar.style.LMFeedSnackbar
+import com.likeminds.feed.android.core.ui.widgets.snackbar.view.LMFeedSnackbar
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.model.*
 

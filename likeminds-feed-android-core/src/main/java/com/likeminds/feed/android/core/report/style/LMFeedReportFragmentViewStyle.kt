@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.report.viewstyle
+package com.likeminds.feed.android.core.report.style
 
 import android.graphics.Typeface
 import android.text.TextUtils

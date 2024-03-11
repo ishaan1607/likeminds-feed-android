@@ -24,4 +24,7 @@
     <color name="lm_feed_cloudy_blue_40">#66d0d8e2</color>
     <color name="lm_feed_blood_orange">#d0021b</color>
     <color name="lm_feed_faux_charcoal">#33384A</color>
+    <color name="lm_feed_black_20">#33000000</color>
+    <color name="lm_feed_black_40">#66000000</color>
+    <color name="lm_feed_black_87">#de000000</color>
 </resources>

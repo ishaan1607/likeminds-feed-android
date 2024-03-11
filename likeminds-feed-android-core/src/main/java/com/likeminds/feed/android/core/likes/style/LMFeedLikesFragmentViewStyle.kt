@@ -1,32 +1,36 @@
-package com.likeminds.feed.android.core.activityfeed.viewstyle
+package com.likeminds.feed.android.core.likes.style
 
 import android.text.TextUtils
-import android.widget.ImageView
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.acitivityfeed.style.LMFeedActivityViewStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
-import com.likeminds.feed.android.core.utils.LMFeedViewStyle
+import com.likeminds.feed.android.core.ui.widgets.user.style.LMFeedUserViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
-class LMFeedActivityFeedFragmentViewStyle private constructor(
-    //header view style
+class LMFeedLikesFragmentViewStyle private constructor(
     val headerViewStyle: LMFeedHeaderViewStyle,
-    //activity view style
-    val activityViewStyle: LMFeedActivityViewStyle,
-    //background color of the screen
+    val userViewStyle: LMFeedUserViewStyle,
     @ColorRes val backgroundColor: Int?
-) : LMFeedViewStyle {
+) {
 
     class Builder {
-        private var headerViewStyle = LMFeedHeaderViewStyle.Builder()
+        private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
             .titleTextStyle(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
+                    .build()
+            )
+            .subtitleTextStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(R.color.lm_feed_grey)
+                    .maxLines(1)
+                    .ellipsize(TextUtils.TruncateAt.END)
+                    .textSize(R.dimen.lm_feed_text_medium)
                     .build()
             )
             .backgroundColor(R.color.lm_feed_white)
@@ -46,20 +50,16 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
             )
             .build()
 
-        private var activityViewStyle = LMFeedActivityViewStyle.Builder()
-            .postTypeBadgeStyle(
-                LMFeedImageStyle.Builder()
-                    .scaleType(ImageView.ScaleType.CENTER)
-                    .build()
-            )
-            .timestampTextStyle(
+        private var userViewStyle: LMFeedUserViewStyle = LMFeedUserViewStyle.Builder()
+            .userTitleViewStyle(
                 LMFeedTextStyle.Builder()
-                    .textColor(R.color.lm_feed_brown_grey)
+                    .ellipsize(TextUtils.TruncateAt.END)
+                    .maxLines(1)
+                    .textColor(R.color.lm_feed_majorelle_blue)
                     .textSize(R.dimen.lm_feed_text_medium)
+                    .fontResource(R.font.lm_feed_roboto_medium)
                     .build()
             )
-            .readActivityBackgroundColor(R.color.lm_feed_white)
-            .unreadActivityBackgroundColor(R.color.lm_feed_cloudy_blue_40)
             .build()
 
         @ColorRes
@@ -69,24 +69,20 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
             this.headerViewStyle = headerViewStyle
         }
 
-        fun activityViewStyle(activityViewStyle: LMFeedActivityViewStyle) = apply {
-            this.activityViewStyle = activityViewStyle
+        fun userViewStyle(userViewStyle: LMFeedUserViewStyle) = apply {
+            this.userViewStyle = userViewStyle
         }
 
         fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
             this.backgroundColor = backgroundColor
         }
 
-        fun build() = LMFeedActivityFeedFragmentViewStyle(
-            headerViewStyle,
-            activityViewStyle,
-            backgroundColor
-        )
+        fun build() = LMFeedLikesFragmentViewStyle(headerViewStyle, userViewStyle, backgroundColor)
     }
 
     fun toBuilder(): Builder {
         return Builder().headerViewStyle(headerViewStyle)
-            .activityViewStyle(activityViewStyle)
+            .userViewStyle(userViewStyle)
             .backgroundColor(backgroundColor)
     }
 }

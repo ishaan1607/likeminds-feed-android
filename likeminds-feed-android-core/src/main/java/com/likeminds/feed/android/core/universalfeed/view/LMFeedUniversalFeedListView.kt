@@ -96,6 +96,10 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         }
     }
 
+    fun allPosts(): List<LMFeedBaseViewType> {
+        return universalFeedAdapter.items()
+    }
+
     fun replacePosts(
         posts: List<LMFeedPostViewData>
     ) {
@@ -114,6 +118,10 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
 
     fun updatePostItem(position: Int, updatedPostItem: LMFeedPostViewData) {
         universalFeedAdapter.update(position, updatedPostItem)
+    }
+
+    fun removePostAtIndex(index: Int) {
+        universalFeedAdapter.removeIndex(index)
     }
 
     /**

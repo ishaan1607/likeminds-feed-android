@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.ui.widgets.snackbar.style
+package com.likeminds.feed.android.core.ui.widgets.snackbar.view
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator

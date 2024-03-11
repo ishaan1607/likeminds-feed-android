@@ -1,7 +1,6 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
 import android.app.Activity
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +13,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedActivity
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
+import com.likeminds.feed.android.core.delete.model.DELETE_TYPE_POST
+import com.likeminds.feed.android.core.delete.model.LMFeedDeleteExtras
+import com.likeminds.feed.android.core.delete.view.LMFeedAdminDeleteDialogFragment
+import com.likeminds.feed.android.core.delete.view.LMFeedDeleteDialogListener
 import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
 import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
@@ -24,7 +27,6 @@ import com.likeminds.feed.android.core.report.model.LMFeedReportExtras
 import com.likeminds.feed.android.core.report.model.REPORT_TYPE_POST
 import com.likeminds.feed.android.core.report.view.LMFeedReportActivity
 import com.likeminds.feed.android.core.report.view.LMFeedReportFragment.Companion.LM_FEED_REPORT_RESULT
-import com.likeminds.feed.android.core.report.view.LMFeedReportSuccessDialog
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
@@ -43,16 +45,15 @@ import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import kotlinx.coroutines.flow.onEach
 
-open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterListener {
+open class LMFeedUniversalFeedFragment :
+    Fragment(),
+    LMFeedUniversalFeedAdapterListener,
+    LMFeedDeleteDialogListener {
 
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
     private val universalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,15 +61,19 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         savedInstanceState: Bundle?
     ): View {
         binding = LmFeedFragmentUniversalFeedBinding.inflate(layoutInflater)
-        customizeCreateNewPostButton(binding.fabNewPost)
-        customizeUniversalFeedHeaderView(binding.headerViewUniversal)
-        customizeNoPostLayout(binding.layoutNoPost)
-        customizePostingLayout(binding.layoutPosting)
-        return binding.root
+
+        binding.apply {
+            customizeCreateNewPostButton(fabNewPost)
+            customizeUniversalFeedHeaderView(headerViewUniversal)
+            customizeNoPostLayout(layoutNoPost)
+            customizePostingLayout(layoutPosting)
+            return root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initUI()
         initListeners()
         observeResponses()
@@ -152,6 +157,25 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         universalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
             LMFeedAnalytics.sendPostPinnedEvent(post)
             onPostPinSuccess(post)
+        }
+
+        // observes deletePostResponse LiveData
+        universalFeedViewModel.deletePostResponse.observe(viewLifecycleOwner) { postId ->
+            binding.rvUniversal.apply {
+                val indexToRemove = getIndexAndPostFromAdapter(postId)?.first ?: return@observe
+                removePostAtIndex(indexToRemove)
+                checkForNoPost(allPosts())
+                refreshAutoPlayer()
+                //todo:
+                LMFeedViewUtils.showShortToast(
+                    requireContext(),
+                    getString(
+                        R.string.s_deleted,
+//                        lmFeedHelperViewModel.getPostVariable()
+//                            .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                    )
+                )
+            }
         }
 
         universalFeedViewModel.errorMessageEventFlow.onEach { response ->
@@ -471,6 +495,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         }
     }
 
+    override fun onEntityDeletedByAdmin(deleteExtras: LMFeedDeleteExtras, reason: String) {
+        val post = binding.rvUniversal.getIndexAndPostFromAdapter(deleteExtras.postId)?.second ?: return
+        universalFeedViewModel.deletePost(post, reason)
+    }
+
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
         fabNewPost.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)
@@ -600,7 +629,32 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         menuId: Int,
         post: LMFeedPostViewData
     ) {
+        val deleteExtras = LMFeedDeleteExtras.Builder()
+            .postId(post.id)
+            .entityType(DELETE_TYPE_POST)
+            //todo:
+//            .postAsVariable(lmFeedHelperViewModel.getPostVariable())
+            .build()
+
+        val postCreatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
+
         //todo:
+        val loggedInUserUUID = ""
+
+        if (postCreatorUUID == loggedInUserUUID) {
+            // if the post was created by current user
+            //todo:
+//            LMFeedSelfDeleteDialogFragment.showDialog(
+//                childFragmentManager,
+//                deleteExtras
+//            )
+        } else {
+            // if the post was not created by current user and they are admin
+            LMFeedAdminDeleteDialogFragment.showDialog(
+                childFragmentManager,
+                deleteExtras
+            )
+        }
     }
 
     // launcher to start [ReportActivity] and show success dialog for result

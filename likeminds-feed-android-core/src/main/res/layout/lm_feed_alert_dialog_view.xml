@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:id="@+id/tv_alert_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="8sp"
+                android:textColor="@color/lm_feed_black_87"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:fontFamily="@font/lm_feed_roboto_medium"
+                tools:text="@string/lm_feed_delete_post_question" />
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:id="@+id/tv_alert_subtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:lineSpacingExtra="7sp"
+                android:textColor="@color/lm_feed_grey"
+                android:textSize="15sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_alert_title"
+                tools:fontFamily="@font/lm_feed_roboto"
+                tools:text="@string/lm_feed_delete_post_message" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_alert_selector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginVertical="16dp"
+                android:elevation="4dp"
+                app:cardCornerRadius="8dp"
+                app:contentPadding="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_alert_subtitle">
+
+                <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                    android:id="@+id/tv_alert_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="4sp"
+                    android:textColor="@color/lm_feed_black"
+                    android:textColorHint="@color/lm_feed_black_20"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    tools:drawableEndCompat="@drawable/lm_feed_ic_arrow_drop_down"
+                    tools:fontFamily="@font/lm_feed_roboto"
+                    tools:hint="@string/lm_feed_reason_for_deleting" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_alert_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginTop="16dp"
+                android:elevation="4dp"
+                android:visibility="gone"
+                app:cardCornerRadius="8dp"
+                app:contentPaddingBottom="16dp"
+                app:contentPaddingLeft="12dp"
+                app:contentPaddingRight="12dp"
+                app:contentPaddingTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_alert_selector">
+
+                <com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
+                    android:id="@+id/et_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:includeFontPadding="false"
+                    android:lineSpacingExtra="4sp"
+                    android:singleLine="true"
+                    android:textColor="@color/lm_feed_black"
+                    android:textColorHint="@color/lm_feed_black_20"
+                    android:textSize="14sp"
+                    tools:hint="@string/lm_feed_type_your_reason" />
+            </androidx.cardview.widget.CardView>
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:id="@+id/tv_alert_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:layout_marginEnd="32dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:letterSpacing="0.04"
+                android:paddingVertical="12dp"
+                android:text="@string/lm_feed_cancel"
+                android:textAllCaps="true"
+                android:textColor="@color/lm_feed_black_40"
+                android:textSize="13sp"
+                android:textStyle="normal"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tv_alert_confirm"
+                app:layout_constraintTop_toBottomOf="@id/cv_alert_input"
+                app:layout_constraintVertical_weight="1"
+                tools:fontFamily="@font/lm_feed_roboto_medium" />
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:id="@+id/tv_alert_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:enabled="false"
+                android:letterSpacing="0.04"
+                android:paddingVertical="12dp"
+                android:text="@string/lm_feed_confirm"
+                android:textAllCaps="true"
+                android:textColor="@color/lm_feed_black_20"
+                android:textSize="13sp"
+                android:textStyle="normal"
+                app:layout_constrainedHeight="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_alert_input"
+                tools:fontFamily="@font/lm_feed_roboto_medium" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

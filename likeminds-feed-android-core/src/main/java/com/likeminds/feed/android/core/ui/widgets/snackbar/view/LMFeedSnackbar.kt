@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.ui.widgets.snackbar.style
+package com.likeminds.feed.android.core.ui.widgets.snackbar.view
 
 import android.view.*
 import androidx.core.content.ContextCompat

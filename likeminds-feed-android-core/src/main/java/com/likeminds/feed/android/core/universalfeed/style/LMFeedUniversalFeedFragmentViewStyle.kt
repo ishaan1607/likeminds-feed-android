@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.universalfeed.viewstyle
+package com.likeminds.feed.android.core.universalfeed.style
 
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R

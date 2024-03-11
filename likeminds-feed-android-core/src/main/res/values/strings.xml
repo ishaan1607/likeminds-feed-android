@@ -69,5 +69,16 @@
     <string name="lm_feed_write_description">Write Description</string>
     <string name="lm_feed_selected_at_least_one_report_tag">Please select at least one report tag.</string>
     <string name="lm_feed_please_enter_a_reason">Please enter a reason.</string>
-
-    </resources>
+    <string name="lm_feed_delete_post_question">Delete post?</string>
+    <string name="lm_feed_delete_post_message">Are you sure you want to delete this post? This action cannot be reversed.</string>
+    <string name="lm_feed_reason_for_deleting">Reason for deletion</string>
+    <string name="lm_feed_type_your_reason">Type your reason</string>
+    <string name="lm_feed_cancel">Cancel</string>
+    <string name="lm_feed_confirm">Confirm</string>
+    <string name="lm_feed_delete_s_question">Delete %s?</string>
+    <string name="lm_feed_delete_s_message">Are you sure you want to delete this %s? This action cannot be reversed.</string>
+    <string name="lm_feed_s_deleted">%s Deleted!</string>
+    <string name="lm_feed_delete_comment_question">Delete comment?</string>
+    <string name="lm_feed_delete_comment_message">Are you sure you want to delete this comment? This action cannot be reversed.</string>
+    <string name="s_deleted">%s Deleted!</string>
+</resources>

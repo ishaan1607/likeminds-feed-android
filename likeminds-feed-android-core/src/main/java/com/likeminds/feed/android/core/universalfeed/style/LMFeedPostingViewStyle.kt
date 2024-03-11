@@ -1,11 +1,10 @@
-package com.likeminds.feed.android.core.universalfeed.viewstyle
+package com.likeminds.feed.android.core.universalfeed.style
 
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.ui.base.styles.*
 import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.*
 
 
 class LMFeedPostingViewStyle private constructor(

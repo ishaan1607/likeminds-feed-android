@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.post.viewstyle
+package com.likeminds.feed.android.core.post.style
 
 import android.text.TextUtils
 import android.view.View
