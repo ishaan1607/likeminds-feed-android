@@ -51,6 +51,16 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .build()
 
         private var postComposerStyle: LMFeedEditTextStyle = LMFeedEditTextStyle.Builder()
+            .inputTextStyle(
+                LMFeedTextStyle.Builder()
+                    .ellipsize(TextUtils.TruncateAt.END)
+                    .maxHeight(R.dimen.lm_feed_post_composer_max_height)
+                    .minHeight(R.dimen.lm_feed_post_composer_min_height)
+                    .textColor(R.color.lm_feed_dark_grey)
+                    .textSize(R.dimen.lm_feed_text_medium)
+                    .build()
+            )
+            .hintTextColor(R.color.lm_feed_maastricht_blue_40)
             .build()
 
         private var progressBarStyle: LMFeedProgressBarStyle = LMFeedProgressBarStyle.Builder()

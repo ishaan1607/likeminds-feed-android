@@ -680,13 +680,6 @@ open class LMFeedUniversalFeedFragment :
         val userPreferences = LMFeedUserPreferences(requireContext())
         val loggedInUUID = userPreferences.getUUID()
 
-        Log.d(
-            "PUI", """
-            postCreatorUUID: $postCreatorUUID
-            loggedInUUID: $loggedInUUID
-        """.trimIndent()
-        )
-
         if (postCreatorUUID == loggedInUUID) {
             // if the post was created by current user
             LMFeedSelfDeleteDialogFragment.showDialog(
