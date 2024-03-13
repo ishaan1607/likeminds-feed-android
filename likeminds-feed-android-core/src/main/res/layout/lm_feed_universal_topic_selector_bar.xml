@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?selectableItemBackgroundBorderless"
+            android:lineHeight="20sp"
+            android:lineSpacingExtra="1sp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            android:text="@string/lm_feed_all_topics"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:drawableEnd="@drawable/lm_feed_ic_arrow_down"
+            tools:textColor="@color/lm_feed_grey"
+            tools:textSize="16sp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

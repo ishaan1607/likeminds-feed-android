@@ -36,6 +36,7 @@ import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderVi
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
+import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalSelectedTopicAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
@@ -53,7 +54,8 @@ open class LMFeedUniversalFeedFragment :
     Fragment(),
     LMFeedUniversalFeedAdapterListener,
     LMFeedAdminDeleteDialogListener,
-    LMFeedSelfDeleteDialogListener {
+    LMFeedSelfDeleteDialogListener,
+    LMFeedUniversalSelectedTopicAdapterListener {
 
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
@@ -156,12 +158,27 @@ open class LMFeedUniversalFeedFragment :
                 postId = post.id,
                 postSaved = post.footerViewData.isSaved
             )
-            onPostSaveSuccess(post)
+            //todo: post variable
+            //show toast message
+            val toastMessage = if (post.footerViewData.isSaved) {
+                getString(R.string.lm_feed_s_saved)
+            } else {
+                getString(R.string.lm_feed_s_unsaved)
+            }
+            LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
         }
 
         universalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
             LMFeedAnalytics.sendPostPinnedEvent(post)
-            onPostPinSuccess(post)
+
+            //todo: post variable
+            //show toast message
+            val toastMessage = if (post.headerViewData.isPinned) {
+                getString(R.string.lm_feed_s_pinned_to_top)
+            } else {
+                getString(R.string.lm_feed_s_unpinned)
+            }
+            LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
         }
 
         // observes deletePostResponse LiveData
@@ -220,10 +237,8 @@ open class LMFeedUniversalFeedFragment :
 
                     binding.rvUniversal.updatePostItem(index, updatedPostData)
 
-                    onPostLikeError(
-                        response.errorMessage ?: getString(R.string.lm_feed_something_went_wrong),
-                        updatedPostData
-                    )
+                    //show error message
+                    LMFeedViewUtils.showSomethingWentWrongToast(requireContext())
                 }
 
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.PinPost -> {
@@ -248,11 +263,8 @@ open class LMFeedUniversalFeedFragment :
                         //update recycler view
                         updatePostItem(index, updatedPostViewData)
 
-                        onPostPinError(
-                            response.errorMessage
-                                ?: getString(R.string.lm_feed_something_went_wrong),
-                            updatedPostViewData
-                        )
+                        //show error message
+                        LMFeedViewUtils.showSomethingWentWrongToast(requireContext())
                     }
                 }
 
@@ -279,11 +291,8 @@ open class LMFeedUniversalFeedFragment :
                         //update recycler view
                         updatePostItem(index, updatedPostViewData)
 
-                        onPostSaveError(
-                            response.errorMessage
-                                ?: getString(R.string.lm_feed_something_went_wrong),
-                            updatedPostViewData
-                        )
+                        //show error message
+                        LMFeedViewUtils.showSomethingWentWrongToast(requireContext())
                     }
                 }
             }
@@ -407,7 +416,7 @@ open class LMFeedUniversalFeedFragment :
             .fromPostLiked(false)
             .fromPostSaved(false)
             .build()
-        binding.rvUniversal.updateWithoutNotifying(position, updatedPostData)
+        binding.rvUniversal.updatePostWithoutNotifying(position, updatedPostData)
     }
 
     //updates [alreadySeenFullContent] for the post
@@ -757,42 +766,5 @@ open class LMFeedUniversalFeedFragment :
 
         //update recycler
         binding.rvUniversal.updatePostItem(position, post)
-    }
-
-    protected open fun onPostLikeError(errorMessage: String, post: LMFeedPostViewData) {
-        //show error message
-        LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
-    }
-
-    protected open fun onPostSaveSuccess(post: LMFeedPostViewData) {
-        //todo: post variable
-        //show toast message
-        val toastMessage = if (post.footerViewData.isSaved) {
-            getString(R.string.lm_feed_s_saved)
-        } else {
-            getString(R.string.lm_feed_s_unsaved)
-        }
-        LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
-    }
-
-    protected open fun onPostSaveError(errorMessage: String, post: LMFeedPostViewData) {
-        //show error message
-        LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
-    }
-
-    protected open fun onPostPinSuccess(post: LMFeedPostViewData) {
-        //todo: post variable
-        //show toast message
-        val toastMessage = if (post.headerViewData.isPinned) {
-            getString(R.string.lm_feed_s_pinned_to_top)
-        } else {
-            getString(R.string.lm_feed_s_unpinned)
-        }
-        LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
-    }
-
-    protected open fun onPostPinError(errorMessage: String, post: LMFeedPostViewData) {
-        //show error message
-        LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
     }
 }

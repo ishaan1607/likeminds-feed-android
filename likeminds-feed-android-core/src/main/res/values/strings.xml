@@ -87,5 +87,6 @@
     <string name="lm_feed_write_something_here">Write something here</string>
     <string name="lm_feed_edit_s">Edit %s</string>
     <string name="lm_feed_save">Save</string>
+    <string name="lm_feed_all_topics">All topics</string>
     <string name="lm_feed_our_team_will_look_into_your_feedback_and_will_take_appropriate_action_on_this_s">Our team will look into your feedback and will take appropriate action on this %s</string>
 </resources>
