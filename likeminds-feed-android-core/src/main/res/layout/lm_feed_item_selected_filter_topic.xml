@@ -31,7 +31,7 @@
             tools:text="Books"
             tools:textSize="16sp" />
 
-        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
             android:id="@+id/iv_cross"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

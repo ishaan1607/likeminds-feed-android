@@ -16,7 +16,9 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
     //no post layout
     val noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle,
     //posting view
-    val postingViewStyle: LMFeedPostingViewStyle
+    val postingViewStyle: LMFeedPostingViewStyle,
+    //topic selector bar view
+    val topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -94,6 +96,10 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
         private var postingViewStyle: LMFeedPostingViewStyle = LMFeedPostingViewStyle.Builder()
             .build()
 
+        private var topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle =
+            LMFeedUniversalTopicSelectorBarStyle.Builder()
+                .build()
+
         fun createNewPostButtonViewStyle(createNewPostButtonViewStyle: LMFeedFABStyle) = apply {
             this.createNewPostButtonViewStyle = createNewPostButtonViewStyle
         }
@@ -102,17 +108,25 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
             this.headerViewStyle = headerViewStyle
         }
 
-        fun noPostLayoutViewStyle(noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle) =
-            apply { this.noPostLayoutViewStyle = noPostLayoutViewStyle }
+        fun noPostLayoutViewStyle(noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle) = apply {
+            this.noPostLayoutViewStyle = noPostLayoutViewStyle
+        }
 
-        fun postingViewStyle(postingViewStyle: LMFeedPostingViewStyle) =
-            apply { this.postingViewStyle = postingViewStyle }
+        fun postingViewStyle(postingViewStyle: LMFeedPostingViewStyle) = apply {
+            this.postingViewStyle = postingViewStyle
+        }
+
+        fun topicSelectorBarStyle(topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle) =
+            apply {
+                this.topicSelectorBarStyle = topicSelectorBarStyle
+            }
 
         fun build() = LMFeedUniversalFeedFragmentViewStyle(
             createNewPostButtonViewStyle,
             headerViewStyle,
             noPostLayoutViewStyle,
-            postingViewStyle
+            postingViewStyle,
+            topicSelectorBarStyle
         )
     }
 
@@ -121,5 +135,6 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
             .createNewPostButtonViewStyle(createNewPostButtonViewStyle)
             .noPostLayoutViewStyle(noPostLayoutViewStyle)
             .postingViewStyle(postingViewStyle)
+            .topicSelectorBarStyle(topicSelectorBarStyle)
     }
 }
