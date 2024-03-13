@@ -22,10 +22,14 @@ import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
+import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
+import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity
+import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.report.model.LMFeedReportExtras
 import com.likeminds.feed.android.core.report.model.REPORT_TYPE_POST
-import com.likeminds.feed.android.core.report.view.*
+import com.likeminds.feed.android.core.report.view.LMFeedReportActivity
 import com.likeminds.feed.android.core.report.view.LMFeedReportFragment.Companion.LM_FEED_REPORT_RESULT
+import com.likeminds.feed.android.core.report.view.LMFeedReportSuccessDialogFragment
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
@@ -444,27 +448,50 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostVideoMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
-        //todo:
+        val postDetailExtras = LMFeedPostDetailExtras.Builder()
+            .postId(postViewData.id)
+            .isEditTextFocused(false)
+            .build()
+        LMFeedPostDetailActivity.start(requireContext(), postDetailExtras)
     }
 
     override fun onPostLinkMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostDocumentMediaClicked(position: Int, parentPosition: Int) {
+    override fun onPostDocumentMediaClicked(
+        position: Int,
+        parentPosition: Int,
+        attachmentViewData: LMFeedAttachmentViewData
+    ) {
         //open the pdf using Android's document view
-        val postData = binding.rvUniversal.getPostFromAdapter(parentPosition) ?: return
-        val documentUrl = postData.mediaViewData.attachments[position].attachmentMeta.url ?: ""
+        val documentUrl = attachmentViewData.attachmentMeta.url ?: ""
         val pdfUri = Uri.parse(documentUrl)
         LMFeedAndroidUtils.startDocumentViewer(requireContext(), pdfUri)
     }
 
-    override fun onPostMultipleMediaImageClicked(position: Int, parentPosition: Int) {
-//        TODO("Not yet implemented")
+    override fun onPostMultipleMediaImageClicked(
+        position: Int,
+        parentPosition: Int,
+        attachmentViewData: LMFeedAttachmentViewData
+    ) {
+        val postDetailExtras = LMFeedPostDetailExtras.Builder()
+            .postId(attachmentViewData.postId)
+            .isEditTextFocused(false)
+            .build()
+        LMFeedPostDetailActivity.start(requireContext(), postDetailExtras)
     }
 
-    override fun onPostMultipleMediaVideoClicked(position: Int, parentPosition: Int) {
-//        TODO("Not yet implemented")
+    override fun onPostMultipleMediaVideoClicked(
+        position: Int,
+        parentPosition: Int,
+        attachmentViewData: LMFeedAttachmentViewData
+    ) {
+        val postDetailExtras = LMFeedPostDetailExtras.Builder()
+            .postId(attachmentViewData.postId)
+            .isEditTextFocused(false)
+            .build()
+        LMFeedPostDetailActivity.start(requireContext(), postDetailExtras)
     }
 
     //called when the page in the multiple media post is changed
@@ -629,7 +656,11 @@ open class LMFeedUniversalFeedFragment :
         menuId: Int,
         post: LMFeedPostViewData
     ) {
-        //todo:
+        val editPostExtras = LMFeedEditPostExtras.Builder()
+            .postId(post.id)
+            .build()
+        val intent = LMFeedEditPostActivity.getIntent(requireContext(), editPostExtras)
+        startActivity(intent)
     }
 
     protected open fun onDeletePostMenuClicked(

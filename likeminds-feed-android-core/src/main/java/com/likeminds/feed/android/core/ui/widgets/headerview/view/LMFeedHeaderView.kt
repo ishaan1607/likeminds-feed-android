@@ -27,6 +27,8 @@ class LMFeedHeaderView : ConstraintLayout {
     ) {
     }
 
+    private lateinit var style: LMFeedHeaderViewStyle
+
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
 
@@ -36,6 +38,8 @@ class LMFeedHeaderView : ConstraintLayout {
     fun setStyle(headerViewStyle: LMFeedHeaderViewStyle) {
 
         headerViewStyle.apply {
+            style = this
+
             //sets background color
             setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
 
@@ -47,6 +51,7 @@ class LMFeedHeaderView : ConstraintLayout {
             configureSubtitle(subtitleTextStyle)
             configureNavigationIcon(navigationIconStyle)
             configureSearchIcon(searchIconStyle)
+            configureSubmitText(submitTextStyle)
         }
     }
 
@@ -87,6 +92,17 @@ class LMFeedHeaderView : ConstraintLayout {
         }
     }
 
+    private fun configureSubmitText(submitTextStyle: LMFeedTextStyle?) {
+        binding.tvHeaderSubmit.apply {
+            if (submitTextStyle == null) {
+                hide()
+            } else {
+                setStyle(submitTextStyle)
+                show()
+            }
+        }
+    }
+
     /**
      * Sets title text in the header view.
      *
@@ -105,6 +121,38 @@ class LMFeedHeaderView : ConstraintLayout {
         binding.tvHeaderSubtitle.text = subtitle
     }
 
+    /**
+     * Sets submit text in the header view.
+     *
+     * @param submitText Text for the submit text in the header.
+     */
+    fun setSubmitText(submitText: String) {
+        binding.tvHeaderSubmit.text = submitText
+    }
+
+    fun setSubmitButtonEnabled(isEnabled: Boolean, showProgress: Boolean = false) {
+        binding.apply {
+            if (showProgress) {
+                pbSubmit.show()
+                tvHeaderSubmit.hide()
+            } else {
+                pbSubmit.hide()
+                tvHeaderSubmit.show()
+                if (isEnabled) {
+                    tvHeaderSubmit.isEnabled = true
+                    style.activeSubmitColor?.let {
+                        tvHeaderSubmit.setTextColor(ContextCompat.getColor(context, it))
+                    }
+                } else {
+                    tvHeaderSubmit.isEnabled = false
+                    style.submitTextStyle?.textColor?.let {
+                        tvHeaderSubmit.setTextColor(ContextCompat.getColor(context, it))
+                    }
+                }
+            }
+        }
+    }
+
     fun setNavigationIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivHeaderNavigation.setOnClickListener {
             listener.onClick()
@@ -113,6 +161,12 @@ class LMFeedHeaderView : ConstraintLayout {
 
     fun setSearchIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivHeaderSearch.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    fun setSubmitButtonClickListener(listener: LMFeedOnClickListener) {
+        binding.tvHeaderSubmit.setOnClickListener {
             listener.onClick()
         }
     }

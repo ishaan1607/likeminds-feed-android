@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.adapter
 
 import android.view.View
+import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
@@ -117,15 +118,27 @@ interface LMFeedUniversalFeedAdapterListener {
         //triggered when the link media of the post is clicked
     }
 
-    fun onPostDocumentMediaClicked(position: Int, parentPosition: Int) {
+    fun onPostDocumentMediaClicked(
+        position: Int,
+        parentPosition: Int,
+        attachmentViewData: LMFeedAttachmentViewData
+    ) {
         //triggered when the document media in the post is clicked
     }
 
-    fun onPostMultipleMediaImageClicked(position: Int, parentPosition: Int) {
+    fun onPostMultipleMediaImageClicked(
+        position: Int,
+        parentPosition: Int,
+        attachmentViewData: LMFeedAttachmentViewData
+    ) {
         //triggered when the image media of multiple media is clicked
     }
 
-    fun onPostMultipleMediaVideoClicked(position: Int, parentPosition: Int) {
+    fun onPostMultipleMediaVideoClicked(
+        position: Int,
+        parentPosition: Int,
+        attachmentViewData: LMFeedAttachmentViewData
+    ) {
         //triggered when the video media of multiple media is clicked
     }
 

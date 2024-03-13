@@ -46,13 +46,19 @@ class LMFeedItemMultipleMediaVideoViewDataBinder(
         binding.apply {
             //set data to the binding
             this.position = position
+            this.attachmentViewData = data
         }
     }
 
     private fun setClickListeners(binding: LmFeedItemMultipleMediaVideoBinding) {
         binding.apply {
             postVideoView.setOnClickListener {
-                listener.onPostMultipleMediaVideoClicked(position, parentPosition)
+                val attachment = attachmentViewData ?: return@setOnClickListener
+                listener.onPostMultipleMediaVideoClicked(
+                    position,
+                    parentPosition,
+                    attachment
+                )
             }
         }
     }

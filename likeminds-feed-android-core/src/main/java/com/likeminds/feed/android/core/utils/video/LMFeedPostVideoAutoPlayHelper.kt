@@ -49,11 +49,10 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                     playMostVisibleItem()
                 }
 
-                // the recycler view is of [PostDetailFragment]
-                //todo: for post detail fragment
-//                is PostDetailAdapter -> {
-//                    playIfPostVisible()
-//                }
+                //the recycler view is of [PostDetailFragment]
+                is LMFeedPostDetailAdapter -> {
+                    playIfPostVisible()
+                }
             }
         }
     }
@@ -240,7 +239,7 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
 
                 if (lastPlayerView == null || lastPlayerView != videoView) {
                     val attachmentMeta = data.mediaViewData.attachments.first().attachmentMeta
-                    // todo: test this and check if [isVideoLocal] is correct or not
+
                     startNewPlayer(
                         itemPostSingleVideoBinding.postVideoView,
                         attachmentMeta.url,
@@ -271,9 +270,9 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                     val videoView = itemMultipleMediaVideoBinding.postVideoView.videoView
 
                     if (lastPlayerView == null || lastPlayerView != videoView) {
-                        val attachmentMeta = data.mediaViewData.attachments[currentItem].attachmentMeta
+                        val attachmentMeta =
+                            data.mediaViewData.attachments[currentItem].attachmentMeta
 
-                        // todo: test this and check if [isVideoLocal] is correct or not
                         startNewPlayer(
                             itemMultipleMediaVideoBinding.postVideoView,
                             attachmentMeta.url,
@@ -289,6 +288,29 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                 removePlayer()
             }
         }
+    }
+
+    /**
+     * @param [videoPost] - Player view in which the provided video is played
+     * @param [uri] - If the video is local, then provided [uri] is used to play locally
+     * @param [url] - If the video is remote, then provided [url] is used to play locally
+     */
+    fun playVideoInView(
+        videoPost: LMFeedPostVideoMediaView,
+        uri: Uri? = null,
+        url: String? = null
+    ) {
+        if (uri == null && url == null) {
+            return
+        }
+        if (lastPlayerView == null || lastPlayerView != videoPost.videoView) {
+            if (uri != null) {
+                startNewPlayer(videoPost, uri.toString(), true)
+            } else {
+                startNewPlayer(videoPost, url, false)
+            }
+        }
+        lastPlayerView = videoPost.videoView
     }
 
     // starts player in new player view and stops last player

@@ -114,8 +114,10 @@ open class LMFeedPostDetailFragment :
     }
 
     protected open fun customizeCommentComposer(commentComposer: LMFeedCommentComposerView) {
-        binding.commentComposer.setCommentInputBoxHint(getString(R.string.lm_feed_write_a_comment))
-        commentComposer.setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.commentComposerStyle)
+        commentComposer.apply {
+            setCommentInputBoxHint(getString(R.string.lm_feed_write_a_comment))
+            setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.commentComposerStyle)
+        }
     }
 
     private fun receiveExtras() {

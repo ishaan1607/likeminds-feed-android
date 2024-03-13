@@ -69,6 +69,7 @@ class LMFeedPostLinkMediaView : MaterialCardView {
         configureLinkDescription(postLinkViewStyle.linkDescriptionStyle)
         configureLinkUrl(postLinkViewStyle.linkUrlStyle)
         configureLinkImage(postLinkViewStyle.linkImageStyle)
+        configureLinkRemoveIcon(postLinkViewStyle.linkRemoveIconStyle)
     }
 
     private fun configureLinkTitle(linkTitleStyle: LMFeedTextStyle) {
@@ -99,6 +100,17 @@ class LMFeedPostLinkMediaView : MaterialCardView {
 
     private fun configureLinkImage(linkImageStyle: LMFeedImageStyle) {
         binding.ivLink.setStyle(linkImageStyle)
+    }
+
+    private fun configureLinkRemoveIcon(linkRemoveIconStyle: LMFeedIconStyle?) {
+        binding.ivCrossLink.apply {
+            if (linkRemoveIconStyle == null) {
+                hide()
+            } else {
+                setStyle(linkRemoveIconStyle)
+                show()
+            }
+        }
     }
 
     /**
@@ -180,6 +192,17 @@ class LMFeedPostLinkMediaView : MaterialCardView {
      */
     fun setLinkClickListener(listener: LMFeedOnClickListener) {
         binding.root.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    /**
+     * Sets click listener on the link remove icon
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setLinkRemoveClickListener(listener: LMFeedOnClickListener) {
+        binding.ivCrossLink.setOnClickListener {
             listener.onClick()
         }
     }

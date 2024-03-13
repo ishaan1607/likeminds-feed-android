@@ -8,12 +8,15 @@ import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+//todo: add a submit text and style
 class LMFeedHeaderViewStyle private constructor(
     val titleTextStyle: LMFeedTextStyle,
     val subtitleTextStyle: LMFeedTextStyle?,
     @ColorRes val backgroundColor: Int,
     @DimenRes val elevation: Int,
-
+    //submit text style
+    val submitTextStyle: LMFeedTextStyle?,
+    @ColorRes val activeSubmitColor: Int?,
     // icon related
     val navigationIconStyle: LMFeedIconStyle?,
     val searchIconStyle: LMFeedIconStyle?,
@@ -33,23 +36,42 @@ class LMFeedHeaderViewStyle private constructor(
         @DimenRes
         private var elevation: Int = R.dimen.lm_feed_elevation_small
 
+        private var submitTextStyle: LMFeedTextStyle? = null
+
+        @ColorRes
+        private var activeSubmitColor: Int? = null
+
         private var navigationIconStyle: LMFeedIconStyle? = null
 
         private var searchIconStyle: LMFeedIconStyle? = null
 
-        fun titleTextStyle(titleTextStyle: LMFeedTextStyle) =
-            apply { this.titleTextStyle = titleTextStyle }
+        fun titleTextStyle(titleTextStyle: LMFeedTextStyle) = apply {
+            this.titleTextStyle = titleTextStyle
+        }
 
-        fun subtitleTextStyle(subtitleTextStyle: LMFeedTextStyle?) =
-            apply { this.subtitleTextStyle = subtitleTextStyle }
+        fun subtitleTextStyle(subtitleTextStyle: LMFeedTextStyle?) = apply {
+            this.subtitleTextStyle = subtitleTextStyle
+        }
 
-        fun backgroundColor(@ColorRes backgroundColor: Int) =
-            apply { this.backgroundColor = backgroundColor }
+        fun backgroundColor(@ColorRes backgroundColor: Int) = apply {
+            this.backgroundColor = backgroundColor
+        }
 
-        fun elevation(@DimenRes elevation: Int) = apply { this.elevation = elevation }
+        fun elevation(@DimenRes elevation: Int) = apply {
+            this.elevation = elevation
+        }
 
-        fun navigationIconStyle(navigationIconStyle: LMFeedIconStyle?) =
-            apply { this.navigationIconStyle = navigationIconStyle }
+        fun submitTextStyle(submitTextStyle: LMFeedTextStyle?) = apply {
+            this.submitTextStyle = submitTextStyle
+        }
+
+        fun activeSubmitColor(@ColorRes activeSubmitColor: Int?) = apply {
+            this.activeSubmitColor = activeSubmitColor
+        }
+
+        fun navigationIconStyle(navigationIconStyle: LMFeedIconStyle?) = apply {
+            this.navigationIconStyle = navigationIconStyle
+        }
 
         fun searchIconStyle(searchIconStyle: LMFeedIconStyle?) = apply {
             this.searchIconStyle = searchIconStyle
@@ -60,6 +82,8 @@ class LMFeedHeaderViewStyle private constructor(
             subtitleTextStyle,
             backgroundColor,
             elevation,
+            submitTextStyle,
+            activeSubmitColor,
             navigationIconStyle,
             searchIconStyle
         )
@@ -70,6 +94,8 @@ class LMFeedHeaderViewStyle private constructor(
             .subtitleTextStyle(subtitleTextStyle)
             .backgroundColor(backgroundColor)
             .elevation(elevation)
+            .submitTextStyle(submitTextStyle)
+            .activeSubmitColor(activeSubmitColor)
             .navigationIconStyle(navigationIconStyle)
             .searchIconStyle(searchIconStyle)
     }
