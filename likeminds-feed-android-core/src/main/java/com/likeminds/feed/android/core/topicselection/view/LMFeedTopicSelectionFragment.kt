@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentTopicSelectionBinding
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
@@ -17,6 +18,8 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
+import com.likeminds.feed.android.core.ui.widgets.searchbar.view.LMFeedCustomSearchBarView
+import com.likeminds.feed.android.core.ui.widgets.searchbar.view.LMFeedSearchBarListener
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -63,6 +66,7 @@ open class LMFeedTopicSelectionFragment :
             customizeTopicSelectionHeaderView(headerViewTopicSelection)
             customizeNoTopicsLayout(layoutNoTopics)
             customizeSubmitTopicsFab(fabSubmitSelectedTopics)
+            customizeSearchBar(searchBar)
             return root
         }
     }
@@ -95,12 +99,22 @@ open class LMFeedTopicSelectionFragment :
         }
     }
 
+    protected open fun customizeSearchBar(searchBar: LMFeedCustomSearchBarView) {
+        searchBar.apply {
+            val searchBarStyle =
+                LMFeedStyleTransformer.topicSelectionFragmentViewStyle.topicSearchBarViewStyle
+
+            setStyle(searchBarStyle)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         fetchData()
         observeData()
         initUI()
+        initSearchView()
         initListeners()
     }
 
@@ -127,11 +141,9 @@ open class LMFeedTopicSelectionFragment :
                     fabSubmitSelectedTopics.hide()
                     rvTopics.clearAllItemsAndNotify()
                 } else {
-                    binding.apply {
-                        rvTopics.show()
-                        layoutNoTopics.hide()
-                        fabSubmitSelectedTopics.show()
-                    }
+                    rvTopics.show()
+                    layoutNoTopics.hide()
+                    fabSubmitSelectedTopics.show()
                     rvTopics.addAllItems(topics)
                 }
             }
@@ -172,7 +184,50 @@ open class LMFeedTopicSelectionFragment :
     }
 
     private fun initSearchView() {
+        binding.searchBar.apply {
+            initialize(lifecycleScope)
+            setSearchViewListener(object : LMFeedSearchBarListener {
 
+                override fun onSearchViewClosed() {
+                    super.onSearchViewClosed()
+                    hide()
+                    updateSearchedTopics(null, topicSelectionExtras.showAllTopicFilter)
+                }
+
+                override fun onSearchCrossed() {
+                    super.onSearchCrossed()
+                    updateSearchedTopics(null, topicSelectionExtras.showAllTopicFilter)
+                }
+
+                override fun onKeywordEntered(keyword: String) {
+                    super.onKeywordEntered(keyword)
+                    updateSearchedTopics(keyword, false)
+                }
+
+                override fun onEmptyKeywordEntered() {
+                    super.onEmptyKeywordEntered()
+                    if (!searchKeyword.isNullOrEmpty()) {
+                        updateSearchedTopics(null, topicSelectionExtras.showAllTopicFilter)
+                    }
+                }
+            })
+            observeSearchView(true)
+        }
+    }
+
+    //reset data and show data as per the entered keyword
+    private fun updateSearchedTopics(keyword: String?, showAllTopicFilter: Boolean) {
+        binding.rvTopics.apply {
+            resetScrollListenerData()
+            clearAllItemsAndNotify()
+        }
+        searchKeyword = keyword
+        topicSelectionViewModel.getTopics(
+            showAllTopicFilter,
+            topicSelectionExtras.showEnabledTopicOnly,
+            1,
+            keyword
+        )
     }
 
     private fun initRecyclerView() {
@@ -214,7 +269,12 @@ open class LMFeedTopicSelectionFragment :
     }
 
     protected open fun onSearchIconClicked() {
-        //todo:
+        binding.searchBar.apply {
+            show()
+            post {
+                openSearch()
+            }
+        }
     }
 
     protected open fun onNavigationIconClicked() {

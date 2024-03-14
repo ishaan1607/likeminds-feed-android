@@ -6,6 +6,7 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
+import com.likeminds.feed.android.core.ui.widgets.searchbar.style.LMFeedSearchBarViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
@@ -17,7 +18,9 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
     //no topics layout style
     val noTopicsLayoutViewStyle: LMFeedNoEntityLayoutViewStyle,
     //submit selected topics fab style
-    val submitSelectedTopicsFABStyle: LMFeedFABStyle
+    val submitSelectedTopicsFABStyle: LMFeedFABStyle,
+    //topic search bar styles
+    val topicSearchBarViewStyle: LMFeedSearchBarViewStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -93,6 +96,23 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
             .iconTint(R.color.lm_feed_white)
             .build()
 
+        private var topicSearchBarViewStyle: LMFeedSearchBarViewStyle =
+            LMFeedSearchBarViewStyle.Builder()
+                .searchCloseIconStyle(
+                    LMFeedIconStyle.Builder()
+                        .inActiveSrc(R.drawable.lm_feed_ic_cross_black)
+                        .iconTint(R.color.lm_feed_black)
+                        .build()
+                )
+                .searchBackIconStyle(
+                    LMFeedIconStyle.Builder()
+                        .inActiveSrc(R.drawable.lm_feed_ic_arrow_back_black_24dp)
+                        .build()
+                )
+                .backgroundColor(R.color.lm_feed_white)
+                .elevation(R.dimen.lm_feed_elevation_small)
+                .build()
+
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle) = apply {
             this.headerViewStyle = headerViewStyle
         }
@@ -110,11 +130,17 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
             this.submitSelectedTopicsFABStyle = submitSelectedTopicsFABStyle
         }
 
+        fun topicSearchBarViewStyle(topicSearchBarViewStyle: LMFeedSearchBarViewStyle) =
+            apply {
+                this.topicSearchBarViewStyle = topicSearchBarViewStyle
+            }
+
         fun build() = LMFeedTopicSelectionFragmentViewStyle(
             headerViewStyle,
             topicItemStyle,
             noTopicsLayoutViewStyle,
-            submitSelectedTopicsFABStyle
+            submitSelectedTopicsFABStyle,
+            topicSearchBarViewStyle
         )
     }
 
@@ -123,5 +149,6 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
             .topicItemStyle(topicItemStyle)
             .noTopicsLayoutViewStyle(noTopicsLayoutViewStyle)
             .submitSelectedTopicsFABStyle(submitSelectedTopicsFABStyle)
+            .topicSearchBarViewStyle(topicSearchBarViewStyle)
     }
 }

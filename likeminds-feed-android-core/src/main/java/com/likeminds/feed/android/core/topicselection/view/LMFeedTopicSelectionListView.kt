@@ -39,6 +39,12 @@ class LMFeedTopicSelectionListView @JvmOverloads constructor(
         addOnScrollListener(scrollListener)
     }
 
+    fun resetScrollListenerData() {
+        if (::paginationScrollListener.isInitialized) {
+            paginationScrollListener.resetData()
+        }
+    }
+
     fun allItems(): List<LMFeedBaseViewType> {
         return topicSelectionAdapter.items()
     }

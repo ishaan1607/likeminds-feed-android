@@ -17,8 +17,9 @@ class LMFeedHeaderViewStyle private constructor(
     //submit text style
     val submitTextStyle: LMFeedTextStyle?,
     @ColorRes val activeSubmitColor: Int?,
-    // icon related
+    //navigation icon style
     val navigationIconStyle: LMFeedIconStyle?,
+    //search icon style
     val searchIconStyle: LMFeedIconStyle?,
 ) : LMFeedViewStyle {
 
