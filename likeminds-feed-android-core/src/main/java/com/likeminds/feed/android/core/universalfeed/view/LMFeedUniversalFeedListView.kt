@@ -32,8 +32,9 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         linearLayoutManager = LinearLayoutManager(context)
         layoutManager = linearLayoutManager
 
-        if (itemAnimator is SimpleItemAnimator)
+        if (itemAnimator is SimpleItemAnimator) {
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
 
         //item decorator to add spacing between items
         val dividerDrawable = ContextCompat.getDrawable(
@@ -124,6 +125,10 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         universalFeedAdapter.removeIndex(index)
     }
 
+    fun clearPostsAndNotify() {
+        universalFeedAdapter.clearAndNotify()
+    }
+
     /**
      * Adapter Util Block
      **/
@@ -144,7 +149,7 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     }
 
     //get post from the adapter using index
-    fun getPostFromAdapter(position: Int): LMFeedPostViewData? {
+    private fun getPostFromAdapter(position: Int): LMFeedPostViewData? {
         return universalFeedAdapter.items()[position] as? LMFeedPostViewData
     }
 

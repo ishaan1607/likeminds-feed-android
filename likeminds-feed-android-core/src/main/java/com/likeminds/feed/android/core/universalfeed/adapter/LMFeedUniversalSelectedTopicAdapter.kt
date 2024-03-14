@@ -24,7 +24,7 @@ class LMFeedUniversalSelectedTopicAdapter(
 }
 
 interface LMFeedUniversalSelectedTopicAdapterListener {
-    fun onCleared(position: Int, topicViewData: LMFeedTopicViewData) {
+    fun onTopicRemoved(position: Int, topicViewData: LMFeedTopicViewData) {
         //triggered when the user removes a selected topic filter
     }
 }

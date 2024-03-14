@@ -98,6 +98,7 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
 
         private var topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle =
             LMFeedUniversalTopicSelectorBarStyle.Builder()
+                .backgroundColor(R.color.lm_feed_white)
                 .build()
 
         fun createNewPostButtonViewStyle(createNewPostButtonViewStyle: LMFeedFABStyle) = apply {

@@ -44,7 +44,7 @@ class LMFeedUniversalSelectedTopicListView @JvmOverloads constructor(
         selectedTopicAdapter.replace(selectedTopics)
     }
 
-    fun removeSelectedTopicWithNotifying(position: Int) {
+    fun removeSelectedTopicAndNotify(position: Int) {
         selectedTopicAdapter.removeIndexWithNotifyDataSetChanged(position)
     }
 

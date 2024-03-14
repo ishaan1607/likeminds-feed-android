@@ -2,12 +2,12 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_all_topics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:foreground="?selectableItemBackgroundBorderless"
@@ -21,7 +21,14 @@
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="16sp" />
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/grp_selected_topics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="rv_selected_topics, tv_clear" />
+
         <com.likeminds.feed.android.core.universalfeed.view.LMFeedUniversalSelectedTopicListView
+            android:id="@+id/rv_selected_topics"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginVertical="8dp"
@@ -48,7 +55,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lm_feed_textType="special"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="16sp" />
 

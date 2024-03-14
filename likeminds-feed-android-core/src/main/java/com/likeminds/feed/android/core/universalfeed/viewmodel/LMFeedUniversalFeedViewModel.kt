@@ -1,11 +1,14 @@
 package com.likeminds.feed.android.core.universalfeed.viewmodel
 
 import androidx.lifecycle.*
+import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.post.model.*
+import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -30,6 +33,9 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     private val _deletePostResponse = MutableLiveData<String>()
     val deletePostResponse: LiveData<String> = _deletePostResponse
 
+    private val _showTopicFilter = MutableLiveData<Boolean>()
+    val showTopicFilter: LiveData<Boolean> = _showTopicFilter
+
     private val errorMessageChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
     val errorMessageEventFlow = errorMessageChannel.receiveAsFlow()
 
@@ -41,6 +47,8 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
         data class DeletePost(val errorMessage: String?) : ErrorMessageEvent()
 
         data class PinPost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
+
+        data class GetTopic(val errorMessage: String?) : ErrorMessageEvent()
     }
 
     companion object {
@@ -171,6 +179,42 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
             } else {
                 errorMessageChannel.send(ErrorMessageEvent.DeletePost(response.errorMessage))
             }
+        }
+    }
+
+    //calls to topics api and check whether to show topics view or not
+    fun getAllTopics(showEnabledTopicsOnly: Boolean) {
+        viewModelScope.launchIO {
+            val requestBuilder = GetTopicRequest.Builder()
+                .page(1)
+                .pageSize(10)
+
+            if (showEnabledTopicsOnly) {
+                requestBuilder.isEnabled(true)
+            }
+
+            val request = requestBuilder.build()
+
+            val response = lmFeedClient.getTopics(request)
+
+            if (response.success) {
+                val topics = response.data?.topics
+                if (topics.isNullOrEmpty()) {
+                    _showTopicFilter.postValue(false)
+                } else {
+                    _showTopicFilter.postValue(true)
+                }
+            } else {
+                _showTopicFilter.postValue(false)
+                errorMessageChannel.send(ErrorMessageEvent.GetTopic(response.errorMessage))
+            }
+        }
+    }
+
+    //get ids from topic selected adapter
+    fun getTopicIdsFromAdapterList(items: List<LMFeedBaseViewType>): List<String> {
+        return items.map {
+            (it as LMFeedTopicViewData).id
         }
     }
 }

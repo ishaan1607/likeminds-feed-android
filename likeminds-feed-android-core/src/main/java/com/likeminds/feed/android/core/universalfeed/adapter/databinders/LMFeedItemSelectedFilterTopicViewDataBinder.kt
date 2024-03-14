@@ -51,11 +51,12 @@ class LMFeedItemSelectedFilterTopicViewDataBinder(
         }
     }
 
+    //set click listeners to the view data binder
     private fun setListeners(binding: LmFeedItemSelectedFilterTopicBinding) {
         binding.apply {
             ivCross.setOnClickListener {
                 val topicViewData = selectedTopicViewData ?: return@setOnClickListener
-                listener.onCleared(position, topicViewData)
+                listener.onTopicRemoved(position, topicViewData)
             }
         }
     }

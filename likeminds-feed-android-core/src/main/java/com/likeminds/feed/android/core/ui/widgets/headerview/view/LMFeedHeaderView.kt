@@ -65,7 +65,6 @@ class LMFeedHeaderView : ConstraintLayout {
                 hide()
             } else {
                 setStyle(subtitleTextStyle)
-                show()
             }
         }
     }
@@ -118,7 +117,10 @@ class LMFeedHeaderView : ConstraintLayout {
      * @param subtitle Text for the subtitle in the header.
      */
     fun setSubTitleText(subtitle: String) {
-        binding.tvHeaderSubtitle.text = subtitle
+        binding.tvHeaderSubtitle.apply {
+            binding.tvHeaderSubtitle.text = subtitle
+            show()
+        }
     }
 
     /**

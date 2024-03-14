@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -30,6 +31,11 @@ import com.likeminds.feed.android.core.report.model.REPORT_TYPE_POST
 import com.likeminds.feed.android.core.report.view.LMFeedReportActivity
 import com.likeminds.feed.android.core.report.view.LMFeedReportFragment.Companion.LM_FEED_REPORT_RESULT
 import com.likeminds.feed.android.core.report.view.LMFeedReportSuccessDialogFragment
+import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
+import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionExtras
+import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionResultExtras
+import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionActivity
+import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionActivity.Companion.LM_FEED_TOPIC_SELECTION_RESULT_EXTRAS
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
@@ -74,6 +80,7 @@ open class LMFeedUniversalFeedFragment :
             customizeUniversalFeedHeaderView(headerViewUniversal)
             customizeNoPostLayout(layoutNoPost)
             customizePostingLayout(layoutPosting)
+            customizeTopicSelectorBar(topicSelectorBar)
             return root
         }
     }
@@ -94,6 +101,7 @@ open class LMFeedUniversalFeedFragment :
     private fun initUI() {
         initUniversalFeedRecyclerView()
         initSwipeRefreshLayout()
+        initSelectedTopicRecyclerView()
     }
 
     override fun onPause() {
@@ -121,6 +129,10 @@ open class LMFeedUniversalFeedFragment :
 
             layoutPosting.setRetryCTAClickListener {
                 onRetryUploadClicked()
+            }
+
+            topicSelectorBar.setAllTopicsClickListener {
+                onAllTopicsClicked()
             }
         }
     }
@@ -200,10 +212,19 @@ open class LMFeedUniversalFeedFragment :
             }
         }
 
+        universalFeedViewModel.showTopicFilter.observe(viewLifecycleOwner) { showTopicFilter ->
+            binding.topicSelectorBar.apply {
+                isVisible = showTopicFilter
+                setAllTopicsTextVisibility(showTopicFilter)
+                setSelectedTopicFilterVisibility(false)
+            }
+        }
+
         universalFeedViewModel.errorMessageEventFlow.onEach { response ->
             when (response) {
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.DeletePost -> {
-
+                    val errorMessage = response.errorMessage
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
                 }
 
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.LikePost -> {
@@ -295,6 +316,10 @@ open class LMFeedUniversalFeedFragment :
                         LMFeedViewUtils.showSomethingWentWrongToast(requireContext())
                     }
                 }
+
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.GetTopic -> {
+                    LMFeedViewUtils.showSomethingWentWrongToast(requireContext())
+                }
             }
         }.observeInLifecycle(viewLifecycleOwner)
     }
@@ -313,7 +338,6 @@ open class LMFeedUniversalFeedFragment :
         universalFeedViewModel.getFeed(1, null)
         binding.rvUniversal.apply {
             setAdapter(this@LMFeedUniversalFeedFragment)
-
             universalFeedViewModel.bindView(this, viewLifecycleOwner)
         }
     }
@@ -331,6 +355,33 @@ open class LMFeedUniversalFeedFragment :
             setOnRefreshListener {
                 onFeedRefreshed()
             }
+        }
+    }
+
+    //init selected topic recycler view
+    private fun initSelectedTopicRecyclerView() {
+        binding.topicSelectorBar.apply {
+            universalFeedViewModel.getAllTopics(false)
+            setSelectedTopicAdapter(this@LMFeedUniversalFeedFragment)
+
+            setClearSelectedTopicsClickListener {
+                clearSelectedTopics()
+            }
+        }
+    }
+
+    //clear all selected topics and reset data
+    private fun clearSelectedTopics() {
+        binding.apply {
+            //call api
+            topicSelectorBar.clearSelectedTopicsAndNotify()
+            rvUniversal.resetScrollListenerData()
+            LMFeedProgressBarHelper.showProgress(progressBar, true)
+            universalFeedViewModel.getFeed(1, null)
+
+            //show layout accordingly
+            topicSelectorBar.setSelectedTopicFilterVisibility(false)
+            topicSelectorBar.setAllTopicsTextVisibility(true)
         }
     }
 
@@ -544,6 +595,29 @@ open class LMFeedUniversalFeedFragment :
         universalFeedViewModel.deletePost(post)
     }
 
+    override fun onTopicRemoved(position: Int, topicViewData: LMFeedTopicViewData) {
+        super.onTopicRemoved(position, topicViewData)
+
+        binding.apply {
+            val selectedTopics = topicSelectorBar.getAllSelectedTopics()
+            if (selectedTopics.size == 1) {
+                clearSelectedTopics()
+            } else {
+                //remove from adapter
+                topicSelectorBar.removeTopicAndNotify(position)
+
+                //call apis
+                rvUniversal.resetScrollListenerData()
+                rvUniversal.clearPostsAndNotify()
+                LMFeedProgressBarHelper.showProgress(binding.progressBar, true)
+                universalFeedViewModel.getFeed(
+                    1,
+                    universalFeedViewModel.getTopicIdsFromAdapterList(selectedTopics)
+                )
+            }
+        }
+    }
+
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
         fabNewPost.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)
@@ -591,14 +665,88 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    protected open fun customizeTopicSelectorBar(topicSelectorBar: LMFeedUniversalTopicSelectorBarView) {
+        topicSelectorBar.apply {
+            setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.topicSelectorBarStyle)
+
+            setAllTopicsText(getString(R.string.lm_feed_all_topics))
+            setClearTopicsText(getString(R.string.lm_feed_clear))
+        }
+    }
+
     protected open fun onRetryUploadClicked() {
         Log.d("PUI", "default onRetryUploadClicked")
     }
 
+    private val topicSelectionLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val bundle = result.data?.extras
+                val resultExtras = LMFeedExtrasUtil.getParcelable(
+                    bundle,
+                    LM_FEED_TOPIC_SELECTION_RESULT_EXTRAS,
+                    LMFeedTopicSelectionResultExtras::class.java
+                ) ?: return@registerForActivityResult
+
+                handleTopicSelectionResult(resultExtras)
+            }
+        }
+
+    //handles result after selecting filters and show recyclers views
+    private fun handleTopicSelectionResult(resultExtras: LMFeedTopicSelectionResultExtras) {
+        binding.apply {
+            rvUniversal.resetScrollListenerData()
+            rvUniversal.clearPostsAndNotify()
+
+            if (resultExtras.isAllTopicSelected) {
+                //show layouts accordingly
+                topicSelectorBar.setAllTopicsTextVisibility(true)
+                topicSelectorBar.setSelectedTopicFilterVisibility(false)
+
+                //call api
+                LMFeedProgressBarHelper.showProgress(progressBar, true)
+                universalFeedViewModel.getFeed(1, null)
+            } else {
+                //show layouts accordingly
+                topicSelectorBar.setAllTopicsTextVisibility(false)
+                topicSelectorBar.setSelectedTopicFilterVisibility(true)
+
+                //set selected topics to filter
+                val selectedTopics = resultExtras.selectedTopics
+                topicSelectorBar.replaceSelectedTopics(selectedTopics)
+
+                //call api
+                LMFeedProgressBarHelper.showProgress(progressBar, true)
+                universalFeedViewModel.getFeed(
+                    1,
+                    universalFeedViewModel.getTopicIdsFromAdapterList(selectedTopics)
+                )
+            }
+        }
+    }
+
+    protected open fun onAllTopicsClicked() {
+        //show topics selecting screen with All topic filter
+        val intent = LMFeedTopicSelectionActivity.getIntent(
+            requireContext(),
+            LMFeedTopicSelectionExtras.Builder()
+                .showAllTopicFilter(true)
+                .showEnabledTopicOnly(false)
+                .build()
+        )
+
+        topicSelectionLauncher.launch(intent)
+    }
+
     protected open fun onFeedRefreshed() {
-        mSwipeRefreshLayout.isRefreshing = true
-        binding.rvUniversal.resetScrollListenerData()
-        universalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
+        binding.apply {
+            mSwipeRefreshLayout.isRefreshing = true
+            rvUniversal.resetScrollListenerData()
+            universalFeedViewModel.getFeed(
+                1,
+                universalFeedViewModel.getTopicIdsFromAdapterList(topicSelectorBar.getAllSelectedTopics())
+            )
+        }
     }
 
     //callback when post menu items are clicked
@@ -717,7 +865,7 @@ open class LMFeedUniversalFeedFragment :
 //                } else {
 //                    data
 //                }
-                LMFeedReportSuccessDialogFragment(entityType ?: "").show(
+                LMFeedReportSuccessDialogFragment(entityType).show(
                     childFragmentManager,
                     LMFeedReportSuccessDialogFragment.TAG
                 )
