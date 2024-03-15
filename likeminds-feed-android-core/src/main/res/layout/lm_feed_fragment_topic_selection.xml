@@ -13,6 +13,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.likeminds.feed.android.core.ui.widgets.searchbar.view.LMFeedSearchBarView
+            android:id="@+id/search_bar"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
             android:id="@+id/layout_no_topics"
             android:layout_width="match_parent"
@@ -39,15 +49,6 @@
             android:src="@drawable/lm_feed_ic_arrow_right_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
-        <com.likeminds.feed.android.core.ui.widgets.searchbar.view.LMFeedCustomSearchBarView
-            android:id="@+id/search_bar"
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

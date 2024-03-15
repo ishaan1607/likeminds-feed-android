@@ -15,10 +15,10 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.CheckResult
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleCoroutineScope
-import com.likeminds.feed.android.core.databinding.LmFeedCustomSearchBarBinding
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.databinding.LmFeedSearchBarBinding
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.searchbar.style.LMFeedSearchBarViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedAnimationUtils.circleHideView
 import com.likeminds.feed.android.core.utils.LMFeedAnimationUtils.circleRevealView
@@ -31,7 +31,7 @@ import kotlinx.coroutines.channels.ProducerScope
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 
-class LMFeedCustomSearchBarView @JvmOverloads constructor(
+class LMFeedSearchBarView @JvmOverloads constructor(
     mContext: Context,
     attributeSet: AttributeSet? = null
 ) : ConstraintLayout(mContext, attributeSet) {
@@ -65,7 +65,7 @@ class LMFeedCustomSearchBarView @JvmOverloads constructor(
         private set
 
     private val binding =
-        LmFeedCustomSearchBarBinding.inflate(LayoutInflater.from(context), this, true)
+        LmFeedSearchBarBinding.inflate(LayoutInflater.from(context), this, true)
 
     private lateinit var lifecycleScope: LifecycleCoroutineScope
 
@@ -226,16 +226,21 @@ class LMFeedCustomSearchBarView @JvmOverloads constructor(
 
             //sets background color of the search bar
             backgroundColor?.let {
-                setBackgroundColor(it)
+                setBackgroundColor(ContextCompat.getColor(context, it))
             }
 
             elevation?.let {
                 setElevation(resources.getDimension(it))
             }
 
+            configureSearchInputStyle(searchInputStyle)
             configureSearchBackIcon(searchBackIconStyle)
             configureSearchCloseIcon(searchCloseIconStyle)
         }
+    }
+
+    private fun configureSearchInputStyle(searchInputStyle: LMFeedEditTextStyle) {
+        binding.etSearch.setStyle(searchInputStyle)
     }
 
     private fun configureSearchBackIcon(searchBackIconStyle: LMFeedIconStyle?) {

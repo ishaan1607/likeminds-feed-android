@@ -18,8 +18,8 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
-import com.likeminds.feed.android.core.ui.widgets.searchbar.view.LMFeedCustomSearchBarView
 import com.likeminds.feed.android.core.ui.widgets.searchbar.view.LMFeedSearchBarListener
+import com.likeminds.feed.android.core.ui.widgets.searchbar.view.LMFeedSearchBarView
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -99,7 +99,7 @@ open class LMFeedTopicSelectionFragment :
         }
     }
 
-    protected open fun customizeSearchBar(searchBar: LMFeedCustomSearchBarView) {
+    protected open fun customizeSearchBar(searchBar: LMFeedSearchBarView) {
         searchBar.apply {
             val searchBarStyle =
                 LMFeedStyleTransformer.topicSelectionFragmentViewStyle.topicSearchBarViewStyle
@@ -114,7 +114,6 @@ open class LMFeedTopicSelectionFragment :
         fetchData()
         observeData()
         initUI()
-        initSearchView()
         initListeners()
     }
 
