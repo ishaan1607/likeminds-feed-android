@@ -1,6 +1,6 @@
 package com.likeminds.feed.android.core.ui.theme
 
-import androidx.annotation.FontRes
+import androidx.annotation.*
 import com.likeminds.feed.android.core.ui.theme.model.LMFeedSetThemeRequest
 
 object LMFeedTheme {
@@ -12,6 +12,12 @@ object LMFeedTheme {
     private var fontAssetsPath: String? = null
     private var postCharacterLimit: Int = DEFAULT_POST_CHARACTER_LIMIT
 
+    @DrawableRes
+    private var notificationIcon: Int? = null
+
+    @ColorRes
+    private var notificationTextColor: Int? = null
+
     /**
      * @param lmFeedSetThemeRequest - Request to set base theme
      * sets fonts, used throughout the app as base theme
@@ -21,6 +27,8 @@ object LMFeedTheme {
         fontAssetsPath = lmFeedSetThemeRequest.fontAssetsPath
         postCharacterLimit =
             (lmFeedSetThemeRequest.postCharacterLimit ?: DEFAULT_POST_CHARACTER_LIMIT)
+        notificationIcon = lmFeedSetThemeRequest.notificationIcon
+        notificationTextColor = lmFeedSetThemeRequest.notificationTextColor
     }
 
     fun getFontResources(): Pair<Int?, String?> {
@@ -29,5 +37,13 @@ object LMFeedTheme {
 
     fun getPostCharacterLimit(): Int {
         return postCharacterLimit
+    }
+
+    fun getNotificationIcon(): Int? {
+        return notificationIcon
+    }
+
+    fun getNotificationTextColor(): Int? {
+        return notificationTextColor
     }
 }
