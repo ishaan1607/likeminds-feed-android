@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
@@ -74,10 +75,15 @@ object LMFeedRoute {
             .source(source)
             .build()
 
-        return LMFeedPostDetailActivity.getIntent(
-            context,
-            builder
+        Log.d(
+            "PUI", """
+            postId: $postId
+            commentId: $commentId
+            source: $source
+        """.trimIndent()
         )
+
+        return LMFeedPostDetailActivity.getIntent(context, builder)
     }
 
     // route://create_post

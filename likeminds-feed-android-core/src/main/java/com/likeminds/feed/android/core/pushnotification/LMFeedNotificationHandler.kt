@@ -173,8 +173,8 @@ class LMFeedNotificationHandler {
             LMFeedAnalytics.Source.NOTIFICATION
         )
 
-        if (intent?.getBundleExtra("bundle") != null) {
-            intent.getBundleExtra("bundle")!!.putParcelable(
+        if (intent?.getBundleExtra("lm_feed_bundle") != null) {
+            intent.getBundleExtra("lm_feed_bundle")!!.putParcelable(
                 LM_FEED_NOTIFICATION_DATA,
                 LMFeedNotificationActionData.Builder()
                     .groupRoute(route)

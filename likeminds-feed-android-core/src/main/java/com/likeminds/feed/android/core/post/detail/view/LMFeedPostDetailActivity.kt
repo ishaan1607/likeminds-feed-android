@@ -24,7 +24,7 @@ class LMFeedPostDetailActivity : AppCompatActivity() {
 
     companion object {
         const val LM_FEED_POST_DETAIL_EXTRAS = "LM_FEED_POST_DETAIL_EXTRAS"
-        const val LM_FEED_POST_DETAIL_BUNDLE = "LM_FEED_POST_DETAIL_BUNDLE"
+        const val LM_FEED_POST_DETAIL_BUNDLE = "lm_feed_bundle"
 
         @JvmStatic
         fun start(context: Context, extras: LMFeedPostDetailExtras) {

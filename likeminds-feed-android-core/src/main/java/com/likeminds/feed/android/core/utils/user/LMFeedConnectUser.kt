@@ -1,8 +1,10 @@
 package com.likeminds.feed.android.core.utils.user
 
 import android.util.Log
-import com.likeminds.feed.android.core.LMFeedCoreApplication
+import com.google.firebase.messaging.FirebaseMessaging
+import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
 import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
 import kotlinx.coroutines.*
@@ -14,19 +16,35 @@ class LMFeedConnectUser private constructor(
     val apiKey: String,
     val userName: String,
     val uuid: String?,
-    val deviceId: String
+    val deviceId: String,
+    val enablePushNotifications: Boolean
 ) {
     class Builder {
         private var apiKey: String = ""
         private var userName: String = ""
         private var uuid: String? = null
         private var deviceId: String = ""
+        private var enablePushNotifications: Boolean = false
 
-        fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
-        fun userName(userName: String) = apply { this.userName = userName }
-        fun uuid(uuid: String?) = apply { this.uuid = uuid }
+        fun apiKey(apiKey: String) = apply {
+            this.apiKey = apiKey
+        }
 
-        fun deviceId(deviceId: String) = apply { this.deviceId = deviceId }
+        fun userName(userName: String) = apply {
+            this.userName = userName
+        }
+
+        fun uuid(uuid: String?) = apply {
+            this.uuid = uuid
+        }
+
+        fun deviceId(deviceId: String) = apply {
+            this.deviceId = deviceId
+        }
+
+        fun enablePushNotifications(enablePushNotifications: Boolean) = apply {
+            this.enablePushNotifications = enablePushNotifications
+        }
 
         fun build(): LMFeedConnectUser {
             //validate API key
@@ -46,8 +64,22 @@ class LMFeedConnectUser private constructor(
             }
 
             //return the instance
-            return LMFeedConnectUser(apiKey, userName, uuid, deviceId)
+            return LMFeedConnectUser(
+                apiKey,
+                userName,
+                uuid,
+                deviceId,
+                enablePushNotifications
+            )
         }
+    }
+
+    fun toBuilder(): Builder {
+        return Builder().apiKey(apiKey)
+            .uuid(uuid)
+            .deviceId(deviceId)
+            .userName(userName)
+            .enablePushNotifications(enablePushNotifications)
     }
 
     //initiate user API Call
@@ -68,16 +100,50 @@ class LMFeedConnectUser private constructor(
             val initiateResponse = lmFeedClient.initiateUser(initiateRequest)
 
             Log.d(
-                LMFeedCoreApplication.LOG_TAG, """
+                LOG_TAG, """
                 initiate response: ${initiateResponse.success} ${initiateResponse.data?.user?.sdkClientInfo?.uuid}
             """.trimIndent()
             )
 
             if (initiateResponse.success) {
+                pushToken()
                 success?.let { it(initiateResponse.data) }
             } else {
                 error?.let { it(initiateResponse.errorMessage) }
             }
+        }
+    }
+
+    private fun pushToken() {
+        if (enablePushNotifications) {
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w(
+                        LOG_TAG,
+                        "Fetching FCM registration token failed",
+                        task.exception
+                    )
+                    return@addOnCompleteListener
+                }
+
+                val token = task.result.toString()
+                registerDevice(token)
+            }
+        }
+    }
+
+    private fun registerDevice(token: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val lmFeedClient = LMFeedClient.getInstance()
+
+            //create request
+            val request = RegisterDeviceRequest.Builder()
+                .deviceId(deviceId)
+                .token(token)
+                .build()
+
+            //call api
+            lmFeedClient.registerDevice(request)
         }
     }
 }

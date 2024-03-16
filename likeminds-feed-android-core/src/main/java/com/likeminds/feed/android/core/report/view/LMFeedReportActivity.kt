@@ -23,7 +23,7 @@ class LMFeedReportActivity : AppCompatActivity() {
 
     companion object {
         const val LM_FEED_REPORT_EXTRAS = "LM_FEED_REPORT_EXTRAS"
-        const val LM_FEED_REPORT_BUNDLE = "LM_FEED_REPORT_BUNDLE"
+        const val LM_FEED_REPORT_BUNDLE = "lm_feed_bundle"
         const val TAG = "LMFeedReportActivity"
 
         @JvmStatic
