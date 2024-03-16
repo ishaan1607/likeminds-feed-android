@@ -19,6 +19,7 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import java.util.Locale
 
 open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
@@ -232,9 +233,8 @@ open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
             if (success) {
                 Log.d(LOG_TAG, "report send successfully")
 
-                //todo: analytics
                 //send analytics events
-//                sendReportEvent()
+                sendReportEvent()
 
                 val intent = Intent().apply {
                     putExtra(
@@ -245,6 +245,42 @@ open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
                 //set result, from where the result is coming.
                 requireActivity().setResult(Activity.RESULT_OK, intent)
                 requireActivity().finish()
+            }
+        }
+    }
+
+    //send report event depending upon which type of the report is created
+    private fun sendReportEvent() {
+        when (reportExtras.entityType) {
+            REPORT_TYPE_POST -> {
+                // sends post reported event
+                LMFeedAnalytics.sendPostReportedEvent(
+                    reportExtras.entityId,
+                    reportExtras.uuid,
+                    LMFeedViewUtils.getPostTypeFromViewType(reportExtras.postViewType),
+                    reasonOrTag
+                )
+            }
+
+            REPORT_TYPE_COMMENT -> {
+                // sends comment reported event
+                LMFeedAnalytics.sendCommentReportedEvent(
+                    reportExtras.postId,
+                    reportExtras.uuid,
+                    reportExtras.entityId,
+                    reasonOrTag
+                )
+            }
+
+            REPORT_TYPE_REPLY -> {
+                // sends reply reported event
+                LMFeedAnalytics.sendReplyReportedEvent(
+                    reportExtras.postId,
+                    reportExtras.uuid,
+                    reportExtras.parentCommentId,
+                    reportExtras.entityId,
+                    reasonOrTag
+                )
             }
         }
     }

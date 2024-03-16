@@ -164,7 +164,7 @@ class LMFeedEditPostViewModel : ViewModel() {
                 postDataEventChannel.send(PostDataEvent.EditPost(postViewData))
 
                 // sends post edited event
-                sendPostEditedEvent(postViewData)
+                LMFeedAnalytics.sendPostEditedEvent(postViewData)
             } else {
                 errorEventChannel.send(ErrorMessageEvent.EditPost(response.errorMessage))
             }
@@ -194,34 +194,5 @@ class LMFeedEditPostViewModel : ViewModel() {
                 errorEventChannel.send(ErrorMessageEvent.DecodeUrl(response.errorMessage))
             }
         }
-    }
-
-    /**
-     * Triggers when the user edits a post
-     **/
-    private fun sendPostEditedEvent(post: LMFeedPostViewData) {
-        val postType = LMFeedViewUtils.getPostTypeFromViewType(post.viewType)
-        val postCreatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
-        LMFeedAnalytics.track(
-            LMFeedAnalytics.Events.POST_EDITED,
-            mapOf(
-                "created_by_uuid" to postCreatorUUID,
-                LMFeedAnalytics.Keys.POST_ID to post.id,
-                "post_type" to postType,
-            )
-        )
-    }
-
-    /**
-     * Triggers when the user attaches link
-     * @param link - url of the link
-     **/
-    fun sendLinkAttachedEvent(link: String) {
-        LMFeedAnalytics.track(
-            LMFeedAnalytics.Events.LINK_ATTACHED_IN_POST,
-            mapOf(
-                "link" to link
-            )
-        )
     }
 }

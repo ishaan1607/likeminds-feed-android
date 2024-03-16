@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.utils.analytics
 
 import android.util.Log
 import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
+import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 
@@ -40,6 +41,7 @@ object LMFeedAnalytics {
         const val POST_UNSAVED = "Post Unsaved"
         const val COMMENT_LIKED = "Comment Liked"
         const val COMMENT_UNLIKED = "Comment Unliked"
+        const val COMMENT_EDITED = "Comment edited"
 
         const val NOTIFICATION_RECEIVED = "Notification Received"
         const val NOTIFICATION_CLICKED = "Notification Clicked"
@@ -88,6 +90,22 @@ object LMFeedAnalytics {
         )
         //todo add global callback
     }
+
+    /**
+     * Triggers when the user opens feed fragment
+     **/
+    fun sendFeedOpenedEvent() {
+        track(
+            Events.FEED_OPENED,
+            mapOf(
+                "feed_type" to "universal_feed"
+            )
+        )
+    }
+
+    /*
+    * Analytics events
+    */
 
     /**
      * Triggers when the current user likes/unlikes a post
@@ -161,5 +179,268 @@ object LMFeedAnalytics {
      **/
     fun sendCommentListOpenEvent() {
         track(Events.COMMENT_LIST_OPEN)
+    }
+
+    /**
+     * Triggers when the current user shares a post
+     */
+    fun sendPostShared(post: LMFeedPostViewData) {
+        val postType = LMFeedViewUtils.getPostTypeFromViewType(post.viewType)
+
+        val postCreatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
+        track(
+            Events.POST_SHARED,
+            mapOf(
+                "created_by_uuid" to postCreatorUUID,
+                Keys.POST_ID to post.id,
+                "post_type" to postType,
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user edits a post
+     **/
+    fun sendPostEditedEvent(post: LMFeedPostViewData) {
+        val postType = LMFeedViewUtils.getPostTypeFromViewType(post.viewType)
+        val postCreatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
+        track(
+            Events.POST_EDITED,
+            mapOf(
+                "created_by_uuid" to postCreatorUUID,
+                Keys.POST_ID to post.id,
+                "post_type" to postType,
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user attaches link
+     * @param link - url of the link
+     **/
+    fun sendLinkAttachedEvent(link: String) {
+        track(
+            Events.LINK_ATTACHED_IN_POST,
+            mapOf(
+                "link" to link
+            )
+        )
+    }
+
+    /**
+     * Triggers when a post is deleted
+     **/
+    fun sendPostDeletedEvent(post: LMFeedPostViewData, reason: String? = null) {
+        /**
+         * if [reason] is [null], then it is a self delete
+         */
+        val userStateString = if (reason == null) {
+            "Member"
+        } else {
+            "Community Manager"
+        }
+
+        //uuid of the post creator
+        val postCreatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
+        val map = mapOf(
+            "user_state" to userStateString,
+            Keys.UUID to postCreatorUUID,
+            Keys.POST_ID to post.id,
+            "post_type" to LMFeedViewUtils.getPostTypeFromViewType(post.viewType),
+        )
+        track(
+            Events.POST_DELETED,
+            map
+        )
+    }
+
+    /**
+     * Triggers when a comment/reply is deleted
+     **/
+    fun sendCommentReplyDeletedEvent(
+        postId: String,
+        commentId: String,
+        parentCommentId: String?
+    ) {
+        if (parentCommentId == null) {
+            //comment deleted event
+            track(
+                Events.COMMENT_DELETED,
+                mapOf(
+                    Keys.POST_ID to postId,
+                    Keys.COMMENT_ID to commentId
+                )
+            )
+        } else {
+            //reply deleted event
+            track(
+                Events.REPLY_DELETED,
+                mapOf(
+                    Keys.POST_ID to postId,
+                    Keys.COMMENT_ID to parentCommentId,
+                    Keys.COMMENT_REPLY_ID to commentId,
+                )
+            )
+        }
+    }
+
+    /**
+     * Triggers when the reply is posted on a comment
+     **/
+    fun sendReplyPostedEvent(
+        parentCommentCreatorUUID: String,
+        postId: String,
+        parentCommentId: String,
+        commentId: String,
+    ) {
+        track(
+            Events.REPLY_POSTED,
+            mapOf(
+                Keys.UUID to parentCommentCreatorUUID,
+                Keys.POST_ID to postId,
+                Keys.COMMENT_ID to parentCommentId,
+                Keys.COMMENT_REPLY_ID to commentId
+            )
+        )
+    }
+
+    /**
+     * Triggers when a comment is posted on a post
+     **/
+    fun sendCommentPostedEvent(postId: String, commentId: String) {
+        track(
+            Events.COMMENT_POSTED,
+            mapOf(
+                Keys.POST_ID to postId,
+                Keys.COMMENT_ID to commentId
+            )
+        )
+    }
+
+    /**
+     * Triggers when the current user likes/unlikes a comment
+     */
+    fun sendCommentLikedEvent(
+        postId: String,
+        commentId: String,
+        commentLiked: Boolean,
+        loggedInUUID: String,
+    ) {
+        val event = if (commentLiked) {
+            Events.COMMENT_LIKED
+        } else {
+            Events.COMMENT_UNLIKED
+        }
+
+        track(
+            event,
+            mapOf(
+                Keys.UUID to loggedInUUID,
+                Keys.POST_ID to postId,
+                Keys.COMMENT_ID to commentId,
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user edits a comment
+     **/
+    fun sendCommentEditedEvent(comment: LMFeedCommentViewData) {
+        track(
+            Events.COMMENT_EDITED,
+            mapOf(
+                "created_by_uuid" to comment.user.sdkClientInfoViewData.uuid,
+                Keys.COMMENT_ID to comment.id,
+                "level" to comment.level.toString()
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user reports a post
+     **/
+    fun sendPostReportedEvent(
+        postId: String,
+        uuid: String,
+        postType: String,
+        reason: String
+    ) {
+        track(
+            Events.POST_REPORTED,
+            mapOf(
+                "created_by_uuid" to uuid,
+                Keys.POST_ID to postId,
+                "report_reason" to reason,
+                "post_type" to postType,
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user reports a comment
+     **/
+    fun sendCommentReportedEvent(
+        postId: String,
+        uuid: String,
+        commentId: String,
+        reason: String
+    ) {
+        track(
+            Events.COMMENT_REPORTED,
+            mapOf(
+                Keys.POST_ID to postId,
+                Keys.UUID to uuid,
+                Keys.COMMENT_ID to commentId,
+                "reason" to reason,
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user reports a reply
+     **/
+    fun sendReplyReportedEvent(
+        postId: String,
+        uuid: String,
+        parentCommentId: String?,
+        replyId: String,
+        reason: String
+    ) {
+        val updatedParentId = parentCommentId ?: ""
+        track(
+            Events.REPLY_REPORTED,
+            mapOf(
+                Keys.POST_ID to postId,
+                Keys.COMMENT_ID to updatedParentId,
+                Keys.COMMENT_REPLY_ID to replyId,
+                Keys.UUID to uuid,
+                "reason" to reason,
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user opens likes screen for post/comment
+     **/
+    fun sendLikeListOpenEvent(
+        postId: String,
+        commentId: String?
+    ) {
+        val map = hashMapOf<String, String>()
+        map[Keys.POST_ID] = postId
+        if (commentId != null) {
+            map[Keys.COMMENT_ID] = commentId
+        }
+        track(
+            Events.LIKE_LIST_OPEN,
+            map
+        )
+    }
+
+    /**
+     * Triggers when the user taps on the bell icon and lands on the notification page
+     **/
+    fun sendNotificationPageOpenedEvent() {
+        track(Events.NOTIFICATION_PAGE_OPENED)
     }
 }

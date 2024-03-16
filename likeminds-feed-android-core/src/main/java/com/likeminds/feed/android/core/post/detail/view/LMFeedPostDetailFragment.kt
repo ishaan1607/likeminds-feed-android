@@ -566,6 +566,18 @@ open class LMFeedPostDetailFragment :
             requireActivity().finish()
         }
 
+        //observes postSavedResponse LiveData
+        postDetailViewModel.postSavedResponse.observe(viewLifecycleOwner) { post ->
+            //todo: post variable
+            //show toast message
+            val toastMessage = if (post.footerViewData.isSaved) {
+                getString(R.string.lm_feed_s_saved)
+            } else {
+                getString(R.string.lm_feed_s_unsaved)
+            }
+            LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
+        }
+
         //observes pinPostResponse LiveData
         postDetailViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
             //todo: post as variable
@@ -1184,8 +1196,16 @@ open class LMFeedPostDetailFragment :
 
 //            postEvent.notify(Pair(newViewData.id, newViewData))
 
+        val userPreferences = LMFeedUserPreferences(requireContext())
+        val loggedInUUID = userPreferences.getUUID()
+
         //call api
-        postDetailViewModel.likePost(postViewData.id, postViewData.footerViewData.isLiked)
+        postDetailViewModel.likePost(
+            postViewData.id,
+            postViewData.footerViewData.isLiked,
+            loggedInUUID
+        )
+
         //update recycler
         binding.rvPostDetails.updateItem(position, postViewData)
     }
@@ -1246,8 +1266,17 @@ open class LMFeedPostDetailFragment :
     override fun onCommentLiked(position: Int, comment: LMFeedCommentViewData) {
         super.onCommentLiked(position, comment)
 
+        val userPreferences = LMFeedUserPreferences(requireContext())
+        val loggedInUUID = userPreferences.getUUID()
+
         //call api
-        postDetailViewModel.likeComment(comment.postId, comment.id, !comment.isLiked)
+        postDetailViewModel.likeComment(
+            comment.postId,
+            comment.id,
+            !comment.isLiked,
+            loggedInUUID
+        )
+
         //update recycler
         binding.rvPostDetails.updateItem(position, comment)
     }
@@ -1283,8 +1312,16 @@ open class LMFeedPostDetailFragment :
                 .replies(parentComment.replies)
                 .build()
 
+            val userPreferences = LMFeedUserPreferences(requireContext())
+            val loggedInUUID = userPreferences.getUUID()
+
             //call api
-            postDetailViewModel.likeComment(newViewData.postId, reply.id, !reply.isLiked)
+            postDetailViewModel.likeComment(
+                newViewData.postId,
+                reply.id,
+                !reply.isLiked,
+                loggedInUUID
+            )
 
             //update recycler
             updateItem(parentPosition, newViewData)
@@ -1719,14 +1756,15 @@ open class LMFeedPostDetailFragment :
 
     override fun onPostShareClicked(position: Int, postViewData: LMFeedPostViewData) {
         super.onPostShareClicked(position, postViewData)
-
+        //todo: post as variable and take domain here
         LMFeedShareUtils.sharePost(
             requireContext(),
             postViewData.id,
             "https://take-this-in-config.com",
             ""
         )
-        //todo: post as variable and send event
+
+        LMFeedAnalytics.sendPostShared(postViewData)
     }
 
     override fun onDestroyView() {

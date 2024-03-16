@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
+import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.likemindsfeed.LMFeedClient
@@ -20,9 +21,6 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     private val _universalFeedResponse = MutableLiveData<Pair<Int, List<LMFeedPostViewData>>>()
     val universalFeedResponse: LiveData<Pair<Int, List<LMFeedPostViewData>>> =
         _universalFeedResponse
-
-    private val _postLikedResponse = MutableLiveData<Pair<String, Boolean>>()
-    val postLikedResponse: LiveData<Pair<String, Boolean>> = _postLikedResponse
 
     private val _postSavedResponse = MutableLiveData<LMFeedPostViewData>()
     val postSavedResponse: LiveData<LMFeedPostViewData> = _postSavedResponse
@@ -86,7 +84,11 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     }
 
     //for like/unlike a post
-    fun likePost(postId: String, postLiked: Boolean) {
+    fun likePost(
+        postId: String,
+        postLiked: Boolean,
+        loggedInUUID: String
+    ) {
         viewModelScope.launchIO {
             val request = LikePostRequest.Builder()
                 .postId(postId)
@@ -97,7 +99,12 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
 
             //check for error
             if (response.success) {
-                _postLikedResponse.postValue(Pair(postId, postLiked))
+                //sends event for post liked
+                LMFeedAnalytics.sendPostLikedEvent(
+                    uuid = loggedInUUID,
+                    postId = postId,
+                    postLiked = postLiked
+                )
             } else {
                 errorMessageChannel.send(
                     ErrorMessageEvent.LikePost(
@@ -121,6 +128,13 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
 
             //check for error
             if (response.success) {
+                //sends event for post saved/unsaved
+                LMFeedAnalytics.sendPostSavedEvent(
+                    uuid = postViewData.headerViewData.user.sdkClientInfoViewData.uuid,
+                    postId = postViewData.id,
+                    postSaved = postViewData.footerViewData.isSaved
+                )
+
                 _postSavedResponse.postValue(postViewData)
             } else {
                 errorMessageChannel.send(
@@ -144,6 +158,9 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
             val response = lmFeedClient.pinPost(request)
 
             if (response.success) {
+                //sends event for pin/unpin post
+                LMFeedAnalytics.sendPostPinnedEvent(postViewData)
+
                 _postPinnedResponse.postValue(postViewData)
             } else {
                 errorMessageChannel.send(
@@ -157,10 +174,7 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     }
 
     //for delete post
-    fun deletePost(
-        post: LMFeedPostViewData,
-        reason: String? = null
-    ) {
+    fun deletePost(post: LMFeedPostViewData, reason: String? = null) {
         viewModelScope.launchIO {
             val request = DeletePostRequest.Builder()
                 .postId(post.id)
@@ -171,10 +185,9 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
             val response = lmFeedClient.deletePost(request)
 
             if (response.success) {
-                //todo: event
-
                 // sends post deleted event
-//                sendPostDeletedEvent(post, reason)
+                LMFeedAnalytics.sendPostDeletedEvent(post, reason)
+
                 _deletePostResponse.postValue(post.id)
             } else {
                 errorMessageChannel.send(ErrorMessageEvent.DeletePost(response.errorMessage))
