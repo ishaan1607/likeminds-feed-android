@@ -12,6 +12,7 @@ import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
 import com.likeminds.feed.android.core.activityfeed.viewmodel.LMFeedActivityFeedViewModel
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentActivityFeedBinding
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
+import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -35,6 +36,7 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
 
         binding.apply {
             customizeActivityFeedHeaderView(headerViewActivityFeed)
+            customizeNoTopicsLayout(layoutNoActivity)
 
             //set background color
             val backgroundColor =
@@ -57,6 +59,16 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
             setStyle(LMFeedStyleTransformer.activityFeedFragmentViewStyle.headerViewStyle)
 
             setTitleText(getString(R.string.lm_feed_notification_feed))
+        }
+    }
+
+    protected open fun customizeNoTopicsLayout(layoutNoActivity: LMFeedNoEntityLayoutView) {
+        layoutNoActivity.apply {
+            val noActivityLayoutStyle =
+                LMFeedStyleTransformer.activityFeedFragmentViewStyle.noActivityLayoutViewStyle
+
+            setStyle(noActivityLayoutStyle)
+            setTitleText(getString(R.string.lm_feed_no_notifications_yet))
         }
     }
 
@@ -174,18 +186,16 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
         }
     }
 
-    //todo:
     //checks if there is any activity or not
     private fun checkForNoActivity(feed: List<LMFeedBaseViewType>) {
         if (feed.isNotEmpty()) {
             binding.apply {
-                //todo:
-//                layoutNoNotification.root.hide()
+                layoutNoActivity.hide()
                 rvActivityFeed.show()
             }
         } else {
             binding.apply {
-//                layoutNoNotification.root.show()
+                layoutNoActivity.show()
                 rvActivityFeed.hide()
             }
         }

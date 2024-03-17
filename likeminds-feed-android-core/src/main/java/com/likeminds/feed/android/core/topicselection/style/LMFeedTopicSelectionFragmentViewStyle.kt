@@ -82,7 +82,7 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
                 .titleStyle(
                     LMFeedTextStyle.Builder()
                         .textColor(R.color.lm_feed_dark_grey)
-                        .textSize(R.dimen.lm_feed_text_small)
+                        .textSize(R.dimen.lm_feed_text_medium)
                         .typeface(Typeface.NORMAL)
                         .fontResource(R.font.lm_feed_roboto_medium)
                         .build()
