@@ -1469,6 +1469,16 @@ open class LMFeedPostDetailFragment :
         }
     }
 
+    // launcher for [EditPostActivity]
+    private val editPostLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    refreshPostData()
+                }
+            }
+        }
+
     protected open fun onEditPostMenuClicked(
         position: Int,
         menuId: Int,
@@ -1478,7 +1488,7 @@ open class LMFeedPostDetailFragment :
             .postId(post.id)
             .build()
         val intent = LMFeedEditPostActivity.getIntent(requireContext(), editPostExtras)
-        startActivity(intent)
+        editPostLauncher.launch(intent)
     }
 
     protected open fun onDeletePostMenuClicked(

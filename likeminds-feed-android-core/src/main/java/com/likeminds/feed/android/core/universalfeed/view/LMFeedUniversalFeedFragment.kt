@@ -29,6 +29,7 @@ import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.util.LMFeedPostEvent
+import com.likeminds.feed.android.core.post.util.LMFeedPostObserver
 import com.likeminds.feed.android.core.report.model.LMFeedReportExtras
 import com.likeminds.feed.android.core.report.model.REPORT_TYPE_POST
 import com.likeminds.feed.android.core.report.view.LMFeedReportActivity
@@ -64,7 +65,8 @@ open class LMFeedUniversalFeedFragment :
     LMFeedUniversalFeedAdapterListener,
     LMFeedAdminDeleteDialogListener,
     LMFeedSelfDeleteDialogListener,
-    LMFeedUniversalSelectedTopicAdapterListener {
+    LMFeedUniversalSelectedTopicAdapterListener,
+    LMFeedPostObserver {
 
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
@@ -695,6 +697,29 @@ open class LMFeedUniversalFeedFragment :
                     1,
                     universalFeedViewModel.getTopicIdsFromAdapterList(selectedTopics)
                 )
+            }
+        }
+    }
+
+    // callback when publisher publishes any updated postData
+    override fun update(postData: Pair<String, LMFeedPostViewData?>) {
+        val postId = postData.first
+        // fetches post from adapter
+        binding.rvUniversal.apply {
+            Log.d("PUI", "update: $postId")
+            val postIndex = getIndexAndPostFromAdapter(postId)?.first ?: return
+
+            Log.d("PUI", "update: postIndex $postIndex")
+
+            val updatedPost = postData.second
+
+            // updates the item in adapter
+            if (updatedPost == null) {
+                // Post was deleted!
+                removePostAtIndex(postIndex)
+            } else {
+                // Post was updated
+                updatePostItem(postIndex, updatedPost)
             }
         }
     }

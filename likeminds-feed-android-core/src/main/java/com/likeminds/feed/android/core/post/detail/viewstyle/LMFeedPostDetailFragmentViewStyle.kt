@@ -26,7 +26,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
     //comment composer view
     val commentComposerStyle: LMFeedCommentComposerStyle,
     //view more reply view style
-    val viewMoreReplyStyle: LMFeedViewMoreStyle,
+    val viewMoreReplyStyle: LMFeedViewMoreStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -156,6 +156,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
                         .textSize(R.dimen.lm_feed_text_medium)
                         .build()
                 )
+                .backgroundColor(R.color.lm_feed_cultured)
                 .build()
 
         private var commentComposerStyle: LMFeedCommentComposerStyle =

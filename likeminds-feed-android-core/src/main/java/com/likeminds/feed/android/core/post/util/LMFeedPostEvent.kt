@@ -17,15 +17,15 @@ class LMFeedPostEvent {
     }
 
     // maintains the set of all the observers
-    private var observers = hashSetOf<PostObserver>()
+    private var observers = hashSetOf<LMFeedPostObserver>()
 
     // subscribes the observer to listen to the changes
-    fun subscribe(postObserver: PostObserver) {
+    fun subscribe(postObserver: LMFeedPostObserver) {
         observers.add(postObserver)
     }
 
     // unsubscribes the observer
-    fun unsubscribe(postObserver: PostObserver) {
+    fun unsubscribe(postObserver: LMFeedPostObserver) {
         observers.remove(postObserver)
     }
 
@@ -37,7 +37,7 @@ class LMFeedPostEvent {
     }
 }
 
-interface PostObserver {
+interface LMFeedPostObserver {
     /*
     * called whenever post changes are notified the observer
     * postData - Pair of postId and Post data
