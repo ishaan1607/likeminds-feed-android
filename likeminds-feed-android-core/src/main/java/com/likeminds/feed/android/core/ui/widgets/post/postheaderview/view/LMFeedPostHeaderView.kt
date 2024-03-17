@@ -11,7 +11,8 @@ import com.likeminds.feed.android.core.databinding.LmFeedPostHeaderViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.LMFeedTimeUtil
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
@@ -93,7 +94,6 @@ class LMFeedPostHeaderView : ConstraintLayout {
                 tvEdited.hide()
                 viewDotEdited.hide()
             } else {
-                viewDotEdited.show()
                 tvEdited.setStyle(postEditedTextStyle)
             }
         }

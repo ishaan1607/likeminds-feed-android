@@ -38,10 +38,15 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     private val _hasCreatePostRights = MutableLiveData(true)
     val hasCreatePostRights: LiveData<Boolean> = _hasCreatePostRights
 
+    private val _unreadNotificationCount = MutableLiveData<Int>()
+    val unreadNotificationCount: LiveData<Int> = _unreadNotificationCount
+
     private val errorMessageChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
     val errorMessageEventFlow = errorMessageChannel.receiveAsFlow()
 
     sealed class ErrorMessageEvent {
+        data class UniversalFeed(val errorMessage: String?) : ErrorMessageEvent()
+
         data class LikePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
 
         data class SavePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
@@ -51,6 +56,8 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
         data class PinPost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
 
         data class GetTopic(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class GetUnreadNotificationCount(val errorMessage: String?) : ErrorMessageEvent()
     }
 
     companion object {
@@ -82,7 +89,7 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
                 _universalFeedResponse.postValue(Pair(page, listOfPostViewData))
             } else {
                 //for error
-//                errorMessageChannel.send(ErrorMessageEvent.UniversalFeed(response.errorMessage))
+                errorMessageChannel.send(ErrorMessageEvent.UniversalFeed(response.errorMessage))
             }
         }
     }
@@ -243,6 +250,24 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
                     memberStateResponse.memberRights
                 )
             )
+        }
+    }
+
+    //get unread notification count
+    fun getUnreadNotificationCount() {
+        viewModelScope.launchIO {
+            //call unread notification count api
+            val response = lmFeedClient.getUnreadNotificationCount()
+
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val count = data.count
+
+                _unreadNotificationCount.postValue(count)
+            } else {
+                //for error
+                errorMessageChannel.send(ErrorMessageEvent.GetUnreadNotificationCount(response.errorMessage))
+            }
         }
     }
 

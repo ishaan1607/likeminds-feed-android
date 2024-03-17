@@ -107,5 +107,6 @@
         <item quantity="one">Topic is Disabled</item>
         <item quantity="other">Topics are Disabled</item>
     </plurals>
+    <string name="lm_feed_nine_nine_plus">99+</string>
     <string name="lm_feed_our_team_will_look_into_your_feedback_and_will_take_appropriate_action_on_this_s">Our team will look into your feedback and will take appropriate action on this %s</string>
 </resources>

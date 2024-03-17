@@ -76,7 +76,7 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
             LMFeedNoEntityLayoutViewStyle.Builder()
                 .imageStyle(
                     LMFeedImageStyle.Builder()
-                        .imageSrc(R.drawable.ic_not_found)
+                        .imageSrc(R.drawable.lm_feed_ic_not_found)
                         .build()
                 )
                 .titleStyle(

@@ -2,15 +2,21 @@ package com.likeminds.feed.android.core.ui.widgets.headerview.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedHeaderViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
 
 class LMFeedHeaderView : ConstraintLayout {
 
@@ -49,6 +55,9 @@ class LMFeedHeaderView : ConstraintLayout {
             configureNavigationIcon(navigationIconStyle)
             configureSearchIcon(searchIconStyle)
             configureSubmitText(submitTextStyle)
+            configureUserProfile(userProfileStyle)
+            configureNotificationIcon(notificationIconStyle)
+            configureNotificationCountText(notificationCountTextStyle)
         }
     }
 
@@ -95,6 +104,37 @@ class LMFeedHeaderView : ConstraintLayout {
             } else {
                 setStyle(submitTextStyle)
                 show()
+            }
+        }
+    }
+
+    private fun configureUserProfile(userProfileStyle: LMFeedImageStyle?) {
+        binding.ivUserProfile.apply {
+            if (userProfileStyle == null) {
+                hide()
+            } else {
+                setStyle(userProfileStyle)
+            }
+        }
+    }
+
+    private fun configureNotificationIcon(notificationIconStyle: LMFeedIconStyle?) {
+        binding.ivHeaderNotification.apply {
+            if (notificationIconStyle == null) {
+                hide()
+            } else {
+                show()
+                setStyle(notificationIconStyle)
+            }
+        }
+    }
+
+    private fun configureNotificationCountText(notificationCountTextStyle: LMFeedTextStyle?) {
+        binding.tvHeaderNotificationCount.apply {
+            if (notificationCountTextStyle == null) {
+                hide()
+            } else {
+                setStyle(notificationCountTextStyle)
             }
         }
     }
@@ -152,6 +192,71 @@ class LMFeedHeaderView : ConstraintLayout {
         }
     }
 
+    fun setNotificationCountText(count: Int) {
+        binding.apply {
+            ivHeaderNotification.show()
+            tvHeaderNotificationCount.show()
+            when (count) {
+                0 -> {
+                    tvHeaderNotificationCount.hide()
+                }
+
+                in 1..99 -> {
+                    configureNotificationBadge(count.toString())
+                }
+
+                else -> {
+                    configureNotificationBadge(context.getString(R.string.lm_feed_nine_nine_plus))
+                }
+            }
+        }
+    }
+
+    fun setNotificationIconVisibility(isVisible: Boolean) {
+        binding.ivHeaderNotification.isVisible = isVisible
+        binding.tvHeaderNotificationCount.isVisible = isVisible
+    }
+
+    /**
+     * Configure the notification badge based on the text length and visibility
+     * @param text Text to show on the counter, eg - 99+, 8, etc
+     */
+    private fun configureNotificationBadge(text: String) {
+        binding.tvHeaderNotificationCount.apply {
+            if (text.length > 2) {
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 7f)
+            } else {
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
+            }
+            this.text = text
+            visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * Sets user profile in image view.
+     *
+     * @param user - data of the user.
+     */
+    fun setUserProfileImage(user: LMFeedUserViewData) {
+        var userProfileViewStyle = style.userProfileStyle ?: return
+
+        if (userProfileViewStyle.placeholderSrc == null) {
+            userProfileViewStyle = userProfileViewStyle.toBuilder().placeholderSrc(
+                LMFeedUserImageUtil.getNameDrawable(
+                    user.sdkClientInfoViewData.uuid,
+                    user.name,
+                    userProfileViewStyle.isCircle,
+                ).first
+            ).build()
+        }
+
+        binding.ivUserProfile.apply {
+            show()
+            setImage(user.imageUrl, userProfileViewStyle)
+        }
+    }
+
     fun setNavigationIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivHeaderNavigation.setOnClickListener {
             listener.onClick()
@@ -166,6 +271,18 @@ class LMFeedHeaderView : ConstraintLayout {
 
     fun setSubmitButtonClickListener(listener: LMFeedOnClickListener) {
         binding.tvHeaderSubmit.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    fun setUserProfileClickListener(listener: LMFeedOnClickListener) {
+        binding.ivUserProfile.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    fun setNotificationIconClickListener(listener: LMFeedOnClickListener) {
+        binding.ivHeaderNotification.setOnClickListener {
             listener.onClick()
         }
     }

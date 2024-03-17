@@ -121,6 +121,7 @@ open class LMFeedUniversalFeedFragment :
 
     private fun fetchData() {
         universalFeedViewModel.getMemberState()
+        universalFeedViewModel.getUnreadNotificationCount()
         universalFeedViewModel.getFeed(1, null)
     }
 
@@ -153,6 +154,14 @@ open class LMFeedUniversalFeedFragment :
 
             headerViewUniversal.setSearchIconClickListener {
                 onSearchIconClick()
+            }
+
+            headerViewUniversal.setUserProfileClickListener {
+                onUserProfileClicked()
+            }
+
+            headerViewUniversal.setNotificationIconClickListener {
+                onNotificationIconClicked()
             }
 
             layoutNoPost.setActionFABClickListener {
@@ -242,8 +251,19 @@ open class LMFeedUniversalFeedFragment :
             }
         }
 
+        universalFeedViewModel.unreadNotificationCount.observe(viewLifecycleOwner) { unreadNotificationCount ->
+            binding.headerViewUniversal.setNotificationCountText(unreadNotificationCount)
+        }
+
         universalFeedViewModel.errorMessageEventFlow.onEach { response ->
             when (response) {
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.UniversalFeed -> {
+                    val errorMessage = response.errorMessage
+                    mSwipeRefreshLayout.isRefreshing = false
+                    LMFeedProgressBarHelper.hideProgress(binding.progressBar)
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
+                }
+
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.DeletePost -> {
                     val errorMessage = response.errorMessage
                     LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
@@ -341,6 +361,11 @@ open class LMFeedUniversalFeedFragment :
 
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.GetTopic -> {
                     LMFeedViewUtils.showSomethingWentWrongToast(requireContext())
+                }
+
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.GetUnreadNotificationCount -> {
+                    binding.headerViewUniversal.setNotificationIconVisibility(false)
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
                 }
             }
         }.observeInLifecycle(viewLifecycleOwner)
@@ -798,7 +823,13 @@ open class LMFeedUniversalFeedFragment :
 
     protected open fun onSearchIconClick() {
         Log.d("PUI", "default onSearchIconClick")
-        //todo: change this
+    }
+
+    protected open fun onUserProfileClicked() {
+        //todo:
+    }
+
+    protected open fun onNotificationIconClicked() {
         LMFeedAnalytics.sendNotificationPageOpenedEvent()
         LMFeedActivityFeedActivity.start(requireContext())
     }
