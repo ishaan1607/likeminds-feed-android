@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import com.google.android.material.chip.ChipGroup
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedChipBinding
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedChipStyle
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
@@ -21,7 +22,7 @@ class LMFeedChipGroup @JvmOverloads constructor(
     }
 
     fun addChip(
-        chipText: String,
+        chipText: String? = null,
         chipStyle: LMFeedChipStyle,
         chipClickListener: LMFeedOnClickListener? = null
     ) {
@@ -33,7 +34,12 @@ class LMFeedChipGroup @JvmOverloads constructor(
 
         chipBinding.chip.apply {
             //text related
-            text = chipText
+            if (chipText == null) {
+                textStartPadding = resources.getDimension(R.dimen.zero_dp)
+                textEndPadding = resources.getDimension(R.dimen.zero_dp)
+            } else {
+                text = chipText
+            }
             setStyle(chipStyle)
 
             setOnClickListener {

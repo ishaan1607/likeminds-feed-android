@@ -29,18 +29,15 @@ import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
 
 class LMFeedCommentView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
-    }
+    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)
 
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
         context,
         attributeSet,
         defStyle
-    ) {
-    }
+    )
 
     val commentMenu: View get() = binding.ivCommentMenu
 
@@ -331,6 +328,7 @@ class LMFeedCommentView : ConstraintLayout {
             if (likesCount.isEmpty()) {
                 hide()
             } else {
+                show()
                 text = likesCount
             }
         }
@@ -346,6 +344,7 @@ class LMFeedCommentView : ConstraintLayout {
             if (replyText.isEmpty()) {
                 hide()
             } else {
+                show()
                 text = replyText
             }
         }

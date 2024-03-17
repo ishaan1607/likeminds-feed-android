@@ -605,10 +605,7 @@ open class LMFeedEditPostFragment :
             selectedTopics.forEach { topic ->
                 addChip(topic.name, LMFeedStyleTransformer.postViewStyle.postTopicChipsStyle)
             }
-            addChip(
-                "",
-                LMFeedStyleTransformer.editPostFragmentViewStyle.editChipStyle
-            ) {
+            addChip(chipStyle = LMFeedStyleTransformer.editPostFragmentViewStyle.editChipStyle) {
                 val extras = LMFeedTopicSelectionExtras.Builder()
                     .showAllTopicFilter(false)
                     .selectedTopics(selectedTopics)

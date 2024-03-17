@@ -82,6 +82,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
         private var editChipStyle: LMFeedChipStyle = LMFeedChipStyle.Builder()
             .chipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
             .chipEndPadding(R.dimen.lm_feed_edit_chip_end_size)
+            .chipStartPadding(R.dimen.lm_feed_edit_chip_end_size)
             .chipIcon(R.drawable.lm_feed_ic_edit_topic)
             .chipIconSize(R.dimen.lm_feed_chip_default_icon_size)
             .chipIconTint(R.color.lm_feed_majorelle_blue)
