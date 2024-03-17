@@ -6,7 +6,7 @@ import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.theme.model.LMFeedSetThemeRequest
 import com.likeminds.feed.android.core.utils.user.LMFeedConnectUser
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.user.model.InitiateUserResponse
 
 object LMFeedCore {
 

@@ -7,6 +7,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
+import com.likeminds.feed.android.core.utils.user.LMFeedMemberRightsUtil
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
@@ -33,6 +34,9 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
 
     private val _showTopicFilter = MutableLiveData<Boolean>()
     val showTopicFilter: LiveData<Boolean> = _showTopicFilter
+
+    private val _hasCreatePostRights = MutableLiveData(true)
+    val hasCreatePostRights: LiveData<Boolean> = _hasCreatePostRights
 
     private val errorMessageChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
     val errorMessageEventFlow = errorMessageChannel.receiveAsFlow()
@@ -221,6 +225,24 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
                 _showTopicFilter.postValue(false)
                 errorMessageChannel.send(ErrorMessageEvent.GetTopic(response.errorMessage))
             }
+        }
+    }
+
+    //call member state api
+    fun getMemberState() {
+        viewModelScope.launchIO {
+            //get member state response
+            val memberStateResponse = lmFeedClient.getMemberState().data
+
+            val memberState = memberStateResponse?.state ?: return@launchIO
+
+            //updates user's create posts right
+            _hasCreatePostRights.postValue(
+                LMFeedMemberRightsUtil.hasCreatePostsRight(
+                    memberState,
+                    memberStateResponse.memberRights
+                )
+            )
         }
     }
 

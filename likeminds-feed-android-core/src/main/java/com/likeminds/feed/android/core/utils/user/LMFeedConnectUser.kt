@@ -5,8 +5,8 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.helper.model.RegisterDeviceRequest
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
+import com.likeminds.likemindsfeed.user.model.InitiateUserResponse
 import kotlinx.coroutines.*
 
 /**

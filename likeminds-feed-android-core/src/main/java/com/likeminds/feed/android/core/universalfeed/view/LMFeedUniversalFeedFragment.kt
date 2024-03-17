@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
 import android.app.Activity
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -69,6 +70,9 @@ open class LMFeedUniversalFeedFragment :
 
     private val universalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
 
+    // variable to check if there is a post already uploading
+    private var alreadyPosting: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -89,6 +93,7 @@ open class LMFeedUniversalFeedFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fetchData()
         initUI()
         initListeners()
         observeResponses()
@@ -100,6 +105,11 @@ open class LMFeedUniversalFeedFragment :
         LMFeedAnalytics.sendFeedOpenedEvent()
 
         binding.rvUniversal.refreshAutoPlayer()
+    }
+
+    private fun fetchData() {
+        universalFeedViewModel.getMemberState()
+        universalFeedViewModel.getFeed(1, null)
     }
 
     private fun initUI() {
@@ -116,7 +126,7 @@ open class LMFeedUniversalFeedFragment :
     private fun initListeners() {
         binding.apply {
             fabNewPost.setOnClickListener {
-                onCreateNewPostClick()
+                onCreateNewPostClick(true)
             }
 
             headerViewUniversal.setNavigationIconClickListener {
@@ -128,7 +138,7 @@ open class LMFeedUniversalFeedFragment :
             }
 
             layoutNoPost.setActionFABClickListener {
-                onCreateNewPostClick()
+                onCreateNewPostClick(true)
             }
 
             layoutPosting.setRetryCTAClickListener {
@@ -142,6 +152,11 @@ open class LMFeedUniversalFeedFragment :
     }
 
     private fun observeResponses() {
+        // observes hasCreatePostRights LiveData
+        universalFeedViewModel.hasCreatePostRights.observe(viewLifecycleOwner) {
+            initNewPostClick(it)
+        }
+
         universalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
             LMFeedProgressBarHelper.hideProgress(binding.progressBar)
             val page = response.first
@@ -313,6 +328,19 @@ open class LMFeedUniversalFeedFragment :
         }.observeInLifecycle(viewLifecycleOwner)
     }
 
+    // initializes new post fab
+    private fun initNewPostClick(hasCreatePostRights: Boolean) {
+        binding.apply {
+            layoutNoPost.setActionFABClickListener {
+                onCreateNewPostClick(hasCreatePostRights)
+            }
+
+            fabNewPost.setOnClickListener {
+                onCreateNewPostClick(hasCreatePostRights)
+            }
+        }
+    }
+
     private fun checkPostsAndReplace(posts: List<LMFeedPostViewData>) {
         binding.rvUniversal.apply {
             checkForNoPost(posts)
@@ -324,7 +352,6 @@ open class LMFeedUniversalFeedFragment :
 
     private fun initUniversalFeedRecyclerView() {
         LMFeedProgressBarHelper.showProgress(binding.progressBar)
-        universalFeedViewModel.getFeed(1, null)
         binding.rvUniversal.apply {
             setAdapter(this@LMFeedUniversalFeedFragment)
             universalFeedViewModel.bindView(this, viewLifecycleOwner)
@@ -662,8 +689,58 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
-    protected open fun onCreateNewPostClick() {
-        Log.d("PUI", "default onCreateNewPostClick")
+    protected open fun onCreateNewPostClick(hasCreatePostRights: Boolean) {
+        binding.apply {
+            if (hasCreatePostRights) {
+                val fabButtonColor =
+                    LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle.backgroundColor
+
+                //sets color of fab button as per user rights
+                layoutNoPost.setActionFABColor(fabButtonColor)
+                fabNewPost.backgroundTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), fabButtonColor))
+
+                if (alreadyPosting) {
+                    LMFeedViewUtils.showShortToast(
+                        requireContext(),
+                        getString(
+                            R.string.lm_feed_a_s_is_already_uploading,
+//                            lmFeedHelperViewModel.getPostVariable()
+//                                .pluralizeOrCapitalize(WordAction.ALL_SMALL_SINGULAR)
+                        )
+                    )
+                } else {
+                    // sends post creation started event
+                    LMFeedAnalytics.sendPostCreationStartedEvent()
+
+                    //todo: add create post launcher here
+//                    val intent = LMFeedCreatePostActivity.getIntent(
+//                        requireContext(),
+//                        LMFeedAnalytics.Source.UNIVERSAL_FEED
+//                    )
+//                    createPostLauncher.launch(intent)
+                }
+            } else {
+                //sets color of fab button as per user rights
+                layoutNoPost.setActionFABColor(R.color.lm_feed_grey)
+                fabNewPost.backgroundTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.lm_feed_grey
+                        )
+                    )
+
+                LMFeedViewUtils.showShortSnack(
+                    root,
+                    getString(
+                        R.string.lm_feed_you_do_not_have_permission_to_create_a_s,
+//                        lmFeedHelperViewModel.getPostVariable()
+//                            .pluralizeOrCapitalize(WordAction.ALL_SMALL_SINGULAR)
+                    )
+                )
+            }
+        }
     }
 
     protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {

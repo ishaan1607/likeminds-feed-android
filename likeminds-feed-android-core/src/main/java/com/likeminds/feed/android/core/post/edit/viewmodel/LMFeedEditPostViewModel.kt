@@ -6,7 +6,6 @@ import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
-import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.likemindsfeed.LMFeedClient
@@ -69,6 +68,7 @@ class LMFeedEditPostViewModel : ViewModel() {
                 val post = data.post
                 val users = data.users
                 val topics = data.topics
+
                 postDataEventChannel.send(
                     PostDataEvent.GetPost(
                         LMFeedViewDataConvertor.convertPost(

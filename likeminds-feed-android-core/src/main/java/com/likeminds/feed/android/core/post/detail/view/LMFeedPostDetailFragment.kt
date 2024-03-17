@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -1070,6 +1071,7 @@ open class LMFeedPostDetailFragment :
             editCommentId = comment.id
             parentId = parentCommentId
             //todo: tagging
+
             // decodes the comment text and sets to the edit text
 //                MemberTaggingDecoder.decode(
 //                    etComment,
@@ -1180,7 +1182,16 @@ open class LMFeedPostDetailFragment :
     override fun onCommentContentLinkClicked(url: String) {
         super.onCommentContentLinkClicked(url)
 
-        //todo:
+        // creates a route and returns an intent to handle the link
+        val intent = LMFeedRoute.handleDeepLink(requireContext(), url)
+        if (intent != null) {
+            try {
+                // starts activity with the intent
+                ActivityCompat.startActivity(requireContext(), intent, null)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onPostCommentsCountClicked(position: Int, postViewData: LMFeedPostViewData) {
@@ -1242,7 +1253,6 @@ open class LMFeedPostDetailFragment :
 
         //show toast
         Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show()
-
 
         //call api
         postDetailViewModel.savePost(postViewData)

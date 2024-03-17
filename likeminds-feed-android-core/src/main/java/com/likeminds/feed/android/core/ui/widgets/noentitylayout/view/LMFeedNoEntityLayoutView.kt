@@ -1,16 +1,18 @@
 package com.likeminds.feed.android.core.ui.widgets.noentitylayout.view
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedNoEntityLayoutViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
-import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedNoEntityLayoutView : ConstraintLayout {
 
@@ -56,6 +58,11 @@ class LMFeedNoEntityLayoutView : ConstraintLayout {
 
     fun setActionCTAText(ctaAction: String) {
         binding.fabAction.text = ctaAction
+    }
+
+    fun setActionFABColor(@ColorRes fabColor: Int) {
+        binding.fabAction.backgroundTintList =
+            ColorStateList.valueOf(ContextCompat.getColor(context, fabColor))
     }
 
     /**

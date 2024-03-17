@@ -7,6 +7,7 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
+import com.likeminds.feed.android.core.utils.user.LMFeedMemberRightsUtil
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.post.model.*
@@ -27,8 +28,7 @@ class LMFeedPostDetailViewModel : ViewModel() {
     private val _editCommentResponse = MutableLiveData<LMFeedCommentViewData>()
     val editCommentResponse: LiveData<LMFeedCommentViewData> = _editCommentResponse
 
-    //todo: check if we need parentCommentId or not
-    // it holds pair of [parentCommentId] and [replyComment]
+    //it holds pair of [parentCommentId] and [replyComment]
     private val _addReplyResponse = MutableLiveData<Pair<String, LMFeedCommentViewData>>()
     val addReplyResponse: LiveData<Pair<String, LMFeedCommentViewData>> = _addReplyResponse
 
@@ -488,24 +488,22 @@ class LMFeedPostDetailViewModel : ViewModel() {
         }
     }
 
-    //todo:
-    // gets user from db and check if it has comment rights or not
     fun checkCommentRights() {
         viewModelScope.launchIO {
-//            val userId = userPreferences.getUserUniqueId()
-//
-//
-//            // fetches user with rights from DB with user.id
-//            val userWithRights = userWithRightsRepository.getUserWithRights(userId)
-//            val memberState = userWithRights.user.state
-//            val memberRights = userWithRights.memberRights
-//
-//            _hasCommentRights.postValue(
-//                MemberRightUtil.hasCommentRight(
-//                    memberState,
-//                    memberRights
-//                )
-//            )
+            // fetches user with rights from DB with user.id
+            val response = lmFeedClient.getLoggedInUserWithRights()
+
+            val loggedInUserData = response.data ?: return@launchIO
+
+            val memberState = loggedInUserData.user.state
+            val memberRights = loggedInUserData.rights
+
+            _hasCommentRights.postValue(
+                LMFeedMemberRightsUtil.hasCommentRight(
+                    memberState,
+                    memberRights
+                )
+            )
         }
     }
 

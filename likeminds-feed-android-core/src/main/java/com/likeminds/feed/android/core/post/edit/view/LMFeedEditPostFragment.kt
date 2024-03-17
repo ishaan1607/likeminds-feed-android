@@ -8,8 +8,10 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.EditText
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
 import androidx.core.view.get
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,18 +21,21 @@ import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentEditPostBinding
 import com.likeminds.feed.android.core.databinding.LmFeedItemMultipleMediaVideoBinding
+import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostDisabledTopicsDialogExtras
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity.Companion.LM_FEED_EDIT_POST_EXTRAS
 import com.likeminds.feed.android.core.post.edit.viewmodel.LMFeedEditPostViewModel
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
+import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionExtras
+import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionResultExtras
+import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionActivity
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.universalfeed.model.*
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils.customizePostTopicsGroup
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
@@ -221,8 +226,7 @@ open class LMFeedEditPostFragment :
                     )
                 } else {
                     //show dialog for disabled topics
-                    //todo:
-//                    showDisabledTopicsAlert(disabledTopics.values.toList())
+                    showDisabledTopicsAlert(disabledTopics.values.toList())
                 }
             } else {
                 //call api as no topics are enabled
@@ -238,16 +242,36 @@ open class LMFeedEditPostFragment :
         }
     }
 
-    private fun fetchData() {
-        fetchUserFromDB()
-        fetchPost()
-    }
+    //show alert for disabled topics
+    private fun showDisabledTopicsAlert(disabledTopics: List<LMFeedTopicViewData>) {
+        val noOfDisabledTopics = disabledTopics.size
 
-    private fun fetchUserFromDB() {
         //todo:
+        //create message string
+        val topicNameString = disabledTopics.joinToString(", ") { it.name }
+        val firstLineMessage = resources.getQuantityString(
+            R.plurals.lm_feed_topic_disabled_message_s,
+            noOfDisabledTopics,
+//            lmFeedHelperViewModel.getPostVariable()
+//                .pluralizeOrCapitalize(WordAction.ALL_SMALL_SINGULAR)
+        )
+        val finalMessage = "$firstLineMessage \n $topicNameString"
+
+        val extras = LMFeedEditPostDisabledTopicsDialogExtras.Builder()
+            .title(
+                resources.getQuantityString(
+                    R.plurals.lm_feed_topic_disabled,
+                    noOfDisabledTopics,
+                    noOfDisabledTopics
+                )
+            )
+            .subtitle(finalMessage)
+            .build()
+
+        LMFeedEditPostDisabledTopicsDialogFragment.showDialog(childFragmentManager, extras)
     }
 
-    private fun fetchPost() {
+    private fun fetchData() {
         LMFeedProgressBarHelper.showProgress(binding.progressBar)
         editPostViewModel.getPost(editPostExtras.postId)
     }
@@ -287,13 +311,11 @@ open class LMFeedEditPostFragment :
         }.observeInLifecycle(viewLifecycleOwner)
 
         editPostViewModel.showTopicFilter.observe(viewLifecycleOwner) { showTopics ->
-            //todo:
-
             if (showTopics) {
-//                handleTopicSelectionView(true)
-//                initTopicSelectionView()
+                handleTopicSelectionView(true)
+                initTopicSelectionView()
             } else {
-//                handleTopicSelectionView(false)
+                handleTopicSelectionView(false)
             }
         }
 
@@ -331,6 +353,8 @@ open class LMFeedEditPostFragment :
     // sets the post data in view
     private fun setPostData(post: LMFeedPostViewData) {
         binding.apply {
+            initAuthorFrame(post.headerViewData.user)
+
             val mediaViewData = post.mediaViewData
             val topics = post.topicsViewData
 
@@ -382,8 +406,7 @@ open class LMFeedEditPostFragment :
             }
 
             if (topics.isNotEmpty()) {
-                //todo:
-//                handleTopicSelectionView(true)
+                handleTopicSelectionView(true)
 
                 selectedTopic.clear()
                 disabledTopics.clear()
@@ -394,13 +417,20 @@ open class LMFeedEditPostFragment :
                         disabledTopics[topic.id] = topic
                     }
                 }
-                //todo:
-//                addTopicsToGroup(false, topics)
+                addTopicsToGroup(false, topics)
             } else {
                 editPostViewModel.getAllTopics(true)
             }
 
             initPostComposerTextListener()
+        }
+    }
+
+    //sets data to the author frame
+    private fun initAuthorFrame(user: LMFeedUserViewData) {
+        binding.postHeader.apply {
+            setAuthorName(user.name)
+            setAuthorImage(user)
         }
     }
 
@@ -502,6 +532,92 @@ open class LMFeedEditPostFragment :
                 editPostViewModel.decodeUrl(link)
             } else {
                 clearPreviewLink()
+            }
+        }
+    }
+
+    //handles topics chip group and separator line
+    private fun handleTopicSelectionView(showView: Boolean) {
+        binding.apply {
+            postTopicsGroup.isVisible = showView
+            topicSeparator.isVisible = showView
+        }
+    }
+
+    //start activity -> Topic Selection and check for result with selected topics
+    private val topicSelectionLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val bundle = result.data?.extras
+                val resultExtras = LMFeedExtrasUtil.getParcelable(
+                    bundle,
+                    LMFeedTopicSelectionActivity.LM_FEED_TOPIC_SELECTION_RESULT_EXTRAS,
+                    LMFeedTopicSelectionResultExtras::class.java
+                ) ?: return@registerForActivityResult
+
+                val selectedTopics = resultExtras.selectedTopics
+                if (selectedTopics.isNotEmpty()) {
+                    addTopicsToGroup(true, selectedTopics)
+                }
+            }
+        }
+
+    //init initial topic selection view with "Select Topic Chip"
+    private fun initTopicSelectionView() {
+        binding.postTopicsGroup.apply {
+            removeAllViews()
+            addChip(
+                getString(R.string.lm_feed_select_topics),
+                LMFeedStyleTransformer.editPostFragmentViewStyle.selectTopicsChipStyle
+            ) {
+                val extras = LMFeedTopicSelectionExtras.Builder()
+                    .showAllTopicFilter(false)
+                    .showEnabledTopicOnly(true)
+                    .build()
+                val intent = LMFeedTopicSelectionActivity.getIntent(context, extras)
+
+                topicSelectionLauncher.launch(intent)
+            }
+        }
+    }
+
+    //add selected topics to group and add edit chip as well in the end
+    private fun addTopicsToGroup(
+        isAfterSelection: Boolean,
+        newSelectedTopics: List<LMFeedTopicViewData>
+    ) {
+        if (isAfterSelection) {
+            disabledTopics.clear()
+            selectedTopic.clear()
+        }
+
+        newSelectedTopics.forEach { topic ->
+            if (!topic.isEnabled) {
+                disabledTopics[topic.id] = topic
+            }
+            selectedTopic[topic.id] = topic
+        }
+
+        val selectedTopics = selectedTopic.values.toList()
+
+        binding.postTopicsGroup.apply {
+            removeAllViews()
+            selectedTopics.forEach { topic ->
+                addChip(topic.name, LMFeedStyleTransformer.postViewStyle.postTopicChipsStyle)
+            }
+            addChip(
+                "",
+                LMFeedStyleTransformer.editPostFragmentViewStyle.editChipStyle
+            ) {
+                val extras = LMFeedTopicSelectionExtras.Builder()
+                    .showAllTopicFilter(false)
+                    .selectedTopics(selectedTopics)
+                    .showEnabledTopicOnly(true)
+                    .disabledTopics(disabledTopics.values.toList())
+                    .build()
+                val intent = LMFeedTopicSelectionActivity.getIntent(context, extras)
+
+                topicSelectionLauncher.launch(intent)
             }
         }
     }

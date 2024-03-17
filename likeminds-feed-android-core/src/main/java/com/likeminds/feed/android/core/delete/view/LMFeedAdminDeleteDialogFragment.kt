@@ -94,7 +94,7 @@ open class LMFeedAdminDeleteDialogFragment
     private fun initUI() {
         binding.alertDialogDelete.apply {
             if (deleteExtras.entityType == DELETE_TYPE_POST) {
-                //todo:
+                //todo: set title in protected open fun and post as variable
                 setAlertTitle(
                     getString(
                         R.string.lm_feed_delete_s_question,
