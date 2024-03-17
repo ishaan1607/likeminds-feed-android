@@ -26,6 +26,7 @@ import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity.Companion.LM_FEED_EDIT_POST_EXTRAS
 import com.likeminds.feed.android.core.post.edit.viewmodel.LMFeedEditPostViewModel
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
+import com.likeminds.feed.android.core.post.util.LMFeedPostEvent
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionExtras
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionResultExtras
@@ -70,6 +71,11 @@ open class LMFeedEditPostFragment :
 
     private val postVideoAutoPlayHelper by lazy {
         LMFeedPostVideoAutoPlayHelper.getInstance()
+    }
+
+    // [postPublisher] to publish changes in the post
+    private val postEvent by lazy {
+        LMFeedPostEvent.getPublisher()
     }
 
     private val selectedTopic by lazy {
@@ -343,7 +349,7 @@ open class LMFeedEditPostFragment :
                     val post = response.post
 
                     // notifies the subscribers about the change in post data
-//                    postEvent.notify(Pair(post.id, post))
+                    postEvent.notify(Pair(post.id, post))
 
                     requireActivity().apply {
                         setResult(Activity.RESULT_OK)

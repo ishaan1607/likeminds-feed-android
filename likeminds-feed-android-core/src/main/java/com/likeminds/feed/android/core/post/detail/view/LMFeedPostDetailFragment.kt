@@ -2,7 +2,6 @@ package com.likeminds.feed.android.core.post.detail.view
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,6 +25,7 @@ import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
 import com.likeminds.feed.android.core.post.detail.viewmodel.LMFeedPostDetailViewModel
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity
+import com.likeminds.feed.android.core.post.util.LMFeedPostEvent
 import com.likeminds.feed.android.core.report.model.*
 import com.likeminds.feed.android.core.report.view.*
 import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.view.LMFeedCommentComposerView
@@ -67,6 +67,11 @@ open class LMFeedPostDetailFragment :
     // variables to handle comment/reply edit action
     private var editCommentId: String? = null
     private var parentId: String? = null
+
+    // [postPublisher] to publish changes in the post
+    private val postEvent by lazy {
+        LMFeedPostEvent.getPublisher()
+    }
 
     companion object {
         const val TAG = "PostDetailFragment"
@@ -337,8 +342,7 @@ open class LMFeedPostDetailFragment :
                 .build()
 
             // notifies the subscribers about the change in post data
-            //todo:
-//            postEvent.notify(Pair(post.id, post))
+            postEvent.notify(Pair(post.id, post))
 
             // updates comments count on header
             updateCommentsCount(post.footerViewData.commentsCount)
@@ -526,8 +530,7 @@ open class LMFeedPostDetailFragment :
             val post = pair.second
 
             // notifies the subscribers about the change in post data
-            //todo:
-//            postEvent.notify(Pair(post.id, post))
+            postEvent.notify(Pair(post.id, post))
 
             // update the comments count
             updateCommentsCount(post.footerViewData.commentsCount)
@@ -549,10 +552,8 @@ open class LMFeedPostDetailFragment :
 
         // observes deletePostResponse LiveData
         postDetailViewModel.deletePostResponse.observe(viewLifecycleOwner) {
-            //todo:
-
             // notifies the subscribers about the deletion of post
-//            postEvent.notify(Pair(postDetailExtras.postId, null))
+            postEvent.notify(Pair(postDetailExtras.postId, null))
 
             LMFeedViewUtils.showShortToast(
                 requireContext(),
@@ -647,9 +648,8 @@ open class LMFeedPostDetailFragment :
 
     // updates the post and add comments to adapter
     private fun updatePostAndAddComments(post: LMFeedPostViewData) {
-        //todo:
         // notifies the subscribers about the change in post data
-//        postEvent.notify(Pair(post.id, post))
+        postEvent.notify(Pair(post.id, post))
 
         binding.rvPostDetails.apply {
             // updates the post
@@ -981,8 +981,7 @@ open class LMFeedPostDetailFragment :
                             .fromPostLiked(true)
                             .build()
 
-                        //todo:
-//                        postEvent.notify(Pair(updatedPost.id, updatedPost))
+                        postEvent.notify(Pair(updatedPost.id, updatedPost))
 
                         //update recycler view
                         updateItem(postDataPosition, updatedPost)
@@ -1007,8 +1006,7 @@ open class LMFeedPostDetailFragment :
                             .fromPostSaved(true)
                             .build()
 
-                        //todo:
-//                        postEvent.notify(Pair(updatedPost.id, updatedPost))
+                        postEvent.notify(Pair(updatedPost.id, updatedPost))
 
                         //update recycler view
                         updateItem(postDataPosition, updatedPost)
@@ -1203,9 +1201,7 @@ open class LMFeedPostDetailFragment :
     override fun onPostLikeClicked(position: Int, postViewData: LMFeedPostViewData) {
         super.onPostLikeClicked(position, postViewData)
 
-        //todo:
-
-//            postEvent.notify(Pair(newViewData.id, newViewData))
+        postEvent.notify(Pair(postViewData.id, postViewData))
 
         val userPreferences = LMFeedUserPreferences(requireContext())
         val loggedInUUID = userPreferences.getUUID()
@@ -1234,8 +1230,7 @@ open class LMFeedPostDetailFragment :
         super.onPostSaveClicked(position, postViewData)
 
         // notifies the subscribers about the change
-        //todo:
-//            postEvent.notify(Pair(newViewData.id, newViewData))
+        postEvent.notify(Pair(postViewData.id, postViewData))
 
         //create toast message
 //            val postAsVariable = lmFeedHelperViewModel.getPostVariable()

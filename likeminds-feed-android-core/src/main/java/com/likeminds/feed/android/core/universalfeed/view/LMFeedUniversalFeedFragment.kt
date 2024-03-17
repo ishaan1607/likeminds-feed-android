@@ -28,6 +28,7 @@ import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
+import com.likeminds.feed.android.core.post.util.LMFeedPostEvent
 import com.likeminds.feed.android.core.report.model.LMFeedReportExtras
 import com.likeminds.feed.android.core.report.model.REPORT_TYPE_POST
 import com.likeminds.feed.android.core.report.view.LMFeedReportActivity
@@ -73,6 +74,10 @@ open class LMFeedUniversalFeedFragment :
     // variable to check if there is a post already uploading
     private var alreadyPosting: Boolean = false
 
+    private val postPublisher by lazy {
+        LMFeedPostEvent.getPublisher()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -99,6 +104,11 @@ open class LMFeedUniversalFeedFragment :
         observeResponses()
     }
 
+    override fun onStart() {
+        super.onStart()
+        postPublisher.subscribe(this)
+    }
+
     override fun onResume() {
         super.onResume()
         // sends feed opened event
@@ -121,6 +131,12 @@ open class LMFeedUniversalFeedFragment :
     override fun onPause() {
         super.onPause()
         binding.rvUniversal.destroyAutoPlayer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // unsubscribes itself from the [PostPublisher]
+        postPublisher.unsubscribe(this)
     }
 
     private fun initListeners() {
