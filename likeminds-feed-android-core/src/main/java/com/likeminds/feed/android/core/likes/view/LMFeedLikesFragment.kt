@@ -1,7 +1,6 @@
 package com.likeminds.feed.android.core.likes.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -143,7 +142,7 @@ open class LMFeedLikesFragment : Fragment(), LMFeedLikesAdapterListener {
     }
 
     protected open fun onNavigationIconClick() {
-        Log.d("PUI", "default onNavigationIconClick")
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun fetchData(fromRefresh: Boolean = false) {

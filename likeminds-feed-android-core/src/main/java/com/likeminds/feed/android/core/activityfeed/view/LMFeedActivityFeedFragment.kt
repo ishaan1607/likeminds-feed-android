@@ -64,6 +64,7 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
         super.onViewCreated(view, savedInstanceState)
 
         initUI()
+        initListeners()
         fetchData()
         observeData()
     }
@@ -71,6 +72,18 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
     private fun initUI() {
         initRecyclerView()
         initSwipeRefreshLayout()
+    }
+
+    private fun initListeners() {
+        binding.apply {
+            headerViewActivityFeed.setNavigationIconClickListener {
+                onNavigationIconClick()
+            }
+        }
+    }
+
+    protected open fun onNavigationIconClick() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun initRecyclerView() {

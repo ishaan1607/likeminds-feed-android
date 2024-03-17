@@ -192,20 +192,26 @@ open class LMFeedEditPostFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initUI()
+        initListeners()
         fetchData()
         observeData()
     }
 
-    private fun initUI() {
-        //initializes post done button click listener
-        binding.headerViewEditPost.setSubmitButtonClickListener {
-            savePost()
+    private fun initListeners() {
+        binding.apply {
+            //initializes post done button click listener
+            headerViewEditPost.setSubmitButtonClickListener {
+                onSavePostClicked()
+            }
+
+            headerViewEditPost.setNavigationIconClickListener {
+                onNavigationIconClick()
+            }
         }
     }
 
-    //check all the necessary conditions before saving a post
-    private fun savePost() {
+    protected open fun onSavePostClicked() {
+        //check all the necessary conditions before saving a post
         binding.apply {
             val text = etPostComposer.text
             //todo:
@@ -240,6 +246,10 @@ open class LMFeedEditPostFragment :
                 )
             }
         }
+    }
+
+    protected open fun onNavigationIconClick() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     //show alert for disabled topics

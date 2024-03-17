@@ -274,7 +274,7 @@ open class LMFeedPostDetailFragment :
     }
 
     protected open fun onNavigationIconClick() {
-        Log.d("PUI", "default onNavigationIconClick")
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     // adds the comment locally and calls api
