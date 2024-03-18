@@ -32,17 +32,26 @@ class LMFeedCommentComposerView : ConstraintLayout {
     private val binding: LmFeedCommentComposerViewBinding =
         LmFeedCommentComposerViewBinding.inflate(inflater, this, true)
 
-    //todo: confirm this
     val etComment: LMFeedEditText
         get() = binding.etComment
 
     fun setStyle(commentComposerStyle: LMFeedCommentComposerStyle) {
+        commentComposerStyle.apply {
+            elevation?.let {
+                this@LMFeedCommentComposerView.elevation = resources.getDimension(it)
+            }
 
-        configureCommentInput(commentComposerStyle.commentInputStyle)
-        configureCommentSend(commentComposerStyle.commentSendStyle)
-        configureCommentRestricted(commentComposerStyle.commentRestrictedStyle)
-        configureReplyingTo(commentComposerStyle.replyingToStyle)
-        configureRemoveReplyingTo(commentComposerStyle.removeReplyingToStyle)
+            backgroundColor?.let {
+                this@LMFeedCommentComposerView.setBackgroundColor(ContextCompat.getColor(context, it))
+            }
+
+            configureCommentInput(commentInputStyle)
+            configureCommentSend(commentSendStyle)
+            configureCommentRestricted(commentRestrictedStyle)
+            configureReplyingTo(replyingToStyle)
+            configureRemoveReplyingTo(removeReplyingToStyle)
+
+        }
     }
 
     private fun configureCommentInput(commentInputStyle: LMFeedEditTextStyle) {

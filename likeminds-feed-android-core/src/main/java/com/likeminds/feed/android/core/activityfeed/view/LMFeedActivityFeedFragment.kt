@@ -230,13 +230,12 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
         activityFeedViewModel.markReadActivity(activityViewData.id)
 
         // handle route
-        //todo: route
-//        val routeIntent = Route.getRouteIntent(
-//            requireContext(),
-//            activityViewData.cta,
-//        )
-//        if (routeIntent != null) {
-//            requireContext().startActivity(routeIntent)
-//        }
+        val routeIntent = LMFeedRoute.getRouteIntent(
+            requireContext(),
+            activityViewData.cta,
+        )
+        if (routeIntent != null) {
+            requireContext().startActivity(routeIntent)
+        }
     }
 }
