@@ -6,6 +6,12 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedProgressBarStyle] helps you customize a circular progress bar in the following way
+ * @property progressColor: [Int] should be in format of [ColorRes] to add color to progress | Default value = [null]
+ * @property isIndeterminate: [Boolean], this property defines whether progress should be determinate or indeterminate | Default value = [false]
+ * @property maxProgress: [Int], this property defines the maximum value of progress, should be provided in case [isIndeterminate] is [true] | Default value = [null]
+ **/
 class LMFeedProgressBarStyle private constructor(
     @ColorRes val progressColor: Int?,
     val isIndeterminate: Boolean,
