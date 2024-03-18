@@ -5,12 +5,11 @@ import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 
 /**
- * Represents a basic text view
+ * Represents a basic edit text
  * To customize this view use [LMFeedEditTextStyle]
  */
 class LMFeedEditText : AppCompatEditText {
     constructor(context: Context) : super(context) {
-
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
