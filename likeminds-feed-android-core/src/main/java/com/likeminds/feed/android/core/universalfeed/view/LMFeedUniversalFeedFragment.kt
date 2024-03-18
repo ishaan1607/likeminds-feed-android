@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedActivity
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
@@ -48,6 +49,7 @@ import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverfl
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalSelectedTopicAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
@@ -122,6 +124,7 @@ open class LMFeedUniversalFeedFragment :
     }
 
     private fun fetchData() {
+        universalFeedViewModel.getLoggedInUser()
         universalFeedViewModel.getMemberState()
         universalFeedViewModel.getUnreadNotificationCount()
         universalFeedViewModel.getFeed(1, null)
@@ -150,18 +153,6 @@ open class LMFeedUniversalFeedFragment :
                 onCreateNewPostClick(true)
             }
 
-            headerViewUniversal.setNavigationIconClickListener {
-                onNavigationIconClick()
-            }
-
-            headerViewUniversal.setSearchIconClickListener {
-                onSearchIconClick()
-            }
-
-            headerViewUniversal.setUserProfileClickListener {
-                onUserProfileClicked()
-            }
-
             headerViewUniversal.setNotificationIconClickListener {
                 onNotificationIconClicked()
             }
@@ -181,8 +172,19 @@ open class LMFeedUniversalFeedFragment :
     }
 
     private fun observeResponses() {
+        //observes user response LiveData
+        universalFeedViewModel.userResponse.observe(viewLifecycleOwner) {
+            binding.headerViewUniversal.apply {
+                setUserProfileClickListener {
+                    onUserProfileClicked(it)
+                }
+                setUserProfileImage(it)
+            }
+        }
+
         // observes hasCreatePostRights LiveData
         universalFeedViewModel.hasCreatePostRights.observe(viewLifecycleOwner) {
+            universalFeedViewModel.getLoggedInUser()
             initNewPostClick(it)
         }
 
@@ -832,16 +834,9 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
-    protected open fun onNavigationIconClick() {
-        Log.d("PUI", "default onNavigationIconClick")
-    }
-
-    protected open fun onSearchIconClick() {
-        Log.d("PUI", "default onSearchIconClick")
-    }
-
-    protected open fun onUserProfileClicked() {
-        //todo:
+    protected open fun onUserProfileClicked(userViewData: LMFeedUserViewData) {
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfile(userViewData)
     }
 
     protected open fun onNotificationIconClicked() {
@@ -968,6 +963,7 @@ open class LMFeedUniversalFeedFragment :
         binding.apply {
             mSwipeRefreshLayout.isRefreshing = true
             rvUniversal.resetScrollListenerData()
+            universalFeedViewModel.getUnreadNotificationCount()
             universalFeedViewModel.getFeed(
                 1,
                 universalFeedViewModel.getTopicIdsFromAdapterList(topicSelectorBar.getAllSelectedTopics())
