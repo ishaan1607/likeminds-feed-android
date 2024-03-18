@@ -5,7 +5,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="16dp">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_user_image"

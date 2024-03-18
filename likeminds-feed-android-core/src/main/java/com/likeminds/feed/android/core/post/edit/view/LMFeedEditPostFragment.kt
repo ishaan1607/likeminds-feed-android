@@ -34,6 +34,7 @@ import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionA
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
+import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.*
@@ -119,6 +120,7 @@ open class LMFeedEditPostFragment :
 
         binding.apply {
             customizeEditPostHeaderView(headerViewEditPost)
+            customizePostHeaderView(postHeader)
             customizePostTopicsGroup(postTopicsGroup)
             customizePostComposer(etPostComposer)
             customizePostSingleImageView(singleImageAttachment.ivSingleImagePost)
@@ -145,6 +147,12 @@ open class LMFeedEditPostFragment :
 
             setSubmitText(getString(R.string.lm_feed_save))
             setSubmitButtonEnabled(false)
+        }
+    }
+
+    protected open fun customizePostHeaderView(postHeader: LMFeedPostHeaderView) {
+        postHeader.apply {
+            setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.postHeaderViewStyle)
         }
     }
 

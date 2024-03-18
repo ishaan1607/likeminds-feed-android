@@ -769,6 +769,12 @@ open class LMFeedUniversalFeedFragment :
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
         fabNewPost.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)
+
+            text = getString(
+                R.string.lm_feed_new_s,
+                LMFeedCommunityUtil.getPostVariable()
+                    .pluralizeOrCapitalize(LMFeedWordAction.ALL_CAPITAL_SINGULAR)
+            )
         }
     }
 
