@@ -24,7 +24,7 @@ class LMFeedEditPostActivity : AppCompatActivity() {
 
     companion object {
         const val LM_FEED_EDIT_POST_EXTRAS = "LM_FEED_EDIT_POST_EXTRAS"
-        const val LM_FEED_EDIT_POST_BUNDLE = "lm_feed_bundle"
+        const val LM_FEED_EDIT_POST_BUNDLE = "lm_feed_edit_post_bundle"
 
         @JvmStatic
         fun start(context: Context, extras: LMFeedEditPostExtras) {
