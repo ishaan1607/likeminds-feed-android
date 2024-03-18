@@ -235,6 +235,42 @@ open class LMFeedUniversalFeedFragment :
             binding.headerViewUniversal.setNotificationCountText(unreadNotificationCount)
         }
 
+        universalFeedViewModel.postSavedResponse.observe(viewLifecycleOwner) { postViewData ->
+            //create toast message
+            val toastMessage = if (postViewData.footerViewData.isSaved) {
+                getString(
+                    R.string.lm_feed_s_saved,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                )
+            } else {
+                getString(
+                    R.string.lm_feed_s_unsaved,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                )
+            }
+            LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
+        }
+
+        universalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { postViewData ->
+            //show toast message
+            val toastMessage = if (postViewData.headerViewData.isPinned) {
+                getString(
+                    R.string.lm_feed_s_pinned_to_top,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                )
+            } else {
+                getString(
+                    R.string.lm_feed_s_unpinned,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                )
+            }
+            LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
+        }
+
         universalFeedViewModel.errorMessageEventFlow.onEach { response ->
             when (response) {
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.UniversalFeed -> {
@@ -495,22 +531,6 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostSaveClicked(position: Int, postViewData: LMFeedPostViewData) {
-        //create toast message
-        val toastMessage = if (postViewData.footerViewData.isSaved) {
-            getString(
-                R.string.lm_feed_s_saved,
-                LMFeedCommunityUtil.getPostVariable()
-                    .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-            )
-        } else {
-            getString(
-                R.string.lm_feed_s_unsaved,
-                LMFeedCommunityUtil.getPostVariable()
-                    .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-            )
-        }
-        LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
-
         //call api
         universalFeedViewModel.savePost(postViewData)
         //update recycler
@@ -766,8 +786,8 @@ open class LMFeedUniversalFeedFragment :
                         requireContext(),
                         getString(
                             R.string.lm_feed_a_s_is_already_uploading,
-//                            lmFeedHelperViewModel.getPostVariable()
-//                                .pluralizeOrCapitalize(WordAction.ALL_SMALL_SINGULAR)
+                            LMFeedCommunityUtil.getPostVariable()
+                                .pluralizeOrCapitalize(LMFeedWordAction.ALL_SMALL_SINGULAR)
                         )
                     )
                 } else {
@@ -796,8 +816,8 @@ open class LMFeedUniversalFeedFragment :
                     root,
                     getString(
                         R.string.lm_feed_you_do_not_have_permission_to_create_a_s,
-//                        lmFeedHelperViewModel.getPostVariable()
-//                            .pluralizeOrCapitalize(WordAction.ALL_SMALL_SINGULAR)
+                        LMFeedCommunityUtil.getPostVariable()
+                            .pluralizeOrCapitalize(LMFeedWordAction.ALL_SMALL_SINGULAR)
                     )
                 )
             }
@@ -831,11 +851,28 @@ open class LMFeedUniversalFeedFragment :
 
     protected open fun customizeNoPostLayout(layoutNoPost: LMFeedNoEntityLayoutView) {
         layoutNoPost.apply {
+            val postAsVariable = LMFeedCommunityUtil.getPostVariable()
+
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.noPostLayoutViewStyle)
 
-            setTitleText(getString(R.string.lm_feed_no_s_to_show))
-            setSubtitleText(getString(R.string.lm_feed_be_the_first_one_to_s_here))
-            setActionCTAText(getString(R.string.lm_feed_new_s))
+            setTitleText(
+                getString(
+                    R.string.lm_feed_no_s_to_show,
+                    postAsVariable.pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                )
+            )
+            setSubtitleText(
+                getString(
+                    R.string.lm_feed_be_the_first_one_to_s_here,
+                    postAsVariable.pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                )
+            )
+            setActionCTAText(
+                getString(
+                    R.string.lm_feed_new_s,
+                    postAsVariable.pluralizeOrCapitalize(LMFeedWordAction.ALL_CAPITAL_SINGULAR)
+                )
+            )
         }
     }
 
@@ -843,7 +880,13 @@ open class LMFeedUniversalFeedFragment :
         layoutPosting.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.postingViewStyle)
 
-            setPostingText(getString(R.string.lm_feed_creating_s))
+            setPostingText(
+                getString(
+                    R.string.lm_feed_creating_s,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                )
+            )
             setRetryCTAText(getString(R.string.lm_feed_retry))
         }
     }
@@ -1076,22 +1119,6 @@ open class LMFeedUniversalFeedFragment :
         menuId: Int,
         post: LMFeedPostViewData
     ) {
-        //show toast message
-        val toastMessage = if (post.headerViewData.isPinned) {
-            getString(
-                R.string.lm_feed_s_pinned_to_top,
-                LMFeedCommunityUtil.getPostVariable()
-                    .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-            )
-        } else {
-            getString(
-                R.string.lm_feed_s_unpinned,
-                LMFeedCommunityUtil.getPostVariable()
-                    .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-            )
-        }
-        LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
-
         //call api
         universalFeedViewModel.pinPost(post)
 

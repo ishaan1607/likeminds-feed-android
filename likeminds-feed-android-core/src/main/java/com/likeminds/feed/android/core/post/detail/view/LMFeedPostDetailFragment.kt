@@ -119,7 +119,13 @@ open class LMFeedPostDetailFragment :
         headerViewPostDetail.apply {
             setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.headerViewStyle)
 
-            setTitleText(getString(R.string.lm_feed_s_post))
+            setTitleText(
+                getString(
+                    R.string.lm_feed_s_post,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                )
+            )
         }
     }
 
@@ -569,36 +575,41 @@ open class LMFeedPostDetailFragment :
         }
 
         //observes postSavedResponse LiveData
-        postDetailViewModel.postSavedResponse.observe(viewLifecycleOwner) { post ->
-            //show toast message
-            val toastMessage = if (post.footerViewData.isSaved) {
+        postDetailViewModel.postSavedResponse.observe(viewLifecycleOwner) { postViewData ->
+            //create toast message
+            val toastMessage = if (postViewData.footerViewData.isSaved) {
                 getString(
-                    R.string.lm_feed_s_saved
+                    R.string.lm_feed_s_saved,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
                 )
             } else {
-                getString(R.string.lm_feed_s_unsaved)
+                getString(
+                    R.string.lm_feed_s_unsaved,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                )
             }
             LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
         }
 
         //observes pinPostResponse LiveData
-        postDetailViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
-            val postAsVariable = LMFeedCommunityUtil.getPostVariable()
-            if (post.headerViewData.isPinned) {
-                LMFeedViewUtils.showShortToast(
-                    requireContext(), getString(
-                        R.string.lm_feed_s_pinned_to_top,
-                        postAsVariable.pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-                    )
+        postDetailViewModel.postPinnedResponse.observe(viewLifecycleOwner) { postViewData ->
+            //show toast message
+            val toastMessage = if (postViewData.headerViewData.isPinned) {
+                getString(
+                    R.string.lm_feed_s_pinned_to_top,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
                 )
             } else {
-                LMFeedViewUtils.showShortToast(
-                    requireContext(), getString(
-                        R.string.lm_feed_s_unpinned,
-                        postAsVariable.pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-                    )
+                getString(
+                    R.string.lm_feed_s_unpinned,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
                 )
             }
+            LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
         }
     }
 
@@ -1229,23 +1240,6 @@ open class LMFeedPostDetailFragment :
 
         // notifies the subscribers about the change
         postEvent.notify(Pair(postViewData.id, postViewData))
-
-        //create toast message
-//            val postAsVariable = lmFeedHelperViewModel.getPostVariable()
-        val toastMessage = if (postViewData.footerViewData.isSaved) {
-            getString(
-                R.string.lm_feed_s_saved,
-//                    postAsVariable.pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-            )
-        } else {
-            getString(
-                R.string.lm_feed_s_unsaved,
-//                    postAsVariable.pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-            )
-        }
-
-        //show toast
-        Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_SHORT).show()
 
         //call api
         postDetailViewModel.savePost(postViewData)

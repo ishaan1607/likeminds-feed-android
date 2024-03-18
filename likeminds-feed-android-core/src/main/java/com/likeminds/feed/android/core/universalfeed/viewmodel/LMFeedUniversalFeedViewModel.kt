@@ -24,6 +24,12 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     val universalFeedResponse: LiveData<Pair<Int, List<LMFeedPostViewData>>> =
         _universalFeedResponse
 
+    private val _postSavedResponse = MutableLiveData<LMFeedPostViewData>()
+    val postSavedResponse: LiveData<LMFeedPostViewData> = _postSavedResponse
+
+    private val _postPinnedResponse = MutableLiveData<LMFeedPostViewData>()
+    val postPinnedResponse: LiveData<LMFeedPostViewData> = _postPinnedResponse
+
     private val _deletePostResponse = MutableLiveData<String>()
     val deletePostResponse: LiveData<String> = _deletePostResponse
 
@@ -143,6 +149,8 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
                     postId = postViewData.id,
                     postSaved = postViewData.footerViewData.isSaved
                 )
+
+                _postSavedResponse.postValue(postViewData)
             } else {
                 errorMessageChannel.send(
                     ErrorMessageEvent.SavePost(
@@ -167,6 +175,8 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
             if (response.success) {
                 //sends event for pin/unpin post
                 LMFeedAnalytics.sendPostPinnedEvent(postViewData)
+
+                _postPinnedResponse.postValue(postViewData)
             } else {
                 errorMessageChannel.send(
                     ErrorMessageEvent.PinPost(

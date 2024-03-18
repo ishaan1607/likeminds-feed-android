@@ -138,7 +138,8 @@ open class LMFeedEditPostFragment :
             setTitleText(
                 getString(
                     R.string.lm_feed_edit_s,
-                    LMFeedCommunityUtil.getPostVariable().pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
                 )
             )
 
@@ -263,7 +264,6 @@ open class LMFeedEditPostFragment :
     private fun showDisabledTopicsAlert(disabledTopics: List<LMFeedTopicViewData>) {
         val noOfDisabledTopics = disabledTopics.size
 
-        //todo:
         //create message string
         val topicNameString = disabledTopics.joinToString(", ") { it.name }
         val firstLineMessage = resources.getQuantityString(
