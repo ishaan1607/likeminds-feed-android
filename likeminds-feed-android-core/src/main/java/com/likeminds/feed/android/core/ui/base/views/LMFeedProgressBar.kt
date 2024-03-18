@@ -4,6 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.ProgressBar
 
+/**
+ * Represents a material circular progress bar
+ * To customize this view use [LMFeedProgressBarStyle]
+ */
 class LMFeedProgressBar : ProgressBar {
     constructor(context: Context) : super(context) {
     }
