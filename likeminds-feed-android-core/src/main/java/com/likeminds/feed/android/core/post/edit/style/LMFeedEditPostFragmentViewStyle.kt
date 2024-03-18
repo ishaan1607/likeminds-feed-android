@@ -3,9 +3,14 @@ package com.likeminds.feed.android.core.post.edit.style
 import android.graphics.Typeface
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedChipStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedEditTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedProgressBarStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
 class LMFeedEditPostFragmentViewStyle private constructor(
@@ -21,7 +26,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
     val editChipStyle: LMFeedChipStyle,
     //disabled topics alert dialog style
     val disabledTopicsAlertDialogStyle: LMFeedAlertDialogStyle
-) {
+) : LMFeedViewStyle {
 
     class Builder {
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()

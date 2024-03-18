@@ -3,6 +3,7 @@
     <dimen name="zero_dp">0dp</dimen>
     <!--Header View-->
     <dimen name="lm_feed_header_view_title_text_size">22sp</dimen>
+    <dimen name="lm_feed_header_view_height">54dp</dimen>
 
     <!--    Text Size-->
     <dimen name="lm_feed_text_small">12sp</dimen>
