@@ -67,6 +67,9 @@ class LMFeedProgressBarStyle private constructor(
     }
 }
 
+/**
+ * Util functions to helps to apply all the styling [LMFeedProgressBarStyle] to [LMFeedProgressBar]
+ **/
 fun LMFeedProgressBar.setStyle(viewStyle: LMFeedProgressBarStyle) {
     viewStyle.apply(this)
 }
