@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.universalfeed.viewmodel
 import androidx.lifecycle.*
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
@@ -23,12 +24,6 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     val universalFeedResponse: LiveData<Pair<Int, List<LMFeedPostViewData>>> =
         _universalFeedResponse
 
-    private val _postSavedResponse = MutableLiveData<LMFeedPostViewData>()
-    val postSavedResponse: LiveData<LMFeedPostViewData> = _postSavedResponse
-
-    private val _postPinnedResponse = MutableLiveData<LMFeedPostViewData>()
-    val postPinnedResponse: LiveData<LMFeedPostViewData> = _postPinnedResponse
-
     private val _deletePostResponse = MutableLiveData<String>()
     val deletePostResponse: LiveData<String> = _deletePostResponse
 
@@ -40,6 +35,9 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
 
     private val _unreadNotificationCount = MutableLiveData<Int>()
     val unreadNotificationCount: LiveData<Int> = _unreadNotificationCount
+
+    private val _userResponse = MutableLiveData<LMFeedUserViewData>()
+    val userResponse: LiveData<LMFeedUserViewData> = _userResponse
 
     private val errorMessageChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
     val errorMessageEventFlow = errorMessageChannel.receiveAsFlow()
@@ -145,8 +143,6 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
                     postId = postViewData.id,
                     postSaved = postViewData.footerViewData.isSaved
                 )
-
-                _postSavedResponse.postValue(postViewData)
             } else {
                 errorMessageChannel.send(
                     ErrorMessageEvent.SavePost(
@@ -171,8 +167,6 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
             if (response.success) {
                 //sends event for pin/unpin post
                 LMFeedAnalytics.sendPostPinnedEvent(postViewData)
-
-                _postPinnedResponse.postValue(postViewData)
             } else {
                 errorMessageChannel.send(
                     ErrorMessageEvent.PinPost(
@@ -267,6 +261,22 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
             } else {
                 //for error
                 errorMessageChannel.send(ErrorMessageEvent.GetUnreadNotificationCount(response.errorMessage))
+            }
+        }
+    }
+
+    //gets logged in user
+    fun getLoggedInUser() {
+        viewModelScope.launchIO {
+            val response = lmFeedClient.getLoggedInUserWithRights()
+
+            if (response.success) {
+                val user = response.data?.user ?: return@launchIO
+
+                val userViewData = LMFeedViewDataConvertor.convertUser(user)
+
+                //post the user response in LiveData
+                _userResponse.postValue(userViewData)
             }
         }
     }

@@ -40,12 +40,14 @@ import com.likeminds.feed.android.core.universalfeed.model.*
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils.customizePostTopicsGroup
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
 import com.likeminds.feed.android.core.utils.base.model.*
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -133,11 +135,10 @@ open class LMFeedEditPostFragment :
         headerViewEditPost.apply {
             setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.headerViewStyle)
 
-            //todo:
             setTitleText(
                 getString(
                     R.string.lm_feed_edit_s,
-//                postAsVariable.pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                    LMFeedCommunityUtil.getPostVariable().pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
                 )
             )
 
@@ -268,8 +269,8 @@ open class LMFeedEditPostFragment :
         val firstLineMessage = resources.getQuantityString(
             R.plurals.lm_feed_topic_disabled_message_s,
             noOfDisabledTopics,
-//            lmFeedHelperViewModel.getPostVariable()
-//                .pluralizeOrCapitalize(WordAction.ALL_SMALL_SINGULAR)
+            LMFeedCommunityUtil.getPostVariable()
+                .pluralizeOrCapitalize(LMFeedWordAction.ALL_SMALL_SINGULAR)
         )
         val finalMessage = "$firstLineMessage \n $topicNameString"
 

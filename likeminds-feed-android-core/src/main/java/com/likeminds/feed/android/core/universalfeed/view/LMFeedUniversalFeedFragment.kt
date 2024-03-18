@@ -52,11 +52,13 @@ import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
 import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import kotlinx.coroutines.flow.onEach
 
@@ -202,28 +204,6 @@ open class LMFeedUniversalFeedFragment :
             }
         }
 
-        universalFeedViewModel.postSavedResponse.observe(viewLifecycleOwner) { post ->
-            //todo: post variable
-            //show toast message
-            val toastMessage = if (post.footerViewData.isSaved) {
-                getString(R.string.lm_feed_s_saved)
-            } else {
-                getString(R.string.lm_feed_s_unsaved)
-            }
-            LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
-        }
-
-        universalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
-            //todo: post variable
-            //show toast message
-            val toastMessage = if (post.headerViewData.isPinned) {
-                getString(R.string.lm_feed_s_pinned_to_top)
-            } else {
-                getString(R.string.lm_feed_s_unpinned)
-            }
-            LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
-        }
-
         // observes deletePostResponse LiveData
         universalFeedViewModel.deletePostResponse.observe(viewLifecycleOwner) { postId ->
             binding.rvUniversal.apply {
@@ -231,13 +211,13 @@ open class LMFeedUniversalFeedFragment :
                 removePostAtIndex(indexToRemove)
                 checkForNoPost(allPosts())
                 refreshAutoPlayer()
-                //todo:
+
                 LMFeedViewUtils.showShortToast(
                     requireContext(),
                     getString(
                         R.string.lm_feed_s_deleted,
-//                        lmFeedHelperViewModel.getPostVariable()
-//                            .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                        LMFeedCommunityUtil.getPostVariable()
+                            .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
                     )
                 )
             }
@@ -515,7 +495,22 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostSaveClicked(position: Int, postViewData: LMFeedPostViewData) {
-        //todo: create toast message using post variable and show toast
+        //create toast message
+        val toastMessage = if (postViewData.footerViewData.isSaved) {
+            getString(
+                R.string.lm_feed_s_saved,
+                LMFeedCommunityUtil.getPostVariable()
+                    .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+            )
+        } else {
+            getString(
+                R.string.lm_feed_s_unsaved,
+                LMFeedCommunityUtil.getPostVariable()
+                    .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+            )
+        }
+        LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
+
         //call api
         universalFeedViewModel.savePost(postViewData)
         //update recycler
@@ -523,12 +518,12 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostShareClicked(position: Int, postViewData: LMFeedPostViewData) {
-        //todo: post as variable and take domain here
+        //todo: take domain here
         LMFeedShareUtils.sharePost(
             requireContext(),
             postViewData.id,
             "https://take-this-in-config.com",
-            ""
+            LMFeedCommunityUtil.getPostVariable()
         )
 
         LMFeedAnalytics.sendPostShared(postViewData)
@@ -1016,8 +1011,6 @@ open class LMFeedUniversalFeedFragment :
         val deleteExtras = LMFeedDeleteExtras.Builder()
             .postId(post.id)
             .entityType(DELETE_TYPE_POST)
-            //todo:
-//            .postAsVariable(lmFeedHelperViewModel.getPostVariable())
             .build()
 
         val postCreatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
@@ -1045,15 +1038,13 @@ open class LMFeedUniversalFeedFragment :
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = result.data?.getStringExtra(LM_FEED_REPORT_RESULT)
-                //todo:
-                val entityType = "Post"
-//                val entityType = if (data == "Post") {
-//                    lmFeedHelperViewModel.getPostVariable()
-//                        .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-//                } else {
-//                    data
-//                }
-                LMFeedReportSuccessDialogFragment(entityType).show(
+                val entityType = if (data == "Post") {
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                } else {
+                    data
+                }
+                LMFeedReportSuccessDialogFragment(entityType ?: "").show(
                     childFragmentManager,
                     LMFeedReportSuccessDialogFragment.TAG
                 )
@@ -1085,6 +1076,22 @@ open class LMFeedUniversalFeedFragment :
         menuId: Int,
         post: LMFeedPostViewData
     ) {
+        //show toast message
+        val toastMessage = if (post.headerViewData.isPinned) {
+            getString(
+                R.string.lm_feed_s_pinned_to_top,
+                LMFeedCommunityUtil.getPostVariable()
+                    .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+            )
+        } else {
+            getString(
+                R.string.lm_feed_s_unpinned,
+                LMFeedCommunityUtil.getPostVariable()
+                    .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+            )
+        }
+        LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
+
         //call api
         universalFeedViewModel.pinPost(post)
 
