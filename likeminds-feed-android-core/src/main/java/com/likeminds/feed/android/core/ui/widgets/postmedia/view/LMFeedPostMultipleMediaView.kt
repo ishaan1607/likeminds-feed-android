@@ -79,6 +79,7 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
         }
     }
 
+    //sets the view pager to the multiple media type post with the provided listeners and attachments
     fun setViewPager(
         parentPosition: Int,
         listener: LMFeedUniversalFeedAdapterListener,

@@ -19,6 +19,10 @@ import com.likeminds.feed.android.core.utils.LMFeedVideoCache
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 
+/**
+ * Represents a video view
+ * To customize this view use [LMFeedPostVideoMediaViewStyle]
+ */
 class LMFeedVideoView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
