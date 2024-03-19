@@ -19,7 +19,7 @@ class LMFeedCreatePostActivity : AppCompatActivity() {
     companion object {
         const val TAG = "LMFeedCreatePostActivity"
         const val LM_FEED_CREATE_POST_EXTRAS = "LM_FEED_CREATE_POST_EXTRAS"
-        const val LM_FEED_CREATE_POST_BUNDLE = "lm_feed_create_post_bundle"
+        const val LM_FEED_CREATE_POST_BUNDLE = "lm_feed_bundle"
 
         @JvmStatic
         fun start(context: Context, extras: LMFeedCreatePostExtras) {
@@ -50,7 +50,8 @@ class LMFeedCreatePostActivity : AppCompatActivity() {
         //parse extras
         assignExtras()
 
-
+        //inflate create post fragment
+        inflateCreatePostFragment()
     }
 
     //check for extras and handle the flow
@@ -78,5 +79,14 @@ class LMFeedCreatePostActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack()
         onBackPressedDispatcher.onBackPressed()
         overridePendingTransition(R.anim.lm_feed_slide_from_left, R.anim.lm_feed_slide_to_right)
+    }
+
+    private fun inflateCreatePostFragment() {
+        val createPostFragment =
+            LMFeedCreatePostFragment.getInstance(createPostExtras = lmFeedCreatePostExtras)
+
+        supportFragmentManager.beginTransaction()
+            .replace(binding.containerCreatePost.id, createPostFragment, TAG)
+            .commit()
     }
 }

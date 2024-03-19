@@ -24,6 +24,15 @@ class LMFeedCreatePostFragment : Fragment() {
 
     companion object {
         const val TAG = "LMFeedCreatePostFragment"
+        const val LM_FEED_CREATE_POST_FRAGMENT_EXTRAS = "LM_FEED_CREATE_POST_FRAGMENT_EXTRAS"
+
+        fun getInstance(createPostExtras: LMFeedCreatePostExtras): LMFeedCreatePostFragment {
+            val createPostFragment = LMFeedCreatePostFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(LM_FEED_CREATE_POST_FRAGMENT_EXTRAS, createPostExtras)
+            createPostFragment.arguments = bundle
+            return createPostFragment
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +50,7 @@ class LMFeedCreatePostFragment : Fragment() {
 
         lmFeedCreatePostExtras = LMFeedExtrasUtil.getParcelable(
             arguments,
-            LM_FEED_CREATE_POST_EXTRAS,
+            LM_FEED_CREATE_POST_FRAGMENT_EXTRAS,
             LMFeedCreatePostExtras::class.java
         ) ?: throw emptyExtrasException(TAG)
     }

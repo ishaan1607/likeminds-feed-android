@@ -5,7 +5,9 @@ import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -18,11 +20,20 @@ import com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedActiv
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.core.delete.model.DELETE_TYPE_POST
 import com.likeminds.feed.android.core.delete.model.LMFeedDeleteExtras
-import com.likeminds.feed.android.core.delete.view.*
+import com.likeminds.feed.android.core.delete.view.LMFeedAdminDeleteDialogFragment
+import com.likeminds.feed.android.core.delete.view.LMFeedAdminDeleteDialogListener
+import com.likeminds.feed.android.core.delete.view.LMFeedSelfDeleteDialogFragment
+import com.likeminds.feed.android.core.delete.view.LMFeedSelfDeleteDialogListener
 import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
 import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
-import com.likeminds.feed.android.core.overflowmenu.model.*
+import com.likeminds.feed.android.core.overflowmenu.model.DELETE_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.EDIT_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.REPORT_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
+import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
@@ -51,7 +62,13 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedAndroidUtils
+import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
+import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
+import com.likeminds.feed.android.core.utils.LMFeedRoute
+import com.likeminds.feed.android.core.utils.LMFeedShareUtils
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
@@ -779,12 +796,15 @@ open class LMFeedUniversalFeedFragment :
                     // sends post creation started event
                     LMFeedAnalytics.sendPostCreationStartedEvent()
 
-                    //todo: add create post launcher here
-//                    val intent = LMFeedCreatePostActivity.getIntent(
-//                        requireContext(),
-//                        LMFeedAnalytics.Source.UNIVERSAL_FEED
-//                    )
-//                    createPostLauncher.launch(intent)
+                    val createPostExtras = LMFeedCreatePostExtras.Builder()
+                        .source(LMFeedAnalytics.Source.UNIVERSAL_FEED)
+                        .build()
+
+                    val intent = LMFeedCreatePostActivity.getIntent(
+                        requireContext(),
+                        createPostExtras
+                    )
+                    createPostLauncher.launch(intent)
                 }
             } else {
                 //sets color of fab button as per user rights
@@ -808,6 +828,21 @@ open class LMFeedUniversalFeedFragment :
             }
         }
     }
+
+    private val createPostLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    // post of type text/link has been created and posted
+                    onFeedRefreshed()
+                }
+
+//                LMFeedCreatePostActivity.RESULT_UPLOAD_POST -> {
+//                    // post with attachments created, now upload and post it from db
+////                    viewModel.fetchPendingPostFromDB()
+//                }
+            }
+        }
 
     protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {
         headerViewUniversal.apply {
