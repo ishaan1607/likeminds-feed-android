@@ -1,17 +1,22 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
-import com.likeminds.feed.android.core.overflowmenu.model.*
+import com.likeminds.feed.android.core.overflowmenu.model.DELETE_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.EDIT_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.REPORT_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
@@ -22,7 +27,11 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedAndroidUtils
+import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
+import com.likeminds.feed.android.core.utils.LMFeedShareUtils
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
@@ -36,10 +45,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
     private val lmFeedUniversalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -297,14 +302,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                 rvUniversal.hide()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
     }
 
     override fun onPostContentClick(position: Int, postViewData: LMFeedPostViewData) {
