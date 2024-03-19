@@ -39,6 +39,7 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
+import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostLinkMediaView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostMultipleMediaView
@@ -48,10 +49,12 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils.customizePostTopicsGroup
+import com.likeminds.feed.android.core.utils.LMFeedCommunityUtil
 import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
 import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -64,6 +67,7 @@ import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_SINGLE_IMAGE
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_SINGLE_VIDEO
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.emptyExtrasException
+import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -142,6 +146,7 @@ open class LMFeedEditPostFragment :
 
         binding.apply {
             customizeEditPostHeaderView(headerViewEditPost)
+            customizePostHeaderView(postHeader)
             customizePostTopicsGroup(postTopicsGroup)
             customizePostComposer(etPostComposer)
             customizePostSingleImageView(singleImageAttachment.ivSingleImagePost)
@@ -158,16 +163,22 @@ open class LMFeedEditPostFragment :
         headerViewEditPost.apply {
             setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.headerViewStyle)
 
-            //todo:
             setTitleText(
                 getString(
                     R.string.lm_feed_edit_s,
-//                postAsVariable.pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
                 )
             )
 
             setSubmitText(getString(R.string.lm_feed_save))
             setSubmitButtonEnabled(false)
+        }
+    }
+
+    protected open fun customizePostHeaderView(postHeader: LMFeedPostHeaderView) {
+        postHeader.apply {
+            setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.postHeaderViewStyle)
         }
     }
 
@@ -287,14 +298,13 @@ open class LMFeedEditPostFragment :
     private fun showDisabledTopicsAlert(disabledTopics: List<LMFeedTopicViewData>) {
         val noOfDisabledTopics = disabledTopics.size
 
-        //todo:
         //create message string
         val topicNameString = disabledTopics.joinToString(", ") { it.name }
         val firstLineMessage = resources.getQuantityString(
             R.plurals.lm_feed_topic_disabled_message_s,
             noOfDisabledTopics,
-//            lmFeedHelperViewModel.getPostVariable()
-//                .pluralizeOrCapitalize(WordAction.ALL_SMALL_SINGULAR)
+            LMFeedCommunityUtil.getPostVariable()
+                .pluralizeOrCapitalize(LMFeedWordAction.ALL_SMALL_SINGULAR)
         )
         val finalMessage = "$firstLineMessage \n $topicNameString"
 

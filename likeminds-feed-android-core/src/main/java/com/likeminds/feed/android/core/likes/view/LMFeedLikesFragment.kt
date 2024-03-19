@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentLikesBinding
 import com.likeminds.feed.android.core.likes.adapter.LMFeedLikesAdapterListener
@@ -194,5 +195,8 @@ open class LMFeedLikesFragment : Fragment(), LMFeedLikesAdapterListener {
 
     override fun onUserLikeItemClicked(position: Int, likesViewData: LMFeedLikeViewData) {
         super.onUserLikeItemClicked(position, likesViewData)
+
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfile(likesViewData.user)
     }
 }

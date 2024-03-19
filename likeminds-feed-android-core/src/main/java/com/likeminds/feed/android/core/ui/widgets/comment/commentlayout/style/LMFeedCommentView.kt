@@ -423,6 +423,21 @@ class LMFeedCommentView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets click listener on the commenter header
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setCommenterHeaderClickListener(listener: LMFeedOnClickListener) {
+        binding.ivCommenterImage.setOnClickListener {
+            listener.onClick()
+        }
+
+        binding.tvCommenterName.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
     fun linkifyCommentContent(linkClickListener: LMFeedOnLinkClickListener) {
         binding.apply {
             val linkifyLinks =

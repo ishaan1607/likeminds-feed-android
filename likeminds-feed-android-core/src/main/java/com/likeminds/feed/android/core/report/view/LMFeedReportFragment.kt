@@ -19,7 +19,9 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
+import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import java.util.Locale
 
 open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
@@ -135,12 +137,11 @@ open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
     private fun initViewAsType() {
         binding.apply {
             when (reportExtras.entityType) {
-                //todo: post as variable
                 REPORT_TYPE_POST -> {
                     tvReportSubHeader.text = getString(
                         R.string.lm_feed_report_sub_header,
-//                            lmFeedHelperViewModel.getPostVariable()
-//                                .pluralizeOrCapitalize(WordAction.ALL_SMALL_SINGULAR)
+                        LMFeedCommunityUtil.getPostVariable()
+                            .pluralizeOrCapitalize(LMFeedWordAction.ALL_SMALL_SINGULAR)
                     )
                 }
 

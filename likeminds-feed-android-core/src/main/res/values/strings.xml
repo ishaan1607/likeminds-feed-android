@@ -55,7 +55,7 @@
     <string name="lm_feed_comment_deleted">Comment Deleted!</string>
     <string name="lm_feed_reply">Reply</string>
     <string name="lm_feed_ellipsize">…</string>
-    <string name="lm_feed_s_post">%s Post</string>
+    <string name="lm_feed_s_post">%s</string>
     <string name="lm_feed_notification_feed">Notification Feed</string>
     <string name="lm_feed_likes">Likes</string>
     <plurals name="lm_feed_likes_small">
