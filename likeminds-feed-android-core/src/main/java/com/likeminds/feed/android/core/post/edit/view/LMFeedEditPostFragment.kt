@@ -470,7 +470,7 @@ open class LMFeedEditPostFragment :
                 }
                 addTopicsToGroup(false, topics)
             } else {
-                editPostViewModel.getAllTopics(true)
+                editPostViewModel.getAllTopics()
             }
 
             initPostComposerTextListener()
@@ -616,7 +616,7 @@ open class LMFeedEditPostFragment :
     //init initial topic selection view with "Select Topic Chip"
     private fun initTopicSelectionView() {
         binding.postTopicsGroup.apply {
-            removeAllViews()
+            removeAllChips()
             addChip(
                 getString(R.string.lm_feed_select_topics),
                 LMFeedStyleTransformer.editPostFragmentViewStyle.selectTopicsChipStyle
@@ -652,7 +652,7 @@ open class LMFeedEditPostFragment :
         val selectedTopics = selectedTopic.values.toList()
 
         binding.postTopicsGroup.apply {
-            removeAllViews()
+            removeAllChips()
             selectedTopics.forEach { topic ->
                 addChip(topic.name, LMFeedStyleTransformer.postViewStyle.postTopicChipsStyle)
             }

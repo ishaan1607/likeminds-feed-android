@@ -1,6 +1,9 @@
 package com.likeminds.feed.android.core.post.edit.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
@@ -85,17 +88,13 @@ class LMFeedEditPostViewModel : ViewModel() {
     }
 
     //calls to topics api and check whether to show topics view or not
-    fun getAllTopics(showEnabledTopicsOnly: Boolean) {
+    fun getAllTopics() {
         viewModelScope.launchIO {
-            val requestBuilder = GetTopicRequest.Builder()
+            val request = GetTopicRequest.Builder()
                 .page(1)
                 .pageSize(10)
-
-            if (showEnabledTopicsOnly) {
-                requestBuilder.isEnabled(true)
-            }
-
-            val request = requestBuilder.build()
+                .isEnabled(true)
+                .build()
 
             val response = lmFeedClient.getTopics(request)
 

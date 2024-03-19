@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.post.create.viewstyle
 
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedChipStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
@@ -14,7 +15,11 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
     //header view style
     val headerViewStyle: LMFeedHeaderViewStyle,
     //author frame view style
-    val authorViewStyle: LMFeedPostHeaderViewStyle
+    val authorViewStyle: LMFeedPostHeaderViewStyle,
+    //select topics chip style
+    val selectTopicsChipStyle: LMFeedChipStyle,
+    //edit chip style
+    val editChipStyle: LMFeedChipStyle,
 ) : LMFeedViewStyle {
     class Builder {
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
@@ -67,6 +72,23 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
             )
             .build()
 
+        private var selectTopicsChipStyle: LMFeedChipStyle = LMFeedChipStyle.Builder()
+            .chipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
+            .chipStartPadding(R.dimen.lm_feed_padding_big)
+            .chipIcon(R.drawable.lm_feed_ic_add_topics)
+            .chipIconSize(R.dimen.lm_feed_chip_default_icon_size)
+            .chipIconTint(R.color.lm_feed_majorelle_blue)
+            .build()
+
+        private var editChipStyle: LMFeedChipStyle = LMFeedChipStyle.Builder()
+            .chipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
+            .chipEndPadding(R.dimen.lm_feed_edit_chip_end_size)
+            .chipStartPadding(R.dimen.lm_feed_edit_chip_end_size)
+            .chipIcon(R.drawable.lm_feed_ic_edit_topic)
+            .chipIconSize(R.dimen.lm_feed_chip_default_icon_size)
+            .chipIconTint(R.color.lm_feed_majorelle_blue)
+            .build()
+
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle) = apply {
             this.headerViewStyle = headerViewStyle
         }
@@ -74,14 +96,24 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
         fun authorViewStyle(authorViewStyle: LMFeedPostHeaderViewStyle) =
             apply { this.authorViewStyle = authorViewStyle }
 
+        fun selectTopicsChipStyle(selectTopicsChipStyle: LMFeedChipStyle) =
+            apply { this.selectTopicsChipStyle = selectTopicsChipStyle }
+
+        fun editChipStyle(editChipStyle: LMFeedChipStyle) =
+            apply { this.editChipStyle = editChipStyle }
+
         fun build() = LMFeedCreatePostFragmentViewStyle(
             headerViewStyle,
-            authorViewStyle
+            authorViewStyle,
+            selectTopicsChipStyle,
+            editChipStyle
         )
     }
 
     fun toBuilder(): Builder {
         return Builder().headerViewStyle(headerViewStyle)
             .authorViewStyle(authorViewStyle)
+            .selectTopicsChipStyle(selectTopicsChipStyle)
+            .editChipStyle(editChipStyle)
     }
 }

@@ -2,7 +2,7 @@
 <resources>
     <dimen name="zero_dp">0dp</dimen>
     <!--Header View-->
-    <dimen name="lm_feed_header_view_title_text_size">22sp</dimen>
+    <dimen name="lm_feed_header_view_title_text_size">18sp</dimen>
     <dimen name="lm_feed_header_view_height">54dp</dimen>
 
     <!--    Text Size-->
@@ -24,6 +24,7 @@
     <dimen name="lm_feed_passing_small">4dp</dimen>
 
     <!--    Standard Margins-->
+    <dimen name="lm_feed_small_margin">4dp</dimen>
     <dimen name="lm_feed_standard_margin">16dp</dimen>
 
     <!--    Universal Feed Screen-->
