@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.post.create.viewstyle
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedChipStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedEditTextStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
@@ -20,6 +21,8 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
     val selectTopicsChipStyle: LMFeedChipStyle,
     //edit chip style
     val editChipStyle: LMFeedChipStyle,
+    //post composer view style
+    val postComposerStyle: LMFeedEditTextStyle,
 ) : LMFeedViewStyle {
     class Builder {
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
@@ -89,6 +92,19 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
             .chipIconTint(R.color.lm_feed_majorelle_blue)
             .build()
 
+        private var postComposerStyle: LMFeedEditTextStyle = LMFeedEditTextStyle.Builder()
+            .inputTextStyle(
+                LMFeedTextStyle.Builder()
+                    .ellipsize(TextUtils.TruncateAt.END)
+                    .maxHeight(R.dimen.lm_feed_post_composer_max_height)
+                    .minHeight(R.dimen.lm_feed_post_composer_min_height)
+                    .textColor(R.color.lm_feed_dark_grey)
+                    .textSize(R.dimen.lm_feed_text_medium)
+                    .build()
+            )
+            .hintTextColor(R.color.lm_feed_maastricht_blue_40)
+            .build()
+
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle) = apply {
             this.headerViewStyle = headerViewStyle
         }
@@ -102,11 +118,16 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
         fun editChipStyle(editChipStyle: LMFeedChipStyle) =
             apply { this.editChipStyle = editChipStyle }
 
+        fun postComposerStyle(postComposerStyle: LMFeedEditTextStyle) = apply {
+            this.postComposerStyle = postComposerStyle
+        }
+
         fun build() = LMFeedCreatePostFragmentViewStyle(
             headerViewStyle,
             authorViewStyle,
             selectTopicsChipStyle,
-            editChipStyle
+            editChipStyle,
+            postComposerStyle
         )
     }
 
@@ -115,5 +136,6 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
             .authorViewStyle(authorViewStyle)
             .selectTopicsChipStyle(selectTopicsChipStyle)
             .editChipStyle(editChipStyle)
+            .postComposerStyle(postComposerStyle)
     }
 }
