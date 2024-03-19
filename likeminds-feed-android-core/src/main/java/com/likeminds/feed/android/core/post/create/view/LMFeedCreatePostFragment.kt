@@ -11,9 +11,11 @@ import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.LM_FEED_CREATE_POST_EXTRAS
 import com.likeminds.feed.android.core.post.create.viewmodel.LMFeedCreatePostViewModel
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
+import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.emptyExtrasException
 
 class LMFeedCreatePostFragment : Fragment() {
@@ -65,6 +67,7 @@ class LMFeedCreatePostFragment : Fragment() {
         //add customizations
         binding.apply {
             customizeCreatePostHeaderView(headerViewCreatePost)
+            customizeAuthorView(authorView)
         }
 
         return binding.root
@@ -75,6 +78,14 @@ class LMFeedCreatePostFragment : Fragment() {
             setStyle(LMFeedStyleTransformer.createPostFragmentViewStyle.headerViewStyle)
 
             setTitleText("Create %s")
+            setSubmitText("Create")
+            setSubmitButtonEnabled(false)
+        }
+    }
+
+    protected open fun customizeAuthorView(authorView: LMFeedPostHeaderView) {
+        authorView.apply {
+            setStyle(LMFeedStyleTransformer.createPostFragmentViewStyle.authorViewStyle)
         }
     }
 
@@ -97,7 +108,8 @@ class LMFeedCreatePostFragment : Fragment() {
 
     //set logged in user data to post header frame
     private fun initAuthorFrame(user: LMFeedUserViewData) {
-        binding.postHeader.apply {
+        binding.nestedScrollCreatePost.show()
+        binding.authorView.apply {
             setAuthorImage(user)
             setAuthorName(user.name)
         }

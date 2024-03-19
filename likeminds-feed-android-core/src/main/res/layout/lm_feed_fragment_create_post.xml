@@ -31,7 +31,7 @@
                 android:layout_height="match_parent">
 
                 <com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
-                    android:id="@+id/post_header"
+                    android:id="@+id/author_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/lm_feed_standard_margin"
