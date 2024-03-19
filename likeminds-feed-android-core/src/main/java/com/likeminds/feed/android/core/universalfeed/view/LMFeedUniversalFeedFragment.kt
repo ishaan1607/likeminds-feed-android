@@ -223,7 +223,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             .fromPostLiked(false)
             .fromPostSaved(false)
             .build()
-        binding.rvUniversal.updateWithoutNotifying(position, updatedPostData)
+        binding.rvUniversal.updatePostWithoutNotifying(position, updatedPostData)
     }
 
     // updates [alreadySeenFullContent] for the post
@@ -246,7 +246,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                 .build()
 
             //update the post item in the adapter
-            update(position, updatedPostViewData)
+            updatePost(position, updatedPostViewData)
         }
     }
 
@@ -328,7 +328,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                 .build()
 
             //updates the [isExpanded] for the document item to true
-            update(position, updatedPostViewData)
+            updatePost(position, updatedPostViewData)
         }
     }
 

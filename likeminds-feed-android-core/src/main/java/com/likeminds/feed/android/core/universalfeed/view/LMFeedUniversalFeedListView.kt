@@ -75,45 +75,47 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         }
     }
 
-    fun setAdapter(
-        listener: LMFeedUniversalFeedAdapterListener
-    ) {
+    //sets the adapter with the provided [listener] to the recycler view
+    fun setAdapter(listener: LMFeedUniversalFeedAdapterListener) {
         //setting adapter
         universalFeedAdapter = LMFeedUniversalFeedAdapter(listener)
         adapter = universalFeedAdapter
     }
 
+    //sets the pagination scroll listener to the recycler view
     fun setPaginationScrollListener(scrollListener: LMFeedEndlessRecyclerViewScrollListener) {
         paginationScrollListener = scrollListener
         addOnScrollListener(scrollListener)
     }
 
+    //resets the scroll listener data
     fun resetScrollListenerData() {
         if (::paginationScrollListener.isInitialized) {
             paginationScrollListener.resetData()
         }
     }
 
-    fun replacePosts(
-        posts: List<LMFeedPostViewData>
-    ) {
+    //replaces the [posts] in the universal feed adapter with the provided posts
+    fun replacePosts(posts: List<LMFeedPostViewData>) {
         universalFeedAdapter.replace(posts)
     }
 
-    fun addPosts(
-        posts: List<LMFeedPostViewData>
-    ) {
+    //adds the provided [posts] in the universal feed adapter
+    fun addPosts(posts: List<LMFeedPostViewData>) {
         universalFeedAdapter.addAll(posts)
     }
 
-    fun update(position: Int, postItem: LMFeedPostViewData) {
+    //updates the post item at the provided position
+    fun updatePost(position: Int, postItem: LMFeedPostViewData) {
         universalFeedAdapter.update(position, postItem)
     }
 
-    fun updateWithoutNotifying(position: Int, postItem: LMFeedPostViewData) {
+    //updates the post item at the provided position without notifying the recycler view
+    fun updatePostWithoutNotifying(position: Int, postItem: LMFeedPostViewData) {
         universalFeedAdapter.update(position, postItem)
     }
 
+    //returns the post item at the provided index
     fun getPostAtIndex(index: Int): LMFeedPostViewData {
         return (universalFeedAdapter[index] as LMFeedPostViewData)
     }
