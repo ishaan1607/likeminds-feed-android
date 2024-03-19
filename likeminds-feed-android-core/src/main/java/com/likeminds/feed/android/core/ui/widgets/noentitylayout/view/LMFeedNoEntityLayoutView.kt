@@ -69,11 +69,13 @@ class LMFeedNoEntityLayoutView : ConstraintLayout {
         }
     }
 
+    //sets provided [noEntityLayoutViewStyle] to the no entity layout view
     fun setStyle(noEntityLayoutViewStyle: LMFeedNoEntityLayoutViewStyle) {
 
         //set background color
         setBackgroundColor(ContextCompat.getColor(context, noEntityLayoutViewStyle.backgroundColor))
 
+        //configures each view in the noEntityLayoutViewStyle with the provided styles
         configureTitle(noEntityLayoutViewStyle.titleStyle)
         configureSubtitle(noEntityLayoutViewStyle.subtitleStyle)
         configureImage(noEntityLayoutViewStyle.imageStyle)

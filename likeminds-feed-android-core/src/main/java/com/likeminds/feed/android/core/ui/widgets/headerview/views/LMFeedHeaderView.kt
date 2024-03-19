@@ -33,6 +33,7 @@ class LMFeedHeaderView : ConstraintLayout {
     private val binding: LmFeedHeaderViewBinding =
         LmFeedHeaderViewBinding.inflate(inflater, this, true)
 
+    //sets provided [headerViewStyle] to the header view
     fun setStyle(headerViewStyle: LMFeedHeaderViewStyle) {
 
         //sets background color

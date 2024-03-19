@@ -169,6 +169,7 @@ class LMFeedVideoView @JvmOverloads constructor(
         exoPlayer.stop()
     }
 
+    //sets provided [postVideoMediaStyle] to the post video view
     fun setStyle(postVideoMediaStyle: LMFeedPostVideoMediaViewStyle) {
         keepScreenOn = postVideoMediaStyle.keepScreenOn
         useController = postVideoMediaStyle.showController

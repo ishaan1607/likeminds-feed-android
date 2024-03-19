@@ -33,8 +33,10 @@ class LMFeedPostDocumentsMediaView : ConstraintLayout {
 
     private val binding = LmFeedPostDocumentsMediaViewBinding.inflate(inflater, this, true)
 
+    //sets provided [postDocumentsMediaViewStyle] to the document type post
     fun setStyle(postDocumentsMediaViewStyle: LMFeedPostDocumentsMediaViewStyle) {
 
+        //configures the show more text in the document type post
         configureShowMore(postDocumentsMediaViewStyle.documentShowMoreStyle)
     }
 
