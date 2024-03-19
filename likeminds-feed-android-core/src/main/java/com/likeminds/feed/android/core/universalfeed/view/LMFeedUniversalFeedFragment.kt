@@ -708,6 +708,14 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    //callback when the user clicks on the post author header
+    override fun onPostAuthorHeaderClicked(position: Int, postViewData: LMFeedPostViewData) {
+        super.onPostAuthorHeaderClicked(position, postViewData)
+
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfile(postViewData.headerViewData.user)
+    }
+
     override fun onEntityDeletedByAdmin(deleteExtras: LMFeedDeleteExtras, reason: String) {
         val post =
             binding.rvUniversal.getIndexAndPostFromAdapter(deleteExtras.postId)?.second ?: return
@@ -743,15 +751,12 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
-    // callback when publisher publishes any updated postData
+    //callback when publisher publishes any updated postData
     override fun update(postData: Pair<String, LMFeedPostViewData?>) {
         val postId = postData.first
         // fetches post from adapter
         binding.rvUniversal.apply {
-            Log.d("PUI", "update: $postId")
             val postIndex = getIndexAndPostFromAdapter(postId)?.first ?: return
-
-            Log.d("PUI", "update: postIndex $postIndex")
 
             val updatedPost = postData.second
 

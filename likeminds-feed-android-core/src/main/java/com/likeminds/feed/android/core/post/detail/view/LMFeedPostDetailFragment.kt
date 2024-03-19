@@ -3,7 +3,6 @@ package com.likeminds.feed.android.core.post.detail.view
 import android.app.Activity
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -11,7 +10,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.*
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentPostDetailBinding
 import com.likeminds.feed.android.core.delete.model.*
 import com.likeminds.feed.android.core.delete.view.*
@@ -213,14 +212,21 @@ open class LMFeedPostDetailFragment :
         if (postDetailExtras.source == LMFeedAnalytics.Source.NOTIFICATION ||
             postDetailExtras.source == LMFeedAnalytics.Source.DEEP_LINK
         ) {
-            //todo: ask where should we implement this
-//            initiateViewModel.initiateUser(
-//                requireContext(),
-//                userPreferences.getApiKey(),
-//                userPreferences.getUserName(),
-//                userPreferences.getUserUniqueId(),
-//                userPreferences.getIsGuest()
-//            )
+            val userPreferences = LMFeedUserPreferences(requireContext())
+
+            LMFeedCore.initiateUser(
+                requireContext(),
+                userPreferences.getUserName(),
+                userPreferences.getUUID(),
+                userPreferences.getDeviceId(),
+                success = {
+                    postDetailViewModel.getPost(postDetailExtras.postId, 1)
+                },
+                error = {
+                    LMFeedProgressBarHelper.hideProgress(binding.progressBar)
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), it)
+                }
+            )
         } else {
             postDetailViewModel.getPost(postDetailExtras.postId, 1)
         }
@@ -1290,17 +1296,17 @@ open class LMFeedPostDetailFragment :
         LMFeedLikesActivity.start(requireContext(), likesScreenExtras)
     }
 
-    override fun onReplyLiked(position: Int, reply: LMFeedCommentViewData) {
-        super.onReplyLiked(position, reply)
+    override fun onReplyLiked(position: Int, replyViewData: LMFeedCommentViewData) {
+        super.onReplyLiked(position, replyViewData)
 
         binding.rvPostDetails.apply {
             // gets parentComment from adapter
-            val parentCommentId = reply.parentId ?: return
+            val parentCommentId = replyViewData.parentId ?: return
             val parentIndexAndComment = getIndexAndCommentFromAdapter(parentCommentId) ?: return
             val parentPosition = parentIndexAndComment.first
             val parentComment = parentIndexAndComment.second
 
-            parentComment.replies[position] = reply
+            parentComment.replies[position] = replyViewData
 
             //update comment view data
             val newViewData = parentComment.toBuilder()
@@ -1315,8 +1321,8 @@ open class LMFeedPostDetailFragment :
             //call api
             postDetailViewModel.likeComment(
                 newViewData.postId,
-                reply.id,
-                !reply.isLiked,
+                replyViewData.id,
+                !replyViewData.isLiked,
                 loggedInUUID
             )
 
@@ -1605,19 +1611,19 @@ open class LMFeedPostDetailFragment :
     override fun onReplyMenuIconClicked(
         position: Int,
         anchorView: View,
-        reply: LMFeedCommentViewData
+        replyViewData: LMFeedCommentViewData
     ) {
-        super.onReplyMenuIconClicked(position, anchorView, reply)
+        super.onReplyMenuIconClicked(position, anchorView, replyViewData)
 
         val popupMenu = LMFeedOverflowMenu(requireContext(), anchorView)
-        val menuItems = reply.menuItems
+        val menuItems = replyViewData.menuItems
         popupMenu.addMenuItems(menuItems)
 
         popupMenu.setMenuItemClickListener { menuId ->
             onReplyMenuItemClicked(
                 position,
                 menuId,
-                reply
+                replyViewData
             )
         }
 
@@ -1770,6 +1776,22 @@ open class LMFeedPostDetailFragment :
         )
 
         LMFeedAnalytics.sendPostShared(postViewData)
+    }
+
+    override fun onCommenterHeaderClicked(position: Int, commentViewData: LMFeedCommentViewData) {
+        super.onCommenterHeaderClicked(position, commentViewData)
+
+        //trigger profile callback
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfile(commentViewData.user)
+    }
+
+    override fun onReplierHeaderClicked(position: Int, replyViewData: LMFeedCommentViewData) {
+        super.onReplierHeaderClicked(position, replyViewData)
+
+        //trigger profile callback
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfile(replyViewData.user)
     }
 
     override fun onDestroyView() {

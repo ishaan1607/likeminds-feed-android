@@ -5,6 +5,7 @@ import com.likeminds.feed.android.core.post.detail.adapter.databinders.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
 import com.likeminds.feed.android.core.utils.base.*
 
@@ -99,5 +100,9 @@ interface LMFeedPostDetailAdapterListener {
 
     fun onCommentContentLinkClicked(url: String) {
         //triggered when link in the reply content is clicked
+    }
+
+    fun onCommenterHeaderClicked(position: Int, commentViewData: LMFeedCommentViewData) {
+        //triggered when the header of the commenter is clicked
     }
 }
