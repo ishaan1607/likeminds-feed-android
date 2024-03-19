@@ -274,7 +274,6 @@ object LMFeedPostBinderUtils {
 
     fun bindPostMediaDocument(
         binding: LMFeedPostDocumentView,
-        position: Int,
         data: LMFeedAttachmentViewData
     ) {
         binding.apply {

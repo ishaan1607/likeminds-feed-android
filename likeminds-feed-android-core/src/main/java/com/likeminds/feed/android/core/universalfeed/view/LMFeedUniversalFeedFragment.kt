@@ -3,7 +3,6 @@ package com.likeminds.feed.android.core.universalfeed.view
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -102,14 +101,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     private fun observeResponses() {
         lmFeedUniversalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
-            Log.d("PUI", "observer 2 fragment")
-            Log.d(
-                "PUI", """
-                    observer 2
-            response: ${response.second.size}
-        """.trimIndent()
-            )
-
             LMFeedProgressBarHelper.hideProgress(binding.progressBar)
             val page = response.first
             val posts = response.second
@@ -261,7 +252,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     ) {
         val popupMenu = LMFeedOverflowMenu(requireContext(), anchorView)
         val menuItems = postViewData.headerViewData.menuItems
-        Log.d("PUI", "setClickListeners: ${menuItems.size}")
         popupMenu.addMenuItems(menuItems)
 
         popupMenu.setMenuItemClickListener { menuId ->
@@ -296,10 +286,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     override fun onPostMultipleMediaVideoClick(position: Int, parentPosition: Int) {
-        Log.d(
-            "PUI",
-            "onPostMultipleMediaVideoClick: position: $position parentPosition: $parentPosition"
-        )
 //        TODO("Not yet implemented")
     }
 
@@ -339,7 +325,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     protected open fun onCreateNewPostClick() {
-        Log.d("PUI", "default onCreateNewPostClick")
     }
 
     protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {
@@ -351,11 +336,9 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     protected open fun onNavigationIconClick() {
-        Log.d("PUI", "default onNavigationIconClick")
     }
 
     protected open fun onSearchIconClick() {
-        Log.d("PUI", "default onSearchIconClick")
     }
 
     protected open fun customizeNoPostLayout(layoutNoPost: LMFeedNoEntityLayoutView) {
@@ -378,7 +361,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     protected open fun onRetryUploadClicked() {
-        Log.d("PUI", "default onRetryUploadClicked")
     }
 
     protected open fun onFeedRefreshed() {

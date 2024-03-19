@@ -51,7 +51,6 @@ class LMFeedItemDocumentViewDataBinder(
             //sets data on the documents view
             LMFeedPostBinderUtils.bindPostMediaDocument(
                 documentItem,
-                position,
                 data
             )
         }
