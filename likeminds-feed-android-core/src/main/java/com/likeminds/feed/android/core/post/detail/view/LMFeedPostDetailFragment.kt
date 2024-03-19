@@ -75,7 +75,15 @@ open class LMFeedPostDetailFragment :
     }
 
     companion object {
-        const val TAG = "PostDetailFragment"
+        const val TAG = "LMFeedPostDetailFragment"
+
+        fun getInstance(postDetailExtras: LMFeedPostDetailExtras): LMFeedPostDetailFragment {
+            val postDetailFragment = LMFeedPostDetailFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(LM_FEED_POST_DETAIL_EXTRAS, postDetailExtras)
+            postDetailFragment.arguments = bundle
+            return postDetailFragment
+        }
     }
 
     override fun onCreateView(

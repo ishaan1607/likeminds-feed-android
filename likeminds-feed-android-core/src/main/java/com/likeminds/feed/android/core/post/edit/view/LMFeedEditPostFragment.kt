@@ -91,6 +91,14 @@ open class LMFeedEditPostFragment :
 
     companion object {
         const val TAG = "LMFeedEditPostFragment"
+
+        fun getInstance(editPostExtras: LMFeedEditPostExtras): LMFeedEditPostFragment {
+            val editPostFragment = LMFeedEditPostFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(LM_FEED_EDIT_POST_EXTRAS, editPostExtras)
+            editPostFragment.arguments = bundle
+            return editPostFragment
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -666,8 +674,7 @@ open class LMFeedEditPostFragment :
     private fun showSingleImagePreview() {
         binding.headerViewEditPost.setSubmitButtonEnabled(isEnabled = true)
         val attachmentUrl = postMediaViewData?.attachments?.first()?.attachmentMeta?.url ?: return
-        // gets the shimmer drawable for placeholder
-        val shimmerDrawable = LMFeedViewUtils.getShimmer()
+
         binding.singleImageAttachment.apply {
             root.show()
 

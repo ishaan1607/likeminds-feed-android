@@ -27,6 +27,14 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
 
     private val activityFeedViewModel: LMFeedActivityFeedViewModel by viewModels()
 
+    companion object {
+        const val TAG = "LMFeedActivityFeedFragment"
+
+        fun getInstance(): LMFeedActivityFeedFragment {
+            return LMFeedActivityFeedFragment()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
