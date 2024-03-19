@@ -6,8 +6,18 @@ import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedHeaderViewStyle] helps you customize headers/toolbar [LMFeedHeaderView] in activity/fragments
+ * @property titleTextStyle: [LMFeedTextStyle] this will help to customize title of the header
+ * @property subtitleTextStyle: [LMFeedTextStyle] this will help to customize subtitle of the header  | Set value to [null] to hide the subtitle
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to add background color of the view | Default value = [R.color.lm_feed_white]
+ * @property elevation:[Int] should be in format of [DimenRes] to add elevation to the view | Default value = [R.dimen.lm_feed_elevation_small]
+ * @property navigationIconStyle: [LMFeedIconStyle] this will help to customize the navigation icon of the header/toolbar view | Set value to [null] to hide the navigation icon
+ * @property searchIconStyle: [LMFeedIconStyle] this will help to customize the search icon of the header/toolbar | Set value to [null] to hide the search icon
+ */
 class LMFeedHeaderViewStyle private constructor(
     val titleTextStyle: LMFeedTextStyle,
     val subtitleTextStyle: LMFeedTextStyle?,
