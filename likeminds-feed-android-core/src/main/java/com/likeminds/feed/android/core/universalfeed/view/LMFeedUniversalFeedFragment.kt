@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -907,7 +906,6 @@ open class LMFeedUniversalFeedFragment :
     }
 
     protected open fun onRetryUploadClicked() {
-        Log.d("PUI", "default onRetryUploadClicked")
     }
 
     private val topicSelectionLauncher =

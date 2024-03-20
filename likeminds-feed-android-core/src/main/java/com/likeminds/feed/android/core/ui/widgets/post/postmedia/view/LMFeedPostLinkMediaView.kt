@@ -157,7 +157,7 @@ class LMFeedPostLinkMediaView : MaterialCardView {
                 hide()
             } else {
                 show()
-                text = linkUrl
+                text = linkUrlText
             }
         }
     }

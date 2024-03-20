@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.ui.widgets.post.postmedia.style
 
 import android.text.TextUtils
+import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
@@ -31,9 +32,12 @@ class LMFeedPostLinkViewStyle private constructor(
             .build()
 
         private var linkDescriptionStyle: LMFeedTextStyle? = null
+
         private var linkUrlStyle: LMFeedTextStyle? = null
+
         private var linkImageStyle: LMFeedImageStyle = LMFeedImageStyle.Builder()
             .placeholderSrc(R.drawable.lm_feed_ic_link)
+            .scaleType(ImageView.ScaleType.CENTER)
             .isCircle(false)
             .build()
 

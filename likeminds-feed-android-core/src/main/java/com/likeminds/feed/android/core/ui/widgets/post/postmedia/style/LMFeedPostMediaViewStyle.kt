@@ -18,9 +18,13 @@ class LMFeedPostMediaViewStyle private constructor(
 
     class Builder {
         private var postImageMediaStyle: LMFeedImageStyle? = null
+
         private var postVideoMediaStyle: LMFeedPostVideoMediaViewStyle? = null
+
         private var postLinkStyle: LMFeedPostLinkViewStyle? = null
+
         private var postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle? = null
+
         private var postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle? = null
 
         fun postImageMediaStyle(postImageMediaStyle: LMFeedImageStyle?) =

@@ -428,6 +428,7 @@ open class LMFeedEditPostFragment :
                 }
 
                 ITEM_POST_LINK -> {
+                    postMediaViewData = mediaViewData
                     ogTags = postMediaViewData?.attachments?.first()?.attachmentMeta?.ogTags
                     showLinkView()
                 }
@@ -742,8 +743,11 @@ open class LMFeedEditPostFragment :
 
     //renders data in the link view
     private fun showLinkView() {
+        Log.d("PUI", "showLinkView: ${ogTags?.url}")
         val data = ogTags ?: return
         val link = data.url ?: ""
+
+        Log.d("PUI", "showLinkView:1 ${ogTags?.url}")
 
         // sends link attached event with the link
         LMFeedAnalytics.sendLinkAttachedEvent(link)
