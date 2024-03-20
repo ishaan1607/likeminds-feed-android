@@ -1,0 +1,158 @@
+package com.likeminds.feed.android.core.utils.analytics
+
+import android.util.Log
+import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
+
+object LMFeedAnalytics {
+
+    /*
+    * Event names variables
+    * */
+    object Events {
+        const val POST_CREATION_STARTED = "Post creation started"
+        const val CLICKED_ON_ATTACHMENT = "Clicked on Attachment"
+        const val USER_TAGGED_IN_POST = "User tagged in a post"
+        const val LINK_ATTACHED_IN_POST = "link attached in the post"
+        const val IMAGE_ATTACHED_TO_POST = "Image attached to post"
+        const val VIDEO_ATTACHED_TO_POST = "Video attached to post"
+        const val DOCUMENT_ATTACHED_TO_POST = "Document attached in post"
+        const val POST_CREATION_COMPLETED = "Post creation completed"
+        const val POST_PINNED = "Post pinned"
+        const val POST_UNPINNED = "Post unpinned"
+        const val POST_REPORTED = "Post reported"
+        const val POST_DELETED = "Post deleted"
+        const val FEED_OPENED = "Feed opened"
+        const val LIKE_LIST_OPEN = "Like list open"
+        const val COMMENT_LIST_OPEN = "Comment list open"
+        const val COMMENT_DELETED = "Comment deleted"
+        const val COMMENT_REPORTED = "Comment reported"
+        const val COMMENT_POSTED = "Comment posted"
+        const val REPLY_POSTED = "Reply posted"
+        const val REPLY_DELETED = "Reply deleted"
+        const val REPLY_REPORTED = "Reply reported"
+        const val POST_EDITED = "Post edited"
+        const val POST_SHARED = "Post shared"
+        const val POST_LIKED = "Post Liked"
+        const val POST_UNLIKED = "Post Unliked"
+        const val POST_SAVED = "Post Saved"
+        const val POST_UNSAVED = "Post Unsaved"
+        const val COMMENT_LIKED = "Comment Liked"
+        const val COMMENT_UNLIKED = "Comment Unliked"
+
+        const val NOTIFICATION_RECEIVED = "Notification Received"
+        const val NOTIFICATION_CLICKED = "Notification Clicked"
+
+        const val NOTIFICATION_PAGE_OPENED = "Notification page opened"
+    }
+
+    /*
+    * Event keys variables
+    * */
+    object Keys {
+        const val POST_ID = "post_id"
+        const val USER_ID = "user_id"
+        const val UUID = "uuid"
+        const val COMMENT_ID = "comment_id"
+        const val COMMENT_REPLY_ID = "comment_reply_id"
+        const val POST_TYPE_TEXT = "text"
+        const val POST_TYPE_IMAGE = "image"
+        const val POST_TYPE_VIDEO = "video"
+        const val POST_TYPE_IMAGE_VIDEO = "image,video"
+        const val POST_TYPE_DOCUMENT = "document"
+        const val POST_TYPE_LINK = "link"
+    }
+
+    /**
+     * Source keys variables
+     **/
+    object Source {
+        const val DEEP_LINK = "deep_link"
+        const val NOTIFICATION = "notification"
+        const val UNIVERSAL_FEED = "universal_feed"
+        const val POST_DETAIL = "post_detail"
+    }
+
+    /**
+     * called to trigger events
+     * @param eventName - name of the event to trigger
+     * @param eventProperties - {key: value} pair for properties related to event
+     * */
+    fun track(eventName: String, eventProperties: Map<String, String?> = mapOf()) {
+        Log.d(
+            LOG_TAG, """
+            eventName: $eventName
+            eventProperties: $eventProperties
+        """.trimIndent()
+        )
+        //todo add global callback
+    }
+
+    /**
+     * Triggers when the current user likes/unlikes a post
+     */
+    fun sendPostLikedEvent(
+        uuid: String,
+        postId: String,
+        postLiked: Boolean
+    ) {
+        val event = if (postLiked) {
+            Events.POST_LIKED
+        } else {
+            Events.POST_UNLIKED
+        }
+
+        track(
+            event,
+            mapOf(
+                Keys.UUID to uuid,
+                Keys.POST_ID to postId
+            )
+        )
+    }
+
+    /**
+     * Triggers when the current user saves/unsaves a post
+     */
+    fun sendPostSavedEvent(
+        uuid: String,
+        postId: String,
+        postSaved: Boolean
+    ) {
+        val event = if (postSaved) {
+            Events.POST_SAVED
+        } else {
+            Events.POST_UNSAVED
+        }
+
+        track(
+            event,
+            mapOf(
+                Keys.UUID to uuid,
+                Keys.POST_ID to postId
+            )
+        )
+    }
+
+    /**
+     * Triggers when the current user pins/unpins a post
+     */
+    fun sendPostPinnedEvent(post: LMFeedPostViewData) {
+        val headerViewData = post.headerViewData
+        val event = if (headerViewData.isPinned) {
+            Events.POST_PINNED
+        } else {
+            Events.POST_UNPINNED
+        }
+
+        track(
+            event,
+            mapOf(
+                Keys.UUID to headerViewData.user.sdkClientInfoViewData.uuid,
+                Keys.POST_ID to post.id,
+                "post_type" to LMFeedViewUtils.getPostTypeFromViewType(post.viewType),
+            )
+        )
+    }
+}
