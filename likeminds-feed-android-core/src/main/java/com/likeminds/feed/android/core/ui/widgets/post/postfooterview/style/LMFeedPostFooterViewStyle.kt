@@ -4,7 +4,6 @@ import android.view.View
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.postmedia.style.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**

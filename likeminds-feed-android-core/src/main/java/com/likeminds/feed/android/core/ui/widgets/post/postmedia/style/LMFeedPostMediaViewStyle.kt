@@ -1,7 +1,6 @@
 package com.likeminds.feed.android.core.ui.widgets.post.postmedia.style
 
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
-import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**

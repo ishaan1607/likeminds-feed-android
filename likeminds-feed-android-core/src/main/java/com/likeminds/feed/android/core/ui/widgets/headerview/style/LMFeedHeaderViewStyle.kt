@@ -6,7 +6,6 @@ import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**

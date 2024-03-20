@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
 import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.model.IMAGE
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
@@ -26,10 +25,7 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentView
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostDocumentsMediaView
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostLinkMediaView
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostMultipleMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.ui.widgets.post.posttopicsview.view.LMFeedPostTopicsView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData

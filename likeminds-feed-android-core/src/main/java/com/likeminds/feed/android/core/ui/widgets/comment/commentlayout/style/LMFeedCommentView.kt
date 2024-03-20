@@ -17,7 +17,6 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedCommentViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -26,6 +25,7 @@ import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 import com.likeminds.feed.android.core.utils.link.LMFeedOnLinkClickListener
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedCommentView : ConstraintLayout {
 
