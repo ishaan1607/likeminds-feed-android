@@ -85,6 +85,7 @@ class LMFeedNoEntityLayoutView : ConstraintLayout {
         //set background color
         setBackgroundColor(ContextCompat.getColor(context, noEntityLayoutViewStyle.backgroundColor))
 
+        //configures each view in the noEntityLayoutViewStyle with the provided styles
         configureTitle(noEntityLayoutViewStyle.titleStyle)
         configureSubtitle(noEntityLayoutViewStyle.subtitleStyle)
         configureImage(noEntityLayoutViewStyle.imageStyle)

@@ -12,6 +12,15 @@ import com.likeminds.feed.android.core.ui.widgets.posttopicsview.style.LMFeedPos
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 
+/**
+ * [LMFeedPostViewStyle] helps you to customize the header view
+ *
+ * @property postHeaderViewStyle : [LMFeedPostHeaderViewStyle] this will help you to customize the post header view [LMFeedPostHeaderView]
+ * @property postContentTextStyle : [LMFeedTextStyle] this will help you to customize the text content of the post
+ * @property postMediaStyle: [LMFeedPostMediaViewStyle] this will help you to customize the media attached in the post
+ * @property postFooterViewStyle: [LMFeedPostFooterViewStyle] this will help you to customize the footer view of the post [LMFeedPostFooterView]
+ *
+ * */
 class LMFeedPostViewStyle private constructor(
     //post header style
     val postHeaderViewStyle: LMFeedPostHeaderViewStyle,

@@ -439,7 +439,6 @@ object LMFeedPostBinderUtils {
     // bind data in nested document view
     fun bindPostMediaDocument(
         binding: LMFeedPostDocumentView,
-        position: Int,
         data: LMFeedAttachmentViewData
     ) {
         binding.apply {
