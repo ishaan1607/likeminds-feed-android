@@ -108,6 +108,8 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     //updates the post item at the provided position
     fun updatePost(position: Int, postItem: LMFeedPostViewData) {
         universalFeedAdapter.update(position, postItem)
+    }
+
     /**
      * Adapter Util Block
      **/
