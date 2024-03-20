@@ -20,14 +20,24 @@ import kotlinx.coroutines.flow.receiveAsFlow
 
 class LMFeedEditPostViewModel : ViewModel() {
 
-    private val lmFeedClient = LMFeedClient.getInstance()
+    private val lmFeedClient by lazy {
+        LMFeedClient.getInstance()
+    }
 
-    private val _showTopicFilter = MutableLiveData<Boolean>()
-    val showTopicFilter: LiveData<Boolean> = _showTopicFilter
+    private val _showTopicFilter by lazy {
+        MutableLiveData<Boolean>()
+    }
+    val showTopicFilter: LiveData<Boolean> by lazy {
+        _showTopicFilter
+    }
 
+    private val _decodeUrlResponse by lazy {
+        MutableLiveData<LMFeedLinkOGTagsViewData>()
+    }
 
-    private val _decodeUrlResponse = MutableLiveData<LMFeedLinkOGTagsViewData>()
-    val decodeUrlResponse: LiveData<LMFeedLinkOGTagsViewData> = _decodeUrlResponse
+    val decodeUrlResponse: LiveData<LMFeedLinkOGTagsViewData> by lazy {
+        _decodeUrlResponse
+    }
 
     sealed class PostDataEvent {
         data class GetPost(val post: LMFeedPostViewData) : PostDataEvent()
@@ -35,8 +45,12 @@ class LMFeedEditPostViewModel : ViewModel() {
         data class EditPost(val post: LMFeedPostViewData) : PostDataEvent()
     }
 
-    private val postDataEventChannel = Channel<PostDataEvent>(Channel.BUFFERED)
-    val postDataEventFlow = postDataEventChannel.receiveAsFlow()
+    private val postDataEventChannel by lazy {
+        Channel<PostDataEvent>(Channel.BUFFERED)
+    }
+    val postDataEventFlow by lazy {
+        postDataEventChannel.receiveAsFlow()
+    }
 
     sealed class ErrorMessageEvent {
         data class GetPost(val errorMessage: String?) : ErrorMessageEvent()
@@ -48,8 +62,13 @@ class LMFeedEditPostViewModel : ViewModel() {
         data class DecodeUrl(val errorMessage: String?) : ErrorMessageEvent()
     }
 
-    private val errorEventChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
-    val errorEventFlow = errorEventChannel.receiveAsFlow()
+    private val errorEventChannel by lazy {
+        Channel<ErrorMessageEvent>(Channel.BUFFERED)
+    }
+
+    val errorEventFlow by lazy {
+        errorEventChannel.receiveAsFlow()
+    }
 
     // to get the Post to be edited
     fun getPost(postId: String) {
