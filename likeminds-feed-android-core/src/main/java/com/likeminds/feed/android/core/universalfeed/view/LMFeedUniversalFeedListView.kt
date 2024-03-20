@@ -77,43 +77,34 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         }
     }
 
-    fun setAdapter(
-        listener: LMFeedUniversalFeedAdapterListener
-    ) {
+    //sets the adapter with the provided [listener] to the recycler view
+    fun setAdapter(listener: LMFeedUniversalFeedAdapterListener) {
         //setting adapter
         universalFeedAdapter = LMFeedUniversalFeedAdapter(listener)
         adapter = universalFeedAdapter
     }
 
+    //sets the pagination scroll listener to the recycler view
     fun setPaginationScrollListener(scrollListener: LMFeedEndlessRecyclerViewScrollListener) {
         paginationScrollListener = scrollListener
         addOnScrollListener(scrollListener)
     }
 
+    //resets the scroll listener data
     fun resetScrollListenerData() {
         if (::paginationScrollListener.isInitialized) {
             paginationScrollListener.resetData()
         }
     }
 
-    fun replacePosts(
-        posts: List<LMFeedPostViewData>
-    ) {
+    //replaces the [posts] in the universal feed adapter with the provided posts
+    fun replacePosts(posts: List<LMFeedPostViewData>) {
         universalFeedAdapter.replace(posts)
     }
 
-    fun addPosts(
-        posts: List<LMFeedPostViewData>
-    ) {
+    //adds the provided [posts] in the universal feed adapter
+    fun addPosts(posts: List<LMFeedPostViewData>) {
         universalFeedAdapter.addAll(posts)
-    }
-
-    fun updateWithoutNotifying(position: Int, postItem: LMFeedPostViewData) {
-        universalFeedAdapter.updateWithoutNotifyingRV(position, postItem)
-    }
-
-    fun updatePostItem(position: Int, updatedPostItem: LMFeedPostViewData) {
-        universalFeedAdapter.update(position, updatedPostItem)
     }
 
     /**
@@ -138,6 +129,16 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     //get post from the adapter using index
     fun getPostFromAdapter(position: Int): LMFeedPostViewData? {
         return universalFeedAdapter.items()[position] as? LMFeedPostViewData
+    }
+
+    //updates the post item at the provided position without notifying the recycler view
+    fun updatePostWithoutNotifying(position: Int, postItem: LMFeedPostViewData) {
+        universalFeedAdapter.updateWithoutNotifyingRV(position, postItem)
+    }
+
+    //returns the post item at the provided index
+    fun updatePostItem(position: Int, updatedPostItem: LMFeedPostViewData) {
+        universalFeedAdapter.update(position, updatedPostItem)
     }
 
     /**

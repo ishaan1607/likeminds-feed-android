@@ -1,10 +1,10 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,7 +24,11 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedAndroidUtils
+import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
+import com.likeminds.feed.android.core.utils.LMFeedShareUtils
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
@@ -38,10 +42,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
     private val universalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -301,14 +301,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-    }
-
     override fun onPostContentClicked(position: Int, postViewData: LMFeedPostViewData) {
 //        TODO("Not yet implemented")
     }
@@ -362,7 +354,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             .fromPostLiked(false)
             .fromPostSaved(false)
             .build()
-        binding.rvUniversal.updateWithoutNotifying(position, updatedPostData)
+        binding.rvUniversal.updatePostWithoutNotifying(position, updatedPostData)
     }
 
     //updates [alreadySeenFullContent] for the post
@@ -462,7 +454,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     protected open fun onCreateNewPostClick() {
-        Log.d("PUI", "default onCreateNewPostClick")
     }
 
     protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {
@@ -474,11 +465,9 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     protected open fun onNavigationIconClick() {
-        Log.d("PUI", "default onNavigationIconClick")
     }
 
     protected open fun onSearchIconClick() {
-        Log.d("PUI", "default onSearchIconClick")
     }
 
     protected open fun customizeNoPostLayout(layoutNoPost: LMFeedNoEntityLayoutView) {
@@ -501,7 +490,6 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     protected open fun onRetryUploadClicked() {
-        Log.d("PUI", "default onRetryUploadClicked")
     }
 
     protected open fun onFeedRefreshed() {
