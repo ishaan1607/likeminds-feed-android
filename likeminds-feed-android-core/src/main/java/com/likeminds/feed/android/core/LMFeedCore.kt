@@ -30,11 +30,12 @@ object LMFeedCore {
         userName: String,
         uuid: String?,
         deviceId: String,
+        enablePushNotifications: Boolean,
         success: ((InitiateUserResponse?) -> Unit)? = null,
         error: ((String?) -> Unit)? = null
     ) {
         //Call initiate API
-        initiateUser(context, userName, uuid, deviceId)
+        initiateUser(context, userName, uuid, deviceId, enablePushNotifications)
 
         //Inflate Feed
     }
@@ -44,6 +45,7 @@ object LMFeedCore {
         userName: String,
         uuid: String?,
         deviceId: String,
+        enablePushNotifications: Boolean = false,
         success: ((InitiateUserResponse?) -> Unit)? = null,
         error: ((String?) -> Unit)? = null
     ) {
@@ -57,7 +59,7 @@ object LMFeedCore {
             .uuid(uuid)
             .deviceId(deviceId)
             .apiKey(apiKey ?: "")
-            .enablePushNotifications(true)
+            .enablePushNotifications(enablePushNotifications)
             .build()
 
         lmFeedConnectUser.initiateUser(
@@ -67,6 +69,7 @@ object LMFeedCore {
                     apiKey,
                     response?.user?.name,
                     response?.user?.sdkClientInfo?.uuid,
+                    enablePushNotifications
                 )
                 success?.invoke(response)
             },
@@ -80,7 +83,8 @@ object LMFeedCore {
         context: Context,
         apiKey: String?,
         userName: String?,
-        uuid: String?
+        uuid: String?,
+        enablePushNotifications: Boolean
     ) {
         //save details to pref
         val userPreferences = LMFeedUserPreferences(context)
@@ -88,6 +92,7 @@ object LMFeedCore {
             saveApiKey(apiKey ?: "")
             saveUserName(userName ?: "")
             saveUUID(uuid ?: "")
+            savePushNotificationsEnabled(enablePushNotifications)
         }
     }
 }

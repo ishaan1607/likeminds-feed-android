@@ -227,6 +227,7 @@ open class LMFeedPostDetailFragment :
                 userPreferences.getUserName(),
                 userPreferences.getUUID(),
                 userPreferences.getDeviceId(),
+                userPreferences.getPushNotificationsEnabled(),
                 success = {
                     postDetailViewModel.getPost(postDetailExtras.postId, 1)
                 },

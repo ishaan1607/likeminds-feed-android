@@ -5,6 +5,14 @@ plugins {
     id 'kotlin-kapt'
 }
 
+ext {
+    PUBLISH_GROUP_ID = 'community.likeminds'
+    PUBLISH_VERSION = "0.0.1"
+    PUBLISH_ARTIFACT_ID = 'likemindsmasterfeed'
+}
+
+apply from: '../publish-helper.gradle'
+
 android {
     namespace 'com.likeminds.feed.android.core'
     compileSdk 33
@@ -27,14 +35,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures {
         dataBinding = true
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17
+        jvmTarget = JavaVersion.VERSION_11
     }
 }
 
