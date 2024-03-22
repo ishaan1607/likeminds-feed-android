@@ -20,18 +20,15 @@ import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedActivityView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-    }
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
         defStyle
-    ) {
-    }
+    )
 
     companion object {
         private const val MAX_LINES = 3
@@ -43,6 +40,7 @@ class LMFeedActivityView : ConstraintLayout {
     private val binding: LmFeedActivityViewBinding =
         LmFeedActivityViewBinding.inflate(inflater, this, true)
 
+    //sets provided [LMFeedActivityViewStyle] to the activity view
     fun setStyle(activityViewStyle: LMFeedActivityViewStyle) {
 
         activityViewStyle.apply {
