@@ -65,7 +65,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     override fun onResume() {
         super.onResume()
-        binding.rvUniversal.refreshAutoPlayer()
+        binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
     private fun initUI() {
@@ -75,7 +75,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     override fun onPause() {
         super.onPause()
-        binding.rvUniversal.destroyAutoPlayer()
+        binding.rvUniversal.destroyVideoAutoPlayer()
     }
 
     private fun initListeners() {
@@ -117,7 +117,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             if (page == 1) {
                 checkPostsAndReplace(posts)
             } else {
-                binding.rvUniversal.refreshAutoPlayer()
+                binding.rvUniversal.refreshVideoAutoPlayer()
             }
         }
 
@@ -255,7 +255,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             checkForNoPost(posts)
             replacePosts(posts)
             scrollToPosition(0)
-            refreshAutoPlayer()
+            refreshVideoAutoPlayer()
         }
     }
 
@@ -421,7 +421,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     //called when the page in the multiple media post is changed
     override fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {
         //processes the current video whenever view pager's page is changed
-        binding.rvUniversal.refreshAutoPlayer()
+        binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
     //called when show more is clicked in the documents type post

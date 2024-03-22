@@ -13,7 +13,8 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * @property inputTextStyle : [LMFeedTextStyle] to customize the text of the edit text
  *
  * @property hintTextColor: [Int] should be in format of [ColorRes] to customize the hint text color | Default value = [null]
- * @property inputType: [Int] to customize the input type of edit text | Default value = [null]
+ * @property elevation: [Int] should be in format of [DimenRes] to customize the elevation of the edit text | Default value = [null]
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the edit text | Default value = [null]
  **/
 class LMFeedEditTextStyle private constructor(
     val inputTextStyle: LMFeedTextStyle,

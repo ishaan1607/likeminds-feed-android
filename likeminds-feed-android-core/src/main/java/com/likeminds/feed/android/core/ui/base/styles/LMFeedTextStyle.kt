@@ -20,11 +20,20 @@ import kotlin.math.roundToInt
  * @property textAllCaps: [Boolean] to customize whether the text should be all caps or not | Default value = [false]
  * @property fontResource: [Int] should be in format of [FontRes] to customize the font of the text using font resources | Default value = [null]
  * @property fontAssetsPath: [String] to to customize the font of the text using the path of the font assets | Default value = [null]
- * @property typeface: [Int] to customize the typeface of the button | Default value = [null]
- * @property maxLines:[Int] to customize the max lines for a text | Default value = [null]
+ * @property typeface: [Int] to customize the typeface of the text | Default value = [null]
+ * @property maxLines: [Int] to customize the max lines for a text | Default value = [null]
  * @property ellipsize: [TruncateAt] to customize how to ellipsize the text  | Default value = [null]
- * @property padding: [LMFeedPadding] to customize the padding of the text | Default value = [null]
+ * @property maxHeight: [Int] to customize the maximum height of the text | Default value = [null]
+ * @property minHeight: [Int] to customize the minimum height of the text | Default value = [null]
  * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the text | Default value = [null]
+ * @property textAlignment: [Int] to customize the alignment of the text | Default value = [null]
+ * @property elevation: [Int] should be in format of [DimenRes] to customize the elevation of the text | Default value = [null]
+ * @property drawableLeftSrc: [Int] should be in format of [DrawableRes] to customize the left drawable of the text | Default value = [null]
+ * @property drawableTopSrc: [Int] should be in format of [DrawableRes] to customize the top drawable of the text  | Default value = [null]
+ * @property drawableRightSrc: [Int] should be in format of [DrawableRes] to customize the right drawable of the text  | Default value = [null]
+ * @property drawableBottomSrc: [Int] should be in format of [DrawableRes] to customize the bottom drawable of the text  | Default value = [null]
+ * @property drawablePadding: [Int] should be in format of [DimenRes] to customize the padding of drawable of the text  | Default value = [null]
+ *
  **/
 class LMFeedTextStyle private constructor(
     @ColorRes val textColor: Int,
@@ -264,6 +273,10 @@ class LMFeedTextStyle private constructor(
 
             if (this@LMFeedTextStyle.elevation != null) {
                 elevation = resources.getDimension(this@LMFeedTextStyle.elevation)
+            }
+
+            if (this@LMFeedTextStyle.textAlignment != null) {
+                textAlignment = this@LMFeedTextStyle.textAlignment
             }
 
             // sets drawable to the text view
