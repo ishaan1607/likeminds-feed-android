@@ -6,12 +6,13 @@ import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton.IconGravity
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedButton
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import kotlin.math.roundToInt
 
 /**
- * [LMFeedButtonStyle] helps you customize a button in the following way
+ * [LMFeedButtonStyle] helps you to customize a button in the following way
+ *
  * @property textStyle : [LMFeedTextStyle] this will help to customize the text of the button
  *
  * @property backgroundColor: [Int] should be in format of [ColorRes] to add background color of the button | Default value =  [R.color.majorelle_blue]

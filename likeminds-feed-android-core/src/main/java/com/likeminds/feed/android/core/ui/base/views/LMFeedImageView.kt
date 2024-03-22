@@ -24,6 +24,7 @@ class LMFeedImageView : AppCompatImageView {
     ) {
     }
 
+    //updates the image view with the provided [imageSrc] and uses the provided [imageViewStyle] to customize it
     fun setImage(imageSrc: Any?, imageViewStyle: LMFeedImageStyle) {
         imageViewStyle.apply {
             LMFeedImageBindingUtil.loadImage(

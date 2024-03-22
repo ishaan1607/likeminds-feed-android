@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedNoEntityLayoutViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedFABStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
-import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedNoEntityLayoutView : ConstraintLayout {
 
@@ -54,6 +57,11 @@ class LMFeedNoEntityLayoutView : ConstraintLayout {
         binding.tvNoEntitySubtitle.text = subtitle
     }
 
+    /**
+     * Sets the Action CTA text in the no entity layout view
+     *
+     * @param ctaAction: title of the CTA text
+     */
     fun setActionCTAText(ctaAction: String) {
         binding.fabAction.text = ctaAction
     }
@@ -69,11 +77,15 @@ class LMFeedNoEntityLayoutView : ConstraintLayout {
         }
     }
 
+    /**
+     * sets [LMFeedNoEntityLayoutViewStyle] to [LMFeedNoEntityLayoutView]
+     */
     fun setStyle(noEntityLayoutViewStyle: LMFeedNoEntityLayoutViewStyle) {
 
         //set background color
         setBackgroundColor(ContextCompat.getColor(context, noEntityLayoutViewStyle.backgroundColor))
 
+        //configures each view in the noEntityLayoutViewStyle with the provided styles
         configureTitle(noEntityLayoutViewStyle.titleStyle)
         configureSubtitle(noEntityLayoutViewStyle.subtitleStyle)
         configureImage(noEntityLayoutViewStyle.imageStyle)
