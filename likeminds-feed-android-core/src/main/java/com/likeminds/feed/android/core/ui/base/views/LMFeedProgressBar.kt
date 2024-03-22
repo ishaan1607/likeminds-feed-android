@@ -9,6 +9,7 @@ import android.widget.ProgressBar
  * To customize this view use [LMFeedProgressBarStyle]
  */
 class LMFeedProgressBar : ProgressBar {
+
     constructor(context: Context) : super(context) {
     }
 
@@ -20,6 +21,5 @@ class LMFeedProgressBar : ProgressBar {
         attrs,
         defStyle
     ) {
-
     }
 }

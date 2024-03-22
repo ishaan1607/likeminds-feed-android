@@ -63,7 +63,8 @@ class LMFeedDocumentListView @JvmOverloads constructor(
     ) {
         //get documents media style
         val postDocumentsMediaStyle =
-            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle ?: return
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
+                ?: return
 
         //gets the limit of visible documents
         val visibleDocumentsLimit = postDocumentsMediaStyle.visibleDocumentsLimit

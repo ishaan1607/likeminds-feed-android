@@ -2,9 +2,9 @@ package com.likeminds.feed.android.core.ui.base.styles
 
 import android.graphics.Typeface
 import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
-
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
@@ -13,12 +13,13 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * @property inputTextStyle : [LMFeedTextStyle] to customize the text of the edit text
  *
  * @property hintTextColor: [Int] should be in format of [ColorRes] to customize the hint text color | Default value = [null]
- * @property inputType: [Int] to customize the input type of edit text | Default value = [null]
+ * @property elevation: [Int] should be in format of [DimenRes] to customize the elevation of the edit text | Default value = [null]
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the edit text | Default value = [null]
  **/
 class LMFeedEditTextStyle private constructor(
     val inputTextStyle: LMFeedTextStyle,
     @ColorRes val hintTextColor: Int?,
-    val inputType: Int?,
+    @DimenRes val elevation: Int?,
     @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
@@ -30,7 +31,9 @@ class LMFeedEditTextStyle private constructor(
 
         @ColorRes
         private var hintTextColor: Int? = null
-        private var inputType: Int? = null
+
+        @DimenRes
+        private var elevation: Int? = null
 
         @ColorRes
         private var backgroundColor: Int? = null
@@ -41,23 +44,23 @@ class LMFeedEditTextStyle private constructor(
         fun hintTextColor(@ColorRes hintTextColor: Int?) =
             apply { this.hintTextColor = hintTextColor }
 
-        fun inputType(inputType: Int?) = apply { this.inputType = inputType }
+        fun elevation(@DimenRes elevation: Int?) = apply { this.elevation = elevation }
         fun backgroundColor(@ColorRes backgroundColor: Int?) =
             apply { this.backgroundColor = backgroundColor }
 
         fun build() = LMFeedEditTextStyle(
             inputTextStyle,
             hintTextColor,
-            inputType,
+            elevation,
             backgroundColor
         )
+    }
 
-        fun toBuilder(): Builder {
-            return Builder().inputTextStyle(inputTextStyle)
-                .hintTextColor(hintTextColor)
-                .inputType(inputType)
-                .backgroundColor(backgroundColor)
-        }
+    fun toBuilder(): Builder {
+        return Builder().inputTextStyle(inputTextStyle)
+            .hintTextColor(hintTextColor)
+            .elevation(elevation)
+            .backgroundColor(backgroundColor)
     }
 
     fun apply(editText: LMFeedEditText) {
@@ -71,8 +74,8 @@ class LMFeedEditTextStyle private constructor(
             }
 
             // sets input type of edit text
-            if (this@LMFeedEditTextStyle.inputType != null) {
-                inputType = this@LMFeedEditTextStyle.inputType
+            if (this@LMFeedEditTextStyle.elevation != null) {
+                elevation = resources.getDimension(this@LMFeedEditTextStyle.elevation)
             }
 
             if (backgroundColor != null) {

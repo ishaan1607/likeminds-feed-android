@@ -8,7 +8,6 @@ import android.text.TextPaint
 import android.text.TextUtils
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -24,13 +23,10 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
-import com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
-import com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostDocumentView
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostDocumentsMediaView
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostLinkMediaView
-import com.likeminds.feed.android.core.ui.widgets.postmedia.view.LMFeedPostMultipleMediaView
-import com.likeminds.feed.android.core.ui.widgets.posttopicsview.view.LMFeedPostTopicsView
+import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
+import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
+import com.likeminds.feed.android.core.ui.widgets.post.posttopicsview.view.LMFeedPostTopicsView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostFooterViewData
@@ -143,7 +139,8 @@ object LMFeedPostBinderUtils {
         }
     }
 
-    // sets the data in the post content view
+    //todo: ask if we should move this to [LMFeedContentView]
+    //sets the data in the post content view
     private fun setPostContentViewData(
         contentView: LMFeedTextView,
         postViewData: LMFeedPostViewData,
@@ -185,11 +182,8 @@ object LMFeedPostBinderUtils {
                         return@setOnClickListener
                     }
                     alreadySeenFullContent = true
-                    universalFeedAdapterListener.updatePostSeenFullContent(
-                        position,
-                        true,
-                        postViewData
-                    )
+                    val updatedPost =  updatePostForSeeFullContent(postViewData)
+                    universalFeedAdapterListener.onPostContentSeeMoreClicked(position, updatedPost)
                 }
 
                 override fun updateDrawState(textPaint: TextPaint) {
@@ -206,7 +200,7 @@ object LMFeedPostBinderUtils {
                 )
 
                 val shortText: String? = LMFeedSeeMoreUtil.getShortContent(
-                    contentView,
+                    this,
                     maxLines,
                     LMFeedTheme.getPostCharacterLimit()
                 )
@@ -230,7 +224,7 @@ object LMFeedPostBinderUtils {
                     )
                 }
 
-                contentView.text = TextUtils.concat(
+                text = TextUtils.concat(
                     trimmedText,
                     seeMoreSpannableStringBuilder
                 )
@@ -277,10 +271,8 @@ object LMFeedPostBinderUtils {
         topics: List<LMFeedTopicViewData>
     ) {
         if (topics.isEmpty()) {
-            Log.d("PUI", "topics are empty")
             lmFeedPostTopicsView.hide()
         } else {
-            Log.d("PUI", "topics are not empty")
             lmFeedPostTopicsView.apply {
                 show()
                 removeAllTopics()
@@ -393,6 +385,31 @@ object LMFeedPostBinderUtils {
         //update the post view data
         return oldPostViewData.toBuilder()
             .headerViewData(updatedHeaderViewData)
+            .build()
+    }
+
+    // update post object for document expanded action
+    fun updatePostForDocumentExpanded(oldPostViewData: LMFeedPostViewData): LMFeedPostViewData {
+        val mediaData = oldPostViewData.mediaViewData
+
+        val updatedMediaData = mediaData.toBuilder()
+            .isExpanded(true)
+            .build()
+
+        return oldPostViewData.toBuilder()
+            .mediaViewData(updatedMediaData)
+            .build()
+    }
+
+    //updates post object for a see full content action and returns updated post
+    fun updatePostForSeeFullContent(oldPostViewData: LMFeedPostViewData): LMFeedPostViewData {
+        val contentViewData = oldPostViewData.contentViewData.toBuilder()
+            .alreadySeenFullContent(true)
+            .build()
+
+        //return updated comment view data
+        return oldPostViewData.toBuilder()
+            .contentViewData(contentViewData)
             .build()
     }
 

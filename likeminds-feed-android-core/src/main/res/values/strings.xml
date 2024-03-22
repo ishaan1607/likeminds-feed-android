@@ -37,4 +37,20 @@
     <string name="lm_feed_unpin_this_s">Unpin This %s</string>
     <string name="lm_feed_s_pinned_to_top">%s pinned to top!</string>
     <string name="lm_feed_s_unpinned">%s unpinned!</string>
+    <string name="lm_feed_replying_to_s">Replying to %s</string>
+    <string name="lm_feed_write_a_comment">Write a comment</string>
+    <string name="lm_feed_you_do_not_have_permission_to_comment">You do not have permission to comment</string>
+    <string name="lm_feed_request_not_processed">Couldn\'t process your request</string>
+    <plurals name="lm_feed_replies">
+        <item quantity="one">1 Reply</item>
+        <item quantity="other">%d Replies</item>
+    </plurals>
+    <string name="lm_feed_view_more_replies">View more replies</string>
+    <string name="lm_feed_placeholder_replies">%1$d of %2$d</string>
+    <plurals name="lm_feed_comments_small">
+        <item quantity="one">1 comment</item>
+        <item quantity="other">%d comments</item>
+    </plurals>
+    <string name="lm_feed_comment_deleted">Comment Deleted!</string>
+    <string name="lm_feed_reply">Reply</string>
 </resources>

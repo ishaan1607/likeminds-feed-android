@@ -52,7 +52,7 @@ class LMFeedItemMultipleMediaVideoViewDataBinder(
     private fun setClickListeners(binding: LmFeedItemMultipleMediaVideoBinding) {
         binding.apply {
             postVideoView.setOnClickListener {
-                listener.onPostMultipleMediaVideoClick(position, parentPosition)
+                listener.onPostMultipleMediaVideoClicked(position, parentPosition)
             }
         }
     }

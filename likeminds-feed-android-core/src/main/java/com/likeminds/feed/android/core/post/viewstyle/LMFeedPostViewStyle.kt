@@ -5,10 +5,10 @@ import android.view.View
 import android.widget.ImageView
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.postfooterview.style.LMFeedPostFooterViewStyle
-import com.likeminds.feed.android.core.ui.widgets.postheaderview.style.LMFeedPostHeaderViewStyle
-import com.likeminds.feed.android.core.ui.widgets.postmedia.style.*
-import com.likeminds.feed.android.core.ui.widgets.posttopicsview.style.LMFeedPostTopicsViewStyle
+import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.style.LMFeedPostFooterViewStyle
+import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.*
+import com.likeminds.feed.android.core.ui.widgets.post.posttopicsview.style.LMFeedPostTopicsViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 

@@ -11,14 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
-import com.likeminds.feed.android.core.overflowmenu.model.DELETE_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.EDIT_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.REPORT_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.*
+import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
+import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
-import com.likeminds.feed.android.core.ui.widgets.headerview.views.LMFeedHeaderView
+import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
@@ -43,13 +41,13 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
-    private val lmFeedUniversalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
+    private val universalFeedViewModel: LMFeedUniversalFeedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = LmFeedFragmentUniversalFeedBinding.inflate(layoutInflater)
         customizeCreateNewPostButton(binding.fabNewPost)
         customizeUniversalFeedHeaderView(binding.headerViewUniversal)
@@ -67,7 +65,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     override fun onResume() {
         super.onResume()
-        binding.rvUniversal.refreshAutoPlayer()
+        binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
     private fun initUI() {
@@ -77,7 +75,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
 
     override fun onPause() {
         super.onPause()
-        binding.rvUniversal.destroyAutoPlayer()
+        binding.rvUniversal.destroyVideoAutoPlayer()
     }
 
     private fun initListeners() {
@@ -105,7 +103,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     private fun observeResponses() {
-        lmFeedUniversalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
+        universalFeedViewModel.universalFeedResponse.observe(viewLifecycleOwner) { response ->
             LMFeedProgressBarHelper.hideProgress(binding.progressBar)
             val page = response.first
             val posts = response.second
@@ -119,11 +117,11 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             if (page == 1) {
                 checkPostsAndReplace(posts)
             } else {
-                binding.rvUniversal.refreshAutoPlayer()
+                binding.rvUniversal.refreshVideoAutoPlayer()
             }
         }
 
-        lmFeedUniversalFeedViewModel.postLikedResponse.observe(viewLifecycleOwner) { response ->
+        universalFeedViewModel.postLikedResponse.observe(viewLifecycleOwner) { response ->
             LMFeedAnalytics.sendPostLikedEvent(
                 uuid = "",
                 postId = response.first,
@@ -131,7 +129,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             )
         }
 
-        lmFeedUniversalFeedViewModel.postSavedResponse.observe(viewLifecycleOwner) { post ->
+        universalFeedViewModel.postSavedResponse.observe(viewLifecycleOwner) { post ->
             LMFeedAnalytics.sendPostSavedEvent(
                 uuid = post.headerViewData.user.sdkClientInfoViewData.uuid,
                 postId = post.id,
@@ -140,12 +138,12 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             onPostSaveSuccess(post)
         }
 
-        lmFeedUniversalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
+        universalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
             LMFeedAnalytics.sendPostPinnedEvent(post)
             onPostPinSuccess(post)
         }
 
-        lmFeedUniversalFeedViewModel.errorMessageEventFlow.onEach { response ->
+        universalFeedViewModel.errorMessageEventFlow.onEach { response ->
             when (response) {
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.DeletePost -> {
 
@@ -257,17 +255,17 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             checkForNoPost(posts)
             replacePosts(posts)
             scrollToPosition(0)
-            refreshAutoPlayer()
+            refreshVideoAutoPlayer()
         }
     }
 
     private fun initUniversalFeedRecyclerView() {
         LMFeedProgressBarHelper.showProgress(binding.progressBar)
-        lmFeedUniversalFeedViewModel.getFeed(1, null)
+        universalFeedViewModel.getFeed(1, null)
         binding.rvUniversal.apply {
             setAdapter(this@LMFeedUniversalFeedFragment)
 
-            lmFeedUniversalFeedViewModel.bindView(this, viewLifecycleOwner)
+            universalFeedViewModel.bindView(this, viewLifecycleOwner)
         }
     }
 
@@ -303,13 +301,13 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         }
     }
 
-    override fun onPostContentClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostContentClicked(position: Int, postViewData: LMFeedPostViewData) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostLikeClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostLikeClicked(position: Int, postViewData: LMFeedPostViewData) {
         //call api
-        lmFeedUniversalFeedViewModel.likePost(
+        universalFeedViewModel.likePost(
             postViewData.id,
             postViewData.footerViewData.isLiked
         )
@@ -317,23 +315,30 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         binding.rvUniversal.updatePostItem(position, postViewData)
     }
 
-    override fun onPostLikesCountClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostLikesCountClicked(position: Int, postViewData: LMFeedPostViewData) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostCommentsCountClick(position: Int, postViewData: LMFeedPostViewData) {
-//        TODO("Not yet implemented")
+    override fun onPostCommentsCountClicked(position: Int, postViewData: LMFeedPostViewData) {
+        // sends comment list open event
+        LMFeedAnalytics.sendCommentListOpenEvent()
+
+        val postDetailExtras = LMFeedPostDetailExtras.Builder()
+            .postId(postViewData.id)
+            .isEditTextFocused(true)
+            .build()
+        LMFeedPostDetailActivity.start(requireContext(), postDetailExtras)
     }
 
-    override fun onPostSaveClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostSaveClicked(position: Int, postViewData: LMFeedPostViewData) {
         //todo: create toast message using post variable and show toast
         //call api
-        lmFeedUniversalFeedViewModel.savePost(postViewData)
+        universalFeedViewModel.savePost(postViewData)
         //update recycler
         binding.rvUniversal.updatePostItem(position, postViewData)
     }
 
-    override fun onPostShareClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostShareClicked(position: Int, postViewData: LMFeedPostViewData) {
         LMFeedShareUtils.sharePost(
             requireContext(),
             postViewData.id,
@@ -352,35 +357,20 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         binding.rvUniversal.updatePostWithoutNotifying(position, updatedPostData)
     }
 
-    // updates [alreadySeenFullContent] for the post
-    override fun updatePostSeenFullContent(
-        position: Int,
-        alreadySeenFullContent: Boolean,
-        postViewData: LMFeedPostViewData
-    ) {
+    //updates [alreadySeenFullContent] for the post
+    override fun onPostContentSeeMoreClicked(position: Int, postViewData: LMFeedPostViewData) {
         binding.rvUniversal.apply {
-            //update the content view data
-            val updatedContentViewData = postViewData.contentViewData.toBuilder()
-                .alreadySeenFullContent(alreadySeenFullContent)
-                .build()
-
-            //update the post view data
-            val updatedPostViewData = postViewData.toBuilder()
-                .contentViewData(updatedContentViewData)
-                .fromPostSaved(false)
-                .fromPostLiked(false)
-                .build()
 
             //update the post item in the adapter
-            updatePostItem(position, updatedPostViewData)
+            updatePostItem(position, postViewData)
         }
     }
 
-    override fun handleLinkClick(url: String) {
+    override fun onPostContentLinkClicked(url: String) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostMenuIconClick(
+    override fun onPostMenuIconClicked(
         position: Int,
         anchorView: View,
         postViewData: LMFeedPostViewData
@@ -396,19 +386,23 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         popupMenu.show()
     }
 
-    override fun onPostImageMediaClick(position: Int, postViewData: LMFeedPostViewData) {
-//        TODO("Not yet implemented")
+    override fun onPostImageMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
+        val postDetailExtras = LMFeedPostDetailExtras.Builder()
+            .postId(postViewData.id)
+            .isEditTextFocused(false)
+            .build()
+        LMFeedPostDetailActivity.start(requireContext(), postDetailExtras)
     }
 
-    override fun onPostVideoMediaClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostVideoMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
         //todo:
     }
 
-    override fun onPostLinkMediaClick(position: Int, postViewData: LMFeedPostViewData) {
+    override fun onPostLinkMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostDocumentMediaClick(position: Int, parentPosition: Int) {
+    override fun onPostDocumentMediaClicked(position: Int, parentPosition: Int) {
         //open the pdf using Android's document view
         val postData = binding.rvUniversal.getPostFromAdapter(parentPosition) ?: return
         val documentUrl = postData.mediaViewData.attachments[position].attachmentMeta.url ?: ""
@@ -416,18 +410,18 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         LMFeedAndroidUtils.startDocumentViewer(requireContext(), pdfUri)
     }
 
-    override fun onPostMultipleMediaImageClick(position: Int, parentPosition: Int) {
+    override fun onPostMultipleMediaImageClicked(position: Int, parentPosition: Int) {
 //        TODO("Not yet implemented")
     }
 
-    override fun onPostMultipleMediaVideoClick(position: Int, parentPosition: Int) {
+    override fun onPostMultipleMediaVideoClicked(position: Int, parentPosition: Int) {
 //        TODO("Not yet implemented")
     }
 
     //called when the page in the multiple media post is changed
     override fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {
         //processes the current video whenever view pager's page is changed
-        binding.rvUniversal.refreshAutoPlayer()
+        binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
     //called when show more is clicked in the documents type post
@@ -501,7 +495,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     protected open fun onFeedRefreshed() {
         mSwipeRefreshLayout.isRefreshing = true
         binding.rvUniversal.resetScrollListenerData()
-        lmFeedUniversalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
+        universalFeedViewModel.getFeed(1, null)//todo change to selected topic adapter
     }
 
     //callback when post menu items are clicked
@@ -593,7 +587,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         post: LMFeedPostViewData
     ) {
         //call api
-        lmFeedUniversalFeedViewModel.pinPost(post)
+        universalFeedViewModel.pinPost(post)
 
         //update recycler
         binding.rvUniversal.updatePostItem(position, post)
@@ -605,7 +599,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         post: LMFeedPostViewData
     ) {
         //call api
-        lmFeedUniversalFeedViewModel.pinPost(post)
+        universalFeedViewModel.pinPost(post)
 
         //update recycler
         binding.rvUniversal.updatePostItem(position, post)

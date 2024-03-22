@@ -8,6 +8,7 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.post.model.LikePostRequest
 import com.likeminds.likemindsfeed.post.model.PinPostRequest
 import com.likeminds.likemindsfeed.post.model.SavePostRequest
@@ -17,7 +18,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 
 class LMFeedUniversalFeedViewModel : ViewModel() {
 
-    private val lmFeedClient = LMFeedClient.getInstance()
+    private val lmFeedClient: LMFeedClient = LMFeedClient.getInstance()
 
     private val _universalFeedResponse = MutableLiveData<Pair<Int, List<LMFeedPostViewData>>>()
     val universalFeedResponse: LiveData<Pair<Int, List<LMFeedPostViewData>>> =
@@ -37,12 +38,12 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
 
     sealed class ErrorMessageEvent {
         data class LikePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
-        data class SavePost(val postId: String, val errorMessage: String?) :
-            ErrorMessageEvent()
+
+        data class SavePost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
 
         data class DeletePost(val errorMessage: String?) : ErrorMessageEvent()
-        data class PinPost(val postId: String, val errorMessage: String?) :
-            ErrorMessageEvent()
+
+        data class PinPost(val postId: String, val errorMessage: String?) : ErrorMessageEvent()
     }
 
     companion object {

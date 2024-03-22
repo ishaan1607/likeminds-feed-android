@@ -16,4 +16,9 @@
     <color name="lm_feed_light_grey">#eeeeee</color>
     <color name="lm_feed_cloudy_blue">#d0d8e2</color>
     <color name="lm_feed_background">#f9f9f9</color>
-    </resources>
+    <color name="lm_feed_bright_grey">#EFEFEF</color>
+    <color name="lm_feed_maastricht_blue_40">#660F1E3D</color>
+    <color name="lm_feed_grey_brown_50">#804a4a4a</color>
+    <color name="lm_feed_blue_separator">#DAE1EE</color>
+    <color name="lm_feed_dark_grayish_blue">#484F67</color>
+</resources>

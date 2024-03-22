@@ -1,10 +1,13 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
+import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
+
 class LMFeedPostFooterViewData private constructor(
     val likesCount: Int,
     val commentsCount: Int,
     val isSaved: Boolean,
-    val isLiked: Boolean
+    val isLiked: Boolean,
+    val replies: MutableList<LMFeedCommentViewData>,
 ) {
 
     class Builder {
@@ -12,17 +15,20 @@ class LMFeedPostFooterViewData private constructor(
         private var commentsCount: Int = 0
         private var isSaved: Boolean = false
         private var isLiked: Boolean = false
+        private var replies: MutableList<LMFeedCommentViewData> = mutableListOf()
 
         fun likesCount(likesCount: Int) = apply { this.likesCount = likesCount }
         fun commentsCount(commentsCount: Int) = apply { this.commentsCount = commentsCount }
         fun isSaved(isSaved: Boolean) = apply { this.isSaved = isSaved }
         fun isLiked(isLiked: Boolean) = apply { this.isLiked = isLiked }
+        fun replies(replies: MutableList<LMFeedCommentViewData>) = apply { this.replies = replies }
 
         fun build() = LMFeedPostFooterViewData(
             likesCount,
             commentsCount,
             isSaved,
-            isLiked
+            isLiked,
+            replies
         )
     }
 
@@ -32,5 +38,6 @@ class LMFeedPostFooterViewData private constructor(
             .commentsCount(commentsCount)
             .isSaved(isSaved)
             .isLiked(isLiked)
+            .replies(replies)
     }
 }

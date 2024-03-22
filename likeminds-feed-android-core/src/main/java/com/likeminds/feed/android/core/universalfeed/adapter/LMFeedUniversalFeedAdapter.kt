@@ -60,65 +60,80 @@ class LMFeedUniversalFeedAdapter(
 }
 
 interface LMFeedUniversalFeedAdapterListener {
-    //triggered when the user clicks on post content
-    fun onPostContentClick(position: Int, postViewData: LMFeedPostViewData)
 
-    //triggered when the user clicks on like icon
-    fun onPostLikeClick(position: Int, postViewData: LMFeedPostViewData)
+    fun onPostContentClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on post content
+    }
 
-    //triggered when the user clicks on likes count
-    fun onPostLikesCountClick(position: Int, postViewData: LMFeedPostViewData)
+    fun onPostLikeClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on like icon
+    }
 
-    //triggered when the user clicks on the comments count
-    fun onPostCommentsCountClick(position: Int, postViewData: LMFeedPostViewData)
+    fun onPostLikesCountClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on the post's likes count
+    }
 
-    //triggered when the user clicks on save post icon
-    fun onPostSaveClick(position: Int, postViewData: LMFeedPostViewData)
+    fun onPostCommentsCountClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on the comments count
+    }
 
-    //triggered when the user clicks on share icon
-    fun onPostShareClick(position: Int, postViewData: LMFeedPostViewData)
+    fun onPostSaveClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on save post icon
+    }
 
-    //triggered to update the data with re-inflation of the item
-    fun updateFromLikedSaved(position: Int, postViewData: LMFeedPostViewData)
+    fun onPostShareClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on share icon
+    }
 
-    //triggered when the user clicks on "See More"
-    fun updatePostSeenFullContent(
-        position: Int,
-        alreadySeenFullContent: Boolean,
-        postViewData: LMFeedPostViewData
-    ) //sid
+    fun updateFromLikedSaved(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered to update the data with re-inflation of the item
+    }
 
-    //triggered when a link from post content is clicked
-    fun handleLinkClick(url: String)
+    fun onPostContentSeeMoreClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on "See More" on post content
+    }
 
-    //triggered when the menu icon of the post is clicked
-    fun onPostMenuIconClick(
+    fun onPostContentLinkClicked(url: String) {
+        //triggered when link in the post content is clicked
+    }
+
+    fun onPostMenuIconClicked(
         position: Int,
         anchorView: View,
         postViewData: LMFeedPostViewData
-    ) //sid
+    ) {
+        //triggered when the menu icon of the post is clicked
+    }
 
-    //triggered when the image media of the post is clicked
-    fun onPostImageMediaClick(position: Int, postViewData: LMFeedPostViewData)
+    fun onPostImageMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the image media of the post is clicked
+    }
 
-    //triggered when the video media of the post is clicked
-    fun onPostVideoMediaClick(position: Int, postViewData: LMFeedPostViewData)
+    fun onPostVideoMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the video media of the post is clicked
+    }
 
-    //triggered when the link media of the post is clicked
-    fun onPostLinkMediaClick(position: Int, postViewData: LMFeedPostViewData)
+    fun onPostLinkMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the link media of the post is clicked
+    }
 
-    //triggered when the document media in the post is clicked
-    fun onPostDocumentMediaClick(position: Int, parentPosition: Int)
+    fun onPostDocumentMediaClicked(position: Int, parentPosition: Int) {
+        //triggered when the document media in the post is clicked
+    }
 
-    //triggered when the image media of multiple media is clicked
-    fun onPostMultipleMediaImageClick(position: Int, parentPosition: Int)
+    fun onPostMultipleMediaImageClicked(position: Int, parentPosition: Int) {
+        //triggered when the image media of multiple media is clicked
+    }
 
-    //triggered when the video media of multiple media is clicked
-    fun onPostMultipleMediaVideoClick(position: Int, parentPosition: Int)
+    fun onPostMultipleMediaVideoClicked(position: Int, parentPosition: Int) {
+        //triggered when the video media of multiple media is clicked
+    }
 
-    //triggered when the page of the view pager is changed
-    fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int)
+    fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {
+        //triggered when the page of the view pager is changed
+    }
 
-    //triggered when a user clicks on "See More" of document type post
-    fun onPostMultipleDocumentsExpanded(position: Int, postViewData: LMFeedPostViewData)
+    fun onPostMultipleDocumentsExpanded(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when a user clicks on "See More" of document type post
+    }
 }

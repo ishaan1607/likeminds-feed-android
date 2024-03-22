@@ -155,4 +155,11 @@ object LMFeedAnalytics {
             )
         )
     }
+
+    /**
+     * Triggers when the user opens post detail screen
+     **/
+    fun sendCommentListOpenEvent() {
+        track(Events.COMMENT_LIST_OPEN)
+    }
 }

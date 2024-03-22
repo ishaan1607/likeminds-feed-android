@@ -5,7 +5,11 @@
 
     <application android:usesCleartextTraffic="true">
 
-
+        <activity
+            android:name="com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/LMFeedAppTheme.NoActionBar" />
     </application>
 
 </manifest>

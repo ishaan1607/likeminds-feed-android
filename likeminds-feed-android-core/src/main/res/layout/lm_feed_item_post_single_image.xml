@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:background="@color/lm_feed_white">
 
-        <com.likeminds.feed.android.core.ui.widgets.postheaderview.view.LMFeedPostHeaderView
+        <com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
             android:id="@+id/post_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.likeminds.feed.android.core.ui.widgets.posttopicsview.view.LMFeedPostTopicsView
+        <com.likeminds.feed.android.core.ui.widgets.post.posttopicsview.view.LMFeedPostTopicsView
             android:id="@+id/post_topics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             tools:scaleType="centerCrop"
             tools:srcCompat="@drawable/lm_feed_ic_pdf" />
 
-        <com.likeminds.feed.android.core.ui.widgets.postfooterview.view.LMFeedPostFooterView
+        <com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
             android:id="@+id/post_footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
