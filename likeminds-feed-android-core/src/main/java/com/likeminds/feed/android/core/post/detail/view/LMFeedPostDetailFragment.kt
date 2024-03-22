@@ -257,7 +257,6 @@ open class LMFeedPostDetailFragment :
     }
 
     protected open fun onNavigationIconClick() {
-        Log.d("PUI", "default onNavigationIconClick")
     }
 
     // adds the comment locally and calls api
