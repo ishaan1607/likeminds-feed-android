@@ -3,8 +3,8 @@ package com.likeminds.feed.android.core.utils.user
 import android.util.Log
 import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.likemindsfeed.LMFeedClient
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserRequest
-import com.likeminds.likemindsfeed.initiateUser.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
+import com.likeminds.likemindsfeed.user.model.InitiateUserResponse
 import kotlinx.coroutines.*
 
 /**

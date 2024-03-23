@@ -119,20 +119,23 @@ class LMFeedPostingView : ConstraintLayout {
         }
     }
 
-
+    //sets provided [postingViewStyle] to the posting view
     fun setStyle(postingViewStyle: LMFeedPostingViewStyle) {
 
-        //set background color
-        postingViewStyle.backgroundColor?.let {
-            binding.clContainer.backgroundTintList =
-                ColorStateList.valueOf(ContextCompat.getColor(context, it))
-        }
+        postingViewStyle.apply {
+            //set background color
+            backgroundColor?.let {
+                binding.clContainer.backgroundTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, it))
+            }
 
-        configureTitle(postingViewStyle.postingHeadingTextStyle)
-        configureRetryCTA(postingViewStyle.retryButtonTextStyle)
-        configureProgressStyle(postingViewStyle.progressStyle)
-        configurePostingDoneStyle(postingViewStyle.postingDoneImageStyle)
-        configurePostAttachmentView(postingViewStyle.attachmentThumbnailImageStyle)
+            //configures each view inside the posting view
+            configureTitle(postingHeadingTextStyle)
+            configureRetryCTA(retryButtonTextStyle)
+            configureProgressStyle(progressStyle)
+            configurePostingDoneStyle(postingDoneImageStyle)
+            configurePostAttachmentView(attachmentThumbnailImageStyle)
+        }
     }
 
     private fun configureTitle(titleStyle: LMFeedTextStyle) {

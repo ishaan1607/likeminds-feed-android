@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedHeaderViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -33,6 +35,9 @@ class LMFeedHeaderView : ConstraintLayout {
     private val binding: LmFeedHeaderViewBinding =
         LmFeedHeaderViewBinding.inflate(inflater, this, true)
 
+    /**
+     * sets [LMFeedHeaderViewStyle] to [LMFeedHeaderView]
+     */
     fun setStyle(headerViewStyle: LMFeedHeaderViewStyle) {
 
         headerViewStyle.apply {
@@ -105,12 +110,18 @@ class LMFeedHeaderView : ConstraintLayout {
         binding.tvHeaderSubtitle.text = subtitle
     }
 
+    /**
+     * Sets the navigation icon click listener
+     */
     fun setNavigationIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivHeaderNavigation.setOnClickListener {
             listener.onClick()
         }
     }
 
+    /**
+     * Sets the search icon click listener
+     */
     fun setSearchIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivHeaderSearch.setOnClickListener {
             listener.onClick()

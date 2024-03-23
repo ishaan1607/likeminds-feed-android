@@ -1,5 +1,6 @@
-package com.likeminds.feed.android.core.universalfeed.model
+package com.likeminds.feed.android.core.utils.user
 
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedSDKClientInfoViewData
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.base.model.ITEM_USER
 

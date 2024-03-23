@@ -1,13 +1,22 @@
 package com.likeminds.feed.android.core.universalfeed.viewstyle
 
-import com.likeminds.feed.android.core.utils.LMFeedViewStyle
-import com.likeminds.feed.android.core.ui.base.styles.*
 import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedProgressBarStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
-
+/**
+ * [LMFeedPostingViewStyle] helps to customize [LMFeedPostingView] in the following way
+ * @property attachmentThumbnailImageStyle: [LMFeedImageStyle] this will help to customize thumbnail of the post | Set value to [null] to hide the thumbnail
+ * @property postingHeadingTextStyle: [LMFeedTextStyle] this will help to customize posting heading
+ * @property progressStyle: [LMFeedProgressBarStyle] this will help to customize progress bar to show uploading status
+ * @property retryButtonTextStyle: [LMFeedTextStyle] this will help to customize retry CTA
+ * @property postingDoneImageStyle: [LMFeedImageStyle] this will help to customize the image to show, once uploading is done.
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to add background Color the view| Default value is [null]
+ */
 class LMFeedPostingViewStyle private constructor(
     val attachmentThumbnailImageStyle: LMFeedImageStyle?,
     val postingHeadingTextStyle: LMFeedTextStyle,

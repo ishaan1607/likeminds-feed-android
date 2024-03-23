@@ -10,7 +10,6 @@ import androidx.appcompat.widget.AppCompatTextView
  */
 class LMFeedTextView : AppCompatTextView {
     constructor(context: Context) : super(context) {
-
     }
 
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
