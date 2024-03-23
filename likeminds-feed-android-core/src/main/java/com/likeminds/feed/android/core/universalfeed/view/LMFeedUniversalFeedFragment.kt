@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
