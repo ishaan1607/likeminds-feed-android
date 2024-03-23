@@ -6,11 +6,10 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.style.LMFeedPostFooterViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
- * [LMFeedPostFooterViewStyle] helps you to customize the post footer view
+ * [LMFeedAlertDialogStyle] helps you to customize the alert dialog view [LMFeedAlertDialogView]
  *
  * @property alertTitleText : [LMFeedTextStyle] this will help you to customize the title text in the alert dialog view
  * @property alertSubtitleText : [LMFeedTextStyle] this will help you to customize the subtitle text in the alert dialog view | set its value to [null] if you want to hide the subtitle text in the alert dialog view

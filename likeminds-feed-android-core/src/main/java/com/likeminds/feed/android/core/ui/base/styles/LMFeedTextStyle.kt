@@ -28,6 +28,7 @@ import kotlin.math.roundToInt
  * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the text | Default value = [null]
  * @property textAlignment: [Int] to customize the alignment of the text | Default value = [null]
  * @property elevation: [Int] should be in format of [DimenRes] to customize the elevation of the text | Default value = [null]
+ * @property hintTextColor: [Int] should be in format of [ColorRes] to customize the hint color of the text | Default value = [null]
  * @property drawableLeftSrc: [Int] should be in format of [DrawableRes] to customize the left drawable of the text | Default value = [null]
  * @property drawableTopSrc: [Int] should be in format of [DrawableRes] to customize the top drawable of the text  | Default value = [null]
  * @property drawableRightSrc: [Int] should be in format of [DrawableRes] to customize the right drawable of the text  | Default value = [null]
