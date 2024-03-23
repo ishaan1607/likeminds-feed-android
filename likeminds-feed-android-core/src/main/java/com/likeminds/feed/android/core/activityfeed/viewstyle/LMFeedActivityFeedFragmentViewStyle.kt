@@ -15,7 +15,7 @@ import com.likeminds.feed.android.core.utils.model.LMFeedPadding
  *
  * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the activity feed fragment
  * @property activityViewStyle : [LMFeedActivityViewStyle] this will help you to customize the activity feed item view
- * @property backgroundColor: [Int] should be in format of [ColorRes] this will help you to customize the background color of the activity feed fragment
+ * @property backgroundColor: [Int] should be in format of [ColorRes] this will help you to customize the background color of the activity feed fragment | Default value = [null]
  * */
 class LMFeedActivityFeedFragmentViewStyle private constructor(
     //header view style

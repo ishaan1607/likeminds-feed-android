@@ -24,27 +24,32 @@ class LMFeedLikesListView @JvmOverloads constructor(
         linearLayoutManager = LinearLayoutManager(context)
         layoutManager = linearLayoutManager
 
-        if (itemAnimator is SimpleItemAnimator)
+        if (itemAnimator is SimpleItemAnimator) {
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
     }
 
+    //sets the adapter with the provided [listener] to the likes recycler view
     fun setAdapter(likesAdapterListener: LMFeedLikesAdapterListener) {
         likesAdapter = LMFeedLikesAdapter(likesAdapterListener)
         adapter = likesAdapter
     }
 
+    //sets the pagination scroll listener to the likes recycler view
     fun setPaginationScrollListener(scrollListener: LMFeedEndlessRecyclerViewScrollListener) {
         paginationScrollListener = scrollListener
         addOnScrollListener(scrollListener)
     }
 
+    //resets the scroll listener data
     fun resetScrollListenerData() {
         if (::paginationScrollListener.isInitialized) {
             paginationScrollListener.resetData()
         }
     }
 
-    fun addLikes(items: List<LMFeedLikeViewData>) {
-        likesAdapter.addAll(items)
+    //adds the provided [likes] in the likes adapter
+    fun addLikes(likes: List<LMFeedLikeViewData>) {
+        likesAdapter.addAll(likes)
     }
 }

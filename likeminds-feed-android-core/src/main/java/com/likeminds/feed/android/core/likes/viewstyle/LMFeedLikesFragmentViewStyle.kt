@@ -3,18 +3,23 @@ package com.likeminds.feed.android.core.likes.viewstyle
 import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.user.style.LMFeedUserViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedLikesFragmentViewStyle] helps you to customize the likes fragment [LMFeedLikesFragment]
+ *
+ * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the likes fragment
+ * @property userViewStyle : [LMFeedUserViewStyle] this will help you to customize the create new post fab in the likes fragment
+ * @property backgroundColor: [Int] should be in format of [ColorRes] this will help you to customize the background color of the likes fragment | Default value = [null]
+ * */
 class LMFeedLikesFragmentViewStyle private constructor(
     val headerViewStyle: LMFeedHeaderViewStyle,
     val userViewStyle: LMFeedUserViewStyle,
     @ColorRes val backgroundColor: Int?
 ) {
-
     class Builder {
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
             .titleTextStyle(
