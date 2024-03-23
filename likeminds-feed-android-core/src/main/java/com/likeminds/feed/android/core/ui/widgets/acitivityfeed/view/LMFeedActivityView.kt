@@ -10,6 +10,7 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedActivityViewBinding
 import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.widgets.acitivityfeed.style.LMFeedActivityViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedTimeUtil
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify

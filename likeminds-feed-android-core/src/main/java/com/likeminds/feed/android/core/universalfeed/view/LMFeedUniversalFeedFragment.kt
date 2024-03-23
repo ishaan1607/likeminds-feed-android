@@ -162,9 +162,9 @@ open class LMFeedUniversalFeedFragment :
         universalFeedViewModel.deletePostResponse.observe(viewLifecycleOwner) { postId ->
             binding.rvUniversal.apply {
                 val indexToRemove = getIndexAndPostFromAdapter(postId)?.first ?: return@observe
-                removePostAtIndex(indexToRemove)
+                removePost(indexToRemove)
                 checkForNoPost(allPosts())
-                refreshAutoPlayer()
+                refreshVideoAutoPlayer()
                 //todo:
                 LMFeedViewUtils.showShortToast(
                     requireContext(),
@@ -634,13 +634,6 @@ open class LMFeedUniversalFeedFragment :
 
         val userPreferences = LMFeedUserPreferences(requireContext())
         val loggedInUUID = userPreferences.getUUID()
-
-        Log.d(
-            "PUI", """
-            postCreatorUUID: $postCreatorUUID
-            loggedInUUID: $loggedInUUID
-        """.trimIndent()
-        )
 
         if (postCreatorUUID == loggedInUUID) {
             // if the post was created by current user
