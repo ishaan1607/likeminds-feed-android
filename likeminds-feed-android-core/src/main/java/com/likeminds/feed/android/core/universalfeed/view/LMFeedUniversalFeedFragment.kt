@@ -2,14 +2,13 @@ package com.likeminds.feed.android.core.universalfeed.view
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedActivity
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
@@ -24,11 +23,7 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
-import com.likeminds.feed.android.core.utils.LMFeedAndroidUtils
-import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
-import com.likeminds.feed.android.core.utils.LMFeedShareUtils
-import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
-import com.likeminds.feed.android.core.utils.LMFeedViewUtils
+import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
@@ -468,6 +463,8 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     protected open fun onSearchIconClick() {
+        //todo: change this
+        LMFeedActivityFeedActivity.start(requireContext())
     }
 
     protected open fun customizeNoPostLayout(layoutNoPost: LMFeedNoEntityLayoutView) {

@@ -1,5 +1,7 @@
 package com.likeminds.feed.android.core.utils
 
+import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityEntityViewData
+import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentsCountViewData
@@ -8,6 +10,8 @@ import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.*
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.comment.model.Comment
+import com.likeminds.likemindsfeed.notificationfeed.model.Activity
+import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
@@ -317,6 +321,113 @@ object LMFeedViewDataConvertor {
             )
             .uuid(commentCreator)
             .tempId(comment.tempId)
+            .build()
+    }
+
+    /**
+     * convert list of [Activity] and usersMap [Map] of String to User
+     * to list of [ActivityViewData]
+     *
+     * @param activities: list of [Activity]
+     * @param usersMap: [Map] of String to User
+     * */
+    fun convertActivities(
+        activities: List<Activity>,
+        usersMap: Map<String, User>
+    ): List<LMFeedActivityViewData> {
+        return activities.map {
+            convertActivity(it, usersMap)
+        }
+    }
+
+    /**
+     * converts [Activity] and usersMap [Map] of String to User
+     * to [ActivityViewData]
+     *
+     * @param activity: an activity [ActivityViewData]
+     * @param usersMap: [Map] of String to User
+     * */
+    private fun convertActivity(
+        activity: Activity,
+        usersMap: Map<String, User>
+    ): LMFeedActivityViewData {
+        val activityByUser = if (activity.actionBy.isNotEmpty()) {
+            convertUser(usersMap[activity.actionBy.last()])
+        } else {
+            LMFeedUserViewData.Builder().build()
+        }
+
+        return LMFeedActivityViewData.Builder()
+            .id(activity.id)
+            .isRead(activity.isRead)
+            .actionOn(activity.actionOn)
+            .actionBy(activity.actionBy)
+            .entityType(activity.entityType)
+            .entityId(activity.entityId)
+            .entityOwnerId(activity.entityOwnerId)
+            .action(activity.action)
+            .cta(activity.cta)
+            .activityText(activity.activityText)
+            .activityEntityData(
+                convertActivityEntityData(
+                    activity.activityEntityData,
+                    usersMap
+                )
+            )
+            .activityByUser(activityByUser)
+            .createdAt(activity.createdAt)
+            .updatedAt(activity.updatedAt)
+            .uuid(activity.uuid)
+            .build()
+    }
+
+    private fun convertActivityEntityData(
+        activityEntityData: ActivityEntityData?,
+        usersMap: Map<String, User>
+    ): LMFeedActivityEntityViewData? {
+
+        if (activityEntityData == null) {
+            return null
+        }
+        val entityCreator = activityEntityData.uuid
+        val user = usersMap[entityCreator]
+        val replies = activityEntityData.replies?.toMutableList()
+
+        val userViewData = if (user == null) {
+            createDeletedUser()
+        } else {
+            convertUser(user)
+        }
+
+        return LMFeedActivityEntityViewData.Builder()
+            .id(activityEntityData.id)
+            .text(activityEntityData.text)
+            .deleteReason(activityEntityData.deleteReason)
+            .deletedBy(activityEntityData.deletedBy)
+            .heading(activityEntityData.heading)
+            .attachments(
+                convertAttachments(
+                    activityEntityData.attachments,
+                    activityEntityData.id
+                )
+            )
+            .communityId(activityEntityData.communityId)
+            .isEdited(activityEntityData.isEdited)
+            .isPinned(activityEntityData.isPinned)
+            .userId(activityEntityData.userId)
+            .user(userViewData)
+            .replies(
+                convertComments(
+                    replies,
+                    usersMap,
+                    activityEntityData.postId ?: activityEntityData.id
+                )
+            )
+            .level(activityEntityData.level)
+            .createdAt(activityEntityData.createdAt)
+            .updatedAt(activityEntityData.updatedAt)
+            .uuid(activityEntityData.uuid)
+            .deletedByUUID(activityEntityData.deletedByUUID)
             .build()
     }
 

@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--TODO: set this background using styles -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/lm_feed_cultured">
 
         <com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
-            android:id="@+id/header_view_post_detail"
+            android:id="@+id/header_view_activity_feed"
             android:layout_width="match_parent"
             android:layout_height="54dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -21,28 +20,19 @@
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/comment_composer"
-            app:layout_constraintTop_toBottomOf="@id/header_view_post_detail">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_view_activity_feed">
 
-            <com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailListView
-                android:id="@+id/rv_post_details"
+            <com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedListView
+                android:id="@+id/rv_activity_feed"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/lm_feed_white"
-                android:clipToPadding="false"
+                android:layout_height="0dp"
                 android:descendantFocusability="blocksDescendants"
-                android:overScrollMode="never"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:itemCount="1"
-                tools:listitem="@layout/lm_feed_item_post_single_image" />
+                tools:itemCount="1" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.view.LMFeedCommentComposerView
-            android:id="@+id/comment_composer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent" />
+        <!--TODO: set no notification view -->
 
         <include
             android:id="@+id/progress_bar"

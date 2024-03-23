@@ -9,7 +9,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
 /**
- * [LMFeedUniversalFeedFragmentViewStyle] helps you to customize the post detail fragment [LMFeedUniversalFeedFragment]
+ * [LMFeedUniversalFeedFragmentViewStyle] helps you to customize the universal feed fragment [LMFeedUniversalFeedFragment]
  *
  * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the universal feed fragment
  * @property createNewPostButtonViewStyle : [LMFeedFABStyle] this will help you to customize the create new post fab in the universal feed fragment

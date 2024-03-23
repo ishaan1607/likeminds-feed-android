@@ -244,7 +244,7 @@ class LMFeedCommentView : ConstraintLayout {
                 // decodes tags in text and creates span around those tags
                 //todo: member tagging
                 setText(
-                    commentText,
+                    textForLinkify,
                     TextView.BufferType.EDITABLE
                 )
 

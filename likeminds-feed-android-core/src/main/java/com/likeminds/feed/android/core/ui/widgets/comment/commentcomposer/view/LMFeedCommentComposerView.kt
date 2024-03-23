@@ -35,10 +35,10 @@ class LMFeedCommentComposerView : ConstraintLayout {
     private val binding: LmFeedCommentComposerViewBinding =
         LmFeedCommentComposerViewBinding.inflate(inflater, this, true)
 
-    //todo: confirm this
     val etComment: LMFeedEditText
         get() = binding.etComment
 
+    //sets provided [LMFeedCommentComposerViewStyle] to the comment composer view
     fun setStyle(commentComposerStyle: LMFeedCommentComposerViewStyle) {
 
         configureCommentInput(commentComposerStyle.commentInputStyle)

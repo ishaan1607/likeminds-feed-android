@@ -21,4 +21,5 @@
     <color name="lm_feed_grey_brown_50">#804a4a4a</color>
     <color name="lm_feed_blue_separator">#DAE1EE</color>
     <color name="lm_feed_dark_grayish_blue">#484F67</color>
+    <color name="lm_feed_cloudy_blue_40">#66d0d8e2</color>
 </resources>
