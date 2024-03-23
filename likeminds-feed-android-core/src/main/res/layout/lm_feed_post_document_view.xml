@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         android:background="@drawable/lm_feed_background_document"
-        android:foreground="?selectableItemBackground">
+        android:foreground="?selectableItemBackgroundBorderless">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
             android:id="@+id/iv_document_icon"
@@ -38,7 +38,7 @@
             tools:text="Getting started.png"
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="16sp" />
-        
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guide_name"
             android:layout_width="wrap_content"

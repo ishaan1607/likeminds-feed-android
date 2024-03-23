@@ -1,7 +1,6 @@
 package com.likeminds.feed.android.core.ui.widgets.post.postmedia.style
 
 import android.text.TextUtils
-import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
@@ -16,7 +15,6 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
     val documentTypeStyle: LMFeedTextStyle?,
     val documentShowMoreStyle: LMFeedTextStyle?,
     val visibleDocumentsLimit: Int,
-    @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -37,32 +35,33 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
         //todo: set these values in a const
         private var visibleDocumentsLimit: Int = 3
 
-        @ColorRes
-        private var backgroundColor: Int? = null
+        fun documentNameStyle(documentNameStyle: LMFeedTextStyle) = apply {
+            this.documentNameStyle = documentNameStyle
+        }
 
-        fun documentNameStyle(documentNameStyle: LMFeedTextStyle) =
-            apply { this.documentNameStyle = documentNameStyle }
+        fun documentIconStyle(documentIconStyle: LMFeedIconStyle?) = apply {
+            this.documentIconStyle = documentIconStyle
+        }
 
-        fun documentIconStyle(documentIconStyle: LMFeedIconStyle?) =
-            apply { this.documentIconStyle = documentIconStyle }
+        fun documentPageCountStyle(documentPageCountStyle: LMFeedTextStyle?) = apply {
+            this.documentPageCountStyle = documentPageCountStyle
+        }
 
-        fun documentPageCountStyle(documentPageCountStyle: LMFeedTextStyle?) =
-            apply { this.documentPageCountStyle = documentPageCountStyle }
+        fun documentSizeStyle(documentSizeStyle: LMFeedTextStyle?) = apply {
+            this.documentSizeStyle = documentSizeStyle
+        }
 
-        fun documentSizeStyle(documentSizeStyle: LMFeedTextStyle?) =
-            apply { this.documentSizeStyle = documentSizeStyle }
+        fun documentTypeStyle(documentTypeStyle: LMFeedTextStyle?) = apply {
+            this.documentTypeStyle = documentTypeStyle
+        }
 
-        fun documentTypeStyle(documentTypeStyle: LMFeedTextStyle?) =
-            apply { this.documentTypeStyle = documentTypeStyle }
+        fun documentShowMoreStyle(documentShowMoreStyle: LMFeedTextStyle?) = apply {
+            this.documentShowMoreStyle = documentShowMoreStyle
+        }
 
-        fun documentShowMoreStyle(documentShowMoreStyle: LMFeedTextStyle?) =
-            apply { this.documentShowMoreStyle = documentShowMoreStyle }
-
-        fun visibleDocumentsLimit(visibleDocumentsLimit: Int) =
-            apply { this.visibleDocumentsLimit = visibleDocumentsLimit }
-
-        fun backgroundColor(@ColorRes backgroundColor: Int?) =
-            apply { this.backgroundColor = backgroundColor }
+        fun visibleDocumentsLimit(visibleDocumentsLimit: Int) = apply {
+            this.visibleDocumentsLimit = visibleDocumentsLimit
+        }
 
         fun build() = LMFeedPostDocumentsMediaViewStyle(
             documentNameStyle,
@@ -71,8 +70,7 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
             documentSizeStyle,
             documentTypeStyle,
             documentShowMoreStyle,
-            visibleDocumentsLimit,
-            backgroundColor
+            visibleDocumentsLimit
         )
     }
 
@@ -84,6 +82,5 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
             .documentTypeStyle(documentTypeStyle)
             .documentShowMoreStyle(documentShowMoreStyle)
             .visibleDocumentsLimit(visibleDocumentsLimit)
-            .backgroundColor(backgroundColor)
     }
 }

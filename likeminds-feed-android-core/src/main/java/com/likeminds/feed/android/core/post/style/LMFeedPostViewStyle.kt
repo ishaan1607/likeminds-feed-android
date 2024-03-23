@@ -212,7 +212,6 @@ class LMFeedPostViewStyle private constructor(
                                 .textSize(R.dimen.lm_feed_text_large)
                                 .build()
                         )
-                        .backgroundColor(R.color.lm_feed_light_grayish_blue)
                         .build()
                 )
                 .postMultipleMediaStyle(

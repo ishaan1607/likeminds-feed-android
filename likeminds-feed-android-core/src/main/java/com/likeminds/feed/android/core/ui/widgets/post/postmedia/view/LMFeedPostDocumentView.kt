@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostDocumentViewBinding
@@ -32,17 +31,6 @@ class LMFeedPostDocumentView : ConstraintLayout {
     private val binding = LmFeedPostDocumentViewBinding.inflate(inflater, this, true)
 
     fun setStyle(postDocumentMediaViewStyle: LMFeedPostDocumentsMediaViewStyle) {
-
-        //set background color
-        if (postDocumentMediaViewStyle.backgroundColor != null) {
-            setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    postDocumentMediaViewStyle.backgroundColor
-                )
-            )
-        }
-
         configureDocumentName(postDocumentMediaViewStyle.documentNameStyle)
         configureDocumentIcon(postDocumentMediaViewStyle.documentIconStyle)
         configureDocumentPageCount(postDocumentMediaViewStyle.documentPageCountStyle)
