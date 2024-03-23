@@ -24,35 +24,42 @@ class LMFeedActivityFeedListView @JvmOverloads constructor(
         linearLayoutManager = LinearLayoutManager(context)
         layoutManager = linearLayoutManager
 
-        if (itemAnimator is SimpleItemAnimator)
+        if (itemAnimator is SimpleItemAnimator) {
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
     }
 
+    //sets the adapter with the provided [listener] to the activity feed recycler view
     fun setAdapter(listener: LMFeedActivityFeedAdapterListener) {
         activityFeedAdapter = LMFeedActivityFeedAdapter(listener)
         adapter = activityFeedAdapter
     }
 
+    //sets the pagination scroll listener to the activity feed recycler view
     fun setPaginationScrollListener(scrollListener: LMFeedEndlessRecyclerViewScrollListener) {
         paginationScrollListener = scrollListener
         addOnScrollListener(scrollListener)
     }
 
+    //resets the scroll listener data
     fun resetScrollListenerData() {
         if (::paginationScrollListener.isInitialized) {
             paginationScrollListener.resetData()
         }
     }
 
-    fun addActivities(items: List<LMFeedActivityViewData>) {
-        activityFeedAdapter.addAll(items)
+    //adds the provided [activities] in the activity feed feed adapter
+    fun addActivities(activities: List<LMFeedActivityViewData>) {
+        activityFeedAdapter.addAll(activities)
     }
 
-    fun updateActivity(position: Int, updatedItem: LMFeedActivityViewData) {
-        activityFeedAdapter.update(position, updatedItem)
+    //updates the activity with the provided [updatedActivity] at provided [position] int the activity feed adapter
+    fun updateActivity(position: Int, updatedActivity: LMFeedActivityViewData) {
+        activityFeedAdapter.update(position, updatedActivity)
     }
 
-    fun replaceActivities(items: List<LMFeedActivityViewData>) {
-        activityFeedAdapter.replace(items)
+    //replaces the [activities] in the activity feed adapter with the provided activities
+    fun replaceActivities(activities: List<LMFeedActivityViewData>) {
+        activityFeedAdapter.replace(activities)
     }
 }
