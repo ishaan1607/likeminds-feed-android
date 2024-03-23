@@ -78,7 +78,7 @@ open class LMFeedSelfDeleteDialogFragment :
     protected open fun customizeDeleteDialog(alertDialogDelete: LMFeedAlertDialogView) {
         val selfDeleteDialogFragmentStyle = LMFeedStyleTransformer.selfDeleteDialogFragmentStyle
 
-        alertDialogDelete.setStyle(selfDeleteDialogFragmentStyle)
+        alertDialogDelete.setStyle(selfDeleteDialogFragmentStyle.selfDeleteDialogStyle)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

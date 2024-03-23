@@ -4,13 +4,23 @@ import android.graphics.Typeface
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedAdminDeleteDialogFragmentStyle] helps you to customize the admin delete dialog fragment [LMFeedAdminDeleteDialogFragment]
+ *
+ * @property adminDeleteDialogStyle : [LMFeedAlertDialogStyle] this will help you to customize the admin delete alert dialog
+ * @property selectorIconStyle : [LMFeedIconStyle] this will help you to customize the selector icon in the choose reason bottom sheet
+ * @property reasonTextStyle: [LMFeedTextStyle] this will help you to customize the reason text in the choose reason bottom sheet
+ * */
 class LMFeedAdminDeleteDialogFragmentStyle private constructor(
+    //admin delete dialog style
     val adminDeleteDialogStyle: LMFeedAlertDialogStyle,
+    //reason selector icon style
     val selectorIconStyle: LMFeedIconStyle,
+    //reason text style
     val reasonTextStyle: LMFeedTextStyle
-) {
-
+) : LMFeedViewStyle {
     class Builder {
         private var adminDeleteDialogStyle: LMFeedAlertDialogStyle =
             LMFeedAlertDialogStyle.Builder()
