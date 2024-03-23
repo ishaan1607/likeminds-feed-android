@@ -1,7 +1,11 @@
 package com.likeminds.feed.android.core.universalfeed.util
 
 import android.content.Context
-import android.text.*
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.TextUtils
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
@@ -19,7 +23,10 @@ import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFee
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
-import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostFooterViewData
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostHeaderViewData
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedSeeMoreUtil
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
@@ -342,6 +349,7 @@ object LMFeedPostBinderUtils {
             .build()
     }
 
+    // update post object for a unpin action
     fun updatePostForUnpin(
         context: Context,
         oldPostViewData: LMFeedPostViewData
@@ -401,6 +409,7 @@ object LMFeedPostBinderUtils {
             .build()
     }
 
+    // bind data for single image post
     fun bindPostSingleImage(
         ivPost: LMFeedImageView,
         mediaData: LMFeedMediaViewData
@@ -411,6 +420,7 @@ object LMFeedPostBinderUtils {
         ivPost.setImage(mediaData.attachments.first().attachmentMeta.url, postImageMediaStyle)
     }
 
+    // bind data for link preview post
     fun bindPostMediaLinkView(
         linkView: LMFeedPostLinkMediaView,
         linkOgTags: LMFeedLinkOGTagsViewData
@@ -423,6 +433,8 @@ object LMFeedPostBinderUtils {
         }
     }
 
+
+    // bind data for documents post
     fun bindPostDocuments(
         position: Int,
         postDocumentsMediaView: LMFeedPostDocumentsMediaView,
@@ -437,9 +449,9 @@ object LMFeedPostBinderUtils {
         )
     }
 
+    // bind data in nested document view
     fun bindPostMediaDocument(
         binding: LMFeedPostDocumentView,
-        position: Int,
         data: LMFeedAttachmentViewData
     ) {
         binding.apply {
@@ -452,6 +464,7 @@ object LMFeedPostBinderUtils {
         }
     }
 
+    //bind data for multiple media image view post
     fun bindMultipleMediaImageView(ivPost: LMFeedImageView, attachment: LMFeedAttachmentViewData?) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle ?: return
@@ -461,6 +474,7 @@ object LMFeedPostBinderUtils {
         }
     }
 
+    // bind data to view page for multi media post
     fun bindMultipleMediaView(
         position: Int,
         multipleMediaView: LMFeedPostMultipleMediaView,

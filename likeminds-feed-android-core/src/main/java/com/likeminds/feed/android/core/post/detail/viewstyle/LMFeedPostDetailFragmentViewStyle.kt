@@ -2,9 +2,8 @@ package com.likeminds.feed.android.core.post.detail.viewstyle
 
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.style.LMFeedCommentComposerStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.style.LMFeedCommentComposerViewStyle
 import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
@@ -12,6 +11,17 @@ import com.likeminds.feed.android.core.ui.widgets.viewmore.style.LMFeedViewMoreS
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedPostDetailFragmentViewStyle] helps you to customize the post detail fragment [LMFeedPostDetailFragment]
+ *
+ * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the post detail fragment
+ * @property commentsCountViewStyle : [LMFeedTextStyle] this will help you to customize the comments count text in the post detail fragment
+ * @property commentViewStyle: [LMFeedCommentViewStyle] this will help you to customize the comment view in the post detail fragment
+ * @property replyViewStyle: [LMFeedCommentViewStyle] this will help you to customize the reply view in the post detail fragment
+ * @property noCommentsFoundViewStyle: [LMFeedNoEntityLayoutViewStyle] this will help you to customize the no comments found view in the post detail fragment
+ * @property commentComposerStyle: [LMFeedCommentComposerViewStyle] this will help you to customize the comment composer view in the post detail fragment
+ * @property viewMoreReplyStyle: [LMFeedViewMoreStyle] this will help you to customize the view more reply view in the post detail fragment
+ * */
 class LMFeedPostDetailFragmentViewStyle private constructor(
     //header
     val headerViewStyle: LMFeedHeaderViewStyle,
@@ -24,7 +34,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
     //no comments found view
     val noCommentsFoundViewStyle: LMFeedNoEntityLayoutViewStyle,
     //comment composer view
-    val commentComposerStyle: LMFeedCommentComposerStyle,
+    val commentComposerStyle: LMFeedCommentComposerViewStyle,
     //view more reply view style
     val viewMoreReplyStyle: LMFeedViewMoreStyle,
 ) : LMFeedViewStyle {
@@ -158,8 +168,8 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
                 )
                 .build()
 
-        private var commentComposerStyle: LMFeedCommentComposerStyle =
-            LMFeedCommentComposerStyle.Builder()
+        private var commentComposerStyle: LMFeedCommentComposerViewStyle =
+            LMFeedCommentComposerViewStyle.Builder()
                 .commentRestrictedStyle(
                     LMFeedTextStyle.Builder()
                         .backgroundColor(R.color.lm_feed_white)
@@ -222,7 +232,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
                 this.noCommentsFoundViewStyle = noCommentsFoundViewStyle
             }
 
-        fun commentComposerStyle(commentComposerStyle: LMFeedCommentComposerStyle) = apply {
+        fun commentComposerStyle(commentComposerStyle: LMFeedCommentComposerViewStyle) = apply {
             this.commentComposerStyle = commentComposerStyle
         }
 

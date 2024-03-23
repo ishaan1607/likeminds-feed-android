@@ -33,8 +33,10 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
 
     val viewpagerMultipleMedia = binding.viewpagerMultipleMedia
 
+    //sets provided [postMultipleMediaStyle] to the multiple media type post
     fun setStyle(postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle) {
 
+        //configures multiple media post indicator
         configureIndicator(postMultipleMediaStyle)
     }
 
@@ -77,6 +79,7 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
         }
     }
 
+    //sets the view pager to the multiple media type post with the provided listeners and attachments
     fun setViewPager(
         parentPosition: Int,
         listener: LMFeedUniversalFeedAdapterListener,

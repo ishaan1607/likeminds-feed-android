@@ -2,7 +2,6 @@ package com.likeminds.feed.android.core.post.detail.view
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -66,7 +65,7 @@ open class LMFeedPostDetailFragment :
     private var parentId: String? = null
 
     companion object {
-        const val TAG = "PostDetailFragment"
+        const val TAG = "LMFeedPostDetailFragment"
     }
 
     override fun onCreateView(
@@ -97,12 +96,12 @@ open class LMFeedPostDetailFragment :
 
     override fun onResume() {
         super.onResume()
-        binding.rvPostDetails.initiateAutoPlayer()
+        binding.rvPostDetails.initiateVideoAutoPlayer()
     }
 
     override fun onPause() {
         super.onPause()
-        binding.rvPostDetails.destroyAutoPlayer()
+        binding.rvPostDetails.destroyVideoAutoPlayer()
     }
 
     protected open fun customizePostDetailHeaderView(headerViewPostDetail: LMFeedHeaderView) {
@@ -239,7 +238,7 @@ open class LMFeedPostDetailFragment :
 
             commentComposer.setCommentSendClickListener {
                 val text = commentComposer.etComment.text
-                //todo:
+                //todo: member tagging
                 val updatedText = "$text"
 //                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
                 val postId = postDetailExtras.postId
@@ -269,7 +268,6 @@ open class LMFeedPostDetailFragment :
     }
 
     protected open fun onNavigationIconClick() {
-        Log.d("PUI", "default onNavigationIconClick")
     }
 
     // adds the comment locally and calls api
@@ -499,11 +497,10 @@ open class LMFeedPostDetailFragment :
     }
 
     private fun observeData() {
-        //todo: ask about initiate
-//        observeInitiateResponse()
         observePostData()
         observeCommentData()
         observeCommentsRightData()
+        //todo: implement member tagging
 //        observeMembersTaggingList()
         observeErrors()
     }
@@ -861,7 +858,7 @@ open class LMFeedPostDetailFragment :
             if (postDetailExtras.source != LMFeedAnalytics.Source.NOTIFICATION &&
                 postDetailExtras.source != LMFeedAnalytics.Source.DEEP_LINK
             ) {
-                binding.commentComposer.handleCommentRights(it)
+                binding.commentComposer.setCommentRights(it)
             }
         }
     }
@@ -1723,6 +1720,6 @@ open class LMFeedPostDetailFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.rvPostDetails.destroyAutoPlayer()
+        binding.rvPostDetails.destroyVideoAutoPlayer()
     }
 }

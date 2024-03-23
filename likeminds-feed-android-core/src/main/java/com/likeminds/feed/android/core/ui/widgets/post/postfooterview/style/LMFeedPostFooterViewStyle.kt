@@ -2,12 +2,20 @@ package com.likeminds.feed.android.core.ui.widgets.post.postfooterview.style
 
 import android.view.View
 import androidx.annotation.ColorRes
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-
-import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedPostFooterViewStyle] helps you to customize the post footer view
+ *
+ * @property likeIconStyle : [LMFeedIconStyle] this will help you to customize the like icon in the post footer view
+ * @property likeTextStyle : [LMFeedTextStyle] this will help you to customize the like text in the post footer view | set its value to [null] if you want to hide the like text in the post footer
+ * @property commentTextStyle: [LMFeedTextStyle] this will help you to customize the comment text in the post footer view
+ * @property saveIconStyle: [LMFeedIconStyle] this will help you to customize the save icon in the post footer view | set its value to [null] if you want to hide the save icon in the post footer
+ * @property shareIconStyle: [LMFeedIconStyle] this will help you to customize the share icon in the post footer view | set its value to [null] if you want to hide the share icon in the post footer
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to add background color of the footer view | Default value =  [null]
+ * */
 class LMFeedPostFooterViewStyle private constructor(
     val likeIconStyle: LMFeedIconStyle,
     val likeTextStyle: LMFeedTextStyle?,

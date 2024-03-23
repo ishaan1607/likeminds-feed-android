@@ -27,14 +27,14 @@ class LMFeedReplyListView @JvmOverloads constructor(
         }
     }
 
+    //sets the adapter with the provided listeners to the replies recycler view
     fun setAdapter(listener: LMFeedReplyAdapterListener) {
         replyAdapter = LMFeedReplyAdapter(listener)
         adapter = replyAdapter
     }
 
-    fun replaceReplies(
-        replies: List<LMFeedBaseViewType>
-    ) {
+    //replaces the replies in the replies adapter with the provided [replies]
+    fun replaceReplies(replies: List<LMFeedBaseViewType>) {
         replyAdapter.replace(replies)
     }
 }

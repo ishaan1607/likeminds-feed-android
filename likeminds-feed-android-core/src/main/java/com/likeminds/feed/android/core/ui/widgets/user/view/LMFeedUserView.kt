@@ -7,32 +7,30 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.likeminds.feed.android.core.databinding.LmFeedUserViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.user.style.LMFeedUserViewStyle
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedUserView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
-    }
+    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)
 
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
         context,
         attributeSet,
         defStyle
-    ) {
-    }
+    )
 
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
 
     private val binding: LmFeedUserViewBinding = LmFeedUserViewBinding.inflate(inflater, this, true)
 
+    //sets provided [userViewStyle] to the user view
     fun setStyle(userViewStyle: LMFeedUserViewStyle) {
 
         userViewStyle.apply {

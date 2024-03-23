@@ -1,9 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
-import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -82,7 +80,7 @@ open class LMFeedUniversalFeedFragment :
 
     override fun onResume() {
         super.onResume()
-        binding.rvUniversal.refreshAutoPlayer()
+        binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
     private fun initUI() {
@@ -92,7 +90,7 @@ open class LMFeedUniversalFeedFragment :
 
     override fun onPause() {
         super.onPause()
-        binding.rvUniversal.destroyAutoPlayer()
+        binding.rvUniversal.destroyVideoAutoPlayer()
     }
 
     private fun initListeners() {
@@ -134,7 +132,7 @@ open class LMFeedUniversalFeedFragment :
             if (page == 1) {
                 checkPostsAndReplace(posts)
             } else {
-                binding.rvUniversal.refreshAutoPlayer()
+                binding.rvUniversal.refreshVideoAutoPlayer()
             }
         }
 
@@ -291,7 +289,7 @@ open class LMFeedUniversalFeedFragment :
             checkForNoPost(posts)
             replacePosts(posts)
             scrollToPosition(0)
-            refreshAutoPlayer()
+            refreshVideoAutoPlayer()
         }
     }
 
@@ -335,14 +333,6 @@ open class LMFeedUniversalFeedFragment :
                 rvUniversal.hide()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
     }
 
     override fun onPostContentClicked(position: Int, postViewData: LMFeedPostViewData) {
@@ -403,7 +393,7 @@ open class LMFeedUniversalFeedFragment :
             .fromPostLiked(false)
             .fromPostSaved(false)
             .build()
-        binding.rvUniversal.updateWithoutNotifying(position, updatedPostData)
+        binding.rvUniversal.updatePostWithoutNotifying(position, updatedPostData)
     }
 
     //updates [alreadySeenFullContent] for the post
@@ -470,7 +460,7 @@ open class LMFeedUniversalFeedFragment :
     //called when the page in the multiple media post is changed
     override fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {
         //processes the current video whenever view pager's page is changed
-        binding.rvUniversal.refreshAutoPlayer()
+        binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
     //called when show more is clicked in the documents type post
@@ -515,7 +505,6 @@ open class LMFeedUniversalFeedFragment :
     }
 
     protected open fun onCreateNewPostClick() {
-        Log.d("PUI", "default onCreateNewPostClick")
     }
 
     protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {
@@ -527,11 +516,9 @@ open class LMFeedUniversalFeedFragment :
     }
 
     protected open fun onNavigationIconClick() {
-        Log.d("PUI", "default onNavigationIconClick")
     }
 
     protected open fun onSearchIconClick() {
-        Log.d("PUI", "default onSearchIconClick")
         //todo: change this
         LMFeedActivityFeedActivity.start(requireContext())
     }
@@ -556,7 +543,6 @@ open class LMFeedUniversalFeedFragment :
     }
 
     protected open fun onRetryUploadClicked() {
-        Log.d("PUI", "default onRetryUploadClicked")
     }
 
     protected open fun onFeedRefreshed() {

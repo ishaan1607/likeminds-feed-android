@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(containerViewId, fragment, containerViewId.toString())
-        Log.d("PUI", "showing feed")
         transaction.commit()
     }
 }
