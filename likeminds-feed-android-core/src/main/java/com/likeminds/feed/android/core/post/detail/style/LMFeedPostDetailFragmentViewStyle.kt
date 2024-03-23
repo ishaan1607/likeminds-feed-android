@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.post.detail.viewstyle
+package com.likeminds.feed.android.core.post.detail.style
 
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
@@ -8,7 +8,7 @@ import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.style.
 import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
-import com.likeminds.feed.android.core.ui.widgets.viewmore.style.LMFeedViewMoreStyle
+import com.likeminds.feed.android.core.ui.widgets.viewmore.style.LMFeedViewMoreViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
@@ -26,7 +26,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
     //comment composer view
     val commentComposerStyle: LMFeedCommentComposerStyle,
     //view more reply view style
-    val viewMoreReplyStyle: LMFeedViewMoreStyle
+    val viewMoreReplyStyle: LMFeedViewMoreViewStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -193,7 +193,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
                 .backgroundColor(R.color.lm_feed_white)
                 .build()
 
-        private var viewMoreReplyStyle = LMFeedViewMoreStyle.Builder()
+        private var viewMoreReplyStyle = LMFeedViewMoreViewStyle.Builder()
             .visibleCountTextStyle(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_dark_grayish_blue)
@@ -228,7 +228,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
             this.commentComposerStyle = commentComposerStyle
         }
 
-        fun viewMoreReplyStyle(viewMoreReplyStyle: LMFeedViewMoreStyle) = apply {
+        fun viewMoreReplyStyle(viewMoreReplyStyle: LMFeedViewMoreViewStyle) = apply {
             this.viewMoreReplyStyle = viewMoreReplyStyle
         }
 

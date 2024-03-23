@@ -5,7 +5,7 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
-class LMFeedViewMoreStyle private constructor(
+class LMFeedViewMoreViewStyle private constructor(
     val viewMoreTextStyle: LMFeedTextStyle,
     val visibleCountTextStyle: LMFeedTextStyle?,
     @ColorRes val backgroundColor: Int?
@@ -35,7 +35,7 @@ class LMFeedViewMoreStyle private constructor(
             this.backgroundColor = backgroundColor
         }
 
-        fun build() = LMFeedViewMoreStyle(
+        fun build() = LMFeedViewMoreViewStyle(
             viewMoreTextStyle,
             visibleCountTextStyle,
             backgroundColor
