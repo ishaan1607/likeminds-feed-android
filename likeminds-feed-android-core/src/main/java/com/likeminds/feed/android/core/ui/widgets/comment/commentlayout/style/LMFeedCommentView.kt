@@ -29,18 +29,15 @@ import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedCommentView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
-    }
+    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)
 
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
         context,
         attributeSet,
         defStyle
-    ) {
-    }
+    )
 
     //returns the comment menu icon
     val commentMenu: View get() = binding.ivCommentMenu

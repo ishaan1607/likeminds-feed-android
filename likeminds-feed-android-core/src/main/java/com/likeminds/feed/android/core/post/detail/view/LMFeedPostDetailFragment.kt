@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentPostDetailBinding
+import com.likeminds.feed.android.core.likes.model.*
+import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedPostDetailAdapterListener
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedReplyAdapterListener
@@ -1032,6 +1034,15 @@ open class LMFeedPostDetailFragment :
         binding.rvPostDetails.updateItem(position, postViewData)
     }
 
+    override fun onPostLikesCountClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //show the likes screen
+        val likesScreenExtras = LMFeedLikesScreenExtras.Builder()
+            .postId(postViewData.id)
+            .entityType(POST)
+            .build()
+        LMFeedLikesActivity.start(requireContext(), likesScreenExtras)
+    }
+
     override fun onPostSaveClicked(position: Int, postViewData: LMFeedPostViewData) {
         super.onPostSaveClicked(position, postViewData)
 
@@ -1083,6 +1094,18 @@ open class LMFeedPostDetailFragment :
         postDetailViewModel.likeComment(comment.postId, comment.id, !comment.isLiked)
         //update recycler
         binding.rvPostDetails.updateItem(position, comment)
+    }
+
+    override fun onCommentLikesCountClicked(position: Int, comment: LMFeedCommentViewData) {
+        super.onCommentLikesCountClicked(position, comment)
+
+        //shows likes screen for comment
+        val likesScreenExtras = LMFeedLikesScreenExtras.Builder()
+            .postId(comment.postId)
+            .commentId(comment.id)
+            .entityType(COMMENT)
+            .build()
+        LMFeedLikesActivity.start(requireContext(), likesScreenExtras)
     }
 
     override fun onReplyLiked(position: Int, reply: LMFeedCommentViewData) {

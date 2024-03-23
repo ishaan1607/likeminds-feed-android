@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.utils
 
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityEntityViewData
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
+import com.likeminds.feed.android.core.likes.model.LMFeedLikeViewData
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentsCountViewData
@@ -429,6 +430,40 @@ object LMFeedViewDataConvertor {
             .uuid(activityEntityData.uuid)
             .deletedByUUID(activityEntityData.deletedByUUID)
             .build()
+    }
+
+    /**
+     * convert list of [Like] to list of [LikeViewData]
+     * @param likes: list of [Like]
+     * @param users: [Map] of String to User
+     * */
+    fun convertLikes(
+        likes: List<Like>,
+        users: Map<String, User>
+    ): List<LMFeedLikeViewData> {
+        return likes.map { like ->
+            //get user id
+            val likedById = like.uuid
+
+            //get user
+            val likedBy = users[likedById]
+
+            //convert view data
+            val likedByViewData = if (likedBy == null) {
+                createDeletedUser()
+            } else {
+                convertUser(likedBy)
+            }
+
+            //create like view data
+            LMFeedLikeViewData.Builder()
+                .id(like.id)
+                .userId(like.userId)
+                .createdAt(like.createdAt)
+                .updatedAt(like.updatedAt)
+                .user(likedByViewData)
+                .build()
+        }
     }
 
     fun convertCommentsCount(commentsCount: Int): LMFeedCommentsCountViewData {
