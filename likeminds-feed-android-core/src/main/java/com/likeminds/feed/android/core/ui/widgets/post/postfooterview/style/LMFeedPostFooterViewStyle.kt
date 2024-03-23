@@ -17,11 +17,17 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * @property backgroundColor: [Int] should be in format of [ColorRes] to add background color of the footer view | Default value =  [null]
  * */
 class LMFeedPostFooterViewStyle private constructor(
+    //likes icon style
     val likeIconStyle: LMFeedIconStyle,
+    //likes text style
     val likeTextStyle: LMFeedTextStyle?,
+    //comment text style
     val commentTextStyle: LMFeedTextStyle,
+    //save icon style
     val saveIconStyle: LMFeedIconStyle?,
+    //share icon style
     val shareIconStyle: LMFeedIconStyle?,
+    //background color of the footer view
     @ColorRes val backgroundColor: Int?,
 ) : LMFeedViewStyle {
 

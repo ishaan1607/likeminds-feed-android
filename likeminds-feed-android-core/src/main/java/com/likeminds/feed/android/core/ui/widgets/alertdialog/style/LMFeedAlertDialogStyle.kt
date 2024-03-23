@@ -5,20 +5,44 @@ import android.text.TextUtils
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedEditTextStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.style.LMFeedPostFooterViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedPostFooterViewStyle] helps you to customize the post footer view
+ *
+ * @property alertTitleText : [LMFeedTextStyle] this will help you to customize the title text in the alert dialog view
+ * @property alertSubtitleText : [LMFeedTextStyle] this will help you to customize the subtitle text in the alert dialog view | set its value to [null] if you want to hide the subtitle text in the alert dialog view
+ * @property alertNegativeButtonStyle: [LMFeedTextStyle] this will help you to customize the negative button in the alert dialog view | set its value to [null] if you want to hide the negative button in the alert dialog view
+ * @property alertPositiveButtonStyle: [LMFeedTextStyle] this will help you to customize the positive button in the alert dialog view | set its value to [null] if you want to hide the positive button in the alert dialog view
+ * @property alertSelectorStyle: [LMFeedTextStyle] this will help you to customize the selector view in the alert dialog view | set its value to [null] if you want to hide the selector view in the alert dialog view
+ * @property alertInputStyle: [LMFeedEditTextStyle] this will help you to customize the input box in the alert dialog view  | set its value to [null] if you want to hide the input box in the alert dialog view
+ * @property alertActivePositiveButtonColor: [Int] should be in format of [ColorRes] this will help you to customize the color of the active positive button | Default value = [R.color.lm_feed_majorelle_blue]
+ * @property alertBoxElevation: [Int] should be in format of [DimenRes] this will help you to customize the elevation of the alert dialog view | Default value = [null]
+ * @property alertBoxCornerRadius: [Int] should be in format of [DimenRes] this will help you to customize the corner radius of the alert dialog view | Default value = [null]
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to add background color of the alert dialog view | Default value =  [null]
+ * */
 class LMFeedAlertDialogStyle private constructor(
+    //alert title text style
     val alertTitleText: LMFeedTextStyle,
+    //alert subtitle text style
     val alertSubtitleText: LMFeedTextStyle?,
+    //alert negative button style
     val alertNegativeButtonStyle: LMFeedTextStyle?,
+    //alert positive button style
     val alertPositiveButtonStyle: LMFeedTextStyle?,
+    //alert selector box style
     val alertSelectorStyle: LMFeedTextStyle?,
+    //alert input field style
     val alertInputStyle: LMFeedEditTextStyle?,
+    //alert active positive button color
     @ColorRes val alertActivePositiveButtonColor: Int,
+    //alert box elevation
     @DimenRes val alertBoxElevation: Int?,
+    //alert box corner radius
     @DimenRes val alertBoxCornerRadius: Int?,
+    //alert box background color
     @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
