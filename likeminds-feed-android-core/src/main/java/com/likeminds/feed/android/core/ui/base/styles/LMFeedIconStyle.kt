@@ -7,6 +7,18 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedIconStyle] helps you to customize an icon
+ *
+ * @property activeSrc : [Int] should be in format of [DrawableRes] this will be used as the source for the icon when it is in active state | Default value [null]
+ * @property inActiveSrc : [Int] should be in format of [DrawableRes] this will be used as the source for the icon when it is in inactive state | Default value [null]
+ * @property iconTint : [Int] should be in format of [ColorRes] this will help to customize the tint of the icon  | Default value [null]
+ * @property elevation: [Int] should be in format of [DimenRes] to customize the elevation of the icon | Default value = [null]
+ * @property alpha : [Float] this will help to customize the alpha of the icon  | Default value [null]
+ * @property scaleType : [ScaleType] this will help to customize the scale type of the image view  | Default value [null]
+ * @property iconPadding : [LMFeedPadding] this will help to customize the padding of the icon  | Default value [null]
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the icon | Default value = [null]
+ * */
 class LMFeedIconStyle private constructor(
     @DrawableRes val activeSrc: Int?,
     @DrawableRes val inActiveSrc: Int?,

@@ -45,6 +45,7 @@ class LMFeedDocumentListView @JvmOverloads constructor(
         }
     }
 
+    //sets the adapter with the provided [listener] to the recycler view and handles the visible documents logic
     fun setAdapter(
         parentPosition: Int,
         mediaViewData: LMFeedMediaViewData,
@@ -60,14 +61,17 @@ class LMFeedDocumentListView @JvmOverloads constructor(
         mediaViewData: LMFeedMediaViewData,
         tvShowMore: LMFeedTextView,
     ) {
+        //get documents media style
         val postDocumentsMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
                 ?: return
 
+        //gets the limit of visible documents
         val visibleDocumentsLimit = postDocumentsMediaStyle.visibleDocumentsLimit
 
         val documents = mediaViewData.attachments
 
+        //handle show more logic
         if (mediaViewData.isExpanded || documents.size <= visibleDocumentsLimit) {
             tvShowMore.hide()
             documentsAdapter.replace(documents)

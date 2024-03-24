@@ -8,7 +8,8 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedEndlessRecyclerViewScrollListener
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 
@@ -32,8 +33,9 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         linearLayoutManager = LinearLayoutManager(context)
         layoutManager = linearLayoutManager
 
-        if (itemAnimator is SimpleItemAnimator)
+        if (itemAnimator is SimpleItemAnimator) {
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
 
         //item decorator to add spacing between items
         val dividerDrawable = ContextCompat.getDrawable(
@@ -47,80 +49,73 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         addItemDecoration(dividerDecoration)
 
         //todo: testing required
-        initiateAutoPlayer()
+        initiateVideoAutoPlayer()
     }
 
     /**
      * Initializes the [postVideoAutoPlayHelper] with the recyclerView
      * And starts observing
      **/
-    private fun initiateAutoPlayer() {
+    private fun initiateVideoAutoPlayer() {
         postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper.getInstance(this)
         postVideoAutoPlayHelper.attachScrollListenerForVideo()
         postVideoAutoPlayHelper.playMostVisibleItem()
     }
 
     // removes the old player and refreshes auto play
-    fun refreshAutoPlayer() {
+    fun refreshVideoAutoPlayer() {
         if (!::postVideoAutoPlayHelper.isInitialized) {
-            initiateAutoPlayer()
+            initiateVideoAutoPlayer()
         }
         postVideoAutoPlayHelper.removePlayer()
         postVideoAutoPlayHelper.playMostVisibleItem()
     }
 
     // removes the player and destroys the [postVideoAutoPlayHelper]
-    fun destroyAutoPlayer() {
+    fun destroyVideoAutoPlayer() {
         if (::postVideoAutoPlayHelper.isInitialized) {
             postVideoAutoPlayHelper.detachScrollListenerForVideo()
             postVideoAutoPlayHelper.destroy()
         }
     }
 
-    fun setAdapter(
-        listener: LMFeedUniversalFeedAdapterListener
-    ) {
+    //sets the adapter with the provided [listener] to the universal feed recycler view
+    fun setAdapter(listener: LMFeedUniversalFeedAdapterListener) {
         //setting adapter
         universalFeedAdapter = LMFeedUniversalFeedAdapter(listener)
         adapter = universalFeedAdapter
     }
 
+    //sets the pagination scroll listener to the universal feed recycler view
     fun setPaginationScrollListener(scrollListener: LMFeedEndlessRecyclerViewScrollListener) {
         paginationScrollListener = scrollListener
         addOnScrollListener(scrollListener)
     }
 
+    //resets the scroll listener data
     fun resetScrollListenerData() {
         if (::paginationScrollListener.isInitialized) {
             paginationScrollListener.resetData()
         }
     }
 
+    //returns the list of all the posts in the universal feed adapter
     fun allPosts(): List<LMFeedBaseViewType> {
         return universalFeedAdapter.items()
     }
 
-    fun replacePosts(
-        posts: List<LMFeedPostViewData>
-    ) {
+    //replaces the [posts] in the universal feed adapter with the provided posts
+    fun replacePosts(posts: List<LMFeedPostViewData>) {
         universalFeedAdapter.replace(posts)
     }
 
-    fun addPosts(
-        posts: List<LMFeedPostViewData>
-    ) {
+    //adds the provided [posts] in the universal feed adapter
+    fun addPosts(posts: List<LMFeedPostViewData>) {
         universalFeedAdapter.addAll(posts)
     }
 
-    fun updateWithoutNotifying(position: Int, postItem: LMFeedPostViewData) {
-        universalFeedAdapter.updateWithoutNotifyingRV(position, postItem)
-    }
-
-    fun updatePostItem(position: Int, updatedPostItem: LMFeedPostViewData) {
-        universalFeedAdapter.update(position, updatedPostItem)
-    }
-
-    fun removePostAtIndex(index: Int) {
+    //removes the post at the provided [index] in the universal feed adapter
+    fun removePost(index: Int) {
         universalFeedAdapter.removeIndex(index)
     }
 
@@ -146,6 +141,16 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     //get post from the adapter using index
     fun getPostFromAdapter(position: Int): LMFeedPostViewData? {
         return universalFeedAdapter.items()[position] as? LMFeedPostViewData
+    }
+
+    //updates the post item at the provided position without notifying the recycler view
+    fun updatePostWithoutNotifying(position: Int, postItem: LMFeedPostViewData) {
+        universalFeedAdapter.updateWithoutNotifyingRV(position, postItem)
+    }
+
+    //returns the post item at the provided index
+    fun updatePostItem(position: Int, updatedPostItem: LMFeedPostViewData) {
+        universalFeedAdapter.update(position, updatedPostItem)
     }
 
     /**

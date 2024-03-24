@@ -38,20 +38,21 @@ class LMFeedPostDetailListView @JvmOverloads constructor(
      * Initializes the [postVideoAutoPlayHelper] with the recyclerView
      * And starts observing
      **/
-    fun initiateAutoPlayer() {
+    fun initiateVideoAutoPlayer() {
         postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper.getInstance(this)
         postVideoAutoPlayHelper.attachScrollListenerForVideo()
         postVideoAutoPlayHelper.playIfPostVisible()
     }
 
     // removes the player and destroys the [postVideoAutoPlayHelper]
-    fun destroyAutoPlayer() {
+    fun destroyVideoAutoPlayer() {
         if (::postVideoAutoPlayHelper.isInitialized) {
             postVideoAutoPlayHelper.detachScrollListenerForVideo()
             postVideoAutoPlayHelper.destroy()
         }
     }
 
+    //sets the adapter with the provided listeners to the post detail recycler view
     fun setAdapter(
         universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
         postDetailAdapterListener: LMFeedPostDetailAdapterListener,
@@ -65,49 +66,60 @@ class LMFeedPostDetailListView @JvmOverloads constructor(
         adapter = postDetailAdapter
     }
 
+    //sets the pagination scroll listener to the universal feed recycler view
     fun setPaginationScrollListener(scrollListener: LMFeedEndlessRecyclerViewScrollListener) {
         paginationScrollListener = scrollListener
         addOnScrollListener(scrollListener)
     }
 
+    //resets the scroll listener data
     fun resetScrollListenerData() {
         if (::paginationScrollListener.isInitialized) {
             paginationScrollListener.resetData()
         }
     }
 
+    //adds the provided [item] in the post detail adapter
     fun addItem(item: LMFeedBaseViewType) {
         postDetailAdapter.add(item)
     }
 
+    //adds the provided [item] at the provided [position] in the post detail adapter
     fun addItem(position: Int, item: LMFeedBaseViewType) {
         postDetailAdapter.add(position, item)
     }
 
+    //adds the provided [items] in the post detail adapter
     fun addItems(items: List<LMFeedBaseViewType>) {
         postDetailAdapter.addAll(items)
     }
 
+    //updates the item at the provided [position] in the post detail adapter
     fun updateItem(position: Int, updatedItem: LMFeedBaseViewType) {
         postDetailAdapter.update(position, updatedItem)
     }
 
+    //updates the [postItem] at the provided [position] in the post detail adapter without notifying the recycler view
     fun updateItemWithoutNotifying(position: Int, postItem: LMFeedPostViewData) {
         postDetailAdapter.updateWithoutNotifyingRV(position, postItem)
     }
 
+    //replaces the items in the post detail adapter with the provided [items]
     fun replaceItems(items: List<LMFeedBaseViewType>) {
         postDetailAdapter.replace(items)
     }
 
+    //removes the item at the provided [position] in the post detail adapter
     fun removeItem(position: Int) {
         postDetailAdapter.removeIndex(position)
     }
 
+    //returns the item at the provided [position] in the post detail adapter
     fun getItem(position: Int): LMFeedBaseViewType? {
         return postDetailAdapter[position]
     }
 
+    //returns the list of all the items in the post detail adapter
     fun items(): List<LMFeedBaseViewType> {
         return postDetailAdapter.items()
     }

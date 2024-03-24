@@ -15,24 +15,22 @@ import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedPostFooterView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
-    }
+    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)
 
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
         context,
         attributeSet,
         defStyle
-    ) {
-    }
+    )
 
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
 
     private val binding = LmFeedPostFooterViewBinding.inflate(inflater, this, true)
 
+    //sets provided [postFooterViewStyle] to the post footer view
     fun setStyle(postFooterViewStyle: LMFeedPostFooterViewStyle) {
 
         postFooterViewStyle.apply {
@@ -41,7 +39,8 @@ class LMFeedPostFooterView : ConstraintLayout {
                 setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
             }
 
-            configuresLikeText(likeTextStyle)
+            //configures each view in the post footer view with the provided style
+        configuresLikeText(likeTextStyle)
             configureLikesIcon(likeIconStyle)
             configureCommentsText(commentTextStyle)
             configureSaveIcon(saveIconStyle)

@@ -71,12 +71,13 @@ open class LMFeedAdminDeleteDialogFragment
         binding = LmFeedDialogFragmentAdminDeleteBinding.inflate(layoutInflater)
 
         binding.apply {
-            customizeDeleteDialog(alertDialogDelete)
+            customizeAdminDeleteDialog(alertDialogDelete)
             return root
         }
     }
 
-    protected open fun customizeDeleteDialog(alertDialogDelete: LMFeedAlertDialogView) {
+    //customizes the admin delete alert dialog
+    protected open fun customizeAdminDeleteDialog(alertDialogDelete: LMFeedAlertDialogView) {
         val adminDeleteDialogStyle =
             LMFeedStyleTransformer.adminDeleteDialogFragmentStyle.adminDeleteDialogStyle
 
@@ -117,15 +118,15 @@ open class LMFeedAdminDeleteDialogFragment
     private fun initListeners() {
         binding.alertDialogDelete.apply {
             setAlertSelectorClickListener {
-                onAlertSelectorClicked()
+                onAdminDeleteAlertSelectorClicked()
             }
 
             setPositiveButtonClickListener {
-                onDeleteAlertPositiveButtonClicked()
+                onAdminDeleteAlertPositiveButtonClicked()
             }
 
             setNegativeButtonClickListener {
-                onDeleteAlertNegativeButtonClicked()
+                onAdminDeleteAlertNegativeButtonClicked()
             }
 
             // sets listener to the reason edit text
@@ -136,11 +137,13 @@ open class LMFeedAdminDeleteDialogFragment
         }
     }
 
-    protected open fun onAlertSelectorClicked() {
+    //processes the admin delete alert dialog box selector clicked
+    protected open fun onAdminDeleteAlertSelectorClicked() {
         LMFeedReasonChooseBottomSheetFragment.newInstance(childFragmentManager)
     }
 
-    protected open fun onDeleteAlertPositiveButtonClicked() {
+    //processes the admin delete alert dialog box positive button click
+    protected open fun onAdminDeleteAlertPositiveButtonClicked() {
         binding.apply {
             val data = reasonData ?: return
             val tag = data.value
@@ -159,7 +162,8 @@ open class LMFeedAdminDeleteDialogFragment
         }
     }
 
-    protected open fun onDeleteAlertNegativeButtonClicked() {
+    //processes the admin delete alert dialog box negative button click
+    protected open fun onAdminDeleteAlertNegativeButtonClicked() {
         dismiss()
     }
 
@@ -182,5 +186,7 @@ open class LMFeedAdminDeleteDialogFragment
 }
 
 interface LMFeedAdminDeleteDialogListener {
-    fun onEntityDeletedByAdmin(deleteExtras: LMFeedDeleteExtras, reason: String)
+    fun onEntityDeletedByAdmin(deleteExtras: LMFeedDeleteExtras, reason: String) {
+        //triggered when the entity is deleted by admin
+    }
 }

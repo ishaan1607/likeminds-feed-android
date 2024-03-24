@@ -23,10 +23,12 @@ object LMFeedTheme {
             (lmFeedSetThemeRequest.postCharacterLimit ?: DEFAULT_POST_CHARACTER_LIMIT)
     }
 
+    //returns the pair of theme font resource and assets path
     fun getFontResources(): Pair<Int?, String?> {
         return Pair(fontResource, fontAssetsPath)
     }
 
+    //returns the limit of characters in the post text view to see more
     fun getPostCharacterLimit(): Int {
         return postCharacterLimit
     }

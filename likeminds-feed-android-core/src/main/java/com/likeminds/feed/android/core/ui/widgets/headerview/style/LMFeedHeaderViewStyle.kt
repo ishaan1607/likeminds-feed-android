@@ -8,7 +8,16 @@ import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
-//todo: add a submit text and style
+/**
+ * [LMFeedHeaderViewStyle] helps you to customize the header view
+ *
+ * @property titleTextStyle : [LMFeedTextStyle] this will help you to customize the title text of the header view
+ * @property subtitleTextStyle : [LMFeedTextStyle] this will help you to customize the subtitle text of the header view | set its value to [null] if you want to hide the subtitle in the header
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to add background color of the header | Default value =  [R.color.lm_feed_white]
+ * @property elevation: [Int] should be in format of [DimenRes] to add custom elevation to the header view | Default value =  [R.dimen.lm_feed_elevation_small]
+ * @property navigationIconStyle: [LMFeedIconStyle] this will help you to customize the navigation icon of the header view | set its value to [null] if you want to hide the navigation icon in the header
+ * @property searchIconStyle: [LMFeedIconStyle] this will help you to customize the search icon of the header view | set its value to [null] if you want to hide the search icon in the header
+ * */
 class LMFeedHeaderViewStyle private constructor(
     val titleTextStyle: LMFeedTextStyle,
     val subtitleTextStyle: LMFeedTextStyle?,

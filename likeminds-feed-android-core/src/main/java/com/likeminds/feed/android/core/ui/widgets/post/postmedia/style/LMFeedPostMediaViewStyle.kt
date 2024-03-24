@@ -3,6 +3,15 @@ package com.likeminds.feed.android.core.ui.widgets.post.postmedia.style
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedPostMediaViewStyle] helps you to customize the media attached in the post
+ *
+ * @property postImageMediaStyle : [LMFeedImageStyle] this will help you to customize the image attachment in the post
+ * @property postVideoMediaStyle : [LMFeedPostVideoMediaViewStyle] this will help you to customize the video attachment in the post
+ * @property postLinkViewStyle: [LMFeedPostLinkViewStyle] this will help you to customize the  link type post
+ * @property postDocumentsMediaStyle: [LMFeedPostDocumentsMediaViewStyle] this will help you to customize the document type post
+ * @property postMultipleMediaStyle: [LMFeedPostMultipleMediaViewStyle] this will help you to customize the multiple media (images/videos) type post
+ * */
 class LMFeedPostMediaViewStyle private constructor(
     //style for image media in a post
     val postImageMediaStyle: LMFeedImageStyle?,

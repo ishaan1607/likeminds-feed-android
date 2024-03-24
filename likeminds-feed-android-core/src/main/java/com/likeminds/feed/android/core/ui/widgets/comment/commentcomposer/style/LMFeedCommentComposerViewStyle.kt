@@ -4,14 +4,29 @@ import android.graphics.Typeface
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
-class LMFeedCommentComposerStyle private constructor(
+/**
+ * [LMFeedCommentComposerViewStyle] helps you to customize the comment view [LMFeedCommentComposerView]
+ *
+ * @property commentInputStyle : [LMFeedEditTextStyle] this will help you to customize the comment input box (edit text)
+ * @property commentSendStyle : [LMFeedIconStyle] this will help you to customize the comment submit button
+ * @property commentRestrictedStyle: [LMFeedTextStyle] this will help you to customize the comment restricted view | set its value to [null] if you want to hide the comment restricted view
+ * @property replyingToStyle: [LMFeedTextStyle] this will help you to customize the replying to text view | set its value to [null] if you want to hide the replying to text view
+ * @property removeReplyingToStyle: [LMFeedIconStyle] this will help you to customize the remove replying to view icon | set its value to [null] if you want to hide the remove replying to view icon
+ * */
+class LMFeedCommentComposerViewStyle private constructor(
+    //comment input style
     val commentInputStyle: LMFeedEditTextStyle,
+    //comment send style
     val commentSendStyle: LMFeedIconStyle,
+    //comment restricted style
     val commentRestrictedStyle: LMFeedTextStyle?,
+    //replying to view style
     val replyingToStyle: LMFeedTextStyle?,
+    //remove replying to view style
     val removeReplyingToStyle: LMFeedIconStyle?
-) {
+) : LMFeedViewStyle {
 
     class Builder {
         private var commentInputStyle: LMFeedEditTextStyle = LMFeedEditTextStyle.Builder()
@@ -56,7 +71,7 @@ class LMFeedCommentComposerStyle private constructor(
         fun removeReplyingToStyle(removeReplyingToStyle: LMFeedIconStyle?) =
             apply { this.removeReplyingToStyle = removeReplyingToStyle }
 
-        fun build() = LMFeedCommentComposerStyle(
+        fun build() = LMFeedCommentComposerViewStyle(
             commentInputStyle,
             commentSendStyle,
             commentRestrictedStyle,

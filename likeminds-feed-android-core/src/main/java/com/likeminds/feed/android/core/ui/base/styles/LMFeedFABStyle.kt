@@ -9,6 +9,22 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import kotlin.math.roundToInt
 
+/**
+ * [LMFeedFABStyle] helps you to customize a [LMFeedFAB] with the following properties
+ * @property textStyle : [LMFeedTextStyle] to customize the text of the FAB
+ * @property isExtended : [Boolean] to customize whether the FAB is extended or not
+ *
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the FAB | Default value =  [R.color.majorelle_blue]
+ * @property strokeColor: [Int] should be in format of [ColorRes] to customize the border color of the FAB | Default value = [null]
+ * @property strokeWidth: [Int] should be in format of [DimenRes] to customize the border width of the FAB | Default value = [null]
+ * @property elevation: [Int] should be in format of [DimenRes] to customize the elevation of the FAB | Default value = [null]
+ *
+ *
+ * @property icon: [Int] should be in format of [DrawableRes] to customize the icon of the FAB | Default value = [null]
+ * @property iconTint:[Int] should be in format of [ColorRes] to customize the icon color | Default value = [null]
+ * @property iconSize: [Int] should be in format of [DimenRes] to customize the size of the icon | Default value = [null]
+ * @property iconPadding: [Int] should be in the format of [DimenRes] to customize the padding of the icon | Default value = [null]
+ **/
 class LMFeedFABStyle private constructor(
     val isExtended: Boolean,
 
@@ -187,6 +203,9 @@ class LMFeedFABStyle private constructor(
     }
 }
 
+/**
+ * Util function that helps to apply all the styling [LMFeedFABStyle] to [LMFeedFAB]
+ **/
 fun LMFeedFAB.setStyle(viewStyle: LMFeedFABStyle) {
     viewStyle.apply(this)
 }
