@@ -3,11 +3,20 @@ package com.likeminds.feed.android.core.universalfeed.style
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
-class LMFeedUniversalTopicSelectorBarStyle private constructor(
+/**
+ * [LMFeedUniversalTopicSelectorBarViewStyle] helps you to customize the likes fragment [LMFeedUniversalTopicSelectorBarView]
+ *
+ * @property allTopicsSelectorStyle : [LMFeedTextStyle] this will help you to customize the all topics selector text of the topic selector bar
+ * @property clearTopicFilterStyle : [LMFeedTextStyle] this will help you to customize the clear topic filter text of the topic selector bar
+ * @property selectedTopicTextStyle : [LMFeedTextStyle] this will help you to customize the selected topic text of the topic selector bar
+ * @property removeSelectedTopicIconStyle : [LMFeedIconStyle] this will help you to customize the remove selected topic icon of the topic selector bar
+ * @property backgroundColor: [Int] should be in format of [ColorRes] this will help you to customize the background color of the topic selector bar | Default value = [null]
+ * @property elevation: [Int] should be in format of [DimenRes] to add custom elevation of the topic selector bar | Default value =  [null]
+ * */
+class LMFeedUniversalTopicSelectorBarViewStyle private constructor(
     //all topics selector style
     val allTopicsSelectorStyle: LMFeedTextStyle,
     //clear topic filter view style
@@ -75,7 +84,7 @@ class LMFeedUniversalTopicSelectorBarStyle private constructor(
             this.elevation = elevation
         }
 
-        fun build() = LMFeedUniversalTopicSelectorBarStyle(
+        fun build() = LMFeedUniversalTopicSelectorBarViewStyle(
             allTopicsSelectorStyle,
             clearTopicFilterStyle,
             selectedTopicTextStyle,

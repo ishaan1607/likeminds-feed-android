@@ -27,27 +27,33 @@ class LMFeedUniversalSelectedTopicListView @JvmOverloads constructor(
         )
         layoutManager = linearLayoutManager
 
-        if (itemAnimator is SimpleItemAnimator)
+        if (itemAnimator is SimpleItemAnimator) {
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
     }
 
+    //sets the adapter with the provided [listener] to the selected topic recycler view
     fun setAdapter(listener: LMFeedUniversalSelectedTopicAdapterListener) {
         selectedTopicAdapter = LMFeedUniversalSelectedTopicAdapter(listener)
         adapter = selectedTopicAdapter
     }
 
+    //returns the list of all the selected topics in the adapter
     fun allSelectedTopics(): List<LMFeedBaseViewType> {
         return selectedTopicAdapter.items()
     }
 
+    //replaces all the selected topics with the provided [selectedTopics] in the adapter
     fun replaceSelectedTopics(selectedTopics: List<LMFeedTopicViewData>) {
         selectedTopicAdapter.replace(selectedTopics)
     }
 
+    //removes the selected topics at the provided [position] in the adapter and notifies the recycler view
     fun removeSelectedTopicAndNotify(position: Int) {
         selectedTopicAdapter.removeIndexWithNotifyDataSetChanged(position)
     }
 
+    //clear all the selected topics in the adapter and notifies the recycler view
     fun clearAllSelectedTopicsAndNotify() {
         selectedTopicAdapter.clearAndNotify()
     }

@@ -15,6 +15,7 @@ import com.likeminds.feed.android.core.utils.model.LMFeedPadding
  * @property createNewPostButtonViewStyle : [LMFeedFABStyle] this will help you to customize the create new post fab in the universal feed fragment
  * @property noPostLayoutViewStyle: [LMFeedNoEntityLayoutViewStyle] this will help you to customize the no post layout in the universal feed fragment
  * @property postingViewStyle: [LMFeedPostingViewStyle] this will help you to customize the posting progress view in the universal feed fragment
+ * @property topicSelectorBarStyle: [LMFeedUniversalTopicSelectorBarViewStyle] this will help you to customize the topic selector bar in the universal feed fragment
  * */
 class LMFeedUniversalFeedFragmentViewStyle private constructor(
     //header
@@ -26,7 +27,7 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
     //posting view
     val postingViewStyle: LMFeedPostingViewStyle,
     //topic selector bar view
-    val topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle
+    val topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarViewStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -104,8 +105,8 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
         private var postingViewStyle: LMFeedPostingViewStyle = LMFeedPostingViewStyle.Builder()
             .build()
 
-        private var topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle =
-            LMFeedUniversalTopicSelectorBarStyle.Builder()
+        private var topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarViewStyle =
+            LMFeedUniversalTopicSelectorBarViewStyle.Builder()
                 .backgroundColor(R.color.lm_feed_white)
                 .build()
 
@@ -125,7 +126,7 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
             this.postingViewStyle = postingViewStyle
         }
 
-        fun topicSelectorBarStyle(topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle) =
+        fun topicSelectorBarStyle(topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarViewStyle) =
             apply {
                 this.topicSelectorBarStyle = topicSelectorBarStyle
             }
