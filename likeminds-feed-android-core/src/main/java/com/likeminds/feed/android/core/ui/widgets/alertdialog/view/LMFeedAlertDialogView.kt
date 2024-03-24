@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.databinding.LmFeedAlertDialogViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
-import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
+import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
@@ -35,10 +35,10 @@ class LMFeedAlertDialogView : CardView {
 
     private val binding = LmFeedAlertDialogViewBinding.inflate(inflater, this, true)
 
-    private lateinit var style: LMFeedAlertDialogStyle
+    private lateinit var style: LMFeedAlertDialogViewStyle
 
     //sets provided [alertDialogStyle] to the alert dialog view
-    fun setStyle(alertDialogStyle: LMFeedAlertDialogStyle) {
+    fun setStyle(alertDialogStyle: LMFeedAlertDialogViewStyle) {
         alertDialogStyle.apply {
             style = this
 

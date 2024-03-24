@@ -9,7 +9,7 @@ import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
- * [LMFeedAlertDialogStyle] helps you to customize the alert dialog view [LMFeedAlertDialogView]
+ * [LMFeedAlertDialogViewStyle] helps you to customize the alert dialog view [LMFeedAlertDialogView]
  *
  * @property alertTitleText : [LMFeedTextStyle] this will help you to customize the title text in the alert dialog view
  * @property alertSubtitleText : [LMFeedTextStyle] this will help you to customize the subtitle text in the alert dialog view | set its value to [null] if you want to hide the subtitle text in the alert dialog view
@@ -22,7 +22,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * @property alertBoxCornerRadius: [Int] should be in format of [DimenRes] this will help you to customize the corner radius of the alert dialog view | Default value = [null]
  * @property backgroundColor: [Int] should be in format of [ColorRes] to add background color of the alert dialog view | Default value =  [null]
  * */
-class LMFeedAlertDialogStyle private constructor(
+class LMFeedAlertDialogViewStyle private constructor(
     //alert title text style
     val alertTitleText: LMFeedTextStyle,
     //alert subtitle text style
@@ -117,7 +117,7 @@ class LMFeedAlertDialogStyle private constructor(
             this.backgroundColor = backgroundColor
         }
 
-        fun build() = LMFeedAlertDialogStyle(
+        fun build() = LMFeedAlertDialogViewStyle(
             alertTitleText,
             alertSubtitleText,
             alertNegativeButtonStyle,

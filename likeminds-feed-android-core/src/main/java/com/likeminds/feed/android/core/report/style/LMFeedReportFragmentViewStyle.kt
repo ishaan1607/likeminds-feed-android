@@ -5,11 +5,24 @@ import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
+import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogViewStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedReportFragmentViewStyle] helps you to customize the alert dialog view [LMFeedReportFragment]
+ *
+ * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to header view of the report fragment
+ * @property reportHeaderStyle : [LMFeedTextStyle] this will help you to customize the header text in the report fragment
+ * @property reportSubHeaderStyle: [LMFeedTextStyle] this will help you to customize the sub header text in the report fragment
+ * @property reportReasonInputStyle: [LMFeedEditTextStyle] this will help you to customize the reason input box in the report fragment when the user has selected "Others" in report tag
+ * @property reportButtonStyle: [LMFeedButtonStyle] this will help you to customize the report submit button style
+ * @property reportTagStyle: [LMFeedTextStyle] this will help you to customize the tag text in the report fragment
+ * @property selectedReportTagColor: [Int] should be in format of [ColorRes] this will help you to customize the color of the selected report tag | Default value = [R.color.lm_feed_majorelle_blue]
+ * @property reportSuccessDialogFragmentStyle: [LMFeedAlertDialogViewStyle] this will help you to customize the success dialog shown when the report is submitted
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to add background color of the report fragment | Default value =  [null]
+ * */
 class LMFeedReportFragmentViewStyle private constructor(
     //header view style
     val headerViewStyle: LMFeedHeaderViewStyle,
@@ -26,7 +39,7 @@ class LMFeedReportFragmentViewStyle private constructor(
     //selected report tag stroke and text color
     @ColorRes val selectedReportTagColor: Int,
     //style for report success dialog
-    val reportSuccessDialogFragmentStyle: LMFeedAlertDialogStyle,
+    val reportSuccessDialogFragmentStyle: LMFeedAlertDialogViewStyle,
     //report screen background color
     @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
@@ -104,8 +117,8 @@ class LMFeedReportFragmentViewStyle private constructor(
         @ColorRes
         private var selectedReportTagColor: Int = R.color.lm_feed_majorelle_blue
 
-        private var reportSuccessDialogFragmentStyle: LMFeedAlertDialogStyle =
-            LMFeedAlertDialogStyle.Builder()
+        private var reportSuccessDialogFragmentStyle: LMFeedAlertDialogViewStyle =
+            LMFeedAlertDialogViewStyle.Builder()
                 .alertSubtitleText(
                     LMFeedTextStyle.Builder()
                         .textColor(R.color.lm_feed_grey)
@@ -158,7 +171,7 @@ class LMFeedReportFragmentViewStyle private constructor(
             this.selectedReportTagColor = selectedReportTagColor
         }
 
-        fun reportSuccessDialogFragmentStyle(reportSuccessDialogFragmentStyle: LMFeedAlertDialogStyle) =
+        fun reportSuccessDialogFragmentStyle(reportSuccessDialogFragmentStyle: LMFeedAlertDialogViewStyle) =
             apply {
                 this.reportSuccessDialogFragmentStyle = reportSuccessDialogFragmentStyle
             }

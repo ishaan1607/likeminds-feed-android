@@ -70,12 +70,13 @@ open class LMFeedSelfDeleteDialogFragment :
         binding = LmFeedDialogFragmentSelfDeleteBinding.inflate(layoutInflater)
 
         binding.apply {
-            customizeDeleteDialog(alertDialogDelete)
+            customizeSelfDeleteDialog(alertDialogDelete)
             return root
         }
     }
 
-    protected open fun customizeDeleteDialog(alertDialogDelete: LMFeedAlertDialogView) {
+    //customizes self delete dialog
+    protected open fun customizeSelfDeleteDialog(alertDialogDelete: LMFeedAlertDialogView) {
         val selfDeleteDialogFragmentStyle = LMFeedStyleTransformer.selfDeleteDialogFragmentStyle
 
         alertDialogDelete.setStyle(selfDeleteDialogFragmentStyle.selfDeleteDialogStyle)
@@ -118,25 +119,29 @@ open class LMFeedSelfDeleteDialogFragment :
     private fun initListeners() {
         binding.alertDialogDelete.apply {
             setPositiveButtonClickListener {
-                onDeleteAlertPositiveButtonClicked()
+                onSelfDeleteAlertPositiveButtonClicked()
             }
 
             setNegativeButtonClickListener {
-                onDeleteAlertNegativeButtonClicked()
+                onSelfDeleteAlertNegativeButtonClicked()
             }
         }
     }
 
-    protected open fun onDeleteAlertPositiveButtonClicked() {
+    //processes the self delete alert dialog box positive button click
+    protected open fun onSelfDeleteAlertPositiveButtonClicked() {
         selfDeleteDialogListener?.onEntityDeletedByAuthor(deletedExtras)
         dismiss()
     }
 
-    protected open fun onDeleteAlertNegativeButtonClicked() {
+    //processes the self delete alert dialog box negative button click
+    protected open fun onSelfDeleteAlertNegativeButtonClicked() {
         dismiss()
     }
 }
 
 interface LMFeedSelfDeleteDialogListener {
-    fun onEntityDeletedByAuthor(deleteExtras: LMFeedDeleteExtras)
+    fun onEntityDeletedByAuthor(deleteExtras: LMFeedDeleteExtras) {
+        //triggered when the entity is deleted by the self user
+    }
 }

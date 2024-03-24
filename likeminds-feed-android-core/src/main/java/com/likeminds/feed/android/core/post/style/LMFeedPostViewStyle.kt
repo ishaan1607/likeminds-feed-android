@@ -17,8 +17,10 @@ import com.likeminds.feed.android.core.utils.model.LMFeedPadding
  *
  * @property postHeaderViewStyle : [LMFeedPostHeaderViewStyle] this will help you to customize the post header view [LMFeedPostHeaderView]
  * @property postContentTextStyle : [LMFeedTextStyle] this will help you to customize the text content of the post
- * @property postMediaStyle: [LMFeedPostMediaViewStyle] this will help you to customize the media attached in the post
+ * @property postMediaViewStyle: [LMFeedPostMediaViewStyle] this will help you to customize the media attached in the post
  * @property postFooterViewStyle: [LMFeedPostFooterViewStyle] this will help you to customize the footer view of the post [LMFeedPostFooterView]
+ * @property postTopicsGroupStyle: [LMFeedChipGroupStyle] this will help you to customize the chip group in the post [LMFeedChipGroup]
+ * @property postTopicChipsStyle: [LMFeedChipStyle] this will help you to customize the chips of the chip group in the post [LMFeedChip]
  *
  * */
 class LMFeedPostViewStyle private constructor(

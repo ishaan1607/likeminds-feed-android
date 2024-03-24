@@ -3,20 +3,20 @@ package com.likeminds.feed.android.core.delete.style
 import android.graphics.Typeface
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
+import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
  * [LMFeedSelfDeleteDialogFragmentStyle] helps you to customize the admin delete dialog fragment [LMFeedSelfDeleteDialogFragment]
  *
- * @property selfDeleteDialogStyle : [LMFeedAlertDialogStyle] this will help you to customize the self delete alert dialog
+ * @property selfDeleteDialogStyle : [LMFeedAlertDialogViewStyle] this will help you to customize the self delete alert dialog
  * */
 class LMFeedSelfDeleteDialogFragmentStyle private constructor(
     //self delete dialog style
-    val selfDeleteDialogStyle: LMFeedAlertDialogStyle
+    val selfDeleteDialogStyle: LMFeedAlertDialogViewStyle
 ) : LMFeedViewStyle {
     class Builder {
-        private var selfDeleteDialogStyle = LMFeedAlertDialogStyle.Builder()
+        private var selfDeleteDialogStyle = LMFeedAlertDialogViewStyle.Builder()
             .alertSubtitleText(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_grey)
@@ -47,7 +47,7 @@ class LMFeedSelfDeleteDialogFragmentStyle private constructor(
             .alertBoxCornerRadius(R.dimen.lm_feed_corner_radius_small)
             .build()
 
-        fun selfDeleteDialogStyle(selfDeleteDialogStyle: LMFeedAlertDialogStyle) = apply {
+        fun selfDeleteDialogStyle(selfDeleteDialogStyle: LMFeedAlertDialogViewStyle) = apply {
             this.selfDeleteDialogStyle = selfDeleteDialogStyle
         }
 

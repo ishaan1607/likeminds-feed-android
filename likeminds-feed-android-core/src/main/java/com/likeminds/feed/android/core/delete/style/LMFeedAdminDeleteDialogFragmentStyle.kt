@@ -3,27 +3,27 @@ package com.likeminds.feed.android.core.delete.style
 import android.graphics.Typeface
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
+import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
  * [LMFeedAdminDeleteDialogFragmentStyle] helps you to customize the admin delete dialog fragment [LMFeedAdminDeleteDialogFragment]
  *
- * @property adminDeleteDialogStyle : [LMFeedAlertDialogStyle] this will help you to customize the admin delete alert dialog
+ * @property adminDeleteDialogStyle : [LMFeedAlertDialogViewStyle] this will help you to customize the admin delete alert dialog
  * @property selectorIconStyle : [LMFeedIconStyle] this will help you to customize the selector icon in the choose reason bottom sheet
  * @property reasonTextStyle: [LMFeedTextStyle] this will help you to customize the reason text in the choose reason bottom sheet
  * */
 class LMFeedAdminDeleteDialogFragmentStyle private constructor(
     //admin delete dialog style
-    val adminDeleteDialogStyle: LMFeedAlertDialogStyle,
+    val adminDeleteDialogStyle: LMFeedAlertDialogViewStyle,
     //reason selector icon style
     val selectorIconStyle: LMFeedIconStyle,
     //reason text style
     val reasonTextStyle: LMFeedTextStyle
 ) : LMFeedViewStyle {
     class Builder {
-        private var adminDeleteDialogStyle: LMFeedAlertDialogStyle =
-            LMFeedAlertDialogStyle.Builder()
+        private var adminDeleteDialogStyle: LMFeedAlertDialogViewStyle =
+            LMFeedAlertDialogViewStyle.Builder()
                 .alertSubtitleText(
                     LMFeedTextStyle.Builder()
                         .textColor(R.color.lm_feed_grey)
@@ -85,7 +85,7 @@ class LMFeedAdminDeleteDialogFragmentStyle private constructor(
             .textSize(R.dimen.lm_feed_text_medium)
             .build()
 
-        fun adminDeleteDialogStyle(adminDeleteDialogStyle: LMFeedAlertDialogStyle) = apply {
+        fun adminDeleteDialogStyle(adminDeleteDialogStyle: LMFeedAlertDialogViewStyle) = apply {
             this.adminDeleteDialogStyle = adminDeleteDialogStyle
         }
 
