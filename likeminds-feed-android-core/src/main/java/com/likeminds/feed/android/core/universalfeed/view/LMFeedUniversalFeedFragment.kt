@@ -196,7 +196,7 @@ open class LMFeedUniversalFeedFragment :
         universalFeedViewModel.deletePostResponse.observe(viewLifecycleOwner) { postId ->
             binding.rvUniversal.apply {
                 val indexToRemove = getIndexAndPostFromAdapter(postId)?.first ?: return@observe
-                removePost(indexToRemove)
+                removePostAtIndex(indexToRemove)
                 checkForNoPost(allPosts())
                 refreshVideoAutoPlayer()
                 //todo:

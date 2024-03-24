@@ -9,8 +9,6 @@ import com.likeminds.feed.android.core.post.edit.style.LMFeedEditPostFragmentVie
 import com.likeminds.feed.android.core.post.style.LMFeedPostViewStyle
 import com.likeminds.feed.android.core.report.style.LMFeedReportFragmentViewStyle
 import com.likeminds.feed.android.core.topicselection.style.LMFeedTopicSelectionFragmentViewStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
 import com.likeminds.feed.android.core.universalfeed.style.LMFeedUniversalFeedFragmentViewStyle
 
 object LMFeedStyleTransformer {
