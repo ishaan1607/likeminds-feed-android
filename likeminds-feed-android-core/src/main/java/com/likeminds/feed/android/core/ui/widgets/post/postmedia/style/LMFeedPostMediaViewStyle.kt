@@ -8,7 +8,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  *
  * @property postImageMediaStyle : [LMFeedImageStyle] this will help you to customize the image attachment in the post
  * @property postVideoMediaStyle : [LMFeedPostVideoMediaViewStyle] this will help you to customize the video attachment in the post
- * @property postLinkViewStyle: [LMFeedPostLinkViewStyle] this will help you to customize the  link type post
+ * @property postLinkViewStyle: [LMFeedPostLinkMediaViewStyle] this will help you to customize the  link type post
  * @property postDocumentsMediaStyle: [LMFeedPostDocumentsMediaViewStyle] this will help you to customize the document type post
  * @property postMultipleMediaStyle: [LMFeedPostMultipleMediaViewStyle] this will help you to customize the multiple media (images/videos) type post
  * */
@@ -18,7 +18,7 @@ class LMFeedPostMediaViewStyle private constructor(
     //style for video media in a post
     val postVideoMediaStyle: LMFeedPostVideoMediaViewStyle?,
     //style for link media in a post
-    val postLinkViewStyle: LMFeedPostLinkViewStyle?,
+    val postLinkViewStyle: LMFeedPostLinkMediaViewStyle?,
     //style for documents media in a post
     val postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle?,
     //style for multiple media carousel in a post
@@ -28,7 +28,7 @@ class LMFeedPostMediaViewStyle private constructor(
     class Builder {
         private var postImageMediaStyle: LMFeedImageStyle? = null
         private var postVideoMediaStyle: LMFeedPostVideoMediaViewStyle? = null
-        private var postLinkStyle: LMFeedPostLinkViewStyle? = null
+        private var postLinkStyle: LMFeedPostLinkMediaViewStyle? = null
         private var postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle? = null
         private var postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle? = null
 
@@ -38,7 +38,7 @@ class LMFeedPostMediaViewStyle private constructor(
         fun postVideoMediaStyle(postVideoMediaStyle: LMFeedPostVideoMediaViewStyle?) =
             apply { this.postVideoMediaStyle = postVideoMediaStyle }
 
-        fun postLinkStyle(postLinkStyle: LMFeedPostLinkViewStyle?) =
+        fun postLinkStyle(postLinkStyle: LMFeedPostLinkMediaViewStyle?) =
             apply { this.postLinkStyle = postLinkStyle }
 
         fun postDocumentsMediaStyle(postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle?) =

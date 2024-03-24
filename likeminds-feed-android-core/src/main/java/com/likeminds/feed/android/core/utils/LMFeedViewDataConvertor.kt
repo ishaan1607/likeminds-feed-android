@@ -503,6 +503,7 @@ object LMFeedViewDataConvertor {
      * View Data Model -> Network Model
     --------------------------------*/
 
+    //creates a list of network model of attachments from the provided list of attachment view data
     fun createAttachments(
         attachments: List<LMFeedAttachmentViewData>
     ): List<Attachment> {
@@ -511,6 +512,7 @@ object LMFeedViewDataConvertor {
         }
     }
 
+    //creates a network model of attachment from the provided attachment view data
     fun convertAttachment(
         attachment: LMFeedAttachmentViewData
     ): Attachment {

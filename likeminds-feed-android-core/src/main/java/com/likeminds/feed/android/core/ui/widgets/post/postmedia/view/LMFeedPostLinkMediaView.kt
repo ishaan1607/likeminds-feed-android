@@ -8,7 +8,7 @@ import com.google.android.material.card.MaterialCardView
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostLinkMediaViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostLinkViewStyle
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostLinkMediaViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.isImageValid
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -35,7 +35,7 @@ class LMFeedPostLinkMediaView : MaterialCardView {
     private val binding = LmFeedPostLinkMediaViewBinding.inflate(inflater, this, true)
 
     //sets provided [postLinkViewStyle] to the link type post
-    fun setStyle(postLinkViewStyle: LMFeedPostLinkViewStyle) {
+    fun setStyle(postLinkViewStyle: LMFeedPostLinkMediaViewStyle) {
         postLinkViewStyle.apply {
             //set background color of the link box
             if (backgroundColor != null) {

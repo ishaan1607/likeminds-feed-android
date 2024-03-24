@@ -14,18 +14,15 @@ import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedHeaderView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-    }
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
         defStyle
-    ) {
-    }
+    )
 
     private lateinit var style: LMFeedHeaderViewStyle
 
@@ -126,6 +123,8 @@ class LMFeedHeaderView : ConstraintLayout {
 
     /**
      * Sets the navigation icon click listener
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
      */
     fun setNavigationIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivHeaderNavigation.setOnClickListener {
@@ -173,6 +172,8 @@ class LMFeedHeaderView : ConstraintLayout {
 
     /**
      * Sets the search icon click listener
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
      */
     fun setSearchIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivHeaderSearch.setOnClickListener {
@@ -180,6 +181,11 @@ class LMFeedHeaderView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the submit button click listener
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
     fun setSubmitButtonClickListener(listener: LMFeedOnClickListener) {
         binding.tvHeaderSubmit.setOnClickListener {
             listener.onClick()

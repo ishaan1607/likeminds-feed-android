@@ -166,7 +166,7 @@ class LMFeedPostViewStyle private constructor(
                         .build()
                 )
                 .postLinkStyle(
-                    LMFeedPostLinkViewStyle.Builder()
+                    LMFeedPostLinkMediaViewStyle.Builder()
                         .linkTitleStyle(
                             LMFeedTextStyle.Builder()
                                 .fontResource(R.font.lm_feed_roboto)
