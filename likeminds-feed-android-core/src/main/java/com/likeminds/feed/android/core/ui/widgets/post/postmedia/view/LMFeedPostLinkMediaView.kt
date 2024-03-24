@@ -8,7 +8,7 @@ import com.google.android.material.card.MaterialCardView
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostLinkMediaViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostLinkViewStyle
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostLinkMediaViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.isImageValid
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -19,18 +19,15 @@ import kotlin.math.roundToInt
 
 class LMFeedPostLinkMediaView : MaterialCardView {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-    }
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
         defStyle
-    ) {
-    }
+    )
 
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
@@ -38,7 +35,7 @@ class LMFeedPostLinkMediaView : MaterialCardView {
     private val binding = LmFeedPostLinkMediaViewBinding.inflate(inflater, this, true)
 
     //sets provided [postLinkViewStyle] to the link type post
-    fun setStyle(postLinkViewStyle: LMFeedPostLinkViewStyle) {
+    fun setStyle(postLinkViewStyle: LMFeedPostLinkMediaViewStyle) {
         postLinkViewStyle.apply {
             //set background color of the link box
             if (backgroundColor != null) {
@@ -71,6 +68,7 @@ class LMFeedPostLinkMediaView : MaterialCardView {
             configureLinkDescription(linkDescriptionStyle)
             configureLinkUrl(linkUrlStyle)
             configureLinkImage(linkImageStyle)
+            configureLinkRemoveIcon(linkRemoveIconStyle)
         }
     }
 
@@ -102,6 +100,17 @@ class LMFeedPostLinkMediaView : MaterialCardView {
 
     private fun configureLinkImage(linkImageStyle: LMFeedImageStyle) {
         binding.ivLink.setStyle(linkImageStyle)
+    }
+
+    private fun configureLinkRemoveIcon(linkRemoveIconStyle: LMFeedIconStyle?) {
+        binding.ivCrossLink.apply {
+            if (linkRemoveIconStyle == null) {
+                hide()
+            } else {
+                setStyle(linkRemoveIconStyle)
+                show()
+            }
+        }
     }
 
     /**
@@ -183,6 +192,17 @@ class LMFeedPostLinkMediaView : MaterialCardView {
      */
     fun setLinkClickListener(listener: LMFeedOnClickListener) {
         binding.root.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    /**
+     * Sets click listener on the link remove icon
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setLinkRemoveClickListener(listener: LMFeedOnClickListener) {
+        binding.ivCrossLink.setOnClickListener {
             listener.onClick()
         }
     }

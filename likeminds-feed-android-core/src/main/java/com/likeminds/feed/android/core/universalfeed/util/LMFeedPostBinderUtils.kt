@@ -482,27 +482,11 @@ object LMFeedPostBinderUtils {
         listener: LMFeedUniversalFeedAdapterListener
     ) {
         multipleMediaView.apply {
-            val attachments = data.attachments.map {
-                when (it.attachmentType) {
-                    IMAGE -> {
-                        it.toBuilder().dynamicViewType(ITEM_MULTIPLE_MEDIA_IMAGE).build()
-                    }
-
-                    VIDEO -> {
-                        it.toBuilder().dynamicViewType(ITEM_MULTIPLE_MEDIA_VIDEO).build()
-                    }
-
-                    else -> {
-                        it
-                    }
-                }
-            }
-
             //sets multiple media view pager
             setViewPager(
                 position,
                 listener,
-                attachments
+                data.attachments
             )
         }
     }

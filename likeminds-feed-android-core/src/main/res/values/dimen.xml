@@ -42,6 +42,8 @@
     <!--    Min and max heights for input/text boxes -->
     <dimen name="lm_feed_text_max_height">100dp</dimen>
     <dimen name="lm_feed_text_min_height">48dp</dimen>
+    <dimen name="lm_feed_post_composer_max_height">220dp</dimen>
+    <dimen name="lm_feed_post_composer_min_height">56dp</dimen>
 
     <!--    Post detail screen -->
     <dimen name="lm_feed_reply_item_top_margin">20dp</dimen>

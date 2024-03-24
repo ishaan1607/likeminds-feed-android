@@ -47,6 +47,7 @@ class LMFeedItemDocumentViewDataBinder(
         binding.apply {
             //sets variables in the binding
             this.position = position
+            this.attachmentViewData = data
 
             //sets data on the documents view
             LMFeedPostBinderUtils.bindPostMediaDocument(
@@ -59,7 +60,12 @@ class LMFeedItemDocumentViewDataBinder(
     private fun setClickListeners(binding: LmFeedItemDocumentBinding) {
         binding.apply {
             documentItem.setDocumentClickListener {
-                universalFeedAdapter.onPostDocumentMediaClicked(position, parentPosition)
+                val attachment = attachmentViewData ?: return@setDocumentClickListener
+                universalFeedAdapter.onPostDocumentMediaClicked(
+                    position,
+                    parentPosition,
+                    attachment
+                )
             }
         }
     }

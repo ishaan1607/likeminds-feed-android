@@ -48,6 +48,7 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
         binding.apply {
             //set data to the binding
             this.position = position
+            this.attachmentViewData = data
 
             // loads post image inside the multiple media image view
             LMFeedPostBinderUtils.bindMultipleMediaImageView(ivPost, data)
@@ -57,7 +58,12 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
     private fun setClickListeners(binding: LmFeedItemMultipleMediaImageBinding) {
         binding.apply {
             ivPost.setOnClickListener {
-                listener.onPostMultipleMediaImageClicked(position, parentPosition)
+                val attachment = attachmentViewData ?: return@setOnClickListener
+                listener.onPostMultipleMediaImageClicked(
+                    position,
+                    parentPosition,
+                    attachment
+                )
             }
         }
     }

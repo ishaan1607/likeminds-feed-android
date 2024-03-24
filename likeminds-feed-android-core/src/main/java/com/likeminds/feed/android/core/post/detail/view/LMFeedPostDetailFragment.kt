@@ -22,6 +22,8 @@ import com.likeminds.feed.android.core.post.detail.adapter.LMFeedReplyAdapterLis
 import com.likeminds.feed.android.core.post.detail.model.*
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity.Companion.LM_FEED_POST_DETAIL_EXTRAS
 import com.likeminds.feed.android.core.post.detail.viewmodel.LMFeedPostDetailViewModel
+import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
+import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity
 import com.likeminds.feed.android.core.report.model.*
 import com.likeminds.feed.android.core.report.view.*
 import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.view.LMFeedCommentComposerView
@@ -113,8 +115,10 @@ open class LMFeedPostDetailFragment :
     }
 
     protected open fun customizeCommentComposer(commentComposer: LMFeedCommentComposerView) {
-        binding.commentComposer.setCommentInputBoxHint(getString(R.string.lm_feed_write_a_comment))
-        commentComposer.setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.commentComposerStyle)
+        commentComposer.apply {
+            setCommentInputBoxHint(getString(R.string.lm_feed_write_a_comment))
+            setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.commentComposerStyle)
+        }
     }
 
     private fun receiveExtras() {
@@ -1425,7 +1429,11 @@ open class LMFeedPostDetailFragment :
         menuId: Int,
         post: LMFeedPostViewData
     ) {
-        //todo:
+        val editPostExtras = LMFeedEditPostExtras.Builder()
+            .postId(post.id)
+            .build()
+        val intent = LMFeedEditPostActivity.getIntent(requireContext(), editPostExtras)
+        startActivity(intent)
     }
 
     protected open fun onDeletePostMenuClicked(

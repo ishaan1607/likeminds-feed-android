@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedHeaderViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -16,18 +14,17 @@ import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedHeaderView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-    }
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
         defStyle
-    ) {
-    }
+    )
+
+    private lateinit var style: LMFeedHeaderViewStyle
 
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
@@ -41,6 +38,8 @@ class LMFeedHeaderView : ConstraintLayout {
     fun setStyle(headerViewStyle: LMFeedHeaderViewStyle) {
 
         headerViewStyle.apply {
+            style = this
+
             //sets background color
             setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
 
@@ -52,6 +51,7 @@ class LMFeedHeaderView : ConstraintLayout {
             configureSubtitle(subtitleTextStyle)
             configureNavigationIcon(navigationIconStyle)
             configureSearchIcon(searchIconStyle)
+            configureSubmitText(submitTextStyle)
         }
     }
 
@@ -92,6 +92,17 @@ class LMFeedHeaderView : ConstraintLayout {
         }
     }
 
+    private fun configureSubmitText(submitTextStyle: LMFeedTextStyle?) {
+        binding.tvHeaderSubmit.apply {
+            if (submitTextStyle == null) {
+                hide()
+            } else {
+                setStyle(submitTextStyle)
+                show()
+            }
+        }
+    }
+
     /**
      * Sets title text in the header view.
      *
@@ -112,6 +123,8 @@ class LMFeedHeaderView : ConstraintLayout {
 
     /**
      * Sets the navigation icon click listener
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
      */
     fun setNavigationIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivHeaderNavigation.setOnClickListener {
@@ -120,10 +133,61 @@ class LMFeedHeaderView : ConstraintLayout {
     }
 
     /**
+     * Sets submit text in the header view.
+     *
+     * @param submitText Text for the submit text in the header.
+     */
+    fun setSubmitText(submitText: String) {
+        binding.tvHeaderSubmit.text = submitText
+    }
+
+    /**
+     * Sets the submit button style as per its configuration (disabled/enabled)
+     *
+     * @param isEnabled - whether to enable/disable the submit button
+     * @param showProgress - whether to show progress bar in plae of the submit button
+     */
+    fun setSubmitButtonEnabled(isEnabled: Boolean, showProgress: Boolean = false) {
+        binding.apply {
+            if (showProgress) {
+                pbSubmit.show()
+                tvHeaderSubmit.hide()
+            } else {
+                pbSubmit.hide()
+                tvHeaderSubmit.show()
+                if (isEnabled) {
+                    tvHeaderSubmit.isEnabled = true
+                    style.activeSubmitColor?.let {
+                        tvHeaderSubmit.setTextColor(ContextCompat.getColor(context, it))
+                    }
+                } else {
+                    tvHeaderSubmit.isEnabled = false
+                    style.submitTextStyle?.textColor?.let {
+                        tvHeaderSubmit.setTextColor(ContextCompat.getColor(context, it))
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Sets the search icon click listener
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
      */
     fun setSearchIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivHeaderSearch.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    /**
+     * Sets the submit button click listener
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setSubmitButtonClickListener(listener: LMFeedOnClickListener) {
+        binding.tvHeaderSubmit.setOnClickListener {
             listener.onClick()
         }
     }

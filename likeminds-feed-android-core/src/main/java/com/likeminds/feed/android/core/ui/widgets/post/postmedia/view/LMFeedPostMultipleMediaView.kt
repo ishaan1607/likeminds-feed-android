@@ -6,25 +6,24 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.likeminds.feed.android.core.databinding.LmFeedPostMultipleMediaViewBinding
-import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
+import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostMultipleMediaViewStyle
-import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedMultipleMediaPostAdapter
+import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
+import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_IMAGE
+import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_VIDEO
 
 class LMFeedPostMultipleMediaView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
-    }
+    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)
 
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
         context,
         attributeSet,
         defStyle
-    ) {
-    }
+    )
 
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
@@ -103,11 +102,32 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
             //registers page change callback
             viewpagerMultipleMedia.registerOnPageChangeCallback(multipleMediaOnPageChangeCallback)
 
+            val updatedAttachments = getUpdatedAttachmentsForMultipleMedia(attachments)
+
             //replaces all the items in the multiple media post adapter
-            multipleMediaPostAdapter.replace(attachments)
+            multipleMediaPostAdapter.replace(updatedAttachments)
 
             //setups the indicator with the view pager
             dotsIndicator.setupWithViewPager(viewpagerMultipleMedia)
+        }
+    }
+
+    //returns the updated attachments list for multiple media view
+    private fun getUpdatedAttachmentsForMultipleMedia(attachments: List<LMFeedAttachmentViewData>): List<LMFeedAttachmentViewData> {
+        return attachments.map {
+            when (it.attachmentType) {
+                IMAGE -> {
+                    it.toBuilder().dynamicViewType(ITEM_MULTIPLE_MEDIA_IMAGE).build()
+                }
+
+                VIDEO -> {
+                    it.toBuilder().dynamicViewType(ITEM_MULTIPLE_MEDIA_VIDEO).build()
+                }
+
+                else -> {
+                    it
+                }
+            }
         }
     }
 }

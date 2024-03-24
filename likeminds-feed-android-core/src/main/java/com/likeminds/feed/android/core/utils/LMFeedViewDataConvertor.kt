@@ -499,6 +499,75 @@ object LMFeedViewDataConvertor {
         }.toMutableList()
     }
 
+    /**--------------------------------
+     * View Data Model -> Network Model
+    --------------------------------*/
+
+    //creates a list of network model of attachments from the provided list of attachment view data
+    fun createAttachments(
+        attachments: List<LMFeedAttachmentViewData>
+    ): List<Attachment> {
+        return attachments.map {
+            convertAttachment(it)
+        }
+    }
+
+    //creates a network model of attachment from the provided attachment view data
+    fun convertAttachment(
+        attachment: LMFeedAttachmentViewData
+    ): Attachment {
+        return Attachment.Builder()
+            .attachmentType(attachment.attachmentType)
+            .attachmentMeta(convertAttachmentMeta(attachment.attachmentMeta))
+            .build()
+    }
+
+    private fun convertAttachmentMeta(
+        attachmentMeta: LMFeedAttachmentMetaViewData
+    ): AttachmentMeta {
+        return AttachmentMeta.Builder().name(attachmentMeta.name)
+            .ogTags(convertOGTags(attachmentMeta.ogTags))
+            .url(attachmentMeta.url)
+            .size(attachmentMeta.size)
+            .duration(attachmentMeta.duration)
+            .pageCount(attachmentMeta.pageCount)
+            .format(attachmentMeta.format)
+            .build()
+    }
+
+    // creates attachment list of Network Model for link attachment
+    fun convertAttachments(
+        linkOGTagsViewData: LMFeedLinkOGTagsViewData
+    ): List<Attachment> {
+        return listOf(
+            Attachment.Builder()
+                .attachmentType(LINK)
+                .attachmentMeta(convertAttachmentMeta(linkOGTagsViewData))
+                .build()
+        )
+    }
+
+    // creates AttachmentMeta Network Model for link attachment meta
+    private fun convertAttachmentMeta(
+        linkOGTagsViewData: LMFeedLinkOGTagsViewData
+    ): AttachmentMeta {
+        return AttachmentMeta.Builder()
+            .ogTags(convertOGTags(linkOGTagsViewData))
+            .build()
+    }
+
+    // converts LinkOGTags view data model to network model
+    private fun convertOGTags(
+        linkOGTagsViewData: LMFeedLinkOGTagsViewData
+    ): LinkOGTags {
+        return LinkOGTags.Builder()
+            .title(linkOGTagsViewData.title)
+            .image(linkOGTagsViewData.image)
+            .description(linkOGTagsViewData.description)
+            .url(linkOGTagsViewData.url)
+            .build()
+    }
+
     fun convertCommentsCount(commentsCount: Int): LMFeedCommentsCountViewData {
         return LMFeedCommentsCountViewData.Builder()
             .commentsCount(commentsCount)

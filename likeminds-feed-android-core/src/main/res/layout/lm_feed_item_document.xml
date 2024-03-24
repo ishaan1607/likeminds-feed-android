@@ -7,6 +7,10 @@
         <variable
             name="position"
             type="int" />
+
+        <variable
+            name="attachmentViewData"
+            type="com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
