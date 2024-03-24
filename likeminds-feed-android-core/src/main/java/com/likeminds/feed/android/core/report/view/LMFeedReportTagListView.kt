@@ -32,16 +32,19 @@ class LMFeedReportTagListView @JvmOverloads constructor(
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
+    //sets the adapter with the provided [listener] to the report tag recycler view
     fun setAdapter(listener: LMFeedReportTagAdapterListener) {
         reportTagAdapter = LMFeedReportTagAdapter(listener)
         adapter = reportTagAdapter
     }
 
+    //replaces the report tags in the report tag adapter with the provided [reportTags]
     fun replaceReportTags(reportTags: List<LMFeedReportTagViewData>) {
         reportTagAdapter.replace(reportTags)
     }
 
-    fun items(): List<LMFeedBaseViewType> {
+    //returns the list of report tags in the report tag adapter
+    fun reportTags(): List<LMFeedBaseViewType> {
         return reportTagAdapter.items()
     }
 }

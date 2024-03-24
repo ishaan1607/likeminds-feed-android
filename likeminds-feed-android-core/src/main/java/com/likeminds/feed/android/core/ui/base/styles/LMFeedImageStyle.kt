@@ -7,6 +7,18 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedImageStyle] helps you to customize an image
+ *
+ * @property imageSrc : [Any]] sets the provided image source to the image view, use this to set a static source to the image | Default value [R.drawable.lm_feed_picture_placeholder]
+ * @property placeholderSrc : [Any] sets the placeholder source to the image view while the image is loading, use this to set a static placeholder to the image | Default value [null]
+ * @property isCircle : [Boolean] this will define whether the image view should be circular or not | Default value [false]
+ * @property showGreyScale : [Boolean] whether to show grey scale to the image view or not | Default value [false]
+ * @property cornerRadius : [Int] this will help to customize the corner radius of the image view  | Default value [null]
+ * @property imageTint : [Int] should be in format of [ColorRes] this will help to customize the tint of the image view  | Default value [null]
+ * @property alpha : [Float] this will help to customize the alpha of the image view  | Default value [null]
+ * @property scaleType : [ScaleType] this will help to customize the scale type of the image view  | Default value [null]
+ * */
 class LMFeedImageStyle private constructor(
     val imageSrc: Any,
     val placeholderSrc: Any?,
@@ -101,6 +113,7 @@ class LMFeedImageStyle private constructor(
     }
 }
 
+//sets the provided view style to the image view
 fun LMFeedImageView.setStyle(viewStyle: LMFeedImageStyle) {
     viewStyle.apply(this)
 }

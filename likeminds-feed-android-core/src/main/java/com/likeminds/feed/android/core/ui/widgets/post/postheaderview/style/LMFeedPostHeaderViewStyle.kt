@@ -2,11 +2,23 @@ package com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style
 
 import android.text.TextUtils
 import androidx.annotation.ColorRes
-
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedPostHeaderViewStyle] helps you to customize the post header view [LMFeedPostHeaderView]
+ *
+ * @property authorImageViewStyle : [LMFeedImageStyle] this will help you to customize the author image in the post header
+ * @property authorNameViewStyle : [LMFeedTextStyle] this will help you to customize the author name in the post header
+ * @property timestampTextStyle: [LMFeedTextStyle] this will help you to customize the timestamp text in the post header | set its value to [null] if you want to hide the timestamp in the post header
+ * @property postEditedTextStyle: [LMFeedTextStyle] this will help you to customize the edited text tag in an edited post header |  set its value to [null] if you want to hide the edited tag in the post header
+ * @property authorCustomTitleTextStyle: [LMFeedTextStyle] this will help you to customize the custom title of the author in the post header | set its value to [null] if you want to hide the custom title of the author in the post header
+ * @property pinIconStyle: [LMFeedIconStyle] this will help you to customize the pin icon of the post | set its value to [null] if you want to hide the pin icon in the post header
+ * @property menuIconStyle: [LMFeedIconStyle] this will help you to customize the menu icon of the post | set its value to [null] if you want to hide the menu icon in the post header
+ * @property backgroundColor:  [Int] should be in format of [ColorRes] to add background color of the post header | Default value = [null]
+ *
+ * */
 class LMFeedPostHeaderViewStyle private constructor(
     val authorImageViewStyle: LMFeedImageStyle,
     val authorNameViewStyle: LMFeedTextStyle,
@@ -15,7 +27,7 @@ class LMFeedPostHeaderViewStyle private constructor(
     val authorCustomTitleTextStyle: LMFeedTextStyle?,
     val pinIconStyle: LMFeedIconStyle?,
     val menuIconStyle: LMFeedIconStyle?,
-    @ColorRes val  backgroundColor: Int?
+    @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
     class Builder {
