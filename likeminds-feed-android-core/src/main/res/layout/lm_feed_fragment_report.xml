@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lm_feed_white">
+
+        <com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
+            android:id="@+id/header_view_report"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_report_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:lineHeight="17sp"
+            android:text="@string/lm_feed_please_specify_the_problem_to_continue"
+            android:textColor="@color/lm_feed_black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_view_report"
+            tools:ignore="UnusedAttribute" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_report_sub_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="6dp"
+            android:gravity="top|start"
+            android:lineHeight="19sp"
+            android:lineSpacingExtra="5sp"
+            android:text="@string/lm_feed_report_sub_header"
+            android:textColor="@color/lm_feed_brown_grey"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_report_header"
+            tools:ignore="UnusedAttribute" />
+
+        <com.likeminds.feed.android.core.report.view.LMFeedReportTagListView
+            android:id="@+id/rv_report_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="26dp"
+            app:layout_constraintTop_toBottomOf="@id/tv_report_sub_header"
+            tools:visibility="visible" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedButton
+            android:id="@+id/btn_post_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:paddingHorizontal="50dp"
+            android:paddingVertical="15dp"
+            android:text="@string/lm_feed_report"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:backgroundTint="#d0021b"
+            tools:cornerRadius="24dp"
+            tools:textAllCaps="true"
+            tools:textColor="@color/lm_feed_white"
+            tools:textSize="14sp"
+            tools:textStyle="bold" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
+            android:id="@+id/et_reason"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="26dp"
+            android:hint="@string/lm_feed_write_description"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences|textMultiLine"
+            android:lineHeight="19sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_report_tags"
+            tools:ignore="UnusedAttribute"
+            tools:textColorHint="@color/lm_feed_brown_grey"
+            tools:textSize="14sp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

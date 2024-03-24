@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.feed.android.core.LMFeedCore
-import com.likeminds.feedexample.universalfeed.CustomLMUniversalFeedFragment
+import com.likeminds.feedexample.universalfeed.CustomLMUniversalFeedAdminFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,8 +12,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         LMFeedCore.initiateUser(
+            this,
             "Ishaan Jain",
-            "anurag",
+            "\uD83C\uDF1A\uD83C\uDF1A",
             "device-23444",
             success = {
                 replaceFragment()
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun replaceFragment() {
         val containerViewId = R.id.frame_layout
-        val fragment = CustomLMUniversalFeedFragment()
+        val fragment = CustomLMUniversalFeedAdminFragment()
 
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(containerViewId, fragment, containerViewId.toString())

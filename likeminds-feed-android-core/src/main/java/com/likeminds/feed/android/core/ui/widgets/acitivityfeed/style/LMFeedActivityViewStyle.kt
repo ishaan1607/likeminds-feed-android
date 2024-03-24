@@ -6,7 +6,6 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
-import com.likeminds.feed.android.core.universalfeed.viewstyle.LMFeedPostingViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
@@ -15,7 +14,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * @property userImageViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the user image view in the activity view
  * @property activityTextStyle : [LMFeedFABStyle] this will help you to customize the text content in the activity view
  * @property postTypeBadgeStyle: [LMFeedNoEntityLayoutViewStyle] this will help you to customize the post type badge in the activity view | set its value to [null] if you want to hide the badge of post type in the activity view
- * @property timestampTextStyle: [LMFeedPostingViewStyle] this will help you to customize the timestamp text in the activity view | set its value to [null] if you want to hide the timestamp in the activity view
+ * @property timestampTextStyle: [LMFeedTextStyle] this will help you to customize the timestamp text in the activity view | set its value to [null] if you want to hide the timestamp in the activity view
  * @property readActivityBackgroundColor: [Int] should be in format of [ColorRes] to add background color of the activity view when it is read
  * @property unreadActivityBackgroundColor:  [Int] should be in format of [ColorRes] to add background color of the activity view when it is unread
  * */

@@ -35,7 +35,7 @@ class LMFeedItemPostSingleVideoViewDataBinder(
 
             LMFeedPostBinderUtils.customizePostFooterView(postFooter)
 
-            LMFeedPostBinderUtils.customizePostTopicsView(postTopics)
+            LMFeedPostBinderUtils.customizePostTopicsGroup(postTopicsGroup)
 
             setClickListeners(this)
 
@@ -72,7 +72,7 @@ class LMFeedItemPostSingleVideoViewDataBinder(
                 tvPostContent,
                 data,
                 position,
-                postTopics,
+                postTopicsGroup,
                 universalFeedAdapterListener,
                 returnBinder = {
                     return@setPostBindData

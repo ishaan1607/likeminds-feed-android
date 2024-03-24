@@ -2,15 +2,18 @@ package com.likeminds.feed.android.core.utils
 
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityEntityViewData
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
+import com.likeminds.feed.android.core.delete.model.LMFeedReasonChooseViewData
 import com.likeminds.feed.android.core.likes.model.LMFeedLikeViewData
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentsCountViewData
 import com.likeminds.feed.android.core.post.model.*
+import com.likeminds.feed.android.core.report.model.LMFeedReportTagViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.*
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.comment.model.Comment
+import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.Activity
 import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
 import com.likeminds.likemindsfeed.post.model.*
@@ -242,7 +245,7 @@ object LMFeedViewDataConvertor {
 
     /**
      * convert list of [Comment] and usersMap [Map] of String to User
-     * to list of [CommentViewData]
+     * to list of [LMFeedCommentViewData]
      *
      * @param comments: list of [Comment]
      * @param usersMap: [Map] of String to User
@@ -327,7 +330,7 @@ object LMFeedViewDataConvertor {
 
     /**
      * convert list of [Activity] and usersMap [Map] of String to User
-     * to list of [ActivityViewData]
+     * to list of [LMFeedActivityViewData]
      *
      * @param activities: list of [Activity]
      * @param usersMap: [Map] of String to User
@@ -433,7 +436,7 @@ object LMFeedViewDataConvertor {
     }
 
     /**
-     * convert list of [Like] to list of [LikeViewData]
+     * convert list of [Like] to list of [LMFeedLikeViewData]
      * @param likes: list of [Like]
      * @param users: [Map] of String to User
      * */
@@ -464,6 +467,36 @@ object LMFeedViewDataConvertor {
                 .user(likedByViewData)
                 .build()
         }
+    }
+
+    /**
+     * convert list of [ReportTag] to list of [LMFeedReportTagViewData]
+     * @param tags: list of [ReportTag]
+     * */
+    fun convertReportTag(
+        tags: List<ReportTag>
+    ): List<LMFeedReportTagViewData> {
+        return tags.map { tag ->
+            LMFeedReportTagViewData.Builder()
+                .id(tag.id)
+                .name(tag.name)
+                .isSelected(false)
+                .build()
+        }
+    }
+
+    /**
+     * convert list of [ReportTag] to list of [LMFeedReasonChooseViewData]
+     * @param tags: list of [ReportTag]
+     * */
+    fun convertDeleteTag(
+        tags: List<ReportTag>
+    ): MutableList<LMFeedReasonChooseViewData> {
+        return tags.map { tag ->
+            LMFeedReasonChooseViewData.Builder()
+                .value(tag.name)
+                .build()
+        }.toMutableList()
     }
 
     fun convertCommentsCount(commentsCount: Int): LMFeedCommentsCountViewData {

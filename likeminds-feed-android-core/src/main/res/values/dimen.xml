@@ -15,6 +15,7 @@
     <dimen name="lm_feed_elevation_small">4dp</dimen>
 
     <!--    Corner radius-->
+    <dimen name="lm_feed_corner_radius_small">2dp</dimen>
     <dimen name="lm_feed_corner_radius_regular">4dp</dimen>
 
     <!--    Padding Size-->
@@ -35,8 +36,8 @@
     <dimen name="lm_feed_indicator_dot_size">6dp</dimen>
 
     <!--    Chip related-->
-    <dimen name="lm_feed_topic_chip_group_horizontal_spacing">4dp</dimen>
-    <dimen name="lm_feed_topic_chip_group_vertical_spacing">4dp</dimen>
+    <dimen name="lm_feed_default_chip_group_horizontal_spacing">4dp</dimen>
+    <dimen name="lm_feed_default_chip_group_vertical_spacing">4dp</dimen>
 
     <!--    Min and max heights for input/text boxes -->
     <dimen name="lm_feed_text_max_height">100dp</dimen>
@@ -45,4 +46,6 @@
     <!--    Post detail screen -->
     <dimen name="lm_feed_reply_item_top_margin">20dp</dimen>
 
+    <!--    Report Screen -->
+    <dimen name="lm_feed_report_button_corner_radius">24dp</dimen>
 </resources>

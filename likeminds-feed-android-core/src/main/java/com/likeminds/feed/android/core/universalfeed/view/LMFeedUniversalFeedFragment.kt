@@ -1,8 +1,10 @@
 package com.likeminds.feed.android.core.universalfeed.view
 
+import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -10,12 +12,19 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedActivity
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
+import com.likeminds.feed.android.core.delete.model.DELETE_TYPE_POST
+import com.likeminds.feed.android.core.delete.model.LMFeedDeleteExtras
+import com.likeminds.feed.android.core.delete.view.*
 import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
 import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
+import com.likeminds.feed.android.core.report.model.LMFeedReportExtras
+import com.likeminds.feed.android.core.report.model.REPORT_TYPE_POST
+import com.likeminds.feed.android.core.report.view.*
+import com.likeminds.feed.android.core.report.view.LMFeedReportFragment.Companion.LM_FEED_REPORT_RESULT
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
@@ -32,9 +41,14 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import kotlinx.coroutines.flow.onEach
 
-open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterListener {
+open class LMFeedUniversalFeedFragment :
+    Fragment(),
+    LMFeedUniversalFeedAdapterListener,
+    LMFeedAdminDeleteDialogListener,
+    LMFeedSelfDeleteDialogListener {
 
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
@@ -47,15 +61,19 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         savedInstanceState: Bundle?
     ): View {
         binding = LmFeedFragmentUniversalFeedBinding.inflate(layoutInflater)
-        customizeCreateNewPostButton(binding.fabNewPost)
-        customizeUniversalFeedHeaderView(binding.headerViewUniversal)
-        customizeNoPostLayout(binding.layoutNoPost)
-        customizePostingLayout(binding.layoutPosting)
-        return binding.root
+
+        binding.apply {
+            customizeCreateNewPostButton(fabNewPost)
+            customizeUniversalFeedHeaderView(headerViewUniversal)
+            customizeNoPostLayout(layoutNoPost)
+            customizePostingLayout(layoutPosting)
+            return root
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initUI()
         initListeners()
         observeResponses()
@@ -139,6 +157,25 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         universalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
             LMFeedAnalytics.sendPostPinnedEvent(post)
             onPostPinSuccess(post)
+        }
+
+        // observes deletePostResponse LiveData
+        universalFeedViewModel.deletePostResponse.observe(viewLifecycleOwner) { postId ->
+            binding.rvUniversal.apply {
+                val indexToRemove = getIndexAndPostFromAdapter(postId)?.first ?: return@observe
+                removePost(indexToRemove)
+                checkForNoPost(allPosts())
+                refreshVideoAutoPlayer()
+                //todo:
+                LMFeedViewUtils.showShortToast(
+                    requireContext(),
+                    getString(
+                        R.string.lm_feed_s_deleted,
+//                        lmFeedHelperViewModel.getPostVariable()
+//                            .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                    )
+                )
+            }
         }
 
         universalFeedViewModel.errorMessageEventFlow.onEach { response ->
@@ -383,7 +420,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         popupMenu.addMenuItems(menuItems)
 
         popupMenu.setMenuItemClickListener { menuId ->
-            onPostMenuItemClick(position, menuId, postViewData)
+            onPostMenuItemClicked(position, menuId, postViewData)
         }
 
         popupMenu.show()
@@ -450,6 +487,18 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         }
     }
 
+    override fun onEntityDeletedByAdmin(deleteExtras: LMFeedDeleteExtras, reason: String) {
+        val post =
+            binding.rvUniversal.getIndexAndPostFromAdapter(deleteExtras.postId)?.second ?: return
+        universalFeedViewModel.deletePost(post, reason)
+    }
+
+    override fun onEntityDeletedByAuthor(deleteExtras: LMFeedDeleteExtras) {
+        val post =
+            binding.rvUniversal.getIndexAndPostFromAdapter(deleteExtras.postId)?.second ?: return
+        universalFeedViewModel.deletePost(post)
+    }
+
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
         fabNewPost.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)
@@ -504,14 +553,14 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
     }
 
     //callback when post menu items are clicked
-    protected open fun onPostMenuItemClick(
+    protected open fun onPostMenuItemClicked(
         position: Int,
         menuId: Int,
         postViewData: LMFeedPostViewData
     ) {
         when (menuId) {
             EDIT_POST_MENU_ITEM_ID -> {
-                onEditPostMenuClick(
+                onEditPostMenuClicked(
                     position,
                     menuId,
                     postViewData
@@ -519,7 +568,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             }
 
             DELETE_POST_MENU_ITEM_ID -> {
-                onDeletePostMenuClick(
+                onDeletePostMenuClicked(
                     position,
                     menuId,
                     postViewData
@@ -527,7 +576,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
             }
 
             REPORT_POST_MENU_ITEM_ID -> {
-                onReportPostMenuClick(
+                onReportPostMenuClicked(
                     position,
                     menuId,
                     postViewData
@@ -539,7 +588,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                     LMFeedPostBinderUtils.updatePostForPin(requireContext(), postViewData)
 
                 updatedPostViewData?.let {
-                    onPinPostMenuClick(
+                    onPinPostMenuClicked(
                         position,
                         menuId,
                         it
@@ -552,7 +601,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
                     LMFeedPostBinderUtils.updatePostForUnpin(requireContext(), postViewData)
 
                 updatedPost?.let {
-                    onUnpinPostMenuClick(
+                    onUnpinPostMenuClicked(
                         position,
                         menuId,
                         it
@@ -562,7 +611,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         }
     }
 
-    protected open fun onEditPostMenuClick(
+    protected open fun onEditPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
@@ -570,23 +619,79 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         //todo:
     }
 
-    protected open fun onDeletePostMenuClick(
+    protected open fun onDeletePostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
     ) {
-        //todo:
+        val deleteExtras = LMFeedDeleteExtras.Builder()
+            .postId(post.id)
+            .entityType(DELETE_TYPE_POST)
+            //todo:
+//            .postAsVariable(lmFeedHelperViewModel.getPostVariable())
+            .build()
+
+        val postCreatorUUID = post.headerViewData.user.sdkClientInfoViewData.uuid
+
+        val userPreferences = LMFeedUserPreferences(requireContext())
+        val loggedInUUID = userPreferences.getUUID()
+
+        if (postCreatorUUID == loggedInUUID) {
+            // if the post was created by current user
+            LMFeedSelfDeleteDialogFragment.showDialog(
+                childFragmentManager,
+                deleteExtras
+            )
+        } else {
+            // if the post was not created by current user and they are admin
+            LMFeedAdminDeleteDialogFragment.showDialog(
+                childFragmentManager,
+                deleteExtras
+            )
+        }
     }
 
-    protected open fun onReportPostMenuClick(
+    // launcher to start [ReportActivity] and show success dialog for result
+    private val reportPostLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data?.getStringExtra(LM_FEED_REPORT_RESULT)
+                //todo:
+                val entityType = "Post"
+//                val entityType = if (data == "Post") {
+//                    lmFeedHelperViewModel.getPostVariable()
+//                        .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+//                } else {
+//                    data
+//                }
+                LMFeedReportSuccessDialogFragment(entityType ?: "").show(
+                    childFragmentManager,
+                    LMFeedReportSuccessDialogFragment.TAG
+                )
+            }
+        }
+
+    protected open fun onReportPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
     ) {
-        //todo:
+        //create extras for [ReportActivity]
+        val reportExtras = LMFeedReportExtras.Builder()
+            .entityId(post.id)
+            .uuid(post.headerViewData.user.sdkClientInfoViewData.uuid)
+            .entityType(REPORT_TYPE_POST)
+            .postViewType(post.viewType)
+            .build()
+
+        //get Intent for [ReportActivity]
+        val intent = LMFeedReportActivity.getIntent(requireContext(), reportExtras)
+
+        //start [ReportActivity] and check for result
+        reportPostLauncher.launch(intent)
     }
 
-    protected open fun onPinPostMenuClick(
+    protected open fun onPinPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData
@@ -598,7 +703,7 @@ open class LMFeedUniversalFeedFragment : Fragment(), LMFeedUniversalFeedAdapterL
         binding.rvUniversal.updatePostItem(position, post)
     }
 
-    protected open fun onUnpinPostMenuClick(
+    protected open fun onUnpinPostMenuClicked(
         position: Int,
         menuId: Int,
         post: LMFeedPostViewData

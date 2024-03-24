@@ -14,19 +14,14 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
 import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.post.model.IMAGE
-import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
-import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
-import com.likeminds.feed.android.core.post.model.VIDEO
+import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
-import com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
-import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
-import com.likeminds.feed.android.core.ui.widgets.post.posttopicsview.view.LMFeedPostTopicsView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostFooterViewData
@@ -70,12 +65,13 @@ object LMFeedPostBinderUtils {
         }
     }
 
-    //customizes the topics view of the
-    fun customizePostTopicsView(postTopicsView: LMFeedPostTopicsView) {
-        postTopicsView.apply {
-            val postTopicsViewStyle = LMFeedStyleTransformer.postViewStyle.postTopicsViewStyle
+    // customizes the footer view of the post
+    fun customizePostTopicsGroup(postTopicsGroup: LMFeedChipGroup) {
+        postTopicsGroup.apply {
+            val postTopicsGroupViewStyle =
+                LMFeedStyleTransformer.postViewStyle.postTopicsGroupStyle
 
-            setStyle(postTopicsViewStyle)
+            setStyle(postTopicsGroupViewStyle)
         }
     }
 
@@ -85,7 +81,7 @@ object LMFeedPostBinderUtils {
         contentView: LMFeedTextView,
         data: LMFeedPostViewData,
         position: Int,
-        topicsView: LMFeedPostTopicsView,
+        topicsView: LMFeedChipGroup,
         universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
         returnBinder: () -> Unit,
         executeBinder: () -> Unit
@@ -182,7 +178,7 @@ object LMFeedPostBinderUtils {
                         return@setOnClickListener
                     }
                     alreadySeenFullContent = true
-                    val updatedPost =  updatePostForSeeFullContent(postViewData)
+                    val updatedPost = updatePostForSeeFullContent(postViewData)
                     universalFeedAdapterListener.onPostContentSeeMoreClicked(position, updatedPost)
                 }
 
@@ -267,17 +263,17 @@ object LMFeedPostBinderUtils {
 
     // sets the data in post topics view
     private fun setPostTopicsViewData(
-        lmFeedPostTopicsView: LMFeedPostTopicsView,
+        postTopicsGroup: LMFeedChipGroup,
         topics: List<LMFeedTopicViewData>
     ) {
         if (topics.isEmpty()) {
-            lmFeedPostTopicsView.hide()
+            postTopicsGroup.hide()
         } else {
-            lmFeedPostTopicsView.apply {
+            postTopicsGroup.apply {
                 show()
-                removeAllTopics()
+                removeAllChips()
                 topics.forEach { topic ->
-                    addTopic(topic)
+                    addChip(topic.name, LMFeedStyleTransformer.postViewStyle.postTopicChipsStyle)
                 }
             }
         }

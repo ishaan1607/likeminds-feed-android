@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:background="@color/lm_feed_white">
 
-        <com.google.android.material.chip.ChipGroup
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedChipGroup
             android:id="@+id/cg_topics"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

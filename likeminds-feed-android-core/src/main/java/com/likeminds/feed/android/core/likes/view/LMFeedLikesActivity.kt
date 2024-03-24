@@ -70,14 +70,12 @@ class LMFeedLikesActivity : AppCompatActivity() {
             navController = navHostFragment.navController
             navController.setGraph(R.navigation.lm_feed_nav_graph_likes, args)
         } else {
-            redirectActivity(true)
+            redirectActivity()
         }
     }
 
-    private fun redirectActivity(isError: Boolean) {
-        if (isError) {
-            LMFeedViewUtils.showSomethingWentWrongToast(this)
-        }
+    private fun redirectActivity() {
+        LMFeedViewUtils.showSomethingWentWrongToast(this)
         supportFragmentManager.popBackStack()
         onBackPressedDispatcher.onBackPressed()
         overridePendingTransition(R.anim.lm_feed_slide_from_left, R.anim.lm_feed_slide_to_right)

@@ -28,6 +28,7 @@ import kotlin.math.roundToInt
  * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the text | Default value = [null]
  * @property textAlignment: [Int] to customize the alignment of the text | Default value = [null]
  * @property elevation: [Int] should be in format of [DimenRes] to customize the elevation of the text | Default value = [null]
+ * @property hintTextColor: [Int] should be in format of [ColorRes] to customize the hint color of the text | Default value = [null]
  * @property drawableLeftSrc: [Int] should be in format of [DrawableRes] to customize the left drawable of the text | Default value = [null]
  * @property drawableTopSrc: [Int] should be in format of [DrawableRes] to customize the top drawable of the text  | Default value = [null]
  * @property drawableRightSrc: [Int] should be in format of [DrawableRes] to customize the right drawable of the text  | Default value = [null]
@@ -49,6 +50,7 @@ class LMFeedTextStyle private constructor(
     @ColorRes val backgroundColor: Int?,
     val textAlignment: Int?,
     @DimenRes val elevation: Int?,
+    @ColorRes val hintTextColor: Int?,
     @DrawableRes val drawableLeftSrc: Int?,
     @DrawableRes val drawableTopSrc: Int?,
     @DrawableRes val drawableRightSrc: Int?,
@@ -83,6 +85,9 @@ class LMFeedTextStyle private constructor(
 
         @DimenRes
         private var elevation: Int? = null
+
+        @ColorRes
+        private var hintTextColor: Int? = null
 
         @DrawableRes
         private var drawableLeftSrc: Int? = null
@@ -151,6 +156,10 @@ class LMFeedTextStyle private constructor(
             this.elevation = elevation
         }
 
+        fun hintTextColor(@ColorRes hintTextColor: Int?) = apply {
+            this.hintTextColor = hintTextColor
+        }
+
         fun drawableLeftSrc(@DrawableRes drawableLeftSrc: Int?) = apply {
             this.drawableLeftSrc = drawableLeftSrc
         }
@@ -185,6 +194,7 @@ class LMFeedTextStyle private constructor(
             backgroundColor,
             textAlignment,
             elevation,
+            hintTextColor,
             drawableLeftSrc,
             drawableTopSrc,
             drawableRightSrc,
@@ -207,6 +217,7 @@ class LMFeedTextStyle private constructor(
             .backgroundColor(backgroundColor)
             .textAlignment(textAlignment)
             .elevation(elevation)
+            .hintTextColor(hintTextColor)
             .drawableLeftSrc(drawableLeftSrc)
             .drawableTopSrc(drawableTopSrc)
             .drawableRightSrc(drawableRightSrc)
@@ -277,6 +288,15 @@ class LMFeedTextStyle private constructor(
 
             if (this@LMFeedTextStyle.textAlignment != null) {
                 textAlignment = this@LMFeedTextStyle.textAlignment
+            }
+
+            this@LMFeedTextStyle.hintTextColor?.let {
+                setHintTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        this@LMFeedTextStyle.hintTextColor
+                    )
+                )
             }
 
             // sets drawable to the text view

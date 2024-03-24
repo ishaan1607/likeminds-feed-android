@@ -33,6 +33,9 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     private val _postPinnedResponse = MutableLiveData<LMFeedPostViewData>()
     val postPinnedResponse: LiveData<LMFeedPostViewData> = _postPinnedResponse
 
+    private val _deletePostResponse = MutableLiveData<String>()
+    val deletePostResponse: LiveData<String> = _deletePostResponse
+
     private val errorMessageChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
     val errorMessageEventFlow = errorMessageChannel.receiveAsFlow()
 
@@ -147,6 +150,32 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
                         response.errorMessage
                     )
                 )
+            }
+        }
+    }
+
+    //for delete post
+    fun deletePost(
+        post: LMFeedPostViewData,
+        reason: String? = null
+    ) {
+        viewModelScope.launchIO {
+            val request = DeletePostRequest.Builder()
+                .postId(post.id)
+                .deleteReason(reason)
+                .build()
+
+            //call delete post api
+            val response = lmFeedClient.deletePost(request)
+
+            if (response.success) {
+                //todo: event
+
+                // sends post deleted event
+//                sendPostDeletedEvent(post, reason)
+                _deletePostResponse.postValue(post.id)
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.DeletePost(response.errorMessage))
             }
         }
     }

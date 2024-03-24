@@ -8,7 +8,9 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedEndlessRecyclerViewScrollListener
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 
 class LMFeedUniversalFeedListView @JvmOverloads constructor(
@@ -31,8 +33,9 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         linearLayoutManager = LinearLayoutManager(context)
         layoutManager = linearLayoutManager
 
-        if (itemAnimator is SimpleItemAnimator)
+        if (itemAnimator is SimpleItemAnimator) {
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
 
         //item decorator to add spacing between items
         val dividerDrawable = ContextCompat.getDrawable(
@@ -96,6 +99,11 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         }
     }
 
+    //returns the list of all the posts in the universal feed adapter
+    fun allPosts(): List<LMFeedBaseViewType> {
+        return universalFeedAdapter.items()
+    }
+
     //replaces the [posts] in the universal feed adapter with the provided posts
     fun replacePosts(posts: List<LMFeedPostViewData>) {
         universalFeedAdapter.replace(posts)
@@ -104,6 +112,11 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     //adds the provided [posts] in the universal feed adapter
     fun addPosts(posts: List<LMFeedPostViewData>) {
         universalFeedAdapter.addAll(posts)
+    }
+
+    //removes the post at the provided [index] in the universal feed adapter
+    fun removePost(index: Int) {
+        universalFeedAdapter.removeIndex(index)
     }
 
     /**

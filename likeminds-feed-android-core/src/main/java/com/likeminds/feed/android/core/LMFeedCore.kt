@@ -1,9 +1,11 @@
 package com.likeminds.feed.android.core
 
 import android.app.Application
+import android.content.Context
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.theme.model.LMFeedSetThemeRequest
 import com.likeminds.feed.android.core.utils.user.LMFeedConnectUser
+import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import com.likeminds.likemindsfeed.user.model.InitiateUserResponse
 
 object LMFeedCore {
@@ -32,6 +34,7 @@ object LMFeedCore {
 
 
     fun showFeed(
+        context: Context,
         userName: String,
         uuid: String?,
         deviceId: String,
@@ -39,7 +42,7 @@ object LMFeedCore {
         error: ((String?) -> Unit)? = null
     ) {
         //Call initiate API
-        initiateUser(userName, uuid, deviceId)
+        initiateUser(context, userName, uuid, deviceId)
 
         //Inflate Feed
     }
@@ -55,6 +58,7 @@ object LMFeedCore {
      * @throws IllegalAccessException when [setup] function is not called before
      */
     fun initiateUser(
+        context: Context,
         userName: String,
         uuid: String?,
         deviceId: String,
@@ -75,6 +79,12 @@ object LMFeedCore {
 
         lmFeedConnectUser.initiateUser(
             success = { response ->
+                saveUserPreferences(
+                    context,
+                    apiKey,
+                    response?.user?.name,
+                    response?.user?.sdkClientInfo?.uuid,
+                )
                 success?.invoke(response)
             },
             error = { errorMessage ->
@@ -83,4 +93,18 @@ object LMFeedCore {
         )
     }
 
+    private fun saveUserPreferences(
+        context: Context,
+        apiKey: String?,
+        userName: String?,
+        uuid: String?
+    ) {
+        //save details to pref
+        val userPreferences = LMFeedUserPreferences(context)
+        userPreferences.apply {
+            saveApiKey(apiKey ?: "")
+            saveUserName(userName ?: "")
+            saveUUID(uuid ?: "")
+        }
+    }
 }
