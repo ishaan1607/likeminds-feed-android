@@ -19,16 +19,22 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * @property searchIconStyle: [LMFeedIconStyle] this will help you to customize the search icon of the header view | set its value to [null] if you want to hide the search icon in the header
  * */
 class LMFeedHeaderViewStyle private constructor(
+    //title text style
     val titleTextStyle: LMFeedTextStyle,
+    //subtitle text style
     val subtitleTextStyle: LMFeedTextStyle?,
+    //background color for the view
     @ColorRes val backgroundColor: Int,
+    //elevation for the view
     @DimenRes val elevation: Int,
     //submit text style
     val submitTextStyle: LMFeedTextStyle?,
+    //color of the active submit button
     @ColorRes val activeSubmitColor: Int?,
-    // icon related
+    //navigation icon style
     val navigationIconStyle: LMFeedIconStyle?,
-    val searchIconStyle: LMFeedIconStyle?,
+    //search icon style
+    val searchIconStyle: LMFeedIconStyle?
 ) : LMFeedViewStyle {
 
     class Builder {

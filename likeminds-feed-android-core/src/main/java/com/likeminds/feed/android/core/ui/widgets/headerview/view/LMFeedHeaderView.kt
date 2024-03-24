@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedHeaderViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -144,6 +142,12 @@ class LMFeedHeaderView : ConstraintLayout {
         binding.tvHeaderSubmit.text = submitText
     }
 
+    /**
+     * Sets the submit button style as per its configuration (disabled/enabled)
+     *
+     * @param isEnabled - whether to enable/disable the submit button
+     * @param showProgress - whether to show progress bar in plae of the submit button
+     */
     fun setSubmitButtonEnabled(isEnabled: Boolean, showProgress: Boolean = false) {
         binding.apply {
             if (showProgress) {
