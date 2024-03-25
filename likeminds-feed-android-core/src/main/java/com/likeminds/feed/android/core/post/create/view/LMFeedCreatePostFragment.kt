@@ -13,6 +13,7 @@ import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +23,7 @@ import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePostBindi
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.LM_FEED_CREATE_POST_EXTRAS
 import com.likeminds.feed.android.core.post.create.viewmodel.LMFeedCreatePostViewModel
+import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionExtras
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionResultExtras
@@ -61,6 +63,7 @@ class LMFeedCreatePostFragment : Fragment() {
     private val selectedTopic by lazy {
         ArrayList<LMFeedTopicViewData>()
     }
+    private var ogTags: LMFeedLinkOGTagsViewData? = null
 
     companion object {
         const val TAG = "LMFeedCreatePostFragment"
@@ -214,7 +217,30 @@ class LMFeedCreatePostFragment : Fragment() {
                     }
                 }
                 .launchIn(lifecycleScope)
+
+            // text watcher to handlePostButton click-ability
+            addTextChangedListener {
+                val text = it?.toString()?.trim()
+                if (text.isNullOrEmpty()) {
+                    clearPreviewLink()
+                    if (selectedMediaUris.isEmpty()) {
+                        binding.headerViewCreatePost.setSubmitButtonEnabled(isEnabled = true)
+                    } else {
+                        binding.headerViewCreatePost.setSubmitButtonEnabled(isEnabled = false)
+                    }
+                } else {
+                    binding.headerViewCreatePost.setSubmitButtonEnabled(isEnabled = true)
+                }
+            }
         }
+    }
+
+    // clears link preview
+    private fun clearPreviewLink() {
+        ogTags = null
+//        binding.linkPreview.apply {
+//            root.hide()
+//        }
     }
 
     private fun showPostMedia() {

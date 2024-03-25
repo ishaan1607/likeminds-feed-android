@@ -55,4 +55,7 @@
 
     <!--    Report Screen -->
     <dimen name="lm_feed_report_button_corner_radius">24dp</dimen>
+
+    <!--    Create Post-->
+    <dimen name="lm_feed_create_post_add_more_padding">24dp</dimen>
 </resources>

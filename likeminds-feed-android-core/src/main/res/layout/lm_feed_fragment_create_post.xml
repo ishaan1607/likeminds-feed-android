@@ -84,6 +84,14 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/topic_separator" />
 
+                <!--  todo: Add member tagging-->
+
+                <!--                single image-->
+                <!--                single video-->
+                <!--link preview-->
+                <!--                documents-->
+                <!--                multimedia-->
+                <!--                Add Attachments Group-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
