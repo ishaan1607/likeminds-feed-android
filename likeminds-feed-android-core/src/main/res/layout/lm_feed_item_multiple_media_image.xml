@@ -18,15 +18,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
-            android:id="@+id/iv_post"
+        <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
+            android:id="@+id/post_image_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/lm_feed_standard_margin"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+            tools:scaleType="centerCrop"
+            tools:srcCompat="@drawable/lm_feed_ic_pdf" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

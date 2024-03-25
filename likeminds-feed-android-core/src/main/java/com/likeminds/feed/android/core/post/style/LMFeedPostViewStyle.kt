@@ -150,9 +150,14 @@ class LMFeedPostViewStyle private constructor(
         private var postMediaViewStyle: LMFeedPostMediaViewStyle =
             LMFeedPostMediaViewStyle.Builder()
                 .postImageMediaStyle(
-                    LMFeedImageStyle.Builder()
-                        .placeholderSrc(LMFeedViewUtils.getShimmer())
-                        .scaleType(ImageView.ScaleType.CENTER_CROP)
+                    LMFeedPostImageMediaViewStyle.Builder()
+                        .imageStyle(
+                            LMFeedImageStyle.Builder()
+                                .placeholderSrc(LMFeedViewUtils.getShimmer())
+                                .scaleType(ImageView.ScaleType.CENTER_CROP)
+                                .build()
+                        )
+                        .removeIconStyle(null)
                         .build()
                 )
                 .postVideoMediaStyle(

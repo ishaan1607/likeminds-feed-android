@@ -36,18 +36,17 @@ import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelection
 import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionActivity
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
-import com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
 import com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostLinkMediaView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostMultipleMediaView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils.customizePostTopicsGroup
 import com.likeminds.feed.android.core.utils.LMFeedCommunityUtil
 import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
@@ -158,7 +157,7 @@ open class LMFeedEditPostFragment :
             customizePostHeaderView(postHeader)
             customizePostTopicsGroup(postTopicsGroup)
             customizePostComposer(etPostComposer)
-            customizePostSingleImageView(singleImageAttachment.ivSingleImagePost)
+            customizePostSingleImageView(singleImageAttachment.postImageView)
             customizePostSingleVideoView(singleVideoAttachment.postVideoView)
             customizePostLinkPreview(linkPreview.postLinkView)
             customizePostDocumentsView(documentsAttachment.postDocumentsMediaView)
@@ -199,7 +198,7 @@ open class LMFeedEditPostFragment :
     }
 
     //customizes single image view type post
-    protected open fun customizePostSingleImageView(postSingleImageView: LMFeedImageView) {
+    protected open fun customizePostSingleImageView(postSingleImageView: LMFeedPostImageMediaView) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
                 ?: return
@@ -718,7 +717,7 @@ open class LMFeedEditPostFragment :
                 LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
                     ?: return
 
-            ivSingleImagePost.setImage(attachmentUrl, postImageMediaStyle)
+            postImageView.setImage(attachmentUrl, postImageMediaStyle)
         }
     }
 

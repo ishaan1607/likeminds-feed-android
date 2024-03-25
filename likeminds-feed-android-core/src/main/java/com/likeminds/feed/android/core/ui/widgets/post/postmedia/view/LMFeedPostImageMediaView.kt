@@ -51,4 +51,8 @@ class LMFeedPostImageMediaView : ConstraintLayout {
             }
         }
     }
+
+    fun setImage(imageSrc: Any, lmFeedPostImageMediaViewStyle: LMFeedPostImageMediaViewStyle) {
+        binding.imageView.setImage(imageSrc, lmFeedPostImageMediaViewStyle.imageStyle)
+    }
 }

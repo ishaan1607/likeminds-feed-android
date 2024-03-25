@@ -18,17 +18,24 @@ import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
-import com.likeminds.feed.android.core.ui.base.views.*
+import com.likeminds.feed.android.core.ui.base.views.LMFeedChipGroup
+import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostLinkMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostMultipleMediaView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostFooterViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostHeaderViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedCommunityUtil
+import com.likeminds.feed.android.core.utils.LMFeedSeeMoreUtil
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -422,13 +429,15 @@ object LMFeedPostBinderUtils {
 
     // bind data for single image post
     fun bindPostSingleImage(
-        ivPost: LMFeedImageView,
+        ivPost: LMFeedPostImageMediaView,
         mediaData: LMFeedMediaViewData
     ) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle ?: return
 
-        ivPost.setImage(mediaData.attachments.first().attachmentMeta.url, postImageMediaStyle)
+        mediaData.attachments.first().attachmentMeta.url?.let { url ->
+            ivPost.setImage(url, postImageMediaStyle)
+        }
     }
 
     // bind data for link preview post
@@ -476,12 +485,15 @@ object LMFeedPostBinderUtils {
     }
 
     //bind data for multiple media image view post
-    fun bindMultipleMediaImageView(ivPost: LMFeedImageView, attachment: LMFeedAttachmentViewData?) {
+    fun bindMultipleMediaImageView(
+        ivPost: LMFeedPostImageMediaView,
+        attachment: LMFeedAttachmentViewData?
+    ) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle ?: return
 
-        attachment?.let {
-            ivPost.setImage(attachment.attachmentMeta.url, postImageMediaStyle)
+        attachment?.attachmentMeta?.url?.let { url ->
+            ivPost.setImage(url, postImageMediaStyle)
         }
     }
 

@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemMultipleMediaImageBinding
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
@@ -34,7 +33,7 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
                 LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
                     ?: return@apply
 
-            ivPost.setStyle(postImageMediaStyle)
+            postImageView.setStyle(postImageMediaStyle)
         }
 
         return binding
@@ -51,13 +50,13 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
             this.attachmentViewData = data
 
             // loads post image inside the multiple media image view
-            LMFeedPostBinderUtils.bindMultipleMediaImageView(ivPost, data)
+            LMFeedPostBinderUtils.bindMultipleMediaImageView(postImageView, data)
         }
     }
 
     private fun setClickListeners(binding: LmFeedItemMultipleMediaImageBinding) {
         binding.apply {
-            ivPost.setOnClickListener {
+            postImageView.setOnClickListener {
                 val attachment = attachmentViewData ?: return@setOnClickListener
                 listener.onPostMultipleMediaImageClicked(
                     position,

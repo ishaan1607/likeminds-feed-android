@@ -32,8 +32,8 @@
             android:id="@+id/post_topics_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_header" />
@@ -53,8 +53,8 @@
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="16sp" />
 
-        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
-            android:id="@+id/iv_post"
+        <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
+            android:id="@+id/post_image_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
@@ -65,6 +65,7 @@
             tools:scaleType="centerCrop"
             tools:srcCompat="@drawable/lm_feed_ic_pdf" />
 
+
         <com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
             android:id="@+id/post_footer"
             android:layout_width="match_parent"
@@ -73,7 +74,7 @@
             android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_post" />
+            app:layout_constraintTop_toBottomOf="@id/post_image_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
