@@ -65,6 +65,7 @@ class LMFeedPostViewStyle private constructor(
                         .fontResource(R.font.lm_feed_roboto)
                         .maxLines(1)
                         .fontResource(R.font.lm_feed_roboto_medium)
+                        .backgroundColor(R.color.lm_feed_majorelle_blue)
                         .build()
                 )
                 .pinIconStyle(

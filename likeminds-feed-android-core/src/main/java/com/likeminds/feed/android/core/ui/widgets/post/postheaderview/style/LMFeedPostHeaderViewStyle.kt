@@ -15,7 +15,7 @@ class LMFeedPostHeaderViewStyle private constructor(
     val authorCustomTitleTextStyle: LMFeedTextStyle?,
     val pinIconStyle: LMFeedIconStyle?,
     val menuIconStyle: LMFeedIconStyle?,
-    @ColorRes val  backgroundColor: Int?
+    @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -23,6 +23,7 @@ class LMFeedPostHeaderViewStyle private constructor(
             .isCircle(true)
             .showGreyScale(false)
             .build()
+
         private var authorNameViewStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_large)
             .textColor(R.color.lm_feed_raisin_black)
@@ -30,10 +31,15 @@ class LMFeedPostHeaderViewStyle private constructor(
             .ellipsize(TextUtils.TruncateAt.END)
             .fontResource(R.font.lm_feed_roboto_medium)
             .build()
+
         private var timestampTextStyle: LMFeedTextStyle? = null
+
         private var postEditedTextStyle: LMFeedTextStyle? = null
+
         private var authorCustomTitleTextStyle: LMFeedTextStyle? = null
+
         private var pinIconStyle: LMFeedIconStyle? = null
+
         private var menuIconStyle: LMFeedIconStyle? = null
 
         @ColorRes
