@@ -4,8 +4,7 @@ import android.graphics.Typeface
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
@@ -17,8 +16,11 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * @property elevation: [Int] should be in format of [DimenRes] to add custom elevation to the header view | Default value =  [R.dimen.lm_feed_elevation_small]
  * @property submitTextStyle: [LMFeedTextStyle] this will help you to customize the submit text in the header view | set its value to [null] if you want to hide the submit text in the header view
  * @property activeSubmitColor: [Int] should be in format of [ColorRes] this will help you to customize the color of active submit text in the header view | Default value = [null]
- * @property navigationIconStyle: [LMFeedIconStyle] this will help you to customize the navigation icon of the header view | set its value to [null] if you want to hide the navigation icon in the header
- * @property searchIconStyle: [LMFeedIconStyle] this will help you to customize the search icon of the header view | set its value to [null] if you want to hide the search icon in the header
+ * @property navigationIconStyle: [LMFeedIconStyle] this will help you to customize the navigation icon in the header view | set its value to [null] if you want to hide the navigation icon in the header
+ * @property searchIconStyle: [LMFeedIconStyle] this will help you to customize the search icon in the header view | set its value to [null] if you want to hide the search icon in the header
+ * @property userProfileStyle: [LMFeedImageStyle] this will help you to customize the user profile view in the header view | set its value to [null] if you want to hide the user profile view in the header
+ * @property notificationIconStyle: [LMFeedIconStyle] this will help you to customize the notification icon in the header view | set its value to [null] if you want to hide the notification icon in the header
+ * @property notificationCountTextStyle: [LMFeedTextStyle] this will help you to customize the notification count text in the header view | set its value to [null] if you want to hide notification count text in the header
  * */
 class LMFeedHeaderViewStyle private constructor(
     //title text style
@@ -31,12 +33,18 @@ class LMFeedHeaderViewStyle private constructor(
     @DimenRes val elevation: Int,
     //submit text style
     val submitTextStyle: LMFeedTextStyle?,
-    //color of the active submit button
+    //submit button's active color
     @ColorRes val activeSubmitColor: Int?,
     //navigation icon style
     val navigationIconStyle: LMFeedIconStyle?,
     //search icon style
-    val searchIconStyle: LMFeedIconStyle?
+    val searchIconStyle: LMFeedIconStyle?,
+    //profile image style in header
+    val userProfileStyle: LMFeedImageStyle?,
+    //notification icon style
+    val notificationIconStyle: LMFeedIconStyle?,
+    //notification count style
+    val notificationCountTextStyle: LMFeedTextStyle?,
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -61,6 +69,12 @@ class LMFeedHeaderViewStyle private constructor(
         private var navigationIconStyle: LMFeedIconStyle? = null
 
         private var searchIconStyle: LMFeedIconStyle? = null
+
+        private var userProfileStyle: LMFeedImageStyle? = null
+
+        private var notificationIconStyle: LMFeedIconStyle? = null
+
+        private var notificationCountTextStyle: LMFeedTextStyle? = null
 
         fun titleTextStyle(titleTextStyle: LMFeedTextStyle) = apply {
             this.titleTextStyle = titleTextStyle
@@ -94,6 +108,18 @@ class LMFeedHeaderViewStyle private constructor(
             this.searchIconStyle = searchIconStyle
         }
 
+        fun userProfileStyle(userProfileStyle: LMFeedImageStyle?) = apply {
+            this.userProfileStyle = userProfileStyle
+        }
+
+        fun notificationIconStyle(notificationIconStyle: LMFeedIconStyle?) = apply {
+            this.notificationIconStyle = notificationIconStyle
+        }
+
+        fun notificationCountTextStyle(notificationCountTextStyle: LMFeedTextStyle?) = apply {
+            this.notificationCountTextStyle = notificationCountTextStyle
+        }
+
         fun build() = LMFeedHeaderViewStyle(
             titleTextStyle,
             subtitleTextStyle,
@@ -102,7 +128,10 @@ class LMFeedHeaderViewStyle private constructor(
             submitTextStyle,
             activeSubmitColor,
             navigationIconStyle,
-            searchIconStyle
+            searchIconStyle,
+            userProfileStyle,
+            notificationIconStyle,
+            notificationCountTextStyle
         )
     }
 
@@ -115,5 +144,8 @@ class LMFeedHeaderViewStyle private constructor(
             .activeSubmitColor(activeSubmitColor)
             .navigationIconStyle(navigationIconStyle)
             .searchIconStyle(searchIconStyle)
+            .userProfileStyle(userProfileStyle)
+            .notificationIconStyle(notificationIconStyle)
+            .notificationCountTextStyle(notificationCountTextStyle)
     }
 }

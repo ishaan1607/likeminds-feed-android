@@ -30,6 +30,7 @@
     <dimen name="lm_feed_create_new_post_padding">20dp</dimen>
     <dimen name="lm_feed_icon_padding">4dp</dimen>
     <dimen name="lm_feed_create_new_post_icon_size">30dp</dimen>
+    <dimen name="lm_feed_notification_badge_text_size">10dp</dimen>
 
     <!--    Media related-->
     <dimen name="lm_feed_indicator_dots_spacing">4dp</dimen>
@@ -38,6 +39,8 @@
     <!--    Chip related-->
     <dimen name="lm_feed_default_chip_group_horizontal_spacing">4dp</dimen>
     <dimen name="lm_feed_default_chip_group_vertical_spacing">4dp</dimen>
+    <dimen name="lm_feed_chip_default_icon_size">12dp</dimen>
+    <dimen name="lm_feed_edit_chip_end_size">12dp</dimen>
 
     <!--    Min and max heights for input/text boxes -->
     <dimen name="lm_feed_text_max_height">100dp</dimen>
