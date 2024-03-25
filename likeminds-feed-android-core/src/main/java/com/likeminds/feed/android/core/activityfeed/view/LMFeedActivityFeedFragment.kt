@@ -52,6 +52,7 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
         }
     }
 
+    //customizes the header view of the activity feed fragment with the header style set for the activity feed fragment
     protected open fun customizeActivityFeedHeaderView(headerViewActivityFeed: LMFeedHeaderView) {
         headerViewActivityFeed.apply {
             setStyle(LMFeedStyleTransformer.activityFeedFragmentViewStyle.headerViewStyle)

@@ -1,10 +1,10 @@
 package com.likeminds.feed.android.core.post.detail.model
 
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.base.model.ITEM_COMMENT
 import com.likeminds.feed.android.core.utils.base.model.ITEM_REPLY
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedCommentViewData private constructor(
     val id: String,

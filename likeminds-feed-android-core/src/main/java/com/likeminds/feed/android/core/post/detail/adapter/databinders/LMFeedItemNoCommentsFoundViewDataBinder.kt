@@ -21,7 +21,10 @@ class LMFeedItemNoCommentsFoundViewDataBinder :
             false
         )
 
-        binding.layoutNoComments.setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.noCommentsFoundViewStyle)
+        val noCommentsFoundViewStyle =
+            LMFeedStyleTransformer.postDetailFragmentViewStyle.noCommentsFoundViewStyle
+
+        binding.layoutNoComments.setStyle(noCommentsFoundViewStyle)
 
         return binding
     }

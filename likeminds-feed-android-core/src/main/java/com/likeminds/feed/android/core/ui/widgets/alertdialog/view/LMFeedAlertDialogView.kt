@@ -9,27 +9,24 @@ import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.databinding.LmFeedAlertDialogViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
-import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
+import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedAlertDialogView : CardView {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
-    }
+    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)
 
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
         context,
         attributeSet,
         defStyle
-    ) {
-    }
+    )
 
-    //todo: confirm this
+    //returns the edit text to input the reason
     val etReason: LMFeedEditText
         get() = binding.etReason
 
@@ -38,9 +35,10 @@ class LMFeedAlertDialogView : CardView {
 
     private val binding = LmFeedAlertDialogViewBinding.inflate(inflater, this, true)
 
-    private lateinit var style: LMFeedAlertDialogStyle
+    private lateinit var style: LMFeedAlertDialogViewStyle
 
-    fun setStyle(alertDialogStyle: LMFeedAlertDialogStyle) {
+    //sets provided [alertDialogStyle] to the alert dialog view
+    fun setStyle(alertDialogStyle: LMFeedAlertDialogViewStyle) {
         alertDialogStyle.apply {
             style = this
 
@@ -54,10 +52,12 @@ class LMFeedAlertDialogView : CardView {
                 cardElevation = resources.getDimension(alertBoxElevation)
             }
 
+            //sets card corner radius of the alert dialog
             alertBoxCornerRadius?.let {
                 radius = resources.getDimension(alertBoxCornerRadius)
             }
 
+            //customizes all the views inside the alert dialog box
             customizeAlertTitle(alertTitleText)
             customizeAlertSubtitle(alertSubtitleText)
             customizeAlertNegativeButton(alertNegativeButtonStyle)
@@ -221,6 +221,11 @@ class LMFeedAlertDialogView : CardView {
         }
     }
 
+    /**
+     * Sets the positive button style as per its configuration (disabled/enabled)
+     *
+     * @param isEnabled - whether to enable/disable the positive button
+     */
     fun setPositiveButtonEnabled(isEnabled: Boolean) {
         binding.tvAlertConfirm.apply {
             this.isEnabled = isEnabled
@@ -239,6 +244,7 @@ class LMFeedAlertDialogView : CardView {
         }
     }
 
+    //return the reason input in the alert input box
     fun getAlertInputReason(): String {
         return binding.etReason.text.toString()
     }

@@ -8,34 +8,29 @@ import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoE
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedUniversalFeedFragmentViewStyle] helps you to customize the universal feed fragment [LMFeedUniversalFeedFragment]
+ *
+ * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the universal feed fragment
+ * @property createNewPostButtonViewStyle : [LMFeedFABStyle] this will help you to customize the create new post fab in the universal feed fragment
+ * @property noPostLayoutViewStyle: [LMFeedNoEntityLayoutViewStyle] this will help you to customize the no post layout in the universal feed fragment
+ * @property postingViewStyle: [LMFeedPostingViewStyle] this will help you to customize the posting progress view in the universal feed fragment
+ * @property topicSelectorBarStyle: [LMFeedUniversalTopicSelectorBarViewStyle] this will help you to customize the topic selector bar in the universal feed fragment
+ * */
 class LMFeedUniversalFeedFragmentViewStyle private constructor(
-    //create post button
-    val createNewPostButtonViewStyle: LMFeedFABStyle,
     //header
     val headerViewStyle: LMFeedHeaderViewStyle,
+    //create post button
+    val createNewPostButtonViewStyle: LMFeedFABStyle,
     //no post layout
     val noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle,
     //posting view
     val postingViewStyle: LMFeedPostingViewStyle,
     //topic selector bar view
-    val topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle
+    val topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarViewStyle
 ) : LMFeedViewStyle {
 
     class Builder {
-        private var createNewPostButtonViewStyle = LMFeedFABStyle.Builder()
-            .isExtended(false)
-            .backgroundColor(R.color.lm_feed_majorelle_blue)
-            .icon(R.drawable.lm_feed_ic_new_post_plus)
-            .iconTint(R.color.lm_feed_white)
-            .iconSize(R.dimen.lm_feed_create_new_post_icon_size)
-            .textStyle(
-                LMFeedTextStyle.Builder()
-                    .textColor(R.color.lm_feed_white)
-                    .textAllCaps(true)
-                    .build()
-            )
-            .build()
-
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
             .titleTextStyle(
                 LMFeedTextStyle.Builder()
@@ -58,6 +53,20 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
                             R.dimen.lm_feed_icon_padding
                         )
                     )
+                    .build()
+            )
+            .build()
+
+        private var createNewPostButtonViewStyle = LMFeedFABStyle.Builder()
+            .isExtended(false)
+            .backgroundColor(R.color.lm_feed_majorelle_blue)
+            .icon(R.drawable.lm_feed_ic_new_post_plus)
+            .iconTint(R.color.lm_feed_white)
+            .iconSize(R.dimen.lm_feed_create_new_post_icon_size)
+            .textStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(R.color.lm_feed_white)
+                    .textAllCaps(true)
                     .build()
             )
             .build()
@@ -96,8 +105,8 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
         private var postingViewStyle: LMFeedPostingViewStyle = LMFeedPostingViewStyle.Builder()
             .build()
 
-        private var topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle =
-            LMFeedUniversalTopicSelectorBarStyle.Builder()
+        private var topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarViewStyle =
+            LMFeedUniversalTopicSelectorBarViewStyle.Builder()
                 .backgroundColor(R.color.lm_feed_white)
                 .build()
 
@@ -117,14 +126,14 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
             this.postingViewStyle = postingViewStyle
         }
 
-        fun topicSelectorBarStyle(topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle) =
+        fun topicSelectorBarStyle(topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarViewStyle) =
             apply {
                 this.topicSelectorBarStyle = topicSelectorBarStyle
             }
 
         fun build() = LMFeedUniversalFeedFragmentViewStyle(
-            createNewPostButtonViewStyle,
             headerViewStyle,
+            createNewPostButtonViewStyle,
             noPostLayoutViewStyle,
             postingViewStyle,
             topicSelectorBarStyle
