@@ -75,6 +75,7 @@ object LMFeedCore {
             .uuid(uuid)
             .deviceId(deviceId)
             .apiKey(apiKey ?: "")
+            .enablePushNotifications(true)
             .build()
 
         lmFeedConnectUser.initiateUser(
