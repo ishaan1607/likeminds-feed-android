@@ -86,9 +86,8 @@ open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
                     )
                 )
             }
-
-            return root
         }
+        return binding.root
     }
 
     //customizes the header view in the report fragment

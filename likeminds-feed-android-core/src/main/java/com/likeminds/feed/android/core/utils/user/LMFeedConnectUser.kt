@@ -22,10 +22,6 @@ class LMFeedConnectUser private constructor(
     val deviceId: String,
     val enablePushNotifications: Boolean
 ) {
-    companion object {
-
-    }
-
     class Builder {
         private var apiKey: String = ""
         private var userName: String = ""

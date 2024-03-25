@@ -16,8 +16,11 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * @property elevation: [Int] should be in format of [DimenRes] to add custom elevation to the header view | Default value =  [R.dimen.lm_feed_elevation_small]
  * @property submitTextStyle: [LMFeedTextStyle] this will help you to customize the submit text in the header view | set its value to [null] if you want to hide the submit text in the header view
  * @property activeSubmitColor: [Int] should be in format of [ColorRes] this will help you to customize the color of active submit text in the header view | Default value = [null]
- * @property navigationIconStyle: [LMFeedIconStyle] this will help you to customize the navigation icon of the header view | set its value to [null] if you want to hide the navigation icon in the header
- * @property searchIconStyle: [LMFeedIconStyle] this will help you to customize the search icon of the header view | set its value to [null] if you want to hide the search icon in the header
+ * @property navigationIconStyle: [LMFeedIconStyle] this will help you to customize the navigation icon in the header view | set its value to [null] if you want to hide the navigation icon in the header
+ * @property searchIconStyle: [LMFeedIconStyle] this will help you to customize the search icon in the header view | set its value to [null] if you want to hide the search icon in the header
+ * @property userProfileStyle: [LMFeedImageStyle] this will help you to customize the user profile view in the header view | set its value to [null] if you want to hide the user profile view in the header
+ * @property notificationIconStyle: [LMFeedIconStyle] this will help you to customize the notification icon in the header view | set its value to [null] if you want to hide the notification icon in the header
+ * @property notificationCountTextStyle: [LMFeedTextStyle] this will help you to customize the notification count text in the header view | set its value to [null] if you want to hide notification count text in the header
  * */
 class LMFeedHeaderViewStyle private constructor(
     //title text style

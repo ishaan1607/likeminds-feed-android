@@ -19,6 +19,9 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * @property chipEndPadding: [Int] should be in format of [DimenRes] to customize the end padding of the chip | Default value =  [null]
  * @property chipCornerRadius: [Int] should be in format of [DimenRes] to customize the corner radius of the chip | Default value =  [R.dimen.lm_feed_corner_radius_regular]
  * @property chipTextSize: [Int] should be in format of [DimenRes] to customize the text size of the chip | Default value = [R.dimen.lm_feed_text_medium]
+ * @property chipIcon: [Int] should be in format of [DrawableRes] to customize the icon of the chip | Default value = [null]
+ * @property chipIconSize: [Int] should be in format of [DimenRes] to customize the size of the chip icon | Default value = [null]
+ * @property chipIconTint: [Int] should be in format of [ColorRes] to customize the color of the chip icon | Default value = [null]
  *
  **/
 class LMFeedChipStyle private constructor(

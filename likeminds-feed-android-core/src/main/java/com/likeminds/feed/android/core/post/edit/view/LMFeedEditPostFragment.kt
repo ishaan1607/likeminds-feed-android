@@ -37,7 +37,8 @@ import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderVi
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
-import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils.customizePostTopicsGroup
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
@@ -244,6 +245,7 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //processes the save post click
     protected open fun onSavePostClicked() {
         //check all the necessary conditions before saving a post
         binding.apply {
@@ -282,6 +284,7 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //processes the navigation icon click
     protected open fun onNavigationIconClick() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
@@ -648,7 +651,7 @@ open class LMFeedEditPostFragment :
             selectedTopics.forEach { topic ->
                 addChip(topic.name, LMFeedStyleTransformer.postViewStyle.postTopicChipsStyle)
             }
-            addChip(chipStyle = LMFeedStyleTransformer.editPostFragmentViewStyle.editChipStyle) {
+            addChip(chipStyle = LMFeedStyleTransformer.editPostFragmentViewStyle.editTopicsChipStyle) {
                 val extras = LMFeedTopicSelectionExtras.Builder()
                     .showAllTopicFilter(false)
                     .selectedTopics(selectedTopics)

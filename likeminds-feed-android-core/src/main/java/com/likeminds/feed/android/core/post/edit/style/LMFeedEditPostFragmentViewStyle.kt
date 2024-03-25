@@ -14,8 +14,12 @@ import com.likeminds.feed.android.core.utils.model.LMFeedPadding
  * [LMFeedEditPostFragmentViewStyle] helps you to customize the universal feed fragment [LMFeedEditPostFragment]
  *
  * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the edit post fragment
+ * @property postHeaderViewStyle : [LMFeedPostHeaderViewStyle] this will help you to customize the post header view in the edit post fragment
  * @property postComposerStyle : [LMFeedEditTextStyle] this will help you to customize the post composer edit text in the edit post fragment
  * @property progressBarStyle: [LMFeedProgressBarStyle] this will help you to customize the progress bar in the edit post fragment
+ * @property selectTopicsChipStyle: [LMFeedChipStyle] this will help you to customize the select topics chip in the edit post fragment
+ * @property editTopicsChipStyle: [LMFeedChipStyle] this will help you to customize the edit topics chip in the edit post fragment
+ * @property disabledTopicsAlertDialogStyle: [LMFeedAlertDialogViewStyle] this will help you to customize the alert dialog shown when user selects disabled topics in the edit post fragment
  * */
 class LMFeedEditPostFragmentViewStyle private constructor(
     //header view style
@@ -29,7 +33,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
     //select topics chip style
     val selectTopicsChipStyle: LMFeedChipStyle,
     //edit chip style
-    val editChipStyle: LMFeedChipStyle,
+    val editTopicsChipStyle: LMFeedChipStyle,
     //disabled topics alert dialog style
     val disabledTopicsAlertDialogStyle: LMFeedAlertDialogViewStyle
 ) : LMFeedViewStyle {
@@ -106,7 +110,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .chipIconTint(R.color.lm_feed_majorelle_blue)
             .build()
 
-        private var editChipStyle: LMFeedChipStyle = LMFeedChipStyle.Builder()
+        private var editTopicsChipStyle: LMFeedChipStyle = LMFeedChipStyle.Builder()
             .chipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
             .chipEndPadding(R.dimen.lm_feed_edit_chip_end_size)
             .chipStartPadding(R.dimen.lm_feed_edit_chip_end_size)
@@ -161,8 +165,8 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             this.selectTopicsChipStyle = selectTopicsChipStyle
         }
 
-        fun editChipStyle(editChipStyle: LMFeedChipStyle) = apply {
-            this.editChipStyle = editChipStyle
+        fun editTopicsChipStyle(editTopicsChipStyle: LMFeedChipStyle) = apply {
+            this.editTopicsChipStyle = editTopicsChipStyle
         }
 
         fun disabledTopicsAlertDialogStyle(disabledTopicsAlertDialogStyle: LMFeedAlertDialogViewStyle) =
@@ -176,7 +180,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             postComposerStyle,
             progressBarStyle,
             selectTopicsChipStyle,
-            editChipStyle,
+            editTopicsChipStyle,
             disabledTopicsAlertDialogStyle
         )
     }
@@ -187,7 +191,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .postComposerStyle(postComposerStyle)
             .progressBarStyle(progressBarStyle)
             .selectTopicsChipStyle(selectTopicsChipStyle)
-            .editChipStyle(editChipStyle)
+            .editTopicsChipStyle(editTopicsChipStyle)
             .disabledTopicsAlertDialogStyle(disabledTopicsAlertDialogStyle)
     }
 }

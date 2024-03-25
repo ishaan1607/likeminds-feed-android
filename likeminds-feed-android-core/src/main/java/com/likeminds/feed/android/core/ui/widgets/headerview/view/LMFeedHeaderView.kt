@@ -212,6 +212,11 @@ class LMFeedHeaderView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the notification count on the notification icon in the header view
+     *
+     * @param count: count of notifications
+     */
     fun setNotificationCountText(count: Int) {
         binding.apply {
             ivHeaderNotification.show()
@@ -232,6 +237,11 @@ class LMFeedHeaderView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the visibility of the notification icon in the header view
+     *
+     * @param isVisible: whether to show the notification icon or not
+     */
     fun setNotificationIconVisibility(isVisible: Boolean) {
         binding.ivHeaderNotification.isVisible = isVisible
         binding.tvHeaderNotificationCount.isVisible = isVisible
@@ -239,7 +249,8 @@ class LMFeedHeaderView : ConstraintLayout {
 
     /**
      * Configure the notification badge based on the text length and visibility
-     * @param text Text to show on the counter, eg - 99+, 8, etc
+     *
+     * @param text: Text to show on the counter, eg - 99+, 8, etc
      */
     private fun configureNotificationBadge(text: String) {
         binding.tvHeaderNotificationCount.apply {
@@ -256,7 +267,7 @@ class LMFeedHeaderView : ConstraintLayout {
     /**
      * Sets user profile in image view.
      *
-     * @param user - data of the user.
+     * @param user: data of the user.
      */
     fun setUserProfileImage(user: LMFeedUserViewData) {
         var userProfileViewStyle = style.userProfileStyle ?: return

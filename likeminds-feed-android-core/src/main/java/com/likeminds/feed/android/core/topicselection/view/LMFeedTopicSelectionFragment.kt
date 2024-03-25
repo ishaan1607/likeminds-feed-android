@@ -89,8 +89,8 @@ open class LMFeedTopicSelectionFragment :
             customizeNoTopicsLayout(layoutNoTopics)
             customizeSubmitTopicsFab(fabSubmitSelectedTopics)
             customizeSearchBar(searchBar)
-            return root
         }
+        return binding.root
     }
 
     //customizes the topic selection header view
@@ -293,6 +293,7 @@ open class LMFeedTopicSelectionFragment :
         }
     }
 
+    //processes the search icon click
     protected open fun onSearchIconClicked() {
         binding.searchBar.apply {
             show()
@@ -302,10 +303,12 @@ open class LMFeedTopicSelectionFragment :
         }
     }
 
+    //processes the navigation icon click
     protected open fun onNavigationIconClicked() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
+    //processes the submit fab click
     protected open fun onSubmitFABClicked() {
         binding.rvTopics.apply {
             //check for all topic is selected

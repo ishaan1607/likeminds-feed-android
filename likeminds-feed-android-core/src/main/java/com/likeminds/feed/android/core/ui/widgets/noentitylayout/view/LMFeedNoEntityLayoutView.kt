@@ -8,10 +8,7 @@ import androidx.annotation.ColorRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedNoEntityLayoutViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedFABStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -62,6 +59,11 @@ class LMFeedNoEntityLayoutView : ConstraintLayout {
         binding.fabAction.text = ctaAction
     }
 
+    /**
+     * Sets the color of the action fab
+     *
+     * @param fabColor: color to be set to the action fab
+     */
     fun setActionFABColor(@ColorRes fabColor: Int) {
         binding.fabAction.backgroundTintList =
             ColorStateList.valueOf(ContextCompat.getColor(context, fabColor))

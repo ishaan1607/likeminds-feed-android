@@ -96,8 +96,8 @@ open class LMFeedUniversalFeedFragment :
             customizeNoPostLayout(layoutNoPost)
             customizePostingLayout(layoutPosting)
             customizeTopicSelectorBar(topicSelectorBar)
-            return root
         }
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -761,6 +761,7 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    //customizes the create new post fab
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
         fabNewPost.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)
@@ -773,6 +774,11 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    /**
+     * Processes the new post fab click
+     *
+     * @param hasCreatePostRights: whether the user has the rights to create a post or not
+     */
     protected open fun onCreateNewPostClick(hasCreatePostRights: Boolean) {
         binding.apply {
             if (hasCreatePostRights) {
@@ -827,6 +833,7 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    //customizes the header view
     protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {
         headerViewUniversal.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.headerViewStyle)
@@ -835,16 +842,19 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    //processes the user profile clicked
     protected open fun onUserProfileClicked(userViewData: LMFeedUserViewData) {
         val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
         coreCallback?.openProfile(userViewData)
     }
 
+    //processes the notification icon clicked
     protected open fun onNotificationIconClicked() {
         LMFeedAnalytics.sendNotificationPageOpenedEvent()
         LMFeedActivityFeedActivity.start(requireContext())
     }
 
+    //customizes the no post layout
     protected open fun customizeNoPostLayout(layoutNoPost: LMFeedNoEntityLayoutView) {
         layoutNoPost.apply {
             val postAsVariable = LMFeedCommunityUtil.getPostVariable()
@@ -872,6 +882,7 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    //customizes the posting layout
     protected open fun customizePostingLayout(layoutPosting: LMFeedPostingView) {
         layoutPosting.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.postingViewStyle)
@@ -887,6 +898,7 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    //customizes the topic selector bar
     protected open fun customizeTopicSelectorBar(topicSelectorBar: LMFeedUniversalTopicSelectorBarView) {
         topicSelectorBar.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.topicSelectorBarStyle)
@@ -897,6 +909,7 @@ open class LMFeedUniversalFeedFragment :
     }
 
     protected open fun onRetryUploadClicked() {
+        //todo: implement upload retry
     }
 
     private val topicSelectionLauncher =
@@ -946,6 +959,7 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    //processes the all topics view click
     protected open fun onAllTopicsClicked() {
         //show topics selecting screen with All topic filter
         val intent = LMFeedTopicSelectionActivity.getIntent(
@@ -959,6 +973,7 @@ open class LMFeedUniversalFeedFragment :
         topicSelectionLauncher.launch(intent)
     }
 
+    //processes the feed refreshed event
     protected open fun onFeedRefreshed() {
         binding.apply {
             mSwipeRefreshLayout.isRefreshing = true
@@ -1030,6 +1045,7 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    //processes the edit post menu click
     protected open fun onEditPostMenuClicked(
         position: Int,
         menuId: Int,
@@ -1042,6 +1058,7 @@ open class LMFeedUniversalFeedFragment :
         startActivity(intent)
     }
 
+    //processes the delete post menu click
     protected open fun onDeletePostMenuClicked(
         position: Int,
         menuId: Int,
@@ -1090,6 +1107,7 @@ open class LMFeedUniversalFeedFragment :
             }
         }
 
+    //processes the report post menu click
     protected open fun onReportPostMenuClicked(
         position: Int,
         menuId: Int,
@@ -1110,6 +1128,7 @@ open class LMFeedUniversalFeedFragment :
         reportPostLauncher.launch(intent)
     }
 
+    //processes the pin post menu click
     protected open fun onPinPostMenuClicked(
         position: Int,
         menuId: Int,
@@ -1122,6 +1141,7 @@ open class LMFeedUniversalFeedFragment :
         binding.rvUniversal.updatePostItem(position, post)
     }
 
+    //processes the unpin post menu click
     protected open fun onUnpinPostMenuClicked(
         position: Int,
         menuId: Int,

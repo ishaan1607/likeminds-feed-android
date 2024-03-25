@@ -300,6 +300,7 @@ open class LMFeedPostDetailFragment :
         }
     }
 
+    //processes the navigation icon click
     protected open fun onNavigationIconClick() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
