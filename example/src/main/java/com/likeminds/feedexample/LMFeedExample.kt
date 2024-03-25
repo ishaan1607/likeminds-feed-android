@@ -13,7 +13,6 @@ class LMFeedExample : Application() {
             this,
             "d66cfee8-070a-47da-b705-d98cf812630f",
             LMFeedSetThemeRequest.Builder()
-                .fontResource(R.font.roboto)
                 .build()
         )
     }
