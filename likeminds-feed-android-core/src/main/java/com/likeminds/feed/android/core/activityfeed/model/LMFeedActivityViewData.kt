@@ -1,8 +1,8 @@
 package com.likeminds.feed.android.core.activityfeed.model
 
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.base.model.ITEM_ACTIVITY_FEED
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedActivityViewData private constructor(
     val id: String,

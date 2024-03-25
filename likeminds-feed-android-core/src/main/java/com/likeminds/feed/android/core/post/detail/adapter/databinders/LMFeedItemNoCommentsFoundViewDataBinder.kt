@@ -28,9 +28,9 @@ class LMFeedItemNoCommentsFoundViewDataBinder :
 
             root.setBackgroundColor(noCommentFoundStyle.backgroundColor)
             layoutNoComments.setStyle(noCommentFoundStyle)
+        }
 
             return binding
-        }
     }
 
     override fun bindData(

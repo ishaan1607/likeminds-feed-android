@@ -38,6 +38,14 @@ open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
     companion object {
         const val TAG = "LMFeedReportFragment"
         const val LM_FEED_REPORT_RESULT = "LM_FEED_REPORT_RESULT"
+
+        fun getInstance(reportExtras: LMFeedReportExtras): LMFeedReportFragment {
+            val reportFragment = LMFeedReportFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(LMFeedReportActivity.LM_FEED_REPORT_EXTRAS, reportExtras)
+            reportFragment.arguments = bundle
+            return reportFragment
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,35 +91,40 @@ open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
         }
     }
 
+    //customizes the header view in the report fragment
+    protected open fun customizeReportFragmentHeaderView(headerViewReport: LMFeedHeaderView) {
+        headerViewReport.apply {
+            setStyle(LMFeedStyleTransformer.reportFragmentViewStyle.headerViewStyle)
+
+            setTitleText(getString(R.string.lm_feed_report_abuse))
+        }
+    }
+
+    //customizes the header text in the report fragment
     protected open fun customizeReportHeaderText(tvReportHeader: LMFeedTextView) {
         tvReportHeader.apply {
             setStyle(LMFeedStyleTransformer.reportFragmentViewStyle.reportHeaderStyle)
         }
     }
 
+    //customizes the sub header text in the report fragment
     protected open fun customizeReportSubHeaderText(tvReportSubHeader: LMFeedTextView) {
         tvReportSubHeader.apply {
             setStyle(LMFeedStyleTransformer.reportFragmentViewStyle.reportSubHeaderStyle)
         }
     }
 
+    //customizes the input box for report reason in the report fragment
     protected open fun customizeReportReasonInput(etReason: LMFeedEditText) {
         etReason.apply {
             setStyle(LMFeedStyleTransformer.reportFragmentViewStyle.reportReasonInputStyle)
         }
     }
 
+    //customizes the report button in the report fragment
     protected open fun customizeReportButton(btnPostReport: LMFeedButton) {
         btnPostReport.apply {
             setStyle(LMFeedStyleTransformer.reportFragmentViewStyle.reportButtonStyle)
-        }
-    }
-
-    protected open fun customizeReportFragmentHeaderView(headerViewReport: LMFeedHeaderView) {
-        headerViewReport.apply {
-            setStyle(LMFeedStyleTransformer.reportFragmentViewStyle.headerViewStyle)
-
-            setTitleText(getString(R.string.lm_feed_report_abuse))
         }
     }
 
@@ -168,10 +181,11 @@ open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
         }
     }
 
+    //processes the user submission of the report
     protected open fun onReportSubmitted() {
         binding.apply {
             //get selected tag
-            tagSelected = rvReportTags.items()
+            tagSelected = rvReportTags.reportTags()
                 .map { it as LMFeedReportTagViewData }
                 .find { it.isSelected }
 
@@ -295,7 +309,7 @@ open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
 
             //replace list in adapter and only highlight selected tag
             rvReportTags.replaceReportTags(
-                rvReportTags.items()
+                rvReportTags.reportTags()
                     .map {
                         (it as LMFeedReportTagViewData).toBuilder()
                             .isSelected(it.id == reportTagViewData.id)

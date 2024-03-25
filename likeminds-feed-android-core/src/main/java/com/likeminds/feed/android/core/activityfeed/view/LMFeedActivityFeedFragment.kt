@@ -27,6 +27,14 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
 
     private val activityFeedViewModel: LMFeedActivityFeedViewModel by viewModels()
 
+    companion object {
+        const val TAG = "LMFeedActivityFeedFragment"
+
+        fun getInstance(): LMFeedActivityFeedFragment {
+            return LMFeedActivityFeedFragment()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,6 +62,7 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
         }
     }
 
+    //customizes the header view of the activity feed fragment with the header style set for the activity feed fragment
     protected open fun customizeActivityFeedHeaderView(headerViewActivityFeed: LMFeedHeaderView) {
         headerViewActivityFeed.apply {
             setStyle(LMFeedStyleTransformer.activityFeedFragmentViewStyle.headerViewStyle)

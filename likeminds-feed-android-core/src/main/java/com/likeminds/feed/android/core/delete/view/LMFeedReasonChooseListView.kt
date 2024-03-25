@@ -26,11 +26,13 @@ class LMFeedReasonChooseListView @JvmOverloads constructor(
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
+    //sets the adapter with the provided listeners to the reason choose recycler view
     fun setAdapter(listener: LMFeedReasonChooseAdapterListener) {
         reasonChooseAdapter = LMFeedReasonChooseAdapter(listener)
         adapter = reasonChooseAdapter
     }
 
+    //replaces the reasons in the universal feed adapter with the provided [reasons]
     fun replaceReasons(reasons: List<LMFeedReasonChooseViewData>) {
         reasonChooseAdapter.replace(reasons)
     }

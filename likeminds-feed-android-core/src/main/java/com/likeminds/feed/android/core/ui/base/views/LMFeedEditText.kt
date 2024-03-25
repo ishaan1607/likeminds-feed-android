@@ -6,7 +6,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.AppCompatEditText
 
 /**
- * Represents a basic text view
+ * Represents a basic edit text
  * To customize this view use [LMFeedEditTextStyle]
  */
 class LMFeedEditText : AppCompatEditText {

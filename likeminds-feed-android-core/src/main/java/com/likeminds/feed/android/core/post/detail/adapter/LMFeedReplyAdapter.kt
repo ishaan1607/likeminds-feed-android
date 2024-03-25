@@ -5,7 +5,6 @@ import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedIte
 import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedItemViewMoreReplyViewDataBinder
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedViewMoreReplyViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedReplyAdapter(

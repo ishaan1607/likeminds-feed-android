@@ -26,7 +26,9 @@ class LMFeedItemReplyViewDataBinder(
         )
 
         binding.apply {
-            replyView.setStyle(LMFeedStyleTransformer.postDetailFragmentViewStyle.replyViewStyle)
+            replyView.setStyle(
+                LMFeedStyleTransformer.postDetailFragmentViewStyle.replyViewStyle
+            )
             setClickListeners(this)
         }
 
@@ -45,8 +47,8 @@ class LMFeedItemReplyViewDataBinder(
 
             val context = root.context
 
-            replyView.setCommenterImage(data.user)
-            replyView.setCommenterName(data.user.name)
+            replyView.setCommentCreatorImage(data.user)
+            replyView.setCommentCreatorName(data.user.name)
             replyView.setCommentContent(
                 data.text,
                 data.alreadySeenFullContent
@@ -56,7 +58,7 @@ class LMFeedItemReplyViewDataBinder(
             }
             replyView.setTimestamp(data.createdAt)
             replyView.setCommentEdited(data.isEdited)
-            replyView.setLikesIcon(data.isLiked)
+            replyView.setCommentLikesIcon(data.isLiked)
 
             val likesCountText = if (data.likesCount == 0) {
                 ""

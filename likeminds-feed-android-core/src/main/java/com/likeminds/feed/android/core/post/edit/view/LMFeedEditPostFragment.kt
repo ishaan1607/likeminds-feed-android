@@ -68,6 +68,7 @@ import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_SINGLE_VIDEO
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.emptyExtrasException
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -116,6 +117,14 @@ open class LMFeedEditPostFragment :
 
     companion object {
         const val TAG = "LMFeedEditPostFragment"
+
+        fun getInstance(editPostExtras: LMFeedEditPostExtras): LMFeedEditPostFragment {
+            val editPostFragment = LMFeedEditPostFragment()
+            val bundle = Bundle()
+            bundle.putParcelable(LM_FEED_EDIT_POST_EXTRAS, editPostExtras)
+            editPostFragment.arguments = bundle
+            return editPostFragment
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -159,6 +168,7 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //customizes edit post header view
     protected open fun customizeEditPostHeaderView(headerViewEditPost: LMFeedHeaderView) {
         headerViewEditPost.apply {
             setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.headerViewStyle)
@@ -176,16 +186,19 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //customizes the header view of the post
     protected open fun customizePostHeaderView(postHeader: LMFeedPostHeaderView) {
         postHeader.apply {
             setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.postHeaderViewStyle)
         }
     }
 
+    //customizes post composer edit text
     protected open fun customizePostComposer(etPostComposer: LMFeedEditText) {
         etPostComposer.setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.postComposerStyle)
     }
 
+    //customizes single image view type post
     protected open fun customizePostSingleImageView(postSingleImageView: LMFeedImageView) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
@@ -194,6 +207,7 @@ open class LMFeedEditPostFragment :
         postSingleImageView.setStyle(postImageMediaStyle)
     }
 
+    //customizes single video view type post
     protected open fun customizePostSingleVideoView(postSingleVideoView: LMFeedPostVideoMediaView) {
         val postVideoMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle
@@ -202,6 +216,7 @@ open class LMFeedEditPostFragment :
         postSingleVideoView.setStyle(postVideoMediaStyle)
     }
 
+    //customizes link preview in the post
     protected open fun customizePostLinkPreview(postLinkView: LMFeedPostLinkMediaView) {
         //todo: change this to the create post link view style
         val postLinkViewStyle =
@@ -211,6 +226,7 @@ open class LMFeedEditPostFragment :
         postLinkView.setStyle(postLinkViewStyle)
     }
 
+    //customizes documents type post
     protected open fun customizePostDocumentsView(postDocumentsView: LMFeedPostDocumentsMediaView) {
         val postDocumentsViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
@@ -219,6 +235,7 @@ open class LMFeedEditPostFragment :
         postDocumentsView.setStyle(postDocumentsViewStyle)
     }
 
+    //customizes multiple media type post
     protected open fun customizePostMultipleMediaView(postMultipleMediaView: LMFeedPostMultipleMediaView) {
         val postMultipleMediaViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postMultipleMediaStyle
@@ -227,6 +244,7 @@ open class LMFeedEditPostFragment :
         postMultipleMediaView.setStyle(postMultipleMediaViewStyle)
     }
 
+    //customizes progress bar in the edit post
     protected open fun customizeEditPostProgressbar(progressBar: LMFeedProgressBar) {
         progressBar.setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.progressBarStyle)
     }
@@ -692,8 +710,7 @@ open class LMFeedEditPostFragment :
     private fun showSingleImagePreview() {
         binding.headerViewEditPost.setSubmitButtonEnabled(isEnabled = true)
         val attachmentUrl = postMediaViewData?.attachments?.first()?.attachmentMeta?.url ?: return
-        // gets the shimmer drawable for placeholder
-        val shimmerDrawable = LMFeedViewUtils.getShimmer()
+
         binding.singleImageAttachment.apply {
             root.show()
 

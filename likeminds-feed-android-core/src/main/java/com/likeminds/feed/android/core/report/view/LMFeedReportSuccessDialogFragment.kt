@@ -31,6 +31,7 @@ open class LMFeedReportSuccessDialogFragment(
         }
     }
 
+    //customizes the report success dialog
     protected open fun customizeReportSuccessDialog(alertDialogDelete: LMFeedAlertDialogView) {
         val selfDeleteDialogFragmentStyle =
             LMFeedStyleTransformer.reportFragmentViewStyle.reportSuccessDialogFragmentStyle

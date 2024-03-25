@@ -11,6 +11,7 @@ import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.report.model.LMFeedReportTagViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.Activity
@@ -502,6 +503,7 @@ object LMFeedViewDataConvertor {
      * View Data Model -> Network Model
     --------------------------------*/
 
+    //creates a list of network model of attachments from the provided list of attachment view data
     fun createAttachments(
         attachments: List<LMFeedAttachmentViewData>
     ): List<Attachment> {
@@ -510,6 +512,7 @@ object LMFeedViewDataConvertor {
         }
     }
 
+    //creates a network model of attachment from the provided attachment view data
     fun convertAttachment(
         attachment: LMFeedAttachmentViewData
     ): Attachment {

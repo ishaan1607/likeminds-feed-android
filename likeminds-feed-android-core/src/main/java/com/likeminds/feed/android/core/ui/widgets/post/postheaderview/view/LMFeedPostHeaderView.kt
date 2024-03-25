@@ -10,7 +10,7 @@ import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.databinding.LmFeedPostHeaderViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedTimeUtil
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -37,6 +37,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
 
     private val binding = LmFeedPostHeaderViewBinding.inflate(inflater, this, true)
 
+    //sets provided [postHeaderViewStyle] to the post header view
     fun setStyle(postHeaderViewStyle: LMFeedPostHeaderViewStyle) {
 
         postHeaderViewStyle.apply {
@@ -45,6 +46,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
                 setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
             }
 
+            //configure each view in post header view as per their styles
             configureAuthorImage(authorImageViewStyle)
             configureAuthorName(authorNameViewStyle)
             configureTimestamp(timestampTextStyle)

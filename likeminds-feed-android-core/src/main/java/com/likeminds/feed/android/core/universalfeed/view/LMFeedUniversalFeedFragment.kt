@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,7 +59,6 @@ import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverfl
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalSelectedTopicAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
 import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
@@ -73,6 +71,7 @@ import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import kotlinx.coroutines.flow.onEach
 
 open class LMFeedUniversalFeedFragment :
@@ -131,7 +130,7 @@ open class LMFeedUniversalFeedFragment :
         // sends feed opened event
         LMFeedAnalytics.sendFeedOpenedEvent()
 
-        binding.rvUniversal.refreshAutoPlayer()
+        binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
     private fun fetchData() {
@@ -149,7 +148,7 @@ open class LMFeedUniversalFeedFragment :
 
     override fun onPause() {
         super.onPause()
-        binding.rvUniversal.destroyAutoPlayer()
+        binding.rvUniversal.destroyVideoAutoPlayer()
     }
 
     override fun onDestroy() {
@@ -213,7 +212,7 @@ open class LMFeedUniversalFeedFragment :
             if (page == 1) {
                 checkPostsAndReplace(posts)
             } else {
-                binding.rvUniversal.refreshAutoPlayer()
+                binding.rvUniversal.refreshVideoAutoPlayer()
             }
         }
 
@@ -223,8 +222,7 @@ open class LMFeedUniversalFeedFragment :
                 val indexToRemove = getIndexAndPostFromAdapter(postId)?.first ?: return@observe
                 removePostAtIndex(indexToRemove)
                 checkForNoPost(allPosts())
-                refreshAutoPlayer()
-
+                refreshVideoAutoPlayer()
                 LMFeedViewUtils.showShortToast(
                     requireContext(),
                     getString(
@@ -418,7 +416,7 @@ open class LMFeedUniversalFeedFragment :
             checkForNoPost(posts)
             replacePosts(posts)
             scrollToPosition(0)
-            refreshAutoPlayer()
+            refreshVideoAutoPlayer()
         }
     }
 
@@ -487,14 +485,6 @@ open class LMFeedUniversalFeedFragment :
                 rvUniversal.hide()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
     }
 
     override fun onPostContentClicked(position: Int, postViewData: LMFeedPostViewData) {
@@ -693,7 +683,7 @@ open class LMFeedUniversalFeedFragment :
     //called when the page in the multiple media post is changed
     override fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {
         //processes the current video whenever view pager's page is changed
-        binding.rvUniversal.refreshAutoPlayer()
+        binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
     //called when show more is clicked in the documents type post
@@ -936,7 +926,6 @@ open class LMFeedUniversalFeedFragment :
     }
 
     protected open fun onRetryUploadClicked() {
-        Log.d("PUI", "default onRetryUploadClicked")
     }
 
     private val topicSelectionLauncher =
