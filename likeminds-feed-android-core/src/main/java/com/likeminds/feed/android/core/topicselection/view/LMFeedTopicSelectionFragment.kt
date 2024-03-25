@@ -151,7 +151,7 @@ open class LMFeedTopicSelectionFragment :
             val topics = response.second
 
             binding.apply {
-                if (rvTopics.allTopics().isEmpty() && topics.isEmpty()) {
+                if (rvTopics.getAllTopics().isEmpty() && topics.isEmpty()) {
                     rvTopics.hide()
                     layoutNoTopics.show()
                     fabSubmitSelectedTopics.hide()
@@ -300,7 +300,7 @@ open class LMFeedTopicSelectionFragment :
     protected open fun onSubmitFABClicked() {
         binding.rvTopics.apply {
             //check for all topic is selected
-            val allTopicViewData = allTopics().find {
+            val allTopicViewData = getAllTopics().find {
                 it is LMFeedAllTopicsViewData
             } as? LMFeedAllTopicsViewData
 
@@ -310,7 +310,7 @@ open class LMFeedTopicSelectionFragment :
                     .isAllTopicSelected(true)
                     .build()
             } else {
-                val selectedTopics = allTopics().filter {
+                val selectedTopics = getAllTopics().filter {
                     it is LMFeedTopicViewData && it.isSelected
                 }.map {
                     it as LMFeedTopicViewData
@@ -333,7 +333,7 @@ open class LMFeedTopicSelectionFragment :
         super.onTopicSelected(position, topic)
 
         binding.rvTopics.apply {
-            val allTopicViewData = allTopics().find {
+            val allTopicViewData = getAllTopics().find {
                 it is LMFeedAllTopicsViewData
             } as? LMFeedAllTopicsViewData
 
@@ -385,7 +385,7 @@ open class LMFeedTopicSelectionFragment :
             updateTopicAtIndex(position, updateAllTopic)
 
             //update other topics
-            allTopics().forEachIndexed { index, topic ->
+            getAllTopics().forEachIndexed { index, topic ->
                 if (topic is LMFeedTopicViewData) {
                     val updatedTopic = topic.toBuilder().isSelected(false).build()
 

@@ -39,7 +39,7 @@ class LMFeedUniversalSelectedTopicListView @JvmOverloads constructor(
     }
 
     //returns the list of all the selected topics in the adapter
-    fun allSelectedTopics(): List<LMFeedBaseViewType> {
+    fun getAllSelectedTopics(): List<LMFeedBaseViewType> {
         return selectedTopicAdapter.items()
     }
 

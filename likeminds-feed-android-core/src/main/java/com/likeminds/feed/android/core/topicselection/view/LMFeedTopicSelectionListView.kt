@@ -49,7 +49,7 @@ class LMFeedTopicSelectionListView @JvmOverloads constructor(
     }
 
     //returns the list of all the topics in the adapter
-    fun allTopics(): List<LMFeedBaseViewType> {
+    fun getAllTopics(): List<LMFeedBaseViewType> {
         return topicSelectionAdapter.items()
     }
 

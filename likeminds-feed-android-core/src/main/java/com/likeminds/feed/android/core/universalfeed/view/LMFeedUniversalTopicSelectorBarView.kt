@@ -130,7 +130,7 @@ class LMFeedUniversalTopicSelectorBarView : ConstraintLayout {
 
     //exposed function to get all the topics in the selected topics adapter
     fun getAllSelectedTopics(): List<LMFeedBaseViewType> {
-        return binding.rvSelectedTopics.allSelectedTopics()
+        return binding.rvSelectedTopics.getAllSelectedTopics()
     }
 
     //exposed function to replace the selected topics with the provided [selectedTopics] in the selected topics adapter
