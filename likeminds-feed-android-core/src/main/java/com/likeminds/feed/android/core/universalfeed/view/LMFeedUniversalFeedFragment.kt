@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -94,6 +95,9 @@ open class LMFeedUniversalFeedFragment :
 
     override fun onResume() {
         super.onResume()
+        // sends feed opened event
+        LMFeedAnalytics.sendFeedOpenedEvent()
+
         binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
@@ -155,20 +159,7 @@ open class LMFeedUniversalFeedFragment :
             }
         }
 
-        universalFeedViewModel.postLikedResponse.observe(viewLifecycleOwner) { response ->
-            LMFeedAnalytics.sendPostLikedEvent(
-                uuid = "",
-                postId = response.first,
-                postLiked = response.second
-            )
-        }
-
         universalFeedViewModel.postSavedResponse.observe(viewLifecycleOwner) { post ->
-            LMFeedAnalytics.sendPostSavedEvent(
-                uuid = post.headerViewData.user.sdkClientInfoViewData.uuid,
-                postId = post.id,
-                postSaved = post.footerViewData.isSaved
-            )
             //todo: post variable
             //show toast message
             val toastMessage = if (post.footerViewData.isSaved) {
@@ -180,8 +171,6 @@ open class LMFeedUniversalFeedFragment :
         }
 
         universalFeedViewModel.postPinnedResponse.observe(viewLifecycleOwner) { post ->
-            LMFeedAnalytics.sendPostPinnedEvent(post)
-
             //todo: post variable
             //show toast message
             val toastMessage = if (post.headerViewData.isPinned) {
@@ -401,14 +390,26 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostContentClicked(position: Int, postViewData: LMFeedPostViewData) {
-//        TODO("Not yet implemented")
+        // sends comment list open event
+        LMFeedAnalytics.sendCommentListOpenEvent()
+
+        //todo: test this
+        val postDetailExtras = LMFeedPostDetailExtras.Builder()
+            .postId(postViewData.id)
+            .isEditTextFocused(false)
+            .build()
+        LMFeedPostDetailActivity.start(requireContext(), postDetailExtras)
     }
 
     override fun onPostLikeClicked(position: Int, postViewData: LMFeedPostViewData) {
+        val userPreferences = LMFeedUserPreferences(requireContext())
+        val loggedInUUID = userPreferences.getUUID()
+
         //call api
         universalFeedViewModel.likePost(
             postViewData.id,
-            postViewData.footerViewData.isLiked
+            postViewData.footerViewData.isLiked,
+            loggedInUUID
         )
         //update recycler
         binding.rvUniversal.updatePostItem(position, postViewData)
@@ -443,13 +444,15 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostShareClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //todo: post as variable and take domain here
         LMFeedShareUtils.sharePost(
             requireContext(),
             postViewData.id,
             "https://take-this-in-config.com",
             ""
         )
-        //todo: post as variable and send event
+
+        LMFeedAnalytics.sendPostShared(postViewData)
     }
 
     //updates the fromPostLiked/fromPostSaved variables and updates the rv list
@@ -458,6 +461,7 @@ open class LMFeedUniversalFeedFragment :
             .fromPostLiked(false)
             .fromPostSaved(false)
             .build()
+
         binding.rvUniversal.updatePostWithoutNotifying(position, updatedPostData)
     }
 
@@ -471,7 +475,16 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostContentLinkClicked(url: String) {
-//        TODO("Not yet implemented")
+        // creates a route and returns an intent to handle the link
+        val intent = LMFeedRoute.handleDeepLink(requireContext(), url)
+        if (intent != null) {
+            try {
+                // starts activity with the intent
+                ActivityCompat.startActivity(requireContext(), intent, null)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onPostMenuIconClicked(
@@ -491,6 +504,9 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostImageMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
+        // sends comment list open event
+        LMFeedAnalytics.sendCommentListOpenEvent()
+
         val postDetailExtras = LMFeedPostDetailExtras.Builder()
             .postId(postViewData.id)
             .isEditTextFocused(false)
@@ -499,6 +515,9 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostVideoMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
+        // sends comment list open event
+        LMFeedAnalytics.sendCommentListOpenEvent()
+
         val postDetailExtras = LMFeedPostDetailExtras.Builder()
             .postId(postViewData.id)
             .isEditTextFocused(false)
@@ -507,7 +526,20 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostLinkMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
-//        TODO("Not yet implemented")
+        // creates a route and returns an intent to handle the link
+        val intent = LMFeedRoute.handleDeepLink(
+            requireContext(),
+            postViewData.mediaViewData.attachments.firstOrNull()?.attachmentMeta?.ogTags?.url
+        )
+
+        if (intent != null) {
+            try {
+                // starts activity with the intent
+                ActivityCompat.startActivity(requireContext(), intent, null)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onPostDocumentMediaClicked(
@@ -526,6 +558,9 @@ open class LMFeedUniversalFeedFragment :
         parentPosition: Int,
         attachmentViewData: LMFeedAttachmentViewData
     ) {
+        // sends comment list open event
+        LMFeedAnalytics.sendCommentListOpenEvent()
+
         val postDetailExtras = LMFeedPostDetailExtras.Builder()
             .postId(attachmentViewData.postId)
             .isEditTextFocused(false)
@@ -538,6 +573,9 @@ open class LMFeedUniversalFeedFragment :
         parentPosition: Int,
         attachmentViewData: LMFeedAttachmentViewData
     ) {
+        // sends comment list open event
+        LMFeedAnalytics.sendCommentListOpenEvent()
+
         val postDetailExtras = LMFeedPostDetailExtras.Builder()
             .postId(attachmentViewData.postId)
             .isEditTextFocused(false)
@@ -631,6 +669,7 @@ open class LMFeedUniversalFeedFragment :
 
     protected open fun onSearchIconClick() {
         //todo: change this
+        LMFeedAnalytics.sendNotificationPageOpenedEvent()
         LMFeedActivityFeedActivity.start(requireContext())
     }
 

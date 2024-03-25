@@ -14,7 +14,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.RecyclerView
 import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentEditPostBinding
@@ -36,6 +36,7 @@ import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
 import com.likeminds.feed.android.core.utils.base.model.*
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
@@ -606,8 +607,10 @@ open class LMFeedEditPostFragment :
     private fun showLinkView() {
         val data = ogTags ?: return
         val link = data.url ?: ""
+
         // sends link attached event with the link
-        editPostViewModel.sendLinkAttachedEvent(link)
+        LMFeedAnalytics.sendLinkAttachedEvent(link)
+
         binding.linkPreview.root.show()
 
         binding.linkPreview.postLinkView.apply {

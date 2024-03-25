@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
+import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.LMFeedClient
@@ -48,9 +49,6 @@ class LMFeedPostDetailViewModel : ViewModel() {
 
     private val _deletePostResponse = MutableLiveData<String>()
     val deletePostResponse: LiveData<String> = _deletePostResponse
-
-    private val _postLikedResponse = MutableLiveData<Pair<String, Boolean>>()
-    val postLikedResponse: LiveData<Pair<String, Boolean>> = _postLikedResponse
 
     private val _postSavedResponse = MutableLiveData<LMFeedPostViewData>()
     val postSavedResponse: LiveData<LMFeedPostViewData> = _postSavedResponse
@@ -138,7 +136,8 @@ class LMFeedPostDetailViewModel : ViewModel() {
     fun likeComment(
         postId: String,
         commentId: String,
-        commentLiked: Boolean
+        commentLiked: Boolean,
+        loggedInUUID: String
     ) {
         viewModelScope.launchIO {
             val request = LikeCommentRequest.Builder()
@@ -146,14 +145,18 @@ class LMFeedPostDetailViewModel : ViewModel() {
                 .commentId(commentId)
                 .build()
 
-
             //call like post api
             val response = lmFeedClient.likeComment(request)
 
             //check for error
             if (response.success) {
-                //todo: ask if we have to give callbacks on api success or send events here only
-//                sendCommentLikedEvent(postId, commentId, commentLiked)
+                //sends event for user liking a comment
+                LMFeedAnalytics.sendCommentLikedEvent(
+                    postId,
+                    commentId,
+                    commentLiked,
+                    loggedInUUID
+                )
             } else {
                 errorMessageChannel.send(
                     ErrorMessageEvent.LikeComment(
@@ -187,8 +190,9 @@ class LMFeedPostDetailViewModel : ViewModel() {
                 val data = response.data ?: return@launchIO
                 val comment = data.comment
                 val users = data.users
-                //todo: ask if we have to give callbacks on api success or send events here only
-//                sendCommentPostedEvent(postId, comment.id)
+
+                //sends user commented on a post event
+                LMFeedAnalytics.sendCommentPostedEvent(postId, comment.id)
 
                 _addCommentResponse.postValue(
                     LMFeedViewDataConvertor.convertComment(
@@ -229,13 +233,16 @@ class LMFeedPostDetailViewModel : ViewModel() {
                 val comment = data.comment
                 val users = data.users
 
-                _editCommentResponse.postValue(
-                    LMFeedViewDataConvertor.convertComment(
-                        comment,
-                        users,
-                        postId
-                    )
+                val commentViewData = LMFeedViewDataConvertor.convertComment(
+                    comment,
+                    users,
+                    postId
                 )
+
+                //sends comment edited event
+                LMFeedAnalytics.sendCommentEditedEvent(commentViewData)
+
+                _editCommentResponse.postValue(commentViewData)
             } else {
                 errorMessageChannel.send(ErrorMessageEvent.EditComment(response.errorMessage))
             }
@@ -265,13 +272,14 @@ class LMFeedPostDetailViewModel : ViewModel() {
                 val data = response.data ?: return@launchIO
                 val comment = data.comment
                 val users = data.users
-                // todo: event
-//                sendReplyPostedEvent(
-//                    parentCommentCreatorUUID,
-//                    postId,
-//                    parentCommentId,
-//                    comment.id
-//                )
+
+                //sends event for user replied on an comment
+                LMFeedAnalytics.sendReplyPostedEvent(
+                    parentCommentCreatorUUID,
+                    postId,
+                    parentCommentId,
+                    comment.id
+                )
 
                 _addReplyResponse.postValue(
                     Pair(
@@ -348,9 +356,9 @@ class LMFeedPostDetailViewModel : ViewModel() {
             val response = lmFeedClient.deletePost(request)
 
             if (response.success) {
-                //todo: event
-                // sends post deleted event
-//                sendPostDeletedEvent(post, reason)
+                //sends post deleted event
+                LMFeedAnalytics.sendPostDeletedEvent(post, reason)
+
                 _deletePostResponse.postValue(post.id)
             } else {
                 errorMessageChannel.send(ErrorMessageEvent.DeletePost(response.errorMessage))
@@ -376,11 +384,13 @@ class LMFeedPostDetailViewModel : ViewModel() {
             val response = lmFeedClient.deleteComment(request)
 
             if (response.success) {
-//                sendCommentReplyDeletedEvent(
-//                    postId,
-//                    commentId,
-//                    parentCommentId
-//                )
+                //send comment's reply deleted even
+                LMFeedAnalytics.sendCommentReplyDeletedEvent(
+                    postId,
+                    commentId,
+                    parentCommentId
+                )
+
                 _deleteCommentResponse.postValue(Pair(commentId, parentCommentId))
             } else {
                 errorMessageChannel.send(ErrorMessageEvent.DeleteComment(response.errorMessage))
@@ -389,7 +399,11 @@ class LMFeedPostDetailViewModel : ViewModel() {
     }
 
     //for like/unlike a post
-    fun likePost(postId: String, postLiked: Boolean) {
+    fun likePost(
+        postId: String,
+        postLiked: Boolean,
+        loggedInUUID: String
+    ) {
         viewModelScope.launchIO {
             val request = LikePostRequest.Builder()
                 .postId(postId)
@@ -400,7 +414,12 @@ class LMFeedPostDetailViewModel : ViewModel() {
 
             //check for error
             if (response.success) {
-                _postLikedResponse.postValue(Pair(postId, postLiked))
+                //sends event for post liked
+                LMFeedAnalytics.sendPostLikedEvent(
+                    uuid = loggedInUUID,
+                    postId = postId,
+                    postLiked = postLiked
+                )
             } else {
                 errorMessageChannel.send(
                     ErrorMessageEvent.LikePost(
@@ -424,6 +443,13 @@ class LMFeedPostDetailViewModel : ViewModel() {
 
             //check for error
             if (response.success) {
+                //sends event for post saved/unsaved
+                LMFeedAnalytics.sendPostSavedEvent(
+                    uuid = postViewData.headerViewData.user.sdkClientInfoViewData.uuid,
+                    postId = postViewData.id,
+                    postSaved = postViewData.footerViewData.isSaved
+                )
+
                 _postSavedResponse.postValue(postViewData)
             } else {
                 errorMessageChannel.send(
@@ -447,6 +473,9 @@ class LMFeedPostDetailViewModel : ViewModel() {
             val response = lmFeedClient.pinPost(request)
 
             if (response.success) {
+                //sends event for post pinned/unpinned
+                LMFeedAnalytics.sendPostPinnedEvent(postViewData)
+
                 _postPinnedResponse.postValue(postViewData)
             } else {
                 errorMessageChannel.send(
@@ -464,6 +493,7 @@ class LMFeedPostDetailViewModel : ViewModel() {
     fun checkCommentRights() {
         viewModelScope.launchIO {
 //            val userId = userPreferences.getUserUniqueId()
+//
 //
 //            // fetches user with rights from DB with user.id
 //            val userWithRights = userWithRightsRepository.getUserWithRights(userId)

@@ -17,6 +17,7 @@ import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity.Companion.
 import com.likeminds.feed.android.core.likes.viewmodel.LMFeedLikesViewModel
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 
 open class LMFeedLikesFragment : Fragment(), LMFeedLikesAdapterListener {
 
@@ -84,6 +85,12 @@ open class LMFeedLikesFragment : Fragment(), LMFeedLikesAdapterListener {
     }
 
     private fun initUI() {
+        //sends like list open event
+        LMFeedAnalytics.sendLikeListOpenEvent(
+            likesScreenExtras.postId,
+            likesScreenExtras.commentId
+        )
+
         initRecyclerView()
         initSwipeRefreshLayout()
     }
