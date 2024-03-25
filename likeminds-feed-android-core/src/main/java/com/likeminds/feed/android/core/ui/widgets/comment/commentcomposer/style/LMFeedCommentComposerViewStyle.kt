@@ -6,16 +6,35 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
-class LMFeedCommentComposerStyle private constructor(
+/**
+ * [LMFeedCommentComposerViewStyle] helps you to customize the comment view [LMFeedCommentComposerView]
+ *
+ * @property commentInputStyle : [LMFeedEditTextStyle] this will help you to customize the comment input box (edit text)
+ * @property commentSendStyle : [LMFeedIconStyle] this will help you to customize the comment submit button
+ * @property commentRestrictedStyle: [LMFeedTextStyle] this will help you to customize the comment restricted view | set its value to [null] if you want to hide the comment restricted view
+ * @property replyingToStyle: [LMFeedTextStyle] this will help you to customize the replying to text view | set its value to [null] if you want to hide the replying to text view
+ * @property removeReplyingToStyle: [LMFeedIconStyle] this will help you to customize the remove replying to view icon | set its value to [null] if you want to hide the remove replying to view icon
+ * @property elevation: [Int] should be in format of [DimenRes] to customize the elevation of the comment composer | Default value = [null]
+ * @property backgroundColor: [Int] should be in format of [ColorRes] this will help you to customize the background color of the comment composer | Default value = [null]
+ * */
+class LMFeedCommentComposerViewStyle private constructor(
+    //comment input style
     val commentInputStyle: LMFeedEditTextStyle,
+    //comment send style
     val commentSendStyle: LMFeedIconStyle,
+    //comment restricted style
     val commentRestrictedStyle: LMFeedTextStyle?,
+    //replying to view style
     val replyingToStyle: LMFeedTextStyle?,
+    //remove replying to view style
     val removeReplyingToStyle: LMFeedIconStyle?,
+    //elevation of the composer
     @DimenRes val elevation: Int?,
+    //background color of the composer
     @ColorRes val backgroundColor: Int?
-) {
+) : LMFeedViewStyle {
     class Builder {
         private var commentInputStyle: LMFeedEditTextStyle = LMFeedEditTextStyle.Builder()
             .inputTextStyle(
@@ -80,7 +99,7 @@ class LMFeedCommentComposerStyle private constructor(
             this.backgroundColor = backgroundColor
         }
 
-        fun build() = LMFeedCommentComposerStyle(
+        fun build() = LMFeedCommentComposerViewStyle(
             commentInputStyle,
             commentSendStyle,
             commentRestrictedStyle,

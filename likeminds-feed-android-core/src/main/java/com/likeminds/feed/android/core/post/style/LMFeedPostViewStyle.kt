@@ -12,6 +12,17 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedPostViewStyle] helps you to customize the header view
+ *
+ * @property postHeaderViewStyle : [LMFeedPostHeaderViewStyle] this will help you to customize the post header view [LMFeedPostHeaderView]
+ * @property postContentTextStyle : [LMFeedTextStyle] this will help you to customize the text content of the post
+ * @property postMediaViewStyle: [LMFeedPostMediaViewStyle] this will help you to customize the media attached in the post
+ * @property postFooterViewStyle: [LMFeedPostFooterViewStyle] this will help you to customize the footer view of the post [LMFeedPostFooterView]
+ * @property postTopicsGroupStyle: [LMFeedChipGroupStyle] this will help you to customize the chip group in the post [LMFeedChipGroup]
+ * @property postTopicChipsStyle: [LMFeedChipStyle] this will help you to customize the chips of the chip group in the post [LMFeedChip]
+ *
+ * */
 class LMFeedPostViewStyle private constructor(
     //post header style
     val postHeaderViewStyle: LMFeedPostHeaderViewStyle,
@@ -156,7 +167,7 @@ class LMFeedPostViewStyle private constructor(
                         .build()
                 )
                 .postLinkStyle(
-                    LMFeedPostLinkViewStyle.Builder()
+                    LMFeedPostLinkMediaViewStyle.Builder()
                         .linkTitleStyle(
                             LMFeedTextStyle.Builder()
                                 .fontResource(R.font.lm_feed_roboto)

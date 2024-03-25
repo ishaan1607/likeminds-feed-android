@@ -29,35 +29,42 @@ class LMFeedTopicSelectionListView @JvmOverloads constructor(
         }
     }
 
+    //sets the adapter with the provided [listener] to the topic selection recycler view
     fun setAdapter(listener: LMFeedTopicSelectionAdapterListener) {
         topicSelectionAdapter = LMFeedTopicSelectionAdapter(listener)
         adapter = topicSelectionAdapter
     }
 
+    //sets the pagination scroll listener to the topic selection recycler view
     fun setPaginationScrollListener(scrollListener: LMFeedEndlessRecyclerViewScrollListener) {
         paginationScrollListener = scrollListener
         addOnScrollListener(scrollListener)
     }
 
+    //resets the scroll listener data
     fun resetScrollListenerData() {
         if (::paginationScrollListener.isInitialized) {
             paginationScrollListener.resetData()
         }
     }
 
-    fun allItems(): List<LMFeedBaseViewType> {
+    //returns the list of all the topics in the adapter
+    fun getAllTopics(): List<LMFeedBaseViewType> {
         return topicSelectionAdapter.items()
     }
 
-    fun addAllItems(items: List<LMFeedBaseViewType>) {
-        topicSelectionAdapter.addAll(items)
+    //adds all the provided [topics] to the adapter
+    fun addAllTopics(topics: List<LMFeedBaseViewType>) {
+        topicSelectionAdapter.addAll(topics)
     }
 
-    fun updateItem(position: Int, item: LMFeedBaseViewType) {
-        topicSelectionAdapter.update(position, item)
+    //updated the topic at the provided [position]
+    fun updateTopicAtIndex(index: Int, topic: LMFeedBaseViewType) {
+        topicSelectionAdapter.update(index, topic)
     }
 
-    fun clearAllItemsAndNotify() {
+    //clears all the topics and notifies the recycler view
+    fun clearAllTopicsAndNotify() {
         topicSelectionAdapter.clearAndNotify()
     }
 }

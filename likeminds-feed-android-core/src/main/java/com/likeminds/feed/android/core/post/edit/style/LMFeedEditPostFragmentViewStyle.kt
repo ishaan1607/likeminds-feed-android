@@ -4,11 +4,23 @@ import android.graphics.Typeface
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
+import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogViewStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedEditPostFragmentViewStyle] helps you to customize the universal feed fragment [LMFeedEditPostFragment]
+ *
+ * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the edit post fragment
+ * @property postHeaderViewStyle : [LMFeedPostHeaderViewStyle] this will help you to customize the post header view in the edit post fragment
+ * @property postComposerStyle : [LMFeedEditTextStyle] this will help you to customize the post composer edit text in the edit post fragment
+ * @property progressBarStyle: [LMFeedProgressBarStyle] this will help you to customize the progress bar in the edit post fragment
+ * @property selectTopicsChipStyle: [LMFeedChipStyle] this will help you to customize the select topics chip in the edit post fragment
+ * @property editTopicsChipStyle: [LMFeedChipStyle] this will help you to customize the edit topics chip in the edit post fragment
+ * @property disabledTopicsAlertDialogStyle: [LMFeedAlertDialogViewStyle] this will help you to customize the alert dialog shown when user selects disabled topics in the edit post fragment
+ * */
 class LMFeedEditPostFragmentViewStyle private constructor(
     //header view style
     val headerViewStyle: LMFeedHeaderViewStyle,
@@ -21,11 +33,10 @@ class LMFeedEditPostFragmentViewStyle private constructor(
     //select topics chip style
     val selectTopicsChipStyle: LMFeedChipStyle,
     //edit chip style
-    val editChipStyle: LMFeedChipStyle,
+    val editTopicsChipStyle: LMFeedChipStyle,
     //disabled topics alert dialog style
-    val disabledTopicsAlertDialogStyle: LMFeedAlertDialogStyle
-) {
-
+    val disabledTopicsAlertDialogStyle: LMFeedAlertDialogViewStyle
+) : LMFeedViewStyle {
     class Builder {
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
             .titleTextStyle(
@@ -61,21 +72,22 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .activeSubmitColor(R.color.lm_feed_majorelle_blue)
             .build()
 
-        private var postHeaderViewStyle: LMFeedPostHeaderViewStyle = LMFeedPostHeaderViewStyle.Builder()
-            .authorImageViewStyle(
-                LMFeedImageStyle.Builder()
-                    .isCircle(true)
-                    .build()
-            )
-            .authorNameViewStyle(
-                LMFeedTextStyle.Builder()
-                    .textColor(R.color.lm_feed_raisin_black)
-                    .textSize(R.dimen.lm_feed_text_large)
-                    .maxLines(1)
-                    .ellipsize(TextUtils.TruncateAt.END)
-                    .build()
-            )
-            .build()
+        private var postHeaderViewStyle: LMFeedPostHeaderViewStyle =
+            LMFeedPostHeaderViewStyle.Builder()
+                .authorImageViewStyle(
+                    LMFeedImageStyle.Builder()
+                        .isCircle(true)
+                        .build()
+                )
+                .authorNameViewStyle(
+                    LMFeedTextStyle.Builder()
+                        .textColor(R.color.lm_feed_raisin_black)
+                        .textSize(R.dimen.lm_feed_text_large)
+                        .maxLines(1)
+                        .ellipsize(TextUtils.TruncateAt.END)
+                        .build()
+                )
+                .build()
 
         private var postComposerStyle: LMFeedEditTextStyle = LMFeedEditTextStyle.Builder()
             .inputTextStyle(
@@ -98,7 +110,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .chipIconTint(R.color.lm_feed_majorelle_blue)
             .build()
 
-        private var editChipStyle: LMFeedChipStyle = LMFeedChipStyle.Builder()
+        private var editTopicsChipStyle: LMFeedChipStyle = LMFeedChipStyle.Builder()
             .chipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
             .chipEndPadding(R.dimen.lm_feed_edit_chip_end_size)
             .chipStartPadding(R.dimen.lm_feed_edit_chip_end_size)
@@ -112,8 +124,8 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .progressColor(R.color.lm_feed_majorelle_blue)
             .build()
 
-        private var disabledTopicsAlertDialogStyle: LMFeedAlertDialogStyle =
-            LMFeedAlertDialogStyle.Builder()
+        private var disabledTopicsAlertDialogStyle: LMFeedAlertDialogViewStyle =
+            LMFeedAlertDialogViewStyle.Builder()
                 .alertSubtitleText(
                     LMFeedTextStyle.Builder()
                         .textColor(R.color.lm_feed_grey)
@@ -153,11 +165,11 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             this.selectTopicsChipStyle = selectTopicsChipStyle
         }
 
-        fun editChipStyle(editChipStyle: LMFeedChipStyle) = apply {
-            this.editChipStyle = editChipStyle
+        fun editTopicsChipStyle(editTopicsChipStyle: LMFeedChipStyle) = apply {
+            this.editTopicsChipStyle = editTopicsChipStyle
         }
 
-        fun disabledTopicsAlertDialogStyle(disabledTopicsAlertDialogStyle: LMFeedAlertDialogStyle) =
+        fun disabledTopicsAlertDialogStyle(disabledTopicsAlertDialogStyle: LMFeedAlertDialogViewStyle) =
             apply {
                 this.disabledTopicsAlertDialogStyle = disabledTopicsAlertDialogStyle
             }
@@ -168,7 +180,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             postComposerStyle,
             progressBarStyle,
             selectTopicsChipStyle,
-            editChipStyle,
+            editTopicsChipStyle,
             disabledTopicsAlertDialogStyle
         )
     }
@@ -179,7 +191,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .postComposerStyle(postComposerStyle)
             .progressBarStyle(progressBarStyle)
             .selectTopicsChipStyle(selectTopicsChipStyle)
-            .editChipStyle(editChipStyle)
+            .editTopicsChipStyle(editTopicsChipStyle)
             .disabledTopicsAlertDialogStyle(disabledTopicsAlertDialogStyle)
     }
 }

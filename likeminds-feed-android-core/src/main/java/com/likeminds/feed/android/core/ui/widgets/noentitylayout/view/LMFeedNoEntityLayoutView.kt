@@ -50,10 +50,20 @@ class LMFeedNoEntityLayoutView : ConstraintLayout {
         binding.tvNoEntitySubtitle.text = subtitle
     }
 
+    /**
+     * Sets the Action CTA text in the no entity layout view
+     *
+     * @param ctaAction: title of the CTA text
+     */
     fun setActionCTAText(ctaAction: String) {
         binding.fabAction.text = ctaAction
     }
 
+    /**
+     * Sets the color of the action fab
+     *
+     * @param fabColor: color to be set to the action fab
+     */
     fun setActionFABColor(@ColorRes fabColor: Int) {
         binding.fabAction.backgroundTintList =
             ColorStateList.valueOf(ContextCompat.getColor(context, fabColor))
@@ -70,11 +80,15 @@ class LMFeedNoEntityLayoutView : ConstraintLayout {
         }
     }
 
+    /**
+     * sets [LMFeedNoEntityLayoutViewStyle] to [LMFeedNoEntityLayoutView]
+     */
     fun setStyle(noEntityLayoutViewStyle: LMFeedNoEntityLayoutViewStyle) {
 
         //set background color
         setBackgroundColor(ContextCompat.getColor(context, noEntityLayoutViewStyle.backgroundColor))
 
+        //configures each view in the noEntityLayoutViewStyle with the provided styles
         configureTitle(noEntityLayoutViewStyle.titleStyle)
         configureSubtitle(noEntityLayoutViewStyle.subtitleStyle)
         configureImage(noEntityLayoutViewStyle.imageStyle)

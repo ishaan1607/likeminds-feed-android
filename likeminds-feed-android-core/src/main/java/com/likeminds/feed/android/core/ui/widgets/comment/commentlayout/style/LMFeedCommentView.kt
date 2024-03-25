@@ -17,7 +17,6 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedCommentViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -26,6 +25,7 @@ import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 import com.likeminds.feed.android.core.utils.link.LMFeedOnLinkClickListener
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedCommentView : ConstraintLayout {
 
@@ -39,6 +39,7 @@ class LMFeedCommentView : ConstraintLayout {
         defStyle
     )
 
+    //returns the comment menu icon
     val commentMenu: View get() = binding.ivCommentMenu
 
     private val inflater =
@@ -46,6 +47,7 @@ class LMFeedCommentView : ConstraintLayout {
 
     private val binding = LmFeedCommentViewBinding.inflate(inflater, this, true)
 
+    //sets provided [LMFeedCommentViewStyle] to the comment view
     fun setStyle(commentViewStyle: LMFeedCommentViewStyle) {
 
         commentViewStyle.apply {
@@ -156,14 +158,13 @@ class LMFeedCommentView : ConstraintLayout {
     }
 
     /**
-     * Sets commenter image view.
+     * Sets comment creator image in the view.
      *
      * @param user - data of the commenter.
      */
-    fun setCommenterImage(user: LMFeedUserViewData) {
-        var commenterImageViewStyle =
-            LMFeedStyleTransformer.postDetailFragmentViewStyle.commentViewStyle.commenterImageViewStyle
-                ?: return
+    fun setCommentCreatorImage(user: LMFeedUserViewData) {
+        val commentViewStyle = LMFeedStyleTransformer.postDetailFragmentViewStyle.commentViewStyle
+        var commenterImageViewStyle = commentViewStyle.commenterImageViewStyle ?: return
 
         if (commenterImageViewStyle.placeholderSrc == null) {
             commenterImageViewStyle = commenterImageViewStyle.toBuilder().placeholderSrc(
@@ -178,11 +179,11 @@ class LMFeedCommentView : ConstraintLayout {
     }
 
     /**
-     * Sets the name of the commenter author
+     * Sets the name of the comment creator
      *
      * @param commenterName - string to be set for commenter's name.
      */
-    fun setCommenterName(commenterName: String) {
+    fun setCommentCreatorName(commenterName: String) {
         binding.tvCommenterName.text = commenterName
     }
 
@@ -299,11 +300,11 @@ class LMFeedCommentView : ConstraintLayout {
     }
 
     /**
-     * Sets active/inactive like icon.
+     * Sets active/inactive like icon based on whether the comment is liked or not.
      *
      * @param isLiked - whether the comment is liked or not.
      */
-    fun setLikesIcon(isLiked: Boolean = false) {
+    fun setCommentLikesIcon(isLiked: Boolean = false) {
         val iconStyle =
             LMFeedStyleTransformer.postDetailFragmentViewStyle.commentViewStyle.likeIconStyle
 
@@ -438,6 +439,11 @@ class LMFeedCommentView : ConstraintLayout {
         }
     }
 
+    /**
+     * Linkify the comment content and returns a link click listener along with the clicked link url
+     *
+     * @param linkClickListener [LMFeedOnLinkClickListener] interface to have a  link click listener
+     */
     fun linkifyCommentContent(linkClickListener: LMFeedOnLinkClickListener) {
         binding.apply {
             val linkifyLinks =

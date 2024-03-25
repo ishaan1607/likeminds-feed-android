@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.topicselection.style
 
 import android.graphics.Typeface
 import android.text.TextUtils
+import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
@@ -10,6 +11,16 @@ import com.likeminds.feed.android.core.ui.widgets.searchbar.style.LMFeedSearchBa
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedTopicSelectionFragmentViewStyle] helps you to customize the likes fragment [LMFeedTopicSelectionFragment]
+ *
+ * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the topic selection fragment
+ * @property topicItemStyle : [LMFeedTextStyle] this will help you to customize the topic item in the topic selection fragment
+ * @property noTopicsLayoutViewStyle : [LMFeedNoEntityLayoutViewStyle] this will help you to customize the no topics layout in the topic selection fragment
+ * @property submitSelectedTopicsFABStyle : [LMFeedFABStyle] this will help you to customize the submit selected topics fab in the topic selection fragment
+ * @property topicSearchBarViewStyle : [LMFeedSearchBarViewStyle] this will help you to customize the search bar in the topic selection fragment
+ * @property backgroundColor: [Int] should be in format of [ColorRes] this will help you to customize the background color of the topic selection fragment | Default value = [null]
+ * */
 class LMFeedTopicSelectionFragmentViewStyle private constructor(
     //header
     val headerViewStyle: LMFeedHeaderViewStyle,
@@ -20,7 +31,9 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
     //submit selected topics fab style
     val submitSelectedTopicsFABStyle: LMFeedFABStyle,
     //topic search bar styles
-    val topicSearchBarViewStyle: LMFeedSearchBarViewStyle
+    val topicSearchBarViewStyle: LMFeedSearchBarViewStyle,
+    //background color
+    @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -113,6 +126,9 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
                 .elevation(R.dimen.lm_feed_elevation_small)
                 .build()
 
+        @ColorRes
+        private var backgroundColor: Int? = null
+
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle) = apply {
             this.headerViewStyle = headerViewStyle
         }
@@ -135,12 +151,17 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
                 this.topicSearchBarViewStyle = topicSearchBarViewStyle
             }
 
+        fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
+            this.backgroundColor = backgroundColor
+        }
+
         fun build() = LMFeedTopicSelectionFragmentViewStyle(
             headerViewStyle,
             topicItemStyle,
             noTopicsLayoutViewStyle,
             submitSelectedTopicsFABStyle,
-            topicSearchBarViewStyle
+            topicSearchBarViewStyle,
+            backgroundColor
         )
     }
 
@@ -150,5 +171,6 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
             .noTopicsLayoutViewStyle(noTopicsLayoutViewStyle)
             .submitSelectedTopicsFABStyle(submitSelectedTopicsFABStyle)
             .topicSearchBarViewStyle(topicSearchBarViewStyle)
+            .backgroundColor(backgroundColor)
     }
 }

@@ -37,7 +37,8 @@ import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderVi
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
-import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils.customizePostTopicsGroup
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
@@ -49,6 +50,7 @@ import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
 import com.likeminds.feed.android.core.utils.base.model.*
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -141,6 +143,7 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //customizes edit post header view
     protected open fun customizeEditPostHeaderView(headerViewEditPost: LMFeedHeaderView) {
         headerViewEditPost.apply {
             setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.headerViewStyle)
@@ -158,16 +161,19 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //customizes the header view of the post
     protected open fun customizePostHeaderView(postHeader: LMFeedPostHeaderView) {
         postHeader.apply {
             setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.postHeaderViewStyle)
         }
     }
 
+    //customizes post composer edit text
     protected open fun customizePostComposer(etPostComposer: LMFeedEditText) {
         etPostComposer.setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.postComposerStyle)
     }
 
+    //customizes single image view type post
     protected open fun customizePostSingleImageView(postSingleImageView: LMFeedImageView) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
@@ -176,6 +182,7 @@ open class LMFeedEditPostFragment :
         postSingleImageView.setStyle(postImageMediaStyle)
     }
 
+    //customizes single video view type post
     protected open fun customizePostSingleVideoView(postSingleVideoView: LMFeedPostVideoMediaView) {
         val postVideoMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle
@@ -184,6 +191,7 @@ open class LMFeedEditPostFragment :
         postSingleVideoView.setStyle(postVideoMediaStyle)
     }
 
+    //customizes link preview in the post
     protected open fun customizePostLinkPreview(postLinkView: LMFeedPostLinkMediaView) {
         //todo: change this to the create post link view style
         val postLinkViewStyle =
@@ -193,6 +201,7 @@ open class LMFeedEditPostFragment :
         postLinkView.setStyle(postLinkViewStyle)
     }
 
+    //customizes documents type post
     protected open fun customizePostDocumentsView(postDocumentsView: LMFeedPostDocumentsMediaView) {
         val postDocumentsViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
@@ -201,6 +210,7 @@ open class LMFeedEditPostFragment :
         postDocumentsView.setStyle(postDocumentsViewStyle)
     }
 
+    //customizes multiple media type post
     protected open fun customizePostMultipleMediaView(postMultipleMediaView: LMFeedPostMultipleMediaView) {
         val postMultipleMediaViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postMultipleMediaStyle
@@ -209,6 +219,7 @@ open class LMFeedEditPostFragment :
         postMultipleMediaView.setStyle(postMultipleMediaViewStyle)
     }
 
+    //customizes progress bar in the edit post
     protected open fun customizeEditPostProgressbar(progressBar: LMFeedProgressBar) {
         progressBar.setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.progressBarStyle)
     }
@@ -234,6 +245,7 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //processes the save post click
     protected open fun onSavePostClicked() {
         //check all the necessary conditions before saving a post
         binding.apply {
@@ -272,6 +284,7 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //processes the navigation icon click
     protected open fun onNavigationIconClick() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
@@ -639,7 +652,7 @@ open class LMFeedEditPostFragment :
             selectedTopics.forEach { topic ->
                 addChip(topic.name, LMFeedStyleTransformer.postViewStyle.postTopicChipsStyle)
             }
-            addChip(chipStyle = LMFeedStyleTransformer.editPostFragmentViewStyle.editChipStyle) {
+            addChip(chipStyle = LMFeedStyleTransformer.editPostFragmentViewStyle.editTopicsChipStyle) {
                 val extras = LMFeedTopicSelectionExtras.Builder()
                     .showAllTopicFilter(false)
                     .selectedTopics(selectedTopics)

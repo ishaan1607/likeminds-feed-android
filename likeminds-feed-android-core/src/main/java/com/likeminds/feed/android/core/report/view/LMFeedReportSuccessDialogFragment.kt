@@ -25,12 +25,11 @@ open class LMFeedReportSuccessDialogFragment(
     ): View {
         binding = LmFeedDialogFragmentReportSuccessBinding.inflate(layoutInflater)
 
-        binding.apply {
-            customizeReportSuccessDialog(alertDialogDelete)
-            return root
-        }
+        customizeReportSuccessDialog(binding.alertDialogDelete)
+        return binding.root
     }
 
+    //customizes the report success dialog
     protected open fun customizeReportSuccessDialog(alertDialogDelete: LMFeedAlertDialogView) {
         val selfDeleteDialogFragmentStyle =
             LMFeedStyleTransformer.reportFragmentViewStyle.reportSuccessDialogFragmentStyle

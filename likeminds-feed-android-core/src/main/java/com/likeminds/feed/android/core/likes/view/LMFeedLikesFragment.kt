@@ -73,9 +73,8 @@ open class LMFeedLikesFragment : Fragment(), LMFeedLikesAdapterListener {
                     )
                 )
             }
-
-            return root
         }
+        return binding.root
     }
 
     protected open fun customizeLikesFragmentHeaderView(headerViewLikes: LMFeedHeaderView) {
@@ -153,6 +152,7 @@ open class LMFeedLikesFragment : Fragment(), LMFeedLikesAdapterListener {
         }
     }
 
+    //processes the navigation icon click
     protected open fun onNavigationIconClick() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }

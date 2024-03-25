@@ -8,17 +8,40 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
-
-class LMFeedPostLinkViewStyle private constructor(
+/**
+ * [LMFeedPostLinkMediaViewStyle] helps you to customize the universal feed fragment [LMFeedPostLinkMediaView]
+ *
+ * @property linkTitleStyle : [LMFeedTextStyle] this will help you to customize the title text in the link media view
+ * @property linkDescriptionStyle : [LMFeedTextStyle] this will help you to customize the description text in the link media view
+ * @property linkUrlStyle: [LMFeedTextStyle] this will help you to customize the link url text in the link media view | set its value to [null] if you want to hide the url text in the link media view
+ * @property linkImageStyle: [LMFeedImageStyle] this will help you to customize the link image in the link media view
+ * @property linkRemoveIconStyle: [LMFeedIconStyle] this will help you to customize the remove link icon in the link media view | set its value to [null] if you want to hide the remove link icon in the link media view
+ * @property linkBoxCornerRadius: [Int] should be in format of [DimenRes] this will help you to customize the corner radius of the link media view | Default value = [null]
+ * @property linkBoxElevation: [Int] should be in format of [DimenRes] this will help you to customize the elevation of the link media view | Default value = [null]
+ * @property linkBoxStrokeColor: [Int] should be in format of [ColorRes] this will help you to customize the stroke color of the link media view | Default value = [null]
+ * @property linkBoxStrokeWidth: [Int] should be in format of [DimenRes] this will help you to customize the stroke width of the link media view | Default value = [null]
+ * @property backgroundColor: [Int] should be in format of [ColorRes] this will help you to customize the background color of the link media view | Default value = [null]
+ * */
+class LMFeedPostLinkMediaViewStyle private constructor(
+    //link title style
     val linkTitleStyle: LMFeedTextStyle,
+    //link description style
     val linkDescriptionStyle: LMFeedTextStyle?,
+    //link url style
     val linkUrlStyle: LMFeedTextStyle?,
+    //link image style
     val linkImageStyle: LMFeedImageStyle,
+    //link remove icon style
     val linkRemoveIconStyle: LMFeedIconStyle?,
+    //link box corner radius style
     @DimenRes val linkBoxCornerRadius: Int?,
+    //link box elevation style
     @DimenRes val linkBoxElevation: Int?,
+    //link box stroke color
     @ColorRes val linkBoxStrokeColor: Int?,
+    //link box stroke width
     @DimenRes val linkBoxStrokeWidth: Int?,
+    //link box background color
     @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
 
@@ -98,7 +121,7 @@ class LMFeedPostLinkViewStyle private constructor(
             this.backgroundColor = backgroundColor
         }
 
-        fun build() = LMFeedPostLinkViewStyle(
+        fun build() = LMFeedPostLinkMediaViewStyle(
             linkTitleStyle,
             linkDescriptionStyle,
             linkUrlStyle,

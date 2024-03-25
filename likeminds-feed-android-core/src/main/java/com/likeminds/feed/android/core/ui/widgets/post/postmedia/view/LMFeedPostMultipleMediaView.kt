@@ -15,18 +15,15 @@ import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_VIDE
 
 class LMFeedPostMultipleMediaView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
-    }
+    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)
 
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
         context,
         attributeSet,
         defStyle
-    ) {
-    }
+    )
 
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
@@ -35,8 +32,10 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
 
     val viewpagerMultipleMedia = binding.viewpagerMultipleMedia
 
+    //sets provided [postMultipleMediaStyle] to the multiple media type post
     fun setStyle(postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle) {
 
+        //configures multiple media post indicator
         configureIndicator(postMultipleMediaStyle)
     }
 
@@ -79,6 +78,7 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
         }
     }
 
+    //sets the view pager to the multiple media type post with the provided listeners and attachments
     fun setViewPager(
         parentPosition: Int,
         listener: LMFeedUniversalFeedAdapterListener,
@@ -104,7 +104,7 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
 
             val updatedAttachments = getUpdatedAttachmentsForMultipleMedia(attachments)
 
-                //replaces all the items in the multiple media post adapter
+            //replaces all the items in the multiple media post adapter
             multipleMediaPostAdapter.replace(updatedAttachments)
 
             //setups the indicator with the view pager
@@ -112,6 +112,7 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
         }
     }
 
+    //returns the updated attachments list for multiple media view
     private fun getUpdatedAttachmentsForMultipleMedia(attachments: List<LMFeedAttachmentViewData>): List<LMFeedAttachmentViewData> {
         return attachments.map {
             when (it.attachmentType) {

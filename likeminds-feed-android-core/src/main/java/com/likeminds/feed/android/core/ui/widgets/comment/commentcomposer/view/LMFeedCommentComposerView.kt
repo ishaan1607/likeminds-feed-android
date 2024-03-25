@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedCommentComposerViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
-import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.style.LMFeedCommentComposerStyle
+import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.style.LMFeedCommentComposerViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -35,16 +35,21 @@ class LMFeedCommentComposerView : ConstraintLayout {
     val etComment: LMFeedEditText
         get() = binding.etComment
 
-    fun setStyle(commentComposerStyle: LMFeedCommentComposerStyle) {
+    //sets provided [LMFeedCommentComposerViewStyle] to the comment composer view
+    fun setStyle(commentComposerStyle: LMFeedCommentComposerViewStyle) {
+
         commentComposerStyle.apply {
+            //sets elevation to the comment composer view
             elevation?.let {
                 this@LMFeedCommentComposerView.elevation = resources.getDimension(it)
             }
 
+            //sets background color of the comment composer view
             backgroundColor?.let {
                 this@LMFeedCommentComposerView.setBackgroundColor(ContextCompat.getColor(context, it))
             }
 
+            //configures each view inside comment composer view
             configureCommentInput(commentInputStyle)
             configureCommentSend(commentSendStyle)
             configureCommentRestricted(commentRestrictedStyle)
@@ -92,6 +97,11 @@ class LMFeedCommentComposerView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets hint text to the comment input bon
+     *
+     * @param hint - hint text to be set as hint
+     */
     fun setCommentInputBoxHint(hint: String) {
         binding.etComment.hint = hint
     }
@@ -102,8 +112,9 @@ class LMFeedCommentComposerView : ConstraintLayout {
      * @param isEnabled - whether the comment send is enabled or not.
      */
     fun setCommentSendButton(isEnabled: Boolean = false) {
-        val iconStyle =
-            LMFeedStyleTransformer.postDetailFragmentViewStyle.commentComposerStyle.commentSendStyle
+        val commentComposerStyle =
+            LMFeedStyleTransformer.postDetailFragmentViewStyle.commentComposerStyle
+        val iconStyle = commentComposerStyle.commentSendStyle
 
         binding.ivCommentSend.apply {
             this.isEnabled = isEnabled
@@ -166,7 +177,12 @@ class LMFeedCommentComposerView : ConstraintLayout {
         }
     }
 
-    fun handleCommentRights(hasCommentRights: Boolean) {
+    /**
+     * Restricts the user to comment if they don't have the rights
+     *
+     * @param hasCommentRights - whether the user has the rights to comment or not
+     */
+    fun setCommentRights(hasCommentRights: Boolean) {
         binding.apply {
             if (hasCommentRights) {
                 etComment.show()

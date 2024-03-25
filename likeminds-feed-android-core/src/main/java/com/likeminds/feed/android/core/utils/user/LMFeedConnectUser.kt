@@ -22,10 +22,6 @@ class LMFeedConnectUser private constructor(
     val deviceId: String,
     val enablePushNotifications: Boolean
 ) {
-    companion object {
-
-    }
-
     class Builder {
         private var apiKey: String = ""
         private var userName: String = ""
@@ -125,18 +121,25 @@ class LMFeedConnectUser private constructor(
     //gets user push token and registers the token in backend
     private fun pushToken() {
         if (enablePushNotifications) {
-            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
-                    Log.w(
-                        LOG_TAG,
-                        "Fetching FCM registration token failed",
-                        task.exception
-                    )
-                    return@addOnCompleteListener
-                }
+            try {
+                FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(
+                            LOG_TAG,
+                            "Fetching FCM registration token failed",
+                            task.exception
+                        )
+                        return@addOnCompleteListener
+                    }
 
-                val token = task.result.toString()
-                registerDevice(token)
+                    val token = task.result.toString()
+                    registerDevice(token)
+                }
+            } catch (e: IllegalStateException) {
+                Log.w(
+                    LOG_TAG,
+                    "Firebase not initialized: ${e.printStackTrace()}"
+                )
             }
         }
     }

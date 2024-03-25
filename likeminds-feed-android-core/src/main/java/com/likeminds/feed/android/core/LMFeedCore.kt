@@ -12,6 +12,13 @@ object LMFeedCore {
 
     private var apiKey: String? = null
 
+    /**
+     * Initial setup function for customers and blocker function
+     * @param application: Instance of the application class
+     * @param apiKey: API Key of the Customer, generated from [here](https://dashboard.likeminds.community/auth)
+     * @param lmFeedTheme: Object of [LMFeedTheme] to add your customizable theme in whole feed
+     * @param lmFeedCoreCallback: Instance of [LMFeedCoreCallback] so that we can share data/events to customers code
+     */
     fun setup(
         application: Application,
         apiKey: String,
@@ -24,6 +31,7 @@ object LMFeedCore {
         val coreApplication = LMFeedCoreApplication.getInstance()
         coreApplication.initCoreApplication(application, lmFeedCoreCallback)
     }
+
 
     fun showFeed(
         context: Context,
@@ -40,6 +48,16 @@ object LMFeedCore {
         //Inflate Feed
     }
 
+    /**
+     * instantiate the user in LikeMinds Code
+     * @param userName: Name of the user
+     * @param uuid: Unique id of the user in your db
+     * @param deviceId: Device id of the user
+     * @param success: Callback when user is successfully instantiated
+     * @param error: Callback for any error is the process.
+     *
+     * @throws IllegalAccessException when [setup] function is not called before
+     */
     fun initiateUser(
         context: Context,
         userName: String,

@@ -25,6 +25,7 @@ object LMFeedValueUtils {
         return this[position]
     }
 
+    //returns the url from the provided string if present
     fun String.getUrlIfExist(): String? {
         return try {
             val links: MutableList<String> = ArrayList()

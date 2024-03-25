@@ -57,11 +57,11 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
                     )
                 )
             }
-
-            return root
         }
+        return binding.root
     }
 
+    //customizes the header view of the activity feed fragment with the header style set for the activity feed fragment
     protected open fun customizeActivityFeedHeaderView(headerViewActivityFeed: LMFeedHeaderView) {
         headerViewActivityFeed.apply {
             setStyle(LMFeedStyleTransformer.activityFeedFragmentViewStyle.headerViewStyle)
@@ -102,6 +102,7 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
         }
     }
 
+    //processes the navigation icon click
     protected open fun onNavigationIconClick() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }

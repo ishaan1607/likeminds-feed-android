@@ -1,6 +1,6 @@
 package com.likeminds.feed.android.core
 
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 interface LMFeedCoreCallback {
 

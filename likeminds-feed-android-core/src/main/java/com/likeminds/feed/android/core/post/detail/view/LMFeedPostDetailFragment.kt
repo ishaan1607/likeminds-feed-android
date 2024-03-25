@@ -114,12 +114,12 @@ open class LMFeedPostDetailFragment :
 
     override fun onResume() {
         super.onResume()
-        binding.rvPostDetails.initiateAutoPlayer()
+        binding.rvPostDetails.initiateVideoAutoPlayer()
     }
 
     override fun onPause() {
         super.onPause()
-        binding.rvPostDetails.destroyAutoPlayer()
+        binding.rvPostDetails.destroyVideoAutoPlayer()
     }
 
     protected open fun customizePostDetailHeaderView(headerViewPostDetail: LMFeedHeaderView) {
@@ -272,7 +272,7 @@ open class LMFeedPostDetailFragment :
 
             commentComposer.setCommentSendClickListener {
                 val text = commentComposer.etComment.text
-                //todo:
+                //todo: member tagging
                 val updatedText = "$text"
 //                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
                 val postId = postDetailExtras.postId
@@ -301,6 +301,7 @@ open class LMFeedPostDetailFragment :
         }
     }
 
+    //processes the navigation icon click
     protected open fun onNavigationIconClick() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
@@ -531,11 +532,10 @@ open class LMFeedPostDetailFragment :
     }
 
     private fun observeData() {
-        //todo: ask about initiate
-//        observeInitiateResponse()
         observePostData()
         observeCommentData()
         observeCommentsRightData()
+        //todo: implement member tagging
 //        observeMembersTaggingList()
         observeErrors()
     }
@@ -904,7 +904,7 @@ open class LMFeedPostDetailFragment :
             if (postDetailExtras.source != LMFeedAnalytics.Source.NOTIFICATION &&
                 postDetailExtras.source != LMFeedAnalytics.Source.DEEP_LINK
             ) {
-                binding.commentComposer.handleCommentRights(it)
+                binding.commentComposer.setCommentRights(it)
             }
         }
     }
@@ -1805,6 +1805,6 @@ open class LMFeedPostDetailFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.rvPostDetails.destroyAutoPlayer()
+        binding.rvPostDetails.destroyVideoAutoPlayer()
     }
 }
