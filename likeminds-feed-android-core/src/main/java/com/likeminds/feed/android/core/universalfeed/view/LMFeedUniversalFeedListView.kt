@@ -115,8 +115,12 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     }
 
     //removes the post at the provided [index] in the universal feed adapter
-    fun removePost(index: Int) {
+    fun removePostAtIndex(index: Int) {
         universalFeedAdapter.removeIndex(index)
+    }
+
+    fun clearPostsAndNotify() {
+        universalFeedAdapter.clearAndNotify()
     }
 
     /**
@@ -139,7 +143,7 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     }
 
     //get post from the adapter using index
-    fun getPostFromAdapter(position: Int): LMFeedPostViewData? {
+    private fun getPostFromAdapter(position: Int): LMFeedPostViewData? {
         return universalFeedAdapter.items()[position] as? LMFeedPostViewData
     }
 

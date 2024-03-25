@@ -1,16 +1,19 @@
 package com.likeminds.feed.android.core.topics.model
 
+import android.os.Parcelable
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.model.ITEM_TOPIC
+import kotlinx.parcelize.Parcelize
 
-
+@Parcelize
 class LMFeedTopicViewData private constructor(
     val id: String,
     val name: String,
     val isEnabled: Boolean,
     val isSelected: Boolean
-) : LMFeedBaseViewType {
+) : LMFeedBaseViewType, Parcelable {
     override val viewType: Int
-        get() = TODO("Not yet implemented")
+        get() = ITEM_TOPIC
 
     class Builder {
         private var id: String = ""

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="position"
+            type="int" />
+
+        <variable
+            name="topicViewData"
+            type="com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_topic_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            tools:text="@string/lm_feed_books"
+            tools:drawableEnd="@drawable/lm_feed_ic_topic_selected"
+            tools:textColor="@color/lm_feed_dark_grey"
+            tools:textSize="16sp"
+            tools:textStyle="bold" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

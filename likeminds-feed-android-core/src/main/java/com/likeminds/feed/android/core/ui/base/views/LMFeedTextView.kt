@@ -21,4 +21,9 @@ class LMFeedTextView : AppCompatTextView {
         defStyle
     ) {
     }
+
+    //clears drawables from the text view
+    fun clearDrawables() {
+        this.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+    }
 }

@@ -48,6 +48,7 @@ class LMFeedItemReportTagViewDataBinder(
         }
     }
 
+    //set click listeners to the view data binder
     private fun setListeners(binding: LmFeedItemReportTagBinding) {
         binding.apply {
             tvReportTag.setOnClickListener {

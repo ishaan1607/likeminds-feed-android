@@ -15,6 +15,7 @@ import com.likeminds.feed.android.core.utils.model.LMFeedPadding
  * @property createNewPostButtonViewStyle : [LMFeedFABStyle] this will help you to customize the create new post fab in the universal feed fragment
  * @property noPostLayoutViewStyle: [LMFeedNoEntityLayoutViewStyle] this will help you to customize the no post layout in the universal feed fragment
  * @property postingViewStyle: [LMFeedPostingViewStyle] this will help you to customize the posting progress view in the universal feed fragment
+ * @property topicSelectorBarStyle: [LMFeedUniversalTopicSelectorBarViewStyle] this will help you to customize the topic selector bar in the universal feed fragment
  * */
 class LMFeedUniversalFeedFragmentViewStyle private constructor(
     //header
@@ -24,7 +25,9 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
     //no post layout
     val noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle,
     //posting view
-    val postingViewStyle: LMFeedPostingViewStyle
+    val postingViewStyle: LMFeedPostingViewStyle,
+    //topic selector bar view
+    val topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarViewStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -102,6 +105,11 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
         private var postingViewStyle: LMFeedPostingViewStyle = LMFeedPostingViewStyle.Builder()
             .build()
 
+        private var topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarViewStyle =
+            LMFeedUniversalTopicSelectorBarViewStyle.Builder()
+                .backgroundColor(R.color.lm_feed_white)
+                .build()
+
         fun createNewPostButtonViewStyle(createNewPostButtonViewStyle: LMFeedFABStyle) = apply {
             this.createNewPostButtonViewStyle = createNewPostButtonViewStyle
         }
@@ -110,17 +118,25 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
             this.headerViewStyle = headerViewStyle
         }
 
-        fun noPostLayoutViewStyle(noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle) =
-            apply { this.noPostLayoutViewStyle = noPostLayoutViewStyle }
+        fun noPostLayoutViewStyle(noPostLayoutViewStyle: LMFeedNoEntityLayoutViewStyle) = apply {
+            this.noPostLayoutViewStyle = noPostLayoutViewStyle
+        }
 
-        fun postingViewStyle(postingViewStyle: LMFeedPostingViewStyle) =
-            apply { this.postingViewStyle = postingViewStyle }
+        fun postingViewStyle(postingViewStyle: LMFeedPostingViewStyle) = apply {
+            this.postingViewStyle = postingViewStyle
+        }
+
+        fun topicSelectorBarStyle(topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarViewStyle) =
+            apply {
+                this.topicSelectorBarStyle = topicSelectorBarStyle
+            }
 
         fun build() = LMFeedUniversalFeedFragmentViewStyle(
             headerViewStyle,
             createNewPostButtonViewStyle,
             noPostLayoutViewStyle,
-            postingViewStyle
+            postingViewStyle,
+            topicSelectorBarStyle
         )
     }
 
@@ -129,5 +145,6 @@ class LMFeedUniversalFeedFragmentViewStyle private constructor(
             .createNewPostButtonViewStyle(createNewPostButtonViewStyle)
             .noPostLayoutViewStyle(noPostLayoutViewStyle)
             .postingViewStyle(postingViewStyle)
+            .topicSelectorBarStyle(topicSelectorBarStyle)
     }
 }

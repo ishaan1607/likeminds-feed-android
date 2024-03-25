@@ -23,7 +23,7 @@ class LMFeedLikesActivity : AppCompatActivity() {
 
     companion object {
         const val LM_FEED_LIKES_SCREEN_EXTRAS = "LM_FEED_LIKES_SCREEN_EXTRAS"
-        const val LM_FEED_LIKES_SCREEN_BUNDLE = "LM_FEED_LIKES_SCREEN_BUNDLE"
+        private const val LM_FEED_LIKES_SCREEN_BUNDLE = "LM_FEED_LIKES_SCREEN_BUNDLE"
         const val TAG = "LMFeedLikesActivity"
 
         @JvmStatic
