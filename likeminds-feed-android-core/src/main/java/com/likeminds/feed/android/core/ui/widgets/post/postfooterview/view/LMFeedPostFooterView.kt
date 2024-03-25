@@ -30,6 +30,7 @@ class LMFeedPostFooterView : ConstraintLayout {
 
     private val binding = LmFeedPostFooterViewBinding.inflate(inflater, this, true)
 
+    //sets provided [postFooterViewStyle] to the post footer view
     fun setStyle(postFooterViewStyle: LMFeedPostFooterViewStyle) {
 
         postFooterViewStyle.apply {
@@ -38,7 +39,8 @@ class LMFeedPostFooterView : ConstraintLayout {
                 setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
             }
 
-            configuresLikeText(likeTextStyle)
+            //configures each view in the post footer view with the provided style
+        configuresLikeText(likeTextStyle)
             configureLikesIcon(likeIconStyle)
             configureCommentsText(commentTextStyle)
             configureSaveIcon(saveIconStyle)

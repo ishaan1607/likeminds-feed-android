@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -120,7 +119,7 @@ open class LMFeedUniversalFeedFragment :
         // sends feed opened event
         LMFeedAnalytics.sendFeedOpenedEvent()
 
-        binding.rvUniversal.refreshAutoPlayer()
+        binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
     private fun fetchData() {
@@ -138,7 +137,7 @@ open class LMFeedUniversalFeedFragment :
 
     override fun onPause() {
         super.onPause()
-        binding.rvUniversal.destroyAutoPlayer()
+        binding.rvUniversal.destroyVideoAutoPlayer()
     }
 
     override fun onDestroy() {
@@ -202,7 +201,7 @@ open class LMFeedUniversalFeedFragment :
             if (page == 1) {
                 checkPostsAndReplace(posts)
             } else {
-                binding.rvUniversal.refreshAutoPlayer()
+                binding.rvUniversal.refreshVideoAutoPlayer()
             }
         }
 
@@ -212,8 +211,7 @@ open class LMFeedUniversalFeedFragment :
                 val indexToRemove = getIndexAndPostFromAdapter(postId)?.first ?: return@observe
                 removePostAtIndex(indexToRemove)
                 checkForNoPost(allPosts())
-                refreshAutoPlayer()
-
+                refreshVideoAutoPlayer()
                 LMFeedViewUtils.showShortToast(
                     requireContext(),
                     getString(
@@ -407,7 +405,7 @@ open class LMFeedUniversalFeedFragment :
             checkForNoPost(posts)
             replacePosts(posts)
             scrollToPosition(0)
-            refreshAutoPlayer()
+            refreshVideoAutoPlayer()
         }
     }
 
@@ -476,14 +474,6 @@ open class LMFeedUniversalFeedFragment :
                 rvUniversal.hide()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    override fun onDetach() {
-        super.onDetach()
     }
 
     override fun onPostContentClicked(position: Int, postViewData: LMFeedPostViewData) {
@@ -682,7 +672,7 @@ open class LMFeedUniversalFeedFragment :
     //called when the page in the multiple media post is changed
     override fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {
         //processes the current video whenever view pager's page is changed
-        binding.rvUniversal.refreshAutoPlayer()
+        binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
     //called when show more is clicked in the documents type post
@@ -907,7 +897,6 @@ open class LMFeedUniversalFeedFragment :
     }
 
     protected open fun onRetryUploadClicked() {
-        Log.d("PUI", "default onRetryUploadClicked")
     }
 
     private val topicSelectionLauncher =

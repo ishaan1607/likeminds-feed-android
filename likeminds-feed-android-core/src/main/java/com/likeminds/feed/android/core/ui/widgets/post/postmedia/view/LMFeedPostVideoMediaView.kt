@@ -32,6 +32,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
 
     val videoView = binding.videoView
 
+    //sets provided [postVideoMediaViewStyle] to the video view in the post
     fun setStyle(postVideoMediaViewStyle: LMFeedPostVideoMediaViewStyle) {
 
         postVideoMediaViewStyle.apply {
@@ -45,6 +46,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
                 )
             }
 
+            //configure each view of the video view
             configureVideoView(postVideoMediaViewStyle)
             configureProgressBar(videoProgressStyle)
             configureVideoThumbnail(videoThumbnailStyle)

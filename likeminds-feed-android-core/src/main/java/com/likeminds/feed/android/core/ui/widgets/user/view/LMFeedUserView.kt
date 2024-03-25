@@ -7,11 +7,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.likeminds.feed.android.core.databinding.LmFeedUserViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.user.style.LMFeedUserViewStyle
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedUserView : ConstraintLayout {
 
@@ -30,6 +30,7 @@ class LMFeedUserView : ConstraintLayout {
 
     private val binding: LmFeedUserViewBinding = LmFeedUserViewBinding.inflate(inflater, this, true)
 
+    //sets provided [userViewStyle] to the user view
     fun setStyle(userViewStyle: LMFeedUserViewStyle) {
 
         userViewStyle.apply {

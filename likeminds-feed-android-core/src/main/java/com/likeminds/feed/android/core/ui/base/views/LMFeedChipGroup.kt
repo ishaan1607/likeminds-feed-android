@@ -21,6 +21,12 @@ class LMFeedChipGroup @JvmOverloads constructor(
         this.removeAllViews()
     }
 
+    /**
+    * Adds chip to this [LMFeedChipGroup]
+    *
+    * @param chipText - text to be set in the chip
+    * @param chipStyle - style to be used for the chip to be added
+    * */
     fun addChip(
         chipText: String? = null,
         chipStyle: LMFeedChipStyle,

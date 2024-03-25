@@ -221,6 +221,7 @@ class LMFeedSearchBarView @JvmOverloads constructor(
         }
     }
 
+    //sets the provided [searchBarViewStyle] to the search bar
     fun setStyle(searchBarViewStyle: LMFeedSearchBarViewStyle) {
         searchBarViewStyle.apply {
 
@@ -229,10 +230,12 @@ class LMFeedSearchBarView @JvmOverloads constructor(
                 setBackgroundColor(ContextCompat.getColor(context, it))
             }
 
+            //sets elevation of the search bar
             elevation?.let {
                 setElevation(resources.getDimension(it))
             }
 
+            //configures each view in the search bar
             configureSearchInputStyle(searchInputStyle)
             configureSearchBackIcon(searchBackIconStyle)
             configureSearchCloseIcon(searchCloseIconStyle)
@@ -265,6 +268,7 @@ class LMFeedSearchBarView @JvmOverloads constructor(
         }
     }
 
+    //opens the search bar view
     fun openSearch() {
         // If search is already open, just return.
         if (isOpen) {
@@ -279,6 +283,11 @@ class LMFeedSearchBarView @JvmOverloads constructor(
         mSearchViewListener?.onSearchViewOpened()
     }
 
+    /**
+     * Sets an observer on the search input field with a debounce (if enabled)
+     *
+     * @param debounce: whether to enable the debounce or not
+     * */
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     fun observeSearchView(debounce: Boolean = true) {
         if (debounce) {

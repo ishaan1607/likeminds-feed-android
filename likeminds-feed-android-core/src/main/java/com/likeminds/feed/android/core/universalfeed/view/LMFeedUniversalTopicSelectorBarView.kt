@@ -11,24 +11,21 @@ import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalSelectedTopicAdapterListener
-import com.likeminds.feed.android.core.universalfeed.style.LMFeedUniversalTopicSelectorBarStyle
+import com.likeminds.feed.android.core.universalfeed.style.LMFeedUniversalTopicSelectorBarViewStyle
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedUniversalTopicSelectorBarView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-    }
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
 
     constructor(context: Context, attrs: AttributeSet?, defStyle: Int) : super(
         context,
         attrs,
         defStyle
-    ) {
-    }
+    )
 
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
@@ -36,7 +33,8 @@ class LMFeedUniversalTopicSelectorBarView : ConstraintLayout {
     private val binding: LmFeedUniversalTopicSelectorBarBinding =
         LmFeedUniversalTopicSelectorBarBinding.inflate(inflater, this, true)
 
-    fun setStyle(topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarStyle) {
+    //sets the provided [topicSelectorBarStyle] to the topic selector bar
+    fun setStyle(topicSelectorBarStyle: LMFeedUniversalTopicSelectorBarViewStyle) {
         topicSelectorBarStyle.apply {
 
             //sets background color
@@ -49,6 +47,7 @@ class LMFeedUniversalTopicSelectorBarView : ConstraintLayout {
                 this@LMFeedUniversalTopicSelectorBarView.elevation = resources.getDimension(it)
             }
 
+            //configures all the views in the topic selector bar
             configureAllTopicsSelector(allTopicsSelectorStyle)
             configureClearTopicFilter(clearTopicFilterStyle)
         }
@@ -80,36 +79,26 @@ class LMFeedUniversalTopicSelectorBarView : ConstraintLayout {
         binding.tvClear.text = clearTopicsText
     }
 
+    /**
+     * Sets click listener on the all topics text view
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
     fun setAllTopicsClickListener(listener: LMFeedOnClickListener) {
         binding.tvAllTopics.setOnClickListener {
             listener.onClick()
         }
     }
 
+    /**
+     * Sets click listener on the clear selected topics text
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
     fun setClearSelectedTopicsClickListener(listener: LMFeedOnClickListener) {
         binding.tvClear.setOnClickListener {
             listener.onClick()
         }
-    }
-
-    fun setSelectedTopicAdapter(listener: LMFeedUniversalSelectedTopicAdapterListener) {
-        binding.rvSelectedTopics.setAdapter(listener)
-    }
-
-    fun getAllSelectedTopics(): List<LMFeedBaseViewType> {
-        return binding.rvSelectedTopics.allSelectedTopics()
-    }
-
-    fun replaceSelectedTopics(selectedTopics: List<LMFeedTopicViewData>) {
-        binding.rvSelectedTopics.replaceSelectedTopics(selectedTopics)
-    }
-
-    fun clearSelectedTopicsAndNotify() {
-        binding.rvSelectedTopics.clearAllSelectedTopicsAndNotify()
-    }
-
-    fun removeTopicAndNotify(position: Int) {
-        binding.rvSelectedTopics.removeSelectedTopicAndNotify(position)
     }
 
     /**
@@ -128,5 +117,34 @@ class LMFeedUniversalTopicSelectorBarView : ConstraintLayout {
      */
     fun setSelectedTopicFilterVisibility(isVisible: Boolean) {
         binding.grpSelectedTopics.isVisible = isVisible
+    }
+
+    /**
+     * Selected topics adapter functions
+     */
+
+    //exposed function to set the adapter with the provided [listener] to the selected topic recycler view
+    fun setSelectedTopicAdapter(listener: LMFeedUniversalSelectedTopicAdapterListener) {
+        binding.rvSelectedTopics.setAdapter(listener)
+    }
+
+    //exposed function to get all the topics in the selected topics adapter
+    fun getAllSelectedTopics(): List<LMFeedBaseViewType> {
+        return binding.rvSelectedTopics.getAllSelectedTopics()
+    }
+
+    //exposed function to replace the selected topics with the provided [selectedTopics] in the selected topics adapter
+    fun replaceSelectedTopics(selectedTopics: List<LMFeedTopicViewData>) {
+        binding.rvSelectedTopics.replaceSelectedTopics(selectedTopics)
+    }
+
+    //exposed function to clear the selected topics in the selected topics adapter and notify the recycler view
+    fun clearSelectedTopicsAndNotify() {
+        binding.rvSelectedTopics.clearAllSelectedTopicsAndNotify()
+    }
+
+    //exposed function to remove the selected topic at the provided [index] in the selected topics adapter and notify the recycler view
+    fun removeTopicAndNotify(position: Int) {
+        binding.rvSelectedTopics.removeSelectedTopicAndNotify(position)
     }
 }

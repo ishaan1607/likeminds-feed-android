@@ -29,6 +29,7 @@ class LMFeedViewMoreView : ConstraintLayout {
 
     private val binding = LmFeedViewMoreViewBinding.inflate(inflater, this, true)
 
+    //sets provided [viewMoreStyle] to the view more view
     fun setStyle(viewMoreStyle: LMFeedViewMoreStyle) {
 
         viewMoreStyle.apply {

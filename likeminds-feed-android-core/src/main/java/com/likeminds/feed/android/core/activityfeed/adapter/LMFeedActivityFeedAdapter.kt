@@ -23,5 +23,7 @@ class LMFeedActivityFeedAdapter(
 }
 
 interface LMFeedActivityFeedAdapterListener {
-    fun onActivityFeedItemClicked(position: Int, activityViewData: LMFeedActivityViewData)
+    fun onActivityFeedItemClicked(position: Int, activityViewData: LMFeedActivityViewData) {
+        //triggered when the user clicks on activity feed item
+    }
 }

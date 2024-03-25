@@ -6,6 +6,13 @@ import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedUserViewStyle] helps you to customize the likes fragment [LMFeedUserView]
+ *
+ * @property userImageViewStyle : [LMFeedImageStyle] this will help you to customize the user image in the user view
+ * @property userNameViewStyle : [LMFeedTextStyle] this will help you to customize the user name text in the user view
+ * @property userTitleViewStyle: [LMFeedTextStyle] this will help you to customize the user title text in the user view | set its value to [null] to hide the user title text
+ * */
 class LMFeedUserViewStyle private constructor(
     val userImageViewStyle: LMFeedImageStyle,
     val userNameViewStyle: LMFeedTextStyle,

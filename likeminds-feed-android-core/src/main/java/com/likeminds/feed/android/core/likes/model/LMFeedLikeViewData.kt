@@ -1,8 +1,8 @@
 package com.likeminds.feed.android.core.likes.model
 
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.base.model.ITEM_LIKES_SCREEN
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedLikeViewData private constructor(
     val id: String,

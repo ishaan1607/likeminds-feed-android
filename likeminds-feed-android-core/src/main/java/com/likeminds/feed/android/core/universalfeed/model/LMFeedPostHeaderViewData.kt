@@ -1,7 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
-import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedPostHeaderViewData private constructor(
     val isEdited: Boolean,

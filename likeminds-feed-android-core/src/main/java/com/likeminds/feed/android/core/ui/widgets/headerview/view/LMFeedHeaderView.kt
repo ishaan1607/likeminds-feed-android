@@ -38,6 +38,9 @@ class LMFeedHeaderView : ConstraintLayout {
     private val binding: LmFeedHeaderViewBinding =
         LmFeedHeaderViewBinding.inflate(inflater, this, true)
 
+    /**
+     * sets [LMFeedHeaderViewStyle] to [LMFeedHeaderView]
+     */
     fun setStyle(headerViewStyle: LMFeedHeaderViewStyle) {
 
         headerViewStyle.apply {
@@ -161,6 +164,17 @@ class LMFeedHeaderView : ConstraintLayout {
     }
 
     /**
+     * Sets the navigation icon click listener
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setNavigationIconClickListener(listener: LMFeedOnClickListener) {
+        binding.ivHeaderNavigation.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    /**
      * Sets submit text in the header view.
      *
      * @param submitText Text for the submit text in the header.
@@ -169,6 +183,12 @@ class LMFeedHeaderView : ConstraintLayout {
         binding.tvHeaderSubmit.text = submitText
     }
 
+    /**
+     * Sets the submit button style as per its configuration (disabled/enabled)
+     *
+     * @param isEnabled - whether to enable/disable the submit button
+     * @param showProgress - whether to show progress bar in plae of the submit button
+     */
     fun setSubmitButtonEnabled(isEnabled: Boolean, showProgress: Boolean = false) {
         binding.apply {
             if (showProgress) {
@@ -263,12 +283,22 @@ class LMFeedHeaderView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the search icon click listener
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
     fun setSearchIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivHeaderSearch.setOnClickListener {
             listener.onClick()
         }
     }
 
+    /**
+     * Sets the submit button click listener
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
     fun setSubmitButtonClickListener(listener: LMFeedOnClickListener) {
         binding.tvHeaderSubmit.setOnClickListener {
             listener.onClick()

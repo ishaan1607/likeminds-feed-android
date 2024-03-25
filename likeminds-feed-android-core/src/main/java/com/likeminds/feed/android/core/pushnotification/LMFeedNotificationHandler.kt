@@ -25,7 +25,7 @@ class LMFeedNotificationHandler {
     companion object {
         private var notificationHandler: LMFeedNotificationHandler? = null
 
-        const val LM_FEED_GENERAL_CHANNEL_ID = "notification_general"
+        const val LM_FEED_GENERAL_CHANNEL_ID = "lm_feed_notification_general"
         const val LM_FEED_NOTIFICATION_TITLE = "title"
         const val LM_FEED_NOTIFICATION_SUB_TITLE = "sub_title"
         const val LM_FEED_NOTIFICATION_ROUTE = "route"

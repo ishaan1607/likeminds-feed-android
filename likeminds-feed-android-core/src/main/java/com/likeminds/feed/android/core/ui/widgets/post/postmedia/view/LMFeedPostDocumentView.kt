@@ -31,6 +31,7 @@ class LMFeedPostDocumentView : ConstraintLayout {
 
     private val binding = LmFeedPostDocumentViewBinding.inflate(inflater, this, true)
 
+    //sets provided [postDocumentMediaViewStyle] to the document media of the post
     fun setStyle(postDocumentMediaViewStyle: LMFeedPostDocumentsMediaViewStyle) {
 
         //set background color
@@ -43,6 +44,7 @@ class LMFeedPostDocumentView : ConstraintLayout {
             )
         }
 
+        //configures each view of the document media
         configureDocumentName(postDocumentMediaViewStyle.documentNameStyle)
         configureDocumentIcon(postDocumentMediaViewStyle.documentIconStyle)
         configureDocumentPageCount(postDocumentMediaViewStyle.documentPageCountStyle)

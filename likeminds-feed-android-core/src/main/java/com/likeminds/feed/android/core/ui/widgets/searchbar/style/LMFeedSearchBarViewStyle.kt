@@ -7,11 +7,25 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedSearchBarViewStyle] helps you to customize the likes fragment [LMFeedSearchBarView]
+ *
+ * @property searchInputStyle : [LMFeedEditTextStyle] this will help you to customize the search input field in the search bar view
+ * @property searchBackIconStyle : [LMFeedIconStyle] this will help you to customize the back icon in the search bar view | set its value to [null] if you want to hide the back icon in the search bar view
+ * @property searchCloseIconStyle : [LMFeedIconStyle] this will help you to customize the close icon in the search bar view | set its value to [null] if you want to hide the close icon in the search bar view
+ * @property backgroundColor: [Int] should be in format of [ColorRes] this will help you to customize the background color of the search bar view | Default value = [null]
+ * @property elevation : [Int] should be in format of [DimenRes] this will help you to customize the elevation of the search bar view | Default value = [null]
+ * */
 class LMFeedSearchBarViewStyle private constructor(
+    //search input edit text style
     val searchInputStyle: LMFeedEditTextStyle,
+    //search back icon style
     val searchBackIconStyle: LMFeedIconStyle?,
+    //search close icon style
     val searchCloseIconStyle: LMFeedIconStyle?,
+    //search bar background color
     @ColorRes val backgroundColor: Int?,
+    //search bar elevation
     @DimenRes val elevation: Int?,
 ) : LMFeedViewStyle {
 

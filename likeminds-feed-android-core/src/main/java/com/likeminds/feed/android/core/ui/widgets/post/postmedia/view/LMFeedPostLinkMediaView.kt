@@ -8,7 +8,7 @@ import com.google.android.material.card.MaterialCardView
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostLinkMediaViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostLinkViewStyle
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostLinkMediaViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.isImageValid
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -34,39 +34,42 @@ class LMFeedPostLinkMediaView : MaterialCardView {
 
     private val binding = LmFeedPostLinkMediaViewBinding.inflate(inflater, this, true)
 
-    fun setStyle(postLinkViewStyle: LMFeedPostLinkViewStyle) {
+    //sets provided [postLinkViewStyle] to the link type post
+    fun setStyle(postLinkViewStyle: LMFeedPostLinkMediaViewStyle) {
+        postLinkViewStyle.apply {
+            //set background color of the link box
+            if (backgroundColor != null) {
+                setBackgroundColor(ContextCompat.getColor(context, backgroundColor))
+            }
 
-        //set background color of the link box
-        if (postLinkViewStyle.backgroundColor != null) {
-            setBackgroundColor(ContextCompat.getColor(context, postLinkViewStyle.backgroundColor))
+            //set corner radius of the link box
+            if (linkBoxCornerRadius != null) {
+                radius = resources.getDimension(linkBoxCornerRadius)
+            }
+
+            //set elevation of the link box
+            if (linkBoxElevation != null) {
+                elevation = resources.getDimension(linkBoxElevation)
+            }
+
+            //set stroke color of the link box
+            if (linkBoxStrokeColor != null) {
+                strokeColor = ContextCompat.getColor(context, linkBoxStrokeColor)
+            }
+
+            //set stroke color of the link box
+            if (linkBoxStrokeWidth != null) {
+                strokeWidth =
+                    resources.getDimension(linkBoxStrokeWidth).roundToInt()
+            }
+
+            //configures each view of the link type post with the provided styles
+            configureLinkTitle(linkTitleStyle)
+            configureLinkDescription(linkDescriptionStyle)
+            configureLinkUrl(linkUrlStyle)
+            configureLinkImage(linkImageStyle)
+            configureLinkRemoveIcon(linkRemoveIconStyle)
         }
-
-        //set corner radius of the link box
-        if (postLinkViewStyle.linkBoxCornerRadius != null) {
-            radius = resources.getDimension(postLinkViewStyle.linkBoxCornerRadius)
-        }
-
-        //set elevation of the link box
-        if (postLinkViewStyle.linkBoxElevation != null) {
-            elevation = resources.getDimension(postLinkViewStyle.linkBoxElevation)
-        }
-
-        //set stroke color of the link box
-        if (postLinkViewStyle.linkBoxStrokeColor != null) {
-            strokeColor = ContextCompat.getColor(context, postLinkViewStyle.linkBoxStrokeColor)
-        }
-
-        //set stroke color of the link box
-        if (postLinkViewStyle.linkBoxStrokeWidth != null) {
-            strokeWidth =
-                resources.getDimension(postLinkViewStyle.linkBoxStrokeWidth).roundToInt()
-        }
-
-        configureLinkTitle(postLinkViewStyle.linkTitleStyle)
-        configureLinkDescription(postLinkViewStyle.linkDescriptionStyle)
-        configureLinkUrl(postLinkViewStyle.linkUrlStyle)
-        configureLinkImage(postLinkViewStyle.linkImageStyle)
-        configureLinkRemoveIcon(postLinkViewStyle.linkRemoveIconStyle)
     }
 
     private fun configureLinkTitle(linkTitleStyle: LMFeedTextStyle) {
