@@ -4,7 +4,7 @@ import android.graphics.Typeface
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogStyle
+import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogViewStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
@@ -31,7 +31,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
     //edit chip style
     val editChipStyle: LMFeedChipStyle,
     //disabled topics alert dialog style
-    val disabledTopicsAlertDialogStyle: LMFeedAlertDialogStyle
+    val disabledTopicsAlertDialogStyle: LMFeedAlertDialogViewStyle
 ) : LMFeedViewStyle {
     class Builder {
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
@@ -68,21 +68,22 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .activeSubmitColor(R.color.lm_feed_majorelle_blue)
             .build()
 
-        private var postHeaderViewStyle: LMFeedPostHeaderViewStyle = LMFeedPostHeaderViewStyle.Builder()
-            .authorImageViewStyle(
-                LMFeedImageStyle.Builder()
-                    .isCircle(true)
-                    .build()
-            )
-            .authorNameViewStyle(
-                LMFeedTextStyle.Builder()
-                    .textColor(R.color.lm_feed_raisin_black)
-                    .textSize(R.dimen.lm_feed_text_large)
-                    .maxLines(1)
-                    .ellipsize(TextUtils.TruncateAt.END)
-                    .build()
-            )
-            .build()
+        private var postHeaderViewStyle: LMFeedPostHeaderViewStyle =
+            LMFeedPostHeaderViewStyle.Builder()
+                .authorImageViewStyle(
+                    LMFeedImageStyle.Builder()
+                        .isCircle(true)
+                        .build()
+                )
+                .authorNameViewStyle(
+                    LMFeedTextStyle.Builder()
+                        .textColor(R.color.lm_feed_raisin_black)
+                        .textSize(R.dimen.lm_feed_text_large)
+                        .maxLines(1)
+                        .ellipsize(TextUtils.TruncateAt.END)
+                        .build()
+                )
+                .build()
 
         private var postComposerStyle: LMFeedEditTextStyle = LMFeedEditTextStyle.Builder()
             .inputTextStyle(
@@ -119,8 +120,8 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .progressColor(R.color.lm_feed_majorelle_blue)
             .build()
 
-        private var disabledTopicsAlertDialogStyle: LMFeedAlertDialogStyle =
-            LMFeedAlertDialogStyle.Builder()
+        private var disabledTopicsAlertDialogStyle: LMFeedAlertDialogViewStyle =
+            LMFeedAlertDialogViewStyle.Builder()
                 .alertSubtitleText(
                     LMFeedTextStyle.Builder()
                         .textColor(R.color.lm_feed_grey)
@@ -164,7 +165,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             this.editChipStyle = editChipStyle
         }
 
-        fun disabledTopicsAlertDialogStyle(disabledTopicsAlertDialogStyle: LMFeedAlertDialogStyle) =
+        fun disabledTopicsAlertDialogStyle(disabledTopicsAlertDialogStyle: LMFeedAlertDialogViewStyle) =
             apply {
                 this.disabledTopicsAlertDialogStyle = disabledTopicsAlertDialogStyle
             }
