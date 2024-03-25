@@ -67,7 +67,7 @@ open class LMFeedLikesFragment : Fragment(), LMFeedLikesAdapterListener {
         }
     }
 
-    private fun customizeLikesFragmentHeaderView(headerViewLikes: LMFeedHeaderView) {
+    protected open fun customizeLikesFragmentHeaderView(headerViewLikes: LMFeedHeaderView) {
         headerViewLikes.apply {
             setStyle(LMFeedStyleTransformer.likesFragmentViewStyle.headerViewStyle)
 

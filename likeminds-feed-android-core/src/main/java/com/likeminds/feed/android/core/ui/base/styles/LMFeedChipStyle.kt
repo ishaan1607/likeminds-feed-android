@@ -9,6 +9,19 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.views.LMFeedChip
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedChipStyle] helps you to customize a [LMFeedChip] with the following properties
+ * @property chipBackgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the chip | Default value =  [null]
+ * @property chipStrokeColor: [Int] should be in format of [ColorRes] to customize the stroke color of the chip | Default value =  [null]
+ * @property chipTextColor: [Int] should be in format of [ColorRes] to customize the text color of the chip | Default value =  [R.color.lm_feed_majorelle_blue]
+ * @property chipStrokeWidth: [Int] should be in format of [DimenRes] to customize the width of the stroke on the chip | Default value =  [null]
+ * @property chipMinHeight: [Int] should be in format of [DimenRes] to customize the minimum height of the chip | Default value =  [null]
+ * @property chipStartPadding: [Int] should be in format of [DimenRes] to customize the start padding of the chip | Default value =  [null]
+ * @property chipEndPadding: [Int] should be in format of [DimenRes] to customize the end padding of the chip | Default value =  [null]
+ * @property chipCornerRadius: [Int] should be in format of [DimenRes] to customize the corner radius of the chip | Default value =  [R.dimen.lm_feed_corner_radius_regular]
+ * @property chipTextSize: [Int] should be in format of [DimenRes] to customize the text size of the chip | Default value = [R.dimen.lm_feed_text_medium]
+ *
+ **/
 class LMFeedChipStyle private constructor(
     @ColorRes val chipBackgroundColor: Int?,
     @ColorRes val chipStrokeColor: Int?,

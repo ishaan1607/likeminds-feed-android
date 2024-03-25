@@ -14,24 +14,22 @@ import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedViewMoreView : ConstraintLayout {
 
-    constructor(context: Context) : super(context) {
-    }
+    constructor(context: Context) : super(context)
 
-    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet) {
-    }
+    constructor(context: Context, attributeSet: AttributeSet?) : super(context, attributeSet)
 
     constructor(context: Context, attributeSet: AttributeSet?, defStyle: Int) : super(
         context,
         attributeSet,
         defStyle
-    ) {
-    }
+    )
 
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
 
     private val binding = LmFeedViewMoreViewBinding.inflate(inflater, this, true)
 
+    //sets provided [viewMoreStyle] to the view more view
     fun setStyle(viewMoreStyle: LMFeedViewMoreStyle) {
 
         viewMoreStyle.apply {

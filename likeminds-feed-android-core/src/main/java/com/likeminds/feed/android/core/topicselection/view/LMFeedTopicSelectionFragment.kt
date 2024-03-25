@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -63,6 +64,18 @@ open class LMFeedTopicSelectionFragment :
         binding = LmFeedFragmentTopicSelectionBinding.inflate(layoutInflater)
 
         binding.apply {
+            //set background color
+            val backgroundColor =
+                LMFeedStyleTransformer.topicSelectionFragmentViewStyle.backgroundColor
+            backgroundColor?.let { color ->
+                root.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        color
+                    )
+                )
+            }
+
             customizeTopicSelectionHeaderView(headerViewTopicSelection)
             customizeNoTopicsLayout(layoutNoTopics)
             customizeSubmitTopicsFab(fabSubmitSelectedTopics)
@@ -71,6 +84,7 @@ open class LMFeedTopicSelectionFragment :
         }
     }
 
+    //customizes the topic selection header view
     protected open fun customizeTopicSelectionHeaderView(headerViewTopicSelection: LMFeedHeaderView) {
         headerViewTopicSelection.apply {
             val headerStyle = LMFeedStyleTransformer.topicSelectionFragmentViewStyle.headerViewStyle
@@ -80,6 +94,7 @@ open class LMFeedTopicSelectionFragment :
         }
     }
 
+    //customizes the no topics layout
     protected open fun customizeNoTopicsLayout(layoutNoTopics: LMFeedNoEntityLayoutView) {
         layoutNoTopics.apply {
             val noTopicsLayoutStyle =
@@ -90,6 +105,7 @@ open class LMFeedTopicSelectionFragment :
         }
     }
 
+    //customizes the fab to submit the selected topics
     protected open fun customizeSubmitTopicsFab(fabSubmitSelectedTopics: LMFeedFAB) {
         fabSubmitSelectedTopics.apply {
             val submitSelectedTopicsFABStyle =
@@ -99,6 +115,7 @@ open class LMFeedTopicSelectionFragment :
         }
     }
 
+    //customizes the search bar to search for the topics
     protected open fun customizeSearchBar(searchBar: LMFeedSearchBarView) {
         searchBar.apply {
             val searchBarStyle =
@@ -134,16 +151,16 @@ open class LMFeedTopicSelectionFragment :
             val topics = response.second
 
             binding.apply {
-                if (rvTopics.allItems().isEmpty() && topics.isEmpty()) {
+                if (rvTopics.getAllTopics().isEmpty() && topics.isEmpty()) {
                     rvTopics.hide()
                     layoutNoTopics.show()
                     fabSubmitSelectedTopics.hide()
-                    rvTopics.clearAllItemsAndNotify()
+                    rvTopics.clearAllTopicsAndNotify()
                 } else {
                     rvTopics.show()
                     layoutNoTopics.hide()
                     fabSubmitSelectedTopics.show()
-                    rvTopics.addAllItems(topics)
+                    rvTopics.addAllTopics(topics)
                 }
             }
         }
@@ -218,7 +235,7 @@ open class LMFeedTopicSelectionFragment :
     private fun updateSearchedTopics(keyword: String?, showAllTopicFilter: Boolean) {
         binding.rvTopics.apply {
             resetScrollListenerData()
-            clearAllItemsAndNotify()
+            clearAllTopicsAndNotify()
         }
         searchKeyword = keyword
         topicSelectionViewModel.getTopics(
@@ -283,7 +300,7 @@ open class LMFeedTopicSelectionFragment :
     protected open fun onSubmitFABClicked() {
         binding.rvTopics.apply {
             //check for all topic is selected
-            val allTopicViewData = allItems().find {
+            val allTopicViewData = getAllTopics().find {
                 it is LMFeedAllTopicsViewData
             } as? LMFeedAllTopicsViewData
 
@@ -293,7 +310,7 @@ open class LMFeedTopicSelectionFragment :
                     .isAllTopicSelected(true)
                     .build()
             } else {
-                val selectedTopics = allItems().filter {
+                val selectedTopics = getAllTopics().filter {
                     it is LMFeedTopicViewData && it.isSelected
                 }.map {
                     it as LMFeedTopicViewData
@@ -316,7 +333,7 @@ open class LMFeedTopicSelectionFragment :
         super.onTopicSelected(position, topic)
 
         binding.rvTopics.apply {
-            val allTopicViewData = allItems().find {
+            val allTopicViewData = getAllTopics().find {
                 it is LMFeedAllTopicsViewData
             } as? LMFeedAllTopicsViewData
 
@@ -327,7 +344,7 @@ open class LMFeedTopicSelectionFragment :
                     .isSelected(false)
                     .build()
 
-                updateItem(0, updatedAllTopicViewData)
+                updateTopicAtIndex(0, updatedAllTopicViewData)
             }
 
             //update topic
@@ -346,7 +363,7 @@ open class LMFeedTopicSelectionFragment :
             }
 
             //update recycle
-            updateItem(position, updatedTopic)
+            updateTopicAtIndex(position, updatedTopic)
 
             //update sub title
             updateSelectedTopicsCount()
@@ -365,14 +382,14 @@ open class LMFeedTopicSelectionFragment :
                 .build()
 
             //update recyclerview for all topics
-            updateItem(position, updateAllTopic)
+            updateTopicAtIndex(position, updateAllTopic)
 
             //update other topics
-            allItems().forEachIndexed { index, topic ->
+            getAllTopics().forEachIndexed { index, topic ->
                 if (topic is LMFeedTopicViewData) {
                     val updatedTopic = topic.toBuilder().isSelected(false).build()
 
-                    updateItem(index, updatedTopic)
+                    updateTopicAtIndex(index, updatedTopic)
                 }
             }
 

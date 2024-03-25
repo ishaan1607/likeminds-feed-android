@@ -4,8 +4,16 @@ import android.text.TextUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
+import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedEditPostFragmentViewStyle] helps you to customize the universal feed fragment [LMFeedEditPostFragment]
+ *
+ * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the edit post fragment
+ * @property postComposerStyle : [LMFeedEditTextStyle] this will help you to customize the post composer edit text in the edit post fragment
+ * @property progressBarStyle: [LMFeedProgressBarStyle] this will help you to customize the progress bar in the edit post fragment
+ * */
 class LMFeedEditPostFragmentViewStyle private constructor(
     //header view style
     val headerViewStyle: LMFeedHeaderViewStyle,
@@ -13,8 +21,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
     val postComposerStyle: LMFeedEditTextStyle,
     //progress bar view style
     val progressBarStyle: LMFeedProgressBarStyle
-) {
-
+) : LMFeedViewStyle {
     class Builder {
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
             .titleTextStyle(

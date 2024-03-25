@@ -4,6 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
+/**
+ * Represents a floating action button
+ * To customize this view use [LMFeedFABStyle]
+ */
 class LMFeedFAB : ExtendedFloatingActionButton {
 
     constructor(context: Context) : super(context) {

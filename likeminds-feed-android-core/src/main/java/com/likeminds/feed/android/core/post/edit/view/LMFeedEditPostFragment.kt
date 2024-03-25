@@ -118,6 +118,7 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //customizes edit post header view
     protected open fun customizeEditPostHeaderView(headerViewEditPost: LMFeedHeaderView) {
         headerViewEditPost.apply {
             setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.headerViewStyle)
@@ -135,10 +136,12 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //customizes post composer edit text
     protected open fun customizePostComposer(etPostComposer: LMFeedEditText) {
         etPostComposer.setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.postComposerStyle)
     }
 
+    //customizes single image view type post
     protected open fun customizePostSingleImageView(postSingleImageView: LMFeedImageView) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
@@ -147,6 +150,7 @@ open class LMFeedEditPostFragment :
         postSingleImageView.setStyle(postImageMediaStyle)
     }
 
+    //customizes single video view type post
     protected open fun customizePostSingleVideoView(postSingleVideoView: LMFeedPostVideoMediaView) {
         val postVideoMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle
@@ -155,6 +159,7 @@ open class LMFeedEditPostFragment :
         postSingleVideoView.setStyle(postVideoMediaStyle)
     }
 
+    //customizes link preview in the post
     protected open fun customizePostLinkPreview(postLinkView: LMFeedPostLinkMediaView) {
         //todo: change this to the create post link view style
         val postLinkViewStyle =
@@ -164,6 +169,7 @@ open class LMFeedEditPostFragment :
         postLinkView.setStyle(postLinkViewStyle)
     }
 
+    //customizes documents type post
     protected open fun customizePostDocumentsView(postDocumentsView: LMFeedPostDocumentsMediaView) {
         val postDocumentsViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
@@ -172,6 +178,7 @@ open class LMFeedEditPostFragment :
         postDocumentsView.setStyle(postDocumentsViewStyle)
     }
 
+    //customizes multiple media type post
     protected open fun customizePostMultipleMediaView(postMultipleMediaView: LMFeedPostMultipleMediaView) {
         val postMultipleMediaViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postMultipleMediaStyle
@@ -180,6 +187,7 @@ open class LMFeedEditPostFragment :
         postMultipleMediaView.setStyle(postMultipleMediaViewStyle)
     }
 
+    //customizes progress bar in the edit post
     protected open fun customizeEditPostProgressbar(progressBar: LMFeedProgressBar) {
         progressBar.setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.progressBarStyle)
     }
