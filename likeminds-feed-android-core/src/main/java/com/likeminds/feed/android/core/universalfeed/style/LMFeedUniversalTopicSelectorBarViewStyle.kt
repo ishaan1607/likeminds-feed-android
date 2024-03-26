@@ -35,13 +35,11 @@ class LMFeedUniversalTopicSelectorBarViewStyle private constructor(
             .drawableRightSrc(R.drawable.lm_feed_ic_arrow_down)
             .textColor(R.color.lm_feed_grey)
             .textSize(R.dimen.lm_feed_text_large)
-            .fontResource(R.font.lm_feed_roboto)
             .build()
 
         private var clearTopicFilterStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textColor(R.color.lm_feed_majorelle_blue)
             .textSize(R.dimen.lm_feed_text_large)
-            .fontResource(R.font.lm_feed_roboto)
             .build()
 
         private var selectedTopicTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()

@@ -73,13 +73,12 @@ class LMFeedReportFragmentViewStyle private constructor(
 
         private var reportHeaderStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_medium)
-            .fontResource(R.font.lm_feed_roboto_medium)
+            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
             .build()
 
         private var reportSubHeaderStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_medium)
             .textColor(R.color.lm_feed_brown_grey)
-            .fontResource(R.font.lm_feed_roboto)
             .build()
 
         private var reportReasonInputStyle: LMFeedEditTextStyle = LMFeedEditTextStyle.Builder()
@@ -87,7 +86,7 @@ class LMFeedReportFragmentViewStyle private constructor(
             .inputTextStyle(
                 LMFeedTextStyle.Builder()
                     .textSize(R.dimen.lm_feed_text_medium)
-                    .fontResource(R.font.lm_feed_roboto)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
                     .build()
             )
             .backgroundColor(R.color.lm_feed_majorelle_blue)
@@ -97,7 +96,7 @@ class LMFeedReportFragmentViewStyle private constructor(
             .textStyle(
                 LMFeedTextStyle.Builder()
                     .textAllCaps(true)
-                    .fontResource(R.font.lm_feed_roboto_medium)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .textColor(R.color.lm_feed_white)
                     .textSize(R.dimen.lm_feed_text_medium)
                     .typeface(Typeface.BOLD)
@@ -124,7 +123,7 @@ class LMFeedReportFragmentViewStyle private constructor(
                         .textColor(R.color.lm_feed_grey)
                         .textSize(R.dimen.lm_feed_text_medium)
                         .typeface(Typeface.NORMAL)
-                        .fontResource(R.font.lm_feed_roboto)
+                        .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
                         .build()
                 )
                 .alertPositiveButtonStyle(
@@ -133,7 +132,7 @@ class LMFeedReportFragmentViewStyle private constructor(
                         .textColor(R.color.lm_feed_black_20)
                         .textSize(R.dimen.lm_feed_text_small)
                         .typeface(Typeface.NORMAL)
-                        .fontResource(R.font.lm_feed_roboto_medium)
+                        .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                         .build()
                 )
                 .alertBoxElevation(R.dimen.lm_feed_elevation_small)

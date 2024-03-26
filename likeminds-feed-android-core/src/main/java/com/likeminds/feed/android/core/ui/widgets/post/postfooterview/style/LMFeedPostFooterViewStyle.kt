@@ -33,20 +33,23 @@ class LMFeedPostFooterViewStyle private constructor(
 
     class Builder {
         private var likeTextStyle: LMFeedTextStyle? = null
+
         private var likeIconStyle: LMFeedIconStyle = LMFeedIconStyle.Builder()
             .activeSrc(R.drawable.lm_feed_ic_like_filled)
             .inActiveSrc(R.drawable.lm_feed_ic_like_unfilled)
             .build()
+
         private var commentTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textColor(R.color.lm_feed_grey)
             .textSize(R.dimen.lm_feed_text_medium)
-            .fontResource(R.font.lm_feed_roboto)
             .textAllCaps(false)
             .textAlignment(View.TEXT_ALIGNMENT_CENTER)
             .drawableLeftSrc(R.drawable.lm_feed_ic_comment)
             .drawablePadding(R.dimen.lm_feed_padding_big)
             .build()
+
         private var saveIconStyle: LMFeedIconStyle? = null
+
         private var shareIconStyle: LMFeedIconStyle? = null
 
         @ColorRes

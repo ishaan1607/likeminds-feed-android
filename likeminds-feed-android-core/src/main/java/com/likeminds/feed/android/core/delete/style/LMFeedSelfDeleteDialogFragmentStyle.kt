@@ -22,7 +22,6 @@ class LMFeedSelfDeleteDialogFragmentStyle private constructor(
                     .textColor(R.color.lm_feed_grey)
                     .textSize(R.dimen.lm_feed_text_medium)
                     .typeface(Typeface.NORMAL)
-                    .fontResource(R.font.lm_feed_roboto)
                     .build()
             )
             .alertNegativeButtonStyle(
@@ -31,7 +30,7 @@ class LMFeedSelfDeleteDialogFragmentStyle private constructor(
                     .textColor(R.color.lm_feed_black_40)
                     .textSize(R.dimen.lm_feed_text_small)
                     .typeface(Typeface.NORMAL)
-                    .fontResource(R.font.lm_feed_roboto_medium)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .build()
             )
             .alertPositiveButtonStyle(
@@ -40,7 +39,7 @@ class LMFeedSelfDeleteDialogFragmentStyle private constructor(
                     .textColor(R.color.lm_feed_black_20)
                     .textSize(R.dimen.lm_feed_text_small)
                     .typeface(Typeface.NORMAL)
-                    .fontResource(R.font.lm_feed_roboto_medium)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .build()
             )
             .alertBoxElevation(R.dimen.lm_feed_elevation_small)

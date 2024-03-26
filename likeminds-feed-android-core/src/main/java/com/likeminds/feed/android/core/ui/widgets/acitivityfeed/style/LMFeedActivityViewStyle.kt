@@ -42,7 +42,6 @@ class LMFeedActivityViewStyle private constructor(
             .ellipsize(TextUtils.TruncateAt.END)
             .textColor(R.color.lm_feed_dark_grey)
             .textSize(R.dimen.lm_feed_text_medium)
-            .fontResource(R.font.lm_feed_roboto)
             .build()
 
         private var postTypeBadgeStyle: LMFeedImageStyle? = null

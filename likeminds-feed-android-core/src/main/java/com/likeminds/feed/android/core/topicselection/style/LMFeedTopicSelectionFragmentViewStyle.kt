@@ -81,7 +81,6 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
             .textSize(R.dimen.lm_feed_text_large)
             .textColor(R.color.lm_feed_dark_grey)
             .typeface(Typeface.BOLD)
-            .fontResource(R.font.lm_feed_roboto)
             .drawableRightSrc(R.drawable.lm_feed_ic_topic_selected)
             .build()
 
@@ -97,7 +96,7 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
                         .textColor(R.color.lm_feed_dark_grey)
                         .textSize(R.dimen.lm_feed_text_medium)
                         .typeface(Typeface.NORMAL)
-                        .fontResource(R.font.lm_feed_roboto_medium)
+                        .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                         .build()
                 )
                 .build()

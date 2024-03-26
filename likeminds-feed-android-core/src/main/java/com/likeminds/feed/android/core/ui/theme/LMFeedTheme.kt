@@ -24,7 +24,7 @@ object LMFeedTheme {
      * */
     fun setTheme(lmFeedSetThemeRequest: LMFeedSetThemeRequest) {
         fontResource = lmFeedSetThemeRequest.fontResource
-        fontAssetsPath = lmFeedSetThemeRequest.fontAssetsPath ?: "fonts/montserrat-regular.ttf"
+        fontAssetsPath = lmFeedSetThemeRequest.fontAssetsPath ?: "fonts/lm_feed_montserrat-regular.ttf"
         postCharacterLimit =
             (lmFeedSetThemeRequest.postCharacterLimit ?: DEFAULT_POST_CHARACTER_LIMIT)
         notificationIcon = lmFeedSetThemeRequest.notificationIcon
