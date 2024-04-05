@@ -6,7 +6,7 @@
         android:id="@+id/chip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="@dimen/lm_feed_text_medium"
         android:textStyle="normal"
         tools:text="Alternative Rock" />
 </layout>

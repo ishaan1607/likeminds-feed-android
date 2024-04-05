@@ -23,7 +23,7 @@
             android:id="@+id/post_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/lm_feed_standard_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -32,8 +32,8 @@
             android:id="@+id/post_topics_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="@dimen/lm_feed_margin_medium"
+            android:layout_marginHorizontal="@dimen/lm_feed_standard_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_header" />
@@ -42,8 +42,8 @@
             android:id="@+id/tv_post_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="@dimen/lm_feed_standard_margin"
+            android:layout_marginTop="@dimen/lm_feed_margin_medium"
             android:lineSpacingExtra="1sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,13 +51,13 @@
             tools:fontFamily="@font/lm_feed_roboto"
             tools:text="Congrats to @talasha.sawant &amp; @kate92kt for being Community Hood CMs Of the Week! They both are founders of @_towardsabetteryou_  that is for mental &amp; emotional wellbeing ... See more"
             tools:textColor="@color/lm_feed_grey"
-            tools:textSize="16sp" />
+            tools:textSize="@dimen/lm_feed_text_large" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_post"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="@dimen/zero_dp"
+            android:layout_marginTop="@dimen/lm_feed_standard_margin"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +69,7 @@
             android:id="@+id/post_footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/lm_feed_standard_margin"
             android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,6 +1,5 @@
 package com.likeminds.feed.android.core.post.style
 
-import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import com.likeminds.feed.android.core.R
@@ -119,7 +118,7 @@ class LMFeedPostViewStyle private constructor(
                         .textAllCaps(false)
                         .textAlignment(View.TEXT_ALIGNMENT_CENTER)
                         .drawableLeftSrc(R.drawable.lm_feed_ic_comment)
-                        .drawablePadding(R.dimen.lm_feed_padding_big)
+                        .drawablePadding(R.dimen.lm_feed_padding_regular)
                         .build()
                 )
                 .saveIconStyle(

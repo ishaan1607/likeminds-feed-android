@@ -13,13 +13,13 @@
             android:foreground="?selectableItemBackgroundBorderless"
             android:lineHeight="20sp"
             android:lineSpacingExtra="1sp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="16dp"
+            android:paddingHorizontal="@dimen/lm_feed_padding_big"
+            android:paddingVertical="@dimen/lm_feed_padding_big"
             android:text="@string/lm_feed_all_topics"
             app:layout_constraintTop_toTopOf="parent"
             tools:drawableEnd="@drawable/lm_feed_ic_arrow_down"
             tools:textColor="@color/lm_feed_grey"
-            tools:textSize="16sp" />
+            tools:textSize="@dimen/lm_feed_text_large" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/grp_selected_topics"
@@ -29,10 +29,10 @@
 
         <com.likeminds.feed.android.core.universalfeed.view.LMFeedUniversalSelectedTopicListView
             android:id="@+id/rv_selected_topics"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginVertical="8dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="@dimen/zero_dp"
+            android:layout_marginVertical="@dimen/lm_feed_margin_medium"
+            android:layout_marginStart="@dimen/lm_feed_standard_margin"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_clear"
@@ -43,20 +43,20 @@
             android:id="@+id/tv_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
+            android:layout_marginVertical="@dimen/lm_feed_margin_medium"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?selectableItemBackgroundBorderless"
             android:lineHeight="20sp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
+            android:paddingHorizontal="@dimen/lm_feed_padding_big"
+            android:paddingVertical="@dimen/lm_feed_padding_regular"
             android:text="@string/lm_feed_clear"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:textColor="@color/lm_feed_majorelle_blue"
-            tools:textSize="16sp" />
+            tools:textSize="@dimen/lm_feed_text_large" />
 
         <View
             android:id="@+id/view_separator"

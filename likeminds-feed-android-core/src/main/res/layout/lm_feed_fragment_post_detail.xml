@@ -19,7 +19,7 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/zero_dp"
             app:layout_constraintBottom_toTopOf="@id/comment_composer"
             app:layout_constraintTop_toBottomOf="@id/header_view_post_detail">
 
@@ -46,7 +46,7 @@
         <com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.view.LMFeedCommentComposerView
             android:id="@+id/comment_composer"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/zero_dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <include

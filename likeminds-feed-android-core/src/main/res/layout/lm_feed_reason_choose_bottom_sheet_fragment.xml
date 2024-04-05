@@ -6,13 +6,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/lm_feed_bg_rounded_top_10dp"
-        android:paddingBottom="16dp">
+        android:paddingBottom="@dimen/lm_feed_padding_big">
 
         <View
             android:id="@+id/view"
             android:layout_width="100dp"
             android:layout_height="7dp"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/lm_feed_margin_medium"
             android:background="@drawable/lm_feed_bg_sheet_handle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -20,11 +20,11 @@
 
         <com.likeminds.feed.android.core.delete.view.LMFeedReasonChooseListView
             android:id="@+id/rv_reasons"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/lm_feed_standard_margin"
             android:overScrollMode="never"
-            android:paddingBottom="16dp"
+            android:paddingBottom="@dimen/lm_feed_padding_big"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

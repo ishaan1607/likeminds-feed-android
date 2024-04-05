@@ -6,13 +6,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="16dp">
+        android:paddingHorizontal="@dimen/lm_feed_padding_big"
+        android:paddingVertical="@dimen/lm_feed_padding_big">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_user_image"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/lm_feed_large_icon_size"
+            android:layout_height="@dimen/lm_feed_large_icon_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@color/lm_feed_majorelle_blue" />
@@ -22,9 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/lm_feed_majorelle_blue"
-            android:translationY="-5dp"
+            android:translationY="@dimen/lm_feed_cv_post_type_translation_y"
             android:visibility="gone"
-            app:cardCornerRadius="12dp"
+            app:cardCornerRadius="@dimen/lm_feed_cv_post_type_corner_radius"
             app:layout_constraintBottom_toBottomOf="@id/iv_user_image"
             app:layout_constraintEnd_toEndOf="@id/iv_user_image"
             app:layout_constraintTop_toBottomOf="@id/iv_user_image"
@@ -32,8 +32,8 @@
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
                 android:id="@+id/iv_post_type"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/lm_feed_standard_icon_size"
+                android:layout_height="@dimen/lm_feed_standard_icon_size"
                 android:layout_gravity="center"
                 android:scaleType="center"
                 tools:ignore="ContentDescription"
@@ -45,8 +45,8 @@
             android:id="@+id/tv_activity_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="18dp"
+            android:layout_marginStart="@dimen/lm_feed_margin_medium"
+            android:layout_marginEnd="@dimen/lm_feed_standard_margin"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -56,11 +56,11 @@
             tools:fontFamily="@font/lm_feed_roboto"
             tools:text="Nishkarsh Kaushik commented on your post: “Here is a list of social media tools to help yousdfs sdfsd f sdf sfsdfds sdf sdfsdf sfsdfsfd sdfsdfsd  sdff”"
             tools:textColor="@color/lm_feed_dark_grey"
-            tools:textSize="14sp" />
+            tools:textSize="@dimen/lm_feed_text_medium" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_activity_date"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             app:layout_constrainedWidth="true"
@@ -72,7 +72,7 @@
             tools:text="4 days ago"
             tools:visibility="visible"
             tools:textColor="@color/lm_feed_brown_grey"
-            tools:textSize="14sp" />
+            tools:textSize="@dimen/lm_feed_text_medium" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

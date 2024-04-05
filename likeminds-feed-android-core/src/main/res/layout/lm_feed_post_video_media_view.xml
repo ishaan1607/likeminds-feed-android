@@ -9,8 +9,8 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedVideoView
             android:id="@+id/video_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="@dimen/zero_dp"
             android:layout_marginTop="12dp"
             android:keepScreenOn="true"
             android:scaleType="centerCrop"
@@ -24,8 +24,8 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_video_thumbnail"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="@dimen/zero_dp"
             android:layout_marginTop="12dp"
             android:visibility="gone"
             app:layout_constraintDimensionRatio="1:1"
@@ -51,7 +51,7 @@
             android:id="@+id/iv_play_pause_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="@dimen/lm_feed_padding_regular"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/video_view"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,7 +65,7 @@
             android:id="@+id/iv_mute_unmute_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="@dimen/lm_feed_padding_regular"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/video_view"
             app:layout_constraintEnd_toEndOf="parent"

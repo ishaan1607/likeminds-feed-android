@@ -7,7 +7,7 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="2dp"
-        app:cardElevation="4dp"
+        app:cardElevation="@dimen/lm_feed_elevation_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="24dp"
             android:paddingTop="24dp"
-            android:paddingBottom="8dp"
+            android:paddingBottom="@dimen/lm_feed_padding_regular"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,12 +26,12 @@
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:id="@+id/tv_alert_title"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero_dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lineSpacingExtra="8sp"
                 android:textColor="@color/lm_feed_black_87"
-                android:textSize="16sp"
+                android:textSize="@dimen/lm_feed_text_large"
                 android:textStyle="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,9 +41,9 @@
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:id="@+id/tv_alert_subtitle"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero_dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/lm_feed_standard_margin"
                 android:lineSpacingExtra="7sp"
                 android:textColor="@color/lm_feed_grey"
                 android:textSize="15sp"
@@ -56,11 +56,11 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_alert_selector"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero_dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
-                android:layout_marginVertical="16dp"
-                android:elevation="4dp"
+                android:layout_marginVertical="@dimen/lm_feed_standard_margin"
+                android:elevation="@dimen/lm_feed_elevation_small"
                 app:cardCornerRadius="8dp"
                 app:contentPadding="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,7 +77,7 @@
                     android:lineSpacingExtra="4sp"
                     android:textColor="@color/lm_feed_black"
                     android:textColorHint="@color/lm_feed_black_20"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/lm_feed_text_medium"
                     android:textStyle="normal"
                     tools:drawableEndCompat="@drawable/lm_feed_ic_arrow_drop_down"
                     tools:fontFamily="@font/lm_feed_roboto" />
@@ -85,17 +85,17 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_alert_input"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero_dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/lm_feed_standard_margin"
                 android:elevation="4dp"
                 android:visibility="gone"
                 app:cardCornerRadius="8dp"
-                app:contentPaddingBottom="16dp"
+                app:contentPaddingBottom="@dimen/lm_feed_padding_big"
                 app:contentPaddingLeft="12dp"
                 app:contentPaddingRight="12dp"
-                app:contentPaddingTop="16dp"
+                app:contentPaddingTop="@dimen/lm_feed_padding_big"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_alert_selector">
@@ -110,7 +110,7 @@
                     android:singleLine="true"
                     android:textColor="@color/lm_feed_black"
                     android:textColorHint="@color/lm_feed_black_20"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/lm_feed_text_medium"
                     tools:hint="@string/lm_feed_type_your_reason" />
             </androidx.cardview.widget.CardView>
 

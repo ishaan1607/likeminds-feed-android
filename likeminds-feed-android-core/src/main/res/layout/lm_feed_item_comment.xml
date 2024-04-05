@@ -27,10 +27,10 @@
 
         <com.likeminds.feed.android.core.post.detail.view.LMFeedReplyListView
             android:id="@+id/rv_replies"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/lm_feed_standard_margin"
             android:isScrollContainer="false"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"

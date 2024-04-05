@@ -7,11 +7,15 @@ object LMFeedTheme {
     private const val DEFAULT_POST_CHARACTER_LIMIT = 500
     const val DEFAULT_POST_MAX_LINES = 3
 
+    //font related
     @FontRes
     private var fontResource: Int? = null
     private var fontAssetsPath: String? = null
+
+    //post character limits
     private var postCharacterLimit: Int = DEFAULT_POST_CHARACTER_LIMIT
 
+    //notification related
     @DrawableRes
     private var notificationIcon: Int? = null
 
@@ -24,9 +28,12 @@ object LMFeedTheme {
      * */
     fun setTheme(lmFeedSetThemeRequest: LMFeedSetThemeRequest) {
         fontResource = lmFeedSetThemeRequest.fontResource
-        fontAssetsPath = lmFeedSetThemeRequest.fontAssetsPath ?: "fonts/lm_feed_montserrat-regular.ttf"
+        fontAssetsPath =
+            lmFeedSetThemeRequest.fontAssetsPath ?: "fonts/lm_feed_montserrat-regular.ttf"
+
         postCharacterLimit =
             (lmFeedSetThemeRequest.postCharacterLimit ?: DEFAULT_POST_CHARACTER_LIMIT)
+
         notificationIcon = lmFeedSetThemeRequest.notificationIcon
         notificationTextColor = lmFeedSetThemeRequest.notificationTextColor
     }

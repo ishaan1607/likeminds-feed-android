@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/lm_feed_white"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="@dimen/lm_feed_padding_big">
 
         <com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
             android:id="@+id/post_header"
@@ -32,7 +32,7 @@
             android:id="@+id/post_topics_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/lm_feed_margin_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_header" />
@@ -41,14 +41,14 @@
             android:id="@+id/tv_post_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/lm_feed_margin_medium"
             android:lineSpacingExtra="1sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_topics_group"
             tools:fontFamily="@font/lm_feed_roboto"
             tools:textColor="@color/lm_feed_grey"
-            tools:textSize="16sp" />
+            tools:textSize="@dimen/lm_feed_text_large" />
 
         <com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
             android:id="@+id/post_footer"

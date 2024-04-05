@@ -27,7 +27,7 @@
             android:id="@+id/tv_likes_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/lm_feed_margin_medium"
             android:foreground="?selectableItemBackground"
             android:paddingVertical="4dp"
             android:textStyle="normal"
@@ -38,11 +38,11 @@
             tools:ignore="UnusedAttribute"
             tools:text="39 Likes"
             tools:textColor="@color/lm_feed_grey"
-            tools:textSize="14sp" />
+            tools:textSize="@dimen/lm_feed_text_medium" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_comments_count"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="19dp"
             android:foreground="?selectableItemBackground"
@@ -52,14 +52,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_likes_count"
             app:layout_constraintTop_toTopOf="parent"
-            tools:drawablePadding="8dp"
+            tools:drawablePadding="@dimen/lm_feed_padding_regular"
             tools:drawableStart="@drawable/lm_feed_ic_comment"
             tools:fontFamily="@font/lm_feed_roboto"
             tools:ignore="UnusedAttribute"
             tools:text="13 Comments"
             tools:textAlignment="center"
             tools:textColor="@color/lm_feed_grey"
-            tools:textSize="14sp" />
+            tools:textSize="@dimen/lm_feed_text_medium" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
             android:id="@+id/iv_save"

@@ -19,14 +19,14 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/zero_dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_view_activity_feed">
 
             <com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedListView
                 android:id="@+id/rv_activity_feed"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/zero_dp"
                 android:descendantFocusability="blocksDescendants"
                 tools:itemCount="1" />
 
@@ -35,7 +35,7 @@
         <com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
             android:id="@+id/layout_no_activity"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/zero_dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

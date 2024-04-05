@@ -17,14 +17,14 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_report_header"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="@dimen/lm_feed_standard_margin"
+            android:layout_marginTop="@dimen/lm_feed_standard_margin"
             android:lineHeight="17sp"
             android:text="@string/lm_feed_please_specify_the_problem_to_continue"
             android:textColor="@color/lm_feed_black"
-            android:textSize="14sp"
+            android:textSize="@dimen/lm_feed_text_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_view_report"
@@ -32,16 +32,16 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_report_sub_header"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/lm_feed_standard_margin"
             android:layout_marginTop="6dp"
             android:gravity="top|start"
             android:lineHeight="19sp"
             android:lineSpacingExtra="5sp"
             android:text="@string/lm_feed_report_sub_header"
             android:textColor="@color/lm_feed_brown_grey"
-            android:textSize="14sp"
+            android:textSize="@dimen/lm_feed_text_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_report_header"
@@ -51,7 +51,7 @@
             android:id="@+id/rv_report_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/lm_feed_standard_margin"
             android:layout_marginTop="26dp"
             app:layout_constraintTop_toBottomOf="@id/tv_report_sub_header"
             tools:visibility="visible" />
@@ -60,7 +60,7 @@
             android:id="@+id/btn_post_report"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/lm_feed_standard_margin"
             android:paddingHorizontal="50dp"
             android:paddingVertical="15dp"
             android:text="@string/lm_feed_report"
@@ -71,14 +71,14 @@
             tools:cornerRadius="24dp"
             tools:textAllCaps="true"
             tools:textColor="@color/lm_feed_white"
-            tools:textSize="14sp"
+            tools:textSize="@dimen/lm_feed_text_medium"
             tools:textStyle="bold" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
             android:id="@+id/et_reason"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginHorizontal="@dimen/lm_feed_standard_margin"
             android:layout_marginTop="26dp"
             android:hint="@string/lm_feed_write_description"
             android:importantForAutofill="no"
@@ -90,7 +90,7 @@
             app:layout_constraintTop_toBottomOf="@id/rv_report_tags"
             tools:ignore="UnusedAttribute"
             tools:textColorHint="@color/lm_feed_brown_grey"
-            tools:textSize="14sp" />
+            tools:textSize="@dimen/lm_feed_text_medium" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

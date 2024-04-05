@@ -7,7 +7,7 @@
         android:id="@+id/cv_header"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:padding="8dp">
+        android:padding="@dimen/lm_feed_padding_regular">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                 android:includeFontPadding="false"
                 android:singleLine="true"
                 android:textColor="@color/lm_feed_grey"
-                android:textSize="14sp"
+                android:textSize="@dimen/lm_feed_text_medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tv_header_title"
                 app:layout_constraintTop_toBottomOf="@id/tv_header_title"
@@ -79,7 +79,7 @@
                 android:id="@+id/tv_header_notification_count"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="@dimen/lm_feed_standard_margin"
                 android:background="@drawable/lm_feed_notification_badge"
                 android:gravity="center"
                 android:textAlignment="center"
@@ -112,7 +112,7 @@
                 android:id="@+id/iv_user_profile"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_marginVertical="8dp"
+                android:layout_marginVertical="@dimen/lm_feed_margin_medium"
                 android:layout_marginEnd="12dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -125,7 +125,7 @@
                 android:id="@+id/tv_header_submit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="@dimen/lm_feed_standard_margin"
                 android:clickable="false"
                 android:foreground="?selectableItemBackgroundBorderless"
                 android:padding="4dp"
@@ -136,12 +136,12 @@
                 tools:ignore="UnusedAttribute"
                 tools:text="@string/lm_feed_save"
                 tools:textColor="@color/lm_feed_dark_grey"
-                tools:textSize="16sp" />
+                tools:textSize="@dimen/lm_feed_text_large" />
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
                 android:id="@+id/pb_submit"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="@dimen/lm_feed_standard_icon_size"
+                android:layout_height="@dimen/lm_feed_standard_icon_size"
                 android:layout_marginEnd="12dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"

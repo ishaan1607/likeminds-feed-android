@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="@dimen/lm_feed_padding_big">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_view_more"
@@ -21,7 +21,7 @@
             tools:ignore="UnusedAttribute"
             tools:text="@string/lm_feed_view_more_replies"
             tools:textColor="@color/lm_feed_dark_grayish_blue"
-            tools:textSize="14sp" />
+            tools:textSize="@dimen/lm_feed_text_medium" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_visible_count"
@@ -34,7 +34,7 @@
             tools:fontFamily="@font/lm_feed_roboto"
             tools:text="1 of 2"
             tools:textColor="@color/lm_feed_dark_grayish_blue"
-            tools:textSize="12sp" />
+            tools:textSize="@dimen/lm_feed_text_small" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
