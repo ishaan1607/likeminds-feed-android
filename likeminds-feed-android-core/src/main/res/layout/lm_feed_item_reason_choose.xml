@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
-        android:paddingStart="24dp"
+        android:paddingStart="@dimen/lm_feed_padding_extra_large"
         tools:ignore="RtlSymmetry">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
@@ -42,7 +42,7 @@
             android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="5sp"
-            android:padding="@dimen/lm_feed_padding_big"
+            android:padding="@dimen/lm_feed_padding_large"
             android:text="@{reasonChooseData.value}"
             android:textColor="@color/lm_feed_black"
             android:textSize="@dimen/lm_feed_text_medium"

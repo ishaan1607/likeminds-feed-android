@@ -19,11 +19,13 @@
     <dimen name="lm_feed_corner_radius_regular">4dp</dimen>
 
     <!--    Padding Size-->
-    <dimen name="lm_feed_padding_big">16dp</dimen>
+    <dimen name="lm_feed_padding_extra_large">24dp</dimen>
+    <dimen name="lm_feed_padding_large">16dp</dimen>
     <dimen name="lm_feed_padding_regular">8dp</dimen>
     <dimen name="lm_feed_passing_small">4dp</dimen>
 
     <!--    Standard Margins-->
+    <dimen name="lm_feed_large_margin">24dp</dimen>
     <dimen name="lm_feed_standard_margin">16dp</dimen>
     <dimen name="lm_feed_margin_medium">8dp</dimen>
     <dimen name="lm_feed_margin_small">4dp</dimen>
@@ -66,4 +68,5 @@
     <!--   Activity feed screen -->
     <dimen name="lm_feed_cv_post_type_translation_y">-5dp</dimen>
     <dimen name="lm_feed_cv_post_type_corner_radius">12dp</dimen>
+    <dimen name="lm_feed_activity_date_margin">6dp</dimen>
 </resources>

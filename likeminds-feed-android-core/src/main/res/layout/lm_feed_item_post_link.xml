@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/lm_feed_white"
-        android:paddingHorizontal="@dimen/lm_feed_padding_big">
+        android:paddingHorizontal="@dimen/lm_feed_padding_large">
 
         <com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
             android:id="@+id/post_header"

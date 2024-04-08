@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/lm_feed_bg_rounded_top_10dp"
-        android:paddingBottom="@dimen/lm_feed_padding_big">
+        android:paddingBottom="@dimen/lm_feed_padding_large">
 
         <View
             android:id="@+id/view"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lm_feed_standard_margin"
             android:overScrollMode="never"
-            android:paddingBottom="@dimen/lm_feed_padding_big"
+            android:paddingBottom="@dimen/lm_feed_padding_large"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
