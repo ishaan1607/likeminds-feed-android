@@ -13,18 +13,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="@dimen/lm_feed_medium_margin">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_report_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/lm_feed_regular_margin"
             android:background="@drawable/lm_feed_bg_report_tags"
-            android:paddingStart="17dp"
-            android:paddingTop="9dp"
-            android:paddingEnd="17dp"
-            android:paddingBottom="9dp"
+            android:paddingStart="@dimen/lm_feed_large_padding"
+            android:paddingTop="@dimen/lm_feed_regular_padding"
+            android:paddingEnd="@dimen/lm_feed_large_padding"
+            android:paddingBottom="@dimen/lm_feed_regular_padding"
             android:text="@{reportTagViewData.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
             tools:ellipsize="end"
             tools:maxLines="1"
             tools:text="Inappropriate Language"
-            tools:textSize="15sp" />
+            tools:textSize="@dimen/lm_feed_text_large" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

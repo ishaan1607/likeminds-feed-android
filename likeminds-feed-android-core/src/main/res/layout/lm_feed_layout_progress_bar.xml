@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:translationZ="10dp"
+        android:translationZ="@dimen/lm_feed_progress_bar_translation_z"
         android:visibility="gone">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar

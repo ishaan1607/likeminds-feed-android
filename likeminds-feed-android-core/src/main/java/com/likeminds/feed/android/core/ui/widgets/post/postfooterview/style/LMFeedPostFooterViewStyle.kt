@@ -45,7 +45,7 @@ class LMFeedPostFooterViewStyle private constructor(
             .textAllCaps(false)
             .textAlignment(View.TEXT_ALIGNMENT_CENTER)
             .drawableLeftSrc(R.drawable.lm_feed_ic_comment)
-            .drawablePadding(R.dimen.lm_feed_padding_regular)
+            .drawablePadding(R.dimen.lm_feed_regular_padding)
             .build()
 
         private var saveIconStyle: LMFeedIconStyle? = null

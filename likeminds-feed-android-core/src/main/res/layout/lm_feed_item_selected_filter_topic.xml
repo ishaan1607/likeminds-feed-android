@@ -17,16 +17,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="@dimen/lm_feed_margin_medium"
+        android:layout_marginTop="@dimen/lm_feed_small_margin"
+        android:layout_marginEnd="@dimen/lm_feed_regular_margin"
         android:background="@drawable/lm_feed_background_selected_filter_topic">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_topic_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="4dp"
-            android:layout_marginStart="@dimen/lm_feed_margin_medium"
+            android:layout_marginVertical="@dimen/lm_feed_small_margin"
+            android:layout_marginStart="@dimen/lm_feed_regular_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -37,8 +37,8 @@
             android:id="@+id/iv_cross"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginEnd="4dp"
+            android:layout_marginStart="@dimen/lm_feed_extra_small_margin"
+            android:layout_marginEnd="@dimen/lm_feed_small_margin"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?selectableItemBackgroundBorderless"

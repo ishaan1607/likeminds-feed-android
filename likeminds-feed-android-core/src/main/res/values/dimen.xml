@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="zero_dp">0dp</dimen>
+
     <!--Header View-->
     <dimen name="lm_feed_header_view_title_text_size">22sp</dimen>
+    <dimen name="lm_feed_header_view_height">54dp</dimen>
+    <dimen name="lm_feed_post_header_title_start_margin">18dp</dimen>
 
     <!--    Text Size-->
     <dimen name="lm_feed_text_small">12sp</dimen>
     <dimen name="lm_feed_text_medium">14sp</dimen>
     <dimen name="lm_feed_text_large">16sp</dimen>
     <dimen name="lm_feed_text_extra_large">18sp</dimen>
+    <dimen name="lm_feed_post_header_title_text_size">20sp</dimen>
+    <dimen name="lm_feed_standard_line_height">20sp</dimen>
+
+    <!--    Line spacing extra-->
+    <dimen name="lm_feed_line_spacing_extra_standard">8sp</dimen>
+    <dimen name="lm_feed_line_spacing_extra_small">4sp</dimen>
+    <dimen name="lm_feed_line_spacing_extra_extra_small">2sp</dimen>
 
     <!--    Elevation Size-->
     <dimen name="lm_feed_elevation_big">8dp</dimen>
@@ -17,35 +27,74 @@
     <!--    Corner radius-->
     <dimen name="lm_feed_corner_radius_small">2dp</dimen>
     <dimen name="lm_feed_corner_radius_regular">4dp</dimen>
+    <dimen name="lm_feed_corner_radius_medium">8dp</dimen>
 
     <!--    Padding Size-->
-    <dimen name="lm_feed_padding_extra_large">24dp</dimen>
-    <dimen name="lm_feed_padding_large">16dp</dimen>
-    <dimen name="lm_feed_padding_regular">8dp</dimen>
-    <dimen name="lm_feed_passing_small">4dp</dimen>
+    <dimen name="lm_feed_extra_large_padding">24dp</dimen>
+    <dimen name="lm_feed_large_padding">16dp</dimen>
+    <dimen name="lm_feed_medium_padding">12dp</dimen>
+    <dimen name="lm_feed_regular_padding">8dp</dimen>
+    <dimen name="lm_feed_small_padding">4dp</dimen>
+    <dimen name="lm_feed_extra_small_padding">2dp</dimen>
 
     <!--    Standard Margins-->
-    <dimen name="lm_feed_large_margin">24dp</dimen>
-    <dimen name="lm_feed_standard_margin">16dp</dimen>
-    <dimen name="lm_feed_margin_medium">8dp</dimen>
-    <dimen name="lm_feed_margin_small">4dp</dimen>
+    <dimen name="lm_feed_extra_extra_large_margin">32dp</dimen>
+    <dimen name="lm_feed_extra_large_margin">24dp</dimen>
+    <dimen name="lm_feed_large_margin">16dp</dimen>
+    <dimen name="lm_feed_medium_margin">12dp</dimen>
+    <dimen name="lm_feed_regular_margin">8dp</dimen>
+    <dimen name="lm_feed_small_margin">4dp</dimen>
+    <dimen name="lm_feed_extra_small_margin">2dp</dimen>
 
     <!--    Standard Icon size-->
+    <dimen name="lm_feed_small_icon_size">16dp</dimen>
+    <dimen name="lm_feed_medium_icon_size">20dp</dimen>
     <dimen name="lm_feed_standard_icon_size">24dp</dimen>
     <dimen name="lm_feed_large_icon_size">48dp</dimen>
+    <dimen name="lm_feed_launcher_icon_size">108dp</dimen>
+
+    <!-- Dot view-->
+    <dimen name="lm_feed_dot_view_size">4dp</dimen>
 
     <!--    Universal Feed Screen-->
     <dimen name="lm_feed_create_new_post_text_size">15sp</dimen>
     <dimen name="lm_feed_create_new_post_padding">20dp</dimen>
     <dimen name="lm_feed_icon_padding">4dp</dimen>
+    <dimen name="lm_feed_universal_feed_header_icon_size">36dp</dimen>
     <dimen name="lm_feed_create_new_post_icon_size">30dp</dimen>
-    <dimen name="lm_feed_notification_badge_text_size">10dp</dimen>
+    <dimen name="lm_feed_notification_badge_text_size">10sp</dimen>
+    <dimen name="lm_feed_notification_icon_padding">6dp</dimen>
+    <dimen name="lm_feed_notification_badge_translation_x">2dp</dimen>
+    <dimen name="lm_feed_posting_thumbnail_width">48dp</dimen>
+    <dimen name="lm_feed_posting_thumbnail_height">42dp</dimen>
+    <dimen name="lm_feed_posting_thumbnail_margin">6dp</dimen>
+    <dimen name="lm_feed_posting_completed_icon_size">96dp</dimen>
+    <dimen name="lm_feed_small_cross_icon_width">14dp</dimen>
+    <dimen name="lm_feed_small_cross_icon_height">13dp</dimen>
+    <dimen name="lm_feed_cross_icon_width">26dp</dimen>
+    <dimen name="lm_feed_cross_icon_height">26dp</dimen>
+    <dimen name="lm_feed_new_post_plus_icon_size">30dp</dimen>
+    <dimen name="lm_feed_no_entity_image_top_margin">250dp</dimen>
+    <dimen name="lm_feed_no_entity_fab_height">40dp</dimen>
+    <dimen name="lm_feed_notification_bell_icon_width">18dp</dimen>
 
     <!--    Media related-->
+    <dimen name="lm_feed_indicator_size">100dp</dimen>
     <dimen name="lm_feed_indicator_dots_spacing">4dp</dimen>
     <dimen name="lm_feed_indicator_dot_size">6dp</dimen>
     <dimen name="lm_feed_link_box_stroke_width">2dp</dimen>
     <dimen name="lm_feed_link_box_corner_radius">8dp</dimen>
+    <dimen name="lm_feed_link_image_height">216dp</dimen>
+    <dimen name="lm_feed_link_icon_size">40dp</dimen>
+    <dimen name="lm_feed_media_view_top_margin">10dp</dimen>
+    <dimen name="lm_feed_document_icon_start_margin">22dp</dimen>
+    <dimen name="lm_feed_document_icon_width">28dp</dimen>
+    <dimen name="lm_feed_document_icon_height">37dp</dimen>
+    <dimen name="lm_feed_pdf_icon_width">22dp</dimen>
+    <dimen name="lm_feed_pdf_icon_height">29dp</dimen>
+    <dimen name="lm_feed_doc_attachment_icon_height">29dp</dimen>
+    <dimen name="lm_feed_document_view_height">72dp</dimen>
+    <dimen name="lm_feed_document_divider_height">8dp</dimen>
 
     <!--    Chip related-->
     <dimen name="lm_feed_default_chip_group_horizontal_spacing">4dp</dimen>
@@ -61,12 +110,33 @@
 
     <!--    Post detail screen -->
     <dimen name="lm_feed_reply_item_top_margin">20dp</dimen>
+    <dimen name="lm_feed_post_composer_replying_to_height">32dp</dimen>
+    <dimen name="lm_feed_post_composer_input_box_padding_end">64dp</dimen>
+    <dimen name="lm_feed_separator_size">2dp</dimen>
+    <dimen name="lm_feed_small_separator_size">2dp</dimen>
+    <dimen name="lm_feed_replies_list_start_margin">36dp</dimen>
+    <dimen name="lm_feed_comments_count_margin">18dp</dimen>
+    <dimen name="lm_feed_comment_separator_gone_margin">20dp</dimen>
+    <dimen name="lm_feed_bookmark_icon_height">18dp</dimen>
 
     <!--    Report Screen -->
     <dimen name="lm_feed_report_button_corner_radius">24dp</dimen>
+    <dimen name="lm_feed_report_button_horizontal_padding">50dp</dimen>
+    <dimen name="lm_feed_report_bottom_sheet_top_bar_width">100dp</dimen>
+    <dimen name="lm_feed_report_bottom_sheet_top_bar_height">7dp</dimen>
+    <dimen name="lm_feed_report_tags_corner_radius">18dp</dimen>
+    <dimen name="lm_feed_share_icon_size">21dp</dimen>
 
     <!--   Activity feed screen -->
     <dimen name="lm_feed_cv_post_type_translation_y">-5dp</dimen>
     <dimen name="lm_feed_cv_post_type_corner_radius">12dp</dimen>
     <dimen name="lm_feed_activity_date_margin">6dp</dimen>
+
+    <!--   Alert box -->
+    <dimen name="lm_feed_alert_box_width">300dp</dimen>
+    <dimen name="lm_feed_alert_box_button_height">42dp</dimen>
+
+    <!--   Progress bar -->
+    <dimen name="lm_feed_progress_bar_translation_z">10dp</dimen>
+    <dimen name="lm_feed_progress_bar_thickness">3dp</dimen>
 </resources>

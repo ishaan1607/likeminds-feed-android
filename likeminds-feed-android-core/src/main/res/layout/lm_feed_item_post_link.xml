@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/lm_feed_white"
-        android:paddingHorizontal="@dimen/lm_feed_padding_large">
+        android:paddingHorizontal="@dimen/lm_feed_large_padding">
 
         <com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
             android:id="@+id/post_header"
@@ -32,7 +32,7 @@
             android:id="@+id/post_topics_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/lm_feed_margin_medium"
+            android:layout_marginTop="@dimen/lm_feed_regular_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_header" />
@@ -41,8 +41,8 @@
             android:id="@+id/tv_post_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/lm_feed_margin_medium"
-            android:lineSpacingExtra="1sp"
+            android:layout_marginTop="@dimen/lm_feed_regular_margin"
+            android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_extra_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_topics_group"
@@ -54,7 +54,7 @@
             android:id="@+id/post_link_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/lm_feed_media_view_top_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_post_content" />
@@ -63,7 +63,7 @@
             android:id="@+id/post_footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/lm_feed_medium_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/post_link_view" />

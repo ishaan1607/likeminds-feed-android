@@ -6,8 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/lm_feed_padding_large"
-        android:paddingVertical="@dimen/lm_feed_padding_large">
+        android:paddingHorizontal="@dimen/lm_feed_large_padding"
+        android:paddingVertical="@dimen/lm_feed_large_padding">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_user_image"
@@ -45,8 +45,8 @@
             android:id="@+id/tv_activity_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/lm_feed_margin_medium"
-            android:layout_marginEnd="@dimen/lm_feed_standard_margin"
+            android:layout_marginStart="@dimen/lm_feed_regular_margin"
+            android:layout_marginEnd="@dimen/lm_feed_large_margin"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

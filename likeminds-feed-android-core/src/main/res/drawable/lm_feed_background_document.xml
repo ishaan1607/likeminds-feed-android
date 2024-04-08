@@ -5,9 +5,9 @@
     <solid android:color="@color/lm_feed_white" />
 
     <stroke
-        android:width="2dp"
+        android:width="@dimen/lm_feed_separator_size"
         android:color="@color/lm_feed_light_grayish_blue" />
 
-    <corners android:radius="8dp" />
+    <corners android:radius="@dimen/lm_feed_corner_radius_medium" />
 
 </shape>

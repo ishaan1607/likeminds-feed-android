@@ -21,7 +21,7 @@
             android:id="@+id/tv_show_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/lm_feed_margin_medium"
+            android:layout_marginTop="@dimen/lm_feed_regular_margin"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_documents"

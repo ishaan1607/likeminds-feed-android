@@ -104,7 +104,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
 
         private var selectTopicsChipStyle: LMFeedChipStyle = LMFeedChipStyle.Builder()
             .chipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
-            .chipStartPadding(R.dimen.lm_feed_padding_regular)
+            .chipStartPadding(R.dimen.lm_feed_regular_padding)
             .chipIcon(R.drawable.lm_feed_ic_add_topics)
             .chipIconSize(R.dimen.lm_feed_chip_default_icon_size)
             .chipIconTint(R.color.lm_feed_majorelle_blue)

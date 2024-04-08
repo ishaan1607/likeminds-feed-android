@@ -21,7 +21,7 @@
             android:id="@+id/tv_topic_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/lm_feed_padding_large"
+            android:padding="@dimen/lm_feed_large_padding"
             tools:text="@string/lm_feed_books"
             tools:drawableEnd="@drawable/lm_feed_ic_topic_selected"
             tools:textColor="@color/lm_feed_dark_grey"

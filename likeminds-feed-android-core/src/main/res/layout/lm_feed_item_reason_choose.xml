@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center_vertical"
-        android:paddingStart="@dimen/lm_feed_padding_extra_large"
+        android:paddingStart="@dimen/lm_feed_extra_large_padding"
         tools:ignore="RtlSymmetry">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
@@ -41,8 +41,8 @@
             android:id="@+id/tv_title"
             android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="5sp"
-            android:padding="@dimen/lm_feed_padding_large"
+            android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_small"
+            android:padding="@dimen/lm_feed_large_padding"
             android:text="@{reasonChooseData.value}"
             android:textColor="@color/lm_feed_black"
             android:textSize="@dimen/lm_feed_text_medium"
@@ -55,8 +55,8 @@
         <View
             android:id="@+id/divider"
             android:layout_width="@dimen/zero_dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="@dimen/lm_feed_standard_margin"
+            android:layout_height="@dimen/lm_feed_small_separator_size"
+            android:layout_marginStart="@dimen/lm_feed_large_margin"
             android:background="@color/lm_feed_cloudy_blue"
             android:visibility="@{reasonChooseData.hideBottomLine ? View.GONE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"

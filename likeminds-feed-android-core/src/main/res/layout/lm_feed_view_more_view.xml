@@ -6,14 +6,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/lm_feed_padding_large">
+        android:paddingHorizontal="@dimen/lm_feed_large_padding">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_view_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:foreground="?selectableItemBackground"
-            android:paddingVertical="4dp"
+            android:paddingVertical="@dimen/lm_feed_small_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -27,7 +27,7 @@
             android:id="@+id/tv_visible_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="3dp"
+            android:paddingVertical="@dimen/lm_feed_small_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -11,7 +11,7 @@
         <com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
             android:id="@+id/header_view_universal"
             android:layout_width="match_parent"
-            android:layout_height="54dp"
+            android:layout_height="@dimen/lm_feed_header_view_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +29,7 @@
             android:id="@+id/topic_selector_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/lm_feed_margin_medium"
+            android:layout_marginTop="@dimen/lm_feed_regular_margin"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/layout_posting" />
 
@@ -76,8 +76,8 @@
             android:id="@+id/fab_new_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/lm_feed_standard_margin"
-            android:layout_marginBottom="@dimen/lm_feed_standard_margin"
+            android:layout_marginEnd="@dimen/lm_feed_large_margin"
+            android:layout_marginBottom="@dimen/lm_feed_large_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="@string/lm_feed_new_s" />
