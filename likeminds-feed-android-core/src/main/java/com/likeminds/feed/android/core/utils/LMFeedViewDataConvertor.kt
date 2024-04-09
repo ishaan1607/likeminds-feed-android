@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.utils
 
+import android.util.Base64
 import com.likeminds.customgallery.media.model.SingleUriData
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityEntityViewData
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
@@ -13,6 +14,7 @@ import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.report.model.LMFeedReportTagViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.utils.mediauploader.utils.LMFeedAWSKeys
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
@@ -528,13 +530,15 @@ object LMFeedViewDataConvertor {
     fun convertPost(
         temporaryId: Long,
         uuid: String,
-        text: String?
+        text: String?,
+        fileUris: List<LMFeedFileUploadViewData>
     ): Post {
         return Post.Builder()
             .tempId(temporaryId.toString())
             .id(temporaryId.toString())
             .uuid(uuid)
             .text(text ?: "")
+            .attachments(convertAttachments(fileUris))
             .build()
     }
 
@@ -600,6 +604,78 @@ object LMFeedViewDataConvertor {
             .image(linkOGTagsViewData.image)
             .description(linkOGTagsViewData.description)
             .url(linkOGTagsViewData.url)
+            .build()
+    }
+
+    // converts list of [LMFeedFileUploadViewData] to list of network [Attachment] model
+    fun convertAttachments(fileUris: List<LMFeedFileUploadViewData>): List<Attachment> {
+        return fileUris.map {
+            convertAttachment(it)
+        }
+    }
+
+    // converts [LMFeedFileUploadViewData] to network [Attachment] model
+    private fun convertAttachment(fileUri: LMFeedFileUploadViewData): Attachment {
+        val attachmentType = when (fileUri.fileType) {
+            com.likeminds.customgallery.media.model.IMAGE -> {
+                IMAGE
+            }
+
+            com.likeminds.customgallery.media.model.VIDEO -> {
+                VIDEO
+            }
+
+            else -> {
+                DOCUMENT
+            }
+        }
+
+        return Attachment.Builder()
+            .attachmentType(attachmentType)
+            .attachmentMeta(convertAttachmentMeta(fileUri))
+            .build()
+    }
+
+    //converts [LMFeedFileUploadViewData] to network [AttachmentMeta] model
+    private fun convertAttachmentMeta(fileUri: LMFeedFileUploadViewData): AttachmentMeta {
+        val url = String(
+            Base64.decode(
+                LMFeedAWSKeys.getBucketBaseUrl(),
+                Base64.DEFAULT
+            )
+        ) + fileUri.awsFolderPath
+        return AttachmentMeta.Builder()
+            .url(url)
+            .awsFolderPath(fileUri.awsFolderPath)
+            .format(fileUri.format)
+            .localFilePath(fileUri.localFilePath)
+            .localUri(fileUri.uri)
+            .name(fileUri.mediaName)
+            .pageCount(fileUri.pdfPageCount)
+            .size(fileUri.size)
+            .awsFolderPath(fileUri.awsFolderPath)
+            .thumbnailUrl(fileUri.thumbnailUri.toString())
+            .duration(fileUri.duration)
+            .build()
+    }
+
+    // converts list of Topic view data model to list of network model
+    fun convertTopics(topics: List<LMFeedTopicViewData>?): List<Topic> {
+        if (topics == null) {
+            return emptyList()
+        }
+
+        return topics.map {
+            convertTopic(it)
+        }
+    }
+
+    // converts Topic view data model to network model
+    private fun convertTopic(topic: LMFeedTopicViewData): Topic {
+        return Topic.Builder()
+            .id(topic.id)
+            .isEnabled(topic.isEnabled)
+            .name(topic.name)
             .build()
     }
 

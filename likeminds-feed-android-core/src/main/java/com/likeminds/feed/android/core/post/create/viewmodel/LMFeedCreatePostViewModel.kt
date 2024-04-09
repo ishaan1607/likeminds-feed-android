@@ -19,6 +19,7 @@ import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.post.model.AddPostRequest
+import com.likeminds.likemindsfeed.post.model.AddTemporaryPostRequest
 import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -236,33 +237,31 @@ class LMFeedCreatePostViewModel : ViewModel() {
     private fun storePost(
         uploadData: Pair<WorkContinuation, String>,
         text: String?,
-        fileUris: List<SingleUriData>? = null,
+        fileUris: List<LMFeedFileUploadViewData>,
         selectedTopics: ArrayList<LMFeedTopicViewData>?
     ) {
         viewModelScope.launchIO {
             val uuid = uploadData.second
-            if (fileUris == null) {
-                return@launchIO
-            }
             val temporaryPostId = temporaryPostId ?: -1
 
-            val postEntity = LMFeedViewDataConvertor.convertPost(
+            val post = LMFeedViewDataConvertor.convertPost(
                 temporaryPostId,
                 uuid,
-                text
+                text,
+                fileUris
             )
 
-            val attachments = LMFeedViewDataConvertor.convertAttachments(fileUris)
+            val topics = LMFeedViewDataConvertor.convertTopics(selectedTopics?.toList())
 
-            val topics = selectedTopics?.map {
-                LMFeedViewDataConvertor.convertTopic(
-                    temporaryPostId,
-                    it
-                )
-            } ?: emptyList()
+            //create add temporary post request
+            val request = AddTemporaryPostRequest.Builder()
+                .post(post)
+                .topics(topics)
+                .postThumbnail(fileUris.first().thumbnailUri.toString())
+                .build()
 
             // add it to local db
-            lmFeedClient.addTemporaryPost(postEntity, attachments, topics)
+            lmFeedClient.addTemporaryPost(request)
             _postAdded.postValue(false)
             uploadData.first.enqueue()
         }

@@ -292,6 +292,14 @@ open class LMFeedCreatePostFragment : Fragment() {
                 is LMFeedCreatePostViewModel.ErrorMessageEvent.GetTopic -> {
                     LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
                 }
+
+                is LMFeedCreatePostViewModel.ErrorMessageEvent.AddPost -> {
+                    binding.headerViewCreatePost.setSubmitButtonEnabled(
+                        isEnabled = true,
+                        showProgress = false
+                    )
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
+                }
             }
         }.observeInLifecycle(viewLifecycleOwner)
     }
@@ -301,7 +309,7 @@ open class LMFeedCreatePostFragment : Fragment() {
             headerViewCreatePost.setSubmitButtonClickListener {
                 val text = etPostComposer.text
                 //todo: member tagging
-                val updatedText = text ?: ""
+                val updatedText = text.toString()
 //                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
                 LMFeedViewUtils.hideKeyboard(binding.root)
                 if (selectedMediaUris.isNotEmpty()) {
