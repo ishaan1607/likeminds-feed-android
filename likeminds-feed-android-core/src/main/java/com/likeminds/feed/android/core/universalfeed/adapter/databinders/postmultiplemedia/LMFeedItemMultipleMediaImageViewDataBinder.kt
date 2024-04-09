@@ -64,6 +64,13 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
                     attachment
                 )
             }
+
+            postImageView.setRemoveIconClickListener {
+                listener.onMediaRemovedClicked(
+                    position,
+                    "iMAGE"
+                )
+            }
         }
     }
 }

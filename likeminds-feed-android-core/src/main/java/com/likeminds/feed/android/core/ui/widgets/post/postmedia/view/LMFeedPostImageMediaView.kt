@@ -11,6 +11,7 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostImageMediaViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedPostImageMediaView : ConstraintLayout {
 
@@ -54,5 +55,11 @@ class LMFeedPostImageMediaView : ConstraintLayout {
 
     fun setImage(imageSrc: Any, lmFeedPostImageMediaViewStyle: LMFeedPostImageMediaViewStyle) {
         binding.imageView.setImage(imageSrc, lmFeedPostImageMediaViewStyle.imageStyle)
+    }
+
+    fun setRemoveIconClickListener(listener: LMFeedOnClickListener) {
+        binding.ivCross.setOnClickListener {
+            listener.onClick()
+        }
     }
 }

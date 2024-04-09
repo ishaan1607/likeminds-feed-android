@@ -16,7 +16,8 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
     val documentTypeStyle: LMFeedTextStyle?,
     val documentShowMoreStyle: LMFeedTextStyle?,
     val visibleDocumentsLimit: Int,
-    @ColorRes val backgroundColor: Int?
+    @ColorRes val backgroundColor: Int?,
+    val removeIconStyle: LMFeedIconStyle?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -33,6 +34,7 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
         private var documentSizeStyle: LMFeedTextStyle? = null
         private var documentTypeStyle: LMFeedTextStyle? = null
         private var documentShowMoreStyle: LMFeedTextStyle? = null
+        private var removeIconStyle: LMFeedIconStyle? = null
 
         //todo: set these values in a const
         private var visibleDocumentsLimit: Int = 3
@@ -64,6 +66,9 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
         fun backgroundColor(@ColorRes backgroundColor: Int?) =
             apply { this.backgroundColor = backgroundColor }
 
+        fun removeIconStyle(removeIconStyle: LMFeedIconStyle?) =
+            apply { this.removeIconStyle = removeIconStyle }
+
         fun build() = LMFeedPostDocumentsMediaViewStyle(
             documentNameStyle,
             documentIconStyle,
@@ -72,7 +77,8 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
             documentTypeStyle,
             documentShowMoreStyle,
             visibleDocumentsLimit,
-            backgroundColor
+            backgroundColor,
+            removeIconStyle
         )
     }
 
@@ -85,5 +91,6 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
             .documentShowMoreStyle(documentShowMoreStyle)
             .visibleDocumentsLimit(visibleDocumentsLimit)
             .backgroundColor(backgroundColor)
+            .removeIconStyle(removeIconStyle)
     }
 }

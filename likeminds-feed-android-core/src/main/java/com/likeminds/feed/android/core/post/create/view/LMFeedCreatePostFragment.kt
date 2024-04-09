@@ -28,11 +28,16 @@ import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionExtras
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionResultExtras
 import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionActivity
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedChipGroup
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostLinkMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
@@ -52,7 +57,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 
-class LMFeedCreatePostFragment : Fragment() {
+open class LMFeedCreatePostFragment : Fragment() {
     private lateinit var binding: LmFeedFragmentCreatePostBinding
     private lateinit var lmFeedCreatePostExtras: LMFeedCreatePostExtras
     private lateinit var etPostTextChangeListener: TextWatcher
@@ -111,6 +116,10 @@ class LMFeedCreatePostFragment : Fragment() {
             customizeAuthorView(authorView)
             customizeTopicsGroup(topicsGroup)
             customizePostComposer(etPostComposer)
+            customizePostImageAttachment(postSingleImage)
+            customizePostVideoAttachment(postSingleVideo)
+            customizePostLinkViewAttachment(postLinkView)
+            customizePostDocumentsAttachment(postDocumentsView)
         }
 
         return binding.root
@@ -140,6 +149,72 @@ class LMFeedCreatePostFragment : Fragment() {
 
     protected open fun customizePostComposer(etPostComposer: LMFeedEditText) {
         etPostComposer.setStyle(LMFeedStyleTransformer.createPostFragmentViewStyle.postComposerStyle)
+    }
+
+    protected open fun customizePostImageAttachment(imageMediaView: LMFeedPostImageMediaView) {
+        val imageAttachmentViewStyle =
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
+
+        val updatedImageMediaStyles = imageAttachmentViewStyle?.toBuilder()
+            ?.removeIconStyle(
+                LMFeedIconStyle.Builder()
+                    .inActiveSrc(R.drawable.lm_feed_ic_cross)
+                    .build()
+            )
+            ?.build()
+
+        updatedImageMediaStyles?.let {
+            imageMediaView.setStyle(it)
+        }
+    }
+
+    protected open fun customizePostVideoAttachment(videoMediaView: LMFeedPostVideoMediaView) {
+        val videoAttachmentViewStyle =
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle
+        val updatedVideoAttachmentViewStyle =
+            videoAttachmentViewStyle?.toBuilder()
+                ?.removeIconStyle(
+                    LMFeedIconStyle.Builder()
+                        .inActiveSrc(R.drawable.lm_feed_ic_cross)
+                        .build()
+                )
+                ?.build()
+
+        updatedVideoAttachmentViewStyle?.let {
+            videoMediaView.setStyle(it)
+        }
+    }
+
+    protected open fun customizePostLinkViewAttachment(linkMediaView: LMFeedPostLinkMediaView) {
+        val linkAttachmentViewStyle =
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postLinkViewStyle
+
+        val updatedLinkAttachmentViewStyle = linkAttachmentViewStyle?.toBuilder()
+            ?.linkRemoveIconStyle(
+                LMFeedIconStyle.Builder()
+                    .inActiveSrc(R.drawable.lm_feed_ic_cross)
+                    .build()
+            )
+            ?.build()
+
+        updatedLinkAttachmentViewStyle?.let {
+            linkMediaView.setStyle(it)
+        }
+    }
+
+    protected open fun customizePostDocumentsAttachment(documentsMediaView: LMFeedPostDocumentsMediaView) {
+        val documentsAttachmentViewStyle =
+            LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
+        val updatedDocumentsAttachmentViewStyle = documentsAttachmentViewStyle?.toBuilder()
+            ?.removeIconStyle(
+                LMFeedIconStyle.Builder()
+                    .inActiveSrc(R.drawable.lm_feed_ic_cross)
+                    .build()
+            )
+            ?.build()
+        updatedDocumentsAttachmentViewStyle?.let {
+            documentsMediaView.setStyle(it)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

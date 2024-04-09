@@ -8,7 +8,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostDocumentViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostDocumentsMediaViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -50,6 +52,7 @@ class LMFeedPostDocumentView : ConstraintLayout {
         configureDocumentPageCount(postDocumentMediaViewStyle.documentPageCountStyle)
         configureDocumentSize(postDocumentMediaViewStyle.documentSizeStyle)
         configureDocumentType(postDocumentMediaViewStyle.documentTypeStyle)
+        configureRemoveIcon(postDocumentMediaViewStyle.removeIconStyle)
     }
 
     private fun configureDocumentName(documentNameStyle: LMFeedTextStyle) {
@@ -93,6 +96,17 @@ class LMFeedPostDocumentView : ConstraintLayout {
                 hide()
             } else {
                 setStyle(documentTypeStyle)
+            }
+        }
+    }
+
+    private fun configureRemoveIcon(removeIconStyle: LMFeedIconStyle?) {
+        binding.ivCrossDoc.apply {
+            if (removeIconStyle == null) {
+                hide()
+            } else {
+                show()
+                setStyle(removeIconStyle)
             }
         }
     }

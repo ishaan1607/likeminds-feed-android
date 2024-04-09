@@ -2,10 +2,17 @@ package com.likeminds.feed.android.core.universalfeed.adapter
 
 import android.view.View
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostDocumentsViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostLinkViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostMultipleMediaViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostSingleImageViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostSingleVideoViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostTextOnlyViewDataBinder
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
-import com.likeminds.feed.android.core.utils.base.*
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseRecyclerAdapter
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 
 class LMFeedUniversalFeedAdapter(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
@@ -152,5 +159,9 @@ interface LMFeedUniversalFeedAdapterListener {
 
     fun onPostAuthorHeaderClicked(position: Int, postViewData: LMFeedPostViewData) {
         //triggered when a user clicks post author header
+    }
+
+    fun onMediaRemovedClicked(position: Int, mediaType: String){
+        //triggered when user removes a media while creating or editing a post
     }
 }

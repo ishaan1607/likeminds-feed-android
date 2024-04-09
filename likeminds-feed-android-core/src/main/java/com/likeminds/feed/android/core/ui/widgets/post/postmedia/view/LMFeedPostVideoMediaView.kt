@@ -7,7 +7,10 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedPostVideoMediaViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedProgressBarStyle
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostVideoMediaViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -52,6 +55,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
             configureVideoThumbnail(videoThumbnailStyle)
             configurePlayIcon(videoPlayPauseButton, showController)
             configureMuteIcon(videoMuteUnmuteButton)
+            configureRemoveIcon(removeIconStyle)
         }
     }
 
@@ -101,6 +105,17 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
             } else {
                 setStyle(videoMuteUnmuteButton)
                 show()
+            }
+        }
+    }
+
+    private fun configureRemoveIcon(removeIconStyle: LMFeedIconStyle?) {
+        binding.ivCross.apply {
+            if (removeIconStyle == null) {
+                hide()
+            } else {
+                show()
+                setStyle(removeIconStyle)
             }
         }
     }
