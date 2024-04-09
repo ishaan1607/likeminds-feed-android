@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.post.create.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -20,6 +21,7 @@ class LMFeedCreatePostActivity : AppCompatActivity() {
         const val TAG = "LMFeedCreatePostActivity"
         const val LM_FEED_CREATE_POST_EXTRAS = "LM_FEED_CREATE_POST_EXTRAS"
         const val LM_FEED_CREATE_POST_BUNDLE = "lm_feed_bundle"
+        const val RESULT_UPLOAD_POST = Activity.RESULT_FIRST_USER + 1
 
         @JvmStatic
         fun start(context: Context, extras: LMFeedCreatePostExtras) {

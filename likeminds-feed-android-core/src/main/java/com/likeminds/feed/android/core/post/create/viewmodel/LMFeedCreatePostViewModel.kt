@@ -328,4 +328,17 @@ class LMFeedCreatePostViewModel : ViewModel() {
             map
         )
     }
+
+    /**
+     * Triggers event when the user clicks on add attachment
+     * @param type - type of attachment
+     */
+    fun sendClickedOnAttachmentEvent(type: String) {
+        LMFeedAnalytics.track(
+            LMFeedAnalytics.Events.CLICKED_ON_ATTACHMENT,
+            mapOf(
+                "type" to type
+            )
+        )
+    }
 }

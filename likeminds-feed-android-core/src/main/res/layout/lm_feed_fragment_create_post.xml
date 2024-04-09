@@ -131,10 +131,119 @@
 
                 <!--                multimedia-->
                 <!--                Add more button-->
-                <!--                Add Attachments Group-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_add_attachments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:constraint_referenced_ids="layout_add_image, layout_add_video, layout_attach_files, video_image_separator, video_file_separator" />
+
+        <LinearLayout
+            android:id="@+id/layout_attach_files"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="UnusedAttribute">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/lm_feed_ic_attach_files"
+                tools:ignore="ContentDescription" />
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/lm_feed_attach_files"
+                android:textColor="@color/lm_feed_raisin_black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/video_file_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cloudy_blue_50"
+            app:layout_constraintBottom_toTopOf="@+id/layout_attach_files" />
+
+        <LinearLayout
+            android:id="@+id/layout_add_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            app:layout_constraintBottom_toTopOf="@id/video_file_separator"
+            tools:ignore="UnusedAttribute">
+
+            <ImageView
+                android:id="@+id/iv_add_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/lm_feed_ic_add_video"
+                tools:ignore="ContentDescription" />
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/lm_feed_add_video"
+                android:textColor="@color/lm_feed_raisin_black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/video_image_separator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/cloudy_blue_50"
+            app:layout_constraintBottom_toTopOf="@+id/layout_add_video" />
+
+        <LinearLayout
+            android:id="@+id/layout_add_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="10dp"
+            app:layout_constraintBottom_toTopOf="@id/video_image_separator"
+            tools:ignore="UnusedAttribute">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/lm_feed_ic_add_image"
+                tools:ignore="ContentDescription" />
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="@string/lm_feed_add_photo"
+                android:textColor="@color/lm_feed_raisin_black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

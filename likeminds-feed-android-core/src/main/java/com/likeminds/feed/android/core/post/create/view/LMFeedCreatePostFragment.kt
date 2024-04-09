@@ -5,6 +5,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,7 +15,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.likeminds.customgallery.media.model.SingleUriData
+import com.likeminds.customgallery.CustomGallery
+import com.likeminds.customgallery.media.model.*
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePostBinding
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
@@ -206,6 +208,7 @@ open class LMFeedCreatePostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         fetchInitialData()
+        initAddAttachmentsView()
         initPostComposerTextListener()
         observeData()
         initListeners()
@@ -214,6 +217,50 @@ open class LMFeedCreatePostFragment : Fragment() {
     private fun fetchInitialData() {
         createPostViewModel.getLoggedInUser()
         createPostViewModel.getAllTopics()
+    }
+
+    private fun initAddAttachmentsView() {
+        binding.apply {
+            layoutAttachFiles.setOnClickListener {
+                // sends clicked on attachment event for file
+                createPostViewModel.sendClickedOnAttachmentEvent("file")
+
+                CustomGallery.start(
+                    documentLauncher,
+                    requireContext(),
+                    CustomGalleryConfig.Builder()
+                        .mediaTypes(listOf(PDF))
+                        .allowMultipleSelect(true)
+                        .build()
+                )
+            }
+
+            layoutAddImage.setOnClickListener {
+                // sends clicked on attachment event for photo
+                createPostViewModel.sendClickedOnAttachmentEvent("photo")
+                CustomGallery.start(
+                    galleryLauncher,
+                    requireContext(),
+                    CustomGalleryConfig.Builder()
+                        .mediaTypes(listOf(IMAGE))
+                        .allowMultipleSelect(true)
+                        .build()
+                )
+            }
+
+            layoutAddVideo.setOnClickListener {
+                // sends clicked on attachment event for video
+                createPostViewModel.sendClickedOnAttachmentEvent("video")
+                CustomGallery.start(
+                    galleryLauncher,
+                    requireContext(),
+                    CustomGalleryConfig.Builder()
+                        .mediaTypes(listOf(VIDEO))
+                        .allowMultipleSelect(true)
+                        .build()
+                )
+            }
+        }
     }
 
     // adds text watcher on post content edit text
@@ -280,6 +327,20 @@ open class LMFeedCreatePostFragment : Fragment() {
                 initTopicSelectionView()
             } else {
                 handleTopicSelectionView(false)
+            }
+        }
+
+        // observes addPostResponse, once post is created
+        createPostViewModel.postAdded.observe(viewLifecycleOwner) { postAdded ->
+            requireActivity().apply {
+                if (postAdded) {
+                    // post is already posted
+                    setResult(Activity.RESULT_OK)
+                } else {
+                    // post is stored in db, now upload it from [FeedFragment]
+                    setResult(LMFeedCreatePostActivity.RESULT_UPLOAD_POST)
+                }
+                finish()
             }
         }
 
@@ -459,4 +520,45 @@ open class LMFeedCreatePostFragment : Fragment() {
             awaitClose { removeTextChangedListener(etPostTextChangeListener) }
         }.onStart { emit(text) }
     }
+
+    // launcher to handle document (PDF) intent
+    private val documentLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            Log.d(
+                "PUI", """
+                     ${result.resultCode}
+                """.trimIndent()
+            )
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = LMFeedExtrasUtil.getParcelable(
+                    result.data?.extras,
+                    CustomGallery.ARG_CUSTOM_GALLERY_RESULT,
+                    CustomGalleryResult::class.java
+                )
+                Log.d(
+                    "PUI", """
+                     ${data?.mediaTypes?.size}
+                     ${data?.medias?.firstOrNull()?.mediaName}
+                """.trimIndent()
+                )
+            }
+        }
+
+    // launcher to handle gallery (IMAGE/VIDEO) intent
+    private val galleryLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = LMFeedExtrasUtil.getParcelable(
+                    result.data?.extras,
+                    CustomGallery.ARG_CUSTOM_GALLERY_RESULT,
+                    CustomGalleryResult::class.java
+                )
+                Log.d(
+                    "PUI", """
+                     ${data?.mediaTypes?.size}
+                     ${data?.medias?.firstOrNull()?.mediaName}
+                """.trimIndent()
+                )
+            }
+        }
 }

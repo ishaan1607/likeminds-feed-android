@@ -1,5 +1,7 @@
 package com.likeminds.feed.android.core.utils.mediauploader.utils
 
+import com.likeminds.feed.android.core.BuildConfig
+
 class LMFeedAWSKeys {
 
     companion object {

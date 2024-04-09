@@ -85,14 +85,6 @@ class LMFeedCoreApplication : LMCallback {
             .lmCallback(this)
             .build()
         LMFeedCoreApplication.lmFeedCoreCallback = lmFeedCoreCallback
-
-        val bucketName = String(Base64.decode(LMFeedAWSKeys.getBucketName(), Base64.DEFAULT))
-        transferUtility = TransferUtility.builder()
-            .context(application.applicationContext)
-            .defaultBucket(bucketName)
-            .awsConfiguration(AWSMobileClient.getInstance().configuration)
-            .s3Client(AmazonS3Client(AWSMobileClient.getInstance().awsCredentials))
-            .build()
     }
 
     override fun login() {
