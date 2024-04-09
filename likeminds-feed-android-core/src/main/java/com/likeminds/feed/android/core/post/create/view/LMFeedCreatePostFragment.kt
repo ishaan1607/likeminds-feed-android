@@ -5,10 +5,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
@@ -34,28 +31,16 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedChipGroup
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostLinkMediaView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
-import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
-import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
-import com.likeminds.feed.android.core.utils.LMFeedViewUtils
+import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
-import com.likeminds.feed.android.core.utils.emptyExtrasException
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 
 open class LMFeedCreatePostFragment : Fragment() {
     private lateinit var binding: LmFeedFragmentCreatePostBinding
@@ -223,38 +208,12 @@ open class LMFeedCreatePostFragment : Fragment() {
         fetchInitialData()
         initPostComposerTextListener()
         observeData()
+        initListeners()
     }
 
     private fun fetchInitialData() {
         createPostViewModel.getLoggedInUser()
         createPostViewModel.getAllTopics()
-    }
-
-    private fun observeData() {
-        createPostViewModel.loggedInUser.observe(viewLifecycleOwner) { user ->
-            initAuthorFrame(user)
-        }
-
-        createPostViewModel.showTopicFilter.observe(viewLifecycleOwner) { toShow ->
-            if (toShow) {
-                handleTopicSelectionView(true)
-                initTopicSelectionView()
-            } else {
-                handleTopicSelectionView(false)
-            }
-        }
-
-        createPostViewModel.errorEventFlow.onEach { response ->
-            when (response) {
-                is LMFeedCreatePostViewModel.ErrorMessageEvent.GetLoggedInUser -> {
-                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
-                }
-
-                is LMFeedCreatePostViewModel.ErrorMessageEvent.GetTopic -> {
-                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
-                }
-            }
-        }.observeInLifecycle(viewLifecycleOwner)
     }
 
     // adds text watcher on post content edit text
@@ -305,6 +264,69 @@ open class LMFeedCreatePostFragment : Fragment() {
                     }
                 } else {
                     binding.headerViewCreatePost.setSubmitButtonEnabled(isEnabled = true)
+                }
+            }
+        }
+    }
+
+    private fun observeData() {
+        createPostViewModel.loggedInUser.observe(viewLifecycleOwner) { user ->
+            initAuthorFrame(user)
+        }
+
+        createPostViewModel.showTopicFilter.observe(viewLifecycleOwner) { toShow ->
+            if (toShow) {
+                handleTopicSelectionView(true)
+                initTopicSelectionView()
+            } else {
+                handleTopicSelectionView(false)
+            }
+        }
+
+        createPostViewModel.errorEventFlow.onEach { response ->
+            when (response) {
+                is LMFeedCreatePostViewModel.ErrorMessageEvent.GetLoggedInUser -> {
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
+                }
+
+                is LMFeedCreatePostViewModel.ErrorMessageEvent.GetTopic -> {
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
+                }
+            }
+        }.observeInLifecycle(viewLifecycleOwner)
+    }
+
+    private fun initListeners() {
+        binding.apply {
+            headerViewCreatePost.setSubmitButtonClickListener {
+                val text = etPostComposer.text
+                //todo: member tagging
+                val updatedText = text ?: ""
+//                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
+                LMFeedViewUtils.hideKeyboard(binding.root)
+                if (selectedMediaUris.isNotEmpty()) {
+                    headerViewCreatePost.setSubmitButtonEnabled(
+                        isEnabled = true,
+                        showProgress = true
+                    )
+                    createPostViewModel.addPost(
+                        context = requireContext(),
+                        postTextContent = updatedText,
+                        fileUris = selectedMediaUris,
+                        ogTags = ogTags,
+                        selectedTopics = selectedTopic
+                    )
+                } else if (updatedText.isNotEmpty()) {
+                    headerViewCreatePost.setSubmitButtonEnabled(
+                        isEnabled = true,
+                        showProgress = true
+                    )
+                    createPostViewModel.addPost(
+                        context = requireContext(),
+                        postTextContent = updatedText,
+                        ogTags = ogTags,
+                        selectedTopics = selectedTopic
+                    )
                 }
             }
         }

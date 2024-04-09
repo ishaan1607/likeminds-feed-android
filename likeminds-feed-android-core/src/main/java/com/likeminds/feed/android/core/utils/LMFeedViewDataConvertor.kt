@@ -1,10 +1,12 @@
 package com.likeminds.feed.android.core.utils
 
+import com.likeminds.customgallery.media.model.SingleUriData
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityEntityViewData
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
 import com.likeminds.feed.android.core.delete.model.LMFeedReasonChooseViewData
 import com.likeminds.feed.android.core.likes.model.LMFeedLikeViewData
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
+import com.likeminds.feed.android.core.post.create.model.LMFeedFileUploadViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentsCountViewData
 import com.likeminds.feed.android.core.post.model.*
@@ -346,9 +348,9 @@ object LMFeedViewDataConvertor {
 
     /**
      * converts [Activity] and usersMap [Map] of String to User
-     * to [ActivityViewData]
+     * to [LMFeedActivityViewData]
      *
-     * @param activity: an activity [ActivityViewData]
+     * @param activity: an activity [LMFeedActivityViewData]
      * @param usersMap: [Map] of String to User
      * */
     private fun convertActivity(
@@ -499,9 +501,42 @@ object LMFeedViewDataConvertor {
         }.toMutableList()
     }
 
+    /**
+     * convert [SingleUriData] to [LMFeedFileUploadViewData]
+     * @param singleUriData: [SingleUriData]
+     * */
+    fun convertFileUploadViewData(
+        singleUriData: SingleUriData
+    ): LMFeedFileUploadViewData {
+        return LMFeedFileUploadViewData.Builder()
+            .uri(singleUriData.uri)
+            .fileType(singleUriData.fileType)
+            .width(singleUriData.width)
+            .height(singleUriData.height)
+            .thumbnailUri(singleUriData.thumbnailUri)
+            .size(singleUriData.size)
+            .mediaName(singleUriData.mediaName)
+            .pdfPageCount(singleUriData.pdfPageCount)
+            .duration(singleUriData.duration)
+            .build()
+    }
+
     /**--------------------------------
      * View Data Model -> Network Model
     --------------------------------*/
+
+    fun convertPost(
+        temporaryId: Long,
+        uuid: String,
+        text: String?
+    ): Post {
+        return Post.Builder()
+            .tempId(temporaryId.toString())
+            .id(temporaryId.toString())
+            .uuid(uuid)
+            .text(text ?: "")
+            .build()
+    }
 
     //creates a list of network model of attachments from the provided list of attachment view data
     fun createAttachments(
