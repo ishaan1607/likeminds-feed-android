@@ -22,7 +22,7 @@ object LMFeedCore {
     fun setup(
         application: Application,
         apiKey: String,
-        lmFeedTheme: LMFeedSetThemeRequest,
+        lmFeedTheme: LMFeedSetThemeRequest? = null,
         lmFeedCoreCallback: LMFeedCoreCallback? = null
     ) {
         this.apiKey = apiKey
@@ -31,7 +31,6 @@ object LMFeedCore {
         val coreApplication = LMFeedCoreApplication.getInstance()
         coreApplication.initCoreApplication(application, lmFeedCoreCallback)
     }
-
 
     fun showFeed(
         context: Context,
@@ -43,9 +42,15 @@ object LMFeedCore {
         error: ((String?) -> Unit)? = null
     ) {
         //Call initiate API
-        initiateUser(context, userName, uuid, deviceId, enablePushNotifications)
-
-        //Inflate Feed
+        initiateUser(
+            context,
+            userName,
+            uuid,
+            deviceId,
+            enablePushNotifications,
+            success,
+            error
+        )
     }
 
     /**

@@ -26,7 +26,11 @@ object LMFeedTheme {
      * @param lmFeedSetThemeRequest - Request to set base theme
      * sets fonts, used throughout the app as base theme
      * */
-    fun setTheme(lmFeedSetThemeRequest: LMFeedSetThemeRequest) {
+    fun setTheme(lmFeedSetThemeRequest: LMFeedSetThemeRequest?) {
+        if (lmFeedSetThemeRequest == null) {
+            return
+        }
+
         fontResource = lmFeedSetThemeRequest.fontResource
         fontAssetsPath =
             lmFeedSetThemeRequest.fontAssetsPath ?: "fonts/lm_feed_montserrat-regular.ttf"
