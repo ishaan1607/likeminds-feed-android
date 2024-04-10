@@ -4,9 +4,8 @@ import android.app.Activity
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+
+import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -14,24 +13,19 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedActivity
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.core.delete.model.DELETE_TYPE_POST
 import com.likeminds.feed.android.core.delete.model.LMFeedDeleteExtras
-import com.likeminds.feed.android.core.delete.view.LMFeedAdminDeleteDialogFragment
-import com.likeminds.feed.android.core.delete.view.LMFeedAdminDeleteDialogListener
-import com.likeminds.feed.android.core.delete.view.LMFeedSelfDeleteDialogFragment
-import com.likeminds.feed.android.core.delete.view.LMFeedSelfDeleteDialogListener
+import com.likeminds.feed.android.core.delete.view.*
 import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
 import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
-import com.likeminds.feed.android.core.overflowmenu.model.DELETE_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.EDIT_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.REPORT_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
@@ -69,10 +63,12 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import com.likeminds.feed.android.core.utils.mediauploader.LMFeedMediaUploadWorker
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import kotlinx.coroutines.flow.onEach
+import java.util.UUID
 
 open class LMFeedUniversalFeedFragment :
     Fragment(),
@@ -89,6 +85,7 @@ open class LMFeedUniversalFeedFragment :
 
     // variable to check if there is a post already uploading
     private var alreadyPosting: Boolean = false
+    private val workersMap by lazy { ArrayList<UUID>() }
 
     private val postPublisher by lazy {
         LMFeedPostEvent.getPublisher()
@@ -127,9 +124,11 @@ open class LMFeedUniversalFeedFragment :
 
     override fun onResume() {
         super.onResume()
+
         // sends feed opened event
         LMFeedAnalytics.sendFeedOpenedEvent()
 
+        universalFeedViewModel.fetchPendingPostFromDB()
         binding.rvUniversal.refreshVideoAutoPlayer()
     }
 
@@ -182,6 +181,8 @@ open class LMFeedUniversalFeedFragment :
     }
 
     private fun observeResponses() {
+        observePosting()
+
         //observes user response LiveData
         universalFeedViewModel.userResponse.observe(viewLifecycleOwner) {
             binding.headerViewUniversal.apply {
@@ -291,6 +292,11 @@ open class LMFeedUniversalFeedFragment :
                     LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
                 }
 
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.AddPost -> {
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
+                    removePostingView()
+                }
+
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.DeletePost -> {
                     val errorMessage = response.errorMessage
                     LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
@@ -396,6 +402,133 @@ open class LMFeedUniversalFeedFragment :
                 }
             }
         }.observeInLifecycle(viewLifecycleOwner)
+    }
+
+    // observes post live data
+    private fun observePosting() {
+        universalFeedViewModel.postDataEventFlow.onEach { response ->
+            when (response) {
+                // when the post data comes from local db
+                //todo: write the name of creating post in post as variable func
+                is LMFeedUniversalFeedViewModel.PostDataEvent.PostDbData -> {
+                    val post = response.post
+                    if (post.isPosted) {
+                        removePostingView()
+                        return@onEach
+                    }
+                    alreadyPosting = true
+                    binding.layoutPosting.apply {
+                        show()
+                        val postThumbnail = post.mediaViewData.thumbnail
+                        if (postThumbnail.isNullOrEmpty()) {
+                            setAttachmentThumbnail(null)
+                        } else {
+                            setAttachmentThumbnail(Uri.parse(postThumbnail))
+                        }
+                        setProgress(0)
+                        setProgressVisibility(true)
+
+                        setPostSuccessfulVisibility(false)
+                        setRetryVisibility(false)
+                        observeMediaUpload(post)
+                    }
+                }
+                // when the post data comes from api response
+                //todo:
+                is LMFeedUniversalFeedViewModel.PostDataEvent.PostResponseData -> {
+                    binding.apply {
+//                        ViewUtils.showShortToast(
+//                            requireContext(),
+//                            getString(
+//                                R.string.s_created,
+//                                lmFeedHelperViewModel.getPostVariable()
+//                                    .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+//                            )
+//                        )
+                        onFeedRefreshed()
+                        removePostingView()
+                    }
+                }
+            }
+        }.observeInLifecycle(viewLifecycleOwner)
+    }
+
+    // removes the posting view and shows create post button
+    private fun removePostingView() {
+        binding.apply {
+            alreadyPosting = false
+            layoutPosting.hide()
+        }
+    }
+
+    // finds the upload worker by UUID and observes the worker
+    private fun observeMediaUpload(postingData: LMFeedPostViewData) {
+        if (postingData.mediaViewData.workerUUID.isEmpty()) {
+            return
+        }
+        val uuid = UUID.fromString(postingData.mediaViewData.workerUUID)
+        if (!workersMap.contains(uuid)) {
+            workersMap.add(uuid)
+            WorkManager.getInstance(requireContext()).getWorkInfoByIdLiveData(uuid)
+                .observe(viewLifecycleOwner) { workInfo ->
+                    observeMediaWorker(workInfo, postingData)
+                }
+        }
+    }
+
+    // observes the media worker through various worker lifecycle
+    private fun observeMediaWorker(
+        workInfo: WorkInfo,
+        postingData: LMFeedPostViewData
+    ) {
+        when (workInfo.state) {
+            WorkInfo.State.SUCCEEDED -> {
+                // uploading completed, call the add post api
+                binding.layoutPosting.apply {
+                    setProgressVisibility(false)
+                    setRetryVisibility(false)
+                    setPostSuccessfulVisibility(true)
+                }
+                universalFeedViewModel.addPost(postingData)
+            }
+
+            WorkInfo.State.FAILED -> {
+                // uploading failed, initiate retry mechanism
+                val indexList = workInfo.outputData.getIntArray(
+                    LMFeedMediaUploadWorker.ARG_MEDIA_INDEX_LIST
+                ) ?: return
+                initRetryAction(
+                    postingData.mediaViewData.temporaryId,
+                    indexList.size
+                )
+            }
+
+            else -> {
+                // uploading in progress, map the progress to progress bar
+                val progress = LMFeedMediaUploadWorker.getProgress(workInfo) ?: return
+                binding.layoutPosting.apply {
+                    val percentage = (((1.0 * progress.first) / progress.second) * 100)
+                    val progressValue = percentage.toInt()
+                    setProgress(progressValue)
+                }
+            }
+        }
+    }
+
+    // initializes retry mechanism for attachments uploading
+    private fun initRetryAction(temporaryId: Long?, attachmentCount: Int) {
+        binding.layoutPosting.apply {
+            setPostSuccessfulVisibility(false)
+            setProgressVisibility(false)
+            setRetryVisibility(true)
+            setRetryCTAClickListener {
+                universalFeedViewModel.createRetryPostMediaWorker(
+                    requireContext(),
+                    temporaryId,
+                    attachmentCount
+                )
+            }
+        }
     }
 
     // initializes new post fab
@@ -849,10 +982,10 @@ open class LMFeedUniversalFeedFragment :
                     onFeedRefreshed()
                 }
 
-//                LMFeedCreatePostActivity.RESULT_UPLOAD_POST -> {
-//                    // post with attachments created, now upload and post it from db
-////                    viewModel.fetchPendingPostFromDB()
-//                }
+                LMFeedCreatePostActivity.RESULT_UPLOAD_POST -> {
+                    // post with attachments created, now upload and post it from db
+                    universalFeedViewModel.fetchPendingPostFromDB()
+                }
             }
         }
 

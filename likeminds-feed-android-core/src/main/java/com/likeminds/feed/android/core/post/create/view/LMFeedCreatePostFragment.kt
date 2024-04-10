@@ -5,7 +5,6 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
@@ -41,6 +40,7 @@ import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPos
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
@@ -61,6 +61,8 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
     private lateinit var etPostTextChangeListener: TextWatcher
 
     private val createPostViewModel: LMFeedCreatePostViewModel by viewModels()
+
+    private var isDocumentExpanded = false
 
     private val postVideoPreviewAutoPlayHelper by lazy {
         LMFeedPostVideoPreviewAutoPlayHelper.getInstance()
@@ -210,16 +212,8 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
     protected open fun customizePostDocumentsAttachment(documentsMediaView: LMFeedPostDocumentsMediaView) {
         val documentsAttachmentViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
-        val updatedDocumentsAttachmentViewStyle = documentsAttachmentViewStyle?.toBuilder()
-            ?.removeIconStyle(
-                LMFeedIconStyle.Builder()
-                    .inActiveSrc(R.drawable.lm_feed_ic_cross)
-                    .build()
-            )
-            ?.build()
-        updatedDocumentsAttachmentViewStyle?.let {
-            documentsMediaView.setStyle(it)
-        }
+                ?: return
+        documentsMediaView.setStyle(documentsAttachmentViewStyle)
     }
 
     protected open fun customizePostMultipleMedia(multipleMediaView: LMFeedPostMultipleMediaView) {
@@ -814,13 +808,15 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 )
             }
             val documentMediaViewData = LMFeedMediaViewData.Builder()
+                .isExpanded(isDocumentExpanded)
                 .attachments(LMFeedViewDataConvertor.convertSingleDataUri(selectedMediaUris))
                 .build()
 
             postDocumentsView.setAdapter(
                 0,
                 documentMediaViewData,
-                this@LMFeedCreatePostFragment
+                this@LMFeedCreatePostFragment,
+                true
             )
         }
     }
@@ -866,17 +862,10 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             ((viewPager[0] as RecyclerView).findViewHolderForAdapterPosition(position) as? LMFeedDataBoundViewHolder<*>)
                 ?.binding as? LmFeedItemMultipleMediaVideoBinding
 
-        Log.d("PUI", "onPostMultipleMediaPageChangeCallback: $itemMultipleMediaVideoBinding")
-
         if (itemMultipleMediaVideoBinding == null) {
-            Log.d("PUI", "onPostMultipleMediaPageChangeCallback: 1")
             // in case the item is not a video
             postVideoPreviewAutoPlayHelper.removePlayer()
         } else {
-            Log.d(
-                "PUI",
-                "onPostMultipleMediaPageChangeCallback: 2222 ${selectedMediaUris[position].uri}"
-            )
             // processes the current video item
             postVideoPreviewAutoPlayHelper.playVideoInView(
                 itemMultipleMediaVideoBinding.postVideoView,
@@ -901,5 +890,11 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             }
         }
         showPostMedia()
+    }
+
+    override fun onPostMultipleDocumentsExpanded(position: Int, postViewData: LMFeedPostViewData) {
+        super.onPostMultipleDocumentsExpanded(position, postViewData)
+
+        isDocumentExpanded = true
     }
 }

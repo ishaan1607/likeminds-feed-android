@@ -15,14 +15,13 @@ import com.likeminds.likemindsfeed.LMFeedClient
 
 class LMFeedCoreApplication : LMCallback {
 
-    private lateinit var transferUtility: TransferUtility
-
     companion object {
         const val LOG_TAG = "LikeMindsFeedCore"
         private var coreApplicationInstance: LMFeedCoreApplication? = null
         private var lmFeedCoreCallback: LMFeedCoreCallback? = null
         private lateinit var transferUtility: TransferUtility
         private var credentialsProvider: CognitoCachingCredentialsProvider? = null
+        private var s3Client: AmazonS3Client? = null
 
         /**
          * @return Singleton Instance of Core Application class
@@ -52,24 +51,27 @@ class LMFeedCoreApplication : LMCallback {
                 val bucketName =
                     String(Base64.decode(LMFeedAWSKeys.getBucketName(), Base64.DEFAULT))
 
-                if (credentialsProvider != null) {
+                if (credentialsProvider == null) {
                     credentialsProvider = CognitoCachingCredentialsProvider(
-                        context,
-                        LMFeedAWSKeys.getIdentityPoolId(), // Identity Pool ID
-                        Regions.AP_SOUTHEAST_1 // Region
-                    );
+                        context.applicationContext,
+                        String(Base64.decode(LMFeedAWSKeys.getIdentityPoolId(), Base64.DEFAULT)), // Identity Pool ID
+                        Regions.AP_SOUTH_1 // Region
+                    )
+                }
+
+                if (s3Client == null) {
+                    s3Client = AmazonS3Client(
+                        credentialsProvider,
+                        Region.getRegion(Regions.AP_SOUTH_1)
+                    )
+                    s3Client?.setRegion(Region.getRegion(Regions.AP_SOUTH_1))
                 }
 
                 transferUtility = TransferUtility.builder()
                     .context(context)
                     .defaultBucket(bucketName)
                     .awsConfiguration(AWSMobileClient.getInstance().configuration)
-                    .s3Client(
-                        AmazonS3Client(
-                            credentialsProvider,
-                            Region.getRegion(Regions.AP_SOUTH_1)
-                        )
-                    )
+                    .s3Client(s3Client)
                     .build()
             }
 

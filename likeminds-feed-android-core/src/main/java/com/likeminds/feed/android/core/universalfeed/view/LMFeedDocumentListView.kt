@@ -50,9 +50,10 @@ class LMFeedDocumentListView @JvmOverloads constructor(
         parentPosition: Int,
         mediaViewData: LMFeedMediaViewData,
         tvShowMore: LMFeedTextView,
-        listener: LMFeedUniversalFeedAdapterListener
+        listener: LMFeedUniversalFeedAdapterListener,
+        isMediaRemovable: Boolean
     ) {
-        documentsAdapter = LMFeedDocumentsAdapter(parentPosition, listener)
+        documentsAdapter = LMFeedDocumentsAdapter(parentPosition, listener, isMediaRemovable)
         adapter = documentsAdapter
         handleVisibleDocuments(mediaViewData, tvShowMore)
     }

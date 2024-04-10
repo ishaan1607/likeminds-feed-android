@@ -295,15 +295,11 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
         uri: Uri? = null,
         url: String? = null
     ) {
-        Log.d("PUI", "playVideoInView:11 ")
-
         if (uri == null && url == null) {
             return
         }
-        Log.d("PUI", "playVideoInView: ")
 
         if (lastPlayerView == null || lastPlayerView != videoPost.videoView) {
-            Log.d("PUI", "playVideoInView1111: ")
             if (uri != null) {
                 videoPost.playVideo(uri, true)
             } else {

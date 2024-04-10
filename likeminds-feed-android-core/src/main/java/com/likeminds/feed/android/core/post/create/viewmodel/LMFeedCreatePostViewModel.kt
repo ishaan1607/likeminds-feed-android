@@ -279,23 +279,24 @@ class LMFeedCreatePostViewModel : ViewModel() {
         selectedTopics: ArrayList<LMFeedTopicViewData>?
     ) {
         viewModelScope.launchIO {
-            val uuid = uploadData.second
+            val workerUUID = uploadData.second
             val temporaryPostId = temporaryPostId ?: -1
 
             val post = LMFeedViewDataConvertor.convertPost(
                 temporaryPostId,
-                uuid,
+                workerUUID,
                 text,
                 fileUris
             )
 
-            val topics = LMFeedViewDataConvertor.convertTopics(selectedTopics?.toList())
+            val topics = LMFeedViewDataConvertor.convertTopicsViewData(selectedTopics?.toList())
 
             //create add temporary post request
             val request = AddTemporaryPostRequest.Builder()
                 .post(post)
                 .topics(topics)
                 .postThumbnail(fileUris.first().thumbnailUri.toString())
+                .workerUUID(workerUUID)
                 .build()
 
             // add it to local db
