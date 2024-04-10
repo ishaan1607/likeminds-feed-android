@@ -18,6 +18,9 @@ import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.LMResponse
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
+import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
 import com.likeminds.likemindsfeed.post.model.AddPostRequest
 import com.likeminds.likemindsfeed.post.model.AddTemporaryPostRequest
 import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
@@ -31,6 +34,14 @@ class LMFeedCreatePostViewModel : ViewModel() {
 
     private val _postAdded = MutableLiveData<Boolean>()
     val postAdded: LiveData<Boolean> = _postAdded
+
+    private val _decodeUrlResponse by lazy {
+        MutableLiveData<LMFeedLinkOGTagsViewData>()
+    }
+
+    val decodeUrlResponse: LiveData<LMFeedLinkOGTagsViewData> by lazy {
+        _decodeUrlResponse
+    }
 
     private var temporaryPostId: Long? = null
 
@@ -46,6 +57,8 @@ class LMFeedCreatePostViewModel : ViewModel() {
         data class GetTopic(val errorMessage: String?) : ErrorMessageEvent()
 
         data class AddPost(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class DecodeUrl(val errorMessage: String?) : ErrorMessageEvent()
     }
 
     private val errorEventChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
@@ -68,6 +81,31 @@ class LMFeedCreatePostViewModel : ViewModel() {
             } else {
                 //send error message to UI
                 errorEventChannel.send(ErrorMessageEvent.GetLoggedInUser(response.errorMessage))
+            }
+        }
+    }
+
+    // calls DecodeUrl API
+    fun decodeUrl(url: String) {
+        viewModelScope.launchIO {
+            val request = DecodeUrlRequest.Builder().url(url).build()
+
+            val response = lmFeedClient.decodeUrl(request)
+            postDecodeUrlResponse(response)
+        }
+    }
+
+    //processes and posts the DecodeUrl response in LiveData
+    private fun postDecodeUrlResponse(response: LMResponse<DecodeUrlResponse>) {
+        viewModelScope.launchIO {
+            if (response.success) {
+                // processes link og tags if API call was successful
+                val data = response.data ?: return@launchIO
+                val ogTags = data.ogTags
+                _decodeUrlResponse.postValue(LMFeedViewDataConvertor.convertLinkOGTags(ogTags))
+            } else {
+                // posts error message if API call failed
+                errorEventChannel.send(ErrorMessageEvent.DecodeUrl(response.errorMessage))
             }
         }
     }
@@ -338,6 +376,77 @@ class LMFeedCreatePostViewModel : ViewModel() {
             LMFeedAnalytics.Events.CLICKED_ON_ATTACHMENT,
             mapOf(
                 "type" to type
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user attaches any media
+     * @param data - list of uris od all the attached media
+     **/
+    fun sendMediaAttachedEvent(data: List<SingleUriData>) {
+        // counts number of images in attachments
+        val imageCount = data.count {
+            it.fileType == IMAGE
+        }
+        // counts number of videos in attachments
+        val videoCount = data.count {
+            it.fileType == VIDEO
+        }
+        // counts number of documents in attachments
+        val docsCount = data.count {
+            it.fileType == PDF
+        }
+
+        // sends image attached event if imageCount > 0
+        if (imageCount > 0) {
+            sendImageAttachedEvent(imageCount)
+        }
+        // sends image attached event if videoCount > 0
+        if (videoCount > 0) {
+            sendVideoAttachedEvent(videoCount)
+        }
+        // sends image attached event if docsCount > 0
+        if (docsCount > 0) {
+            sendDocumentAttachedEvent(docsCount)
+        }
+    }
+
+    /**
+     * Triggers when the user attaches image
+     * @param imageCount - number of attached images
+     **/
+    private fun sendImageAttachedEvent(imageCount: Int) {
+        LMFeedAnalytics.track(
+            LMFeedAnalytics.Events.IMAGE_ATTACHED_TO_POST,
+            mapOf(
+                "image_count" to imageCount.toString()
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user attaches video
+     * @param videoCount - number of attached videos
+     **/
+    private fun sendVideoAttachedEvent(videoCount: Int) {
+        LMFeedAnalytics.track(
+            LMFeedAnalytics.Events.VIDEO_ATTACHED_TO_POST,
+            mapOf(
+                "video_count" to videoCount.toString()
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user attaches document
+     * @param documentCount - number of attached documents
+     **/
+    private fun sendDocumentAttachedEvent(documentCount: Int) {
+        LMFeedAnalytics.track(
+            LMFeedAnalytics.Events.DOCUMENT_ATTACHED_TO_POST,
+            mapOf(
+                "document_count" to documentCount.toString()
             )
         )
     }

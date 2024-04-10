@@ -15,6 +15,7 @@ import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPos
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedPostVideoMediaView : ConstraintLayout {
 
@@ -195,4 +196,14 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
     }
 
     // todo: add click listeners and thumbnail
+    /**
+     * Sets click listener on the cross button of the video view
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setRemoveIconClickListener(listener: LMFeedOnClickListener) {
+        binding.ivCross.setOnClickListener {
+            listener.onClick()
+        }
+    }
 }

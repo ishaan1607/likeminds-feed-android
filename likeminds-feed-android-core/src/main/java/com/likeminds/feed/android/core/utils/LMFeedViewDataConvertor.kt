@@ -14,6 +14,7 @@ import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.report.model.LMFeedReportTagViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.utils.base.model.*
 import com.likeminds.feed.android.core.utils.mediauploader.utils.LMFeedAWSKeys
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.comment.model.Comment
@@ -26,6 +27,53 @@ import com.likeminds.likemindsfeed.sdk.model.User
 import com.likeminds.likemindsfeed.topic.model.Topic
 
 object LMFeedViewDataConvertor {
+
+    /**--------------------------------
+     * Media Model -> View Data Model
+    --------------------------------*/
+
+    // Converts the list of SingleUriData (contains the data of media) to the list of [LMFeedAttachmentViewData]
+    fun convertSingleDataUri(singleUris: List<SingleUriData>): List<LMFeedAttachmentViewData> {
+        return singleUris.map {
+            convertSingleDataUri(it)
+        }
+    }
+
+    // Converts the SingleUriData (contains the data of media) to [LMFeedAttachmentViewData]
+    private fun convertSingleDataUri(singleUriData: SingleUriData): LMFeedAttachmentViewData {
+        val attachmentType: Int?
+        val viewType = when (singleUriData.fileType) {
+            com.likeminds.customgallery.media.model.IMAGE -> {
+                attachmentType = IMAGE
+                ITEM_MULTIPLE_MEDIA_IMAGE
+            }
+
+            com.likeminds.customgallery.media.model.VIDEO -> {
+                attachmentType = VIDEO
+                ITEM_MULTIPLE_MEDIA_VIDEO
+            }
+
+            else -> {
+                attachmentType = DOCUMENT
+                ITEM_POST_DOCUMENTS_ITEM
+            }
+        }
+        return LMFeedAttachmentViewData.Builder()
+            .dynamicViewType(viewType)
+            .attachmentType(attachmentType)
+            .attachmentMeta(
+                LMFeedAttachmentMetaViewData.Builder()
+                    .name(singleUriData.mediaName)
+                    .duration(singleUriData.duration)
+                    .pageCount(singleUriData.pdfPageCount)
+                    .width(singleUriData.width)
+                    .height(singleUriData.height)
+                    .size(singleUriData.size)
+                    .uri(singleUriData.uri)
+                    .build()
+            )
+            .build()
+    }
 
     /**--------------------------------
      * Network Model -> View Data Model

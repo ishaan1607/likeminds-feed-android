@@ -5,7 +5,6 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,12 +14,14 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.*
 import com.likeminds.customgallery.CustomGallery
 import com.likeminds.customgallery.media.model.*
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePostBinding
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.LM_FEED_CREATE_POST_EXTRAS
+import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.POST_ATTACHMENTS_LIMIT
 import com.likeminds.feed.android.core.post.create.viewmodel.LMFeedCreatePostViewModel
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
@@ -34,22 +35,31 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
+import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
+import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
+import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 
-open class LMFeedCreatePostFragment : Fragment() {
+open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterListener {
     private lateinit var binding: LmFeedFragmentCreatePostBinding
     private lateinit var lmFeedCreatePostExtras: LMFeedCreatePostExtras
     private lateinit var etPostTextChangeListener: TextWatcher
 
     private val createPostViewModel: LMFeedCreatePostViewModel by viewModels()
+
+    private val postVideoAutoPlayHelper by lazy {
+        LMFeedPostVideoAutoPlayHelper.getInstance()
+    }
 
     private var selectedMediaUris: java.util.ArrayList<SingleUriData> = arrayListOf()
     private val selectedTopic by lazy {
@@ -60,6 +70,7 @@ open class LMFeedCreatePostFragment : Fragment() {
     companion object {
         const val TAG = "LMFeedCreatePostFragment"
         const val LM_FEED_CREATE_POST_FRAGMENT_EXTRAS = "LM_FEED_CREATE_POST_FRAGMENT_EXTRAS"
+        const val TYPE_OF_ATTACHMENT_CLICKED = "image, video"
 
         fun getInstance(createPostExtras: LMFeedCreatePostExtras): LMFeedCreatePostFragment {
             val createPostFragment = LMFeedCreatePostFragment()
@@ -238,6 +249,7 @@ open class LMFeedCreatePostFragment : Fragment() {
             layoutAddImage.setOnClickListener {
                 // sends clicked on attachment event for photo
                 createPostViewModel.sendClickedOnAttachmentEvent("photo")
+
                 CustomGallery.start(
                     galleryLauncher,
                     requireContext(),
@@ -251,6 +263,7 @@ open class LMFeedCreatePostFragment : Fragment() {
             layoutAddVideo.setOnClickListener {
                 // sends clicked on attachment event for video
                 createPostViewModel.sendClickedOnAttachmentEvent("video")
+
                 CustomGallery.start(
                     galleryLauncher,
                     requireContext(),
@@ -404,13 +417,188 @@ open class LMFeedCreatePostFragment : Fragment() {
     // clears link preview
     private fun clearPreviewLink() {
         ogTags = null
-//        binding.linkPreview.apply {
-//            root.hide()
-//        }
+        binding.postLinkView.hide()
     }
 
+    // handles the logic to show the type of post
     private fun showPostMedia() {
+        checkIfAttachmentsLimitExceeded()
 
+        when {
+            selectedMediaUris.size >= 1 && MediaType.isPDF(selectedMediaUris.first().fileType) -> {
+                ogTags = null
+                showAttachedDocuments()
+            }
+
+            selectedMediaUris.size == 1 && MediaType.isImage(selectedMediaUris.first().fileType) -> {
+                ogTags = null
+                showAttachedImage()
+            }
+
+            selectedMediaUris.size == 1 && MediaType.isVideo(selectedMediaUris.first().fileType) -> {
+                ogTags = null
+                showAttachedVideo()
+            }
+
+            selectedMediaUris.size >= 1 -> {
+                ogTags = null
+                showMultiMediaAttachments()
+            }
+
+            else -> {
+                val text = binding.etPostComposer.text?.trim()
+                if (selectedMediaUris.size == 0 && text != null) {
+                    showLinkPreview(text.toString())
+                } else {
+                    clearPreviewLink()
+                }
+                binding.headerViewCreatePost.setSubmitButtonEnabled(isEnabled = !text.isNullOrEmpty())
+                handleAddAttachmentLayouts(true)
+            }
+        }
+    }
+
+    // shows attached image in single image post type
+    private fun showAttachedImage() {
+        handleAddAttachmentLayouts(false)
+        binding.apply {
+            headerViewCreatePost.setSubmitButtonEnabled(isEnabled = true)
+            postSingleImage.show()
+            postSingleVideo.hide()
+            postLinkView.hide()
+            postDocumentsView.hide()
+            //todo:
+//            multipleMediaAttachment.root.hide()
+            btnAddMoreMedia.setOnClickListener {
+                // sends clicked on attachment event for image and video
+                createPostViewModel.sendClickedOnAttachmentEvent(TYPE_OF_ATTACHMENT_CLICKED)
+                CustomGallery.start(
+                    galleryLauncher,
+                    requireContext(),
+                    CustomGalleryConfig.Builder()
+                        .mediaTypes(listOf(IMAGE, VIDEO))
+                        .allowMultipleSelect(true)
+                        .build()
+                )
+            }
+
+            postSingleImage.setRemoveIconClickListener {
+                selectedMediaUris.clear()
+                postSingleImage.hide()
+                handleAddAttachmentLayouts(true)
+                val text = etPostComposer.text?.trim()
+                headerViewCreatePost.setSubmitButtonEnabled(isEnabled = !text.isNullOrEmpty())
+            }
+
+            //todo: change this
+            val imageStyle =
+                LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
+                    ?: return
+            postSingleImage.setImage(selectedMediaUris.first().uri, imageStyle)
+        }
+    }
+
+    private fun showAttachedVideo() {
+        binding.apply {
+            handleAddAttachmentLayouts(false)
+            headerViewCreatePost.setSubmitButtonEnabled(isEnabled = true)
+            postSingleVideo.show()
+            postSingleImage.hide()
+            postLinkView.hide()
+            postDocumentsView.hide()
+//            multipleMediaAttachment.root.hide()
+            btnAddMoreMedia.setOnClickListener {
+                // sends clicked on attachment event for image and video
+                createPostViewModel.sendClickedOnAttachmentEvent(TYPE_OF_ATTACHMENT_CLICKED)
+
+                CustomGallery.start(
+                    galleryLauncher,
+                    requireContext(),
+                    CustomGalleryConfig.Builder()
+                        .mediaTypes(listOf(IMAGE, VIDEO))
+                        .allowMultipleSelect(true)
+                        .build()
+                )
+            }
+
+            postVideoAutoPlayHelper?.playVideoInView(
+                postSingleVideo,
+                selectedMediaUris.first().uri
+            )
+
+            postSingleVideo.setRemoveIconClickListener {
+                selectedMediaUris.clear()
+                postSingleVideo.hide()
+                handleAddAttachmentLayouts(true)
+                val text = etPostComposer.text?.trim()
+                headerViewCreatePost.setSubmitButtonEnabled(isEnabled = !text.isNullOrEmpty())
+                postVideoAutoPlayHelper?.removePlayer()
+            }
+        }
+    }
+
+    // shows view pager with multiple media
+    private fun showMultiMediaAttachments() {
+        binding.apply {
+            handleAddAttachmentLayouts(false)
+            headerViewCreatePost.setSubmitButtonEnabled(isEnabled = true)
+            postSingleImage.hide()
+            postSingleVideo.hide()
+            postLinkView.hide()
+            postDocumentsView.hide()
+
+            btnAddMoreMedia.visibility =
+                if (selectedMediaUris.size >= POST_ATTACHMENTS_LIMIT) {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
+
+            btnAddMoreMedia.setOnClickListener {
+                // sends clicked on attachment event for image and video
+                createPostViewModel.sendClickedOnAttachmentEvent(TYPE_OF_ATTACHMENT_CLICKED)
+
+                CustomGallery.start(
+                    galleryLauncher,
+                    requireContext(),
+                    CustomGalleryConfig.Builder()
+                        .mediaTypes(listOf(IMAGE, VIDEO))
+                        .allowMultipleSelect(true)
+                        .build()
+                )
+            }
+
+            val attachments = LMFeedViewDataConvertor.convertSingleDataUri(selectedMediaUris)
+
+            multipleMediaView.setViewPager(
+                0,
+                this@LMFeedCreatePostFragment,
+                attachments
+            )
+        }
+    }
+
+    // shows link preview for link post type
+    private fun showLinkPreview(text: String?) {
+        binding.postLinkView.apply {
+            if (text.isNullOrEmpty()) {
+                clearPreviewLink()
+                return
+            }
+            val link = text.getUrlIfExist()
+            if (ogTags != null && link.equals(ogTags?.url)) {
+                return
+            }
+            if (!link.isNullOrEmpty()) {
+                if (link == ogTags?.url) {
+                    return
+                }
+                clearPreviewLink()
+                createPostViewModel.decodeUrl(link)
+            } else {
+                clearPreviewLink()
+            }
+        }
     }
 
     //hide/show topics related views
@@ -524,25 +712,90 @@ open class LMFeedCreatePostFragment : Fragment() {
     // launcher to handle document (PDF) intent
     private val documentLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            Log.d(
-                "PUI", """
-                     ${result.resultCode}
-                """.trimIndent()
-            )
             if (result.resultCode == Activity.RESULT_OK) {
                 val data = LMFeedExtrasUtil.getParcelable(
                     result.data?.extras,
                     CustomGallery.ARG_CUSTOM_GALLERY_RESULT,
                     CustomGalleryResult::class.java
                 )
-                Log.d(
-                    "PUI", """
-                     ${data?.mediaTypes?.size}
-                     ${data?.medias?.firstOrNull()?.mediaName}
-                """.trimIndent()
-                )
+                if (data != null) {
+                    onDocumentPicked(data)
+                }
             }
         }
+
+    private fun onDocumentPicked(documentResult: CustomGalleryResult) {
+        // sends media attached event with media type and count
+        val mediaUris = documentResult.medias
+        createPostViewModel.sendMediaAttachedEvent(mediaUris)
+        selectedMediaUris.addAll(mediaUris)
+
+        if (mediaUris.isNotEmpty()) {
+            checkIfAttachmentsLimitExceeded()
+            showAttachedDocuments()
+        }
+    }
+
+    // shows toast and removes extra items if attachments limit is exceeded
+    private fun checkIfAttachmentsLimitExceeded() {
+        if (selectedMediaUris.size > 10) {
+            LMFeedViewUtils.showErrorMessageToast(
+                requireContext(), requireContext().resources.getQuantityString(
+                    R.plurals.lm_feed_you_can_select_upto_x_items,
+                    POST_ATTACHMENTS_LIMIT,
+                    POST_ATTACHMENTS_LIMIT
+                )
+            )
+            val size = selectedMediaUris.size
+            selectedMediaUris.subList(POST_ATTACHMENTS_LIMIT, size).clear()
+        }
+    }
+
+    // shows document recycler view with attached files
+    private fun showAttachedDocuments() {
+        binding.apply {
+            handleAddAttachmentLayouts(false)
+            headerViewCreatePost.setSubmitButtonEnabled(isEnabled = true)
+            postSingleImage.hide()
+            postSingleVideo.hide()
+            postLinkView.hide()
+            postDocumentsView.show()
+//            multipleMediaAttachment.root.hide()
+            btnAddMoreMedia.visibility =
+                if (selectedMediaUris.size >= POST_ATTACHMENTS_LIMIT) {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
+            btnAddMoreMedia.setOnClickListener {
+                // sends clicked on attachment event for file
+                createPostViewModel.sendClickedOnAttachmentEvent("file")
+
+                CustomGallery.start(
+                    documentLauncher,
+                    requireContext(),
+                    CustomGalleryConfig.Builder()
+                        .mediaTypes(listOf(PDF))
+                        .allowMultipleSelect(true)
+                        .build()
+                )
+            }
+            val documentMediaViewData = LMFeedMediaViewData.Builder()
+                .attachments(LMFeedViewDataConvertor.convertSingleDataUri(selectedMediaUris))
+                .build()
+
+            postDocumentsView.setAdapter(
+                0,
+                documentMediaViewData,
+                this@LMFeedCreatePostFragment
+            )
+        }
+    }
+
+    // handles visibility of add attachment layouts
+    private fun handleAddAttachmentLayouts(show: Boolean) {
+        binding.groupAddAttachments.isVisible = show
+    }
 
     // launcher to handle gallery (IMAGE/VIDEO) intent
     private val galleryLauncher =
@@ -553,12 +806,19 @@ open class LMFeedCreatePostFragment : Fragment() {
                     CustomGallery.ARG_CUSTOM_GALLERY_RESULT,
                     CustomGalleryResult::class.java
                 )
-                Log.d(
-                    "PUI", """
-                     ${data?.mediaTypes?.size}
-                     ${data?.medias?.firstOrNull()?.mediaName}
-                """.trimIndent()
-                )
+
+                if (data != null) {
+                    onMediaPicked(data)
+                }
             }
         }
+
+    // adds the picked media to the selected media
+    private fun onMediaPicked(mediaResult: CustomGalleryResult) {
+        // sends media attached event with media type and count
+        val mediaUris = mediaResult.medias
+        createPostViewModel.sendMediaAttachedEvent(mediaUris)
+        selectedMediaUris.addAll(mediaUris)
+        showPostMedia()
+    }
 }

@@ -762,8 +762,8 @@ open class LMFeedEditPostFragment :
 
     //shows multimedia preview
     private fun showMultiMediaPreview() {
-        binding.headerViewEditPost.setSubmitButtonEnabled(isEnabled = true)
         binding.apply {
+            headerViewEditPost.setSubmitButtonEnabled(isEnabled = true)
             multipleMediaAttachment.root.show()
             postMediaViewData?.attachments?.let {
                 multipleMediaAttachment.multipleMediaView.setViewPager(

@@ -129,8 +129,15 @@
                     app:layout_constraintTop_toBottomOf="@id/et_post_composer"
                     tools:visibility="gone" />
 
-                <!--                multimedia-->
-                <!--                Add more button-->
+                <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostMultipleMediaView
+                    android:id="@+id/multiple_media_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_post_composer" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
@@ -244,6 +251,26 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
+            android:id="@+id/btn_add_more_media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/lm_feed_background_round_8dp"
+            android:drawableLeft="@drawable/lm_feed_ic_plus"
+            android:foreground="?selectableItemBackground"
+            android:paddingHorizontal="24dp"
+            android:text="@string/lm_feed_add_more"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lm_feed_font_type="medium"
+            tools:fontFamily="@font/roboto_medium"
+            tools:ignore="UnusedAttribute"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

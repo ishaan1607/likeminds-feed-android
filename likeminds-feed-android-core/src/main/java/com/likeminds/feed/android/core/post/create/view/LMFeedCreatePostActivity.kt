@@ -22,6 +22,7 @@ class LMFeedCreatePostActivity : AppCompatActivity() {
         const val LM_FEED_CREATE_POST_EXTRAS = "LM_FEED_CREATE_POST_EXTRAS"
         const val LM_FEED_CREATE_POST_BUNDLE = "lm_feed_bundle"
         const val RESULT_UPLOAD_POST = Activity.RESULT_FIRST_USER + 1
+        const val POST_ATTACHMENTS_LIMIT = 10
 
         @JvmStatic
         fun start(context: Context, extras: LMFeedCreatePostExtras) {
