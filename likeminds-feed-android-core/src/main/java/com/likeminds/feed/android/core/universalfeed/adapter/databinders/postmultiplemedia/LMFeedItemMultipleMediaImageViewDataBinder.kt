@@ -2,8 +2,11 @@ package com.likeminds.feed.android.core.universalfeed.adapter.databinders.postmu
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.likeminds.customgallery.media.model.IMAGE
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedItemMultipleMediaImageBinding
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
@@ -12,7 +15,8 @@ import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_IMAG
 
 class LMFeedItemMultipleMediaImageViewDataBinder(
     private val parentPosition: Int,
-    private val listener: LMFeedUniversalFeedAdapterListener
+    private val listener: LMFeedUniversalFeedAdapterListener,
+    private val isMediaRemovable: Boolean
 ) : LMFeedViewDataBinder<LmFeedItemMultipleMediaImageBinding, LMFeedAttachmentViewData>() {
 
     override val viewType: Int
@@ -31,9 +35,20 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
             //sets image media style to multiple media image view
             val postImageMediaStyle =
                 LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
-                    ?: return@apply
 
-            postImageView.setStyle(postImageMediaStyle)
+            val finalPostImageMediaStyle = if (isMediaRemovable) {
+                postImageMediaStyle?.toBuilder()
+                    ?.removeIconStyle(
+                        LMFeedIconStyle.Builder()
+                            .inActiveSrc(R.drawable.lm_feed_ic_cross)
+                            .build()
+                    )
+                    ?.build()
+            } else {
+                postImageMediaStyle
+            } ?: return@apply
+
+            postImageView.setStyle(finalPostImageMediaStyle)
         }
 
         return binding
@@ -68,7 +83,7 @@ class LMFeedItemMultipleMediaImageViewDataBinder(
             postImageView.setRemoveIconClickListener {
                 listener.onMediaRemovedClicked(
                     position,
-                    "iMAGE"
+                    IMAGE
                 )
             }
         }

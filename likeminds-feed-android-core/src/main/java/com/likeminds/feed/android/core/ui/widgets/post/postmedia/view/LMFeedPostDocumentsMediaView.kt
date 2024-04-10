@@ -61,6 +61,14 @@ class LMFeedPostDocumentsMediaView : ConstraintLayout {
         }
     }
 
+    /**
+     * Removes the document at the provided index
+     * @param position: index from which the media is to be removed
+     */
+    fun removeDocument(position: Int) {
+        binding.rvDocuments.removeDocument(position)
+    }
+
     fun setShowMoreTextClickListener(listener: LMFeedOnClickListener) {
         binding.tvShowMore.setOnClickListener {
             listener.onClick()

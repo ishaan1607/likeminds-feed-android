@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.utils.video
 
 import android.graphics.Rect
 import android.net.Uri
+import android.util.Log
 import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,10 +30,6 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                 postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper(recyclerView)
             }
             return postVideoAutoPlayHelper!!
-        }
-
-        fun getInstance(): LMFeedPostVideoAutoPlayHelper? {
-            return postVideoAutoPlayHelper
         }
     }
 
@@ -240,9 +237,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                 if (lastPlayerView == null || lastPlayerView != videoView) {
                     val attachmentMeta = data.mediaViewData.attachments.first().attachmentMeta
 
-                    startNewPlayer(
-                        itemPostSingleVideoBinding.postVideoView,
-                        attachmentMeta.url,
+                    itemPostSingleVideoBinding.postVideoView.playVideo(
+                        Uri.parse(attachmentMeta.url),
                         false
                     )
                 }
@@ -273,9 +269,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                         val attachmentMeta =
                             data.mediaViewData.attachments[currentItem].attachmentMeta
 
-                        startNewPlayer(
-                            itemMultipleMediaVideoBinding.postVideoView,
-                            attachmentMeta.url,
+                        itemMultipleMediaVideoBinding.postVideoView.playVideo(
+                            Uri.parse(attachmentMeta.url),
                             false
                         )
                     }
@@ -300,32 +295,24 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
         uri: Uri? = null,
         url: String? = null
     ) {
+        Log.d("PUI", "playVideoInView:11 ")
+
         if (uri == null && url == null) {
             return
         }
+        Log.d("PUI", "playVideoInView: ")
+
         if (lastPlayerView == null || lastPlayerView != videoPost.videoView) {
+            Log.d("PUI", "playVideoInView1111: ")
             if (uri != null) {
-                startNewPlayer(videoPost, uri.toString(), true)
+                videoPost.playVideo(uri, true)
             } else {
-                startNewPlayer(videoPost, url, false)
+                videoPost.playVideo(Uri.parse(url), true)
             }
+            // stop last player
+            removePlayer()
         }
         lastPlayerView = videoPost.videoView
-    }
-
-    // starts player in new player view and stops last player
-    private fun startNewPlayer(
-        videoPost: LMFeedPostVideoMediaView,
-        url: String?,
-        isLocal: Boolean
-    ) {
-        // todo: show progress bar
-        val videoUri = Uri.parse(url)
-        videoPost.playVideo(
-            videoUri,
-            isLocal
-        )
-        removePlayer()
     }
 
     // removes the player from view and sets it to null

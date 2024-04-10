@@ -252,7 +252,7 @@
 
         </LinearLayout>
 
-        <com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedButton
             android:id="@+id/btn_add_more_media"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -264,10 +264,10 @@
             android:text="@string/lm_feed_add_more"
             android:textAllCaps="false"
             android:textSize="14sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:lm_feed_font_type="medium"
             tools:fontFamily="@font/roboto_medium"
             tools:ignore="UnusedAttribute"
             tools:visibility="visible" />

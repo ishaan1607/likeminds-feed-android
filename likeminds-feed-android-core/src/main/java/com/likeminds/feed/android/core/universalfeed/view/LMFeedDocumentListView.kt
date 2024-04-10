@@ -57,6 +57,11 @@ class LMFeedDocumentListView @JvmOverloads constructor(
         handleVisibleDocuments(mediaViewData, tvShowMore)
     }
 
+    //removes document from the provided position
+    fun removeDocument(position: Int) {
+        documentsAdapter.removeIndex(position)
+    }
+
     private fun handleVisibleDocuments(
         mediaViewData: LMFeedMediaViewData,
         tvShowMore: LMFeedTextView,
