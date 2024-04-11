@@ -32,15 +32,13 @@ import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelection
 import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionActivity
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
-import com.likeminds.feed.android.core.ui.base.views.LMFeedChipGroup
-import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
+import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostImageMediaViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
@@ -61,8 +59,6 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
     private lateinit var etPostTextChangeListener: TextWatcher
 
     private val createPostViewModel: LMFeedCreatePostViewModel by viewModels()
-
-    private var isDocumentExpanded = false
 
     private val postVideoPreviewAutoPlayHelper by lazy {
         LMFeedPostVideoPreviewAutoPlayHelper.getInstance()
@@ -126,6 +122,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             customizePostLinkViewAttachment(postLinkView)
             customizePostDocumentsAttachment(postDocumentsView)
             customizePostMultipleMedia(multipleMediaView)
+            customizeAddMoreButton(btnAddMoreMedia)
         }
 
         return binding.root
@@ -222,6 +219,13 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 ?: return
 
         multipleMediaView.setStyle(multipleMediaViewStyle)
+    }
+
+    protected open fun customizeAddMoreButton(btnAddMoreMedia: LMFeedButton) {
+        val addMoreButtonViewStyle =
+            LMFeedStyleTransformer.createPostFragmentViewStyle.addMoreButtonStyle
+
+        btnAddMoreMedia.setStyle(addMoreButtonViewStyle)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -808,7 +812,6 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 )
             }
             val documentMediaViewData = LMFeedMediaViewData.Builder()
-                .isExpanded(isDocumentExpanded)
                 .attachments(LMFeedViewDataConvertor.convertSingleDataUri(selectedMediaUris))
                 .build()
 
@@ -818,6 +821,19 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 this@LMFeedCreatePostFragment,
                 true
             )
+
+            postDocumentsView.setShowMoreTextClickListener {
+                val updatedDocumentMediaViewData = documentMediaViewData.toBuilder()
+                    .isExpanded(true)
+                    .build()
+
+                postDocumentsView.setAdapter(
+                    0,
+                    updatedDocumentMediaViewData,
+                    this@LMFeedCreatePostFragment,
+                    true
+                )
+            }
         }
     }
 
@@ -890,11 +906,5 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             }
         }
         showPostMedia()
-    }
-
-    override fun onPostMultipleDocumentsExpanded(position: Int, postViewData: LMFeedPostViewData) {
-        super.onPostMultipleDocumentsExpanded(position, postViewData)
-
-        isDocumentExpanded = true
     }
 }

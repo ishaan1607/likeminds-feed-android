@@ -2,11 +2,7 @@ package com.likeminds.feed.android.core.post.create.viewstyle
 
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedChipStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedEditTextStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
@@ -23,6 +19,8 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
     val editChipStyle: LMFeedChipStyle,
     //post composer view style
     val postComposerStyle: LMFeedEditTextStyle,
+    //add more media button style
+    val addMoreButtonStyle: LMFeedButtonStyle
 ) : LMFeedViewStyle {
     class Builder {
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
@@ -105,6 +103,19 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
             .hintTextColor(R.color.lm_feed_maastricht_blue_40)
             .build()
 
+        private var addMoreButtonStyle: LMFeedButtonStyle = LMFeedButtonStyle.Builder()
+            .textStyle(
+                LMFeedTextStyle.Builder()
+                    .textSize(R.dimen.lm_feed_text_medium)
+                    .textColor(R.color.lm_feed_majorelle_blue)
+                    .fontResource(R.font.lm_feed_roboto_medium)
+                    .textAllCaps(false)
+                    .build()
+            )
+            .iconTint(R.color.lm_feed_majorelle_blue)
+            .icon(R.drawable.lm_feed_ic_plus)
+            .build()
+
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle) = apply {
             this.headerViewStyle = headerViewStyle
         }
@@ -122,12 +133,17 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
             this.postComposerStyle = postComposerStyle
         }
 
+        fun addMoreButtonStyle(addMoreButtonStyle: LMFeedButtonStyle) = apply {
+            this.addMoreButtonStyle = addMoreButtonStyle
+        }
+
         fun build() = LMFeedCreatePostFragmentViewStyle(
             headerViewStyle,
             authorViewStyle,
             selectTopicsChipStyle,
             editChipStyle,
-            postComposerStyle
+            postComposerStyle,
+            addMoreButtonStyle
         )
     }
 
@@ -137,5 +153,6 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
             .selectTopicsChipStyle(selectTopicsChipStyle)
             .editChipStyle(editChipStyle)
             .postComposerStyle(postComposerStyle)
+            .addMoreButtonStyle(addMoreButtonStyle)
     }
 }
