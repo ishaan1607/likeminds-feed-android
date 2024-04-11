@@ -217,15 +217,12 @@ class LMFeedCreatePostViewModel : ViewModel() {
             // generates localFilePath from the ContentUri provided by client
             val fileUploadViewData = LMFeedViewDataConvertor.convertFileUploadViewData(it)
 
-            val localFilePath =
-                FileUtil.getRealPath(context, it.uri)
-
             val userPreferences = LMFeedUserPreferences(context)
             val loggedInUUID = userPreferences.getUUID()
 
             // generates awsFolderPath to upload the file
             val awsFolderPath = generateAWSFolderPathFromFileName(it.mediaName, loggedInUUID)
-            val builder = fileUploadViewData.toBuilder().localFilePath(localFilePath.path)
+            val builder = fileUploadViewData.toBuilder().localFilePath(it.localFilePath)
                 .awsFolderPath(awsFolderPath)
             when (fileUploadViewData.fileType) {
                 IMAGE -> {

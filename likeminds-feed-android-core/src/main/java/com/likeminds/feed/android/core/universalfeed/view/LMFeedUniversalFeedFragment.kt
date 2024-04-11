@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
-
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -416,21 +415,23 @@ open class LMFeedUniversalFeedFragment :
                         removePostingView()
                         return@onEach
                     }
-                    alreadyPosting = true
-                    binding.layoutPosting.apply {
-                        show()
-                        val postThumbnail = post.mediaViewData.thumbnail
-                        if (postThumbnail.isNullOrEmpty()) {
-                            setAttachmentThumbnail(null)
-                        } else {
-                            setAttachmentThumbnail(Uri.parse(postThumbnail))
-                        }
-                        setProgress(0)
-                        setProgressVisibility(true)
+                    if (!alreadyPosting) {
+                        alreadyPosting = true
+                        binding.layoutPosting.apply {
+                            show()
+                            val postThumbnail = post.mediaViewData.thumbnail
+                            if (postThumbnail.isNullOrEmpty()) {
+                                setAttachmentThumbnail(null)
+                            } else {
+                                setAttachmentThumbnail(Uri.parse(postThumbnail))
+                            }
+                            setProgress(0)
+                            setProgressVisibility(true)
 
-                        setPostSuccessfulVisibility(false)
-                        setRetryVisibility(false)
-                        observeMediaUpload(post)
+                            setPostSuccessfulVisibility(false)
+                            setRetryVisibility(false)
+                            observeMediaUpload(post)
+                        }
                     }
                 }
                 // when the post data comes from api response
