@@ -366,6 +366,12 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             }
         }
 
+        // observes decodeUrlResponse and returns link ogTags
+        createPostViewModel.decodeUrlResponse.observe(viewLifecycleOwner) { ogTags ->
+            this.ogTags = ogTags
+            initLinkView(ogTags)
+        }
+
         // observes addPostResponse, once post is created
         createPostViewModel.postAdded.observe(viewLifecycleOwner) { postAdded ->
             requireActivity().apply {
@@ -451,6 +457,31 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
 
     protected open fun onNavigationIconClick() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
+    }
+
+    // renders data in the link view
+    private fun initLinkView(data: LMFeedLinkOGTagsViewData) {
+        val link = data.url ?: ""
+        // sends link attached event with the link
+        createPostViewModel.sendLinkAttachedEvent(link)
+        binding.postLinkView.apply {
+            show()
+            setLinkImage(data.image)
+            setLinkTitle(data.title)
+            setLinkDescription(data.description)
+            setLinkUrl(data.url)
+
+            //todo: check if this is required
+//            LinkUtil.handleLinkPreviewConstraints(
+//                this,
+//                isImageValid
+//            )
+
+            setLinkRemoveClickListener {
+                binding.etPostComposer.removeTextChangedListener(etPostTextChangeListener)
+                clearPreviewLink()
+            }
+        }
     }
 
     // clears link preview

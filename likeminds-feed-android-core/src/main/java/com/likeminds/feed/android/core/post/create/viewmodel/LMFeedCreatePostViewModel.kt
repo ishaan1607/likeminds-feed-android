@@ -445,4 +445,17 @@ class LMFeedCreatePostViewModel : ViewModel() {
             )
         )
     }
+
+    /**
+     * Triggers when the user attaches link
+     * @param link - url of the link
+     **/
+    fun sendLinkAttachedEvent(link: String) {
+        LMFeedAnalytics.track(
+            LMFeedAnalytics.Events.LINK_ATTACHED_IN_POST,
+            mapOf(
+                "link" to link
+            )
+        )
+    }
 }

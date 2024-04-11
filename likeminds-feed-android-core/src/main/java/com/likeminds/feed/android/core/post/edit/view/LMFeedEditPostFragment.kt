@@ -765,7 +765,6 @@ open class LMFeedEditPostFragment :
 
         binding.linkPreview.postLinkView.apply {
             setLinkTitle(data.title)
-            setLinkDescription(data.description)
             setLinkImage(data.image)
             setLinkUrl(data.url)
             setLinkRemoveClickListener {
