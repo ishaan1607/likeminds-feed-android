@@ -411,6 +411,10 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
 
     private fun initListeners() {
         binding.apply {
+            headerViewCreatePost.setNavigationIconClickListener {
+                onNavigationIconClick()
+            }
+
             headerViewCreatePost.setSubmitButtonClickListener {
                 val text = etPostComposer.text
                 //todo: member tagging
@@ -443,6 +447,10 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 }
             }
         }
+    }
+
+    protected open fun onNavigationIconClick() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     // clears link preview
