@@ -8,8 +8,7 @@ class LMFeedMediaViewData private constructor(
     val attachments: List<LMFeedAttachmentViewData>,
     val isExpanded: Boolean,
     val temporaryId: Long?,
-    val workerUUID: String,
-    val thumbnail: String?
+    val workerUUID: String
 ) : LMFeedBaseViewType {
 
     override val viewType: Int
@@ -28,14 +27,12 @@ class LMFeedMediaViewData private constructor(
         fun isExpanded(isExpanded: Boolean) = apply { this.isExpanded = isExpanded }
         fun temporaryId(temporaryId: Long?) = apply { this.temporaryId = temporaryId }
         fun workerUUID(workerUUID: String) = apply { this.workerUUID = workerUUID }
-        fun thumbnail(thumbnail: String?) = apply { this.thumbnail = thumbnail }
 
         fun build() = LMFeedMediaViewData(
             attachments,
             isExpanded,
             temporaryId,
-            workerUUID,
-            thumbnail
+            workerUUID
         )
     }
 
@@ -44,6 +41,5 @@ class LMFeedMediaViewData private constructor(
             .isExpanded(isExpanded)
             .temporaryId(temporaryId)
             .workerUUID(workerUUID)
-            .thumbnail(thumbnail)
     }
 }

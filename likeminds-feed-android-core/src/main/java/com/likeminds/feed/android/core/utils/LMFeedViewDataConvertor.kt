@@ -70,6 +70,7 @@ object LMFeedViewDataConvertor {
                     .height(singleUriData.height)
                     .size(singleUriData.size)
                     .uri(singleUriData.uri)
+                    .thumbnail(singleUriData.thumbnailUri.toString())
                     .build()
             )
             .build()
@@ -289,6 +290,7 @@ object LMFeedViewDataConvertor {
             .duration(attachmentMeta.duration)
             .pageCount(attachmentMeta.pageCount)
             .ogTags(convertLinkOGTags(attachmentMeta.ogTags))
+            .thumbnail(attachmentMeta.thumbnailUrl)
             .build()
     }
 

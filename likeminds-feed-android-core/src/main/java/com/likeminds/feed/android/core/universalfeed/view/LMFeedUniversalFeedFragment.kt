@@ -419,7 +419,9 @@ open class LMFeedUniversalFeedFragment :
                         alreadyPosting = true
                         binding.layoutPosting.apply {
                             show()
-                            val postThumbnail = post.mediaViewData.thumbnail
+                            val postThumbnail =
+                                post.mediaViewData.attachments.firstOrNull()?.attachmentMeta?.thumbnail
+
                             if (postThumbnail.isNullOrEmpty()) {
                                 setAttachmentThumbnail(null)
                             } else {

@@ -244,11 +244,8 @@ class LMFeedCreatePostViewModel : ViewModel() {
                 }
 
                 else -> {
-                    val thumbnailUri =
-                        MediaUtils.getDocumentPreview(context, fileUploadViewData.uri)
                     val format = FileUtil.getFileExtensionFromFileName(fileUploadViewData.mediaName)
                     builder
-                        .thumbnailUri(thumbnailUri)
                         .format(format)
                         .build()
                 }
