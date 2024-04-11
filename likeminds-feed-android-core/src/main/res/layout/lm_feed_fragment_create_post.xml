@@ -267,7 +267,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:lm_feed_font_type="medium"
             tools:fontFamily="@font/roboto_medium"
             tools:ignore="UnusedAttribute"
             tools:visibility="visible" />

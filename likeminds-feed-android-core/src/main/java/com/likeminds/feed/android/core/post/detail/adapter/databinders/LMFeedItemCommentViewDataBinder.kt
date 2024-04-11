@@ -74,12 +74,22 @@ class LMFeedItemCommentViewDataBinder(
             commentView.setCommentCreatorName(data.user.name)
             commentView.setCommentContent(
                 data.text,
-                data.alreadySeenFullContent
-            ) {
-                val updatedComment =
-                    LMFeedPostDetailBinderUtils.updateCommentForSeeFullContent(data)
-                postDetailAdapterListener.onCommentContentSeeMoreClicked(position, updatedComment)
-            }
+                data.alreadySeenFullContent,
+                onCommentSeeMoreClickListener = {
+                    val updatedComment =
+                        LMFeedPostDetailBinderUtils.updateCommentForSeeFullContent(data)
+                    postDetailAdapterListener.onCommentContentSeeMoreClicked(
+                        position,
+                        updatedComment
+                    )
+                },
+                onMemberTagClickListener = {
+                    postDetailAdapterListener.onCommenterHeaderClicked(
+                        position,
+                        data
+                    )
+                }
+            )
             commentView.setTimestamp(data.createdAt)
             commentView.setCommentEdited(data.isEdited)
             commentView.setCommentLikesIcon(data.isLiked)

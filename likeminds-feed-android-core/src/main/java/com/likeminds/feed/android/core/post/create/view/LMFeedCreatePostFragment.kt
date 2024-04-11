@@ -5,7 +5,10 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
@@ -14,9 +17,14 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.*
 import com.likeminds.customgallery.CustomGallery
-import com.likeminds.customgallery.media.model.*
+import com.likeminds.customgallery.media.model.CustomGalleryConfig
+import com.likeminds.customgallery.media.model.CustomGalleryResult
+import com.likeminds.customgallery.media.model.IMAGE
+import com.likeminds.customgallery.media.model.MediaType
+import com.likeminds.customgallery.media.model.PDF
+import com.likeminds.customgallery.media.model.SingleUriData
+import com.likeminds.customgallery.media.model.VIDEO
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePostBinding
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
@@ -34,21 +42,34 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedChipGroup
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostLinkMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
+import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import com.likeminds.feed.android.core.utils.emptyExtrasException
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 
 open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterListener {
     private lateinit var binding: LmFeedFragmentCreatePostBinding
@@ -373,6 +394,10 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                         showProgress = false
                     )
                     LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
+                }
+
+                is LMFeedCreatePostViewModel.ErrorMessageEvent.DecodeUrl -> {
+
                 }
             }
         }.observeInLifecycle(viewLifecycleOwner)

@@ -1,15 +1,20 @@
 package com.likeminds.feed.android.core.ui.widgets.acitivityfeed.view
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedActivityViewBinding
-import com.likeminds.feed.android.core.post.model.*
-import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.post.model.DOCUMENT
+import com.likeminds.feed.android.core.post.model.IMAGE
+import com.likeminds.feed.android.core.post.model.LMFeedAttachmentType
+import com.likeminds.feed.android.core.post.model.VIDEO
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.acitivityfeed.style.LMFeedActivityViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedTimeUtil
@@ -18,6 +23,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
+import com.likeminds.usertagging.util.UserTaggingDecoder
 
 class LMFeedActivityView : ConstraintLayout {
 
@@ -103,10 +109,14 @@ class LMFeedActivityView : ConstraintLayout {
 
             // post is used here to get lines count in the text view
             post {
-                //todo: member tagging
-                setText(
-                    textForLinkify,
-                    TextView.BufferType.EDITABLE
+                //todo: member tagging fix bold
+                UserTaggingDecoder.decodeRegexIntoSpannableText(
+                    this,
+                    textForLinkify.trim(),
+                    enableClick = false,
+                    highlightColor = Color.BLACK,
+                    hasAtRateSymbol = false,
+                    isBold = true
                 )
 
                 // get the short text as per max lines
