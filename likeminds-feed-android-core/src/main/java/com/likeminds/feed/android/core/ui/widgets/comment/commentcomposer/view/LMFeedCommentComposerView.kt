@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedCommentComposerViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedEditTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.style.LMFeedCommentComposerViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
@@ -55,7 +58,6 @@ class LMFeedCommentComposerView : ConstraintLayout {
             configureCommentRestricted(commentRestrictedStyle)
             configureReplyingTo(replyingToStyle)
             configureRemoveReplyingTo(removeReplyingToStyle)
-
         }
     }
 

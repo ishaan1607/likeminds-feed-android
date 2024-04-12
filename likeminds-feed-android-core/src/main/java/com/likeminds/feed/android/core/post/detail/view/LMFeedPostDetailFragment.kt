@@ -2,7 +2,9 @@ package com.likeminds.feed.android.core.post.detail.view
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -10,36 +12,77 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.likeminds.feed.android.core.*
+import com.likeminds.feed.android.core.LMFeedCore
+import com.likeminds.feed.android.core.LMFeedCoreApplication
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentPostDetailBinding
-import com.likeminds.feed.android.core.delete.model.*
-import com.likeminds.feed.android.core.delete.view.*
-import com.likeminds.feed.android.core.likes.model.*
+import com.likeminds.feed.android.core.delete.model.DELETE_TYPE_COMMENT
+import com.likeminds.feed.android.core.delete.model.DELETE_TYPE_POST
+import com.likeminds.feed.android.core.delete.model.LMFeedDeleteExtras
+import com.likeminds.feed.android.core.delete.view.LMFeedAdminDeleteDialogFragment
+import com.likeminds.feed.android.core.delete.view.LMFeedAdminDeleteDialogListener
+import com.likeminds.feed.android.core.delete.view.LMFeedSelfDeleteDialogFragment
+import com.likeminds.feed.android.core.delete.view.LMFeedSelfDeleteDialogListener
+import com.likeminds.feed.android.core.likes.model.COMMENT
+import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
+import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
-import com.likeminds.feed.android.core.overflowmenu.model.*
+import com.likeminds.feed.android.core.overflowmenu.model.DELETE_COMMENT_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.DELETE_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.EDIT_COMMENT_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.EDIT_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.REPORT_COMMENT_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.REPORT_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedPostDetailAdapterListener
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedReplyAdapterListener
-import com.likeminds.feed.android.core.post.detail.model.*
+import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
+import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentsCountViewData
+import com.likeminds.feed.android.core.post.detail.model.LMFeedNoCommentsViewData
+import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
+import com.likeminds.feed.android.core.post.detail.model.LMFeedViewMoreReplyViewData
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity.Companion.LM_FEED_POST_DETAIL_EXTRAS
 import com.likeminds.feed.android.core.post.detail.viewmodel.LMFeedPostDetailViewModel
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity
 import com.likeminds.feed.android.core.post.util.LMFeedPostEvent
-import com.likeminds.feed.android.core.report.model.*
-import com.likeminds.feed.android.core.report.view.*
+import com.likeminds.feed.android.core.report.model.LMFeedReportExtras
+import com.likeminds.feed.android.core.report.model.LMFeedReportType
+import com.likeminds.feed.android.core.report.model.REPORT_TYPE_COMMENT
+import com.likeminds.feed.android.core.report.model.REPORT_TYPE_POST
+import com.likeminds.feed.android.core.report.model.REPORT_TYPE_REPLY
+import com.likeminds.feed.android.core.report.view.LMFeedReportActivity
+import com.likeminds.feed.android.core.report.view.LMFeedReportFragment
+import com.likeminds.feed.android.core.report.view.LMFeedReportSuccessDialogFragment
 import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.view.LMFeedCommentComposerView
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
-import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedCommunityUtil
+import com.likeminds.feed.android.core.utils.LMFeedEndlessRecyclerViewScrollListener
+import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
+import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
+import com.likeminds.feed.android.core.utils.LMFeedRoute
+import com.likeminds.feed.android.core.utils.LMFeedShareUtils
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
+import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import com.likeminds.feed.android.core.utils.emptyExtrasException
+import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
+import com.likeminds.usertagging.UserTagging
+import com.likeminds.usertagging.model.UserTaggingConfig
+import com.likeminds.usertagging.util.UserTaggingDecoder
+import com.likeminds.usertagging.util.UserTaggingViewListener
+import com.likeminds.usertagging.view.UserTaggingSuggestionListView
 import kotlinx.coroutines.flow.onEach
 
 open class LMFeedPostDetailFragment :
@@ -52,6 +95,7 @@ open class LMFeedPostDetailFragment :
 
     private lateinit var binding: LmFeedFragmentPostDetailBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var memberTagging: UserTaggingSuggestionListView
 
     private lateinit var postDetailExtras: LMFeedPostDetailExtras
 
@@ -153,8 +197,7 @@ open class LMFeedPostDetailFragment :
 
     private fun initUI() {
         initPostDetailRecyclerView()
-        //todo:
-//        initMemberTaggingView()
+        initMemberTaggingView()
         initSwipeRefreshLayout()
     }
 
@@ -195,6 +238,25 @@ open class LMFeedPostDetailFragment :
                 refreshPostData()
             }
         }
+    }
+
+    private fun initMemberTaggingView() {
+        memberTagging = binding.userTaggingView
+
+        val listener = object : UserTaggingViewListener {
+            override fun callApi(page: Int, searchName: String) {
+                postDetailViewModel.getMembersForTagging(page, searchName)
+            }
+        }
+
+        val config = UserTaggingConfig.Builder()
+            .editText(binding.commentComposer.etComment)
+            .maxHeightInPercentage(0.4f)
+            .color(R.color.lm_feed_red_event)
+            .hasAtRateSymbol(true)
+            .build()
+
+        UserTagging.initialize(memberTagging, config, listener)
     }
 
     // refreshes the whole post detail screen
@@ -271,9 +333,7 @@ open class LMFeedPostDetailFragment :
 
             commentComposer.setCommentSendClickListener {
                 val text = commentComposer.etComment.text
-                //todo: member tagging
-                val updatedText = "$text"
-//                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
+                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
                 val postId = postDetailExtras.postId
                 when {
                     parentCommentIdToReply != null -> {
@@ -533,8 +593,7 @@ open class LMFeedPostDetailFragment :
         observePostData()
         observeCommentData()
         observeCommentsRightData()
-        //todo: implement member tagging
-//        observeMembersTaggingList()
+        observeMembersTaggingList()
         observeErrors()
     }
 
@@ -907,16 +966,17 @@ open class LMFeedPostDetailFragment :
         }
     }
 
+    private fun observeMembersTaggingList() {
+        postDetailViewModel.taggingData.observe(viewLifecycleOwner) { result ->
+            MemberTaggingUtil.setMembersInView(memberTagging, result)
+        }
+    }
+
     //observes error events
     private fun observeErrors() {
         binding.rvPostDetails.apply {
             postDetailViewModel.errorMessageEventFlow.onEach { response ->
                 when (response) {
-                    // todo:
-//                is LMFeedPostDetailViewModel.ErrorMessageEvent.GetTaggingList -> {
-//                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
-//                }
-
                     is LMFeedPostDetailViewModel.ErrorMessageEvent.GetPost -> {
                         mSwipeRefreshLayout.isRefreshing = false
                         LMFeedProgressBarHelper.hideProgress(binding.progressBar)
@@ -1065,6 +1125,13 @@ open class LMFeedPostDetailFragment :
                         val errorMessage = response.errorMessage
                         LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
                     }
+
+                    is LMFeedPostDetailViewModel.ErrorMessageEvent.TaggingList -> {
+                        LMFeedViewUtils.showErrorMessageToast(
+                            requireContext(),
+                            response.errorMessage
+                        )
+                    }
                 }
             }.observeInLifecycle(viewLifecycleOwner)
         }
@@ -1092,14 +1159,12 @@ open class LMFeedPostDetailFragment :
             // updates the edittext with the comment to be edited
             editCommentId = comment.id
             parentId = parentCommentId
-            //todo: tagging
-
             // decodes the comment text and sets to the edit text
-//                MemberTaggingDecoder.decode(
-//                    etComment,
-//                    commentText,
-//                    LMFeedBranding.getTextLinkColor()
-//                )
+            UserTaggingDecoder.decode(
+                commentComposer.etComment,
+                commentText,
+                R.color.lm_feed_pure_blue//todo change to branding color
+            )
             commentComposer.etComment.setSelection(commentComposer.etComment.length())
             commentComposer.etComment.setSelection(commentComposer.etComment.length())
             commentComposer.etComment.focusAndShowKeyboard()

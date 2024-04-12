@@ -6,11 +6,15 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
+import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
 import com.likeminds.feed.android.core.utils.user.LMFeedMemberRightsUtil
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.comment.model.*
+import com.likeminds.likemindsfeed.helper.model.GetTaggingListRequest
 import com.likeminds.likemindsfeed.post.model.*
+import com.likeminds.usertagging.model.TagUser
+import com.likeminds.usertagging.util.UserTaggingUtil
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
@@ -108,6 +112,14 @@ class LMFeedPostDetailViewModel : ViewModel() {
         _postPinnedResponse
     }
 
+    private val _taggingData by lazy {
+        MutableLiveData<Pair<Int, ArrayList<TagUser>>>()
+    }
+    val taggingData: LiveData<Pair<Int, ArrayList<TagUser>>> by lazy {
+        _taggingData
+    }
+
+
     sealed class ErrorMessageEvent {
         data class GetPost(val errorMessage: String?) : ErrorMessageEvent()
 
@@ -140,6 +152,8 @@ class LMFeedPostDetailViewModel : ViewModel() {
         data class DeleteComment(val errorMessage: String?) : ErrorMessageEvent()
 
         data class GetComment(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class TaggingList(val errorMessage: String?) : ErrorMessageEvent()
     }
 
     private val errorMessageChannel by lazy {
@@ -589,5 +603,34 @@ class LMFeedPostDetailViewModel : ViewModel() {
             .parentId(parentCommentId)
             .level(level)
             .build()
+    }
+
+    fun getMembersForTagging(
+        page: Int,
+        searchName: String
+    ) {
+        viewModelScope.launchIO {
+            val request = GetTaggingListRequest.Builder()
+                .page(page)
+                .pageSize(UserTaggingUtil.PAGE_SIZE)
+                .searchName(searchName)
+                .build()
+
+            val response = lmFeedClient.getTaggingList(request)
+
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val users = data.members
+                val tagUsers = MemberTaggingUtil.convertToTagUser(users)
+                _taggingData.postValue(
+                    Pair(
+                        page,
+                        java.util.ArrayList(tagUsers)
+                    )
+                )
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.TaggingList(response.errorMessage))
+            }
+        }
     }
 }
