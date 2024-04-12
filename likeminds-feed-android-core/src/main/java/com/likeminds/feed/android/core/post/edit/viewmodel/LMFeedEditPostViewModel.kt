@@ -11,13 +11,17 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
+import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.LMResponse
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
 import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
+import com.likeminds.likemindsfeed.helper.model.GetTaggingListRequest
 import com.likeminds.likemindsfeed.post.model.EditPostRequest
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
+import com.likeminds.usertagging.model.TagUser
+import com.likeminds.usertagging.util.UserTaggingUtil
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
@@ -42,6 +46,13 @@ class LMFeedEditPostViewModel : ViewModel() {
         _decodeUrlResponse
     }
 
+    private val _taggingData by lazy {
+        MutableLiveData<Pair<Int, ArrayList<TagUser>>>()
+    }
+    val taggingData: LiveData<Pair<Int, ArrayList<TagUser>>> by lazy {
+        _taggingData
+    }
+
     sealed class PostDataEvent {
         data class GetPost(val post: LMFeedPostViewData) : PostDataEvent()
 
@@ -63,6 +74,8 @@ class LMFeedEditPostViewModel : ViewModel() {
         data class GetTopic(val errorMessage: String?) : ErrorMessageEvent()
 
         data class DecodeUrl(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class TaggingList(val errorMessage: String?) : ErrorMessageEvent()
     }
 
     private val errorEventChannel by lazy {
@@ -210,6 +223,35 @@ class LMFeedEditPostViewModel : ViewModel() {
             } else {
                 // posts error message if API call failed
                 errorEventChannel.send(ErrorMessageEvent.DecodeUrl(response.errorMessage))
+            }
+        }
+    }
+
+    fun getMembersForTagging(
+        page: Int,
+        searchName: String
+    ) {
+        viewModelScope.launchIO {
+            val request = GetTaggingListRequest.Builder()
+                .page(page)
+                .pageSize(UserTaggingUtil.PAGE_SIZE)
+                .searchName(searchName)
+                .build()
+
+            val response = lmFeedClient.getTaggingList(request)
+
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val users = data.members
+                val tagUsers = MemberTaggingUtil.convertToTagUser(users)
+                _taggingData.postValue(
+                    Pair(
+                        page,
+                        java.util.ArrayList(tagUsers)
+                    )
+                )
+            } else {
+                errorEventChannel.send(ErrorMessageEvent.TaggingList(response.errorMessage))
             }
         }
     }

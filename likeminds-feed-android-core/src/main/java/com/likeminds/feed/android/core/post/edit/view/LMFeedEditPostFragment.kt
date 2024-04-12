@@ -69,6 +69,12 @@ import com.likeminds.feed.android.core.utils.emptyExtrasException
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
+import com.likeminds.usertagging.UserTagging
+import com.likeminds.usertagging.model.TagUser
+import com.likeminds.usertagging.model.UserTaggingConfig
+import com.likeminds.usertagging.util.UserTaggingDecoder
+import com.likeminds.usertagging.util.UserTaggingViewListener
+import com.likeminds.usertagging.view.UserTaggingSuggestionListView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
@@ -94,6 +100,7 @@ open class LMFeedEditPostFragment :
     private var post: LMFeedPostViewData? = null
 
     private lateinit var etPostTextChangeListener: TextWatcher
+    private lateinit var memberTagging: UserTaggingSuggestionListView
 
     private val editPostViewModel: LMFeedEditPostViewModel by viewModels()
 
@@ -251,9 +258,37 @@ open class LMFeedEditPostFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initMemberTagging()
         initListeners()
         fetchData()
         observeData()
+    }
+
+    private fun initMemberTagging() {
+        memberTagging = binding.userTaggingView
+
+        val listener = object : UserTaggingViewListener {
+            override fun callApi(page: Int, searchName: String) {
+                editPostViewModel.getMembersForTagging(page, searchName)
+            }
+
+            override fun onUserTagged(user: TagUser) {
+                super.onUserTagged(user)
+                LMFeedAnalytics.sendUserTagEvent(
+                    user.uuid,
+                    memberTagging.getTaggedMemberCount()
+                )
+            }
+        }
+
+        val config = UserTaggingConfig.Builder()
+            .editText(binding.etPostComposer)
+            .maxHeightInPercentage(0.4f)
+            .color(R.color.lm_feed_red_event)
+            .hasAtRateSymbol(true)
+            .build()
+
+        UserTagging.initialize(memberTagging, config, listener)
     }
 
     private fun initListeners() {
@@ -273,9 +308,7 @@ open class LMFeedEditPostFragment :
         //check all the necessary conditions before saving a post
         binding.apply {
             val text = etPostComposer.text
-            //todo:
-            val updatedText = text.toString()
-//        val updatedText = memberTagging.replaceSelectedMembers(text).trim()
+            val updatedText = memberTagging.replaceSelectedMembers(text).trim()
             val topics = selectedTopic.values
 
             if (selectedTopic.isNotEmpty()) {
@@ -375,6 +408,13 @@ open class LMFeedEditPostFragment :
                         clearPreviewLink()
                     }
                 }
+
+                is LMFeedEditPostViewModel.ErrorMessageEvent.TaggingList -> {
+                    LMFeedViewUtils.showErrorMessageToast(
+                        requireContext(),
+                        response.errorMessage
+                    )
+                }
             }
         }.observeInLifecycle(viewLifecycleOwner)
 
@@ -430,12 +470,11 @@ open class LMFeedEditPostFragment :
             nestedScroll.show()
 
             // decodes the post text and sets to the edit text
-            //todo:
-//            MemberTaggingDecoder.decode(
-//                etPostContent,
-//                post.text,
-//                LMFeedBranding.getTextLinkColor()
-//            )
+            UserTaggingDecoder.decode(
+                etPostComposer,
+                post.contentViewData.text,
+                R.color.lm_feed_pure_blue
+            )
 
             // sets the cursor to the end and opens keyboard
             etPostComposer.setSelection(etPostComposer.length())
