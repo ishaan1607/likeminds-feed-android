@@ -83,11 +83,8 @@ class LMFeedItemCommentViewDataBinder(
                         updatedComment
                     )
                 },
-                onMemberTagClickListener = {
-                    postDetailAdapterListener.onCommenterHeaderClicked(
-                        position,
-                        data
-                    )
+                onMemberTagClickListener = {id ->
+                    postDetailAdapterListener.onCommentTaggedMemberClicked(id)
                 }
             )
             commentView.setTimestamp(data.createdAt)

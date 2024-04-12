@@ -5,7 +5,9 @@ import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedIte
 import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedItemViewMoreReplyViewDataBinder
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedViewMoreReplyViewData
-import com.likeminds.feed.android.core.utils.base.*
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseRecyclerAdapter
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 
 class LMFeedReplyAdapter(
     private val replyAdapterListener: LMFeedReplyAdapterListener
@@ -64,5 +66,9 @@ interface LMFeedReplyAdapterListener {
 
     fun onReplierHeaderClicked(position: Int, replyViewData: LMFeedCommentViewData) {
         //triggered when the header of the replier is clicked
+    }
+
+    fun onReplyTaggedMemberClicked(id: String) {
+        // triggered when user click on tag in a comment
     }
 }

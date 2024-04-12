@@ -10,7 +10,6 @@ import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.util.Linkify
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -34,6 +33,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 import com.likeminds.feed.android.core.utils.link.LMFeedOnLinkClickListener
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnTaggedMemberClickListener
 import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.usertagging.util.UserTaggingDecoder
@@ -209,7 +209,7 @@ class LMFeedCommentView : ConstraintLayout {
         commentText: String,
         alreadySeenFullContent: Boolean?,
         onCommentSeeMoreClickListener: LMFeedOnClickListener,
-        onMemberTagClickListener: LMFeedOnClickListener
+        onMemberTagClickListener: LMFeedOnTaggedMemberClickListener
     ) {
         binding.tvCommentContent.apply {
 
@@ -251,15 +251,15 @@ class LMFeedCommentView : ConstraintLayout {
             // post is used here to get lines count in the text view
             post {
                 // decodes tags in text and creates span around those tags
-                //todo: member tagging
+                //todo: member tagging check color
                 UserTaggingDecoder.decodeRegexIntoSpannableText(
                     this,
                     textForLinkify,
                     enableClick = true,
-                    highlightColor = R.color.lm_feed_majorelle_blue,
-                ) {
-                    Log.d("PUI","on comment tag $it")
-                    onMemberTagClickListener.onClick()
+                    highlightColor = R.color.lm_feed_pure_blue,
+                ) { route ->
+                    val id = route.lastPathSegment ?: return@decodeRegexIntoSpannableText
+                    onMemberTagClickListener.onMemberTaggedClicked(id)
                 }
 
                 // gets short text to set with seeMore

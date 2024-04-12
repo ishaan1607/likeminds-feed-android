@@ -1,12 +1,21 @@
 package com.likeminds.feed.android.core.post.detail.adapter
 
 import android.view.View
-import com.likeminds.feed.android.core.post.detail.adapter.databinders.*
+import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedItemCommentViewDataBinder
+import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedItemCommentsCountViewDataBinder
+import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedItemNoCommentsFoundViewDataBinder
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostDocumentsViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostLinkViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostMultipleMediaViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostSingleImageViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostSingleVideoViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostTextOnlyViewDataBinder
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
-import com.likeminds.feed.android.core.utils.base.*
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseRecyclerAdapter
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 
 class LMFeedPostDetailAdapter(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
@@ -103,5 +112,9 @@ interface LMFeedPostDetailAdapterListener {
 
     fun onCommenterHeaderClicked(position: Int, commentViewData: LMFeedCommentViewData) {
         //triggered when the header of the commenter is clicked
+    }
+
+    fun onCommentTaggedMemberClicked(id: String) {
+        // triggered when user click on tag in a comment
     }
 }

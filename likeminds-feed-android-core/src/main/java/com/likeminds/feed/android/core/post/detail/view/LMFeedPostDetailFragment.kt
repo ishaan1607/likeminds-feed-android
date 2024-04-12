@@ -1858,12 +1858,28 @@ open class LMFeedPostDetailFragment :
         coreCallback?.openProfile(commentViewData.user)
     }
 
+    override fun onCommentTaggedMemberClicked(id: String) {
+        super.onCommentTaggedMemberClicked(id)
+
+        //trigger profile callback
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        //todo get user from id
+    }
+
     override fun onReplierHeaderClicked(position: Int, replyViewData: LMFeedCommentViewData) {
         super.onReplierHeaderClicked(position, replyViewData)
 
         //trigger profile callback
         val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
         coreCallback?.openProfile(replyViewData.user)
+    }
+
+    override fun onReplyTaggedMemberClicked(id: String) {
+        super.onReplyTaggedMemberClicked(id)
+
+        //trigger profile callback
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        //todo get user from id
     }
 
     override fun onDestroyView() {
