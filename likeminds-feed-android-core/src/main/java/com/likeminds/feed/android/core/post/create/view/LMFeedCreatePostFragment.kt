@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
+import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -43,12 +44,14 @@ import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
+import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoPreviewAutoPlayHelper
 import com.likeminds.usertagging.UserTagging
@@ -132,7 +135,18 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             customizePostLinkViewAttachment(postLinkView)
             customizePostDocumentsAttachment(postDocumentsView)
             customizePostMultipleMedia(multipleMediaView)
-            customizeAddMoreButton(btnAddMoreMedia)
+
+            //set background color
+            val backgroundColor =
+                LMFeedStyleTransformer.createPostFragmentViewStyle.backgroundColor
+            backgroundColor?.let { color ->
+                root.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        color
+                    )
+                )
+            }
         }
 
         return binding.root
@@ -142,8 +156,15 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         headerViewCreatePost.apply {
             setStyle(LMFeedStyleTransformer.createPostFragmentViewStyle.headerViewStyle)
 
-            setTitleText("Create %s")
-            setSubmitText("Create")
+            setTitleText(
+                getString(
+                    R.string.lm_feed_create_s,
+                    LMFeedCommunityUtil.getPostVariable()
+                        .pluralizeOrCapitalize(LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR)
+                )
+            )
+
+            setSubmitText(getString(R.string.lm_feed_create))
             setSubmitButtonEnabled(false)
         }
     }

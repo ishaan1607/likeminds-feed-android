@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.post.create.viewstyle
 
 import android.text.TextUtils
+import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
@@ -20,7 +21,9 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
     //post composer view style
     val postComposerStyle: LMFeedEditTextStyle,
     //add more media button style
-    val addMoreButtonStyle: LMFeedButtonStyle
+    val addMoreButtonStyle: LMFeedButtonStyle,
+    //background color of the screen
+    @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
     class Builder {
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
@@ -116,6 +119,9 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
             .icon(R.drawable.lm_feed_ic_plus)
             .build()
 
+        @ColorRes
+        private var backgroundColor: Int? = null
+
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle) = apply {
             this.headerViewStyle = headerViewStyle
         }
@@ -137,13 +143,18 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
             this.addMoreButtonStyle = addMoreButtonStyle
         }
 
+        fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
+            this.backgroundColor = backgroundColor
+        }
+
         fun build() = LMFeedCreatePostFragmentViewStyle(
             headerViewStyle,
             authorViewStyle,
             selectTopicsChipStyle,
             editChipStyle,
             postComposerStyle,
-            addMoreButtonStyle
+            addMoreButtonStyle,
+            backgroundColor
         )
     }
 
@@ -154,5 +165,6 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
             .editChipStyle(editChipStyle)
             .postComposerStyle(postComposerStyle)
             .addMoreButtonStyle(addMoreButtonStyle)
+            .backgroundColor(backgroundColor)
     }
 }

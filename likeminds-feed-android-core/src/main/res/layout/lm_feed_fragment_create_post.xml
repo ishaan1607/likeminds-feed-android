@@ -177,13 +177,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="UnusedAttribute">
 
-            <ImageView
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+                android:id="@+id/iv_attach_file"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/lm_feed_ic_attach_files"
                 tools:ignore="ContentDescription" />
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:id="@+id/tv_attach_file"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
@@ -213,7 +215,7 @@
             app:layout_constraintBottom_toTopOf="@id/video_file_separator"
             tools:ignore="UnusedAttribute">
 
-            <ImageView
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
                 android:id="@+id/iv_add_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -221,6 +223,7 @@
                 tools:ignore="ContentDescription" />
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:id="@+id/tv_add_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
@@ -250,13 +253,15 @@
             app:layout_constraintBottom_toTopOf="@id/video_image_separator"
             tools:ignore="UnusedAttribute">
 
-            <ImageView
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+                android:id="@+id/iv_add_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/lm_feed_ic_add_image"
                 tools:ignore="ContentDescription" />
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:id="@+id/tv_add_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"

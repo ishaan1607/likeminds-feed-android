@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.likeminds.customgallery.media.util.MediaUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostDocumentViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostDocumentsMediaViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -150,9 +149,8 @@ class LMFeedPostDocumentView : ConstraintLayout {
     fun setDocumentSize(documentSize: Long?) {
         binding.apply {
             if (documentSize != null) {
-                // todo: add this once media is implemented
-//                tvDocumentSize.show()
-//                tvDocumentSize.text = MediaUtils.getFileSizeText(attachmentMeta.size)
+                tvDocumentSize.show()
+                tvDocumentSize.text = MediaUtils.getFileSizeText(documentSize)
                 if (tvDocumentSize.isVisible) {
                     viewMetaDot1.show()
                 } else {

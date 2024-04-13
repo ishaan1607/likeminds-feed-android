@@ -118,4 +118,7 @@
     <string name="lm_feed_attach_files">Attach Files</string>
     <string name="lm_feed_add_video">Add Video</string>
     <string name="lm_feed_add_photo">Add Photo</string>
+    <string name="lm_feed_s_created">%s created successfully!</string>
+    <string name="lm_feed_create_s">Create %s</string>
+    <string name="lm_feed_create">Create</string>
 </resources>

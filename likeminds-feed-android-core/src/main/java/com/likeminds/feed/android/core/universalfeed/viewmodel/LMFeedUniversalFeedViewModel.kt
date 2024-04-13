@@ -21,6 +21,7 @@ import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
+import com.likeminds.usertagging.util.UserTaggingDecoder
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
@@ -466,22 +467,21 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     ) {
         val map = hashMapOf<String, String>()
         // fetches list of tagged users
-        //todo
-//        val taggedUsers = MemberTaggingDecoder.decodeAndReturnAllTaggedMembers(post.text)
+        val taggedUsers = UserTaggingDecoder.decodeAndReturnAllTaggedMembers(post.contentViewData.text)
         val topics = post.topicsViewData
 
         // adds tagged user count and their ids in the map
-//        if (taggedUsers.isNotEmpty()) {
-//            map["user_tagged"] = "yes"
-//            map["tagged_users_count"] = taggedUsers.size.toString()
-//            val taggedUserIds =
-//                taggedUsers.joinToString {
-//                    it.first
-//                }
-//            map["tagged_users_id"] = taggedUserIds
-//        } else {
-//            map["user_tagged"] = "no"
-//        }
+        if (taggedUsers.isNotEmpty()) {
+            map["user_tagged"] = "yes"
+            map["tagged_users_count"] = taggedUsers.size.toString()
+            val taggedUserIds =
+                taggedUsers.joinToString {
+                    it.first
+                }
+            map["tagged_users_id"] = taggedUserIds
+        } else {
+            map["user_tagged"] = "no"
+        }
 
         if (topics.isNotEmpty()) {
             val topicsNameString = topics.joinToString(", ") { it.name }

@@ -408,7 +408,6 @@ open class LMFeedUniversalFeedFragment :
         universalFeedViewModel.postDataEventFlow.onEach { response ->
             when (response) {
                 // when the post data comes from local db
-                //todo: write the name of creating post in post as variable func
                 is LMFeedUniversalFeedViewModel.PostDataEvent.PostDbData -> {
                     val post = response.post
                     if (post.isPosted) {
@@ -436,18 +435,20 @@ open class LMFeedUniversalFeedFragment :
                         }
                     }
                 }
+
                 // when the post data comes from api response
-                //todo:
                 is LMFeedUniversalFeedViewModel.PostDataEvent.PostResponseData -> {
                     binding.apply {
-//                        ViewUtils.showShortToast(
-//                            requireContext(),
-//                            getString(
-//                                R.string.s_created,
-//                                lmFeedHelperViewModel.getPostVariable()
-//                                    .pluralizeOrCapitalize(WordAction.FIRST_LETTER_CAPITAL_SINGULAR)
-//                            )
-//                        )
+                        LMFeedViewUtils.showShortToast(
+                            requireContext(),
+                            getString(
+                                R.string.lm_feed_s_created,
+                                LMFeedCommunityUtil.getPostVariable()
+                                    .pluralizeOrCapitalize(
+                                        LMFeedWordAction.FIRST_LETTER_CAPITAL_SINGULAR
+                                    )
+                            )
+                        )
                         onFeedRefreshed()
                         removePostingView()
                     }
