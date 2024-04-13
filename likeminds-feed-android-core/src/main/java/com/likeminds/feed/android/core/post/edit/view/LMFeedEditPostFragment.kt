@@ -52,18 +52,16 @@ import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
 import com.likeminds.feed.android.core.utils.base.model.*
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
-import com.likeminds.feed.android.core.utils.emptyExtrasException
 import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
-import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
+import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoPreviewAutoPlayHelper
 import com.likeminds.usertagging.UserTagging
 import com.likeminds.usertagging.model.TagUser
 import com.likeminds.usertagging.model.UserTaggingConfig
 import com.likeminds.usertagging.util.UserTaggingDecoder
 import com.likeminds.usertagging.util.UserTaggingViewListener
 import com.likeminds.usertagging.view.UserTaggingSuggestionListView
-import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoPreviewAutoPlayHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
@@ -87,7 +85,7 @@ open class LMFeedEditPostFragment :
 
     private val editPostViewModel: LMFeedEditPostViewModel by viewModels()
 
-    private val postVideoPreivewAutoPlayHelper by lazy {
+    private val postVideoPreviewAutoPlayHelper by lazy {
         LMFeedPostVideoPreviewAutoPlayHelper.getInstance()
     }
 
@@ -753,7 +751,7 @@ open class LMFeedEditPostFragment :
         binding.singleVideoAttachment.apply {
             root.show()
             val meta = videoAttachment?.attachmentMeta
-            postVideoPreivewAutoPlayHelper.playVideoInView(postVideoView, url = meta?.url)
+            postVideoPreviewAutoPlayHelper.playVideoInView(postVideoView, url = meta?.url)
         }
     }
 
@@ -844,12 +842,12 @@ open class LMFeedEditPostFragment :
 
         if (itemMultipleMediaVideoBinding == null) {
             // in case the item is not a video
-            postVideoPreivewAutoPlayHelper.removePlayer()
+            postVideoPreviewAutoPlayHelper.removePlayer()
         } else {
             // processes the current video item
             postMediaViewData?.attachments?.let { attachments ->
                 val meta = attachments[position].attachmentMeta
-                postVideoPreivewAutoPlayHelper.playVideoInView(
+                postVideoPreviewAutoPlayHelper.playVideoInView(
                     itemMultipleMediaVideoBinding.postVideoView,
                     url = meta.url
                 )
