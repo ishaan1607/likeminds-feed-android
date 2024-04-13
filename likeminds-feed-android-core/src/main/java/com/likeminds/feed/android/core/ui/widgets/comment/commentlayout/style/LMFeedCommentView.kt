@@ -463,6 +463,7 @@ class LMFeedCommentView : ConstraintLayout {
         binding.apply {
             val linkifyLinks =
                 (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
+
             LinkifyCompat.addLinks(tvCommentContent, linkifyLinks)
             tvCommentContent.movementMethod = LMFeedLinkMovementMethod { url ->
                 tvCommentContent.setOnClickListener {

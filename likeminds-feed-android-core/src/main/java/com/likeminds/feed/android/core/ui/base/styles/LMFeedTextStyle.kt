@@ -290,6 +290,8 @@ class LMFeedTextStyle private constructor(
                 textAlignment = this@LMFeedTextStyle.textAlignment
             }
 
+            this.setLinkTextColor(ContextCompat.getColor(context, LMFeedTheme.getTextLinkColor()))
+
             this@LMFeedTextStyle.hintTextColor?.let {
                 setHintTextColor(
                     ContextCompat.getColor(

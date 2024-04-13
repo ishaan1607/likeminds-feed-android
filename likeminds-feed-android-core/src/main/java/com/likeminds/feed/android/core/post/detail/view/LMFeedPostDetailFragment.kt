@@ -1296,6 +1296,14 @@ open class LMFeedPostDetailFragment :
         binding.rvPostDetails.updateItem(postDataPosition, postViewData)
     }
 
+    //callback when the tag of the user is clicked
+    override fun onPostTaggedMemberClicked(position: Int, uuid: String) {
+        super.onPostTaggedMemberClicked(position, uuid)
+
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfileWithUUID(uuid)
+    }
+
     override fun onCommentContentSeeMoreClicked(position: Int, comment: LMFeedCommentViewData) {
         super.onCommentContentSeeMoreClicked(position, comment)
 
