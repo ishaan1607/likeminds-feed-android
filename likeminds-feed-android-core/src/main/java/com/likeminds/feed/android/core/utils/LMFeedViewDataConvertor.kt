@@ -70,6 +70,7 @@ object LMFeedViewDataConvertor {
                     .height(singleUriData.height)
                     .size(singleUriData.size)
                     .uri(singleUriData.uri)
+                    .thumbnail(singleUriData.thumbnailUri.toString())
                     .build()
             )
             .build()
@@ -78,6 +79,28 @@ object LMFeedViewDataConvertor {
     /**--------------------------------
      * Network Model -> View Data Model
     --------------------------------*/
+
+    fun convertPost(post: Post, topics: List<Topic>): LMFeedPostViewData {
+
+        //post content view data
+        val postContentViewData = LMFeedPostContentViewData.Builder()
+            .text(post.text)
+            .build()
+
+        //post media view data
+        val postMediaViewData = LMFeedMediaViewData.Builder()
+            .attachments(convertAttachments(post.attachments, post.id))
+            .workerUUID(post.workerUUID ?: "")
+            .temporaryId(post.tempId?.toLong())
+            .build()
+
+        return LMFeedPostViewData.Builder()
+            .contentViewData(postContentViewData)
+            .mediaViewData(postMediaViewData)
+            .topicsViewData(convertTopics(topics))
+            .isPosted(post.isPosted)
+            .build()
+    }
 
     // converts response of the universal feed post to list of LMFeedPostViewData
     fun convertUniversalFeedPosts(
@@ -267,6 +290,7 @@ object LMFeedViewDataConvertor {
             .duration(attachmentMeta.duration)
             .pageCount(attachmentMeta.pageCount)
             .ogTags(convertLinkOGTags(attachmentMeta.ogTags))
+            .thumbnail(attachmentMeta.thumbnailUrl)
             .build()
     }
 
@@ -571,20 +595,27 @@ object LMFeedViewDataConvertor {
             .build()
     }
 
+    // converts list of Topic network model to list of view data model
+    private fun convertTopics(topics: List<Topic>): List<LMFeedTopicViewData> {
+        return topics.map {
+            convertTopic(it)
+        }
+    }
+
     /**--------------------------------
      * View Data Model -> Network Model
     --------------------------------*/
 
     fun convertPost(
         temporaryId: Long,
-        uuid: String,
+        workerUUID: String,
         text: String?,
         fileUris: List<LMFeedFileUploadViewData>
     ): Post {
         return Post.Builder()
             .tempId(temporaryId.toString())
             .id(temporaryId.toString())
-            .uuid(uuid)
+            .workerUUID(workerUUID)
             .text(text ?: "")
             .attachments(convertAttachments(fileUris))
             .build()
@@ -708,7 +739,7 @@ object LMFeedViewDataConvertor {
     }
 
     // converts list of Topic view data model to list of network model
-    fun convertTopics(topics: List<LMFeedTopicViewData>?): List<Topic> {
+    fun convertTopicsViewData(topics: List<LMFeedTopicViewData>?): List<Topic> {
         if (topics == null) {
             return emptyList()
         }

@@ -12,7 +12,8 @@ class LMFeedAttachmentMetaViewData private constructor(
     val ogTags: LMFeedLinkOGTagsViewData,
     val width: Int?,
     val height: Int?,
-    val uri: Uri?
+    val uri: Uri?,
+    val thumbnail: String?
 ) {
 
     class Builder {
@@ -26,6 +27,7 @@ class LMFeedAttachmentMetaViewData private constructor(
         private var width: Int? = null
         private var height: Int? = null
         private var uri: Uri? = null
+        private var thumbnail: String? = null
 
         fun name(name: String?) = apply { this.name = name }
         fun url(url: String?) = apply { this.url = url }
@@ -37,6 +39,7 @@ class LMFeedAttachmentMetaViewData private constructor(
         fun width(width: Int?) = apply { this.width = width }
         fun height(height: Int?) = apply { this.height = height }
         fun uri(uri: Uri?) = apply { this.uri = uri }
+        fun thumbnail(thumbnail: String?) = apply { this.thumbnail = thumbnail }
 
         fun build() = LMFeedAttachmentMetaViewData(
             name,
@@ -48,7 +51,8 @@ class LMFeedAttachmentMetaViewData private constructor(
             ogTags,
             width,
             height,
-            uri
+            uri,
+            thumbnail
         )
     }
 
@@ -64,5 +68,6 @@ class LMFeedAttachmentMetaViewData private constructor(
             .width(width)
             .height(height)
             .uri(uri)
+            .thumbnail(thumbnail)
     }
 }

@@ -84,6 +84,15 @@ class LMFeedPostingView : ConstraintLayout {
     }
 
     /**
+     * Sets visibility of post successful in the posting layout view.
+     *
+     * @param isVisible to show/hide post successful
+     */
+    fun setPostSuccessfulVisibility(isVisible: Boolean) {
+        binding.ivPosted.isVisible = isVisible
+    }
+
+    /**
      * Sets click listener on the retry cta of the posting layout view
      *
      * @param listener [LMFeedOnClickListener] interface to have click listener

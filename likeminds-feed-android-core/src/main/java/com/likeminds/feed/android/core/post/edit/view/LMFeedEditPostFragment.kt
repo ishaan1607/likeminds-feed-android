@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
@@ -41,31 +38,19 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostLinkMediaView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostMultipleMediaView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
+import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils.customizePostTopicsGroup
-import com.likeminds.feed.android.core.utils.LMFeedCommunityUtil
-import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
-import com.likeminds.feed.android.core.utils.LMFeedProgressBarHelper
-import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
-import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
-import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_DOCUMENTS
-import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_LINK
-import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_MULTIPLE_MEDIA
-import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_SINGLE_IMAGE
-import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_SINGLE_VIDEO
+import com.likeminds.feed.android.core.utils.base.model.*
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.emptyExtrasException
 import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
@@ -78,16 +63,11 @@ import com.likeminds.usertagging.model.UserTaggingConfig
 import com.likeminds.usertagging.util.UserTaggingDecoder
 import com.likeminds.usertagging.util.UserTaggingViewListener
 import com.likeminds.usertagging.view.UserTaggingSuggestionListView
+import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoPreviewAutoPlayHelper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 
 open class LMFeedEditPostFragment :
     Fragment(),
@@ -107,8 +87,8 @@ open class LMFeedEditPostFragment :
 
     private val editPostViewModel: LMFeedEditPostViewModel by viewModels()
 
-    private val postVideoAutoPlayHelper by lazy {
-        LMFeedPostVideoAutoPlayHelper.getInstance()
+    private val postVideoPreivewAutoPlayHelper by lazy {
+        LMFeedPostVideoPreviewAutoPlayHelper.getInstance()
     }
 
     // [postPublisher] to publish changes in the post
@@ -773,7 +753,7 @@ open class LMFeedEditPostFragment :
         binding.singleVideoAttachment.apply {
             root.show()
             val meta = videoAttachment?.attachmentMeta
-            postVideoAutoPlayHelper?.playVideoInView(postVideoView, url = meta?.url)
+            postVideoPreivewAutoPlayHelper.playVideoInView(postVideoView, url = meta?.url)
         }
     }
 
@@ -833,7 +813,6 @@ open class LMFeedEditPostFragment :
 
         binding.linkPreview.postLinkView.apply {
             setLinkTitle(data.title)
-            setLinkDescription(data.description)
             setLinkImage(data.image)
             setLinkUrl(data.url)
             setLinkRemoveClickListener {
@@ -865,12 +844,12 @@ open class LMFeedEditPostFragment :
 
         if (itemMultipleMediaVideoBinding == null) {
             // in case the item is not a video
-            postVideoAutoPlayHelper?.removePlayer()
+            postVideoPreivewAutoPlayHelper.removePlayer()
         } else {
             // processes the current video item
             postMediaViewData?.attachments?.let { attachments ->
                 val meta = attachments[position].attachmentMeta
-                postVideoAutoPlayHelper?.playVideoInView(
+                postVideoPreivewAutoPlayHelper.playVideoInView(
                     itemMultipleMediaVideoBinding.postVideoView,
                     url = meta.url
                 )

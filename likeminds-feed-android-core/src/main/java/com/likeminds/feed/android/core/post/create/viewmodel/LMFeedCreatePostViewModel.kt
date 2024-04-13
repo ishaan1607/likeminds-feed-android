@@ -217,15 +217,12 @@ class LMFeedCreatePostViewModel : ViewModel() {
             // generates localFilePath from the ContentUri provided by client
             val fileUploadViewData = LMFeedViewDataConvertor.convertFileUploadViewData(it)
 
-            val localFilePath =
-                FileUtil.getRealPath(context, it.uri)
-
             val userPreferences = LMFeedUserPreferences(context)
             val loggedInUUID = userPreferences.getUUID()
 
             // generates awsFolderPath to upload the file
             val awsFolderPath = generateAWSFolderPathFromFileName(it.mediaName, loggedInUUID)
-            val builder = fileUploadViewData.toBuilder().localFilePath(localFilePath.path)
+            val builder = fileUploadViewData.toBuilder().localFilePath(it.localFilePath)
                 .awsFolderPath(awsFolderPath)
             when (fileUploadViewData.fileType) {
                 IMAGE -> {
@@ -247,11 +244,8 @@ class LMFeedCreatePostViewModel : ViewModel() {
                 }
 
                 else -> {
-                    val thumbnailUri =
-                        MediaUtils.getDocumentPreview(context, fileUploadViewData.uri)
                     val format = FileUtil.getFileExtensionFromFileName(fileUploadViewData.mediaName)
                     builder
-                        .thumbnailUri(thumbnailUri)
                         .format(format)
                         .build()
                 }
@@ -279,23 +273,24 @@ class LMFeedCreatePostViewModel : ViewModel() {
         selectedTopics: ArrayList<LMFeedTopicViewData>?
     ) {
         viewModelScope.launchIO {
-            val uuid = uploadData.second
+            val workerUUID = uploadData.second
             val temporaryPostId = temporaryPostId ?: -1
 
             val post = LMFeedViewDataConvertor.convertPost(
                 temporaryPostId,
-                uuid,
+                workerUUID,
                 text,
                 fileUris
             )
 
-            val topics = LMFeedViewDataConvertor.convertTopics(selectedTopics?.toList())
+            val topics = LMFeedViewDataConvertor.convertTopicsViewData(selectedTopics?.toList())
 
             //create add temporary post request
             val request = AddTemporaryPostRequest.Builder()
                 .post(post)
                 .topics(topics)
                 .postThumbnail(fileUris.first().thumbnailUri.toString())
+                .workerUUID(workerUUID)
                 .build()
 
             // add it to local db
@@ -447,6 +442,19 @@ class LMFeedCreatePostViewModel : ViewModel() {
             LMFeedAnalytics.Events.DOCUMENT_ATTACHED_TO_POST,
             mapOf(
                 "document_count" to documentCount.toString()
+            )
+        )
+    }
+
+    /**
+     * Triggers when the user attaches link
+     * @param link - url of the link
+     **/
+    fun sendLinkAttachedEvent(link: String) {
+        LMFeedAnalytics.track(
+            LMFeedAnalytics.Events.LINK_ATTACHED_IN_POST,
+            mapOf(
+                "link" to link
             )
         )
     }

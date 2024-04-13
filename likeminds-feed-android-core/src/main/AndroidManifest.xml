@@ -39,7 +39,8 @@
             android:name=".report.view.LMFeedReportActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/LMFeedAppTheme.NoActionBar" />
+            android:theme="@style/LMFeedAppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".post.edit.view.LMFeedEditPostActivity"
@@ -57,7 +58,8 @@
             android:name=".post.create.view.LMFeedCreatePostActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/LMFeedAppTheme.NoActionBar" />
+            android:theme="@style/LMFeedAppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

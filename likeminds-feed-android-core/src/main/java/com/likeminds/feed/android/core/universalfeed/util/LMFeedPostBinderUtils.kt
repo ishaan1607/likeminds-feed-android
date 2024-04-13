@@ -510,9 +510,10 @@ object LMFeedPostBinderUtils {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle ?: return
 
-        attachment?.attachmentMeta?.url?.let { url ->
-            ivPost.setImage(url, postImageMediaStyle)
-        }
+        val attachmentUrl =
+            attachment?.attachmentMeta?.url ?: attachment?.attachmentMeta?.uri ?: return
+
+        ivPost.setImage(attachmentUrl, postImageMediaStyle)
     }
 
     // bind data to view page for multi media post

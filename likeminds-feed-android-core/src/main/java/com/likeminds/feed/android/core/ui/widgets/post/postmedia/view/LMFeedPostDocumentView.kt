@@ -193,4 +193,15 @@ class LMFeedPostDocumentView : ConstraintLayout {
             listener.onClick()
         }
     }
+
+    /**
+     * Sets click listener on the remove document icon
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setRemoveIconClickListener(listener: LMFeedOnClickListener) {
+        binding.ivCrossDoc.setOnClickListener {
+            listener.onClick()
+        }
+    }
 }
