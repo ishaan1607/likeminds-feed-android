@@ -1,11 +1,7 @@
 package com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.style
 
 import android.content.Context
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.TextPaint
-import android.text.TextUtils
+import android.text.*
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.util.Linkify
@@ -18,16 +14,11 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedCommentViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
-import com.likeminds.feed.android.core.utils.LMFeedSeeMoreUtil
-import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
-import com.likeminds.feed.android.core.utils.LMFeedTimeUtil
+import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
-import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
@@ -251,15 +242,22 @@ class LMFeedCommentView : ConstraintLayout {
             // post is used here to get lines count in the text view
             post {
                 // decodes tags in text and creates span around those tags
-                //todo: member tagging check color
                 UserTaggingDecoder.decodeRegexIntoSpannableText(
                     this,
                     textForLinkify,
                     enableClick = true,
-                    highlightColor = R.color.lm_feed_pure_blue,
+                    highlightColor = ContextCompat.getColor(
+                        context,
+                        LMFeedTheme.getTextLinkColor()
+                    ),
                 ) { route ->
-                    val id = route.lastPathSegment ?: return@decodeRegexIntoSpannableText
-                    onMemberTagClickListener.onMemberTaggedClicked(id)
+                    val uuid = route.getQueryParameter("member_id")
+                        ?: route.getQueryParameter("user_id")
+                        ?: route.getQueryParameter("uuid")
+                        ?: route.lastPathSegment
+                        ?: return@decodeRegexIntoSpannableText
+
+                    onMemberTagClickListener.onMemberTaggedClicked(uuid)
                 }
 
                 // gets short text to set with seeMore

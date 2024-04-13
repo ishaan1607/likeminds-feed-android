@@ -114,7 +114,7 @@ interface LMFeedPostDetailAdapterListener {
         //triggered when the header of the commenter is clicked
     }
 
-    fun onCommentTaggedMemberClicked(id: String) {
+    fun onCommentTaggedMemberClicked(position: Int, uuid: String) {
         // triggered when user click on tag in a comment
     }
 }

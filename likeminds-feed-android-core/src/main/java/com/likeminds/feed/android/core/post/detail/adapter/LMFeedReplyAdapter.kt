@@ -68,7 +68,7 @@ interface LMFeedReplyAdapterListener {
         //triggered when the header of the replier is clicked
     }
 
-    fun onReplyTaggedMemberClicked(id: String) {
+    fun onReplyTaggedMemberClicked(position: Int, uuid: String) {
         // triggered when user click on tag in a comment
     }
 }

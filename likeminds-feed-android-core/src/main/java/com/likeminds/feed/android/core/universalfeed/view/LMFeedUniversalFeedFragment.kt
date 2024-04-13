@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -20,18 +18,11 @@ import com.likeminds.feed.android.core.activityfeed.view.LMFeedActivityFeedActiv
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentUniversalFeedBinding
 import com.likeminds.feed.android.core.delete.model.DELETE_TYPE_POST
 import com.likeminds.feed.android.core.delete.model.LMFeedDeleteExtras
-import com.likeminds.feed.android.core.delete.view.LMFeedAdminDeleteDialogFragment
-import com.likeminds.feed.android.core.delete.view.LMFeedAdminDeleteDialogListener
-import com.likeminds.feed.android.core.delete.view.LMFeedSelfDeleteDialogFragment
-import com.likeminds.feed.android.core.delete.view.LMFeedSelfDeleteDialogListener
+import com.likeminds.feed.android.core.delete.view.*
 import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
 import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
-import com.likeminds.feed.android.core.overflowmenu.model.DELETE_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.EDIT_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.REPORT_POST_MENU_ITEM_ID
-import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
+import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
@@ -770,6 +761,14 @@ open class LMFeedUniversalFeedFragment :
                 updatePostItem(postIndex, updatedPost)
             }
         }
+    }
+
+    //callback when the tag of the user is clicked
+    override fun onPostTaggedMemberClicked(position: Int, uuid: String) {
+        super.onPostTaggedMemberClicked(position, uuid)
+
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfileWithUUID(uuid)
     }
 
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {

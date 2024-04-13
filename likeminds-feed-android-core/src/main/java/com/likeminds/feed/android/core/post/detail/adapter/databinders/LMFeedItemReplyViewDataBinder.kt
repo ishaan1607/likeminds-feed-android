@@ -57,8 +57,8 @@ class LMFeedItemReplyViewDataBinder(
                         LMFeedPostDetailBinderUtils.updateCommentForSeeFullContent(data)
                     replyAdapterListener.onReplyContentSeeMoreClicked(position, updatedReply)
                 },
-                onMemberTagClickListener = { id ->
-                    replyAdapterListener.onReplyTaggedMemberClicked(id)
+                onMemberTagClickListener = { uuid ->
+                    replyAdapterListener.onReplyTaggedMemberClicked(position, uuid)
                 }
             )
             replyView.setTimestamp(data.createdAt)

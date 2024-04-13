@@ -15,4 +15,8 @@ interface LMFeedCoreCallback {
     fun trackEvent(eventName: String, eventProperties: Map<String, String?> = mapOf()) {
         //implement to track events triggered feed
     }
+
+    fun openProfileWithUUID(uuid: String) {
+        //implement to open the profile of the user with uuid = [uuid]
+    }
 }

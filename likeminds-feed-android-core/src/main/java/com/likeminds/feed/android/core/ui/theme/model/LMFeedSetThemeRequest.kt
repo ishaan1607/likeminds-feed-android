@@ -9,7 +9,8 @@ class LMFeedSetThemeRequest private constructor(
     val fontAssetsPath: String?,
     val postCharacterLimit: Int?,
     @DrawableRes val notificationIcon: Int?,
-    @ColorRes val notificationTextColor: Int?
+    @ColorRes val notificationTextColor: Int?,
+    @ColorRes val textLinkColor: Int?
 ) {
     class Builder {
         @FontRes
@@ -24,6 +25,9 @@ class LMFeedSetThemeRequest private constructor(
 
         @ColorRes
         private var notificationTextColor: Int? = null
+
+        @ColorRes
+        private var textLinkColor: Int? = null
 
         fun fontResource(@FontRes fontResource: Int?) = apply {
             this.fontResource = fontResource
@@ -45,12 +49,17 @@ class LMFeedSetThemeRequest private constructor(
             this.notificationTextColor = notificationTextColor
         }
 
+        fun textLinkColor(@ColorRes textLinkColor: Int?) = apply {
+            this.textLinkColor = textLinkColor
+        }
+
         fun build() = LMFeedSetThemeRequest(
             fontResource,
             fontAssetsPath,
             postCharacterLimit,
             notificationIcon,
-            notificationTextColor
+            notificationTextColor,
+            textLinkColor
         )
     }
 
@@ -60,5 +69,6 @@ class LMFeedSetThemeRequest private constructor(
             .postCharacterLimit(postCharacterLimit)
             .notificationIcon(notificationIcon)
             .notificationTextColor(notificationTextColor)
+            .textLinkColor(textLinkColor)
     }
 }

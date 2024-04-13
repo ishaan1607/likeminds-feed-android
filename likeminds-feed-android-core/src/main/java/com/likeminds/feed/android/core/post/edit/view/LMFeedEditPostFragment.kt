@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
+import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -37,6 +38,7 @@ import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionA
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
@@ -66,6 +68,7 @@ import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_SINGLE_IMAGE
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_SINGLE_VIDEO
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.emptyExtrasException
+import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
@@ -418,6 +421,10 @@ open class LMFeedEditPostFragment :
             }
         }.observeInLifecycle(viewLifecycleOwner)
 
+        editPostViewModel.taggingData.observe(viewLifecycleOwner) { result ->
+            MemberTaggingUtil.setMembersInView(memberTagging, result)
+        }
+
         editPostViewModel.showTopicFilter.observe(viewLifecycleOwner) { showTopics ->
             if (showTopics) {
                 handleTopicSelectionView(true)
@@ -473,7 +480,7 @@ open class LMFeedEditPostFragment :
             UserTaggingDecoder.decode(
                 etPostComposer,
                 post.contentViewData.text,
-                R.color.lm_feed_pure_blue
+                ContextCompat.getColor(requireContext(), LMFeedTheme.getTextLinkColor())
             )
 
             // sets the cursor to the end and opens keyboard
