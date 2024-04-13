@@ -245,6 +245,7 @@ open class LMFeedEditPostFragment :
         observeData()
     }
 
+    //initializes member tagging view
     private fun initMemberTagging() {
         memberTagging = binding.userTaggingView
 

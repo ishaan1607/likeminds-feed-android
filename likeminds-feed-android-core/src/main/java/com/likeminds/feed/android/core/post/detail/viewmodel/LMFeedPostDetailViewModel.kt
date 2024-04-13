@@ -605,6 +605,7 @@ class LMFeedPostDetailViewModel : ViewModel() {
             .build()
     }
 
+    //gets the members list with [searchName] for tagging
     fun getMembersForTagging(
         page: Int,
         searchName: String

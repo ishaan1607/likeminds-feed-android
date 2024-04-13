@@ -204,6 +204,7 @@ open class LMFeedPostDetailFragment :
         }
     }
 
+    //initializes member tagging view
     private fun initMemberTaggingView() {
         memberTagging = binding.userTaggingView
 

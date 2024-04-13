@@ -2,19 +2,16 @@ package com.likeminds.feed.android.core.ui.widgets.acitivityfeed.view
 
 import android.content.Context
 import android.graphics.Color
+import android.text.SpannableStringBuilder
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedActivityViewBinding
-import com.likeminds.feed.android.core.post.model.DOCUMENT
-import com.likeminds.feed.android.core.post.model.IMAGE
-import com.likeminds.feed.android.core.post.model.LMFeedAttachmentType
-import com.likeminds.feed.android.core.post.model.VIDEO
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.post.model.*
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.acitivityfeed.style.LMFeedActivityViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedTimeUtil
@@ -109,7 +106,6 @@ class LMFeedActivityView : ConstraintLayout {
 
             // post is used here to get lines count in the text view
             post {
-                //todo: member tagging fix bold
                 UserTaggingDecoder.decodeRegexIntoSpannableText(
                     this,
                     textForLinkify.trim(),
@@ -121,13 +117,23 @@ class LMFeedActivityView : ConstraintLayout {
 
                 // get the short text as per max lines
                 var shortText: String? = null
-                val ellipsize = context.getString(R.string.lm_feed_ellipsize)
                 if (lineCount >= MAX_LINES) {
                     val lineEndIndex: Int = layout.getLineEnd(MAX_LINES - 1)
                     shortText = text.subSequence(0, lineEndIndex).toString().trim()
                 }
-                val finalText = shortText?.plus(ellipsize) ?: text
-                text = finalText
+
+                val trimmedText =
+                    editableText.subSequence(0, (shortText?.length) ?: editableText.length)
+
+                val ellipsizeSpanBuilder = SpannableStringBuilder()
+                if (!shortText.isNullOrEmpty()) {
+                    ellipsizeSpanBuilder.append("...")
+                }
+
+                text = TextUtils.concat(
+                    trimmedText,
+                    ellipsizeSpanBuilder
+                )
             }
         }
     }

@@ -28,6 +28,7 @@ object MemberTaggingUtil {
         }
     }
 
+    //converts list of network model [User] to list of the tagging library model [TagUser]
     fun convertToTagUser(users: List<User>): List<TagUser> {
         return users.map { user ->
             TagUser.Builder()
