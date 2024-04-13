@@ -49,6 +49,7 @@ class LMFeedEditPostViewModel : ViewModel() {
     private val _taggingData by lazy {
         MutableLiveData<Pair<Int, ArrayList<TagUser>>>()
     }
+
     val taggingData: LiveData<Pair<Int, ArrayList<TagUser>>> by lazy {
         _taggingData
     }

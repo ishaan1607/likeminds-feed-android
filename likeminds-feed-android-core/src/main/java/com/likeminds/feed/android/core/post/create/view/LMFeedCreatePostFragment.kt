@@ -5,10 +5,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
@@ -20,13 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.likeminds.customgallery.CustomGallery
-import com.likeminds.customgallery.media.model.CustomGalleryConfig
-import com.likeminds.customgallery.media.model.CustomGalleryResult
-import com.likeminds.customgallery.media.model.IMAGE
-import com.likeminds.customgallery.media.model.MediaType
-import com.likeminds.customgallery.media.model.PDF
-import com.likeminds.customgallery.media.model.SingleUriData
-import com.likeminds.customgallery.media.model.VIDEO
+import com.likeminds.customgallery.media.model.*
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePostBinding
 import com.likeminds.feed.android.core.databinding.LmFeedItemMultipleMediaVideoBinding
@@ -42,44 +33,40 @@ import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionA
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostImageMediaViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostLinkMediaView
-import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
-import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
-import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
-import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
-import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
-import com.likeminds.feed.android.core.utils.emptyExtrasException
+import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoPreviewAutoPlayHelper
+import com.likeminds.usertagging.UserTagging
+import com.likeminds.usertagging.model.TagUser
+import com.likeminds.usertagging.model.UserTaggingConfig
+import com.likeminds.usertagging.util.UserTaggingViewListener
+import com.likeminds.usertagging.view.UserTaggingSuggestionListView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 
 open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterListener {
     private lateinit var binding: LmFeedFragmentCreatePostBinding
     private lateinit var lmFeedCreatePostExtras: LMFeedCreatePostExtras
+
     private lateinit var etPostTextChangeListener: TextWatcher
+    private lateinit var memberTagging: UserTaggingSuggestionListView
 
     private val createPostViewModel: LMFeedCreatePostViewModel by viewModels()
 
@@ -254,6 +241,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initMemberTagging()
         fetchInitialData()
         initAddAttachmentsView()
         initPostComposerTextListener()
@@ -269,6 +257,34 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
     override fun onPause() {
         super.onPause()
         postVideoPreviewAutoPlayHelper.removePlayer()
+    }
+
+    //initializes member tagging view
+    private fun initMemberTagging() {
+        memberTagging = binding.userTaggingView
+
+        val listener = object : UserTaggingViewListener {
+            override fun callApi(page: Int, searchName: String) {
+                createPostViewModel.getMembersForTagging(page, searchName)
+            }
+
+            override fun onUserTagged(user: TagUser) {
+                super.onUserTagged(user)
+                LMFeedAnalytics.sendUserTagEvent(
+                    user.uuid,
+                    memberTagging.getTaggedMemberCount()
+                )
+            }
+        }
+
+        val config = UserTaggingConfig.Builder()
+            .editText(binding.etPostComposer)
+            .maxHeightInPercentage(0.4f)
+            .color(LMFeedTheme.getTextLinkColor())
+            .hasAtRateSymbol(true)
+            .build()
+
+        UserTagging.initialize(memberTagging, config, listener)
     }
 
     private fun fetchInitialData() {
@@ -395,6 +411,11 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             initLinkView(ogTags)
         }
 
+        // observes taggingData and sets the tagging members in the tagging view
+        createPostViewModel.taggingData.observe(viewLifecycleOwner) { result ->
+            MemberTaggingUtil.setMembersInView(memberTagging, result)
+        }
+
         // observes addPostResponse, once post is created
         createPostViewModel.postAdded.observe(viewLifecycleOwner) { postAdded ->
             requireActivity().apply {
@@ -434,6 +455,13 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                         clearPreviewLink()
                     }
                 }
+
+                is LMFeedCreatePostViewModel.ErrorMessageEvent.TaggingList -> {
+                    LMFeedViewUtils.showErrorMessageToast(
+                        requireContext(),
+                        response.errorMessage
+                    )
+                }
             }
         }.observeInLifecycle(viewLifecycleOwner)
     }
@@ -446,9 +474,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
 
             headerViewCreatePost.setSubmitButtonClickListener {
                 val text = etPostComposer.text
-                //todo: member tagging
-                val updatedText = text.toString()
-//                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
+                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
                 LMFeedViewUtils.hideKeyboard(binding.root)
                 if (selectedMediaUris.isNotEmpty()) {
                     headerViewCreatePost.setSubmitButtonEnabled(

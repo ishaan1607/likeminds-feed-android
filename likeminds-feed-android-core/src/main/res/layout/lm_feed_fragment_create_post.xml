@@ -84,7 +84,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/topic_separator" />
 
-                <!--  todo: Add member tagging-->
+                <com.likeminds.usertagging.view.UserTaggingSuggestionListView
+                    android:id="@+id/user_tagging_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:translationZ="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/et_post_composer"
+                    app:userTaggingItemDescriptionTextColor="@color/lm_feed_dark_grey"
+                    app:userTaggingItemUserImageCircular="true"
+                    app:userTaggingItemUserNameTextFont="@font/lm_feed_roboto"
+                    app:userTaggingItemUserNameTextSize="@dimen/lm_feed_text_small"
+                    app:userTaggingItemUserNameTextStyle="normal"
+                    tools:visibility="gone" />
+
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
                     android:id="@+id/post_single_image"
                     android:layout_width="match_parent"

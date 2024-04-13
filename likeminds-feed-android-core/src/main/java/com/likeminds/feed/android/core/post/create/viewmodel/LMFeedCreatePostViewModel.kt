@@ -15,15 +15,18 @@ import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
+import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.LMResponse
-import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
-import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
+import com.likeminds.likemindsfeed.helper.model.*
 import com.likeminds.likemindsfeed.post.model.AddPostRequest
 import com.likeminds.likemindsfeed.post.model.AddTemporaryPostRequest
 import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
+import com.likeminds.usertagging.model.TagUser
+import com.likeminds.usertagging.util.UserTaggingDecoder
+import com.likeminds.usertagging.util.UserTaggingUtil
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlin.collections.set
@@ -43,6 +46,14 @@ class LMFeedCreatePostViewModel : ViewModel() {
         _decodeUrlResponse
     }
 
+    private val _taggingData by lazy {
+        MutableLiveData<Pair<Int, ArrayList<TagUser>>>()
+    }
+
+    val taggingData: LiveData<Pair<Int, ArrayList<TagUser>>> by lazy {
+        _taggingData
+    }
+
     private var temporaryPostId: Long? = null
 
     private val _loggedInUser: MutableLiveData<LMFeedUserViewData> by lazy { MutableLiveData<LMFeedUserViewData>() }
@@ -59,6 +70,8 @@ class LMFeedCreatePostViewModel : ViewModel() {
         data class AddPost(val errorMessage: String?) : ErrorMessageEvent()
 
         data class DecodeUrl(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class TaggingList(val errorMessage: String?) : ErrorMessageEvent()
     }
 
     private val errorEventChannel = Channel<ErrorMessageEvent>(Channel.BUFFERED)
@@ -131,6 +144,36 @@ class LMFeedCreatePostViewModel : ViewModel() {
             } else {
                 _showTopicFilter.postValue(false)
                 errorEventChannel.send(ErrorMessageEvent.GetTopic(response.errorMessage))
+            }
+        }
+    }
+
+    //gets the members list with [searchName] for tagging
+    fun getMembersForTagging(
+        page: Int,
+        searchName: String
+    ) {
+        viewModelScope.launchIO {
+            val request = GetTaggingListRequest.Builder()
+                .page(page)
+                .pageSize(UserTaggingUtil.PAGE_SIZE)
+                .searchName(searchName)
+                .build()
+
+            val response = lmFeedClient.getTaggingList(request)
+
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val users = data.members
+                val tagUsers = MemberTaggingUtil.convertToTagUser(users)
+                _taggingData.postValue(
+                    Pair(
+                        page,
+                        java.util.ArrayList(tagUsers)
+                    )
+                )
+            } else {
+                errorEventChannel.send(ErrorMessageEvent.TaggingList(response.errorMessage))
             }
         }
     }
@@ -322,20 +365,19 @@ class LMFeedCreatePostViewModel : ViewModel() {
         topics: List<LMFeedTopicViewData>?
     ) {
         val map = hashMapOf<String, String>()
-        //todo: member tagging
-//        val taggedUsers = MemberTaggingDecoder.decodeAndReturnAllTaggedMembers(postText)
+        val taggedUsers = UserTaggingDecoder.decodeAndReturnAllTaggedMembers(postText)
 
-//        if (taggedUsers.isNotEmpty()) {
-//            map["user_tagged"] = "yes"
-//            map["tagged_users_count"] = taggedUsers.size.toString()
-//            val taggedUserIds =
-//                taggedUsers.joinToString {
-//                    it.first
-//                }
-//            map["tagged_users_uuid"] = taggedUserIds
-//        } else {
-//            map["user_tagged"] = "no"
-//        }
+        if (taggedUsers.isNotEmpty()) {
+            map["user_tagged"] = "yes"
+            map["tagged_users_count"] = taggedUsers.size.toString()
+            val taggedUserIds =
+                taggedUsers.joinToString {
+                    it.first
+                }
+            map["tagged_users_uuid"] = taggedUserIds
+        } else {
+            map["user_tagged"] = "no"
+        }
 
         if (ogTags != null) {
             map["link_attached"] = "yes"

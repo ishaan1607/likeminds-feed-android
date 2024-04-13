@@ -217,7 +217,7 @@ open class LMFeedPostDetailFragment :
         val config = UserTaggingConfig.Builder()
             .editText(binding.commentComposer.etComment)
             .maxHeightInPercentage(0.4f)
-            .color(R.color.lm_feed_red_event)
+            .color(LMFeedTheme.getTextLinkColor())
             .hasAtRateSymbol(true)
             .build()
 
