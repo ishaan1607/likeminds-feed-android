@@ -908,6 +908,14 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    //callback when the tag of the user is clicked
+    override fun onPostTaggedMemberClicked(position: Int, uuid: String) {
+        super.onPostTaggedMemberClicked(position, uuid)
+
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfileWithUUID(uuid)
+    }
+
     protected open fun customizeCreateNewPostButton(fabNewPost: LMFeedFAB) {
         fabNewPost.apply {
             setStyle(LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle)

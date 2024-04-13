@@ -452,4 +452,20 @@ object LMFeedAnalytics {
     fun sendNotificationPageOpenedEvent() {
         track(Events.NOTIFICATION_PAGE_OPENED)
     }
+
+    /**
+     * Triggers event when the user tags someone
+     * @param uuid user-unique-id
+     * @param userCount count of tagged users
+     */
+    fun sendUserTagEvent(uuid: String, userCount: Int) {
+        track(
+            Events.USER_TAGGED_IN_POST,
+            mapOf(
+                "tagged_user_uuid" to uuid,
+                "tagged_user_count" to userCount.toString()
+            )
+        )
+    }
+
 }

@@ -164,4 +164,8 @@ interface LMFeedUniversalFeedAdapterListener {
     fun onMediaRemovedClicked(position: Int, mediaType: String){
         //triggered when user removes a media while creating or editing a post
     }
+
+    fun onPostTaggedMemberClicked(position: Int, uuid: String) {
+        //triggered when the member tag in the post text content is clicked
+    }
 }

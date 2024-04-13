@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.ui.theme
 
 import androidx.annotation.*
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.theme.model.LMFeedSetThemeRequest
 
 object LMFeedTheme {
@@ -11,6 +12,9 @@ object LMFeedTheme {
     private var fontResource: Int? = null
     private var fontAssetsPath: String? = null
     private var postCharacterLimit: Int = DEFAULT_POST_CHARACTER_LIMIT
+
+    @ColorRes
+    private var textLinkColor: Int = R.color.lm_feed_pure_blue
 
     @DrawableRes
     private var notificationIcon: Int? = null
@@ -25,10 +29,17 @@ object LMFeedTheme {
     fun setTheme(lmFeedSetThemeRequest: LMFeedSetThemeRequest) {
         fontResource = lmFeedSetThemeRequest.fontResource
         fontAssetsPath = lmFeedSetThemeRequest.fontAssetsPath
-        postCharacterLimit =
-            (lmFeedSetThemeRequest.postCharacterLimit ?: DEFAULT_POST_CHARACTER_LIMIT)
+
+        lmFeedSetThemeRequest.postCharacterLimit?.let {
+            postCharacterLimit = it
+        }
+
         notificationIcon = lmFeedSetThemeRequest.notificationIcon
         notificationTextColor = lmFeedSetThemeRequest.notificationTextColor
+
+        lmFeedSetThemeRequest.textLinkColor?.let {
+            textLinkColor = it
+        }
     }
 
     //returns the pair of theme font resource and assets path
@@ -47,5 +58,9 @@ object LMFeedTheme {
 
     fun getNotificationTextColor(): Int? {
         return notificationTextColor
+    }
+
+    fun getTextLinkColor(): Int {
+        return textLinkColor
     }
 }
