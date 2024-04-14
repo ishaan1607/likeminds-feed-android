@@ -55,7 +55,7 @@ object LMFeedImageBindingUtil {
                 builder = builder.transform(
                     CenterCrop(),
                     RoundedCorners(
-                        com.likeminds.feed.android.core.utils.LMFeedViewUtils.dpToPx(
+                        LMFeedViewUtils.dpToPx(
                             cornerRadius
                         )
                     )

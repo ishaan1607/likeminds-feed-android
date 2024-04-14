@@ -2,8 +2,11 @@ package com.likeminds.feed.android.core.universalfeed.adapter.databinders.postmu
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.likeminds.customgallery.media.model.VIDEO
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedItemMultipleMediaVideoBinding
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
@@ -11,7 +14,8 @@ import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_VIDE
 
 class LMFeedItemMultipleMediaVideoViewDataBinder(
     private val parentPosition: Int,
-    private val listener: LMFeedUniversalFeedAdapterListener
+    private val listener: LMFeedUniversalFeedAdapterListener,
+    private val isMediaRemovable: Boolean
 ) : LMFeedViewDataBinder<LmFeedItemMultipleMediaVideoBinding, LMFeedAttachmentViewData>() {
 
     override val viewType: Int
@@ -30,9 +34,20 @@ class LMFeedItemMultipleMediaVideoViewDataBinder(
             //sets video media style to multiple media video view
             val postVideoMediaStyle =
                 LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle
-                    ?: return@apply
 
-            postVideoView.setStyle(postVideoMediaStyle)
+            val finalPostVideoMediaStyle = if (isMediaRemovable) {
+                postVideoMediaStyle?.toBuilder()
+                    ?.removeIconStyle(
+                        LMFeedIconStyle.Builder()
+                            .inActiveSrc(R.drawable.lm_feed_ic_cross)
+                            .build()
+                    )
+                    ?.build()
+            } else {
+                postVideoMediaStyle
+            } ?: return@apply
+
+            postVideoView.setStyle(finalPostVideoMediaStyle)
         }
 
         return binding
@@ -58,6 +73,13 @@ class LMFeedItemMultipleMediaVideoViewDataBinder(
                     position,
                     parentPosition,
                     attachment
+                )
+            }
+
+            postVideoView.setRemoveIconClickListener {
+                listener.onMediaRemovedClicked(
+                    position,
+                    VIDEO
                 )
             }
         }

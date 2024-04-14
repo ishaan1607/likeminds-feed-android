@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.likeminds.customgallery.media.util.MediaUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostDocumentViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
@@ -50,6 +51,7 @@ class LMFeedPostDocumentView : ConstraintLayout {
         configureDocumentPageCount(postDocumentMediaViewStyle.documentPageCountStyle)
         configureDocumentSize(postDocumentMediaViewStyle.documentSizeStyle)
         configureDocumentType(postDocumentMediaViewStyle.documentTypeStyle)
+        configureRemoveIcon(postDocumentMediaViewStyle.removeIconStyle)
     }
 
     private fun configureDocumentName(documentNameStyle: LMFeedTextStyle) {
@@ -97,6 +99,17 @@ class LMFeedPostDocumentView : ConstraintLayout {
         }
     }
 
+    private fun configureRemoveIcon(removeIconStyle: LMFeedIconStyle?) {
+        binding.ivCrossDoc.apply {
+            if (removeIconStyle == null) {
+                hide()
+            } else {
+                show()
+                setStyle(removeIconStyle)
+            }
+        }
+    }
+
     /**
      * Sets the name of the document media in the post
      *
@@ -136,9 +149,8 @@ class LMFeedPostDocumentView : ConstraintLayout {
     fun setDocumentSize(documentSize: Long?) {
         binding.apply {
             if (documentSize != null) {
-                // todo: add this once media is implemented
-//                tvDocumentSize.show()
-//                tvDocumentSize.text = MediaUtils.getFileSizeText(attachmentMeta.size)
+                tvDocumentSize.show()
+                tvDocumentSize.text = MediaUtils.getFileSizeText(documentSize)
                 if (tvDocumentSize.isVisible) {
                     viewMetaDot1.show()
                 } else {
@@ -176,6 +188,17 @@ class LMFeedPostDocumentView : ConstraintLayout {
      */
     fun setDocumentClickListener(listener: LMFeedOnClickListener) {
         binding.root.setOnClickListener {
+            listener.onClick()
+        }
+    }
+
+    /**
+     * Sets click listener on the remove document icon
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setRemoveIconClickListener(listener: LMFeedOnClickListener) {
+        binding.ivCrossDoc.setOnClickListener {
             listener.onClick()
         }
     }

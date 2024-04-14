@@ -49,16 +49,26 @@ class LMFeedPostDocumentsMediaView : ConstraintLayout {
     fun setAdapter(
         parentPosition: Int,
         mediaData: LMFeedMediaViewData,
-        listener: LMFeedUniversalFeedAdapterListener
+        listener: LMFeedUniversalFeedAdapterListener,
+        isMediaRemovable: Boolean = false
     ) {
         binding.apply {
             rvDocuments.setAdapter(
                 parentPosition,
                 mediaData,
                 tvShowMore,
-                listener
+                listener,
+                isMediaRemovable
             )
         }
+    }
+
+    /**
+     * Removes the document at the provided index
+     * @param position: index from which the media is to be removed
+     */
+    fun removeDocument(position: Int) {
+        binding.rvDocuments.removeDocument(position)
     }
 
     fun setShowMoreTextClickListener(listener: LMFeedOnClickListener) {

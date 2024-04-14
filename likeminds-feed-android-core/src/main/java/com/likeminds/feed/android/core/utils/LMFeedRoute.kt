@@ -3,6 +3,8 @@ package com.likeminds.feed.android.core.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
+import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
 import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
@@ -44,8 +46,7 @@ object LMFeedRoute {
             }
 
             ROUTE_CREATE_POST -> {
-                //todo:
-//                intent = getRouteToCreatePost(context, source)
+                intent = getRouteToCreatePost(context, source)
             }
 
             ROUTE_BROWSER -> {
@@ -78,13 +79,16 @@ object LMFeedRoute {
     }
 
     // route://create_post
-    //todo:
-//    private fun getRouteToCreatePost(
-//        context: Context,
-//        source: String?
-//    ): Intent {
-//        return LMFeedCreatePostActivity.getIntent(context, source)
-//    }
+    private fun getRouteToCreatePost(
+        context: Context,
+        source: String?
+    ): Intent {
+        val extras = LMFeedCreatePostExtras.Builder()
+            .source(source)
+            .build()
+
+        return LMFeedCreatePostActivity.getIntent(context, extras)
+    }
 
     private fun getRouteToBrowser(route: Uri): Intent {
         return Intent(Intent.ACTION_VIEW, Uri.parse(route.getQueryParameter("link")))

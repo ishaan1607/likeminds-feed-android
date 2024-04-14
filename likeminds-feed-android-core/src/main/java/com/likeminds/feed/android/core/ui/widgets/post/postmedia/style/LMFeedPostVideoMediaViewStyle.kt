@@ -1,7 +1,9 @@
 package com.likeminds.feed.android.core.ui.widgets.post.postmedia.style
 
 import androidx.annotation.ColorRes
-import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedProgressBarStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedPostVideoMediaViewStyle private constructor(
@@ -13,7 +15,8 @@ class LMFeedPostVideoMediaViewStyle private constructor(
     val keepScreenOn: Boolean,
     val controllerAutoShow: Boolean,
     val controllerShowTimeoutMs: Int,
-    @ColorRes val backgroundColor: Int?
+    @ColorRes val backgroundColor: Int?,
+    val removeIconStyle: LMFeedIconStyle?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -25,6 +28,7 @@ class LMFeedPostVideoMediaViewStyle private constructor(
         private var keepScreenOn: Boolean = true
         private var controllerAutoShow: Boolean = false
         private var controllerShowTimeoutMs: Int = 0
+        private var removeIconStyle: LMFeedIconStyle? = null
 
         @ColorRes
         private var backgroundColor: Int? = null
@@ -52,6 +56,9 @@ class LMFeedPostVideoMediaViewStyle private constructor(
         fun backgroundColor(backgroundColor: Int?) =
             apply { this.backgroundColor = backgroundColor }
 
+        fun removeIconStyle(removeIconStyle: LMFeedIconStyle?) =
+            apply { this.removeIconStyle = removeIconStyle }
+
         fun build() = LMFeedPostVideoMediaViewStyle(
             videoThumbnailStyle,
             videoProgressStyle,
@@ -61,7 +68,8 @@ class LMFeedPostVideoMediaViewStyle private constructor(
             keepScreenOn,
             controllerAutoShow,
             controllerShowTimeoutMs,
-            backgroundColor
+            backgroundColor,
+            removeIconStyle
         )
     }
 
@@ -75,5 +83,6 @@ class LMFeedPostVideoMediaViewStyle private constructor(
             .controllerAutoShow(controllerAutoShow)
             .controllerShowTimeoutMs(controllerShowTimeoutMs)
             .backgroundColor(backgroundColor)
+            .removeIconStyle(removeIconStyle)
     }
 }

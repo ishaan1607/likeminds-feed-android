@@ -2,8 +2,11 @@ package com.likeminds.feed.android.core.universalfeed.adapter.databinders.postdo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.likeminds.customgallery.media.model.PDF
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedItemDocumentBinding
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
@@ -12,7 +15,8 @@ import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_DOCUMENTS_ITEM
 
 class LMFeedItemDocumentViewDataBinder(
     private val parentPosition: Int,
-    private val universalFeedAdapter: LMFeedUniversalFeedAdapterListener
+    private val listener: LMFeedUniversalFeedAdapterListener,
+    private val isMediaRemovable: Boolean
 ) : LMFeedViewDataBinder<LmFeedItemDocumentBinding, LMFeedAttachmentViewData>() {
 
     override val viewType: Int
@@ -29,11 +33,23 @@ class LMFeedItemDocumentViewDataBinder(
             //sets click listener to the documents item
             setClickListeners(binding)
 
+            //sets document media style
             val postDocumentMediaStyle =
                 LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
-                    ?: return@apply
 
-            documentItem.setStyle(postDocumentMediaStyle)
+            val finalDocumentMediaStyle = if (isMediaRemovable) {
+                postDocumentMediaStyle?.toBuilder()
+                    ?.removeIconStyle(
+                        LMFeedIconStyle.Builder()
+                            .inActiveSrc(R.drawable.lm_feed_ic_cross)
+                            .build()
+                    )
+                    ?.build()
+            } else {
+                postDocumentMediaStyle
+            } ?: return@apply
+
+            documentItem.setStyle(finalDocumentMediaStyle)
         }
 
         return binding
@@ -61,10 +77,17 @@ class LMFeedItemDocumentViewDataBinder(
         binding.apply {
             documentItem.setDocumentClickListener {
                 val attachment = attachmentViewData ?: return@setDocumentClickListener
-                universalFeedAdapter.onPostDocumentMediaClicked(
+                listener.onPostDocumentMediaClicked(
                     position,
                     parentPosition,
                     attachment
+                )
+            }
+
+            documentItem.setRemoveIconClickListener {
+                listener.onMediaRemovedClicked(
+                    position,
+                    PDF
                 )
             }
         }

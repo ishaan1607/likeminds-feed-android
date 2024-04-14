@@ -7,11 +7,15 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedPostVideoMediaViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedProgressBarStyle
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostVideoMediaViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
 class LMFeedPostVideoMediaView : ConstraintLayout {
 
@@ -52,6 +56,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
             configureVideoThumbnail(videoThumbnailStyle)
             configurePlayIcon(videoPlayPauseButton, showController)
             configureMuteIcon(videoMuteUnmuteButton)
+            configureRemoveIcon(removeIconStyle)
         }
     }
 
@@ -101,6 +106,17 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
             } else {
                 setStyle(videoMuteUnmuteButton)
                 show()
+            }
+        }
+    }
+
+    private fun configureRemoveIcon(removeIconStyle: LMFeedIconStyle?) {
+        binding.ivCross.apply {
+            if (removeIconStyle == null) {
+                hide()
+            } else {
+                show()
+                setStyle(removeIconStyle)
             }
         }
     }
@@ -180,4 +196,14 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
     }
 
     // todo: add click listeners and thumbnail
+    /**
+     * Sets click listener on the cross button of the video view
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setRemoveIconClickListener(listener: LMFeedOnClickListener) {
+        binding.ivCross.setOnClickListener {
+            listener.onClick()
+        }
+    }
 }

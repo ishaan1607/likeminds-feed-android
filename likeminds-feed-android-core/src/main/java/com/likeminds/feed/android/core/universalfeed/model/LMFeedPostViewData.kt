@@ -15,6 +15,7 @@ class  LMFeedPostViewData private constructor(
     val fromPostLiked: Boolean,
     val fromPostSaved: Boolean,
     val fromVideoAction: Boolean,
+    val isPosted: Boolean
 ) : LMFeedBaseViewType {
 
     override val viewType: Int
@@ -58,6 +59,7 @@ class  LMFeedPostViewData private constructor(
         private var fromPostLiked: Boolean = false
         private var fromPostSaved: Boolean = false
         private var fromVideoAction: Boolean = false
+        private var isPosted: Boolean = true
 
         fun id(id: String) = apply { this.id = id }
         fun headerViewData(headerViewData: LMFeedPostHeaderViewData) =
@@ -79,6 +81,7 @@ class  LMFeedPostViewData private constructor(
         fun fromPostSaved(fromPostSaved: Boolean) = apply { this.fromPostSaved = fromPostSaved }
         fun fromVideoAction(fromVideoAction: Boolean) =
             apply { this.fromVideoAction = fromVideoAction }
+        fun isPosted(isPosted: Boolean) = apply { this.isPosted = isPosted }
 
         fun build() = LMFeedPostViewData(
             id,
@@ -89,7 +92,8 @@ class  LMFeedPostViewData private constructor(
             topicsViewData,
             fromPostLiked,
             fromPostSaved,
-            fromVideoAction
+            fromVideoAction,
+            isPosted
         )
     }
 
@@ -104,5 +108,6 @@ class  LMFeedPostViewData private constructor(
             .fromPostLiked(fromPostLiked)
             .fromPostSaved(fromPostSaved)
             .fromVideoAction(fromVideoAction)
+            .isPosted(isPosted)
     }
 }

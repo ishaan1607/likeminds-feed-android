@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.util.LinkifyCompat
 import com.likeminds.feed.android.core.databinding.LmFeedItemPostSingleImageBinding
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
@@ -44,7 +43,7 @@ class LMFeedItemPostSingleImageViewDataBinder(
                 LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
                     ?: return@apply
 
-            ivPost.setStyle(postImageMediaStyle)
+            postImageView.setStyle(postImageMediaStyle)
         }
         return binding
     }
@@ -78,7 +77,7 @@ class LMFeedItemPostSingleImageViewDataBinder(
                 }, executeBinder = {
                     // binds the image to the single image post view
                     LMFeedPostBinderUtils.bindPostSingleImage(
-                        ivPost,
+                        postImageView,
                         data.mediaViewData
                     )
                 }
@@ -97,30 +96,12 @@ class LMFeedItemPostSingleImageViewDataBinder(
                 )
             }
 
-            // todo: test this otherwise move this to setTextContent function
-            tvPostContent.setOnClickListener {
-                val post = postViewData ?: return@setOnClickListener
-                universalFeedAdapterListener.onPostContentClicked(position, post)
-            }
-
-            val linkifyLinks =
-                (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
-            LinkifyCompat.addLinks(tvPostContent, linkifyLinks)
-            tvPostContent.movementMethod = LMFeedLinkMovementMethod { url ->
-                tvPostContent.setOnClickListener {
-                    return@setOnClickListener
-                }
-
-                universalFeedAdapterListener.onPostContentLinkClicked(url)
-                true
-            }
-
             postHeader.setAuthorFrameClickListener {
                 val post = postViewData ?: return@setAuthorFrameClickListener
                 universalFeedAdapterListener.onPostAuthorHeaderClicked(position, post)
             }
 
-            ivPost.setOnClickListener {
+            postImageView.setOnClickListener {
                 val post = postViewData ?: return@setOnClickListener
                 universalFeedAdapterListener.onPostImageMediaClicked(position, post)
             }

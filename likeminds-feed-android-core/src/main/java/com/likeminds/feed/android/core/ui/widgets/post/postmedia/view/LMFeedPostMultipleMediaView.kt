@@ -32,6 +32,8 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
 
     val viewpagerMultipleMedia = binding.viewpagerMultipleMedia
 
+    private lateinit var multipleMediaAdapter: LMFeedMultipleMediaPostAdapter
+
     //sets provided [postMultipleMediaStyle] to the multiple media type post
     fun setStyle(postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle) {
 
@@ -82,14 +84,19 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
     fun setViewPager(
         parentPosition: Int,
         listener: LMFeedUniversalFeedAdapterListener,
-        attachments: List<LMFeedAttachmentViewData>
+        attachments: List<LMFeedAttachmentViewData>,
+        isMediaRemovable: Boolean = false
     ) {
         binding.apply {
             viewpagerMultipleMedia.isSaveEnabled = false
 
             //set adapter to the view pager
-            val multipleMediaPostAdapter = LMFeedMultipleMediaPostAdapter(parentPosition, listener)
-            viewpagerMultipleMedia.adapter = multipleMediaPostAdapter
+            multipleMediaAdapter = LMFeedMultipleMediaPostAdapter(
+                parentPosition,
+                listener,
+                isMediaRemovable
+            )
+            viewpagerMultipleMedia.adapter = multipleMediaAdapter
 
             val multipleMediaOnPageChangeCallback = object : OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -105,11 +112,19 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
             val updatedAttachments = getUpdatedAttachmentsForMultipleMedia(attachments)
 
             //replaces all the items in the multiple media post adapter
-            multipleMediaPostAdapter.replace(updatedAttachments)
+            multipleMediaAdapter.replace(updatedAttachments)
 
             //setups the indicator with the view pager
             dotsIndicator.setupWithViewPager(viewpagerMultipleMedia)
         }
+    }
+
+    /**
+     * Removes the media at the provided index
+     * @param position: index from which the media is to be removed
+     */
+    fun removeMedia(position: Int) {
+        multipleMediaAdapter.removeIndex(position)
     }
 
     //returns the updated attachments list for multiple media view
