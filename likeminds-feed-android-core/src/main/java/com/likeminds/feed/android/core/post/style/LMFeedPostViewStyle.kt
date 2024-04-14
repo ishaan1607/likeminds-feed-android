@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.style.LMFeedPostFooterViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.*
@@ -62,7 +63,7 @@ class LMFeedPostViewStyle private constructor(
                         .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
                         .maxLines(1)
                         .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
-                        .backgroundColor(R.color.lm_feed_majorelle_blue)
+                        .backgroundColor(LMFeedTheme.getButtonColor())
                         .build()
                 )
                 .pinIconStyle(
@@ -151,7 +152,7 @@ class LMFeedPostViewStyle private constructor(
                     LMFeedPostVideoMediaViewStyle.Builder()
                         .videoProgressStyle(
                             LMFeedProgressBarStyle.Builder()
-                                .progressColor(R.color.lm_feed_majorelle_blue)
+                                .progressColor(LMFeedTheme.getButtonColor())
                                 .build()
                         )
                         .backgroundColor(R.color.lm_feed_white)
@@ -211,7 +212,7 @@ class LMFeedPostViewStyle private constructor(
                         .documentShowMoreStyle(
                             LMFeedTextStyle.Builder()
                                 .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
-                                .textColor(R.color.lm_feed_majorelle_blue)
+                                .textColor(LMFeedTheme.getButtonColor())
                                 .textSize(R.dimen.lm_feed_text_large)
                                 .build()
                         )
@@ -232,7 +233,7 @@ class LMFeedPostViewStyle private constructor(
             LMFeedChipStyle.Builder()
                 .chipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
                 .chipCornerRadius(R.dimen.lm_feed_corner_radius_regular)
-                .chipTextColor(R.color.lm_feed_majorelle_blue)
+                .chipTextColor(LMFeedTheme.getButtonColor())
                 .chipTextSize(R.dimen.lm_feed_text_medium)
                 .build()
 

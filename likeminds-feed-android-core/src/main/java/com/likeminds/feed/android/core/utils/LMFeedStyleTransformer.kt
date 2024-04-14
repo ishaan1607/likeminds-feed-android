@@ -5,7 +5,6 @@ import com.likeminds.feed.android.core.delete.style.LMFeedAdminDeleteDialogFragm
 import com.likeminds.feed.android.core.delete.style.LMFeedSelfDeleteDialogFragmentStyle
 import com.likeminds.feed.android.core.likes.style.LMFeedLikesFragmentViewStyle
 import com.likeminds.feed.android.core.post.create.viewstyle.LMFeedCreatePostFragmentViewStyle
-import com.likeminds.feed.android.core.post.detail.viewstyle.LMFeedPostDetailFragmentViewStyle
 import com.likeminds.feed.android.core.post.detail.style.LMFeedPostDetailFragmentViewStyle
 import com.likeminds.feed.android.core.post.edit.style.LMFeedEditPostFragmentViewStyle
 import com.likeminds.feed.android.core.post.style.LMFeedPostViewStyle

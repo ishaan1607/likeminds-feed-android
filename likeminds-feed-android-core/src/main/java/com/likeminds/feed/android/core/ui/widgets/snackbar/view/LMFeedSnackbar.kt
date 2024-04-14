@@ -12,7 +12,6 @@ class LMFeedSnackbar(
 ) : BaseTransientBottomBar<LMFeedSnackbar>(parent, content, content) {
 
     init {
-        //todo: set styles here
         getView().setBackgroundColor(
             ContextCompat.getColor(
                 view.context,

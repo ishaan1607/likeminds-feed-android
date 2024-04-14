@@ -6,6 +6,7 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedProgressBarStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
@@ -28,20 +29,24 @@ class LMFeedPostingViewStyle private constructor(
 
     class Builder {
         private var attachmentThumbnailImageStyle: LMFeedImageStyle? = null
+
         private var postingHeadingTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_medium)
             .textColor(R.color.lm_feed_dark_grey)
             .ellipsize(TextUtils.TruncateAt.END)
             .build()
+
         private var progressStyle: LMFeedProgressBarStyle = LMFeedProgressBarStyle.Builder()
             .isIndeterminate(false)
-            .progressColor(R.color.lm_feed_majorelle_blue)
+            .progressColor(LMFeedTheme.getButtonColor())
             .build()
+
         private var retryButtonTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textColor(R.color.lm_feed_grey)
             .textSize(R.dimen.lm_feed_text_medium)
             .ellipsize(TextUtils.TruncateAt.END)
             .build()
+
         private var postingDoneImageStyle: LMFeedImageStyle = LMFeedImageStyle.Builder()
             .isCircle(true)
             .imageSrc(R.drawable.lm_feed_ic_completed_green)

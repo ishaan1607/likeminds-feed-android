@@ -22,6 +22,7 @@ object LMFeedCore {
     fun setup(
         application: Application,
         apiKey: String,
+        domain: String? = null,
         lmFeedTheme: LMFeedSetThemeRequest? = null,
         lmFeedCoreCallback: LMFeedCoreCallback? = null
     ) {
@@ -29,7 +30,7 @@ object LMFeedCore {
         LMFeedTheme.setTheme(lmFeedTheme)
 
         val coreApplication = LMFeedCoreApplication.getInstance()
-        coreApplication.initCoreApplication(application, lmFeedCoreCallback)
+        coreApplication.initCoreApplication(application, lmFeedCoreCallback, domain)
     }
 
     fun showFeed(

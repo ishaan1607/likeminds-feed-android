@@ -6,6 +6,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
@@ -65,7 +66,7 @@ class LMFeedAlertDialogViewStyle private constructor(
         private var alertInputStyle: LMFeedEditTextStyle? = null
 
         @ColorRes
-        private var alertActivePositiveButtonColor: Int = R.color.lm_feed_majorelle_blue
+        private var alertActivePositiveButtonColor: Int = LMFeedTheme.getButtonColor()
 
         @DimenRes
         private var alertBoxElevation: Int? = null

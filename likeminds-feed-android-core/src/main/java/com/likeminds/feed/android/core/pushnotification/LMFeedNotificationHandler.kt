@@ -51,7 +51,7 @@ class LMFeedNotificationHandler {
         notificationIcon = LMFeedTheme.getNotificationIcon() ?: R.drawable.ic_launcher_foreground
 
         notificationTextColor =
-            LMFeedTheme.getNotificationTextColor() ?: R.color.lm_feed_majorelle_blue
+            LMFeedTheme.getNotificationTextColor() ?: LMFeedTheme.getButtonColor()
 
         createNotificationChannel()
     }

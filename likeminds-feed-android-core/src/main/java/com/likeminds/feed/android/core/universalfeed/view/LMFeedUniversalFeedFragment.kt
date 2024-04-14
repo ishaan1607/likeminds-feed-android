@@ -46,6 +46,7 @@ import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionA
 import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionActivity.Companion.LM_FEED_TOPIC_SELECTION_RESULT_EXTRAS
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
@@ -167,10 +168,6 @@ open class LMFeedUniversalFeedFragment :
 
             layoutNoPost.setActionFABClickListener {
                 onCreateNewPostClick(true)
-            }
-
-            layoutPosting.setRetryCTAClickListener {
-                onRetryUploadClicked()
             }
 
             topicSelectorBar.setAllTopicsClickListener {
@@ -526,11 +523,7 @@ open class LMFeedUniversalFeedFragment :
             setProgressVisibility(false)
             setRetryVisibility(true)
             setRetryCTAClickListener {
-                universalFeedViewModel.createRetryPostMediaWorker(
-                    requireContext(),
-                    temporaryId,
-                    attachmentCount
-                )
+                onRetryUploadClicked(temporaryId, attachmentCount)
             }
         }
     }
@@ -571,7 +564,7 @@ open class LMFeedUniversalFeedFragment :
             setColorSchemeColors(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.lm_feed_majorelle_blue
+                    LMFeedTheme.getButtonColor()
                 )
             )
 
@@ -628,7 +621,6 @@ open class LMFeedUniversalFeedFragment :
         // sends comment list open event
         LMFeedAnalytics.sendCommentListOpenEvent()
 
-        //todo: test this
         val postDetailExtras = LMFeedPostDetailExtras.Builder()
             .postId(postViewData.id)
             .isEditTextFocused(false)
@@ -678,11 +670,10 @@ open class LMFeedUniversalFeedFragment :
     }
 
     override fun onPostShareClicked(position: Int, postViewData: LMFeedPostViewData) {
-        //todo: take domain here
         LMFeedShareUtils.sharePost(
             requireContext(),
             postViewData.id,
-            "https://take-this-in-config.com",
+            LMFeedCoreApplication.domain ?: "",
             LMFeedCommunityUtil.getPostVariable()
         )
 
@@ -1082,8 +1073,12 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
-    protected open fun onRetryUploadClicked() {
-        //todo: implement upload retry
+    protected open fun onRetryUploadClicked(temporaryId: Long?, attachmentCount: Int) {
+        universalFeedViewModel.createRetryPostMediaWorker(
+            requireContext(),
+            temporaryId,
+            attachmentCount
+        )
     }
 
     private val topicSelectionLauncher =

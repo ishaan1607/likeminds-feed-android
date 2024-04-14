@@ -191,10 +191,9 @@ open class LMFeedPostDetailFragment :
         mSwipeRefreshLayout = binding.swipeRefreshLayout
         mSwipeRefreshLayout.apply {
             setColorSchemeColors(
-                //todo: change this color as per the style
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.lm_feed_majorelle_blue
+                    LMFeedTheme.getButtonColor()
                 )
             )
 
@@ -1814,11 +1813,10 @@ open class LMFeedPostDetailFragment :
 
     override fun onPostShareClicked(position: Int, postViewData: LMFeedPostViewData) {
         super.onPostShareClicked(position, postViewData)
-        //todo: take domain here
         LMFeedShareUtils.sharePost(
             requireContext(),
             postViewData.id,
-            "https://take-this-in-config.com",
+            LMFeedCoreApplication.domain ?: "",
             LMFeedCommunityUtil.getPostVariable()
         )
 

@@ -23,6 +23,8 @@ class LMFeedCoreApplication : LMCallback {
         private var credentialsProvider: CognitoCachingCredentialsProvider? = null
         private var s3Client: AmazonS3Client? = null
 
+        var domain: String? = null
+
         /**
          * @return Singleton Instance of Core Application class
          * */
@@ -54,7 +56,12 @@ class LMFeedCoreApplication : LMCallback {
                 if (credentialsProvider == null) {
                     credentialsProvider = CognitoCachingCredentialsProvider(
                         context.applicationContext,
-                        String(Base64.decode(LMFeedAWSKeys.getIdentityPoolId(), Base64.DEFAULT)), // Identity Pool ID
+                        String(
+                            Base64.decode(
+                                LMFeedAWSKeys.getIdentityPoolId(),
+                                Base64.DEFAULT
+                            )
+                        ), // Identity Pool ID
                         Regions.AP_SOUTH_1 // Region
                     )
                 }
@@ -81,11 +88,14 @@ class LMFeedCoreApplication : LMCallback {
 
     fun initCoreApplication(
         application: Application,
-        lmFeedCoreCallback: LMFeedCoreCallback?
+        lmFeedCoreCallback: LMFeedCoreCallback?,
+        domain: String? = null
     ) {
         LMFeedClient.Builder(application)
             .lmCallback(this)
             .build()
+
+        LMFeedCoreApplication.domain = domain
         LMFeedCoreApplication.lmFeedCoreCallback = lmFeedCoreCallback
     }
 

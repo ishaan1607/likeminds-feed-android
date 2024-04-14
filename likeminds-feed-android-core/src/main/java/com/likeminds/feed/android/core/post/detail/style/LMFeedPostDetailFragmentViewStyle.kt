@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.post.detail.style
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.style.LMFeedCommentComposerViewStyle
 import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
@@ -100,7 +101,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
             )
             .replyCountTextStyle(
                 LMFeedTextStyle.Builder()
-                    .textColor(R.color.lm_feed_majorelle_blue)
+                    .textColor(LMFeedTheme.getButtonColor())
                     .textSize(R.dimen.lm_feed_text_small)
                     .build()
             )

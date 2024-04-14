@@ -5,6 +5,7 @@ import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
 import com.likeminds.feed.android.core.ui.widgets.searchbar.style.LMFeedSearchBarViewStyle
@@ -103,7 +104,7 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
 
         private var submitSelectedTopicsFABStyle: LMFeedFABStyle = LMFeedFABStyle.Builder()
             .isExtended(false)
-            .backgroundColor(R.color.lm_feed_majorelle_blue)
+            .backgroundColor(LMFeedTheme.getButtonColor())
             .icon(R.drawable.lm_feed_ic_arrow_right_white)
             .iconTint(R.color.lm_feed_white)
             .build()
