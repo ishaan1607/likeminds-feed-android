@@ -930,6 +930,21 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    private val createPostLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    // post of type text/link has been created and posted
+                    onFeedRefreshed()
+                }
+
+                LMFeedCreatePostActivity.RESULT_UPLOAD_POST -> {
+                    // post with attachments created, now upload and post it from db
+                    universalFeedViewModel.fetchPendingPostFromDB()
+                }
+            }
+        }
+
     /**
      * Processes the new post fab click
      *
@@ -991,21 +1006,6 @@ open class LMFeedUniversalFeedFragment :
             }
         }
     }
-
-    private val createPostLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            when (result.resultCode) {
-                Activity.RESULT_OK -> {
-                    // post of type text/link has been created and posted
-                    onFeedRefreshed()
-                }
-
-                LMFeedCreatePostActivity.RESULT_UPLOAD_POST -> {
-                    // post with attachments created, now upload and post it from db
-                    universalFeedViewModel.fetchPendingPostFromDB()
-                }
-            }
-        }
 
     //customizes the header view
     protected open fun customizeUniversalFeedHeaderView(headerViewUniversal: LMFeedHeaderView) {
