@@ -8,7 +8,6 @@ import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.text.util.LinkifyCompat
@@ -16,6 +15,7 @@ import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedCommentViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
@@ -24,8 +24,10 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 import com.likeminds.feed.android.core.utils.link.LMFeedOnLinkClickListener
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.listeners.LMFeedOnTaggedMemberClickListener
 import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
+import com.likeminds.usertagging.util.UserTaggingDecoder
 
 class LMFeedCommentView : ConstraintLayout {
 
@@ -197,7 +199,8 @@ class LMFeedCommentView : ConstraintLayout {
     fun setCommentContent(
         commentText: String,
         alreadySeenFullContent: Boolean?,
-        onCommentSeeMoreClickListener: LMFeedOnClickListener
+        onCommentSeeMoreClickListener: LMFeedOnClickListener,
+        onMemberTagClickListener: LMFeedOnTaggedMemberClickListener
     ) {
         binding.tvCommentContent.apply {
 
@@ -239,11 +242,23 @@ class LMFeedCommentView : ConstraintLayout {
             // post is used here to get lines count in the text view
             post {
                 // decodes tags in text and creates span around those tags
-                //todo: member tagging
-                setText(
+                UserTaggingDecoder.decodeRegexIntoSpannableText(
+                    this,
                     textForLinkify,
-                    TextView.BufferType.EDITABLE
-                )
+                    enableClick = true,
+                    highlightColor = ContextCompat.getColor(
+                        context,
+                        LMFeedTheme.getTextLinkColor()
+                    ),
+                ) { route ->
+                    val uuid = route.getQueryParameter("member_id")
+                        ?: route.getQueryParameter("user_id")
+                        ?: route.getQueryParameter("uuid")
+                        ?: route.lastPathSegment
+                        ?: return@decodeRegexIntoSpannableText
+
+                    onMemberTagClickListener.onMemberTaggedClicked(uuid)
+                }
 
                 // gets short text to set with seeMore
                 val shortText: String? = LMFeedSeeMoreUtil.getShortContent(
@@ -448,6 +463,7 @@ class LMFeedCommentView : ConstraintLayout {
         binding.apply {
             val linkifyLinks =
                 (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
+
             LinkifyCompat.addLinks(tvCommentContent, linkifyLinks)
             tvCommentContent.movementMethod = LMFeedLinkMovementMethod { url ->
                 tvCommentContent.setOnClickListener {

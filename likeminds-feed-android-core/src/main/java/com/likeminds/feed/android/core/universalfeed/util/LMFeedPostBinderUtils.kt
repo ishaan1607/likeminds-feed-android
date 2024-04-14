@@ -1,16 +1,13 @@
 package com.likeminds.feed.android.core.universalfeed.util
 
 import android.content.Context
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.Spanned
-import android.text.TextPaint
-import android.text.TextUtils
+import android.text.*
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.text.util.Linkify
 import android.view.View
-import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.text.util.LinkifyCompat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.overflowmenu.model.PIN_POST_MENU_ITEM_ID
 import com.likeminds.feed.android.core.overflowmenu.model.UNPIN_POST_MENU_ITEM_ID
@@ -18,22 +15,22 @@ import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
-import com.likeminds.feed.android.core.ui.base.views.*
+import com.likeminds.feed.android.core.ui.base.views.LMFeedChipGroup
+import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostFooterViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostHeaderViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.universalfeed.model.*
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getValidTextForLinkify
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
+import com.likeminds.usertagging.util.UserTaggingDecoder
 
 object LMFeedPostBinderUtils {
 
@@ -135,13 +132,12 @@ object LMFeedPostBinderUtils {
         }
     }
 
-    //todo: ask if we should move this to [LMFeedContentView]
     //sets the data in the post content view
     private fun setPostContentViewData(
         contentView: LMFeedTextView,
         postViewData: LMFeedPostViewData,
         universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-        position: Int
+        position: Int,
     ) {
         contentView.apply {
             val contentViewData = postViewData.contentViewData
@@ -189,11 +185,28 @@ object LMFeedPostBinderUtils {
 
             // post is used here to get lines count in the text view
             post {
-                // todo: add member tagging decoder here
-                setText(
-                    (contentViewData.text),
-                    TextView.BufferType.EDITABLE
-                )
+                setOnClickListener {
+                    universalFeedAdapterListener.onPostContentClicked(position, postViewData)
+                }
+
+                UserTaggingDecoder.decodeRegexIntoSpannableText(
+                    this,
+                    textForLinkify.trim(),
+                    enableClick = true,
+                    highlightColor = ContextCompat.getColor(
+                        context,
+                        LMFeedTheme.getTextLinkColor()
+                    ),
+                    hasAtRateSymbol = true,
+                ) { route ->
+                    val uuid = route.getQueryParameter("member_id")
+                        ?: route.getQueryParameter("user_id")
+                        ?: route.getQueryParameter("uuid")
+                        ?: route.lastPathSegment
+                        ?: return@decodeRegexIntoSpannableText
+
+                    universalFeedAdapterListener.onPostTaggedMemberClicked(position, uuid)
+                }
 
                 val shortText: String? = LMFeedSeeMoreUtil.getShortContent(
                     this,
@@ -224,6 +237,18 @@ object LMFeedPostBinderUtils {
                     trimmedText,
                     seeMoreSpannableStringBuilder
                 )
+
+                val linkifyLinks =
+                    (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
+                LinkifyCompat.addLinks(this, linkifyLinks)
+                movementMethod = LMFeedLinkMovementMethod { url ->
+                    setOnClickListener {
+                        return@setOnClickListener
+                    }
+
+                    universalFeedAdapterListener.onPostContentLinkClicked(url)
+                    true
+                }
             }
         }
     }
@@ -422,13 +447,15 @@ object LMFeedPostBinderUtils {
 
     // bind data for single image post
     fun bindPostSingleImage(
-        ivPost: LMFeedImageView,
+        ivPost: LMFeedPostImageMediaView,
         mediaData: LMFeedMediaViewData
     ) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle ?: return
 
-        ivPost.setImage(mediaData.attachments.first().attachmentMeta.url, postImageMediaStyle)
+        mediaData.attachments.first().attachmentMeta.url?.let { url ->
+            ivPost.setImage(url, postImageMediaStyle)
+        }
     }
 
     // bind data for link preview post
@@ -476,13 +503,17 @@ object LMFeedPostBinderUtils {
     }
 
     //bind data for multiple media image view post
-    fun bindMultipleMediaImageView(ivPost: LMFeedImageView, attachment: LMFeedAttachmentViewData?) {
+    fun bindMultipleMediaImageView(
+        ivPost: LMFeedPostImageMediaView,
+        attachment: LMFeedAttachmentViewData?
+    ) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle ?: return
 
-        attachment?.let {
-            ivPost.setImage(attachment.attachmentMeta.url, postImageMediaStyle)
-        }
+        val attachmentUrl =
+            attachment?.attachmentMeta?.url ?: attachment?.attachmentMeta?.uri ?: return
+
+        ivPost.setImage(attachmentUrl, postImageMediaStyle)
     }
 
     // bind data to view page for multi media post

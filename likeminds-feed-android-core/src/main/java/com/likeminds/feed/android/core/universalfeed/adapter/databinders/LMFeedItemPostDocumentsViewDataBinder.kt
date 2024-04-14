@@ -99,24 +99,6 @@ class LMFeedItemPostDocumentsViewDataBinder(
                 )
             }
 
-            // todo: test this otherwise move this to setTextContent function
-            tvPostContent.setOnClickListener {
-                val post = postViewData ?: return@setOnClickListener
-                universalFeedAdapterListener.onPostContentClicked(position, post)
-            }
-
-            val linkifyLinks =
-                (Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS)
-            LinkifyCompat.addLinks(tvPostContent, linkifyLinks)
-            tvPostContent.movementMethod = LMFeedLinkMovementMethod { url ->
-                tvPostContent.setOnClickListener {
-                    return@setOnClickListener
-                }
-
-                universalFeedAdapterListener.onPostContentLinkClicked(url)
-                true
-            }
-
             postHeader.setAuthorFrameClickListener {
                 val post = postViewData ?: return@setAuthorFrameClickListener
                 universalFeedAdapterListener.onPostAuthorHeaderClicked(position, post)

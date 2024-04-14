@@ -73,6 +73,16 @@
             tools:srcCompat="@drawable/lm_feed_ic_unmute"
             tools:visibility="visible" />
 
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+            android:id="@+id/iv_cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/video_view"
+            app:srcCompat="@drawable/lm_feed_ic_cross"
+            tools:ignore="ContentDescription" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

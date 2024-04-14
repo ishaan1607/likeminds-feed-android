@@ -291,6 +291,9 @@ class LMFeedTextStyle private constructor(
                 textAlignment = this@LMFeedTextStyle.textAlignment
             }
 
+            //sets the text link color
+            this.setLinkTextColor(ContextCompat.getColor(context, LMFeedTheme.getTextLinkColor()))
+
             this@LMFeedTextStyle.hintTextColor?.let {
                 setHintTextColor(
                     ContextCompat.getColor(

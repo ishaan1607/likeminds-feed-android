@@ -3,22 +3,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
-            android:id="@+id/iv_single_image_post"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="1:1"
+        <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
+            android:id="@+id/post_image_view"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lm_feed_standard_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription"
-            tools:srcCompat="@drawable/lm_feed_ic_pdf"
-            tools:visibility="visible" />
-
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

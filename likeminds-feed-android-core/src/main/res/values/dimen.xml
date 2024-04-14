@@ -3,7 +3,8 @@
     <dimen name="zero_dp">0dp</dimen>
 
     <!--Header View-->
-    <dimen name="lm_feed_header_view_title_text_size">22sp</dimen>
+    <dimen name="lm_feed_header_view_title_text_size">18sp</dimen>
+    <dimen name="lm_feed_header_view_height">54dp</dimen>
     <dimen name="lm_feed_header_view_height">54dp</dimen>
     <dimen name="lm_feed_post_header_title_start_margin">18dp</dimen>
 
@@ -38,6 +39,7 @@
     <dimen name="lm_feed_extra_small_padding">2dp</dimen>
 
     <!--    Standard Margins-->
+    <dimen name="lm_feed_small_margin">4dp</dimen>
     <dimen name="lm_feed_extra_extra_large_margin">32dp</dimen>
     <dimen name="lm_feed_extra_large_margin">24dp</dimen>
     <dimen name="lm_feed_large_margin">16dp</dimen>
@@ -139,4 +141,7 @@
     <!--   Progress bar -->
     <dimen name="lm_feed_progress_bar_translation_z">10dp</dimen>
     <dimen name="lm_feed_progress_bar_thickness">3dp</dimen>
+
+    <!--    Create Post-->
+    <dimen name="lm_feed_create_post_add_more_padding">24dp</dimen>
 </resources>

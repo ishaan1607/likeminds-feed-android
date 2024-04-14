@@ -107,7 +107,18 @@
         <item quantity="one">Topic is Disabled</item>
         <item quantity="other">Topics are Disabled</item>
     </plurals>
+    <plurals name="lm_feed_you_can_select_upto_x_items">
+        <item quantity="one">You can select up to 1 item!</item>
+        <item quantity="other">You can select up to %d items!</item>
+    </plurals>
     <string name="lm_feed_nine_nine_plus">99+</string>
     <string name="lm_feed_no_notifications_yet">Oops! You don\'t have any notifications yet!</string>
     <string name="lm_feed_our_team_will_look_into_your_feedback_and_will_take_appropriate_action_on_this_s">Our team will look into your feedback and will take appropriate action on this %s</string>
+    <string name="lm_feed_add_more">Add More</string>
+    <string name="lm_feed_attach_files">Attach Files</string>
+    <string name="lm_feed_add_video">Add Video</string>
+    <string name="lm_feed_add_photo">Add Photo</string>
+    <string name="lm_feed_s_created">%s created successfully!</string>
+    <string name="lm_feed_create_s">Create %s</string>
+    <string name="lm_feed_create">Create</string>
 </resources>

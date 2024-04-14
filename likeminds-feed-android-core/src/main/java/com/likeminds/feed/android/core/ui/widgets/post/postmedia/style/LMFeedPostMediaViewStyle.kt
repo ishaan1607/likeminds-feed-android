@@ -14,7 +14,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * */
 class LMFeedPostMediaViewStyle private constructor(
     //style for image media in a post
-    val postImageMediaStyle: LMFeedImageStyle?,
+    val postImageMediaStyle: LMFeedPostImageMediaViewStyle?,
     //style for video media in a post
     val postVideoMediaStyle: LMFeedPostVideoMediaViewStyle?,
     //style for link media in a post
@@ -26,7 +26,7 @@ class LMFeedPostMediaViewStyle private constructor(
 ) : LMFeedViewStyle {
 
     class Builder {
-        private var postImageMediaStyle: LMFeedImageStyle? = null
+        private var postImageMediaStyle: LMFeedPostImageMediaViewStyle? = null
 
         private var postVideoMediaStyle: LMFeedPostVideoMediaViewStyle? = null
 
@@ -36,7 +36,7 @@ class LMFeedPostMediaViewStyle private constructor(
 
         private var postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle? = null
 
-        fun postImageMediaStyle(postImageMediaStyle: LMFeedImageStyle?) = apply {
+        fun postImageMediaStyle(postImageMediaStyle: LMFeedPostImageMediaViewStyle?) = apply {
             this.postImageMediaStyle = postImageMediaStyle
         }
 

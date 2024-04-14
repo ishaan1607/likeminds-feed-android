@@ -43,6 +43,22 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <com.likeminds.usertagging.view.UserTaggingSuggestionListView
+            android:id="@+id/user_tagging_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:translationZ="5dp"
+            app:layout_constraintBottom_toTopOf="@id/comment_composer"
+            app:layout_constraintEnd_toEndOf="@id/comment_composer"
+            app:layout_constraintStart_toStartOf="@id/comment_composer"
+            app:userTaggingItemDescriptionTextColor="@color/lm_feed_dark_grey"
+            app:userTaggingItemUserImageCircular="true"
+            app:userTaggingItemUserNameTextFont="@font/lm_feed_roboto"
+            app:userTaggingItemUserNameTextSize="@dimen/lm_feed_text_small"
+            app:userTaggingItemUserNameTextStyle="normal"
+            tools:visibility="gone" />
+
         <com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.view.LMFeedCommentComposerView
             android:id="@+id/comment_composer"
             android:layout_width="match_parent"

@@ -10,6 +10,7 @@ import android.view.*
 import android.widget.EditText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
+import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -32,7 +33,9 @@ import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelection
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionResultExtras
 import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionActivity
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
-import com.likeminds.feed.android.core.ui.base.views.*
+import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
+import com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
@@ -49,9 +52,16 @@ import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
 import com.likeminds.feed.android.core.utils.base.model.*
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
-import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
+import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoPreviewAutoPlayHelper
+import com.likeminds.usertagging.UserTagging
+import com.likeminds.usertagging.model.TagUser
+import com.likeminds.usertagging.model.UserTaggingConfig
+import com.likeminds.usertagging.util.UserTaggingDecoder
+import com.likeminds.usertagging.util.UserTaggingViewListener
+import com.likeminds.usertagging.view.UserTaggingSuggestionListView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
@@ -71,11 +81,12 @@ open class LMFeedEditPostFragment :
     private var post: LMFeedPostViewData? = null
 
     private lateinit var etPostTextChangeListener: TextWatcher
+    private lateinit var memberTagging: UserTaggingSuggestionListView
 
     private val editPostViewModel: LMFeedEditPostViewModel by viewModels()
 
-    private val postVideoAutoPlayHelper by lazy {
-        LMFeedPostVideoAutoPlayHelper.getInstance()
+    private val postVideoPreviewAutoPlayHelper by lazy {
+        LMFeedPostVideoPreviewAutoPlayHelper.getInstance()
     }
 
     // [postPublisher] to publish changes in the post
@@ -106,6 +117,7 @@ open class LMFeedEditPostFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //receive extras
         receiveExtras()
     }
 
@@ -133,7 +145,7 @@ open class LMFeedEditPostFragment :
             customizePostHeaderView(postHeader)
             customizePostTopicsGroup(postTopicsGroup)
             customizePostComposer(etPostComposer)
-            customizePostSingleImageView(singleImageAttachment.ivSingleImagePost)
+            customizePostSingleImageView(singleImageAttachment.postImageView)
             customizePostSingleVideoView(singleVideoAttachment.postVideoView)
             customizePostLinkPreview(linkPreview.postLinkView)
             customizePostDocumentsView(documentsAttachment.postDocumentsMediaView)
@@ -174,7 +186,7 @@ open class LMFeedEditPostFragment :
     }
 
     //customizes single image view type post
-    protected open fun customizePostSingleImageView(postSingleImageView: LMFeedImageView) {
+    protected open fun customizePostSingleImageView(postSingleImageView: LMFeedPostImageMediaView) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
                 ?: return
@@ -227,9 +239,38 @@ open class LMFeedEditPostFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initMemberTagging()
         initListeners()
         fetchData()
         observeData()
+    }
+
+    //initializes member tagging view
+    private fun initMemberTagging() {
+        memberTagging = binding.userTaggingView
+
+        val listener = object : UserTaggingViewListener {
+            override fun callApi(page: Int, searchName: String) {
+                editPostViewModel.getMembersForTagging(page, searchName)
+            }
+
+            override fun onUserTagged(user: TagUser) {
+                super.onUserTagged(user)
+                LMFeedAnalytics.sendUserTagEvent(
+                    user.uuid,
+                    memberTagging.getTaggedMemberCount()
+                )
+            }
+        }
+
+        val config = UserTaggingConfig.Builder()
+            .editText(binding.etPostComposer)
+            .maxHeightInPercentage(0.4f)
+            .color(LMFeedTheme.getTextLinkColor())
+            .hasAtRateSymbol(true)
+            .build()
+
+        UserTagging.initialize(memberTagging, config, listener)
     }
 
     private fun initListeners() {
@@ -250,9 +291,7 @@ open class LMFeedEditPostFragment :
         //check all the necessary conditions before saving a post
         binding.apply {
             val text = etPostComposer.text
-            //todo:
-            val updatedText = text.toString()
-//        val updatedText = memberTagging.replaceSelectedMembers(text).trim()
+            val updatedText = memberTagging.replaceSelectedMembers(text).trim()
             val topics = selectedTopic.values
 
             if (selectedTopic.isNotEmpty()) {
@@ -353,8 +392,19 @@ open class LMFeedEditPostFragment :
                         clearPreviewLink()
                     }
                 }
+
+                is LMFeedEditPostViewModel.ErrorMessageEvent.TaggingList -> {
+                    LMFeedViewUtils.showErrorMessageToast(
+                        requireContext(),
+                        response.errorMessage
+                    )
+                }
             }
         }.observeInLifecycle(viewLifecycleOwner)
+
+        editPostViewModel.taggingData.observe(viewLifecycleOwner) { result ->
+            MemberTaggingUtil.setMembersInView(memberTagging, result)
+        }
 
         editPostViewModel.showTopicFilter.observe(viewLifecycleOwner) { showTopics ->
             if (showTopics) {
@@ -408,12 +458,11 @@ open class LMFeedEditPostFragment :
             nestedScroll.show()
 
             // decodes the post text and sets to the edit text
-            //todo:
-//            MemberTaggingDecoder.decode(
-//                etPostContent,
-//                post.text,
-//                LMFeedBranding.getTextLinkColor()
-//            )
+            UserTaggingDecoder.decode(
+                etPostComposer,
+                post.contentViewData.text,
+                ContextCompat.getColor(requireContext(), LMFeedTheme.getTextLinkColor())
+            )
 
             // sets the cursor to the end and opens keyboard
             etPostComposer.setSelection(etPostComposer.length())
@@ -466,7 +515,7 @@ open class LMFeedEditPostFragment :
                 }
                 addTopicsToGroup(false, topics)
             } else {
-                editPostViewModel.getAllTopics(true)
+                editPostViewModel.getAllTopics()
             }
 
             initPostComposerTextListener()
@@ -612,7 +661,7 @@ open class LMFeedEditPostFragment :
     //init initial topic selection view with "Select Topic Chip"
     private fun initTopicSelectionView() {
         binding.postTopicsGroup.apply {
-            removeAllViews()
+            removeAllChips()
             addChip(
                 getString(R.string.lm_feed_select_topics),
                 LMFeedStyleTransformer.editPostFragmentViewStyle.selectTopicsChipStyle
@@ -648,7 +697,7 @@ open class LMFeedEditPostFragment :
         val selectedTopics = selectedTopic.values.toList()
 
         binding.postTopicsGroup.apply {
-            removeAllViews()
+            removeAllChips()
             selectedTopics.forEach { topic ->
                 addChip(topic.name, LMFeedStyleTransformer.postViewStyle.postTopicChipsStyle)
             }
@@ -696,7 +745,7 @@ open class LMFeedEditPostFragment :
                 LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
                     ?: return
 
-            ivSingleImagePost.setImage(attachmentUrl, postImageMediaStyle)
+            postImageView.setImage(attachmentUrl, postImageMediaStyle)
         }
     }
 
@@ -706,7 +755,7 @@ open class LMFeedEditPostFragment :
         binding.singleVideoAttachment.apply {
             root.show()
             val meta = videoAttachment?.attachmentMeta
-            postVideoAutoPlayHelper?.playVideoInView(postVideoView, url = meta?.url)
+            postVideoPreviewAutoPlayHelper.playVideoInView(postVideoView, url = meta?.url)
         }
     }
 
@@ -741,8 +790,8 @@ open class LMFeedEditPostFragment :
 
     //shows multimedia preview
     private fun showMultiMediaPreview() {
-        binding.headerViewEditPost.setSubmitButtonEnabled(isEnabled = true)
         binding.apply {
+            headerViewEditPost.setSubmitButtonEnabled(isEnabled = true)
             multipleMediaAttachment.root.show()
             postMediaViewData?.attachments?.let {
                 multipleMediaAttachment.multipleMediaView.setViewPager(
@@ -769,7 +818,6 @@ open class LMFeedEditPostFragment :
 
         binding.linkPreview.postLinkView.apply {
             setLinkTitle(data.title)
-            setLinkDescription(data.description)
             setLinkImage(data.image)
             setLinkUrl(data.url)
             setLinkRemoveClickListener {
@@ -801,12 +849,12 @@ open class LMFeedEditPostFragment :
 
         if (itemMultipleMediaVideoBinding == null) {
             // in case the item is not a video
-            postVideoAutoPlayHelper?.removePlayer()
+            postVideoPreviewAutoPlayHelper.removePlayer()
         } else {
             // processes the current video item
             postMediaViewData?.attachments?.let { attachments ->
                 val meta = attachments[position].attachmentMeta
-                postVideoAutoPlayHelper?.playVideoInView(
+                postVideoPreviewAutoPlayHelper.playVideoInView(
                     itemMultipleMediaVideoBinding.postVideoView,
                     url = meta.url
                 )

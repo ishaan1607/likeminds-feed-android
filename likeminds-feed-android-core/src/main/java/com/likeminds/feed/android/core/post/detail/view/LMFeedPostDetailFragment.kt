@@ -27,6 +27,7 @@ import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity
 import com.likeminds.feed.android.core.post.util.LMFeedPostEvent
 import com.likeminds.feed.android.core.report.model.*
 import com.likeminds.feed.android.core.report.view.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.view.LMFeedCommentComposerView
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
@@ -38,8 +39,14 @@ import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapital
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
+import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
+import com.likeminds.usertagging.UserTagging
+import com.likeminds.usertagging.model.UserTaggingConfig
+import com.likeminds.usertagging.util.UserTaggingDecoder
+import com.likeminds.usertagging.util.UserTaggingViewListener
+import com.likeminds.usertagging.view.UserTaggingSuggestionListView
 import kotlinx.coroutines.flow.onEach
 
 open class LMFeedPostDetailFragment :
@@ -52,6 +59,7 @@ open class LMFeedPostDetailFragment :
 
     private lateinit var binding: LmFeedFragmentPostDetailBinding
     private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var memberTagging: UserTaggingSuggestionListView
 
     private lateinit var postDetailExtras: LMFeedPostDetailExtras
 
@@ -153,8 +161,7 @@ open class LMFeedPostDetailFragment :
 
     private fun initUI() {
         initPostDetailRecyclerView()
-        //todo:
-//        initMemberTaggingView()
+        initMemberTaggingView()
         initSwipeRefreshLayout()
     }
 
@@ -195,6 +202,26 @@ open class LMFeedPostDetailFragment :
                 refreshPostData()
             }
         }
+    }
+
+    //initializes member tagging view
+    private fun initMemberTaggingView() {
+        memberTagging = binding.userTaggingView
+
+        val listener = object : UserTaggingViewListener {
+            override fun callApi(page: Int, searchName: String) {
+                postDetailViewModel.getMembersForTagging(page, searchName)
+            }
+        }
+
+        val config = UserTaggingConfig.Builder()
+            .editText(binding.commentComposer.etComment)
+            .maxHeightInPercentage(0.4f)
+            .color(LMFeedTheme.getTextLinkColor())
+            .hasAtRateSymbol(true)
+            .build()
+
+        UserTagging.initialize(memberTagging, config, listener)
     }
 
     // refreshes the whole post detail screen
@@ -272,9 +299,7 @@ open class LMFeedPostDetailFragment :
 
             commentComposer.setCommentSendClickListener {
                 val text = commentComposer.etComment.text
-                //todo: member tagging
-                val updatedText = "$text"
-//                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
+                val updatedText = memberTagging.replaceSelectedMembers(text).trim()
                 val postId = postDetailExtras.postId
                 when {
                     parentCommentIdToReply != null -> {
@@ -535,8 +560,7 @@ open class LMFeedPostDetailFragment :
         observePostData()
         observeCommentData()
         observeCommentsRightData()
-        //todo: implement member tagging
-//        observeMembersTaggingList()
+        observeMembersTaggingList()
         observeErrors()
     }
 
@@ -909,16 +933,17 @@ open class LMFeedPostDetailFragment :
         }
     }
 
+    private fun observeMembersTaggingList() {
+        postDetailViewModel.taggingData.observe(viewLifecycleOwner) { result ->
+            MemberTaggingUtil.setMembersInView(memberTagging, result)
+        }
+    }
+
     //observes error events
     private fun observeErrors() {
         binding.rvPostDetails.apply {
             postDetailViewModel.errorMessageEventFlow.onEach { response ->
                 when (response) {
-                    // todo:
-//                is LMFeedPostDetailViewModel.ErrorMessageEvent.GetTaggingList -> {
-//                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
-//                }
-
                     is LMFeedPostDetailViewModel.ErrorMessageEvent.GetPost -> {
                         mSwipeRefreshLayout.isRefreshing = false
                         LMFeedProgressBarHelper.hideProgress(binding.progressBar)
@@ -1067,6 +1092,13 @@ open class LMFeedPostDetailFragment :
                         val errorMessage = response.errorMessage
                         LMFeedViewUtils.showErrorMessageToast(requireContext(), errorMessage)
                     }
+
+                    is LMFeedPostDetailViewModel.ErrorMessageEvent.TaggingList -> {
+                        LMFeedViewUtils.showErrorMessageToast(
+                            requireContext(),
+                            response.errorMessage
+                        )
+                    }
                 }
             }.observeInLifecycle(viewLifecycleOwner)
         }
@@ -1094,14 +1126,12 @@ open class LMFeedPostDetailFragment :
             // updates the edittext with the comment to be edited
             editCommentId = comment.id
             parentId = parentCommentId
-            //todo: tagging
-
             // decodes the comment text and sets to the edit text
-//                MemberTaggingDecoder.decode(
-//                    etComment,
-//                    commentText,
-//                    LMFeedBranding.getTextLinkColor()
-//                )
+            UserTaggingDecoder.decode(
+                commentComposer.etComment,
+                commentText,
+                ContextCompat.getColor(requireContext(), LMFeedTheme.getTextLinkColor())
+            )
             commentComposer.etComment.setSelection(commentComposer.etComment.length())
             commentComposer.etComment.setSelection(commentComposer.etComment.length())
             commentComposer.etComment.focusAndShowKeyboard()
@@ -1267,6 +1297,14 @@ open class LMFeedPostDetailFragment :
         super.onPostContentSeeMoreClicked(position, postViewData)
 
         binding.rvPostDetails.updateItem(postDataPosition, postViewData)
+    }
+
+    //callback when the tag of the user is clicked
+    override fun onPostTaggedMemberClicked(position: Int, uuid: String) {
+        super.onPostTaggedMemberClicked(position, uuid)
+
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfileWithUUID(uuid)
     }
 
     override fun onCommentContentSeeMoreClicked(position: Int, comment: LMFeedCommentViewData) {
@@ -1795,12 +1833,28 @@ open class LMFeedPostDetailFragment :
         coreCallback?.openProfile(commentViewData.user)
     }
 
+    override fun onCommentTaggedMemberClicked(position: Int, uuid: String) {
+        super.onCommentTaggedMemberClicked(position, uuid)
+
+        //trigger profile callback
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfileWithUUID(uuid)
+    }
+
     override fun onReplierHeaderClicked(position: Int, replyViewData: LMFeedCommentViewData) {
         super.onReplierHeaderClicked(position, replyViewData)
 
         //trigger profile callback
         val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
         coreCallback?.openProfile(replyViewData.user)
+    }
+
+    override fun onReplyTaggedMemberClicked(position: Int, uuid: String) {
+        super.onReplyTaggedMemberClicked(position, uuid)
+
+        //trigger profile callback
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfileWithUUID(uuid)
     }
 
     override fun onDestroyView() {

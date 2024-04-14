@@ -1,13 +1,13 @@
 package com.likeminds.feed.android.core.universalfeed.adapter
 
-import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.postmultiplemedia.LMFeedItemMultipleMediaImageViewDataBinder
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.postmultiplemedia.LMFeedItemMultipleMediaVideoViewDataBinder
 import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedMultipleMediaPostAdapter(
     private val parentPosition: Int,
-    private val listener: LMFeedUniversalFeedAdapterListener
+    private val listener: LMFeedUniversalFeedAdapterListener,
+    private val isMediaRemovable: Boolean = false
 ) : LMFeedBaseRecyclerAdapter<LMFeedBaseViewType>() {
 
     init {
@@ -17,10 +17,19 @@ class LMFeedMultipleMediaPostAdapter(
     override fun getSupportedViewDataBinder(): MutableList<LMFeedViewDataBinder<*, *>> {
         val viewDataBinders = ArrayList<LMFeedViewDataBinder<*, *>>(2)
 
-        val multipleMediaImageBinder = LMFeedItemMultipleMediaImageViewDataBinder(parentPosition, listener)
+        val multipleMediaImageBinder = LMFeedItemMultipleMediaImageViewDataBinder(
+            parentPosition,
+            listener,
+            isMediaRemovable
+        )
         viewDataBinders.add(multipleMediaImageBinder)
 
-        val multipleMediaVideoBinder = LMFeedItemMultipleMediaVideoViewDataBinder(parentPosition, listener)
+        val multipleMediaVideoBinder =
+            LMFeedItemMultipleMediaVideoViewDataBinder(
+                parentPosition,
+                listener,
+                isMediaRemovable
+            )
         viewDataBinders.add(multipleMediaVideoBinder)
 
         return viewDataBinders
