@@ -71,10 +71,8 @@ open class LMFeedSelfDeleteDialogFragment :
     ): View {
         binding = LmFeedDialogFragmentSelfDeleteBinding.inflate(layoutInflater)
 
-        binding.apply {
-            customizeSelfDeleteDialog(alertDialogDelete)
-            return root
-        }
+        customizeSelfDeleteDialog(binding.alertDialogDelete)
+        return binding.root
     }
 
     //customizes self delete dialog

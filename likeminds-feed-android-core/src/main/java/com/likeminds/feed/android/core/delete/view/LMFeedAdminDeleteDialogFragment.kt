@@ -72,10 +72,8 @@ open class LMFeedAdminDeleteDialogFragment
     ): View {
         binding = LmFeedDialogFragmentAdminDeleteBinding.inflate(layoutInflater)
 
-        binding.apply {
-            customizeAdminDeleteDialog(alertDialogDelete)
-            return root
-        }
+        customizeAdminDeleteDialog(binding.alertDialogDelete)
+        return binding.root
     }
 
     //customizes the admin delete alert dialog

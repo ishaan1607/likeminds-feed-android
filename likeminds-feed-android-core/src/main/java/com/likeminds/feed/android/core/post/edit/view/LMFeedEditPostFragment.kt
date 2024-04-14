@@ -286,6 +286,7 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //processes the save post click
     protected open fun onSavePostClicked() {
         //check all the necessary conditions before saving a post
         binding.apply {
@@ -322,6 +323,7 @@ open class LMFeedEditPostFragment :
         }
     }
 
+    //processes the navigation icon click
     protected open fun onNavigationIconClick() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
@@ -698,7 +700,7 @@ open class LMFeedEditPostFragment :
             selectedTopics.forEach { topic ->
                 addChip(topic.name, LMFeedStyleTransformer.postViewStyle.postTopicChipsStyle)
             }
-            addChip(chipStyle = LMFeedStyleTransformer.editPostFragmentViewStyle.editChipStyle) {
+            addChip(chipStyle = LMFeedStyleTransformer.editPostFragmentViewStyle.editTopicsChipStyle) {
                 val extras = LMFeedTopicSelectionExtras.Builder()
                     .showAllTopicFilter(false)
                     .selectedTopics(selectedTopics)

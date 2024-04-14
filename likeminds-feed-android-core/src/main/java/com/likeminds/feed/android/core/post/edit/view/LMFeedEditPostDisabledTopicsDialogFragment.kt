@@ -55,12 +55,11 @@ open class LMFeedEditPostDisabledTopicsDialogFragment : DialogFragment() {
     ): View {
         binding = LmFeedDialogFragmentEditPostDisabledTopicsBinding.inflate(layoutInflater)
 
-        binding.apply {
-            customizeDisabledTopicsDialog(alertDialogDisabledTopics)
-            return root
-        }
+        customizeDisabledTopicsDialog(binding.alertDialogDisabledTopics)
+        return binding.root
     }
 
+    //customizes the disabled topics alert dialog
     protected open fun customizeDisabledTopicsDialog(alertDialogDisabledTopics: LMFeedAlertDialogView) {
         val disabledTopicsDialog =
             LMFeedStyleTransformer.editPostFragmentViewStyle.disabledTopicsAlertDialogStyle
@@ -81,14 +80,17 @@ open class LMFeedEditPostDisabledTopicsDialogFragment : DialogFragment() {
         setPositiveButtonText()
     }
 
+    //sets the title of the disabled topics alert dialog
     protected open fun setDisableTopicsDialogTitle() {
         binding.alertDialogDisabledTopics.setAlertTitle(extras.title)
     }
 
+    //sets the subtitle of the disabled topics alert dialog
     protected open fun setDisableTopicsDialogSubtitle() {
         binding.alertDialogDisabledTopics.setAlertSubtitle(extras.subtitle)
     }
 
+    //sets the text in the positive action button of the disabled topics alert dialog
     protected open fun setPositiveButtonText() {
         binding.alertDialogDisabledTopics.setAlertPositiveButtonText(getString(R.string.lm_feed_okay))
     }
@@ -97,6 +99,7 @@ open class LMFeedEditPostDisabledTopicsDialogFragment : DialogFragment() {
         setOnDialogPositiveButtonClickListener()
     }
 
+    //processes disabled topics alert dialog positive button click
     protected open fun setOnDialogPositiveButtonClickListener() {
         binding.alertDialogDisabledTopics.setPositiveButtonClickListener {
             dismiss()
