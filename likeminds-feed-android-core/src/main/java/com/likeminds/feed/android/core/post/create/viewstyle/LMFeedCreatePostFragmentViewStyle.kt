@@ -9,6 +9,16 @@ import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFe
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/***
+ * [LMFeedCreatePostFragmentViewStyle] helps you customize [LMFeedCreatePostFragment]
+ * @property headerViewStyle: [LMFeedHeaderViewStyle] helps to customize the header/toolbar of the view
+ * @property authorViewStyle: [LMFeedPostHeaderViewStyle] helps to customize the author view
+ * @property selectTopicsChipStyle: [LMFeedChipStyle] helps to customize the topic selection view to create a post
+ * @property editChipStyle: [LMFeedChipStyle] helps to customize the icon of selected topics
+ * @property postComposerStyle: [LMFeedEditTextStyle] helps to customize the post composer
+ * @property addMoreButtonStyle: [LMFeedButtonStyle] helps to customize the add more button style
+ * @property backgroundColor: [Int] background color for the view, to provided in [ColorRes] format
+ */
 class LMFeedCreatePostFragmentViewStyle private constructor(
     //header view style
     val headerViewStyle: LMFeedHeaderViewStyle,

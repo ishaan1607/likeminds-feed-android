@@ -2,17 +2,10 @@ package com.likeminds.feed.android.core.universalfeed.adapter
 
 import android.view.View
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostDocumentsViewDataBinder
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostLinkViewDataBinder
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostMultipleMediaViewDataBinder
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostSingleImageViewDataBinder
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostSingleVideoViewDataBinder
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostTextOnlyViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
-import com.likeminds.feed.android.core.utils.base.LMFeedBaseRecyclerAdapter
-import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
-import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
+import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedUniversalFeedAdapter(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
@@ -106,9 +99,7 @@ interface LMFeedUniversalFeedAdapterListener {
     }
 
     fun onPostMenuIconClicked(
-        position: Int,
-        anchorView: View,
-        postViewData: LMFeedPostViewData
+        position: Int, anchorView: View, postViewData: LMFeedPostViewData
     ) {
         //triggered when the menu icon of the post is clicked
     }
@@ -126,25 +117,19 @@ interface LMFeedUniversalFeedAdapterListener {
     }
 
     fun onPostDocumentMediaClicked(
-        position: Int,
-        parentPosition: Int,
-        attachmentViewData: LMFeedAttachmentViewData
+        position: Int, parentPosition: Int, attachmentViewData: LMFeedAttachmentViewData
     ) {
         //triggered when the document media in the post is clicked
     }
 
     fun onPostMultipleMediaImageClicked(
-        position: Int,
-        parentPosition: Int,
-        attachmentViewData: LMFeedAttachmentViewData
+        position: Int, parentPosition: Int, attachmentViewData: LMFeedAttachmentViewData
     ) {
         //triggered when the image media of multiple media is clicked
     }
 
     fun onPostMultipleMediaVideoClicked(
-        position: Int,
-        parentPosition: Int,
-        attachmentViewData: LMFeedAttachmentViewData
+        position: Int, parentPosition: Int, attachmentViewData: LMFeedAttachmentViewData
     ) {
         //triggered when the video media of multiple media is clicked
     }
@@ -161,7 +146,7 @@ interface LMFeedUniversalFeedAdapterListener {
         //triggered when a user clicks post author header
     }
 
-    fun onMediaRemovedClicked(position: Int, mediaType: String){
+    fun onMediaRemovedClicked(position: Int, mediaType: String) {
         //triggered when user removes a media while creating or editing a post
     }
 

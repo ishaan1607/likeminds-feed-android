@@ -135,6 +135,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             customizePostLinkViewAttachment(postLinkView)
             customizePostDocumentsAttachment(postDocumentsView)
             customizePostMultipleMedia(multipleMediaView)
+            customizeAddMoreButton(btnAddMoreMedia)
 
             //set background color
             val backgroundColor =
@@ -152,6 +153,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         return binding.root
     }
 
+    //customize header view of the fragment
     protected open fun customizeCreatePostHeaderView(headerViewCreatePost: LMFeedHeaderView) {
         headerViewCreatePost.apply {
             setStyle(LMFeedStyleTransformer.createPostFragmentViewStyle.headerViewStyle)
@@ -169,22 +171,26 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         }
     }
 
+    //customize author view of the create post
     protected open fun customizeAuthorView(authorView: LMFeedPostHeaderView) {
         authorView.apply {
             setStyle(LMFeedStyleTransformer.createPostFragmentViewStyle.authorViewStyle)
         }
     }
 
+    //customize topic selection view for a post
     protected open fun customizeTopicsGroup(topicsGroup: LMFeedChipGroup) {
         topicsGroup.apply {
             LMFeedPostBinderUtils.customizePostTopicsGroup(this)
         }
     }
 
+    //customize post composer edit text
     protected open fun customizePostComposer(etPostComposer: LMFeedEditText) {
         etPostComposer.setStyle(LMFeedStyleTransformer.createPostFragmentViewStyle.postComposerStyle)
     }
 
+    //customize add image attachment
     protected open fun customizePostImageAttachment(imageMediaView: LMFeedPostImageMediaView) {
         val updatedImageMediaStyles = getUpdatedImageMediaStyle() ?: return
         imageMediaView.setStyle(updatedImageMediaStyles)
@@ -203,6 +209,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             ?.build()
     }
 
+    //customize add video attachment
     protected open fun customizePostVideoAttachment(videoMediaView: LMFeedPostVideoMediaView) {
         val videoAttachmentViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle
@@ -220,6 +227,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         }
     }
 
+    //customize add link attachment
     protected open fun customizePostLinkViewAttachment(linkMediaView: LMFeedPostLinkMediaView) {
         val linkAttachmentViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postLinkViewStyle
@@ -237,6 +245,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         }
     }
 
+    //customize add document attachment
     protected open fun customizePostDocumentsAttachment(documentsMediaView: LMFeedPostDocumentsMediaView) {
         val documentsAttachmentViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
@@ -244,6 +253,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         documentsMediaView.setStyle(documentsAttachmentViewStyle)
     }
 
+    //customize add multi media attachment
     protected open fun customizePostMultipleMedia(multipleMediaView: LMFeedPostMultipleMediaView) {
         val multipleMediaViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postMultipleMediaStyle
@@ -252,6 +262,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         multipleMediaView.setStyle(multipleMediaViewStyle)
     }
 
+    //customize add more media button attachment
     protected open fun customizeAddMoreButton(btnAddMoreMedia: LMFeedButton) {
         val addMoreButtonViewStyle =
             LMFeedStyleTransformer.createPostFragmentViewStyle.addMoreButtonStyle
@@ -280,7 +291,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         postVideoPreviewAutoPlayHelper.removePlayer()
     }
 
-    //initializes member tagging view
+    //initialize member tagging view
     private fun initMemberTagging() {
         memberTagging = binding.userTaggingView
 
@@ -308,11 +319,13 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         UserTagging.initialize(memberTagging, config, listener)
     }
 
+    //fetch initial data required for creating post
     private fun fetchInitialData() {
         createPostViewModel.getLoggedInUser()
         createPostViewModel.getAllTopics()
     }
 
+    //initialize add attachments view
     private fun initAddAttachmentsView() {
         binding.apply {
             layoutAttachFiles.setOnClickListener {
@@ -487,6 +500,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         }.observeInLifecycle(viewLifecycleOwner)
     }
 
+    //inits all the listeners
     private fun initListeners() {
         binding.apply {
             headerViewCreatePost.setNavigationIconClickListener {
@@ -525,6 +539,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         }
     }
 
+    //customize navigate back icon
     protected open fun onNavigationIconClick() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
