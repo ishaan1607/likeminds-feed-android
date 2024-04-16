@@ -12,7 +12,7 @@ object LMFeedTheme {
     //font related
     @FontRes
     private var fontResource: Int? = null
-    private var fontAssetsPath: String? = null
+    private var fontAssetsPath: String? = "fonts/lm_feed_montserrat-regular.ttf"
 
     //text link color
     @ColorRes
@@ -42,7 +42,10 @@ object LMFeedTheme {
         }
 
         fontResource = lmFeedSetThemeRequest.fontResource
-        fontAssetsPath = lmFeedSetThemeRequest.fontAssetsPath
+
+        lmFeedSetThemeRequest.fontAssetsPath?.let {
+            fontAssetsPath = it
+        }
 
         lmFeedSetThemeRequest.textLinkColor?.let {
             textLinkColor = it

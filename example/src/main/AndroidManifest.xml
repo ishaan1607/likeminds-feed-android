@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Likemindsfeedandroid"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".auth.view.AuthActivity"
             android:exported="true"
             android:theme="@style/LMFeedAppTheme.NoActionBar">
             <intent-filter>
@@ -22,7 +22,26 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.examplefeed.com"
+                    android:scheme="https" />
+                <data
+                    android:host="examplefeed.com"
+                    android:scheme="https" />
+            </intent-filter>
         </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".LMFeedExampleMessagingService"

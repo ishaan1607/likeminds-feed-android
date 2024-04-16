@@ -1,7 +1,11 @@
 package com.likeminds.feed.android.core.universalfeed.adapter.databinders
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.likeminds.feed.android.core.LMFeedCoreApplication
+import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedItemPostSingleVideoBinding
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData

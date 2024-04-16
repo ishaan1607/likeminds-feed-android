@@ -2,9 +2,12 @@ package com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.likeminds.feed.android.core.LMFeedCoreApplication
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPostFooterViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.style.LMFeedPostFooterViewStyle
@@ -40,7 +43,7 @@ class LMFeedPostFooterView : ConstraintLayout {
             }
 
             //configures each view in the post footer view with the provided style
-        configuresLikeText(likeTextStyle)
+            configuresLikeText(likeTextStyle)
             configureLikesIcon(likeIconStyle)
             configureCommentsText(commentTextStyle)
             configureSaveIcon(saveIconStyle)
@@ -73,6 +76,17 @@ class LMFeedPostFooterView : ConstraintLayout {
     }
 
     private fun configureShareIcon(shareIconStyle: LMFeedIconStyle?) {
+        // if the client has not set the domain then hide the share icon and log a warning
+        if (LMFeedCoreApplication.domain == null) {
+            binding.ivShare.hide()
+
+            Log.w(
+                LMFeedCoreApplication.LOG_TAG,
+                context.getString(R.string.lm_feed_please_set_domain)
+            )
+            return
+        }
+
         if (shareIconStyle != null) {
             binding.ivShare.setStyle(shareIconStyle)
         }

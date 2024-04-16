@@ -250,6 +250,7 @@ open class LMFeedPostDetailFragment :
 
             LMFeedCore.initiateUser(
                 requireContext(),
+                userPreferences.getApiKey(),
                 userPreferences.getUserName(),
                 userPreferences.getUUID(),
                 userPreferences.getDeviceId(),
@@ -1652,6 +1653,18 @@ open class LMFeedPostDetailFragment :
                 viewMoreReplyViewData.page
             )
         }
+    }
+
+    override fun onReplyLikesCountClicked(position: Int, replyViewData: LMFeedCommentViewData) {
+        super.onReplyLikesCountClicked(position, replyViewData)
+
+        //shows likes screen for comment
+        val likesScreenExtras = LMFeedLikesScreenExtras.Builder()
+            .postId(replyViewData.postId)
+            .commentId(replyViewData.id)
+            .entityType(COMMENT)
+            .build()
+        LMFeedLikesActivity.start(requireContext(), likesScreenExtras)
     }
 
     override fun onReplyMenuIconClicked(

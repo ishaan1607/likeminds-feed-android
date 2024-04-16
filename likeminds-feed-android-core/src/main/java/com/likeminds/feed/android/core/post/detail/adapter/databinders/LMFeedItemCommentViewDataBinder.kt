@@ -137,7 +137,11 @@ class LMFeedItemCommentViewDataBinder(
 
             commentView.setLikesCountClickListener {
                 val comment = commentViewData ?: return@setLikesCountClickListener
-                postDetailAdapterListener.onCommentLikesCountClicked(position, comment)
+                if (comment.isLiked) {
+                    postDetailAdapterListener.onCommentLikesCountClicked(position, comment)
+                } else {
+                    return@setLikesCountClickListener
+                }
             }
 
             commentView.setLikeIconClickListener {

@@ -10,8 +10,6 @@ import com.likeminds.likemindsfeed.user.model.InitiateUserResponse
 
 object LMFeedCore {
 
-    private var apiKey: String? = null
-
     /**
      * Initial setup function for customers and blocker function
      * @param application: Instance of the application class
@@ -21,12 +19,10 @@ object LMFeedCore {
      */
     fun setup(
         application: Application,
-        apiKey: String,
         domain: String? = null,
         lmFeedTheme: LMFeedSetThemeRequest? = null,
         lmFeedCoreCallback: LMFeedCoreCallback? = null
     ) {
-        this.apiKey = apiKey
         LMFeedTheme.setTheme(lmFeedTheme)
 
         val coreApplication = LMFeedCoreApplication.getInstance()
@@ -35,6 +31,7 @@ object LMFeedCore {
 
     fun showFeed(
         context: Context,
+        apiKey: String,
         userName: String,
         uuid: String?,
         deviceId: String,
@@ -45,6 +42,7 @@ object LMFeedCore {
         //Call initiate API
         initiateUser(
             context,
+            apiKey,
             userName,
             uuid,
             deviceId,
@@ -66,6 +64,7 @@ object LMFeedCore {
      */
     fun initiateUser(
         context: Context,
+        apiKey: String,
         userName: String,
         uuid: String?,
         deviceId: String,
@@ -73,11 +72,6 @@ object LMFeedCore {
         success: ((InitiateUserResponse?) -> Unit)? = null,
         error: ((String?) -> Unit)? = null
     ) {
-        //validate API key
-        if (apiKey == null) {
-            throw IllegalAccessException("LMFeedCore.setup() is not called. Please call setup() to access this function")
-        }
-
         val lmFeedConnectUser = LMFeedConnectUser.Builder()
             .userName(userName)
             .uuid(uuid)
