@@ -55,7 +55,6 @@ import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalSele
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.universalfeed.viewmodel.LMFeedUniversalFeedViewModel
-import com.likeminds.feed.android.core.universalfeed.viewmodel.bindView
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -554,7 +553,19 @@ open class LMFeedUniversalFeedFragment :
         LMFeedProgressBarHelper.showProgress(binding.progressBar)
         binding.rvUniversal.apply {
             setAdapter(this@LMFeedUniversalFeedFragment)
-            universalFeedViewModel.bindView(this, viewLifecycleOwner)
+
+            val paginationScrollListener =
+                object : LMFeedEndlessRecyclerViewScrollListener(linearLayoutManager) {
+                    override fun onLoadMore(currentPage: Int) {
+                        if (currentPage > 0) {
+                            universalFeedViewModel.getFeed(
+                                currentPage,
+                                universalFeedViewModel.getTopicIdsFromAdapterList(binding.topicSelectorBar.getAllSelectedTopics())
+                            )
+                        }
+                    }
+                }
+            setPaginationScrollListener(paginationScrollListener)
         }
     }
 

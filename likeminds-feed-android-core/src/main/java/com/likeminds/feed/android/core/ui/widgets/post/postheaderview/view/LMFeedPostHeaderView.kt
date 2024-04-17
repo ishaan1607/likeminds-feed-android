@@ -10,13 +10,13 @@ import androidx.core.view.isVisible
 import com.likeminds.feed.android.core.databinding.LmFeedPostHeaderViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
-import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedTimeUtil
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.user.LMFeedUserImageUtil
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
 class LMFeedPostHeaderView : ConstraintLayout {
 
@@ -206,8 +206,15 @@ class LMFeedPostHeaderView : ConstraintLayout {
      * @param listener [LMFeedOnClickListener] interface to have click listener
      */
     fun setAuthorFrameClickListener(listener: LMFeedOnClickListener) {
-        binding.viewAuthorFrame.setOnClickListener {
-            listener.onClick()
+
+        binding.apply {
+            tvAuthorName.setOnClickListener {
+                listener.onClick()
+            }
+
+            ivAuthorImage.setOnClickListener {
+                listener.onClick()
+            }
         }
     }
 

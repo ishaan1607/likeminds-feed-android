@@ -49,10 +49,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/lm_feed_regular_margin"
             android:background="@drawable/lm_feed_background_round_2dp"
+            app:layout_constrainedWidth="true"
             android:includeFontPadding="false"
-            android:paddingHorizontal="@dimen/lm_feed_regular_margin"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/lm_feed_regular_padding"
             android:paddingVertical="@dimen/lm_feed_small_padding"
-            android:singleLine="true"
             android:textColor="@color/lm_feed_white"
             android:textSize="@dimen/lm_feed_text_small"
             android:visibility="gone"
@@ -109,7 +110,7 @@
             android:id="@+id/iv_pin"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/lm_feed_large_margin"
+            android:layout_marginEnd="@dimen/lm_feed_regular_margin"
             android:paddingHorizontal="@dimen/lm_feed_extra_small_padding"
             android:scaleType="fitCenter"
             android:visibility="gone"
@@ -119,16 +120,6 @@
             tools:ignore="ContentDescription"
             tools:src="@drawable/lm_feed_ic_pin"
             tools:visibility="visible" />
-
-        <View
-            android:id="@+id/view_author_frame"
-            android:layout_width="@dimen/zero_dp"
-            android:layout_height="@dimen/zero_dp"
-            android:layout_marginEnd="@dimen/lm_feed_regular_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/iv_post_menu"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
             android:id="@+id/iv_post_menu"

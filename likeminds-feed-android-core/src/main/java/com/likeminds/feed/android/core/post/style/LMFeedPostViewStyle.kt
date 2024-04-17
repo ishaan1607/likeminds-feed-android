@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.post.style
 
+import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import com.likeminds.feed.android.core.R
@@ -60,8 +61,8 @@ class LMFeedPostViewStyle private constructor(
                     LMFeedTextStyle.Builder()
                         .textColor(R.color.lm_feed_white)
                         .textSize(R.dimen.lm_feed_text_small)
-                        .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
                         .maxLines(1)
+                        .ellipsize(TextUtils.TruncateAt.END)
                         .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                         .backgroundColor(LMFeedTheme.getButtonColor())
                         .build()

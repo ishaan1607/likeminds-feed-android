@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.universalfeed.adapter.databinders.postdocuments
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.customgallery.media.model.PDF
@@ -77,6 +78,7 @@ class LMFeedItemDocumentViewDataBinder(
         binding.apply {
             documentItem.setDocumentClickListener {
                 val attachment = attachmentViewData ?: return@setDocumentClickListener
+                Log.d("PUI", "setClickListeners: ${attachment.attachmentMeta.uri}")
                 listener.onPostDocumentMediaClicked(
                     position,
                     parentPosition,

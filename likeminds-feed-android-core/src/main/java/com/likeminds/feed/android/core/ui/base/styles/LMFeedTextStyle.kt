@@ -1,8 +1,8 @@
 package com.likeminds.feed.android.core.ui.base.styles
 
+import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.TextUtils.TruncateAt
-import android.util.Log
 import android.util.TypedValue
 import android.widget.TextView
 import androidx.annotation.*
@@ -280,7 +280,7 @@ class LMFeedTextStyle private constructor(
             if (this@LMFeedTextStyle.backgroundColor != null) {
                 val backgroundColor =
                     ContextCompat.getColor(context, this@LMFeedTextStyle.backgroundColor)
-                this.setBackgroundColor(backgroundColor)
+                this.backgroundTintList = ColorStateList.valueOf(backgroundColor)
             }
 
             if (this@LMFeedTextStyle.elevation != null) {
@@ -362,6 +362,5 @@ class LMFeedTextStyle private constructor(
  * Util function that helps to apply all the styling [LMFeedTextStyle] to [LMFeedTextView]
  **/
 fun LMFeedTextView.setStyle(viewStyle: LMFeedTextStyle, value: Int = 0) {
-    Log.d("PUI", "setStyle: $value view: ${viewStyle.fontAssetsPath} view-1: ${viewStyle.fontResource}")
     viewStyle.apply(this)
 }

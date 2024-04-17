@@ -2,11 +2,13 @@ package com.likeminds.feed.android.core.post.create.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.EditText
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.CheckResult
 import androidx.core.content.ContextCompat
@@ -26,6 +28,7 @@ import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.LM_FEED_CREATE_POST_EXTRAS
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.POST_ATTACHMENTS_LIMIT
 import com.likeminds.feed.android.core.post.create.viewmodel.LMFeedCreatePostViewModel
+import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionExtras
@@ -332,44 +335,37 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 // sends clicked on attachment event for file
                 createPostViewModel.sendClickedOnAttachmentEvent("file")
 
-                CustomGallery.start(
-                    documentLauncher,
-                    requireContext(),
-                    CustomGalleryConfig.Builder()
-                        .mediaTypes(listOf(PDF))
-                        .allowMultipleSelect(true)
-                        .build()
-                )
+                startCustomGallery(documentLauncher, listOf(PDF))
             }
 
             layoutAddImage.setOnClickListener {
                 // sends clicked on attachment event for photo
                 createPostViewModel.sendClickedOnAttachmentEvent("photo")
 
-                CustomGallery.start(
-                    galleryLauncher,
-                    requireContext(),
-                    CustomGalleryConfig.Builder()
-                        .mediaTypes(listOf(IMAGE))
-                        .allowMultipleSelect(true)
-                        .build()
-                )
+                startCustomGallery(galleryLauncher, listOf(IMAGE))
             }
 
             layoutAddVideo.setOnClickListener {
                 // sends clicked on attachment event for video
                 createPostViewModel.sendClickedOnAttachmentEvent("video")
 
-                CustomGallery.start(
-                    galleryLauncher,
-                    requireContext(),
-                    CustomGalleryConfig.Builder()
-                        .mediaTypes(listOf(VIDEO))
-                        .allowMultipleSelect(true)
-                        .build()
-                )
+                startCustomGallery(galleryLauncher, listOf(VIDEO))
             }
         }
+    }
+
+    private fun startCustomGallery(
+        launcher: ActivityResultLauncher<Intent>,
+        mediaTypes: List<String>
+    ) {
+        CustomGallery.start(
+            launcher,
+            requireContext(),
+            CustomGalleryConfig.Builder()
+                .mediaTypes(mediaTypes)
+                .allowMultipleSelect(true)
+                .build()
+        )
     }
 
     // adds text watcher on post content edit text
@@ -413,11 +409,9 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 val text = it?.toString()?.trim()
                 if (text.isNullOrEmpty()) {
                     clearPreviewLink()
-                    if (selectedMediaUris.isEmpty()) {
-                        binding.headerViewCreatePost.setSubmitButtonEnabled(isEnabled = true)
-                    } else {
-                        binding.headerViewCreatePost.setSubmitButtonEnabled(isEnabled = false)
-                    }
+                    binding.headerViewCreatePost.setSubmitButtonEnabled(
+                        isEnabled = (selectedMediaUris.isNotEmpty())
+                    )
                 } else {
                     binding.headerViewCreatePost.setSubmitButtonEnabled(isEnabled = true)
                 }
@@ -626,14 +620,8 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             btnAddMoreMedia.setOnClickListener {
                 // sends clicked on attachment event for image and video
                 createPostViewModel.sendClickedOnAttachmentEvent(TYPE_OF_ATTACHMENT_CLICKED)
-                CustomGallery.start(
-                    galleryLauncher,
-                    requireContext(),
-                    CustomGalleryConfig.Builder()
-                        .mediaTypes(listOf(IMAGE, VIDEO))
-                        .allowMultipleSelect(true)
-                        .build()
-                )
+
+                startCustomGallery(galleryLauncher, listOf(IMAGE, VIDEO))
             }
 
             postSingleImage.setRemoveIconClickListener {
@@ -662,14 +650,8 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             btnAddMoreMedia.setOnClickListener {
                 // sends clicked on attachment event for image and video
                 createPostViewModel.sendClickedOnAttachmentEvent(TYPE_OF_ATTACHMENT_CLICKED)
-                CustomGallery.start(
-                    galleryLauncher,
-                    requireContext(),
-                    CustomGalleryConfig.Builder()
-                        .mediaTypes(listOf(IMAGE, VIDEO))
-                        .allowMultipleSelect(true)
-                        .build()
-                )
+
+                startCustomGallery(galleryLauncher, listOf(IMAGE, VIDEO))
             }
 
             postVideoPreviewAutoPlayHelper.playVideoInView(
@@ -710,14 +692,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 // sends clicked on attachment event for image and video
                 createPostViewModel.sendClickedOnAttachmentEvent(TYPE_OF_ATTACHMENT_CLICKED)
 
-                CustomGallery.start(
-                    galleryLauncher,
-                    requireContext(),
-                    CustomGalleryConfig.Builder()
-                        .mediaTypes(listOf(IMAGE, VIDEO))
-                        .allowMultipleSelect(true)
-                        .build()
-                )
+                startCustomGallery(galleryLauncher, listOf(IMAGE, VIDEO))
             }
 
             val attachments = LMFeedViewDataConvertor.convertSingleDataUri(selectedMediaUris)
@@ -926,14 +901,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 // sends clicked on attachment event for file
                 createPostViewModel.sendClickedOnAttachmentEvent("file")
 
-                CustomGallery.start(
-                    documentLauncher,
-                    requireContext(),
-                    CustomGalleryConfig.Builder()
-                        .mediaTypes(listOf(PDF))
-                        .allowMultipleSelect(true)
-                        .build()
-                )
+                startCustomGallery(documentLauncher, listOf(PDF))
             }
             val documentMediaViewData = LMFeedMediaViewData.Builder()
                 .attachments(LMFeedViewDataConvertor.convertSingleDataUri(selectedMediaUris))
@@ -990,6 +958,18 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         createPostViewModel.sendMediaAttachedEvent(mediaUris)
         selectedMediaUris.addAll(mediaUris)
         showPostMedia()
+    }
+
+    override fun onPostDocumentMediaClicked(
+        position: Int,
+        parentPosition: Int,
+        attachmentViewData: LMFeedAttachmentViewData
+    ) {
+        //open the pdf using Android's document view
+        val pdfUri = attachmentViewData.attachmentMeta.uri
+        if (pdfUri != null) {
+            LMFeedAndroidUtils.startDocumentViewer(requireContext(), pdfUri)
+        }
     }
 
     override fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {

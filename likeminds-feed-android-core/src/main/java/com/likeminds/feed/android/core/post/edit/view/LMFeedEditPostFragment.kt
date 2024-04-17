@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.post.edit.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -26,6 +27,7 @@ import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostDisabledTop
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity.Companion.LM_FEED_EDIT_POST_EXTRAS
 import com.likeminds.feed.android.core.post.edit.viewmodel.LMFeedEditPostViewModel
+import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.post.util.LMFeedPostEvent
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
@@ -170,7 +172,7 @@ open class LMFeedEditPostFragment :
             )
 
             setSubmitText(getString(R.string.lm_feed_save))
-            setSubmitButtonEnabled(false)
+            setSubmitButtonEnabled(true)
         }
     }
 
@@ -843,6 +845,17 @@ open class LMFeedEditPostFragment :
         binding.linkPreview.apply {
             root.hide()
         }
+    }
+
+    override fun onPostDocumentMediaClicked(
+        position: Int,
+        parentPosition: Int,
+        attachmentViewData: LMFeedAttachmentViewData
+    ) {
+        //open the pdf using Android's document view
+        val documentUrl = attachmentViewData.attachmentMeta.url ?: ""
+        val pdfUri = Uri.parse(documentUrl)
+        LMFeedAndroidUtils.startDocumentViewer(requireContext(), pdfUri)
     }
 
     override fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {

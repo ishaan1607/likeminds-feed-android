@@ -840,6 +840,27 @@ open class LMFeedPostDetailFragment :
             // updates [CommentsCountViewData]
             updateItem(commentsCountPosition, newCommentsCountViewData)
 
+            var post = getItem(postDataPosition) as LMFeedPostViewData
+
+            //update the footer view data
+            val updatedFooterView = post.footerViewData.toBuilder()
+                .commentsCount(newCommentsCountViewData.commentsCount)
+                .build()
+
+            //updated the post
+            post = post.toBuilder()
+                .footerViewData(updatedFooterView)
+                .build()
+
+            // notifies the subscribers about the change in post data
+            postEvent.notify(Pair(post.id, post))
+
+            //update the comments count in the header
+            updateCommentsCount(newCommentsCountViewData.commentsCount)
+
+            //updates comment data in post
+            updateItem(postDataPosition, post)
+
             // get the deleted comment from the adapter
             val indexToRemove =
                 getIndexAndCommentFromAdapter(commentId)?.first ?: return
