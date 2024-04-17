@@ -53,7 +53,7 @@ class LMFeedPostVideoMediaViewStyle private constructor(
         fun controllerShowTimeoutMs(controllerShowTimeoutMs: Int) =
             apply { this.controllerShowTimeoutMs = controllerShowTimeoutMs }
 
-        fun backgroundColor(backgroundColor: Int?) =
+        fun backgroundColor(@ColorRes backgroundColor: Int?) =
             apply { this.backgroundColor = backgroundColor }
 
         fun removeIconStyle(removeIconStyle: LMFeedIconStyle?) =

@@ -12,6 +12,7 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedVideoView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_MULTIPLE_MEDIA
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_SINGLE_VIDEO
@@ -240,7 +241,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
 
                     itemPostSingleVideoBinding.postVideoView.playVideo(
                         Uri.parse(attachmentMeta.url),
-                        false
+                        false,
+                        LMFeedViewUtils.getShimmer()
                     )
                     // stop last player
                     removePlayer()
@@ -274,7 +276,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
 
                         itemMultipleMediaVideoBinding.postVideoView.playVideo(
                             Uri.parse(attachmentMeta.url),
-                            false
+                            false,
+                            LMFeedViewUtils.getShimmer()
                         )
                         // stop last player
                         removePlayer()

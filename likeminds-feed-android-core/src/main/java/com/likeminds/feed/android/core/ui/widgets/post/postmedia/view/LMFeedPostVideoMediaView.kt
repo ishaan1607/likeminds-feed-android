@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedPostVideoMediaViewBinding
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedProgressBarStyle
-import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostVideoMediaViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -42,7 +39,7 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
         postVideoMediaViewStyle.apply {
             //set background color
             backgroundColor?.let {
-                binding.videoView.setShutterBackgroundColor(
+                binding.videoView.setBackgroundColor(
                     ContextCompat.getColor(
                         context,
                         backgroundColor
@@ -175,27 +172,34 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
 
     /**
      * This will play new URI we have provided
+     * @param uri - uri to play the video
+     * @param isVideoLocal - whether the played video is local or not
      * @param isVideoLocal - whether the played video is local or not
      */
-    fun playVideo(uri: Uri, isVideoLocal: Boolean) {
+    fun playVideo(
+        uri: Uri,
+        isVideoLocal: Boolean,
+        thumbnailSrc: Any? = null
+    ) {
         binding.apply {
             if (isVideoLocal) {
                 videoView.startPlayingLocalUri(
                     uri,
                     pbVideoLoader,
-                    ivVideoThumbnail
+                    ivVideoThumbnail,
+                    thumbnailSrc
                 )
             } else {
                 videoView.startPlayingRemoteUri(
                     uri,
                     pbVideoLoader,
-                    ivVideoThumbnail
+                    ivVideoThumbnail,
+                    thumbnailSrc
                 )
             }
         }
     }
 
-    // todo: add click listeners and thumbnail
     /**
      * Sets click listener on the cross button of the video view
      *

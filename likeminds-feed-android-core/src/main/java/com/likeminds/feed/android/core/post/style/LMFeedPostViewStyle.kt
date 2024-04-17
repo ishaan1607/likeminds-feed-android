@@ -156,7 +156,7 @@ class LMFeedPostViewStyle private constructor(
                                 .progressColor(LMFeedTheme.getButtonColor())
                                 .build()
                         )
-                        .backgroundColor(R.color.lm_feed_white)
+                        .backgroundColor(R.color.lm_feed_black)
                         .build()
                 )
                 .postLinkStyle(
