@@ -44,6 +44,7 @@ class LMFeedCommentComposerViewStyle private constructor(
                     .maxHeight(R.dimen.lm_feed_text_max_height)
                     .minHeight(R.dimen.lm_feed_text_min_height)
                     .textColor(R.color.lm_feed_dark_grey)
+                    .textSize(R.dimen.lm_feed_text_large)
                     .typeface(Typeface.NORMAL)
                     .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
                     .backgroundColor(R.color.lm_feed_white)

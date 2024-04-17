@@ -4,13 +4,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/lm_feed_regular_margin">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_user_image"
             android:layout_width="@dimen/lm_feed_large_icon_size"
             android:layout_height="@dimen/lm_feed_large_icon_size"
-            android:layout_marginVertical="@dimen/lm_feed_regular_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

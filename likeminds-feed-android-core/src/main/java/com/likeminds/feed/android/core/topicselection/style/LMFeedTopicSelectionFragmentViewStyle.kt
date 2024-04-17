@@ -43,6 +43,7 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
@@ -81,7 +82,6 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
         private var topicItemStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_large)
             .textColor(R.color.lm_feed_dark_grey)
-            .typeface(Typeface.BOLD)
             .drawableRightSrc(R.drawable.lm_feed_ic_topic_selected)
             .build()
 

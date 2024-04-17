@@ -37,6 +37,7 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
                     .maxLines(1)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
             )

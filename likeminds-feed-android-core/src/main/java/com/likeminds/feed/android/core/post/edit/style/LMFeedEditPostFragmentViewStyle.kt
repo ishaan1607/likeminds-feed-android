@@ -49,6 +49,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()

@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/lm_feed_large_padding">
+        android:padding="@dimen/lm_feed_regular_padding">
 
         <com.likeminds.feed.android.core.ui.widgets.user.view.LMFeedUserView
             android:id="@+id/user_view"
