@@ -40,6 +40,7 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
     private val autoPlayVideoScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
+
             when (recyclerView.adapter) {
                 // the recycler view is of [FeedFragment]
                 is LMFeedUniversalFeedAdapter -> {
@@ -241,6 +242,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                         Uri.parse(attachmentMeta.url),
                         false
                     )
+                    // stop last player
+                    removePlayer()
                 }
                 lastPlayerView = videoView
             }
@@ -273,6 +276,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                             Uri.parse(attachmentMeta.url),
                             false
                         )
+                        // stop last player
+                        removePlayer()
                     }
                     lastPlayerView = videoView
                 }
@@ -283,32 +288,6 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                 removePlayer()
             }
         }
-    }
-
-    /**
-     * @param [videoPost] - Player view in which the provided video is played
-     * @param [uri] - If the video is local, then provided [uri] is used to play locally
-     * @param [url] - If the video is remote, then provided [url] is used to play locally
-     */
-    fun playVideoInView(
-        videoPost: LMFeedPostVideoMediaView,
-        uri: Uri? = null,
-        url: String? = null
-    ) {
-        if (uri == null && url == null) {
-            return
-        }
-
-        if (lastPlayerView == null || lastPlayerView != videoPost.videoView) {
-            if (uri != null) {
-                videoPost.playVideo(uri, true)
-            } else {
-                videoPost.playVideo(Uri.parse(url), true)
-            }
-            // stop last player
-            removePlayer()
-        }
-        lastPlayerView = videoPost.videoView
     }
 
     // removes the player from view and sets it to null

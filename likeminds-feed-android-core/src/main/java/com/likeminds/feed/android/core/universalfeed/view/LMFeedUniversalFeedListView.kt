@@ -47,16 +47,13 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         }
 
         addItemDecoration(dividerDecoration)
-
-        //todo: testing required
-        initiateVideoAutoPlayer()
     }
 
     /**
      * Initializes the [postVideoAutoPlayHelper] with the recyclerView
      * And starts observing
      **/
-    private fun initiateVideoAutoPlayer() {
+    fun initiateVideoAutoPlayer() {
         postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper.getInstance(this)
         postVideoAutoPlayHelper.attachScrollListenerForVideo()
         postVideoAutoPlayHelper.playMostVisibleItem()

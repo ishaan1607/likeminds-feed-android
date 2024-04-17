@@ -1340,6 +1340,11 @@ open class LMFeedPostDetailFragment :
         val userPreferences = LMFeedUserPreferences(requireContext())
         val loggedInUUID = userPreferences.getUUID()
 
+        val indexAndComment =
+            binding.rvPostDetails.getIndexAndCommentFromAdapter(comment.id) ?: return
+
+        val adapterPosition = indexAndComment.first
+
         //call api
         postDetailViewModel.likeComment(
             comment.postId,
@@ -1349,7 +1354,7 @@ open class LMFeedPostDetailFragment :
         )
 
         //update recycler
-        binding.rvPostDetails.updateItem(position, comment)
+        binding.rvPostDetails.updateItem(adapterPosition, comment)
     }
 
     override fun onCommentLikesCountClicked(position: Int, comment: LMFeedCommentViewData) {

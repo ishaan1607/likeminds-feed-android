@@ -128,7 +128,7 @@ open class LMFeedUniversalFeedFragment :
         LMFeedAnalytics.sendFeedOpenedEvent()
 
         universalFeedViewModel.fetchPendingPostFromDB()
-        binding.rvUniversal.refreshVideoAutoPlayer()
+        binding.rvUniversal.initiateVideoAutoPlayer()
     }
 
     private fun fetchData() {
@@ -153,6 +153,11 @@ open class LMFeedUniversalFeedFragment :
         super.onDestroy()
         // unsubscribes itself from the [PostPublisher]
         postPublisher.unsubscribe(this)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvUniversal.destroyVideoAutoPlayer()
     }
 
     private fun initListeners() {

@@ -78,7 +78,6 @@ class LMFeedItemDocumentViewDataBinder(
         binding.apply {
             documentItem.setDocumentClickListener {
                 val attachment = attachmentViewData ?: return@setDocumentClickListener
-                Log.d("PUI", "setClickListeners: ${attachment.attachmentMeta.uri}")
                 listener.onPostDocumentMediaClicked(
                     position,
                     parentPosition,
