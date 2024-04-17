@@ -163,7 +163,7 @@ class LMFeedPostViewStyle private constructor(
                     LMFeedPostLinkMediaViewStyle.Builder()
                         .linkTitleStyle(
                             LMFeedTextStyle.Builder()
-                                .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                                .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                                 .textColor(R.color.lm_feed_grey)
                                 .textSize(R.dimen.lm_feed_text_medium)
                                 .build()

@@ -831,8 +831,6 @@ open class LMFeedEditPostFragment :
                 binding.etPostComposer.removeTextChangedListener(etPostTextChangeListener)
                 clearPreviewLink()
             }
-            //todo: check if this is required
-//            LinkUtil.handleLinkPreviewConstraints(this, isImageValid)
         }
     }
 

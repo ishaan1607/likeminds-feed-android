@@ -550,12 +550,6 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             setLinkDescription(data.description)
             setLinkUrl(data.url)
 
-            //todo: check if this is required
-//            LinkUtil.handleLinkPreviewConstraints(
-//                this,
-//                isImageValid
-//            )
-
             setLinkRemoveClickListener {
                 binding.etPostComposer.removeTextChangedListener(etPostTextChangeListener)
                 clearPreviewLink()
