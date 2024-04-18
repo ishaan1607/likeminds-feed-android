@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.ui.widgets.post.postmedia.style
 
 import androidx.annotation.*
 import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostMultipleMediaView
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.zhpan.indicator.annotation.AIndicatorSlideMode
@@ -33,7 +34,7 @@ class LMFeedPostMultipleMediaViewStyle private constructor(
 
     class Builder {
         @ColorRes
-        private var indicatorActiveColor: Int = R.color.lm_feed_majorelle_blue
+        private var indicatorActiveColor: Int = LMFeedTheme.getButtonColor()
 
         @ColorRes
         private var indicatorInActiveColor: Int = R.color.lm_feed_cloudy_blue

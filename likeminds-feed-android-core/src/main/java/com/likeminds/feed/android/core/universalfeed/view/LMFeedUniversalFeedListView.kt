@@ -23,7 +23,7 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     private val dividerDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
 
     private lateinit var universalFeedAdapter: LMFeedUniversalFeedAdapter
-    private lateinit var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper
+    private var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper? = null
     private lateinit var paginationScrollListener: LMFeedEndlessRecyclerViewScrollListener
 
     val itemCount: Int get() = universalFeedAdapter.itemCount
@@ -47,35 +47,33 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         }
 
         addItemDecoration(dividerDecoration)
-
-        //todo: testing required
-        initiateVideoAutoPlayer()
     }
 
     /**
      * Initializes the [postVideoAutoPlayHelper] with the recyclerView
      * And starts observing
      **/
-    private fun initiateVideoAutoPlayer() {
+    fun initiateVideoAutoPlayer() {
         postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper.getInstance(this)
-        postVideoAutoPlayHelper.attachScrollListenerForVideo()
-        postVideoAutoPlayHelper.playMostVisibleItem()
+        postVideoAutoPlayHelper?.attachScrollListenerForVideo()
+        postVideoAutoPlayHelper?.playMostVisibleItem()
     }
 
     // removes the old player and refreshes auto play
     fun refreshVideoAutoPlayer() {
-        if (!::postVideoAutoPlayHelper.isInitialized) {
+        if (postVideoAutoPlayHelper == null) {
             initiateVideoAutoPlayer()
         }
-        postVideoAutoPlayHelper.removePlayer()
-        postVideoAutoPlayHelper.playMostVisibleItem()
+        postVideoAutoPlayHelper?.removePlayer()
+        postVideoAutoPlayHelper?.playMostVisibleItem()
     }
 
     // removes the player and destroys the [postVideoAutoPlayHelper]
     fun destroyVideoAutoPlayer() {
-        if (::postVideoAutoPlayHelper.isInitialized) {
-            postVideoAutoPlayHelper.detachScrollListenerForVideo()
-            postVideoAutoPlayHelper.destroy()
+        if (postVideoAutoPlayHelper != null) {
+            postVideoAutoPlayHelper?.detachScrollListenerForVideo()
+            postVideoAutoPlayHelper?.destroy()
+            postVideoAutoPlayHelper = null
         }
     }
 

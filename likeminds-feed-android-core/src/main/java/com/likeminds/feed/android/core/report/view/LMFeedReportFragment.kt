@@ -178,6 +178,10 @@ open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
         binding.btnPostReport.setOnClickListener {
             onReportSubmitted()
         }
+
+        binding.headerViewReport.setOnClickListener {
+            onNavigationIconClick()
+        }
     }
 
     //processes the user submission of the report
@@ -226,6 +230,11 @@ open class LMFeedReportFragment : Fragment(), LMFeedReportTagAdapterListener {
                 reason
             )
         }
+    }
+
+    //processes the navigation icon click
+    protected open fun onNavigationIconClick() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
     private fun fetchData() {

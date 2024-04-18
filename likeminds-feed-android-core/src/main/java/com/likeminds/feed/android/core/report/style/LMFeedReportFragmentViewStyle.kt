@@ -5,6 +5,7 @@ import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogViewStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
@@ -50,6 +51,7 @@ class LMFeedReportFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_blood_orange)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
@@ -73,13 +75,12 @@ class LMFeedReportFragmentViewStyle private constructor(
 
         private var reportHeaderStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_medium)
-            .fontResource(R.font.lm_feed_roboto_medium)
+            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
             .build()
 
         private var reportSubHeaderStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_medium)
             .textColor(R.color.lm_feed_brown_grey)
-            .fontResource(R.font.lm_feed_roboto)
             .build()
 
         private var reportReasonInputStyle: LMFeedEditTextStyle = LMFeedEditTextStyle.Builder()
@@ -87,17 +88,17 @@ class LMFeedReportFragmentViewStyle private constructor(
             .inputTextStyle(
                 LMFeedTextStyle.Builder()
                     .textSize(R.dimen.lm_feed_text_medium)
-                    .fontResource(R.font.lm_feed_roboto)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
                     .build()
             )
-            .backgroundColor(R.color.lm_feed_majorelle_blue)
+            .backgroundColor(LMFeedTheme.getButtonColor())
             .build()
 
         private var reportButtonStyle: LMFeedButtonStyle = LMFeedButtonStyle.Builder()
             .textStyle(
                 LMFeedTextStyle.Builder()
                     .textAllCaps(true)
-                    .fontResource(R.font.lm_feed_roboto_medium)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .textColor(R.color.lm_feed_white)
                     .textSize(R.dimen.lm_feed_text_medium)
                     .typeface(Typeface.BOLD)
@@ -115,7 +116,7 @@ class LMFeedReportFragmentViewStyle private constructor(
             .build()
 
         @ColorRes
-        private var selectedReportTagColor: Int = R.color.lm_feed_majorelle_blue
+        private var selectedReportTagColor: Int = LMFeedTheme.getButtonColor()
 
         private var reportSuccessDialogFragmentStyle: LMFeedAlertDialogViewStyle =
             LMFeedAlertDialogViewStyle.Builder()
@@ -124,7 +125,7 @@ class LMFeedReportFragmentViewStyle private constructor(
                         .textColor(R.color.lm_feed_grey)
                         .textSize(R.dimen.lm_feed_text_medium)
                         .typeface(Typeface.NORMAL)
-                        .fontResource(R.font.lm_feed_roboto)
+                        .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
                         .build()
                 )
                 .alertPositiveButtonStyle(
@@ -133,7 +134,7 @@ class LMFeedReportFragmentViewStyle private constructor(
                         .textColor(R.color.lm_feed_black_20)
                         .textSize(R.dimen.lm_feed_text_small)
                         .typeface(Typeface.NORMAL)
-                        .fontResource(R.font.lm_feed_roboto_medium)
+                        .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                         .build()
                 )
                 .alertBoxElevation(R.dimen.lm_feed_elevation_small)

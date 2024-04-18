@@ -11,6 +11,7 @@ import com.likeminds.feed.android.core.activityfeed.adapter.LMFeedActivityFeedAd
 import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
 import com.likeminds.feed.android.core.activityfeed.viewmodel.LMFeedActivityFeedViewModel
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentActivityFeedBinding
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.utils.*
@@ -66,7 +67,7 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
         headerViewActivityFeed.apply {
             setStyle(LMFeedStyleTransformer.activityFeedFragmentViewStyle.headerViewStyle)
 
-            setTitleText(getString(R.string.lm_feed_notification_feed))
+            setTitleText(getString(R.string.lm_feed_notifications))
         }
     }
 
@@ -124,14 +125,12 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
         }
     }
 
-    //todo: set loader color using style
     private fun initSwipeRefreshLayout() {
         mSwipeRefreshLayout = binding.swipeRefreshLayout
         mSwipeRefreshLayout.setColorSchemeColors(
-            //todo: change this color as per the style
             ContextCompat.getColor(
                 requireContext(),
-                R.color.lm_feed_majorelle_blue
+                LMFeedTheme.getButtonColor()
             )
         )
 
@@ -173,6 +172,7 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
 
         //if pull to refresh is called
         if (mSwipeRefreshLayout.isRefreshing) {
+            checkForNoActivity(activities)
             setFeedAndScrollToTop(activities)
             mSwipeRefreshLayout.isRefreshing = false
             return

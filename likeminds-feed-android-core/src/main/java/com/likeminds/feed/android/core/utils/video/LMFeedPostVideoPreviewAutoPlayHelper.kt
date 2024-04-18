@@ -1,9 +1,9 @@
 package com.likeminds.feed.android.core.utils.video
 
 import android.net.Uri
-import android.util.Log
 import com.likeminds.feed.android.core.ui.base.views.LMFeedVideoView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 
 class LMFeedPostVideoPreviewAutoPlayHelper {
 
@@ -36,9 +36,17 @@ class LMFeedPostVideoPreviewAutoPlayHelper {
 
         if (lastPlayerView == null || lastPlayerView != videoPost.videoView) {
             if (uri != null) {
-                videoPost.playVideo(uri, true)
+                videoPost.playVideo(
+                    uri,
+                    true,
+                    LMFeedViewUtils.getShimmer()
+                )
             } else {
-                videoPost.playVideo(Uri.parse(url), true)
+                videoPost.playVideo(
+                    Uri.parse(url),
+                    true,
+                    LMFeedViewUtils.getShimmer()
+                )
             }
             // stop last player
             removePlayer()

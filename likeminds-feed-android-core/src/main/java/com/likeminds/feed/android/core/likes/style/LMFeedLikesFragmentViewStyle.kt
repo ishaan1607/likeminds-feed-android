@@ -4,6 +4,7 @@ import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.user.style.LMFeedUserViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
@@ -30,6 +31,7 @@ class LMFeedLikesFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
@@ -64,9 +66,9 @@ class LMFeedLikesFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .ellipsize(TextUtils.TruncateAt.END)
                     .maxLines(1)
-                    .textColor(R.color.lm_feed_majorelle_blue)
+                    .textColor(LMFeedTheme.getButtonColor())
                     .textSize(R.dimen.lm_feed_text_medium)
-                    .fontResource(R.font.lm_feed_roboto_medium)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .build()
             )
             .build()

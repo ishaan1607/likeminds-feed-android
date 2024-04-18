@@ -203,24 +203,40 @@ class LMFeedActivityView : ConstraintLayout {
      */
     fun setPostTypeBadge(@LMFeedAttachmentType attachmentType: Int?) {
         binding.apply {
-            when (attachmentType) {
-                IMAGE -> {
-                    cvPostType.show()
-                    ivPostType.setImageResource(R.drawable.lm_feed_ic_media_attachment)
-                }
+            val badgeStyle =
+                LMFeedStyleTransformer.activityFeedFragmentViewStyle.activityViewStyle.postTypeBadgeStyle
+            if (badgeStyle == null) {
+                cvPostType.hide()
+                return@apply
+            } else {
+                when (attachmentType) {
+                    IMAGE -> {
+                        cvPostType.show()
+                        ivPostType.setImage(
+                            R.drawable.lm_feed_ic_media_attachment,
+                            badgeStyle
+                        )
+                    }
 
-                VIDEO -> {
-                    cvPostType.show()
-                    ivPostType.setImageResource(R.drawable.lm_feed_ic_media_attachment)
-                }
+                    VIDEO -> {
+                        cvPostType.show()
+                        ivPostType.setImage(
+                            R.drawable.lm_feed_ic_media_attachment,
+                            badgeStyle
+                        )
+                    }
 
-                DOCUMENT -> {
-                    cvPostType.show()
-                    ivPostType.setImageResource(R.drawable.lm_feed_ic_doc_attachment)
-                }
+                    DOCUMENT -> {
+                        cvPostType.show()
+                        ivPostType.setImage(
+                            R.drawable.lm_feed_ic_doc_attachment,
+                            badgeStyle
+                        )
+                    }
 
-                else -> {
-                    cvPostType.hide()
+                    else -> {
+                        cvPostType.hide()
+                    }
                 }
             }
         }

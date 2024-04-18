@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
 
 import com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import kotlin.math.roundToInt
 
@@ -49,7 +50,7 @@ class LMFeedFABStyle private constructor(
 
         //fab related
         @ColorRes
-        private var backgroundColor: Int = R.color.lm_feed_majorelle_blue
+        private var backgroundColor: Int = LMFeedTheme.getButtonColor()
 
         @ColorRes
         private var strokeColor: Int? = null

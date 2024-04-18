@@ -8,16 +8,16 @@
         <com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
             android:id="@+id/header_view_topic_selection"
             android:layout_width="match_parent"
-            android:layout_height="54dp"
+            android:layout_height="@dimen/lm_feed_header_view_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.likeminds.feed.android.core.ui.widgets.searchbar.view.LMFeedSearchBarView
             android:id="@+id/search_bar"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="?attr/actionBarSize"
-            android:elevation="4dp"
+            android:elevation="@dimen/lm_feed_elevation_small"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,7 +26,7 @@
         <com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
             android:id="@+id/layout_no_topics"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/zero_dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
         <com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionListView
             android:id="@+id/rv_topics"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/zero_dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_view_topic_selection" />
 
@@ -44,8 +44,8 @@
             android:id="@+id/fab_submit_selected_topics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/lm_feed_standard_margin"
-            android:layout_marginBottom="@dimen/lm_feed_standard_margin"
+            android:layout_marginEnd="@dimen/lm_feed_large_margin"
+            android:layout_marginBottom="@dimen/lm_feed_large_margin"
             android:src="@drawable/lm_feed_ic_arrow_right_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

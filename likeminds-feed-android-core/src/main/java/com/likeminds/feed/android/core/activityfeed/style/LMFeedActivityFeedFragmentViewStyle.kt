@@ -37,6 +37,7 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
                     .maxLines(1)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
             )
@@ -58,7 +59,7 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
             .build()
 
         private var activityViewStyle = LMFeedActivityViewStyle.Builder()
-            .postTypeBadgeStyle(
+            . postTypeBadgeStyle(
                 LMFeedImageStyle.Builder()
                     .scaleType(ImageView.ScaleType.CENTER)
                     .build()
@@ -85,7 +86,7 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
                         .textColor(R.color.lm_feed_dark_grey)
                         .textSize(R.dimen.lm_feed_text_medium)
                         .typeface(Typeface.NORMAL)
-                        .fontResource(R.font.lm_feed_roboto_medium)
+                        .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                         .build()
                 )
                 .build()

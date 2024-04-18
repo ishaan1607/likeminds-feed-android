@@ -1,9 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.adapter.databinders
 
-import android.text.util.Linkify
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.text.util.LinkifyCompat
 import com.likeminds.feed.android.core.databinding.LmFeedItemPostLinkBinding
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
@@ -11,7 +9,6 @@ import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_LINK
-import com.likeminds.feed.android.core.utils.link.LMFeedLinkMovementMethod
 
 class LMFeedItemPostLinkViewDataBinder(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
@@ -118,7 +115,11 @@ class LMFeedItemPostLinkViewDataBinder(
 
             postFooter.setLikesCountClickListener {
                 val post = postViewData ?: return@setLikesCountClickListener
-                universalFeedAdapterListener.onPostLikesCountClicked(position, post)
+                if (post.footerViewData.likesCount > 0) {
+                    universalFeedAdapterListener.onPostLikesCountClicked(position, post)
+                } else {
+                    return@setLikesCountClickListener
+                }
             }
 
             postFooter.setCommentsCountClickListener {

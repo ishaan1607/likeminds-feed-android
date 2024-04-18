@@ -1,12 +1,11 @@
 package com.likeminds.feed.android.core.ui.widgets.post.postmedia.style
 
 import android.text.TextUtils
-import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme.DEFAULT_VISIBLE_DOCUMENTS_LIMIT
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
-
 
 class LMFeedPostDocumentsMediaViewStyle private constructor(
     val documentNameStyle: LMFeedTextStyle,
@@ -16,7 +15,6 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
     val documentTypeStyle: LMFeedTextStyle?,
     val documentShowMoreStyle: LMFeedTextStyle?,
     val visibleDocumentsLimit: Int,
-    @ColorRes val backgroundColor: Int?,
     val removeIconStyle: LMFeedIconStyle?
 ) : LMFeedViewStyle {
 
@@ -25,7 +23,7 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
             .maxLines(1)
             .textColor(R.color.lm_feed_grey)
             .textSize(R.dimen.lm_feed_text_large)
-            .fontResource(R.font.lm_feed_roboto_medium)
+            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
             .ellipsize(TextUtils.TruncateAt.END)
             .build()
 
@@ -36,38 +34,39 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
         private var documentShowMoreStyle: LMFeedTextStyle? = null
         private var removeIconStyle: LMFeedIconStyle? = null
 
-        //todo: set these values in a const
-        private var visibleDocumentsLimit: Int = 3
+        private var visibleDocumentsLimit: Int = DEFAULT_VISIBLE_DOCUMENTS_LIMIT
 
-        @ColorRes
-        private var backgroundColor: Int? = null
+        fun documentNameStyle(documentNameStyle: LMFeedTextStyle) = apply {
+            this.documentNameStyle = documentNameStyle
+        }
 
-        fun documentNameStyle(documentNameStyle: LMFeedTextStyle) =
-            apply { this.documentNameStyle = documentNameStyle }
+        fun documentIconStyle(documentIconStyle: LMFeedIconStyle?) = apply {
+            this.documentIconStyle = documentIconStyle
+        }
 
-        fun documentIconStyle(documentIconStyle: LMFeedIconStyle?) =
-            apply { this.documentIconStyle = documentIconStyle }
+        fun documentPageCountStyle(documentPageCountStyle: LMFeedTextStyle?) = apply {
+            this.documentPageCountStyle = documentPageCountStyle
+        }
 
-        fun documentPageCountStyle(documentPageCountStyle: LMFeedTextStyle?) =
-            apply { this.documentPageCountStyle = documentPageCountStyle }
+        fun documentSizeStyle(documentSizeStyle: LMFeedTextStyle?) = apply {
+            this.documentSizeStyle = documentSizeStyle
+        }
 
-        fun documentSizeStyle(documentSizeStyle: LMFeedTextStyle?) =
-            apply { this.documentSizeStyle = documentSizeStyle }
+        fun documentTypeStyle(documentTypeStyle: LMFeedTextStyle?) = apply {
+            this.documentTypeStyle = documentTypeStyle
+        }
 
-        fun documentTypeStyle(documentTypeStyle: LMFeedTextStyle?) =
-            apply { this.documentTypeStyle = documentTypeStyle }
+        fun documentShowMoreStyle(documentShowMoreStyle: LMFeedTextStyle?) = apply {
+            this.documentShowMoreStyle = documentShowMoreStyle
+        }
 
-        fun documentShowMoreStyle(documentShowMoreStyle: LMFeedTextStyle?) =
-            apply { this.documentShowMoreStyle = documentShowMoreStyle }
+        fun visibleDocumentsLimit(visibleDocumentsLimit: Int) = apply {
+            this.visibleDocumentsLimit = visibleDocumentsLimit
+        }
 
-        fun visibleDocumentsLimit(visibleDocumentsLimit: Int) =
-            apply { this.visibleDocumentsLimit = visibleDocumentsLimit }
-
-        fun backgroundColor(@ColorRes backgroundColor: Int?) =
-            apply { this.backgroundColor = backgroundColor }
-
-        fun removeIconStyle(removeIconStyle: LMFeedIconStyle?) =
-            apply { this.removeIconStyle = removeIconStyle }
+        fun removeIconStyle(removeIconStyle: LMFeedIconStyle?) = apply {
+            this.removeIconStyle = removeIconStyle
+        }
 
         fun build() = LMFeedPostDocumentsMediaViewStyle(
             documentNameStyle,
@@ -77,7 +76,6 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
             documentTypeStyle,
             documentShowMoreStyle,
             visibleDocumentsLimit,
-            backgroundColor,
             removeIconStyle
         )
     }
@@ -90,7 +88,6 @@ class LMFeedPostDocumentsMediaViewStyle private constructor(
             .documentTypeStyle(documentTypeStyle)
             .documentShowMoreStyle(documentShowMoreStyle)
             .visibleDocumentsLimit(visibleDocumentsLimit)
-            .backgroundColor(backgroundColor)
             .removeIconStyle(removeIconStyle)
     }
 }

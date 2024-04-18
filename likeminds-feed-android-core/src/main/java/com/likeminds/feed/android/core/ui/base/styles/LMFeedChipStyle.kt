@@ -6,6 +6,7 @@ import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.views.LMFeedChip
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
@@ -47,7 +48,7 @@ class LMFeedChipStyle private constructor(
         private var chipStrokeColor: Int? = null
 
         @ColorRes
-        private var chipTextColor: Int = R.color.lm_feed_majorelle_blue
+        private var chipTextColor: Int = LMFeedTheme.getButtonColor()
 
         @DimenRes
         private var chipStrokeWidth: Int? = null

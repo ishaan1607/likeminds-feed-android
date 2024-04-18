@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.likeminds.customgallery.media.util.MediaUtils
 import com.likeminds.feed.android.core.R
@@ -34,17 +33,6 @@ class LMFeedPostDocumentView : ConstraintLayout {
 
     //sets provided [postDocumentMediaViewStyle] to the document media of the post
     fun setStyle(postDocumentMediaViewStyle: LMFeedPostDocumentsMediaViewStyle) {
-
-        //set background color
-        if (postDocumentMediaViewStyle.backgroundColor != null) {
-            setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    postDocumentMediaViewStyle.backgroundColor
-                )
-            )
-        }
-
         //configures each view of the document media
         configureDocumentName(postDocumentMediaViewStyle.documentNameStyle)
         configureDocumentIcon(postDocumentMediaViewStyle.documentIconStyle)

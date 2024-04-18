@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.ui.widgets.viewmore.style
+package com.likeminds.feed.android.core.ui.widgets.viewmore.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.databinding.LmFeedViewMoreViewBinding
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.widgets.viewmore.style.LMFeedViewMoreViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
@@ -30,7 +31,7 @@ class LMFeedViewMoreView : ConstraintLayout {
     private val binding = LmFeedViewMoreViewBinding.inflate(inflater, this, true)
 
     //sets provided [viewMoreStyle] to the view more view
-    fun setStyle(viewMoreStyle: LMFeedViewMoreStyle) {
+    fun setStyle(viewMoreStyle: LMFeedViewMoreViewStyle) {
 
         viewMoreStyle.apply {
             //set background color

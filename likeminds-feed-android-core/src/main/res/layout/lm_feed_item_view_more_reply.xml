@@ -16,9 +16,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="@dimen/lm_feed_extra_extra_large_margin">
 
-        <com.likeminds.feed.android.core.ui.widgets.viewmore.style.LMFeedViewMoreView
+        <com.likeminds.feed.android.core.ui.widgets.viewmore.view.LMFeedViewMoreView
             android:id="@+id/view_more_reply"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

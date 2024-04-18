@@ -8,11 +8,11 @@
 
     <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
         android:id="@+id/tv_message"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/zero_dp"
         android:layout_height="wrap_content"
         android:background="@color/lm_feed_faux_charcoal"
         android:gravity="start"
-        android:padding="16dp"
+        android:padding="@dimen/lm_feed_large_padding"
         android:textColor="@color/lm_feed_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

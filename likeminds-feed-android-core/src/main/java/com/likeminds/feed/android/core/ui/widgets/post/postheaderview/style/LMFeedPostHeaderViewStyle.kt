@@ -35,17 +35,23 @@ class LMFeedPostHeaderViewStyle private constructor(
             .isCircle(true)
             .showGreyScale(false)
             .build()
+
         private var authorNameViewStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_large)
             .textColor(R.color.lm_feed_raisin_black)
             .maxLines(1)
             .ellipsize(TextUtils.TruncateAt.END)
-            .fontResource(R.font.lm_feed_roboto_medium)
+            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
             .build()
+
         private var timestampTextStyle: LMFeedTextStyle? = null
+
         private var postEditedTextStyle: LMFeedTextStyle? = null
+
         private var authorCustomTitleTextStyle: LMFeedTextStyle? = null
+
         private var pinIconStyle: LMFeedIconStyle? = null
+
         private var menuIconStyle: LMFeedIconStyle? = null
 
         @ColorRes

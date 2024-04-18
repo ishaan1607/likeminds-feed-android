@@ -28,7 +28,7 @@ class LMFeedNoEntityLayoutViewStyle private constructor(
         private var titleStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textColor(R.color.lm_feed_black)
             .textSize(R.dimen.lm_feed_text_extra_large)
-            .fontResource(R.font.lm_feed_roboto_medium)
+            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
             .textAllCaps(false)
             .maxLines(1)
             .build()

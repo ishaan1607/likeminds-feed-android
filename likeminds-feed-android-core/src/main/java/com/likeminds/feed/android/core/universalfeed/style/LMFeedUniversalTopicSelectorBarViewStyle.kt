@@ -4,6 +4,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
@@ -35,22 +36,20 @@ class LMFeedUniversalTopicSelectorBarViewStyle private constructor(
             .drawableRightSrc(R.drawable.lm_feed_ic_arrow_down)
             .textColor(R.color.lm_feed_grey)
             .textSize(R.dimen.lm_feed_text_large)
-            .fontResource(R.font.lm_feed_roboto)
             .build()
 
         private var clearTopicFilterStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
-            .textColor(R.color.lm_feed_majorelle_blue)
+            .textColor(LMFeedTheme.getButtonColor())
             .textSize(R.dimen.lm_feed_text_large)
-            .fontResource(R.font.lm_feed_roboto)
             .build()
 
         private var selectedTopicTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
-            .textColor(R.color.lm_feed_majorelle_blue)
+            .textColor(LMFeedTheme.getButtonColor())
             .textSize(R.dimen.lm_feed_text_large)
             .build()
 
         private var removeSelectedTopicIconStyle: LMFeedIconStyle = LMFeedIconStyle.Builder()
-            .iconTint(R.color.lm_feed_majorelle_blue)
+            .iconTint(LMFeedTheme.getButtonColor())
             .inActiveSrc(R.drawable.lm_feed_ic_cross_topics)
             .build()
 

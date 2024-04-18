@@ -10,7 +10,7 @@
         <View
             android:id="@+id/post_comments_separator"
             android:layout_width="match_parent"
-            android:layout_height="12dp"
+            android:layout_height="@dimen/lm_feed_chip_default_icon_size"
             android:background="@color/lm_feed_cultured"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -18,10 +18,10 @@
             android:id="@+id/tv_comments_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="4dp"
-            android:lineSpacingExtra="1sp"
+            android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
+            android:layout_marginTop="@dimen/lm_feed_extra_large_margin"
+            android:layout_marginBottom="@dimen/lm_feed_small_margin"
+            android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_extra_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
             tools:fontFamily="@font/lm_feed_roboto_medium"
             tools:text="13 Comments"
             tools:textColor="@color/lm_feed_raisin_black"
-            tools:textSize="14sp" />
+            tools:textSize="@dimen/lm_feed_text_medium" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.post.edit.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -26,12 +27,14 @@ import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostDisabledTop
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity.Companion.LM_FEED_EDIT_POST_EXTRAS
 import com.likeminds.feed.android.core.post.edit.viewmodel.LMFeedEditPostViewModel
+import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.post.util.LMFeedPostEvent
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionExtras
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionResultExtras
 import com.likeminds.feed.android.core.topicselection.view.LMFeedTopicSelectionActivity
+import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
@@ -145,11 +148,11 @@ open class LMFeedEditPostFragment :
             customizePostHeaderView(postHeader)
             customizePostTopicsGroup(postTopicsGroup)
             customizePostComposer(etPostComposer)
-            customizePostSingleImageView(singleImageAttachment.postImageView)
-            customizePostSingleVideoView(singleVideoAttachment.postVideoView)
-            customizePostLinkPreview(linkPreview.postLinkView)
-            customizePostDocumentsView(documentsAttachment.postDocumentsMediaView)
-            customizePostMultipleMediaView(multipleMediaAttachment.multipleMediaView)
+            customizePostImageAttachment(singleImageAttachment.postImageView)
+            customizePostVideoAttachment(singleVideoAttachment.postVideoView)
+            customizePostLinkViewAttachment(linkPreview.postLinkView)
+            customizePostDocumentsAttachment(documentsAttachment.postDocumentsMediaView)
+            customizePostMultipleMedia(multipleMediaAttachment.multipleMediaView)
             customizeEditPostProgressbar(progressBar.progressView)
             return binding.root
         }
@@ -169,7 +172,7 @@ open class LMFeedEditPostFragment :
             )
 
             setSubmitText(getString(R.string.lm_feed_save))
-            setSubmitButtonEnabled(false)
+            setSubmitButtonEnabled(true)
         }
     }
 
@@ -186,7 +189,7 @@ open class LMFeedEditPostFragment :
     }
 
     //customizes single image view type post
-    protected open fun customizePostSingleImageView(postSingleImageView: LMFeedPostImageMediaView) {
+    protected open fun customizePostImageAttachment(postSingleImageView: LMFeedPostImageMediaView) {
         val postImageMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postImageMediaStyle
                 ?: return
@@ -195,7 +198,7 @@ open class LMFeedEditPostFragment :
     }
 
     //customizes single video view type post
-    protected open fun customizePostSingleVideoView(postSingleVideoView: LMFeedPostVideoMediaView) {
+    protected open fun customizePostVideoAttachment(postSingleVideoView: LMFeedPostVideoMediaView) {
         val postVideoMediaStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postVideoMediaStyle
                 ?: return
@@ -204,17 +207,25 @@ open class LMFeedEditPostFragment :
     }
 
     //customizes link preview in the post
-    protected open fun customizePostLinkPreview(postLinkView: LMFeedPostLinkMediaView) {
-        //todo: change this to the create post link view style
-        val postLinkViewStyle =
+    protected open fun customizePostLinkViewAttachment(linkMediaView: LMFeedPostLinkMediaView) {
+        val linkAttachmentViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postLinkViewStyle
-                ?: return
 
-        postLinkView.setStyle(postLinkViewStyle)
+        val updatedLinkAttachmentViewStyle = linkAttachmentViewStyle?.toBuilder()
+            ?.linkRemoveIconStyle(
+                LMFeedIconStyle.Builder()
+                    .inActiveSrc(R.drawable.lm_feed_ic_cross)
+                    .build()
+            )
+            ?.build()
+
+        updatedLinkAttachmentViewStyle?.let {
+            linkMediaView.setStyle(it)
+        }
     }
 
     //customizes documents type post
-    protected open fun customizePostDocumentsView(postDocumentsView: LMFeedPostDocumentsMediaView) {
+    protected open fun customizePostDocumentsAttachment(postDocumentsView: LMFeedPostDocumentsMediaView) {
         val postDocumentsViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postDocumentsMediaStyle
                 ?: return
@@ -223,7 +234,7 @@ open class LMFeedEditPostFragment :
     }
 
     //customizes multiple media type post
-    protected open fun customizePostMultipleMediaView(postMultipleMediaView: LMFeedPostMultipleMediaView) {
+    protected open fun customizePostMultipleMedia(postMultipleMediaView: LMFeedPostMultipleMediaView) {
         val postMultipleMediaViewStyle =
             LMFeedStyleTransformer.postViewStyle.postMediaViewStyle.postMultipleMediaStyle
                 ?: return
@@ -362,7 +373,6 @@ open class LMFeedEditPostFragment :
     }
 
     private fun observeData() {
-        //todo: add remaining things as well
         editPostViewModel.errorEventFlow.onEach { response ->
             when (response) {
                 is LMFeedEditPostViewModel.ErrorMessageEvent.EditPost -> {
@@ -490,6 +500,7 @@ open class LMFeedEditPostFragment :
                 }
 
                 ITEM_POST_LINK -> {
+                    postMediaViewData = mediaViewData
                     ogTags = postMediaViewData?.attachments?.first()?.attachmentMeta?.ogTags
                     showLinkView()
                 }
@@ -820,8 +831,6 @@ open class LMFeedEditPostFragment :
                 binding.etPostComposer.removeTextChangedListener(etPostTextChangeListener)
                 clearPreviewLink()
             }
-            //todo: check if this is required
-//            LinkUtil.handleLinkPreviewConstraints(this, isImageValid)
         }
     }
 
@@ -831,6 +840,17 @@ open class LMFeedEditPostFragment :
         binding.linkPreview.apply {
             root.hide()
         }
+    }
+
+    override fun onPostDocumentMediaClicked(
+        position: Int,
+        parentPosition: Int,
+        attachmentViewData: LMFeedAttachmentViewData
+    ) {
+        //open the pdf using Android's document view
+        val documentUrl = attachmentViewData.attachmentMeta.url ?: ""
+        val pdfUri = Uri.parse(documentUrl)
+        LMFeedAndroidUtils.startDocumentViewer(requireContext(), pdfUri)
     }
 
     override fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {
@@ -856,5 +876,15 @@ open class LMFeedEditPostFragment :
                 )
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        postVideoPreviewAutoPlayHelper.removePlayer()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        postVideoPreviewAutoPlayHelper.removePlayer()
     }
 }

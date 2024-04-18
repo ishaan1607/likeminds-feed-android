@@ -10,7 +10,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/lm_feed_white"
-        tools:elevation="4dp">
+        tools:elevation="@dimen/lm_feed_elevation_small">
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
             android:id="@+id/iv_back"
@@ -19,7 +19,7 @@
             android:background="?attr/actionBarItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:padding="16dp"
+            android:padding="@dimen/lm_feed_large_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,14 +28,14 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
             android:id="@+id/et_search"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="match_parent"
             android:hint="@string/lm_feed_search_hint_text"
             android:imeOptions="actionSearch|flagNoExtractUi"
             android:inputType="text"
-            android:lineSpacingExtra="6sp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
+            android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_standard"
+            android:paddingStart="@dimen/lm_feed_regular_padding"
+            android:paddingEnd="@dimen/lm_feed_regular_padding"
             android:textCursorDrawable="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/iv_close"
@@ -45,7 +45,7 @@
             tools:maxLines="1"
             tools:textColor="@color/lm_feed_black"
             tools:textColorHint="@color/lm_feed_black_38"
-            tools:textSize="14sp"
+            tools:textSize="@dimen/lm_feed_text_medium"
             tools:textStyle="normal" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
@@ -55,7 +55,7 @@
             android:background="?attr/actionBarItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:padding="16dp"
+            android:padding="@dimen/lm_feed_large_padding"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"

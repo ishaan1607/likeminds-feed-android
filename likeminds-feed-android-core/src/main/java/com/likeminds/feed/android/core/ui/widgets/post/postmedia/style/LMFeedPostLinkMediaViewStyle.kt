@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.ui.widgets.post.postmedia.style
 
 import android.text.TextUtils
+import android.widget.ImageView
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
@@ -49,14 +50,17 @@ class LMFeedPostLinkMediaViewStyle private constructor(
             .ellipsize(TextUtils.TruncateAt.END)
             .textSize(R.dimen.lm_feed_text_large)
             .maxLines(2)
-            .fontResource(R.font.lm_feed_roboto_medium)
+            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
             .textColor(R.color.lm_feed_grey)
             .build()
 
         private var linkDescriptionStyle: LMFeedTextStyle? = null
+
         private var linkUrlStyle: LMFeedTextStyle? = null
+
         private var linkImageStyle: LMFeedImageStyle = LMFeedImageStyle.Builder()
             .placeholderSrc(R.drawable.lm_feed_ic_link)
+            .scaleType(ImageView.ScaleType.CENTER)
             .isCircle(false)
             .build()
 

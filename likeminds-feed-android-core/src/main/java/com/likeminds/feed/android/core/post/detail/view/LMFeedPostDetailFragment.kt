@@ -191,10 +191,9 @@ open class LMFeedPostDetailFragment :
         mSwipeRefreshLayout = binding.swipeRefreshLayout
         mSwipeRefreshLayout.apply {
             setColorSchemeColors(
-                //todo: change this color as per the style
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.lm_feed_majorelle_blue
+                    LMFeedTheme.getButtonColor()
                 )
             )
 
@@ -251,9 +250,11 @@ open class LMFeedPostDetailFragment :
 
             LMFeedCore.initiateUser(
                 requireContext(),
+                userPreferences.getApiKey(),
                 userPreferences.getUserName(),
                 userPreferences.getUUID(),
                 userPreferences.getDeviceId(),
+                userPreferences.getPushNotificationsEnabled(),
                 success = {
                     postDetailViewModel.getPost(postDetailExtras.postId, 1)
                 },
@@ -839,6 +840,27 @@ open class LMFeedPostDetailFragment :
             // updates [CommentsCountViewData]
             updateItem(commentsCountPosition, newCommentsCountViewData)
 
+            var post = getItem(postDataPosition) as LMFeedPostViewData
+
+            //update the footer view data
+            val updatedFooterView = post.footerViewData.toBuilder()
+                .commentsCount(newCommentsCountViewData.commentsCount)
+                .build()
+
+            //updated the post
+            post = post.toBuilder()
+                .footerViewData(updatedFooterView)
+                .build()
+
+            // notifies the subscribers about the change in post data
+            postEvent.notify(Pair(post.id, post))
+
+            //update the comments count in the header
+            updateCommentsCount(newCommentsCountViewData.commentsCount)
+
+            //updates comment data in post
+            updateItem(postDataPosition, post)
+
             // get the deleted comment from the adapter
             val indexToRemove =
                 getIndexAndCommentFromAdapter(commentId)?.first ?: return
@@ -950,6 +972,7 @@ open class LMFeedPostDetailFragment :
                             requireContext(),
                             response.errorMessage
                         )
+                        requireActivity().finish()
                     }
 
                     is LMFeedPostDetailViewModel.ErrorMessageEvent.LikeComment -> {
@@ -1318,6 +1341,11 @@ open class LMFeedPostDetailFragment :
         val userPreferences = LMFeedUserPreferences(requireContext())
         val loggedInUUID = userPreferences.getUUID()
 
+        val indexAndComment =
+            binding.rvPostDetails.getIndexAndCommentFromAdapter(comment.id) ?: return
+
+        val adapterPosition = indexAndComment.first
+
         //call api
         postDetailViewModel.likeComment(
             comment.postId,
@@ -1327,7 +1355,7 @@ open class LMFeedPostDetailFragment :
         )
 
         //update recycler
-        binding.rvPostDetails.updateItem(position, comment)
+        binding.rvPostDetails.updateItem(adapterPosition, comment)
     }
 
     override fun onCommentLikesCountClicked(position: Int, comment: LMFeedCommentViewData) {
@@ -1654,6 +1682,18 @@ open class LMFeedPostDetailFragment :
         }
     }
 
+    override fun onReplyLikesCountClicked(position: Int, replyViewData: LMFeedCommentViewData) {
+        super.onReplyLikesCountClicked(position, replyViewData)
+
+        //shows likes screen for comment
+        val likesScreenExtras = LMFeedLikesScreenExtras.Builder()
+            .postId(replyViewData.postId)
+            .commentId(replyViewData.id)
+            .entityType(COMMENT)
+            .build()
+        LMFeedLikesActivity.start(requireContext(), likesScreenExtras)
+    }
+
     override fun onReplyMenuIconClicked(
         position: Int,
         anchorView: View,
@@ -1813,11 +1853,10 @@ open class LMFeedPostDetailFragment :
 
     override fun onPostShareClicked(position: Int, postViewData: LMFeedPostViewData) {
         super.onPostShareClicked(position, postViewData)
-        //todo: take domain here
         LMFeedShareUtils.sharePost(
             requireContext(),
             postViewData.id,
-            "https://take-this-in-config.com",
+            LMFeedCoreApplication.domain ?: "",
             LMFeedCommunityUtil.getPostVariable()
         )
 

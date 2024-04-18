@@ -27,25 +27,36 @@ class LMFeedPostMediaViewStyle private constructor(
 
     class Builder {
         private var postImageMediaStyle: LMFeedPostImageMediaViewStyle? = null
+
         private var postVideoMediaStyle: LMFeedPostVideoMediaViewStyle? = null
+
         private var postLinkStyle: LMFeedPostLinkMediaViewStyle? = null
+
         private var postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle? = null
+
         private var postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle? = null
 
-        fun postImageMediaStyle(postImageMediaStyle: LMFeedPostImageMediaViewStyle?) =
-            apply { this.postImageMediaStyle = postImageMediaStyle }
+        fun postImageMediaStyle(postImageMediaStyle: LMFeedPostImageMediaViewStyle?) = apply {
+            this.postImageMediaStyle = postImageMediaStyle
+        }
 
-        fun postVideoMediaStyle(postVideoMediaStyle: LMFeedPostVideoMediaViewStyle?) =
-            apply { this.postVideoMediaStyle = postVideoMediaStyle }
+        fun postVideoMediaStyle(postVideoMediaStyle: LMFeedPostVideoMediaViewStyle?) = apply {
+            this.postVideoMediaStyle = postVideoMediaStyle
+        }
 
-        fun postLinkStyle(postLinkStyle: LMFeedPostLinkMediaViewStyle?) =
-            apply { this.postLinkStyle = postLinkStyle }
+        fun postLinkStyle(postLinkStyle: LMFeedPostLinkMediaViewStyle?) = apply {
+            this.postLinkStyle = postLinkStyle
+        }
 
         fun postDocumentsMediaStyle(postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle?) =
-            apply { this.postDocumentsMediaStyle = postDocumentsMediaStyle }
+            apply {
+                this.postDocumentsMediaStyle = postDocumentsMediaStyle
+            }
 
         fun postMultipleMediaStyle(postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle?) =
-            apply { this.postMultipleMediaStyle = postMultipleMediaStyle }
+            apply {
+                this.postMultipleMediaStyle = postMultipleMediaStyle
+            }
 
         fun build() = LMFeedPostMediaViewStyle(
             postImageMediaStyle,

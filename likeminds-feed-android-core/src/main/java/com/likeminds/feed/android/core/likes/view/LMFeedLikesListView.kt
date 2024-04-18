@@ -52,4 +52,9 @@ class LMFeedLikesListView @JvmOverloads constructor(
     fun addLikes(likes: List<LMFeedLikeViewData>) {
         likesAdapter.addAll(likes)
     }
+
+    //replaces the provided [likes] in the likes adapter
+    fun replaceLikes(likes: List<LMFeedLikeViewData>) {
+        likesAdapter.replace(likes)
+    }
 }

@@ -10,8 +10,6 @@ import com.likeminds.likemindsfeed.user.model.InitiateUserResponse
 
 object LMFeedCore {
 
-    private var apiKey: String? = null
-
     /**
      * Initial setup function for customers and blocker function
      * @param application: Instance of the application class
@@ -21,30 +19,37 @@ object LMFeedCore {
      */
     fun setup(
         application: Application,
-        apiKey: String,
-        lmFeedTheme: LMFeedSetThemeRequest,
+        domain: String? = null,
+        lmFeedTheme: LMFeedSetThemeRequest? = null,
         lmFeedCoreCallback: LMFeedCoreCallback? = null
     ) {
-        this.apiKey = apiKey
         LMFeedTheme.setTheme(lmFeedTheme)
 
         val coreApplication = LMFeedCoreApplication.getInstance()
-        coreApplication.initCoreApplication(application, lmFeedCoreCallback)
+        coreApplication.initCoreApplication(application, lmFeedCoreCallback, domain)
     }
-
 
     fun showFeed(
         context: Context,
+        apiKey: String,
         userName: String,
         uuid: String?,
         deviceId: String,
+        enablePushNotifications: Boolean,
         success: ((InitiateUserResponse?) -> Unit)? = null,
         error: ((String?) -> Unit)? = null
     ) {
         //Call initiate API
-        initiateUser(context, userName, uuid, deviceId)
-
-        //Inflate Feed
+        initiateUser(
+            context,
+            apiKey,
+            userName,
+            uuid,
+            deviceId,
+            enablePushNotifications,
+            success,
+            error
+        )
     }
 
     /**
@@ -59,23 +64,20 @@ object LMFeedCore {
      */
     fun initiateUser(
         context: Context,
+        apiKey: String,
         userName: String,
         uuid: String?,
         deviceId: String,
+        enablePushNotifications: Boolean = false,
         success: ((InitiateUserResponse?) -> Unit)? = null,
         error: ((String?) -> Unit)? = null
     ) {
-        //validate API key
-        if (apiKey == null) {
-            throw IllegalAccessException("LMFeedCore.setup() is not called. Please call setup() to access this function")
-        }
-
         val lmFeedConnectUser = LMFeedConnectUser.Builder()
             .userName(userName)
             .uuid(uuid)
             .deviceId(deviceId)
             .apiKey(apiKey ?: "")
-            .enablePushNotifications(true)
+            .enablePushNotifications(enablePushNotifications)
             .build()
 
         lmFeedConnectUser.initiateUser(
@@ -85,6 +87,7 @@ object LMFeedCore {
                     apiKey,
                     response?.user?.name,
                     response?.user?.sdkClientInfo?.uuid,
+                    enablePushNotifications
                 )
                 success?.invoke(response)
             },
@@ -98,7 +101,8 @@ object LMFeedCore {
         context: Context,
         apiKey: String?,
         userName: String?,
-        uuid: String?
+        uuid: String?,
+        enablePushNotifications: Boolean
     ) {
         //save details to pref
         val userPreferences = LMFeedUserPreferences(context)
@@ -106,6 +110,7 @@ object LMFeedCore {
             saveApiKey(apiKey ?: "")
             saveUserName(userName ?: "")
             saveUUID(uuid ?: "")
+            savePushNotificationsEnabled(enablePushNotifications)
         }
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedActivityReportBinding
 import com.likeminds.feed.android.core.report.model.LMFeedReportExtras

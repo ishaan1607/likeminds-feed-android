@@ -85,9 +85,9 @@ class LMFeedVideoView @JvmOverloads constructor(
                 when (playbackState) {
                     Player.STATE_READY -> {
                         Log.d(LOG_TAG, "STATE_READY: ")
-                        show()
                         thumbnailView?.hide()
                         progressBar?.hide()
+                        show()
                     }
 
                     Player.STATE_BUFFERING -> {
@@ -98,12 +98,13 @@ class LMFeedVideoView @JvmOverloads constructor(
                     Player.STATE_IDLE -> {
                         Log.d(LOG_TAG, "STATE_IDLE: ")
                         progressBar?.hide()
-
+                        thumbnailView?.hide()
                     }
 
                     Player.STATE_ENDED -> {
                         Log.d(LOG_TAG, "STATE_ENDED: ")
                         progressBar?.hide()
+                        thumbnailView?.hide()
                     }
                 }
             }

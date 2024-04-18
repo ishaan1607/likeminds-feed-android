@@ -87,7 +87,11 @@ class LMFeedItemReplyViewDataBinder(
 
             replyView.setLikesCountClickListener {
                 val reply = replyViewData ?: return@setLikesCountClickListener
-                replyAdapterListener.onReplyLikesCountClicked(position, reply)
+                if (reply.likesCount > 0) {
+                    replyAdapterListener.onReplyLikesCountClicked(position, reply)
+                } else {
+                    return@setLikesCountClickListener
+                }
             }
 
             replyView.setLikeIconClickListener {

@@ -55,13 +55,12 @@ class LMFeedCommentViewStyle private constructor(
             .maxLines(1)
             .textColor(R.color.lm_feed_raisin_black)
             .textSize(R.dimen.lm_feed_text_medium)
-            .fontResource(R.font.lm_feed_roboto_medium)
+            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
             .build()
 
         private var commentContentStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textColor(R.color.lm_feed_raisin_black)
             .textSize(R.dimen.lm_feed_text_medium)
-            .fontResource(R.font.lm_feed_roboto)
             .build()
 
         private var menuIconStyle: LMFeedIconStyle? = null

@@ -14,6 +14,7 @@ import com.likeminds.feed.android.core.likes.model.LMFeedLikeViewData
 import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity.Companion.LM_FEED_LIKES_SCREEN_EXTRAS
 import com.likeminds.feed.android.core.likes.viewmodel.LMFeedLikesViewModel
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
@@ -128,14 +129,12 @@ open class LMFeedLikesFragment : Fragment(), LMFeedLikesAdapterListener {
         }
     }
 
-    //todo: set loader color using style
     private fun initSwipeRefreshLayout() {
         mSwipeRefreshLayout = binding.swipeRefreshLayout
         mSwipeRefreshLayout.setColorSchemeColors(
-            //todo: change this color as per the style
             ContextCompat.getColor(
                 requireContext(),
-                R.color.lm_feed_majorelle_blue
+                LMFeedTheme.getButtonColor()
             )
         )
 
@@ -180,9 +179,21 @@ open class LMFeedLikesFragment : Fragment(), LMFeedLikesAdapterListener {
 
             val listOfLikes = response.first
             val totalLikes = response.second
+            val page = response.third
 
-            binding.rvLikes.addLikes(listOfLikes)
             setTotalLikesCount(totalLikes)
+
+            if (mSwipeRefreshLayout.isRefreshing) {
+                mSwipeRefreshLayout.isRefreshing = false
+                binding.rvLikes.replaceLikes(listOfLikes)
+                return@observe
+            }
+
+            if (page == 1) {
+                binding.rvLikes.replaceLikes(listOfLikes)
+            } else {
+                binding.rvLikes.addLikes(listOfLikes)
+            }
         }
 
         // observes error message from likes api and shows toast with error message

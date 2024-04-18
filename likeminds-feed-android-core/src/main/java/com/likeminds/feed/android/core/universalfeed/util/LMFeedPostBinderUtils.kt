@@ -466,7 +466,7 @@ object LMFeedPostBinderUtils {
         linkView.apply {
             setLinkTitle(linkOgTags.title)
             setLinkDescription(linkOgTags.description)
-            setLinkImage(linkOgTags.url)
+            setLinkImage(linkOgTags.image)
             setLinkUrl(linkOgTags.url)
         }
     }

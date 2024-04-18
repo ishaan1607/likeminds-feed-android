@@ -31,6 +31,14 @@ abstract class LMFeedBasePreferences(
         return preferences.getString(key, defaultVal)
     }
 
+    fun putPreference(key: String, value: Boolean) {
+        preferences.edit().putBoolean(key, value).apply()
+    }
+
+    fun getPreference(key: String, defaultVal: Boolean): Boolean {
+        return preferences.getBoolean(key, defaultVal)
+    }
+
     fun clear() {
         // clear all the keys individually to notify the listeners
         val editor = preferences.edit()

@@ -9,6 +9,7 @@ import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedProgressBarStyle
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogViewStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
@@ -48,6 +49,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
@@ -71,10 +73,10 @@ class LMFeedEditPostFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_grey)
                     .textSize(R.dimen.lm_feed_text_medium)
-                    .fontResource(R.font.lm_feed_roboto_medium)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .build()
             )
-            .activeSubmitColor(R.color.lm_feed_majorelle_blue)
+            .activeSubmitColor(LMFeedTheme.getButtonColor())
             .build()
 
         private var postHeaderViewStyle: LMFeedPostHeaderViewStyle =
@@ -89,6 +91,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
                         .textColor(R.color.lm_feed_raisin_black)
                         .textSize(R.dimen.lm_feed_text_large)
                         .maxLines(1)
+                        .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                         .ellipsize(TextUtils.TruncateAt.END)
                         .build()
                 )
@@ -109,10 +112,10 @@ class LMFeedEditPostFragmentViewStyle private constructor(
 
         private var selectTopicsChipStyle: LMFeedChipStyle = LMFeedChipStyle.Builder()
             .chipBackgroundColor(R.color.lm_feed_majorelle_blue_10)
-            .chipStartPadding(R.dimen.lm_feed_padding_big)
+            .chipStartPadding(R.dimen.lm_feed_regular_padding)
             .chipIcon(R.drawable.lm_feed_ic_add_topics)
             .chipIconSize(R.dimen.lm_feed_chip_default_icon_size)
-            .chipIconTint(R.color.lm_feed_majorelle_blue)
+            .chipIconTint(LMFeedTheme.getButtonColor())
             .build()
 
         private var editTopicsChipStyle: LMFeedChipStyle = LMFeedChipStyle.Builder()
@@ -121,12 +124,12 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .chipStartPadding(R.dimen.lm_feed_edit_chip_end_size)
             .chipIcon(R.drawable.lm_feed_ic_edit_topic)
             .chipIconSize(R.dimen.lm_feed_chip_default_icon_size)
-            .chipIconTint(R.color.lm_feed_majorelle_blue)
+            .chipIconTint(LMFeedTheme.getButtonColor())
             .build()
 
         private var progressBarStyle: LMFeedProgressBarStyle = LMFeedProgressBarStyle.Builder()
             .isIndeterminate(false)
-            .progressColor(R.color.lm_feed_majorelle_blue)
+            .progressColor(LMFeedTheme.getButtonColor())
             .build()
 
         private var disabledTopicsAlertDialogStyle: LMFeedAlertDialogViewStyle =
@@ -136,16 +139,16 @@ class LMFeedEditPostFragmentViewStyle private constructor(
                         .textColor(R.color.lm_feed_grey)
                         .textSize(R.dimen.lm_feed_text_medium)
                         .typeface(Typeface.NORMAL)
-                        .fontResource(R.font.lm_feed_roboto)
+                        .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
                         .build()
                 )
                 .alertPositiveButtonStyle(
                     LMFeedTextStyle.Builder()
                         .textAllCaps(true)
-                        .textColor(R.color.lm_feed_majorelle_blue)
+                        .textColor(LMFeedTheme.getButtonColor())
                         .textSize(R.dimen.lm_feed_text_small)
                         .typeface(Typeface.NORMAL)
-                        .fontResource(R.font.lm_feed_roboto_medium)
+                        .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                         .build()
                 )
                 .build()

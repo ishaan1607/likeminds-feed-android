@@ -3,8 +3,15 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs'
 }
+
+ext {
+    PUBLISH_GROUP_ID = 'community.likeminds'
+    PUBLISH_VERSION = "0.0.1"
+    PUBLISH_ARTIFACT_ID = 'likeminds-feed-core'
+}
+
+apply from: '../publish-helper.gradle'
 
 android {
     namespace 'com.likeminds.feed.android.core'
@@ -22,17 +29,21 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures {
         buildConfig true
         dataBinding = true
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17
+        jvmTarget = JavaVersion.VERSION_11
     }
 }
 

@@ -5,6 +5,7 @@ import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
 import com.likeminds.feed.android.core.ui.widgets.searchbar.style.LMFeedSearchBarViewStyle
@@ -42,6 +43,7 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
@@ -80,8 +82,6 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
         private var topicItemStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_large)
             .textColor(R.color.lm_feed_dark_grey)
-            .typeface(Typeface.BOLD)
-            .fontResource(R.font.lm_feed_roboto)
             .drawableRightSrc(R.drawable.lm_feed_ic_topic_selected)
             .build()
 
@@ -97,14 +97,14 @@ class LMFeedTopicSelectionFragmentViewStyle private constructor(
                         .textColor(R.color.lm_feed_dark_grey)
                         .textSize(R.dimen.lm_feed_text_medium)
                         .typeface(Typeface.NORMAL)
-                        .fontResource(R.font.lm_feed_roboto_medium)
+                        .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                         .build()
                 )
                 .build()
 
         private var submitSelectedTopicsFABStyle: LMFeedFABStyle = LMFeedFABStyle.Builder()
             .isExtended(false)
-            .backgroundColor(R.color.lm_feed_majorelle_blue)
+            .backgroundColor(LMFeedTheme.getButtonColor())
             .icon(R.drawable.lm_feed_ic_arrow_right_white)
             .iconTint(R.color.lm_feed_white)
             .build()

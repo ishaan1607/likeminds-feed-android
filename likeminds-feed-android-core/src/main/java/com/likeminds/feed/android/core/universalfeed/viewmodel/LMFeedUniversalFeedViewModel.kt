@@ -368,18 +368,21 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     }
 
     //call member state api
-    fun getMemberState() {
+    fun getCreatePostRights() {
         viewModelScope.launchIO {
             //get member state response
-            val memberStateResponse = lmFeedClient.getMemberState().data
+            // fetches user with rights from DB with user.id
+            val response = lmFeedClient.getLoggedInUserWithRights()
 
-            val memberState = memberStateResponse?.state ?: return@launchIO
+            val loggedInUserData = response.data ?: return@launchIO
 
-            //updates user's create posts right
+            val memberState = loggedInUserData.user.state
+            val memberRights = loggedInUserData.rights
+
             _hasCreatePostRights.postValue(
                 LMFeedMemberRightsUtil.hasCreatePostsRight(
                     memberState,
-                    memberStateResponse.memberRights
+                    memberRights
                 )
             )
         }
@@ -467,7 +470,8 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     ) {
         val map = hashMapOf<String, String>()
         // fetches list of tagged users
-        val taggedUsers = UserTaggingDecoder.decodeAndReturnAllTaggedMembers(post.contentViewData.text)
+        val taggedUsers =
+            UserTaggingDecoder.decodeAndReturnAllTaggedMembers(post.contentViewData.text)
         val topics = post.topicsViewData
 
         // adds tagged user count and their ids in the map

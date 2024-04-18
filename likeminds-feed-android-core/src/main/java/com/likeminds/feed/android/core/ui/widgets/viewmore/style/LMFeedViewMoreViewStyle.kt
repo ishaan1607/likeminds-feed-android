@@ -11,7 +11,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
  * @property visibleCountTextStyle: [LMFeedTextStyle] to customize the view that shows the visible count of the entity | set its value to [null] if you want to hide the visible count of the entity
  * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the view | Default value = [null]
  **/
-class LMFeedViewMoreStyle private constructor(
+class LMFeedViewMoreViewStyle private constructor(
     //view more text style
     val viewMoreTextStyle: LMFeedTextStyle,
     //visible count text style
@@ -24,7 +24,7 @@ class LMFeedViewMoreStyle private constructor(
         private var viewMoreTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textColor(R.color.lm_feed_dark_grayish_blue)
             .textSize(R.dimen.lm_feed_text_medium)
-            .fontResource(R.font.lm_feed_roboto_medium)
+            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
             .build()
 
         private var visibleCountTextStyle: LMFeedTextStyle? = null
@@ -44,7 +44,7 @@ class LMFeedViewMoreStyle private constructor(
             this.backgroundColor = backgroundColor
         }
 
-        fun build() = LMFeedViewMoreStyle(
+        fun build() = LMFeedViewMoreViewStyle(
             viewMoreTextStyle,
             visibleCountTextStyle,
             backgroundColor
