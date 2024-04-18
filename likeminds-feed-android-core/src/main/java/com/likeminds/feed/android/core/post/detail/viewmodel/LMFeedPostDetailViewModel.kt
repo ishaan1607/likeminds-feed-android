@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.post.detail.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
@@ -568,6 +569,17 @@ class LMFeedPostDetailViewModel : ViewModel() {
 
             val memberState = loggedInUserData.user.state
             val memberRights = loggedInUserData.rights
+
+            Log.d(
+                "PUI-1", """
+                ${
+                    LMFeedMemberRightsUtil.hasCommentRight(
+                        memberState,
+                        memberRights
+                    )
+                }
+            """.trimIndent()
+            )
 
             _hasCommentRights.postValue(
                 LMFeedMemberRightsUtil.hasCommentRight(

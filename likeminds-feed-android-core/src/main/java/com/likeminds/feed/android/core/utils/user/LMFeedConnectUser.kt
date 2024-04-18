@@ -110,6 +110,7 @@ class LMFeedConnectUser private constructor(
 
             if (initiateResponse.success) {
                 pushToken()
+                getMemberState()
                 getCommunityConfiguration()
                 success?.let { it(initiateResponse.data) }
             } else {
@@ -186,6 +187,15 @@ class LMFeedConnectUser private constructor(
             } else {
                 Log.d(LOG_TAG, "community/configuration failed -> ${response.errorMessage}")
             }
+        }
+    }
+
+    private fun getMemberState() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val lmFeedClient = LMFeedClient.getInstance()
+
+            //get member state response and update the user with its rights in DB
+            lmFeedClient.getMemberState().data
         }
     }
 }

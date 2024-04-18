@@ -133,7 +133,7 @@ open class LMFeedUniversalFeedFragment :
 
     private fun fetchData() {
         universalFeedViewModel.getLoggedInUser()
-        universalFeedViewModel.getMemberState()
+        universalFeedViewModel.getCreatePostRights()
         universalFeedViewModel.getUnreadNotificationCount()
         universalFeedViewModel.getFeed(1, null)
     }

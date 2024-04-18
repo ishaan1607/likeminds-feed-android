@@ -48,7 +48,7 @@ class LMFeedNotificationHandler {
     fun create(application: Application) {
         mApplication = application
 
-        notificationIcon = LMFeedTheme.getNotificationIcon() ?: R.drawable.ic_launcher_foreground
+        notificationIcon = LMFeedTheme.getNotificationIcon() ?: com.likeminds.customgallery.R.drawable.ic_notification
 
         notificationTextColor =
             LMFeedTheme.getNotificationTextColor() ?: LMFeedTheme.getButtonColor()
