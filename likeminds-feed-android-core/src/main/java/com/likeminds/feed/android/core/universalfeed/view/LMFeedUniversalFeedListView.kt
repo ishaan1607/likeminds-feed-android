@@ -2,7 +2,6 @@ package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
@@ -56,18 +55,15 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
      **/
     fun initiateVideoAutoPlayer() {
         postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper.getInstance(this)
-        Log.d("PUI", "initiateVideoAutoPlayer: $postVideoAutoPlayHelper")
         postVideoAutoPlayHelper?.attachScrollListenerForVideo()
         postVideoAutoPlayHelper?.playMostVisibleItem()
     }
 
     // removes the old player and refreshes auto play
     fun refreshVideoAutoPlayer() {
-        Log.d("PUI", "refreshVideoAutoPlayer: $postVideoAutoPlayHelper")
         if (postVideoAutoPlayHelper == null) {
             initiateVideoAutoPlayer()
         }
-        Log.d("PUI", "refreshVideoAutoPlayer-initiateVideoAutoPlayer: $postVideoAutoPlayHelper")
         postVideoAutoPlayHelper?.removePlayer()
         postVideoAutoPlayHelper?.playMostVisibleItem()
     }
@@ -75,11 +71,9 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     // removes the player and destroys the [postVideoAutoPlayHelper]
     fun destroyVideoAutoPlayer() {
         if (postVideoAutoPlayHelper != null) {
-            Log.d("PUI", "refreshVideoAutoPlayer-destroyVideoAutoPlayer: $postVideoAutoPlayHelper")
             postVideoAutoPlayHelper?.detachScrollListenerForVideo()
             postVideoAutoPlayHelper?.destroy()
             postVideoAutoPlayHelper = null
-            Log.d("PUI", "refreshVideoAutoPlayer-destroyVideoAutoPlayer1: $postVideoAutoPlayHelper")
         }
     }
 

@@ -1,6 +1,5 @@
 package com.likeminds.feed.android.core.universalfeed.adapter.databinders.postdocuments
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.customgallery.media.model.PDF

@@ -1,6 +1,5 @@
 package com.likeminds.feed.android.core.post.detail.adapter.databinders
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
