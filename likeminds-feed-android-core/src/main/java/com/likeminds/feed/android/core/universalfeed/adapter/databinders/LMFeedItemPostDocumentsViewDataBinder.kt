@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.universalfeed.adapter.databinders
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemPostDocumentsBinding

@@ -59,7 +59,7 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
             .build()
 
         private var activityViewStyle = LMFeedActivityViewStyle.Builder()
-            .postTypeBadgeStyle(
+            . postTypeBadgeStyle(
                 LMFeedImageStyle.Builder()
                     .scaleType(ImageView.ScaleType.CENTER)
                     .build()

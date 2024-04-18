@@ -17,11 +17,11 @@ class LMFeedLikesViewModel : ViewModel() {
         LMFeedClient.getInstance()
     }
 
-    private val _likesResponse: MutableLiveData<Pair<List<LMFeedLikeViewData>, Int>> by lazy {
+    private val _likesResponse: MutableLiveData<Triple<List<LMFeedLikeViewData>, Int, Int>> by lazy {
         MutableLiveData()
     }
 
-    val likesResponse: LiveData<Pair<List<LMFeedLikeViewData>, Int>> by lazy {
+    val likesResponse: LiveData<Triple<List<LMFeedLikeViewData>, Int, Int>> by lazy {
         _likesResponse
     }
 
@@ -54,7 +54,7 @@ class LMFeedLikesViewModel : ViewModel() {
                         .pageSize(PAGE_SIZE)
                         .build()
 
-                    postLikesDataFetched(lmFeedClient.getPostLikes(request))
+                    postLikesDataFetched(lmFeedClient.getPostLikes(request), page)
                 }
 
                 COMMENT -> {
@@ -66,14 +66,14 @@ class LMFeedLikesViewModel : ViewModel() {
                         .pageSize(PAGE_SIZE)
                         .build()
 
-                    commentLikesDataFetched(lmFeedClient.getCommentLikes(request))
+                    commentLikesDataFetched(lmFeedClient.getCommentLikes(request), page)
                 }
             }
         }
     }
 
     // processes post likes api response and posts the data to LiveData
-    private fun postLikesDataFetched(response: LMResponse<GetPostLikesResponse>) {
+    private fun postLikesDataFetched(response: LMResponse<GetPostLikesResponse>, page: Int) {
         if (response.success) {
             // processes Likes data if API call was successful
             val data = response.data ?: return
@@ -81,7 +81,13 @@ class LMFeedLikesViewModel : ViewModel() {
             val likes = data.likes
 
             val listOfLikeViewData = LMFeedViewDataConvertor.convertLikes(likes, data.users)
-            _likesResponse.postValue(Pair(listOfLikeViewData, totalLikes))
+            _likesResponse.postValue(
+                Triple(
+                    listOfLikeViewData,
+                    totalLikes,
+                    page
+                )
+            )
         } else {
             // posts error message if API call failed
             _errorMessage.postValue(response.errorMessage)
@@ -89,7 +95,7 @@ class LMFeedLikesViewModel : ViewModel() {
     }
 
     // processes comment like api response and posts the data to LiveData
-    private fun commentLikesDataFetched(response: LMResponse<GetCommentLikesResponse>) {
+    private fun commentLikesDataFetched(response: LMResponse<GetCommentLikesResponse>, page: Int) {
         if (response.success) {
             // processes Likes data if API call was successful
             val data = response.data ?: return
@@ -97,7 +103,13 @@ class LMFeedLikesViewModel : ViewModel() {
             val likes = data.likes
 
             val listOfLikeViewData = LMFeedViewDataConvertor.convertLikes(likes, data.users)
-            _likesResponse.postValue(Pair(listOfLikeViewData, totalLikes))
+            _likesResponse.postValue(
+                Triple(
+                    listOfLikeViewData,
+                    totalLikes,
+                    page
+                )
+            )
         } else {
             // posts error message if API call failed
             _errorMessage.postValue(response.errorMessage)

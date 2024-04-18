@@ -67,7 +67,7 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
         headerViewActivityFeed.apply {
             setStyle(LMFeedStyleTransformer.activityFeedFragmentViewStyle.headerViewStyle)
 
-            setTitleText(getString(R.string.lm_feed_notification_feed))
+            setTitleText(getString(R.string.lm_feed_notifications))
         }
     }
 
@@ -172,6 +172,7 @@ open class LMFeedActivityFeedFragment : Fragment(), LMFeedActivityFeedAdapterLis
 
         //if pull to refresh is called
         if (mSwipeRefreshLayout.isRefreshing) {
+            checkForNoActivity(activities)
             setFeedAndScrollToTop(activities)
             mSwipeRefreshLayout.isRefreshing = false
             return

@@ -92,7 +92,11 @@ class LMFeedItemPostTextOnlyViewDataBinder(
 
             postFooter.setLikesCountClickListener {
                 val post = this.postViewData ?: return@setLikesCountClickListener
-                universalFeedAdapterListener.onPostLikesCountClicked(position, post)
+                if (post.footerViewData.likesCount > 0) {
+                    universalFeedAdapterListener.onPostLikesCountClicked(position, post)
+                } else {
+                    return@setLikesCountClickListener
+                }
             }
 
             postFooter.setCommentsCountClickListener {

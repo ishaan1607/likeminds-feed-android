@@ -877,4 +877,14 @@ open class LMFeedEditPostFragment :
             }
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        postVideoPreviewAutoPlayHelper.removePlayer()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        postVideoPreviewAutoPlayHelper.removePlayer()
+    }
 }

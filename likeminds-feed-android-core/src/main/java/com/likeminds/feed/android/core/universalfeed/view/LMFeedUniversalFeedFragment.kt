@@ -213,6 +213,7 @@ open class LMFeedUniversalFeedFragment :
             if (page == 1) {
                 checkPostsAndReplace(posts)
             } else {
+                binding.rvUniversal.addPosts(posts)
                 binding.rvUniversal.refreshVideoAutoPlayer()
             }
         }
@@ -654,8 +655,13 @@ open class LMFeedUniversalFeedFragment :
             postViewData.footerViewData.isLiked,
             loggedInUUID
         )
-        //update recycler
-        binding.rvUniversal.updatePostItem(position, postViewData)
+
+        binding.rvUniversal.apply {
+            val adapterPosition = getIndexAndPostFromAdapter(postViewData.id)?.first ?: return
+
+            //update recycler
+            updatePostItem(adapterPosition, postViewData)
+        }
     }
 
     override fun onPostLikesCountClicked(position: Int, postViewData: LMFeedPostViewData) {
@@ -681,8 +687,13 @@ open class LMFeedUniversalFeedFragment :
     override fun onPostSaveClicked(position: Int, postViewData: LMFeedPostViewData) {
         //call api
         universalFeedViewModel.savePost(postViewData)
-        //update recycler
-        binding.rvUniversal.updatePostItem(position, postViewData)
+
+        binding.rvUniversal.apply {
+            val adapterPosition = getIndexAndPostFromAdapter(postViewData.id)?.first ?: return
+
+            //update recycler
+            updatePostItem(adapterPosition, postViewData)
+        }
     }
 
     override fun onPostShareClicked(position: Int, postViewData: LMFeedPostViewData) {
@@ -710,8 +721,12 @@ open class LMFeedUniversalFeedFragment :
     override fun onPostContentSeeMoreClicked(position: Int, postViewData: LMFeedPostViewData) {
         binding.rvUniversal.apply {
 
-            //update the post item in the adapter
-            updatePostItem(position, postViewData)
+            binding.rvUniversal.apply {
+                val adapterPosition = getIndexAndPostFromAdapter(postViewData.id)?.first ?: return
+
+                //update recycler
+                updatePostItem(adapterPosition, postViewData)
+            }
         }
     }
 
@@ -848,8 +863,12 @@ open class LMFeedUniversalFeedFragment :
                 .fromPostLiked(false)
                 .build()
 
-            //updates the [isExpanded] for the document item to true
-            updatePostItem(position, updatedPostViewData)
+            binding.rvUniversal.apply {
+                val adapterPosition = getIndexAndPostFromAdapter(updatedPostViewData.id)?.first ?: return
+
+                //updates the [isExpanded] for the document item to true
+                updatePostItem(adapterPosition, updatedPostViewData)
+            }
         }
     }
 
@@ -1322,8 +1341,12 @@ open class LMFeedUniversalFeedFragment :
         //call api
         universalFeedViewModel.pinPost(post)
 
-        //update recycler
-        binding.rvUniversal.updatePostItem(position, post)
+        binding.rvUniversal.apply {
+            val adapterPosition = getIndexAndPostFromAdapter(post.id)?.first ?: return
+
+            //update recycler
+            updatePostItem(adapterPosition, post)
+        }
     }
 
     //processes the unpin post menu click
@@ -1335,7 +1358,11 @@ open class LMFeedUniversalFeedFragment :
         //call api
         universalFeedViewModel.pinPost(post)
 
-        //update recycler
-        binding.rvUniversal.updatePostItem(position, post)
+        binding.rvUniversal.apply {
+            val adapterPosition = getIndexAndPostFromAdapter(post.id)?.first ?: return
+
+            //update recycler
+            updatePostItem(adapterPosition, post)
+        }
     }
 }

@@ -92,7 +92,7 @@
     <dimen name="lm_feed_document_icon_height">37dp</dimen>
     <dimen name="lm_feed_pdf_icon_width">22dp</dimen>
     <dimen name="lm_feed_pdf_icon_height">29dp</dimen>
-    <dimen name="lm_feed_doc_attachment_icon_height">29dp</dimen>
+    <dimen name="lm_feed_doc_attachment_icon_height">14dp</dimen>
     <dimen name="lm_feed_document_view_height">72dp</dimen>
     <dimen name="lm_feed_document_divider_height">8dp</dimen>
 

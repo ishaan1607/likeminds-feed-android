@@ -138,7 +138,7 @@ class LMFeedItemCommentViewDataBinder(
 
             commentView.setLikesCountClickListener {
                 val comment = commentViewData ?: return@setLikesCountClickListener
-                if (comment.isLiked) {
+                if (comment.likesCount > 0) {
                     postDetailAdapterListener.onCommentLikesCountClicked(position, comment)
                 } else {
                     return@setLikesCountClickListener

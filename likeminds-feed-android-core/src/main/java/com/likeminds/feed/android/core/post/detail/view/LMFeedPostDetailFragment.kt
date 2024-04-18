@@ -972,6 +972,7 @@ open class LMFeedPostDetailFragment :
                             requireContext(),
                             response.errorMessage
                         )
+                        requireActivity().finish()
                     }
 
                     is LMFeedPostDetailViewModel.ErrorMessageEvent.LikeComment -> {

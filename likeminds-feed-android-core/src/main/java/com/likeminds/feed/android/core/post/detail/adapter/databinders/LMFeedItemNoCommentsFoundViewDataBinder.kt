@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.post.detail.adapter.databinders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedItemNoCommentsFoundBinding
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
@@ -26,11 +27,16 @@ class LMFeedItemNoCommentsFoundViewDataBinder :
             val noCommentFoundStyle =
                 LMFeedStyleTransformer.postDetailFragmentViewStyle.noCommentsFoundViewStyle
 
-            root.setBackgroundColor(noCommentFoundStyle.backgroundColor)
+            root.setBackgroundColor(
+                ContextCompat.getColor(
+                    root.context,
+                    noCommentFoundStyle.backgroundColor
+                )
+            )
             layoutNoComments.setStyle(noCommentFoundStyle)
         }
 
-            return binding
+        return binding
     }
 
     override fun bindData(

@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
@@ -23,7 +24,7 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     private val dividerDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
 
     private lateinit var universalFeedAdapter: LMFeedUniversalFeedAdapter
-    private lateinit var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper
+    private var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper? = null
     private lateinit var paginationScrollListener: LMFeedEndlessRecyclerViewScrollListener
 
     val itemCount: Int get() = universalFeedAdapter.itemCount
@@ -55,24 +56,30 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
      **/
     fun initiateVideoAutoPlayer() {
         postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper.getInstance(this)
-        postVideoAutoPlayHelper.attachScrollListenerForVideo()
-        postVideoAutoPlayHelper.playMostVisibleItem()
+        Log.d("PUI", "initiateVideoAutoPlayer: $postVideoAutoPlayHelper")
+        postVideoAutoPlayHelper?.attachScrollListenerForVideo()
+        postVideoAutoPlayHelper?.playMostVisibleItem()
     }
 
     // removes the old player and refreshes auto play
     fun refreshVideoAutoPlayer() {
-        if (!::postVideoAutoPlayHelper.isInitialized) {
+        Log.d("PUI", "refreshVideoAutoPlayer: $postVideoAutoPlayHelper")
+        if (postVideoAutoPlayHelper == null) {
             initiateVideoAutoPlayer()
         }
-        postVideoAutoPlayHelper.removePlayer()
-        postVideoAutoPlayHelper.playMostVisibleItem()
+        Log.d("PUI", "refreshVideoAutoPlayer-initiateVideoAutoPlayer: $postVideoAutoPlayHelper")
+        postVideoAutoPlayHelper?.removePlayer()
+        postVideoAutoPlayHelper?.playMostVisibleItem()
     }
 
     // removes the player and destroys the [postVideoAutoPlayHelper]
     fun destroyVideoAutoPlayer() {
-        if (::postVideoAutoPlayHelper.isInitialized) {
-            postVideoAutoPlayHelper.detachScrollListenerForVideo()
-            postVideoAutoPlayHelper.destroy()
+        if (postVideoAutoPlayHelper != null) {
+            Log.d("PUI", "refreshVideoAutoPlayer-destroyVideoAutoPlayer: $postVideoAutoPlayHelper")
+            postVideoAutoPlayHelper?.detachScrollListenerForVideo()
+            postVideoAutoPlayHelper?.destroy()
+            postVideoAutoPlayHelper = null
+            Log.d("PUI", "refreshVideoAutoPlayer-destroyVideoAutoPlayer1: $postVideoAutoPlayHelper")
         }
     }
 

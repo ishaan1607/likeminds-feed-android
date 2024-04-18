@@ -179,9 +179,21 @@ open class LMFeedLikesFragment : Fragment(), LMFeedLikesAdapterListener {
 
             val listOfLikes = response.first
             val totalLikes = response.second
+            val page = response.third
 
-            binding.rvLikes.addLikes(listOfLikes)
             setTotalLikesCount(totalLikes)
+
+            if (mSwipeRefreshLayout.isRefreshing) {
+                mSwipeRefreshLayout.isRefreshing = false
+                binding.rvLikes.replaceLikes(listOfLikes)
+                return@observe
+            }
+
+            if (page == 1) {
+                binding.rvLikes.replaceLikes(listOfLikes)
+            } else {
+                binding.rvLikes.addLikes(listOfLikes)
+            }
         }
 
         // observes error message from likes api and shows toast with error message

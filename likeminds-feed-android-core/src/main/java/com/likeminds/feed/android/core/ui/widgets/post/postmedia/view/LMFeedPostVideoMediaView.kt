@@ -39,6 +39,13 @@ class LMFeedPostVideoMediaView : ConstraintLayout {
         postVideoMediaViewStyle.apply {
             //set background color
             backgroundColor?.let {
+                binding.root.setBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        backgroundColor
+                    )
+                )
+
                 binding.videoView.setBackgroundColor(
                     ContextCompat.getColor(
                         context,

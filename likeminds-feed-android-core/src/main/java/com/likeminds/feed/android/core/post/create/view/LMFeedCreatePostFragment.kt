@@ -294,6 +294,11 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         postVideoPreviewAutoPlayHelper.removePlayer()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        postVideoPreviewAutoPlayHelper.removePlayer()
+    }
+
     //initialize member tagging view
     private fun initMemberTagging() {
         memberTagging = binding.userTaggingView

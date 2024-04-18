@@ -45,6 +45,7 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
             when (recyclerView.adapter) {
                 // the recycler view is of [FeedFragment]
                 is LMFeedUniversalFeedAdapter -> {
+                    Log.d("PUI", "autoPlayVideoScrollListener: ")
                     playMostVisibleItem()
                 }
 
@@ -58,11 +59,13 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
 
     // attaches a scroll listener to auto play videos in the recycler view
     fun attachScrollListenerForVideo() {
+        Log.d("PUI", "attachScrollListenerForVideo: ")
         recyclerView.addOnScrollListener(autoPlayVideoScrollListener)
     }
 
     // detaches the scroll listener to auto play videos in the recycler view
     fun detachScrollListenerForVideo() {
+        Log.d("PUI", "detachScrollListenerForVideo: ")
         recyclerView.removeOnScrollListener(autoPlayVideoScrollListener)
     }
 
@@ -72,6 +75,7 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
     fun playMostVisibleItem() {
         val firstVisiblePosition: Int = findFirstVisibleItemPosition()
         val lastVisiblePosition: Int = findLastVisibleItemPosition()
+        Log.d("PUI", "playMostVisibleItem: ")
 
         var maxPercentage = -1
         var pos = 0
@@ -91,6 +95,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
             }
             if (pos == -1) {
                 if (currentPlayingVideoItemPos != -1) {
+                    Log.d("PUI", "currentPlayingVideoItemPos not -1: ")
+
                     // if a video is already playing
                     val viewHolder: RecyclerView.ViewHolder =
                         recyclerView.findViewHolderForAdapterPosition(currentPlayingVideoItemPos)!!
@@ -103,6 +109,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                     currentPlayingVideoItemPos = -1
                 }
             } else {
+                Log.d("PUI", "play at current")
+
                 // if no video is playing, directly attach a player at the [pos]
                 currentPlayingVideoItemPos = pos
                 attachVideoPlayerAt(pos)
@@ -229,6 +237,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
     ) {
         when (viewType) {
             ITEM_POST_SINGLE_VIDEO -> {
+                Log.d("PUI", "SINGLE")
+
                 // if the post is of type [ITEM_POST_SINGLE_VIDEO]
                 val itemPostSingleVideoBinding =
                     (recyclerView.findViewHolderForAdapterPosition(pos) as? LMFeedDataBoundViewHolder<*>)
@@ -237,6 +247,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                 val videoView = itemPostSingleVideoBinding.postVideoView.videoView
 
                 if (lastPlayerView == null || lastPlayerView != videoView) {
+                    Log.d("PUI", "lastPlayerView == null || lastPlayerView != videoView")
+
                     val attachmentMeta = data.mediaViewData.attachments.first().attachmentMeta
 
                     itemPostSingleVideoBinding.postVideoView.playVideo(
@@ -251,6 +263,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
             }
 
             ITEM_POST_MULTIPLE_MEDIA -> {
+                Log.d("PUI", "multiple")
+
                 // if the post is of type [ITEM_POST_MULTIPLE_MEDIA]
                 val itemMultipleMediaBinding =
                     (recyclerView.findViewHolderForAdapterPosition(pos) as? LMFeedDataBoundViewHolder<*>)
@@ -265,9 +279,13 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                         ?.binding as? LmFeedItemMultipleMediaVideoBinding
 
                 if (itemMultipleMediaVideoBinding == null) {
+                    Log.d("PUI", "remove as it is image")
+
                     // if itemMultipleMediaVideoBinding, that means it is an image
                     removePlayer()
                 } else {
+                    Log.d("PUI", "play as it is video")
+
                     val videoView = itemMultipleMediaVideoBinding.postVideoView.videoView
 
                     if (lastPlayerView == null || lastPlayerView != videoView) {
@@ -287,6 +305,8 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
             }
 
             else -> {
+                Log.d("PUI", "else remove")
+
                 // if the post is does not have any video, simply remove the player
                 removePlayer()
             }
