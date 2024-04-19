@@ -7,7 +7,7 @@ plugins {
 
 ext {
     PUBLISH_GROUP_ID = 'community.likeminds'
-    PUBLISH_VERSION = "0.0.1"
+    PUBLISH_VERSION = "$feed_versions.sdk_version_major.$feed_versions.sdk_version_minor.$feed_versions.sdk_version_patch"
     PUBLISH_ARTIFACT_ID = 'likeminds-feed-core'
 }
 
@@ -15,10 +15,10 @@ apply from: '../publish-helper.gradle'
 
 android {
     namespace 'com.likeminds.feed.android.core'
-    compileSdk 33
+    compileSdk feed_versions.compile_sdk
 
     defaultConfig {
-        minSdk 24
+        minSdk feed_versions.min_sdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

@@ -74,12 +74,12 @@ class LMFeedReportFragmentViewStyle private constructor(
             .build()
 
         private var reportHeaderStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
-            .textSize(R.dimen.lm_feed_text_medium)
+            .textSize(R.dimen.lm_feed_text_large)
             .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
             .build()
 
         private var reportSubHeaderStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
-            .textSize(R.dimen.lm_feed_text_medium)
+            .textSize(R.dimen.lm_feed_text_large)
             .textColor(R.color.lm_feed_brown_grey)
             .build()
 
@@ -87,7 +87,7 @@ class LMFeedReportFragmentViewStyle private constructor(
             .hintTextColor(R.color.lm_feed_brown_grey)
             .inputTextStyle(
                 LMFeedTextStyle.Builder()
-                    .textSize(R.dimen.lm_feed_text_medium)
+                    .textSize(R.dimen.lm_feed_text_large)
                     .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
                     .build()
             )

@@ -113,7 +113,7 @@
     <dimen name="lm_feed_post_composer_replying_to_height">32dp</dimen>
     <dimen name="lm_feed_post_composer_input_box_padding_end">64dp</dimen>
     <dimen name="lm_feed_separator_size">2dp</dimen>
-    <dimen name="lm_feed_small_separator_size">2dp</dimen>
+    <dimen name="lm_feed_small_separator_size">1dp</dimen>
     <dimen name="lm_feed_replies_list_start_margin">36dp</dimen>
     <dimen name="lm_feed_comments_count_margin">18dp</dimen>
     <dimen name="lm_feed_comment_separator_gone_margin">20dp</dimen>
@@ -142,4 +142,5 @@
 
     <!--    Create Post-->
     <dimen name="lm_feed_create_post_add_more_padding">24dp</dimen>
+    <dimen name="lm_feed_user_tagging_view_elevation">5dp</dimen>
 </resources>

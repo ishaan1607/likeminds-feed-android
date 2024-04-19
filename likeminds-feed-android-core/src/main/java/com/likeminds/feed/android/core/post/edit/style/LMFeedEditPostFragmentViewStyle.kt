@@ -3,12 +3,7 @@ package com.likeminds.feed.android.core.post.edit.style
 import android.graphics.Typeface
 import android.text.TextUtils
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedChipStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedEditTextStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedProgressBarStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.alertdialog.style.LMFeedAlertDialogViewStyle
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
@@ -72,7 +67,7 @@ class LMFeedEditPostFragmentViewStyle private constructor(
             .submitTextStyle(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_grey)
-                    .textSize(R.dimen.lm_feed_text_medium)
+                    .textSize(R.dimen.lm_feed_text_large)
                     .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .build()
             )

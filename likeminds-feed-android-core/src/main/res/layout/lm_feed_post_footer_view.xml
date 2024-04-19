@@ -13,7 +13,7 @@
             android:id="@+id/iv_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/lm_feed_media_view_top_margin"
+            android:layout_marginVertical="@dimen/lm_feed_medium_margin"
             android:layout_marginStart="@dimen/lm_feed_extra_small_margin"
             android:padding="@dimen/lm_feed_small_padding"
             android:scaleType="fitCenter"

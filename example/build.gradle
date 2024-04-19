@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace 'com.likeminds.feedexample'
-    compileSdk 33
+    compileSdk feed_versions.compile_sdk
 
     defaultConfig {
         applicationId "com.likeminds.feedexample"
-        minSdk 24
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        minSdk feed_versions.min_sdk
+        targetSdk feed_versions.target_sdk
+        versionCode feed_versions.sdk_version_code
+        versionName "$feed_versions.sdk_version_major.$feed_versions.sdk_version_minor.$feed_versions.sdk_version_patch"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

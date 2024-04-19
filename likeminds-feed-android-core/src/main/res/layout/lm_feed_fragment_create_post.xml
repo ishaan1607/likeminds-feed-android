@@ -18,7 +18,7 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_scroll_create_post"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="@dimen/zero_dp"
             android:layout_marginTop="@dimen/lm_feed_small_margin"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -54,21 +54,21 @@
                 <View
                     android:id="@+id/topic_separator"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="@dimen/lm_feed_small_separator_size"
                     android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
                     android:layout_marginTop="@dimen/lm_feed_large_margin"
+                    android:visibility="gone"
                     android:background="@color/lm_feed_blue_separator"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/topics_group"
-                    tools:visibility="visible" />
+                    tools:visibility="gone" />
 
                 <com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
                     android:id="@+id/et_post_composer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
-                    android:layout_marginVertical="@dimen/lm_feed_large_margin"
                     android:background="@null"
                     android:ellipsize="end"
                     android:hint="@string/lm_feed_write_something_here"
@@ -86,10 +86,10 @@
 
                 <com.likeminds.usertagging.view.UserTaggingSuggestionListView
                     android:id="@+id/user_tagging_view"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:translationZ="5dp"
+                    android:layout_marginTop="@dimen/lm_feed_small_margin"
+                    android:translationZ="@dimen/lm_feed_user_tagging_view_elevation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_post_composer"
@@ -103,8 +103,7 @@
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
                     android:id="@+id/post_single_image"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="@dimen/lm_feed_large_margin"
+                    android:layout_height="@dimen/zero_dp"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -113,8 +112,8 @@
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
                     android:id="@+id/post_single_video"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_height="@dimen/zero_dp"
+                    android:layout_marginTop="@dimen/lm_feed_medium_margin"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +123,7 @@
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostLinkMediaView
                     android:id="@+id/post_link_view"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="@dimen/zero_dp"
                     android:layout_marginTop="@dimen/lm_feed_large_margin"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -135,7 +134,7 @@
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
                     android:id="@+id/post_documents_view"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="@dimen/zero_dp"
                     android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
                     android:layout_marginTop="@dimen/lm_feed_large_margin"
                     android:visibility="gone"
@@ -147,8 +146,7 @@
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostMultipleMediaView
                     android:id="@+id/multiple_media_view"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_height="@dimen/zero_dp"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -168,12 +166,10 @@
             android:id="@+id/layout_attach_files"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:elevation="4dp"
             android:foreground="?selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="10dp"
+            android:paddingHorizontal="@dimen/lm_feed_large_padding"
+            android:paddingVertical="@dimen/lm_feed_medium_padding"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="UnusedAttribute">
 
@@ -188,7 +184,7 @@
                 android:id="@+id/tv_attach_file"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="@dimen/lm_feed_large_margin"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/lm_feed_attach_files"
                 android:textColor="@color/lm_feed_raisin_black"
@@ -199,7 +195,7 @@
         <View
             android:id="@+id/video_file_separator"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/lm_feed_small_separator_size"
             android:background="@color/cloudy_blue_50"
             app:layout_constraintBottom_toTopOf="@+id/layout_attach_files" />
 
@@ -207,11 +203,10 @@
             android:id="@+id/layout_add_video"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="4dp"
             android:foreground="?selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="10dp"
+            android:paddingHorizontal="@dimen/lm_feed_large_padding"
+            android:paddingVertical="@dimen/lm_feed_medium_padding"
             app:layout_constraintBottom_toTopOf="@id/video_file_separator"
             tools:ignore="UnusedAttribute">
 
@@ -226,7 +221,7 @@
                 android:id="@+id/tv_add_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="@dimen/lm_feed_large_margin"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/lm_feed_add_video"
                 android:textColor="@color/lm_feed_raisin_black"
@@ -237,7 +232,7 @@
         <View
             android:id="@+id/video_image_separator"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/lm_feed_small_separator_size"
             android:background="@color/cloudy_blue_50"
             app:layout_constraintBottom_toTopOf="@+id/layout_add_video" />
 
@@ -245,11 +240,10 @@
             android:id="@+id/layout_add_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:foreground="?selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="10dp"
+            android:paddingHorizontal="@dimen/lm_feed_large_padding"
+            android:paddingVertical="@dimen/lm_feed_medium_padding"
             app:layout_constraintBottom_toTopOf="@id/video_image_separator"
             tools:ignore="UnusedAttribute">
 
@@ -264,7 +258,7 @@
                 android:id="@+id/tv_add_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="@dimen/lm_feed_large_margin"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/lm_feed_add_photo"
                 android:textColor="@color/lm_feed_raisin_black"
@@ -276,11 +270,11 @@
             android:id="@+id/btn_add_more_media"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/lm_feed_large_margin"
             android:background="@drawable/lm_feed_background_round_8dp"
             android:drawableLeft="@drawable/lm_feed_ic_plus"
             android:foreground="?selectableItemBackground"
-            android:paddingHorizontal="24dp"
+            android:paddingHorizontal="@dimen/lm_feed_extra_large_padding"
             android:text="@string/lm_feed_add_more"
             android:textAllCaps="false"
             android:textColor="@color/lm_feed_majorelle_blue"
