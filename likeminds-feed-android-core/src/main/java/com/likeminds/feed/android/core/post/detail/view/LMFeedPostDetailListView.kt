@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.post.detail.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.post.detail.adapter.*
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
@@ -21,7 +22,7 @@ class LMFeedPostDetailListView @JvmOverloads constructor(
     val linearLayoutManager: LinearLayoutManager
 
     private lateinit var postDetailAdapter: LMFeedPostDetailAdapter
-    private lateinit var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper
+    private var postVideoAutoPlayHelper: LMFeedPostVideoAutoPlayHelper? = null
     private lateinit var paginationScrollListener: LMFeedEndlessRecyclerViewScrollListener
 
     init {
@@ -40,15 +41,25 @@ class LMFeedPostDetailListView @JvmOverloads constructor(
      **/
     fun initiateVideoAutoPlayer() {
         postVideoAutoPlayHelper = LMFeedPostVideoAutoPlayHelper.getInstance(this)
-        postVideoAutoPlayHelper.attachScrollListenerForVideo()
-        postVideoAutoPlayHelper.playIfPostVisible()
+        postVideoAutoPlayHelper?.attachScrollListenerForVideo()
+        postVideoAutoPlayHelper?.playIfPostVisible()
+    }
+
+    // removes the old player and refreshes auto play
+    fun refreshVideoAutoPlayer() {
+        if (postVideoAutoPlayHelper == null) {
+            initiateVideoAutoPlayer()
+        }
+        postVideoAutoPlayHelper?.removePlayer()
+        postVideoAutoPlayHelper?.playIfPostVisible()
     }
 
     // removes the player and destroys the [postVideoAutoPlayHelper]
     fun destroyVideoAutoPlayer() {
-        if (::postVideoAutoPlayHelper.isInitialized) {
-            postVideoAutoPlayHelper.detachScrollListenerForVideo()
-            postVideoAutoPlayHelper.destroy()
+        if (postVideoAutoPlayHelper != null) {
+            postVideoAutoPlayHelper?.detachScrollListenerForVideo()
+            postVideoAutoPlayHelper?.destroy()
+            postVideoAutoPlayHelper = null
         }
     }
 

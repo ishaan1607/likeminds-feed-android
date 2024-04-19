@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.post.detail.view
 
 import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,6 +25,7 @@ import com.likeminds.feed.android.core.post.detail.view.LMFeedPostDetailActivity
 import com.likeminds.feed.android.core.post.detail.viewmodel.LMFeedPostDetailViewModel
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity
+import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.util.LMFeedPostEvent
 import com.likeminds.feed.android.core.report.model.*
 import com.likeminds.feed.android.core.report.view.*
@@ -594,6 +596,7 @@ open class LMFeedPostDetailFragment :
                 setPostDataAndScrollToTop(post)
             } else {
                 updatePostAndAddComments(post)
+                binding.rvPostDetails.refreshVideoAutoPlayer()
             }
         }
 
@@ -693,6 +696,7 @@ open class LMFeedPostDetailFragment :
             } else {
                 scrollToPositionWithOffset(postDataPosition, 0)
             }
+            refreshVideoAutoPlayer()
         }
     }
 
@@ -1469,6 +1473,17 @@ open class LMFeedPostDetailFragment :
         }
     }
 
+    override fun onPostDocumentMediaClicked(
+        position: Int,
+        parentPosition: Int,
+        attachmentViewData: LMFeedAttachmentViewData
+    ) {
+        //open the pdf using Android's document view
+        val documentUrl = attachmentViewData.attachmentMeta.url ?: ""
+        val pdfUri = Uri.parse(documentUrl)
+        LMFeedAndroidUtils.startDocumentViewer(requireContext(), pdfUri)
+    }
+
     // callback when other's post is deleted by CM
     override fun onEntityDeletedByAdmin(deleteExtras: LMFeedDeleteExtras, reason: String) {
         binding.rvPostDetails.apply {
@@ -1857,6 +1872,12 @@ open class LMFeedPostDetailFragment :
         reply: LMFeedCommentViewData
     ) {
         reportCommentEntity(REPORT_TYPE_REPLY, reply)
+    }
+
+    //called when the page in the multiple media post is changed
+    override fun onPostMultipleMediaPageChangeCallback(position: Int, parentPosition: Int) {
+        //processes the current video whenever view pager's page is changed
+        binding.rvPostDetails.refreshVideoAutoPlayer()
     }
 
     override fun onPostMultipleDocumentsExpanded(position: Int, postViewData: LMFeedPostViewData) {
