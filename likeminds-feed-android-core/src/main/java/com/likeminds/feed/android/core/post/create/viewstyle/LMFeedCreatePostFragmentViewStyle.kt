@@ -65,8 +65,8 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
             .submitTextStyle(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_grey)
-                    .textSize(R.dimen.lm_feed_text_medium)
-                    .fontResource(R.font.lm_feed_roboto_medium)
+                    .textSize(R.dimen.lm_feed_text_large)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                     .build()
             )
             .activeSubmitColor(LMFeedTheme.getButtonColor())
