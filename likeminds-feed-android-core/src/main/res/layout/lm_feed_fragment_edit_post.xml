@@ -86,7 +86,7 @@
                     android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/lm_feed_small_margin"
-                    android:translationZ="5dp"
+                    android:translationZ="@dimen/lm_feed_user_tagging_view_elevation"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_post_composer"

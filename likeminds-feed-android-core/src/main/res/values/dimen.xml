@@ -142,4 +142,5 @@
 
     <!--    Create Post-->
     <dimen name="lm_feed_create_post_add_more_padding">24dp</dimen>
+    <dimen name="lm_feed_user_tagging_view_elevation">5dp</dimen>
 </resources>
