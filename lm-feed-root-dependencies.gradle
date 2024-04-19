@@ -1,0 +1,90 @@
+ext.feed_versions = [:]
+def feed_versions = [:]
+feed_versions.compile_sdk = 33
+feed_versions.min_sdk = 24
+feed_versions.target_sdk = 33
+feed_versions.sdk_version_major = '1'
+feed_versions.sdk_version_minor = '0'
+feed_versions.sdk_version_patch = '0'
+feed_versions.sdk_version_code = 16
+feed_versions.core = "1.8.0"
+feed_versions.appcompat = "1.6.1"
+feed_versions.material_design = "1.6.1"
+feed_versions.constraint_layout = "2.1.4"
+feed_versions.junit = "4.13.2"
+feed_versions.android_junit = "1.1.5"
+feed_versions.espresso_core = "3.5.1"
+feed_versions.glide = '4.12.0'
+feed_versions.shimmer = '0.5.0'
+feed_versions.fragment_ktx = '1.4.1'
+feed_versions.view_pager2 = '1.0.0'
+feed_versions.flexbox = '3.0.0'
+feed_versions.exo_player = '2.18.1'
+feed_versions.view_pager_indicator = '1.2.3'
+feed_versions.swipe_refresh_layout = '1.1.0'
+feed_versions.work_manager = '2.7.1'
+feed_versions.aws_s3 = '2.47.0'
+feed_versions.firebase = '30.1.0'
+feed_versions.custom_gallery = '1.1.0'
+feed_versions.user_tagging = '1.1.0'
+feed_versions.feed_data = "1.8.0"
+ext.feed_versions = feed_versions
+
+ext.feed_deps = [:]
+def feed_deps = [:]
+
+def android_core = [:]
+android_core.core = "androidx.core:core-ktx:$feed_versions.core"
+android_core.appcompat = "androidx.appcompat:appcompat:$feed_versions.appcompat"
+feed_deps.android_core = android_core
+
+def ui = [:]
+ui.material_design = "com.google.android.material:material:$feed_versions.material_design"
+ui.constraint_layout = "androidx.constraintlayout:constraintlayout:$feed_versions.constraint_layout"
+ui.swipe_refresh_layout = "androidx.swiperefreshlayout:swiperefreshlayout:$feed_versions.swipe_refresh_layout"
+ui.view_pager2 = "androidx.viewpager2:viewpager2:$feed_versions.view_pager2"
+ui.view_pager_indicator = "com.github.zhpanvip:viewpagerindicator:$feed_versions.view_pager_indicator"
+ui.shimmer = "com.facebook.shimmer:shimmer:$feed_versions.shimmer"
+ui.flexbox = "com.google.android.flexbox:flexbox:$feed_versions.flexbox"
+feed_deps.ui = ui
+
+def exoplayer = [:]
+exoplayer.main = "com.google.android.exoplayer:exoplayer:$feed_versions.exo_player"
+feed_deps.exoplayer = exoplayer
+
+def glide = [:]
+glide.main = "com.github.bumptech.glide:glide:$feed_versions.glide"
+glide.compiler = "com.github.bumptech.glide:compiler:$feed_versions.glide"
+feed_deps.glide = glide
+
+def fragment_ktx = [:]
+fragment_ktx.main = "androidx.fragment:fragment-ktx:$feed_versions.fragment_ktx"
+feed_deps.fragment_ktx = fragment_ktx
+
+def firebase = [:]
+firebase.bom = "com.google.firebase:firebase-bom:$feed_versions.firebase"
+firebase.messaging = "com.google.firebase:firebase-messaging-ktx"
+feed_deps.firebase = firebase
+
+def work_manager = [:]
+work_manager.main = "androidx.work:work-runtime-ktx:$feed_versions.work_manager"
+feed_deps.work_manager = work_manager
+
+def aws_s3 = [:]
+aws_s3.main = "com.amazonaws:aws-android-sdk-s3:$feed_versions.aws_s3"
+aws_s3.client = "com.amazonaws:aws-android-sdk-mobile-client:$feed_versions.aws_s3"
+feed_deps.aws_s3 = aws_s3
+
+def likeminds = [:]
+likeminds.feed_data = "community.likeminds:likemindsfeed:$feed_versions.feed_data"
+likeminds.custom_gallery = "community.likeminds:likeminds-custom-gallery:$feed_versions.custom_gallery"
+likeminds.user_tagging = "community.likeminds:likeminds-user-tagging:$feed_versions.user_tagging"
+feed_deps.likeminds = likeminds
+
+def testing = [:]
+testing.junit = "junit:junit:$feed_versions.junit"
+testing.android_junit = "androidx.test.ext:junit:$feed_versions.android_junit"
+testing.espresso_core = "androidx.test.espresso:espresso-core:$feed_versions.espresso_core"
+feed_deps.testing = testing
+
+ext.feed_deps = feed_deps
