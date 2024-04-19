@@ -38,7 +38,7 @@
             android:id="@+id/view_dot"
             android:layout_width="@dimen/lm_feed_dot_view_size"
             android:layout_height="@dimen/lm_feed_dot_view_size"
-            android:layout_marginStart="@dimen/lm_feed_extra_small_margin"
+            android:layout_marginStart="@dimen/lm_feed_small_margin"
             android:background="@drawable/lm_feed_shape_dot_grey"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/tv_user_name"

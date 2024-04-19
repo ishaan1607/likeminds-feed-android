@@ -1421,6 +1421,19 @@ open class LMFeedPostDetailFragment :
         }
     }
 
+    override fun onPostContentLinkClicked(url: String) {
+        // creates a route and returns an intent to handle the link
+        val intent = LMFeedRoute.handleDeepLink(requireContext(), url)
+        if (intent != null) {
+            try {
+                // starts activity with the intent
+                ActivityCompat.startActivity(requireContext(), intent, null)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     override fun onPostMenuIconClicked(
         position: Int,
         anchorView: View,
@@ -1437,6 +1450,23 @@ open class LMFeedPostDetailFragment :
         }
 
         popupMenu.show()
+    }
+
+    override fun onPostLinkMediaClicked(position: Int, postViewData: LMFeedPostViewData) {
+        // creates a route and returns an intent to handle the link
+        val intent = LMFeedRoute.handleDeepLink(
+            requireContext(),
+            postViewData.mediaViewData.attachments.firstOrNull()?.attachmentMeta?.ogTags?.url
+        )
+
+        if (intent != null) {
+            try {
+                // starts activity with the intent
+                ActivityCompat.startActivity(requireContext(), intent, null)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     // callback when other's post is deleted by CM

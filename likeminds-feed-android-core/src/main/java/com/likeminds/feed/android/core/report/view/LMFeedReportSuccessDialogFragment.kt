@@ -7,6 +7,8 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedDialogFragmentReportSuccessBinding
 import com.likeminds.feed.android.core.ui.widgets.alertdialog.view.LMFeedAlertDialogView
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
+import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 
 open class LMFeedReportSuccessDialogFragment(
     private val type: String
@@ -51,7 +53,7 @@ open class LMFeedReportSuccessDialogFragment(
             setAlertSubtitle(
                 getString(
                     R.string.lm_feed_our_team_will_look_into_your_feedback_and_will_take_appropriate_action_on_this_s,
-                    type
+                    type.pluralizeOrCapitalize(LMFeedWordAction.ALL_SMALL_SINGULAR)
                 )
             )
             setAlertPositiveButtonText(getString(R.string.lm_feed_okay))

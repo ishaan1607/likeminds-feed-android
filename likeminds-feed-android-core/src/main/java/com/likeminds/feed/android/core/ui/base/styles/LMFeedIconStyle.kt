@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.ui.base.styles
 
+import android.content.res.ColorStateList
 import android.widget.ImageView.ScaleType
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
@@ -130,7 +131,8 @@ class LMFeedIconStyle private constructor(
             if (this@LMFeedIconStyle.backgroundColor != null) {
                 val backgroundColor =
                     ContextCompat.getColor(context, this@LMFeedIconStyle.backgroundColor)
-                this.setBackgroundColor(backgroundColor)
+
+                setBackgroundColor(backgroundColor)
             }
         }
     }
