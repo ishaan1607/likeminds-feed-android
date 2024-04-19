@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="position"
+            type="int" />
+
+        <variable
+            name="commentViewData"
+            type="com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.style.LMFeedCommentView
+            android:id="@+id/comment_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lm_feed_medium_padding"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.likeminds.feed.android.core.post.detail.view.LMFeedReplyListView
+            android:id="@+id/rv_replies"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lm_feed_replies_list_start_margin"
+            android:isScrollContainer="false"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comment_view"
+            tools:itemCount="3"
+            tools:listitem="@layout/lm_feed_comment_view" />
+
+        <View
+            android:id="@+id/comment_separator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lm_feed_small_separator_size"
+            android:layout_marginTop="@dimen/lm_feed_comment_separator_gone_margin"
+            android:background="@color/lm_feed_blue_separator"
+            app:layout_constraintTop_toBottomOf="@id/rv_replies"
+            app:layout_goneMarginTop="@dimen/lm_feed_comment_separator_gone_margin" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lm_feed_white">
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
+            android:id="@+id/iv_author_image"
+            android:layout_width="@dimen/lm_feed_large_icon_size"
+            android:layout_height="@dimen/lm_feed_large_icon_size"
+            android:layout_marginVertical="@dimen/lm_feed_regular_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@color/lm_feed_majorelle_blue" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lm_feed_medium_margin"
+            android:maxLines="1"
+            android:textColor="@color/lm_feed_black"
+            android:textSize="@dimen/lm_feed_text_large"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@id/tv_time"
+            app:layout_constraintEnd_toStartOf="@+id/guide"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/iv_author_image"
+            app:layout_constraintTop_toTopOf="@+id/iv_author_image"
+            tools:fontFamily="@font/lm_feed_roboto_medium"
+            tools:ignore="UnusedAttribute"
+            tools:text="sfldsfdsafasdfafsdfdsfdsfdfasfskfldkf" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_custom_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lm_feed_regular_margin"
+            android:background="@drawable/lm_feed_background_round_2dp"
+            app:layout_constrainedWidth="true"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/lm_feed_regular_padding"
+            android:paddingVertical="@dimen/lm_feed_small_padding"
+            android:textColor="@color/lm_feed_white"
+            android:textSize="@dimen/lm_feed_text_small"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/tv_author_name"
+            app:layout_constraintEnd_toStartOf="@+id/iv_pin"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/tv_author_name"
+            app:layout_constraintTop_toTopOf="@id/tv_author_name"
+            tools:text="Community Manager"
+            tools:visibility="visible" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lm_feed_grey"
+            android:textSize="@dimen/lm_feed_text_small"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="@id/iv_author_image"
+            app:layout_constraintStart_toStartOf="@+id/tv_author_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_author_name"
+            tools:fontFamily="@font/lm_feed_roboto"
+            tools:text="2d" />
+
+        <View
+            android:id="@+id/view_dot_edited"
+            android:layout_width="@dimen/lm_feed_dot_view_size"
+            android:layout_height="@dimen/lm_feed_dot_view_size"
+            android:layout_marginStart="@dimen/lm_feed_small_margin"
+            android:background="@drawable/lm_feed_shape_dot_grey"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_time"
+            app:layout_constraintStart_toEndOf="@+id/tv_time"
+            app:layout_constraintTop_toTopOf="@+id/tv_time"
+            tools:visibility="visible" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_edited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lm_feed_small_margin"
+            android:text="@string/lm_feed_edited"
+            android:textColor="@color/lm_feed_grey"
+            android:textSize="@dimen/lm_feed_text_small"
+            android:textStyle="normal"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_time"
+            app:layout_constraintStart_toEndOf="@+id/view_dot_edited"
+            app:layout_constraintTop_toTopOf="@+id/tv_time"
+            tools:fontFamily="@font/lm_feed_roboto"
+            tools:visibility="visible" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+            android:id="@+id/iv_pin"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/lm_feed_regular_margin"
+            android:paddingHorizontal="@dimen/lm_feed_extra_small_padding"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_post_menu"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/lm_feed_ic_pin"
+            tools:visibility="visible" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+            android:id="@+id/iv_post_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:foreground="?selectableItemBackground"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription,UnusedAttribute"
+            tools:src="@drawable/lm_feed_ic_overflow_menu" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

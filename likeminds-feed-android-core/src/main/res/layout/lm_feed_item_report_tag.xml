@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="reportTagViewData"
+            type="com.likeminds.feed.android.core.report.model.LMFeedReportTagViewData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/lm_feed_medium_margin">
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_report_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lm_feed_regular_margin"
+            android:background="@drawable/lm_feed_bg_report_tags"
+            android:paddingStart="@dimen/lm_feed_large_padding"
+            android:paddingTop="@dimen/lm_feed_regular_padding"
+            android:paddingEnd="@dimen/lm_feed_large_padding"
+            android:paddingBottom="@dimen/lm_feed_regular_padding"
+            android:text="@{reportTagViewData.name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ellipsize="end"
+            tools:maxLines="1"
+            tools:text="Inappropriate Language"
+            tools:textSize="@dimen/lm_feed_text_large" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

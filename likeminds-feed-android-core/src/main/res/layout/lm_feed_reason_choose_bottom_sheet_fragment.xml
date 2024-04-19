@@ -1,0 +1,35 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/lm_feed_bg_rounded_top_10dp"
+        android:paddingBottom="@dimen/lm_feed_large_padding">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="@dimen/lm_feed_report_bottom_sheet_top_bar_width"
+            android:layout_height="@dimen/lm_feed_report_bottom_sheet_top_bar_height"
+            android:layout_margin="@dimen/lm_feed_regular_margin"
+            android:background="@drawable/lm_feed_bg_sheet_handle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.likeminds.feed.android.core.delete.view.LMFeedReasonChooseListView
+            android:id="@+id/rv_reasons"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lm_feed_large_margin"
+            android:overScrollMode="never"
+            android:paddingBottom="@dimen/lm_feed_large_padding"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:itemCount="10"
+            tools:listitem="@layout/lm_feed_item_reason_choose" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

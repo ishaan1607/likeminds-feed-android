@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/lm_feed_chip_default_icon_size"
+    android:height="@dimen/lm_feed_bookmark_icon_height"
+    android:viewportWidth="12"
+    android:viewportHeight="18">
+    <path
+        android:fillColor="#484F67"
+        android:pathData="M2.25,1H9.75C10.44,1 11,1.551 11,2.231V17L6,12.077L1,17V2.231C1,1.551 1.56,1 2.25,1Z"
+        android:strokeWidth="1"
+        android:strokeColor="#484F67"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

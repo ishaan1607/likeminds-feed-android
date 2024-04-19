@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="position"
+            type="int" />
+
+        <variable
+            name="selectedTopicViewData"
+            type="com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/lm_feed_small_margin"
+        android:layout_marginEnd="@dimen/lm_feed_regular_margin"
+        android:background="@drawable/lm_feed_background_selected_filter_topic">
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_topic_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/lm_feed_small_margin"
+            android:layout_marginStart="@dimen/lm_feed_regular_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Books"
+            tools:textSize="@dimen/lm_feed_text_large" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+            android:id="@+id/iv_cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lm_feed_extra_small_margin"
+            android:layout_marginEnd="@dimen/lm_feed_small_margin"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackgroundBorderless"
+            app:layout_constraintBottom_toBottomOf="@id/tv_topic_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_topic_name"
+            app:layout_constraintTop_toTopOf="@id/tv_topic_name"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/lm_feed_ic_cross_topics" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -2,7 +2,9 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
         gradlePluginPortal()
+        maven { url 'https://jitpack.io' }
     }
 }
 dependencyResolutionManagement {
@@ -10,10 +12,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
+        mavenLocal()
     }
 }
 
 rootProject.name = "likeminds-feed-android"
 include ':example'
-include ':likeminds-feed-android-ui'
-include ':likeminds-feed-android-integration'
+include ':likeminds-feed-android-core'

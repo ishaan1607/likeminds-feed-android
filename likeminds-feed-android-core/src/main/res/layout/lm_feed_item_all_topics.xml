@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="position"
+            type="int" />
+
+        <variable
+            name="allTopicsViewData"
+            type="com.likeminds.feed.android.core.topicselection.model.LMFeedAllTopicsViewData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_all_topics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/lm_feed_large_padding"
+            android:text="@string/lm_feed_all_topics"
+            tools:drawableEnd="@drawable/lm_feed_ic_topic_selected"
+            tools:textColor="@color/lm_feed_dark_grey"
+            tools:textSize="@dimen/lm_feed_text_large"
+            tools:textStyle="bold" />
+
+        <View
+            android:id="@+id/view_separator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lm_feed_small_separator_size"
+            android:background="@color/lm_feed_blue_separator"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

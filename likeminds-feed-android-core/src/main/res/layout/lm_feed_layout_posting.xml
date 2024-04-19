@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lm_feed_white">
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
+            android:id="@+id/iv_post_thumbnail"
+            android:layout_width="@dimen/lm_feed_posting_thumbnail_width"
+            android:layout_height="@dimen/lm_feed_posting_thumbnail_height"
+            android:layout_marginVertical="@dimen/lm_feed_posting_thumbnail_margin"
+            android:layout_marginStart="@dimen/lm_feed_medium_margin"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_posting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="@dimen/lm_feed_large_margin"
+            android:layout_marginStart="@dimen/lm_feed_regular_margin"
+            android:ellipsize="end"
+            android:lineHeight="@dimen/lm_feed_standard_line_height"
+            android:maxEms="15"
+            android:textColor="@color/lm_feed_dark_grey"
+            android:textSize="@dimen/lm_feed_text_extra_large"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_post_thumbnail"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/lm_feed_creating_s" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
+            android:id="@+id/posting_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="@dimen/lm_feed_standard_icon_size"
+            android:layout_height="@dimen/lm_feed_standard_icon_size"
+            android:layout_marginEnd="@dimen/lm_feed_medium_margin"
+            android:background="@drawable/lm_feed_circular_shape"
+            android:indeterminate="false"
+            android:max="100"
+            android:progressDrawable="@drawable/lm_feed_circular_progress_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/lm_feed_medium_margin"
+            android:ellipsize="end"
+            android:lineHeight="@dimen/lm_feed_standard_line_height"
+            android:maxEms="15"
+            android:text="@string/lm_feed_retry"
+            android:textColor="@color/lm_feed_grey"
+            android:textSize="@dimen/lm_feed_text_medium"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
+            android:id="@+id/iv_posted"
+            android:layout_width="@dimen/lm_feed_standard_icon_size"
+            android:layout_height="@dimen/lm_feed_standard_icon_size"
+            android:layout_marginEnd="@dimen/lm_feed_medium_margin"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@drawable/lm_feed_ic_completed_green" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

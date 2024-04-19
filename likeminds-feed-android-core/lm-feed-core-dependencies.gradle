@@ -1,0 +1,36 @@
+dependencies {
+    implementation feed_deps.android_core.core
+    implementation feed_deps.android_core.appcompat
+    implementation feed_deps.ui.material_design
+    implementation feed_deps.ui.constraint_layout
+    implementation feed_deps.ui.swipe_refresh_layout
+    implementation feed_deps.exoplayer.main
+
+    implementation feed_deps.glide.main
+    kapt feed_deps.glide.compiler
+
+    implementation feed_deps.fragment_ktx.main
+
+    implementation feed_deps.ui.view_pager2
+    implementation feed_deps.ui.view_pager_indicator
+
+    implementation feed_deps.ui.shimmer
+    implementation feed_deps.ui.flexbox
+
+    implementation platform(feed_deps.firebase.bom)
+    implementation feed_deps.firebase.messaging
+
+    implementation feed_deps.work_manager.main
+
+    implementation feed_deps.aws_s3.main
+    implementation feed_deps.aws_s3.client
+
+    implementation feed_deps.likeminds.custom_gallery
+    implementation feed_deps.likeminds.user_tagging
+
+    testImplementation feed_deps.testing.junit
+    androidTestImplementation feed_deps.testing.android_junit
+    androidTestImplementation feed_deps.testing.espresso_core
+
+    api feed_deps.likeminds.feed_data
+}
