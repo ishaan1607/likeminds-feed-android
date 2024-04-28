@@ -609,14 +609,14 @@ object LMFeedViewDataConvertor {
     --------------------------------*/
 
     fun convertPost(
-        temporaryId: Long,
+        temporaryId: String,
         workerUUID: String,
         text: String?,
         fileUris: List<LMFeedFileUploadViewData>
     ): Post {
         return Post.Builder()
-            .tempId(temporaryId.toString())
-            .id(temporaryId.toString())
+            .tempId(temporaryId)
+            .id(temporaryId)
             .workerUUID(workerUUID)
             .text(text ?: "")
             .attachments(convertAttachments(fileUris))
