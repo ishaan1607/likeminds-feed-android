@@ -8,7 +8,7 @@ import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedPostPollViewStyle private constructor(
     //poll question text style
-    val pollQuestionTextStyle: LMFeedTextStyle,
+    val pollTitleTextStyle: LMFeedTextStyle,
     //poll option text style
     val pollOptionTextStyle: LMFeedTextStyle,
     //poll selected option color
@@ -22,11 +22,11 @@ class LMFeedPostPollViewStyle private constructor(
     //poll info text style
     val pollInfoTextStyle: LMFeedTextStyle?,
     //submit poll button style
-    val submitPollButtonStyle: LMFeedButtonStyle,
+    val submitPollVoteButtonStyle: LMFeedButtonStyle,
     //poll expiry text style
     val pollExpiryTextStyle: LMFeedTextStyle?,
     //add option on poll text style
-    val addPollOptionTextStyle: LMFeedTextStyle,
+    val addPollOptionButtonStyle: LMFeedButtonStyle,
     //poll option added by text style
     val pollOptionAddedByTextStyle: LMFeedTextStyle?,
     //edit poll icon style
@@ -34,11 +34,13 @@ class LMFeedPostPollViewStyle private constructor(
     //clear poll icon style
     val clearPollIconStyle: LMFeedIconStyle?,
     //poll option check icon style
-    val pollOptionCheckIconStyle: LMFeedIconStyle?
+    val pollOptionCheckIconStyle: LMFeedIconStyle?,
+    //edit vote on poll text style
+    val editPollVoteTextStyle: LMFeedTextStyle?
 ) : LMFeedViewStyle {
 
     class Builder {
-        private var pollQuestionTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
+        private var pollTitleTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_large)
             .textColor(R.color.lm_feed_dark_grey)
             .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
@@ -62,7 +64,7 @@ class LMFeedPostPollViewStyle private constructor(
 
         private var pollInfoTextStyle: LMFeedTextStyle? = null
 
-        private var submitPollButtonStyle: LMFeedButtonStyle = LMFeedButtonStyle.Builder()
+        private var submitPollVoteButtonStyle: LMFeedButtonStyle = LMFeedButtonStyle.Builder()
             .textStyle(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_white)
@@ -76,10 +78,17 @@ class LMFeedPostPollViewStyle private constructor(
 
         private var pollExpiryTextStyle: LMFeedTextStyle? = null
 
-        private var addPollOptionTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
-            .textSize(R.dimen.lm_feed_text_large)
-            .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
-            .textColor(R.color.lm_feed_dark_grayish_blue)
+        private var addPollOptionButtonStyle: LMFeedButtonStyle = LMFeedButtonStyle.Builder()
+            .textStyle(
+                LMFeedTextStyle.Builder()
+                    .textSize(R.dimen.lm_feed_text_large)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                    .textColor(R.color.lm_feed_dark_grayish_blue)
+                    .textAllCaps(false)
+                    .build()
+            )
+            .cornerRadius(R.dimen.lm_feed_corner_radius_medium)
+            .strokeColor(R.color.lm_feed_dusty_grey_20)
             .build()
 
         private var pollOptionAddedByTextStyle: LMFeedTextStyle? = null
@@ -90,8 +99,10 @@ class LMFeedPostPollViewStyle private constructor(
 
         private var pollOptionCheckIconStyle: LMFeedIconStyle? = null
 
-        fun pollQuestionTextStyle(pollQuestionTextStyle: LMFeedTextStyle) = apply {
-            this.pollQuestionTextStyle = pollQuestionTextStyle
+        private var editPollVoteTextStyle: LMFeedTextStyle? = null
+
+        fun pollTitleTextStyle(pollTitleTextStyle: LMFeedTextStyle) = apply {
+            this.pollTitleTextStyle = pollTitleTextStyle
         }
 
         fun pollOptionTextStyle(pollOptionTextStyle: LMFeedTextStyle) = apply {
@@ -118,16 +129,16 @@ class LMFeedPostPollViewStyle private constructor(
             this.pollInfoTextStyle = pollInfoTextStyle
         }
 
-        fun submitPollButtonStyle(submitPollButtonStyle: LMFeedButtonStyle) = apply {
-            this.submitPollButtonStyle = submitPollButtonStyle
+        fun submitPollVoteButtonStyle(submitPollVoteButtonStyle: LMFeedButtonStyle) = apply {
+            this.submitPollVoteButtonStyle = submitPollVoteButtonStyle
         }
 
         fun pollExpiryTextStyle(pollExpiryTextStyle: LMFeedTextStyle?) = apply {
             this.pollExpiryTextStyle = pollExpiryTextStyle
         }
 
-        fun addPollOptionTextStyle(addPollOptionTextStyle: LMFeedTextStyle) = apply {
-            this.addPollOptionTextStyle = addPollOptionTextStyle
+        fun addPollOptionButtonStyle(addPollOptionButtonStyle: LMFeedButtonStyle) = apply {
+            this.addPollOptionButtonStyle = addPollOptionButtonStyle
         }
 
         fun pollOptionAddedByTextStyle(pollOptionAddedByTextStyle: LMFeedTextStyle?) = apply {
@@ -146,38 +157,44 @@ class LMFeedPostPollViewStyle private constructor(
             this.pollOptionCheckIconStyle = pollOptionCheckIconStyle
         }
 
+        fun editPollVoteTextStyle(editPollVoteTextStyle: LMFeedTextStyle?) = apply {
+            this.editPollVoteTextStyle = editPollVoteTextStyle
+        }
+
         fun build() = LMFeedPostPollViewStyle(
-            pollQuestionTextStyle,
+            pollTitleTextStyle,
             pollOptionTextStyle,
             pollSelectedOptionColor,
             pollOtherOptionColor,
             votesCountTextStyle,
             membersVotedCountTextStyle,
             pollInfoTextStyle,
-            submitPollButtonStyle,
+            submitPollVoteButtonStyle,
             pollExpiryTextStyle,
-            addPollOptionTextStyle,
+            addPollOptionButtonStyle,
             pollOptionAddedByTextStyle,
             editPollIconStyle,
             clearPollIconStyle,
-            pollOptionCheckIconStyle
+            pollOptionCheckIconStyle,
+            editPollVoteTextStyle
         )
     }
 
     fun toBuilder(): Builder {
-        return Builder().pollQuestionTextStyle(pollQuestionTextStyle)
+        return Builder().pollTitleTextStyle(pollTitleTextStyle)
             .pollOptionTextStyle(pollOptionTextStyle)
             .pollSelectedOptionColor(pollSelectedOptionColor)
             .pollOtherOptionColor(pollOtherOptionColor)
             .votesCountTextStyle(votesCountTextStyle)
             .membersVotedCountTextStyle(membersVotedCountTextStyle)
             .pollInfoTextStyle(pollInfoTextStyle)
-            .submitPollButtonStyle(submitPollButtonStyle)
+            .submitPollVoteButtonStyle(submitPollVoteButtonStyle)
             .pollExpiryTextStyle(pollExpiryTextStyle)
-            .addPollOptionTextStyle(addPollOptionTextStyle)
+            .addPollOptionButtonStyle(addPollOptionButtonStyle)
             .pollOptionAddedByTextStyle(pollOptionAddedByTextStyle)
             .editPollIconStyle(editPollIconStyle)
             .clearPollIconStyle(clearPollIconStyle)
             .pollOptionCheckIconStyle(pollOptionCheckIconStyle)
+            .editPollVoteTextStyle(editPollVoteTextStyle)
     }
 }

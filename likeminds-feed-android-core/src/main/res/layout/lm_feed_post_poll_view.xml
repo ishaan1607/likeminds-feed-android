@@ -19,8 +19,29 @@
             tools:textColor="@color/lm_feed_dark_grey"
             tools:textSize="@dimen/lm_feed_text_medium" />
 
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+            android:id="@+id/iv_edit_poll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lm_feed_regular_margin"
+            android:layout_marginEnd="@dimen/lm_feed_large_margin"
+            app:layout_constraintEnd_toStartOf="@id/iv_clear_poll"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_edit"
+            tools:tint="@color/lm_feed_dark_grey" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+            android:id="@+id/iv_clear_poll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lm_feed_regular_margin"
+            android:layout_marginEnd="@dimen/lm_feed_large_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/lm_feed_ic_cross_circle" />
+
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
-            android:id="@+id/tv_poll_select"
+            android:id="@+id/tv_poll_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lm_feed_regular_margin"
@@ -40,7 +61,7 @@
             android:clipToPadding="false"
             app:layout_constraintEnd_toEndOf="@+id/tv_poll_title"
             app:layout_constraintStart_toStartOf="@+id/tv_poll_title"
-            app:layout_constraintTop_toBottomOf="@+id/tv_poll_select" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_poll_info" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedButton
             android:id="@+id/btn_add_option"
@@ -79,6 +100,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lm_feed_large_margin"
+            android:layout_marginBottom="@dimen/lm_feed_large_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_poll_title"
             app:layout_constraintTop_toBottomOf="@+id/btn_submit_vote"
             tools:ellipsize="end"
@@ -105,6 +128,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/lm_feed_small_margin"
             android:layout_marginTop="@dimen/lm_feed_large_margin"
+            android:layout_marginBottom="@dimen/lm_feed_large_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/view_dot_time_left"
             app:layout_constraintTop_toBottomOf="@+id/btn_submit_vote"
             tools:ellipsize="end"
@@ -131,6 +156,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/lm_feed_small_margin"
             android:layout_marginTop="@dimen/lm_feed_large_margin"
+            android:layout_marginBottom="@dimen/lm_feed_large_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/view_dot_edit_vote"
             app:layout_constraintTop_toBottomOf="@+id/btn_submit_vote"
             tools:ellipsize="end"
