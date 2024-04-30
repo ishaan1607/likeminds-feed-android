@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.ui.widgets.poll.style
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 class LMFeedPostPollViewStyle private constructor(
@@ -31,7 +32,9 @@ class LMFeedPostPollViewStyle private constructor(
     //edit poll icon style
     val editPollIconStyle: LMFeedIconStyle?,
     //clear poll icon style
-    val clearPollIconStyle: LMFeedIconStyle?
+    val clearPollIconStyle: LMFeedIconStyle?,
+    //poll option check icon style
+    val pollOptionCheckIconStyle: LMFeedIconStyle?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -60,6 +63,15 @@ class LMFeedPostPollViewStyle private constructor(
         private var pollInfoTextStyle: LMFeedTextStyle? = null
 
         private var submitPollButtonStyle: LMFeedButtonStyle = LMFeedButtonStyle.Builder()
+            .textStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(R.color.lm_feed_white)
+                    .textSize(R.dimen.lm_feed_text_large)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                    .build()
+            )
+            .backgroundColor(LMFeedTheme.getButtonColor())
+            .cornerRadius(R.dimen.lm_feed_corner_radius_medium)
             .build()
 
         private var pollExpiryTextStyle: LMFeedTextStyle? = null
@@ -75,6 +87,8 @@ class LMFeedPostPollViewStyle private constructor(
         private var editPollIconStyle: LMFeedIconStyle? = null
 
         private var clearPollIconStyle: LMFeedIconStyle? = null
+
+        private var pollOptionCheckIconStyle: LMFeedIconStyle? = null
 
         fun pollQuestionTextStyle(pollQuestionTextStyle: LMFeedTextStyle) = apply {
             this.pollQuestionTextStyle = pollQuestionTextStyle
@@ -128,6 +142,10 @@ class LMFeedPostPollViewStyle private constructor(
             this.clearPollIconStyle = clearPollIconStyle
         }
 
+        fun pollOptionCheckIconStyle(pollOptionCheckIconStyle: LMFeedIconStyle?) = apply {
+            this.pollOptionCheckIconStyle = pollOptionCheckIconStyle
+        }
+
         fun build() = LMFeedPostPollViewStyle(
             pollQuestionTextStyle,
             pollOptionTextStyle,
@@ -141,7 +159,8 @@ class LMFeedPostPollViewStyle private constructor(
             addPollOptionTextStyle,
             pollOptionAddedByTextStyle,
             editPollIconStyle,
-            clearPollIconStyle
+            clearPollIconStyle,
+            pollOptionCheckIconStyle
         )
     }
 
@@ -159,5 +178,6 @@ class LMFeedPostPollViewStyle private constructor(
             .pollOptionAddedByTextStyle(pollOptionAddedByTextStyle)
             .editPollIconStyle(editPollIconStyle)
             .clearPollIconStyle(clearPollIconStyle)
+            .pollOptionCheckIconStyle(pollOptionCheckIconStyle)
     }
 }

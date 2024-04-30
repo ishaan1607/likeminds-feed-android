@@ -32,4 +32,7 @@
     <color name="lm_feed_red_event">#FB1609</color>
     <color name="lm_feed_pure_blue">#007AFF</color>
     <color name="lm_feed_majorelle_blue_20">#335046E5</color>
+    <color name="lm_feed_dusty_grey">#9B9B9B</color>
+    <color name="lm_feed_dusty_grey_20">#339B9B9B</color>
+    <color name="lm_feed_light_silver">#D9D9D9</color>
 </resources>

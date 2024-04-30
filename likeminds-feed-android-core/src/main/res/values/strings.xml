@@ -122,4 +122,6 @@
     <string name="lm_feed_create_s">Create %s</string>
     <string name="lm_feed_create">Create</string>
     <string name="lm_feed_please_set_domain">Please set your domain while setting up the Feed Core</string>
+    <string name="lm_feed_plus_add_an_option">+ Add an option</string>
+    <string name="lm_feed_submit_vote">Submit Vote</string>
 </resources>

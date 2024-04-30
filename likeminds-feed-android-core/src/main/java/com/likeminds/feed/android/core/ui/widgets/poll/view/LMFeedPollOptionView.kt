@@ -4,10 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.likeminds.feed.android.core.databinding.LmFeedPostPollViewBinding
-import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
+import com.likeminds.feed.android.core.databinding.LmFeedPollOptionViewBinding
 
-class LMFeedPostPollView : ConstraintLayout {
+class LMFeedPollOptionView : ConstraintLayout {
 
     constructor(context: Context) : super(context)
 
@@ -22,14 +21,5 @@ class LMFeedPostPollView : ConstraintLayout {
     private val inflater =
         (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
 
-    private val binding = LmFeedPostPollViewBinding.inflate(inflater, this, true)
-
-    /**
-     * Sets click listener on the add poll options button
-     *
-     * @param listener [LMFeedOnClickListener] interface to have click listener
-     */
-    fun setAddPollOptionsClicked(listener: LMFeedOnClickListener) {
-
-    }
+    private val binding = LmFeedPollOptionViewBinding.inflate(inflater, this, true)
 }
