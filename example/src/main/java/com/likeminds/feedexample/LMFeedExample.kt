@@ -2,7 +2,6 @@ package com.likeminds.feedexample
 
 import android.app.Application
 import com.likeminds.feed.android.core.LMFeedCore
-import com.likeminds.feed.android.core.ui.theme.model.LMFeedSetThemeRequest
 
 
 class LMFeedExample : Application() {
@@ -11,7 +10,7 @@ class LMFeedExample : Application() {
         super.onCreate()
 
         LMFeedCore.setup(
-            this,
+            application = this,
             "https://www.examplefeed.com"
         )
     }

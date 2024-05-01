@@ -6,7 +6,6 @@ import androidx.lifecycle.*
 import androidx.work.WorkContinuation
 import androidx.work.WorkManager
 import com.likeminds.customgallery.media.model.*
-import com.likeminds.customgallery.media.util.MediaUtils
 import com.likeminds.customgallery.utils.file.util.FileUtil
 import com.likeminds.feed.android.core.post.create.model.LMFeedFileUploadViewData
 import com.likeminds.feed.android.core.post.create.util.LMFeedPostAttachmentUploadWorker
@@ -317,7 +316,7 @@ class LMFeedCreatePostViewModel : ViewModel() {
     ) {
         viewModelScope.launchIO {
             val workerUUID = uploadData.second
-            val temporaryPostId = temporaryPostId ?: -1
+            val temporaryPostId = "-$temporaryPostId"
 
             val post = LMFeedViewDataConvertor.convertPost(
                 temporaryPostId,

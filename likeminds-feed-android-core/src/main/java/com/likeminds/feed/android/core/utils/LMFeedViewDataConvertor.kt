@@ -22,6 +22,8 @@ import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.Activity
 import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
 import com.likeminds.likemindsfeed.post.model.*
+import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentType
+import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
 import com.likeminds.likemindsfeed.topic.model.Topic
@@ -266,7 +268,7 @@ object LMFeedViewDataConvertor {
         if (attachments == null) return emptyList()
         return attachments.map { attachment ->
             LMFeedAttachmentViewData.Builder()
-                .attachmentType(attachment.attachmentType)
+                .attachmentType(attachment.attachmentType.getAttachmentValue())
                 .attachmentMeta(convertAttachmentMeta(attachment.attachmentMeta))
                 .postId(postId)
                 .build()
@@ -607,14 +609,14 @@ object LMFeedViewDataConvertor {
     --------------------------------*/
 
     fun convertPost(
-        temporaryId: Long,
+        temporaryId: String,
         workerUUID: String,
         text: String?,
         fileUris: List<LMFeedFileUploadViewData>
     ): Post {
         return Post.Builder()
-            .tempId(temporaryId.toString())
-            .id(temporaryId.toString())
+            .tempId(temporaryId)
+            .id(temporaryId)
             .workerUUID(workerUUID)
             .text(text ?: "")
             .attachments(convertAttachments(fileUris))
@@ -635,7 +637,7 @@ object LMFeedViewDataConvertor {
         attachment: LMFeedAttachmentViewData
     ): Attachment {
         return Attachment.Builder()
-            .attachmentType(attachment.attachmentType)
+            .attachmentType(attachment.attachmentType.getAttachmentType())
             .attachmentMeta(convertAttachmentMeta(attachment.attachmentMeta))
             .build()
     }
@@ -659,7 +661,7 @@ object LMFeedViewDataConvertor {
     ): List<Attachment> {
         return listOf(
             Attachment.Builder()
-                .attachmentType(LINK)
+                .attachmentType(AttachmentType.LINK)
                 .attachmentMeta(convertAttachmentMeta(linkOGTagsViewData))
                 .build()
         )
@@ -697,15 +699,15 @@ object LMFeedViewDataConvertor {
     private fun convertAttachment(fileUri: LMFeedFileUploadViewData): Attachment {
         val attachmentType = when (fileUri.fileType) {
             com.likeminds.customgallery.media.model.IMAGE -> {
-                IMAGE
+                AttachmentType.IMAGE
             }
 
             com.likeminds.customgallery.media.model.VIDEO -> {
-                VIDEO
+                AttachmentType.VIDEO
             }
 
             else -> {
-                DOCUMENT
+                AttachmentType.DOCUMENT
             }
         }
 
