@@ -66,7 +66,6 @@ class LMFeedPostPollView : ConstraintLayout {
                 hide()
             } else {
                 setStyle(membersVotedCountTextStyle)
-                show()
             }
         }
     }
