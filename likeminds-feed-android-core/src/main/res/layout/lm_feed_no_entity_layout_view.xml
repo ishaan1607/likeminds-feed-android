@@ -28,7 +28,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_image"
-            tools:text="No Post to show" />
+            tools:text="@string/lm_feed_no_posts_s_to_show" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_no_entity_subtitle"
@@ -40,7 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_no_entity_title"
-            tools:text="Be the first one to share a post" />
+            tools:text="@string/lm_feed_be_the_first_one_to_comment" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedFAB
             android:id="@+id/fab_action"
@@ -58,6 +58,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_no_entity_subtitle"
             tools:icon="@drawable/lm_feed_picture_placeholder"
-            tools:text="New Post" />
+            tools:text="@string/lm_feed_new_s" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

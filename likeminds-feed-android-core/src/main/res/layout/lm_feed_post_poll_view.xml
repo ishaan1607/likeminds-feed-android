@@ -15,7 +15,7 @@
             android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Which is the best design tool that you have used?"
+            tools:text="@string/lm_feed_poll_sample_question"
             tools:textColor="@color/lm_feed_dark_grey"
             tools:textSize="@dimen/lm_feed_text_medium" />
 
@@ -48,7 +48,7 @@
             android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_poll_title"
-            tools:text="*Select exactly 2 options."
+            tools:text="@string/lm_feed_poll_select_exactly_sample"
             tools:textColor="@color/lm_feed_dusty_grey"
             tools:textSize="@dimen/lm_feed_text_medium"
             tools:visibility="visible" />
@@ -106,7 +106,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn_submit_vote"
             tools:ellipsize="end"
             tools:maxLines="2"
-            tools:text="Be the first one to vote"
+            tools:text="@string/lm_feed_be_the_first_one_to_vote"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_large" />
 
@@ -134,7 +134,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn_submit_vote"
             tools:ellipsize="end"
             tools:maxLines="2"
-            tools:text="5d left"
+            tools:text="@string/lm_feed_sample_time_left"
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="@dimen/lm_feed_text_large" />
 
@@ -162,7 +162,7 @@
             app:layout_constraintTop_toBottomOf="@+id/btn_submit_vote"
             tools:ellipsize="end"
             tools:maxLines="2"
-            tools:text="Edit vote"
+            tools:text="@string/lm_feed_edit_vote"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_large" />
 

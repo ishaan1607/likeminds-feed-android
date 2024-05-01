@@ -48,7 +48,7 @@
                 app:layout_goneMarginBottom="@dimen/lm_feed_small_margin"
                 tools:ellipsize="end"
                 tools:maxLines="2"
-                tools:text="Finiss nocere, tanquam placidus amor. Grow and you will be grasped daily."
+                tools:text="@string/lm_feed_sample_text"
                 tools:textColor="@color/lm_feed_black"
                 tools:textSize="@dimen/lm_feed_text_large" />
 
@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_poll_option"
                 app:layout_constraintVertical_chainStyle="packed"
                 tools:ellipsize="end"
-                tools:text="Added by You"
+                tools:text="@string/lm_feed_added_by_you"
                 tools:textColor="@color/lm_feed_grey"
                 tools:textSize="@dimen/lm_feed_text_small"
                 tools:visibility="gone" />
@@ -94,9 +94,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_poll_option"
-            tools:text="5 votes"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_medium"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

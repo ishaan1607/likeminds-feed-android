@@ -26,11 +26,10 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_documents"
             tools:fontFamily="@font/lm_feed_roboto"
-            tools:text="+1 more"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_large"
             tools:textStyle="normal"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
