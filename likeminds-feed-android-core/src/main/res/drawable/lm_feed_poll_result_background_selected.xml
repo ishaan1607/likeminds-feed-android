@@ -7,7 +7,7 @@
         </shape>
     </item>
 
-    <item android:id="@+id/progress">
+    <item android:id="@+id/lm_feed_poll_progress_clip">
         <clip>
             <shape>
                 <corners android:radius="8dp" />

@@ -1,10 +1,15 @@
 package com.likeminds.feed.android.core.ui.widgets.poll.view
 
 import android.content.Context
+import android.graphics.drawable.ClipDrawable
+import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedPollOptionViewBinding
+import com.likeminds.feed.android.core.post.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -67,6 +72,46 @@ class LMFeedPollOptionView : ConstraintLayout {
                 hide()
             } else {
                 setStyle(pollOptionVotesCountTextStyle)
+            }
+        }
+    }
+
+    /**
+     * Sets poll option progress background as per the percentage of votes on the option
+     *
+     * @param toShowResults [Boolean] whether to show the poll results or not
+     * @param pollOptionViewData [LMFeedPollOptionViewData] data for the poll option
+     */
+    fun setPollOptionBackgroundProgress(
+        toShowResults: Boolean,
+        pollOptionViewData: LMFeedPollOptionViewData,
+        pollOptionViewStyle: LMFeedPostPollOptionViewStyle
+    ) {
+        binding.apply {
+            val drawable = pbPollBackground.progressDrawable as LayerDrawable
+            val clip =
+                drawable.findDrawableByLayerId(R.id.lm_feed_poll_progress_clip) as ClipDrawable
+
+            if (toShowResults) {
+                pbPollBackground.progress = pollOptionViewData.percentage
+            } else {
+                pbPollBackground.progress = 0
+            }
+
+            if (pollOptionViewData.isSelected) {
+                clip.setTint(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        pollOptionViewStyle.pollSelectedOptionColor
+                    )
+                )
+            } else {
+                clip.setTint(
+                    ContextCompat.getColor(
+                        binding.root.context,
+                        pollOptionViewStyle.pollOtherOptionColor
+                    )
+                )
             }
         }
     }
