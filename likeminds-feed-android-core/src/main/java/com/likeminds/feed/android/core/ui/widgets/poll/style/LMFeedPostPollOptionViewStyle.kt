@@ -2,10 +2,19 @@ package com.likeminds.feed.android.core.ui.widgets.poll.style
 
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedIconStyle
-import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
+import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedPostPollViewStyle] helps you to customize the post poll view [LMFeedPostPollView]
+ *
+ * @property pollOptionTextStyle : [LMFeedTextStyle] this will help you to customize the text of options on the post poll
+ * @property pollSelectedOptionColor : [LMFeedPostPollOptionViewStyle] this will help you to customize the color of selected options on the post poll
+ * @property pollOtherOptionColor: [LMFeedTextStyle] this will help you to customize the color of unselected options on the post poll
+ * @property pollOptionVotesCountTextStyle: [LMFeedTextStyle] this will help you to customize the votes count on post poll options
+ * @property pollOptionAddedByTextStyle: [LMFeedButtonStyle] this will help you to customize the option added by text on post poll options
+ * @property pollOptionCheckIconStyle: [LMFeedTextStyle] this will help you to customize the check icon on post poll options
+ * */
 class LMFeedPostPollOptionViewStyle private constructor(
     //poll option text style
     val pollOptionTextStyle: LMFeedTextStyle,

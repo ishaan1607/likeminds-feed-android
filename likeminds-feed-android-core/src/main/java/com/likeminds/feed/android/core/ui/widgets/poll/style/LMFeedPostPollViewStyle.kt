@@ -5,6 +5,20 @@ import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
+/**
+ * [LMFeedPostPollViewStyle] helps you to customize the post poll view [LMFeedPostPollView]
+ *
+ * @property pollTitleTextStyle : [LMFeedTextStyle] this will help you to customize the title text of the post poll
+ * @property pollOptionsViewStyle : [LMFeedPostPollOptionViewStyle] this will help you to customize the options of the post poll
+ * @property membersVotedCountTextStyle: [LMFeedTextStyle] this will help you to customize the members voted count text on the post poll
+ * @property pollInfoTextStyle: [LMFeedTextStyle] this will help you to customize the info text on the post poll
+ * @property submitPollVoteButtonStyle: [LMFeedButtonStyle] this will help you to customize the submit vote button on the post poll
+ * @property pollExpiryTextStyle: [LMFeedTextStyle] this will help you to customize the expiry time text on the post poll
+ * @property addPollOptionButtonStyle: [LMFeedButtonStyle] this will help you to customize the add option button on the post poll
+ * @property editPollIconStyle: [LMFeedIconStyle] this will help you to customize the edit icon on the post poll
+ * @property clearPollIconStyle: [LMFeedIconStyle] this will help you to customize the clear icon on the post poll
+ * @property editPollVoteTextStyle: [LMFeedTextStyle] this will help you to customize the edit vote icon on the post poll
+ * */
 class LMFeedPostPollViewStyle private constructor(
     //poll question text style
     val pollTitleTextStyle: LMFeedTextStyle,
