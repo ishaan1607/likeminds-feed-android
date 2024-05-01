@@ -10,11 +10,11 @@ class LMFeedPollViewData private constructor(
     val toShowResults: Boolean,
     val options: List<LMFeedPollOptionViewData>,
     val expiryTime: Long,
-    val isAnonymous: Boolean?,
+    val isAnonymous: Boolean,
     val allowAddOption: Boolean,
-    val multipleSelectState: String,
+    val multipleSelectState: PollMultiSelectState,
     val multipleSelectNumber: Int,
-    val pollType: String
+    val pollType: PollType
 ) {
 
     class Builder {
@@ -24,11 +24,11 @@ class LMFeedPollViewData private constructor(
         private var toShowResults: Boolean = false
         private var options: List<LMFeedPollOptionViewData> = emptyList()
         private var expiryTime: Long = 0L
-        private var isAnonymous: Boolean? = null
+        private var isAnonymous: Boolean = false
         private var allowAddOption: Boolean = false
-        private var multipleSelectState: String = PollMultiSelectState.EXACTLY.value
+        private var multipleSelectState: PollMultiSelectState = PollMultiSelectState.EXACTLY
         private var multipleSelectNumber: Int = 0
-        private var pollType: String = PollType.INSTANT.value
+        private var pollType: PollType = PollType.INSTANT
 
         fun id(id: String) = apply {
             this.id = id
@@ -54,7 +54,7 @@ class LMFeedPollViewData private constructor(
             this.expiryTime = expiryTime
         }
 
-        fun isAnonymous(isAnonymous: Boolean?) = apply {
+        fun isAnonymous(isAnonymous: Boolean) = apply {
             this.isAnonymous = isAnonymous
         }
 
@@ -62,7 +62,7 @@ class LMFeedPollViewData private constructor(
             this.allowAddOption = allowAddOption
         }
 
-        fun multipleSelectState(multipleSelectState: String) = apply {
+        fun multipleSelectState(multipleSelectState: PollMultiSelectState) = apply {
             this.multipleSelectState = multipleSelectState
         }
 
@@ -70,7 +70,7 @@ class LMFeedPollViewData private constructor(
             this.multipleSelectNumber = multipleSelectNumber
         }
 
-        fun pollType(pollType: String) = apply {
+        fun pollType(pollType: PollType) = apply {
             this.pollType = pollType
         }
 
