@@ -135,6 +135,7 @@
     <string name="lm_feed_sample_time">20m</string>
     <string name="lm_feed_sample_time_left">5d left</string>
     <string name="lm_feed_poll_select_exactly_sample">*Select exactly 2 options.</string>
+    <string name="lm_feed_poll_results">Poll Results</string>
     <string name="lm_feed_sample_topic">Alternative rock</string>
     <string name="lm_feed_sample_report_tag">Spam</string>
     <string name="lm_feed_sample_link_title">Twitter will soon let you schedule your tweets</string>

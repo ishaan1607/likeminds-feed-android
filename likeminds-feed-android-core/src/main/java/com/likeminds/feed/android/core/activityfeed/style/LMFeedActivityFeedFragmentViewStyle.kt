@@ -120,7 +120,8 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
     }
 
     fun toBuilder(): Builder {
-        return Builder().headerViewStyle(headerViewStyle)
+        return Builder()
+            .headerViewStyle(headerViewStyle)
             .activityViewStyle(activityViewStyle)
             .noActivityLayoutViewStyle(noActivityLayoutViewStyle)
             .backgroundColor(backgroundColor)

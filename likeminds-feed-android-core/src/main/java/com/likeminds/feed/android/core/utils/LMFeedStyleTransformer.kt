@@ -4,6 +4,7 @@ import com.likeminds.feed.android.core.activityfeed.style.LMFeedActivityFeedFrag
 import com.likeminds.feed.android.core.delete.style.LMFeedAdminDeleteDialogFragmentStyle
 import com.likeminds.feed.android.core.delete.style.LMFeedSelfDeleteDialogFragmentStyle
 import com.likeminds.feed.android.core.likes.style.LMFeedLikesFragmentViewStyle
+import com.likeminds.feed.android.core.poll.style.LMFeedPollResultsFragmentViewStyle
 import com.likeminds.feed.android.core.post.create.viewstyle.LMFeedCreatePostFragmentViewStyle
 import com.likeminds.feed.android.core.post.detail.style.LMFeedPostDetailFragmentViewStyle
 import com.likeminds.feed.android.core.post.edit.style.LMFeedEditPostFragmentViewStyle
@@ -56,4 +57,8 @@ object LMFeedStyleTransformer {
     @JvmStatic
     var selfDeleteDialogFragmentStyle: LMFeedSelfDeleteDialogFragmentStyle =
         LMFeedSelfDeleteDialogFragmentStyle.Builder().build()
+
+    @JvmStatic
+    var pollResultsFragmentViewStyle: LMFeedPollResultsFragmentViewStyle =
+        LMFeedPollResultsFragmentViewStyle.Builder().build()
 }

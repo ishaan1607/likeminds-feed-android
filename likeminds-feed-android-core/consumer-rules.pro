@@ -4,6 +4,7 @@
 -keep class com.likeminds.feed.android.core.delete.model.** { *; }
 -keep class com.likeminds.feed.android.core.likes.model.** { *; }
 -keep class com.likeminds.feed.android.core.overflowmenu.model.** { *; }
+-keep class com.likeminds.feed.android.core.poll.model.** { *; }
 -keep class com.likeminds.feed.android.core.post.model.** { *; }
 -keep class com.likeminds.feed.android.core.post.detail.model.** { *; }
 -keep class com.likeminds.feed.android.core.post.edit.model.** { *; }

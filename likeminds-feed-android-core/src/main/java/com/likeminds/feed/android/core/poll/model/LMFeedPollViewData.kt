@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.post.model
+package com.likeminds.feed.android.core.poll.model
 
 import com.likeminds.likemindsfeed.post.model.PollMultiSelectState
 import com.likeminds.likemindsfeed.post.model.PollType
