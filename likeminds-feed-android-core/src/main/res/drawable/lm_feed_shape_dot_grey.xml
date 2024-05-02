@@ -5,5 +5,5 @@
         android:width="@dimen/lm_feed_dot_view_size"
         android:height="@dimen/lm_feed_dot_view_size" />
 
-    <solid android:color="@color/lm_feed_grey" />
+    <solid android:color="@color/lm_feed_light_silver" />
 </shape>

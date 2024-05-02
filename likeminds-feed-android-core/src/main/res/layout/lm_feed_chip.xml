@@ -8,5 +8,5 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/lm_feed_text_medium"
         android:textStyle="normal"
-        tools:text="Alternative Rock" />
+        tools:text="@string/lm_feed_sample_topic" />
 </layout>

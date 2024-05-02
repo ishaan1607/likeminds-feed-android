@@ -30,7 +30,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Books"
+            tools:text="@string/lm_feed_books"
             tools:textSize="@dimen/lm_feed_text_large" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon

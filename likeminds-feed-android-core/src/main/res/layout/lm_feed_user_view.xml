@@ -31,7 +31,7 @@
             tools:ellipsize="end"
             tools:fontFamily="@font/lm_feed_roboto_medium"
             tools:maxLines="1"
-            tools:text="Sahil Gargsdsdsdsdssdsdsddsdsddsds"
+            tools:text="@string/lm_feed_sample_name"
             tools:textSize="@dimen/lm_feed_text_large" />
 
         <View
@@ -60,8 +60,8 @@
             app:layout_constraintTop_toTopOf="@+id/tv_user_name"
             tools:ellipsize="end"
             tools:fontFamily="@font/lm_feed_roboto_medium"
+            tools:text="@string/lm_feed_community_manager"
             tools:maxLines="1"
-            tools:text="Community Member"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_medium" />
 

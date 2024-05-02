@@ -32,7 +32,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:fontFamily="@font/lm_feed_roboto"
-            tools:text="1 of 2"
+            tools:text="@string/lm_feed_placeholder_replies"
             tools:textColor="@color/lm_feed_dark_grayish_blue"
             tools:textSize="@dimen/lm_feed_text_small" />
 
