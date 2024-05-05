@@ -23,6 +23,7 @@
     <!--    Elevation Size-->
     <dimen name="lm_feed_elevation_big">8dp</dimen>
     <dimen name="lm_feed_elevation_small">4dp</dimen>
+    <dimen name="lm_feed_elevation_extra_small">2dp</dimen>
 
     <!--    Corner radius-->
     <dimen name="lm_feed_corner_radius_small">2dp</dimen>
