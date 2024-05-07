@@ -1,9 +1,12 @@
 package com.likeminds.feed.android.core.utils.user
 
+import android.os.Parcelable
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedSDKClientInfoViewData
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.base.model.ITEM_USER
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 class LMFeedUserViewData private constructor(
     val id: Int,
     val name: String,
@@ -15,7 +18,7 @@ class LMFeedUserViewData private constructor(
     val updatedAt: Long,
     val sdkClientInfoViewData: LMFeedSDKClientInfoViewData,
     val uuid: String
-) : LMFeedBaseViewType {
+) : LMFeedBaseViewType, Parcelable {
 
     override val viewType: Int
         get() = ITEM_USER

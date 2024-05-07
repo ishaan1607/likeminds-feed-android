@@ -1,7 +1,10 @@
 package com.likeminds.feed.android.core.poll.model
 
+import android.os.Parcelable
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 class LMFeedPollOptionViewData private constructor(
     val id: String,
     val isSelected: Boolean,
@@ -9,7 +12,7 @@ class LMFeedPollOptionViewData private constructor(
     val text: String,
     val voteCount: Int,
     val addedByUser: LMFeedUserViewData
-) {
+) : Parcelable {
 
     class Builder {
         private var id: String = ""

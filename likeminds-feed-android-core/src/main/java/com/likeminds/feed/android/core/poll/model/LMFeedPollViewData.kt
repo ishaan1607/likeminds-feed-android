@@ -1,8 +1,11 @@
 package com.likeminds.feed.android.core.poll.model
 
+import android.os.Parcelable
 import com.likeminds.likemindsfeed.post.model.PollMultiSelectState
 import com.likeminds.likemindsfeed.post.model.PollType
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 class LMFeedPollViewData private constructor(
     val id: String,
     val title: String,
@@ -15,7 +18,7 @@ class LMFeedPollViewData private constructor(
     val multipleSelectState: PollMultiSelectState,
     val multipleSelectNumber: Int,
     val pollType: PollType
-) {
+) : Parcelable {
 
     class Builder {
         private var id: String = ""

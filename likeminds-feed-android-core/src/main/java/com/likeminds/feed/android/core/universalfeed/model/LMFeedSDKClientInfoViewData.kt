@@ -1,11 +1,15 @@
 package com.likeminds.feed.android.core.universalfeed.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 class LMFeedSDKClientInfoViewData private constructor(
     val community: Int,
     val user: Int,
     val userUniqueId: String,
     val uuid: String
-) {
+) : Parcelable {
 
     class Builder {
         private var community: Int = 0

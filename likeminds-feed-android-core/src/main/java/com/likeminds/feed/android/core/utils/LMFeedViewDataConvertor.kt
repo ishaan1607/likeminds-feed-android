@@ -21,6 +21,7 @@ import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.Activity
 import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
+import com.likeminds.likemindsfeed.poll.model.PollVote
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentType
 import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
@@ -608,6 +609,19 @@ object LMFeedViewDataConvertor {
         }
     }
 
+    // converts list of Poll network model and corresponding users map to list of user view data
+    fun convertPollVotes(
+        votes: List<PollVote>,
+        usersMap: Map<String, User>
+    ): List<LMFeedUserViewData> {
+        val usersVoted = votes.firstOrNull()?.userIds ?: emptyList()
+
+        // get object of users who have voted on the option
+        return usersVoted.map { userVoted ->
+            convertUser(usersMap[userVoted])
+        }
+    }
+
     /**--------------------------------
      * View Data Model -> Network Model
     --------------------------------*/
@@ -764,6 +778,7 @@ object LMFeedViewDataConvertor {
             .build()
     }
 
+    // converts comments count to [LMFeedCommentsCountViewData]
     fun convertCommentsCount(commentsCount: Int): LMFeedCommentsCountViewData {
         return LMFeedCommentsCountViewData.Builder()
             .commentsCount(commentsCount)

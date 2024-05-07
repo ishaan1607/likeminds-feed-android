@@ -1,10 +1,12 @@
 package com.likeminds.feed.android.core.utils
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
-import android.view.View
-import android.view.ViewGroup
+import android.os.Build
+import android.util.DisplayMetrics
+import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
@@ -171,5 +173,24 @@ object LMFeedViewUtils {
 
         // If we reach here then we didn't find a CoL or a suitable content view so we'll fallback
         return fallback
+    }
+
+    fun getDeviceDimension(context: Context): Pair<Int, Int> {
+        val activity = (context as Activity)
+        val width: Int
+        val height: Int
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowMetrics = activity.windowManager.currentWindowMetrics
+            val insets =
+                windowMetrics.windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.systemBars())
+            width = windowMetrics.bounds.width()
+            height = windowMetrics.bounds.height() - insets.top - insets.bottom
+        } else {
+            val displayMetrics = DisplayMetrics()
+            activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+            width = displayMetrics.widthPixels
+            height = displayMetrics.heightPixels
+        }
+        return Pair(width, height)
     }
 }
