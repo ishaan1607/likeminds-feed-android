@@ -4,13 +4,19 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.likeminds.feed.android.core.databinding.LmFeedPollResultsTabBinding
+import com.likeminds.feed.android.core.LMFeedCoreApplication
+import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.databinding.LmFeedFragmentPollResultsTabBinding
+import com.likeminds.feed.android.core.poll.adapter.LMFeedPollVoteResultsAdapterListener
 import com.likeminds.feed.android.core.poll.model.LMFeedPollResultsTabExtras
 import com.likeminds.feed.android.core.poll.viewmodel.LMFeedPollResultsViewModel
-import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
-import com.likeminds.feed.android.core.utils.emptyExtrasException
+import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
+import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
-class LMFeedPollResultsTabFragment : Fragment() {
+open class LMFeedPollResultsTabFragment : Fragment(), LMFeedPollVoteResultsAdapterListener {
+
+    private lateinit var binding: LmFeedFragmentPollResultsTabBinding
 
     private lateinit var pollResultsTabExtras: LMFeedPollResultsTabExtras
 
@@ -51,21 +57,56 @@ class LMFeedPollResultsTabFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return LmFeedPollResultsTabBinding.inflate(
-            inflater,
-            container,
-            false
-        ).root
+        binding = LmFeedFragmentPollResultsTabBinding.inflate(layoutInflater)
+
+        customizeNoPollResultsLayout(binding.layoutNoResults)
+
+        return binding.root
+    }
+
+    protected open fun customizeNoPollResultsLayout(layoutNoResults: LMFeedNoEntityLayoutView) {
+        layoutNoResults.apply {
+            val noResultsLayoutStyle =
+                LMFeedStyleTransformer.pollResultsFragmentViewStyle.noResultsLayoutViewStyle
+
+            setStyle(noResultsLayoutStyle)
+            setTitleText(getString(R.string.lm_feed_no_responses))
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initUI()
         fetchData()
         observeData()
     }
 
+    private fun initUI() {
+        binding.rvPollVoteResults.apply {
+            setAdapter(this@LMFeedPollResultsTabFragment)
+
+            //set scroll listener
+            val paginationScrollListener =
+                object : LMFeedEndlessRecyclerViewScrollListener(linearLayoutManager) {
+                    override fun onLoadMore(currentPage: Int) {
+                        // calls api for paginated data
+                        if (currentPage > 0) {
+                            pollResultsViewModel.getPollVotes(
+                                pollResultsTabExtras.pollId,
+                                pollResultsTabExtras.pollOptionId,
+                                currentPage
+                            )
+                        }
+                    }
+                }
+            setPaginationScrollListener(paginationScrollListener)
+        }
+    }
+
     private fun fetchData() {
+        LMFeedProgressBarHelper.showProgress(binding.progressBar)
+        
         pollResultsViewModel.getPollVotes(
             pollResultsTabExtras.pollId,
             pollResultsTabExtras.pollOptionId,
@@ -74,8 +115,27 @@ class LMFeedPollResultsTabFragment : Fragment() {
     }
 
     private fun observeData() {
-        pollResultsViewModel.usersVotedList.observe(viewLifecycleOwner) {
-            // TODO: inflate list here
+        pollResultsViewModel.pollVotesResponse.observe(viewLifecycleOwner) { response ->
+            LMFeedProgressBarHelper.hideProgress(binding.progressBar)
+
+            val page = response.first
+            val usersVoted = response.second.usersVoted
+
+            if (page == 1) {
+                binding.rvPollVoteResults.replacePollVotes(usersVoted)
+            } else {
+                binding.rvPollVoteResults.addPollVotes(usersVoted)
+            }
         }
+    }
+
+    override fun onPollVoteResultItemClicked(
+        position: Int,
+        pollVoteResultItem: LMFeedUserViewData
+    ) {
+        super.onPollVoteResultItemClicked(position, pollVoteResultItem)
+
+        val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
+        coreCallback?.openProfile(pollVoteResultItem)
     }
 }

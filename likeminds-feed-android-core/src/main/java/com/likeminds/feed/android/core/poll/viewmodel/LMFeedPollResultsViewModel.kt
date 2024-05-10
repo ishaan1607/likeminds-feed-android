@@ -1,9 +1,9 @@
 package com.likeminds.feed.android.core.poll.viewmodel
 
 import androidx.lifecycle.*
+import com.likeminds.feed.android.core.poll.model.LMFeedPollVoteViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
-import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.poll.model.GetPollVotesRequest
 import kotlinx.coroutines.channels.Channel
@@ -22,8 +22,8 @@ class LMFeedPollResultsViewModel : ViewModel() {
     }
     val errorEventFlow by lazy { errorEventChannel.receiveAsFlow() }
 
-    private val _usersVotedList by lazy { MutableLiveData<List<LMFeedUserViewData>>() }
-    val usersVotedList by lazy { _usersVotedList }
+    private val _pollVotesResponse by lazy { MutableLiveData<Pair<Int, LMFeedPollVoteViewData>>() }
+    val pollVotesResponse by lazy { _pollVotesResponse }
 
     companion object {
         const val PAGE_SIZE = 20
@@ -47,10 +47,13 @@ class LMFeedPollResultsViewModel : ViewModel() {
 
             if (response.success) {
                 val data = response.data ?: return@launchIO
-                _usersVotedList.postValue(
-                    LMFeedViewDataConvertor.convertPollVotes(
-                        data.votes,
-                        data.users
+                _pollVotesResponse.postValue(
+                    Pair(
+                        page,
+                        LMFeedViewDataConvertor.convertPollVotes(
+                            data.votes,
+                            data.users
+                        )
                     )
                 )
             } else {

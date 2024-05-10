@@ -9,7 +9,7 @@
         android:background="@color/lm_feed_white">
 
         <com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
-            android:id="@+id/layout_no_activity"
+            android:id="@+id/layout_no_results"
             android:layout_width="match_parent"
             android:layout_height="@dimen/zero_dp"
             android:visibility="gone"
@@ -20,12 +20,20 @@
             tools:visibility="visible" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_poll_users"
+        <com.likeminds.feed.android.core.poll.view.LMFeedPollVoteResultsListView
+            android:id="@+id/rv_poll_vote_results"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/lm_feed_layout_progress_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

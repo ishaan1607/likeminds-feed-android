@@ -1,20 +1,20 @@
 package com.likeminds.feed.android.core.poll.view
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentPollResultsBinding
+import com.likeminds.feed.android.core.databinding.LmFeedLayoutPollResultsTabBinding
 import com.likeminds.feed.android.core.poll.adapter.LMFeedPollResultsTabAdapter
 import com.likeminds.feed.android.core.poll.model.LMFeedPollResultsExtras
 import com.likeminds.feed.android.core.poll.view.LMFeedPollResultsActivity.Companion.LM_FEED_POLL_RESULTS_EXTRAS
-import com.likeminds.feed.android.core.poll.viewmodel.LMFeedPollResultsViewModel
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.utils.*
 
@@ -87,6 +87,18 @@ open class LMFeedPollResultsFragment : Fragment() {
         }
     }
 
+    //customizes the poll option and poll option count view of the poll results tab
+    protected open fun customizePollResultsTabTextView(
+        tvPollOptionCount: LMFeedTextView,
+        tvPollOptionText: LMFeedTextView
+    ) {
+        val pollResultsTabTextViewStyle =
+            LMFeedStyleTransformer.pollResultsFragmentViewStyle.pollResultsTabTextViewStyle
+
+        tvPollOptionCount.setStyle(pollResultsTabTextViewStyle)
+        tvPollOptionText.setStyle(pollResultsTabTextViewStyle)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -109,12 +121,16 @@ open class LMFeedPollResultsFragment : Fragment() {
                 viewPagerPollResults
             ) { tab, position ->
                 val pollOption = pollResultsExtras.pollOptions[position]
-                val tabView = LayoutPollResultTabBinding.inflate(layoutInflater)
+                val tabView = LmFeedLayoutPollResultsTabBinding.inflate(layoutInflater)
                 tabView.apply {
-                    clLayout.maxWidth = (screenWidth * 0.48).toInt()
-                    clLayout.minWidth = (screenWidth * 0.33).toInt()
-                    pollCount = pollOption?.noVotes.toString()
-                    pollText = pollOption?.text
+                    customizePollResultsTabTextView(tvPollOptionCount, tvPollOptionText)
+
+                    clPollResultsTab.maxWidth = (screenWidth * 0.48).toInt()
+                    clPollResultsTab.minWidth = (screenWidth * 0.33).toInt()
+
+                    //set poll option count and text value to tabs
+                    pollOptionCount = pollOption.voteCount.toString()
+                    pollOptionText = pollOption.text
 
                     tab.customView = root
                 }
@@ -138,39 +154,65 @@ open class LMFeedPollResultsFragment : Fragment() {
             }
 
             tab?.select()
-            val firstViewAtTab = tab?.customView?.findViewById<TextView>(R.id.tv_poll_count)
-            firstViewAtTab?.apply {
-                setTextColor(LMBranding.getButtonsColor())
-                setTypeface(null, Typeface.BOLD)
-            }
+            updatePollResultsTab(
+                tab,
+                LMFeedStyleTransformer.pollResultsFragmentViewStyle.selectedPollResultsTabColor
+            )
 
             tabLayoutPollResults.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
-                    val view = tab?.customView?.findViewById<TextView>(R.id.tv_poll_count) ?: return
-                    view.apply {
-                        setTextColor(LMBranding.getButtonsColor())
-                        setTypeface(null, Typeface.BOLD)
-                    }
-
-                    val pollData = pollInfoData.pollViewDataList?.get(tab.position)
+                    onPollResultsTabSelected(tab)
                 }
 
                 override fun onTabUnselected(tab: TabLayout.Tab?) {
-                    val view = tab?.customView?.findViewById<TextView>(R.id.tv_poll_count) ?: return
-                    view.apply {
-                        setTextColor(ContextCompat.getColor(requireContext(), R.color.lm_chat_grey))
-                        setTypeface(null, Typeface.NORMAL)
-                    }
+                    onPollResultsTabUnselected(tab)
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab?) {
-                    val view = tab?.customView?.findViewById<TextView>(R.id.tv_poll_count) ?: return
-                    view.apply {
-                        setTextColor(LMBranding.getButtonsColor())
-                        setTypeface(null, Typeface.BOLD)
-                    }
+                    onPollResultsTabReselected(tab)
                 }
             })
+        }
+    }
+
+    protected open fun onPollResultsTabSelected(tab: TabLayout.Tab?) {
+        updatePollResultsTab(
+            tab,
+            LMFeedStyleTransformer.pollResultsFragmentViewStyle.selectedPollResultsTabColor
+        )
+
+        //todo: analytics
+    }
+
+    protected open fun onPollResultsTabUnselected(tab: TabLayout.Tab?) {
+        updatePollResultsTab(
+            tab,
+            LMFeedStyleTransformer.pollResultsFragmentViewStyle.unselectedPollResultsTabColor
+        )
+    }
+
+    protected open fun onPollResultsTabReselected(tab: TabLayout.Tab?) {
+        updatePollResultsTab(
+            tab,
+            LMFeedStyleTransformer.pollResultsFragmentViewStyle.selectedPollResultsTabColor
+        )
+    }
+
+    private fun updatePollResultsTab(tab: TabLayout.Tab?, tabColor: Int) {
+        val customTabView = tab?.customView ?: return
+
+        val tvPollOptionCount =
+            customTabView.findViewById<LMFeedTextView>(R.id.tv_poll_option_count)
+                ?: return
+
+        val tvPollOptionText =
+            customTabView.findViewById<LMFeedTextView>(R.id.tv_poll_option_text)
+                ?: return
+
+        customizePollResultsTabTextView(tvPollOptionCount, tvPollOptionText)
+
+        tvPollOptionCount.apply {
+            setTextColor(ContextCompat.getColor(requireContext(), tabColor))
         }
     }
 }

@@ -7,6 +7,7 @@ import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
 import com.likeminds.feed.android.core.delete.model.LMFeedReasonChooseViewData
 import com.likeminds.feed.android.core.likes.model.LMFeedLikeViewData
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
+import com.likeminds.feed.android.core.poll.model.LMFeedPollVoteViewData
 import com.likeminds.feed.android.core.post.create.model.LMFeedFileUploadViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentsCountViewData
@@ -609,17 +610,23 @@ object LMFeedViewDataConvertor {
         }
     }
 
-    // converts list of Poll network model and corresponding users map to list of user view data
+    // converts list of [PollVote] network model and corresponding users map to list of [LMFeedPollVoteViewData]
     fun convertPollVotes(
         votes: List<PollVote>,
         usersMap: Map<String, User>
-    ): List<LMFeedUserViewData> {
-        val usersVoted = votes.firstOrNull()?.userIds ?: emptyList()
+    ): LMFeedPollVoteViewData {
+        val vote = votes.firstOrNull() ?: return LMFeedPollVoteViewData.Builder().build()
+        val usersVoted = vote.userIds
 
         // get object of users who have voted on the option
-        return usersVoted.map { userVoted ->
+        val userVotedViewData = usersVoted.map { userVoted ->
             convertUser(usersMap[userVoted])
         }
+
+        return LMFeedPollVoteViewData.Builder()
+            .id(vote.id)
+            .usersVoted(userVotedViewData)
+            .build()
     }
 
     /**--------------------------------

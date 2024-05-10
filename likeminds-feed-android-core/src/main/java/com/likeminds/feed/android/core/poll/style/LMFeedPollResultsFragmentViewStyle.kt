@@ -6,15 +6,22 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
+import com.likeminds.feed.android.core.ui.widgets.user.style.LMFeedUserViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
 /**
  * [LMFeedPollResultsFragmentViewStyle] helps you to customize the poll results fragment [LMFeedPollResultsFragment]
  * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the poll results fragment
+ * @property pollResultsTabElevation: [Int] should be in format of [DimenRes] this will help you to customize the elevation of the poll results tab layout | Default value =  [R.dimen.lm_feed_elevation_extra_small]
  * @property noResultsLayoutViewStyle : [LMFeedNoEntityLayoutViewStyle] this will help you to customize the no poll results layout in the poll results fragment
+ * @property selectedPollResultsTabColor : [Int] should be in format of [ColorRes] this will help you to customize the selected poll results tab color in the poll results fragment | Default value = [LMFeedTheme.getButtonColor]
+ * @property unselectedPollResultsTabColor :  [Int] should be in format of [ColorRes] this will help you to customize the unselected poll results tab color in the poll results fragment | Default value = [R.color.lm_feed_grey]
+ * @property pollResultsTabTextViewStyle :  [LMFeedTextStyle] this will help you to customize the text view of the poll vote results tab in the poll results fragment
+ * @property userViewStyle: [LMFeedUserViewStyle] this will help you to customize the user view in the poll results fragment
  * @property backgroundColor: [Int] should be in format of [ColorRes] this will help you to customize the background color of the poll results fragment | Default value = [null]
  * */
 class LMFeedPollResultsFragmentViewStyle private constructor(
@@ -24,6 +31,14 @@ class LMFeedPollResultsFragmentViewStyle private constructor(
     @DimenRes val pollResultsTabElevation: Int,
     //no activity layout style
     val noResultsLayoutViewStyle: LMFeedNoEntityLayoutViewStyle,
+    //color of the selected poll results tab
+    @ColorRes val selectedPollResultsTabColor: Int,
+    //color of the unselected poll results tab
+    @ColorRes val unselectedPollResultsTabColor: Int,
+    //style of the poll results tab text view
+    val pollResultsTabTextViewStyle: LMFeedTextStyle,
+    //user view style
+    val userViewStyle: LMFeedUserViewStyle,
     //background color of the screen
     @ColorRes val backgroundColor: Int?
 ) : LMFeedViewStyle {
@@ -77,6 +92,31 @@ class LMFeedPollResultsFragmentViewStyle private constructor(
                 .build()
 
         @ColorRes
+        private var selectedPollResultsTabColor: Int = LMFeedTheme.getButtonColor()
+
+        @ColorRes
+        private var unselectedPollResultsTabColor: Int = R.color.lm_feed_grey
+
+        private var pollResultsTabTextViewStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
+            .textSize(R.dimen.lm_feed_text_large)
+            .ellipsize(TextUtils.TruncateAt.END)
+            .maxLines(1)
+            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+            .build()
+
+        private var userViewStyle: LMFeedUserViewStyle = LMFeedUserViewStyle.Builder()
+            .userTitleViewStyle(
+                LMFeedTextStyle.Builder()
+                    .ellipsize(TextUtils.TruncateAt.END)
+                    .maxLines(1)
+                    .textColor(LMFeedTheme.getButtonColor())
+                    .textSize(R.dimen.lm_feed_text_medium)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                    .build()
+            )
+            .build()
+
+        @ColorRes
         private var backgroundColor: Int? = null
 
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle) = apply {
@@ -92,6 +132,22 @@ class LMFeedPollResultsFragmentViewStyle private constructor(
                 this.noResultsLayoutViewStyle = noResultsLayoutViewStyle
             }
 
+        fun selectedPollResultsTabColor(@ColorRes selectedPollResultsTabColor: Int) = apply {
+            this.selectedPollResultsTabColor = selectedPollResultsTabColor
+        }
+
+        fun unselectedPollResultsTabColor(@ColorRes unselectedPollResultsTabColor: Int) = apply {
+            this.unselectedPollResultsTabColor = unselectedPollResultsTabColor
+        }
+
+        fun pollResultsTabTextViewStyle(pollResultsTabTextViewStyle: LMFeedTextStyle) = apply {
+            this.pollResultsTabTextViewStyle = pollResultsTabTextViewStyle
+        }
+
+        fun userViewStyle(userViewStyle: LMFeedUserViewStyle) = apply {
+            this.userViewStyle = userViewStyle
+        }
+
         fun backgroundColor(@ColorRes backgroundColor: Int?) = apply {
             this.backgroundColor = backgroundColor
         }
@@ -100,6 +156,10 @@ class LMFeedPollResultsFragmentViewStyle private constructor(
             headerViewStyle,
             pollResultsTabElevation,
             noResultsLayoutViewStyle,
+            selectedPollResultsTabColor,
+            unselectedPollResultsTabColor,
+            pollResultsTabTextViewStyle,
+            userViewStyle,
             backgroundColor
         )
     }
@@ -109,6 +169,10 @@ class LMFeedPollResultsFragmentViewStyle private constructor(
             .headerViewStyle(headerViewStyle)
             .pollResultsTabElevation(pollResultsTabElevation)
             .noResultsLayoutViewStyle(noResultsLayoutViewStyle)
+            .selectedPollResultsTabColor(selectedPollResultsTabColor)
+            .unselectedPollResultsTabColor(unselectedPollResultsTabColor)
+            .pollResultsTabTextViewStyle(pollResultsTabTextViewStyle)
+            .userViewStyle(userViewStyle)
             .backgroundColor(backgroundColor)
     }
 }
