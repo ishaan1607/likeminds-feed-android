@@ -13,6 +13,7 @@ import com.likeminds.feed.android.core.poll.viewmodel.LMFeedPollResultsViewModel
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
+import kotlinx.coroutines.flow.onEach
 
 open class LMFeedPollResultsTabFragment : Fragment(), LMFeedPollVoteResultsAdapterListener {
 
@@ -106,7 +107,7 @@ open class LMFeedPollResultsTabFragment : Fragment(), LMFeedPollVoteResultsAdapt
 
     private fun fetchData() {
         LMFeedProgressBarHelper.showProgress(binding.progressBar)
-        
+
         pollResultsViewModel.getPollVotes(
             pollResultsTabExtras.pollId,
             pollResultsTabExtras.pollOptionId,
@@ -125,6 +126,15 @@ open class LMFeedPollResultsTabFragment : Fragment(), LMFeedPollVoteResultsAdapt
                 binding.rvPollVoteResults.replacePollVotes(usersVoted)
             } else {
                 binding.rvPollVoteResults.addPollVotes(usersVoted)
+            }
+        }
+
+        pollResultsViewModel.errorEventFlow.onEach { response ->
+            when (response) {
+                is LMFeedPollResultsViewModel.ErrorMessageEvent.GetPollVotes -> {
+                    LMFeedProgressBarHelper.hideProgress(binding.progressBar)
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
+                }
             }
         }
     }
