@@ -301,7 +301,7 @@ class LMFeedCommentView : ConstraintLayout {
      * @param createdAtTimeStamp - timestamp when the comment was created.
      */
     fun setTimestamp(createdAtTimeStamp: Long) {
-        binding.tvCommentTime.text = LMFeedTimeUtil.getRelativeTimeInString(createdAtTimeStamp)
+        binding.tvCommentTime.text = LMFeedTimeUtil.getRelativeCreationTimeInString(createdAtTimeStamp)
     }
 
     /**

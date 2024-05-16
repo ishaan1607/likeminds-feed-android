@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.likeminds.feed.android.core.databinding.LmFeedPostPollViewBinding
+import com.likeminds.feed.android.core.poll.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
@@ -121,9 +122,30 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
-    fun initAddPollOptionButton() {
-        binding.btnAddOption.apply {
+    fun setSubmitButtonVisibility(pollViewData: LMFeedPollViewData) {
+        binding.btnSubmitVote.apply {
+            //hide submit button if poll is instant and already submitted or poll is deferred with single item selection
+            if ((pollViewData.isPollInstant() && pollViewData.isPollSubmitted) ||
+                pollViewData.hasPollEnded()
+            ) {
+                hide()
+            } else {
+                if (pollViewData.isMultiChoicePoll()) {
+                    show()
+                } else {
+                    hide()
+                }
+            }
+        }
+    }
 
+    fun setAddPollOptionButtonVisibility(pollViewData: LMFeedPollViewData) {
+        binding.btnAddOption.apply {
+            if (pollViewData.isAddOptionAllowedForInstantPoll() || pollViewData.isAddOptionAllowedForDeferredPoll()) {
+                show()
+            } else {
+                hide()
+            }
         }
     }
 
@@ -166,7 +188,7 @@ class LMFeedPostPollView : ConstraintLayout {
      * @param listener [LMFeedOnClickListener] interface to have click listener
      */
     fun setSubmitPollVoteClicked(listener: LMFeedOnClickListener) {
-        binding.btnAddOption.setOnClickListener {
+        binding.btnSubmitVote.setOnClickListener {
             listener.onClick()
         }
     }

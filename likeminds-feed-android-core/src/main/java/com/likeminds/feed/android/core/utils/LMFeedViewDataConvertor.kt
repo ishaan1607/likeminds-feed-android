@@ -411,7 +411,19 @@ object LMFeedViewDataConvertor {
                     ""
                 ).getPollType()
             )
+            .isPollSubmitted(checkIsPollSubmitted(pollLMMeta.options ?: emptyList()))
             .build()
+    }
+
+    // checks whether the poll is submitted or not
+    private fun checkIsPollSubmitted(pollOptions: List<PollOption>): Boolean {
+        pollOptions.forEach {
+            if (it.isSelected) {
+                return true
+            }
+        }
+
+        return false
     }
 
     /**

@@ -85,7 +85,50 @@ class LMFeedItemPostPollViewDataBinder(
 
     private fun setClickListeners(binding: LmFeedItemPostPollBinding) {
         binding.apply {
+            postHeader.setMenuIconClickListener {
+                val post = postViewData ?: return@setMenuIconClickListener
+                universalFeedAdapterListener.onPostMenuIconClicked(
+                    position,
+                    postHeader.headerMenu,
+                    post
+                )
+            }
 
+            postHeader.setAuthorFrameClickListener {
+                val post = this.postViewData ?: return@setAuthorFrameClickListener
+                universalFeedAdapterListener.onPostAuthorHeaderClicked(position, post)
+            }
+
+            postFooter.setLikeIconClickListener {
+                val post = this.postViewData ?: return@setLikeIconClickListener
+                val updatedPost = LMFeedPostBinderUtils.updatePostForLike(post)
+                universalFeedAdapterListener.onPostLikeClicked(position, updatedPost)
+            }
+
+            postFooter.setLikesCountClickListener {
+                val post = this.postViewData ?: return@setLikesCountClickListener
+                if (post.footerViewData.likesCount > 0) {
+                    universalFeedAdapterListener.onPostLikesCountClicked(position, post)
+                } else {
+                    return@setLikesCountClickListener
+                }
+            }
+
+            postFooter.setCommentsCountClickListener {
+                val post = this.postViewData ?: return@setCommentsCountClickListener
+                universalFeedAdapterListener.onPostCommentsCountClicked(position, post)
+            }
+
+            postFooter.setSaveIconListener {
+                val post = this.postViewData ?: return@setSaveIconListener
+                val updatedPost = LMFeedPostBinderUtils.updatePostForSave(post)
+                universalFeedAdapterListener.onPostSaveClicked(position, updatedPost)
+            }
+
+            postFooter.setShareIconListener {
+                val post = this.postViewData ?: return@setShareIconListener
+                universalFeedAdapterListener.onPostShareClicked(position, post)
+            }
         }
     }
 }
