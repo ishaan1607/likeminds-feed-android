@@ -76,6 +76,7 @@ class LMFeedActivityFeedViewModel : ViewModel() {
         }
     }
 
+    // mark the activity as read
     fun markReadActivity(activityId: String) {
         viewModelScope.launchIO {
             val request = MarkReadNotificationRequest.Builder()

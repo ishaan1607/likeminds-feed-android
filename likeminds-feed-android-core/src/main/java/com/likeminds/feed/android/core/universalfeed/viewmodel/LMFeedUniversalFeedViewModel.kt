@@ -147,8 +147,7 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
                 PostDataEvent.PostDbData(
                     LMFeedViewDataConvertor.convertPost(
                         post,
-                        topics,
-                        emptyMap()
+                        topics
                     )
                 )
             )

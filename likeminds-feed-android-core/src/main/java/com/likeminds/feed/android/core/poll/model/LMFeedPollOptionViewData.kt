@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 class LMFeedPollOptionViewData private constructor(
     val id: String,
     val isSelected: Boolean,
-    val percentage: Int,
+    val percentage: Float,
     val text: String,
     val voteCount: Int,
     val addedByUser: LMFeedUserViewData
@@ -17,7 +17,7 @@ class LMFeedPollOptionViewData private constructor(
     class Builder {
         private var id: String = ""
         private var isSelected: Boolean = false
-        private var percentage: Int = 0
+        private var percentage: Float = 0f
         private var text: String = ""
         private var voteCount: Int = 0
         private var addedByUser: LMFeedUserViewData = LMFeedUserViewData.Builder().build()
@@ -30,7 +30,7 @@ class LMFeedPollOptionViewData private constructor(
             this.isSelected = isSelected
         }
 
-        fun percentage(percentage: Int) = apply {
+        fun percentage(percentage: Float) = apply {
             this.percentage = percentage
         }
 

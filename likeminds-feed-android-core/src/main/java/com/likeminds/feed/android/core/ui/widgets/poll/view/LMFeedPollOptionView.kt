@@ -14,6 +14,7 @@ import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
+import kotlin.math.roundToInt
 
 class LMFeedPollOptionView : ConstraintLayout {
 
@@ -93,7 +94,7 @@ class LMFeedPollOptionView : ConstraintLayout {
                 drawable.findDrawableByLayerId(R.id.lm_feed_poll_progress_clip) as ClipDrawable
 
             if (toShowResults) {
-                pbPollBackground.progress = pollOptionViewData.percentage
+                pbPollBackground.progress = pollOptionViewData.percentage.roundToInt()
             } else {
                 pbPollBackground.progress = 0
             }
