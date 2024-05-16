@@ -6,10 +6,10 @@ import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
- * [LMFeedPostPollViewStyle] helps you to customize the post poll view [LMFeedPostPollView]
+ * [LMFeedPostPollOptionViewStyle] helps you to customize the post poll view [LMFeedPostPollView]
  *
  * @property pollOptionTextStyle : [LMFeedTextStyle] this will help you to customize the text of options on the post poll
- * @property pollSelectedOptionColor : [LMFeedPostPollOptionViewStyle] this will help you to customize the color of selected options on the post poll
+ * @property pollSelectedOptionColor : [Int] should be in format of [ColorRes] this will help you to customize the color of selected options on the post poll
  * @property pollOtherOptionColor: [LMFeedTextStyle] this will help you to customize the color of unselected options on the post poll
  * @property pollOptionVotesCountTextStyle: [LMFeedTextStyle] this will help you to customize the votes count on post poll options
  * @property pollOptionAddedByTextStyle: [LMFeedButtonStyle] this will help you to customize the option added by text on post poll options

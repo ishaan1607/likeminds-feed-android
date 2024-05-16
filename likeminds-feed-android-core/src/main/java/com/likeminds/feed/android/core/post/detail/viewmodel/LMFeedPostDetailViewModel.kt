@@ -187,13 +187,16 @@ class LMFeedPostDetailViewModel : ViewModel() {
                 val post = data.post
                 val users = data.users
                 val topics = data.topics
+                val widgets = data.widgets
+
                 _postResponse.postValue(
                     Pair(
                         page,
                         LMFeedViewDataConvertor.convertPost(
                             post,
                             users,
-                            topics
+                            topics,
+                            widgets
                         )
                     )
                 )

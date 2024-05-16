@@ -121,6 +121,12 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
+    fun initAddPollOptionButton() {
+        binding.btnAddOption.apply {
+
+        }
+    }
+
     /**
      * Sets click listener on the edit poll icon
      *

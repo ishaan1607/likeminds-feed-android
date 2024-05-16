@@ -18,6 +18,7 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedChipGroup
 import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
+import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedPostPollView
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
@@ -530,6 +531,16 @@ object LMFeedPostBinderUtils {
                 listener,
                 data.attachments
             )
+        }
+    }
+
+    fun bindPostPollMediaView(
+        pollView: LMFeedPostPollView,
+        mediaData: LMFeedMediaViewData
+    ) {
+        pollView.apply {
+            // todo: initialize poll options recycler view
+
         }
     }
 }

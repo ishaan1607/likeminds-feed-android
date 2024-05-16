@@ -145,7 +145,11 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
 
             postDataEventChannel.send(
                 PostDataEvent.PostDbData(
-                    LMFeedViewDataConvertor.convertPost(post, topics)
+                    LMFeedViewDataConvertor.convertPost(
+                        post,
+                        topics,
+                        emptyMap()
+                    )
                 )
             )
         }
@@ -180,10 +184,15 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
             val response = lmFeedClient.addPost(request)
             if (response.success) {
                 val data = response.data ?: return@launchIO
+                val usersMap = data.users
+                val topicsMap = data.topics
+                val widgetsMap = data.widgets
+
                 val postViewData = LMFeedViewDataConvertor.convertPost(
                     data.post,
-                    data.users,
-                    data.topics
+                    usersMap,
+                    topicsMap,
+                    widgetsMap
                 )
 
                 // sends post creation completed event
@@ -212,10 +221,16 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
                 val posts = data.posts
                 val usersMap = data.users
                 val topicsMap = data.topics
+                val widgetsMap = data.widgets
 
                 //convert to view data
                 val listOfPostViewData =
-                    LMFeedViewDataConvertor.convertUniversalFeedPosts(posts, usersMap, topicsMap)
+                    LMFeedViewDataConvertor.convertUniversalFeedPosts(
+                        posts,
+                        usersMap,
+                        topicsMap,
+                        widgetsMap
+                    )
 
                 //send it to ui
                 _universalFeedResponse.postValue(Pair(page, listOfPostViewData))

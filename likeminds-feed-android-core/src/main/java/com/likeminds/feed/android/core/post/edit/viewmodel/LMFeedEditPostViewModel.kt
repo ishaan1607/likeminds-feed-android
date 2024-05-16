@@ -1,9 +1,6 @@
 package com.likeminds.feed.android.core.post.edit.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
@@ -14,9 +11,7 @@ import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.feed.android.core.utils.membertagging.MemberTaggingUtil
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.LMResponse
-import com.likeminds.likemindsfeed.helper.model.DecodeUrlRequest
-import com.likeminds.likemindsfeed.helper.model.DecodeUrlResponse
-import com.likeminds.likemindsfeed.helper.model.GetTaggingListRequest
+import com.likeminds.likemindsfeed.helper.model.*
 import com.likeminds.likemindsfeed.post.model.EditPostRequest
 import com.likeminds.likemindsfeed.post.model.GetPostRequest
 import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
@@ -104,13 +99,15 @@ class LMFeedEditPostViewModel : ViewModel() {
                 val post = data.post
                 val users = data.users
                 val topics = data.topics
+                val widgets = data.widgets
 
                 postDataEventChannel.send(
                     PostDataEvent.GetPost(
                         LMFeedViewDataConvertor.convertPost(
                             post,
                             users,
-                            topics
+                            topics,
+                            widgets
                         )
                     )
                 )
@@ -192,7 +189,14 @@ class LMFeedEditPostViewModel : ViewModel() {
                 val post = data.post
                 val users = data.users
                 val topics = data.topics
-                val postViewData = LMFeedViewDataConvertor.convertPost(post, users, topics)
+                val widgets = data.widgets
+
+                val postViewData = LMFeedViewDataConvertor.convertPost(
+                    post,
+                    users,
+                    topics,
+                    widgets
+                )
                 postDataEventChannel.send(PostDataEvent.EditPost(postViewData))
 
                 // sends post edited event

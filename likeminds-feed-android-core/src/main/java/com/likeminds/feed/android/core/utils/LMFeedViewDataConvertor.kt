@@ -29,6 +29,7 @@ import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
 import com.likeminds.likemindsfeed.topic.model.Topic
+import com.likeminds.likemindsfeed.widgets.model.Widget
 
 object LMFeedViewDataConvertor {
 
@@ -84,7 +85,11 @@ object LMFeedViewDataConvertor {
      * Network Model -> View Data Model
     --------------------------------*/
 
-    fun convertPost(post: Post, topics: List<Topic>): LMFeedPostViewData {
+    fun convertPost(
+        post: Post,
+        topics: List<Topic>,
+        widgetsMap: Map<String, Widget>
+    ): LMFeedPostViewData {
 
         //post content view data
         val postContentViewData = LMFeedPostContentViewData.Builder()
@@ -93,7 +98,13 @@ object LMFeedViewDataConvertor {
 
         //post media view data
         val postMediaViewData = LMFeedMediaViewData.Builder()
-            .attachments(convertAttachments(post.attachments, post.id))
+            .attachments(
+                convertAttachments(
+                    post.attachments,
+                    post.id,
+                    widgetsMap
+                )
+            )
             .workerUUID(post.workerUUID ?: "")
             .temporaryId(post.tempId?.toLong())
             .build()
@@ -110,10 +121,16 @@ object LMFeedViewDataConvertor {
     fun convertUniversalFeedPosts(
         posts: List<Post>,
         usersMap: Map<String, User>,
-        topicsMap: Map<String, Topic>
+        topicsMap: Map<String, Topic>,
+        widgetsMap: Map<String, Widget>
     ): List<LMFeedPostViewData> {
         return posts.map { post ->
-            convertPost(post, usersMap, topicsMap)
+            convertPost(
+                post,
+                usersMap,
+                topicsMap,
+                widgetsMap
+            )
         }
     }
 
@@ -126,7 +143,8 @@ object LMFeedViewDataConvertor {
     fun convertPost(
         post: Post,
         usersMap: Map<String, User>,
-        topicsMap: Map<String, Topic>
+        topicsMap: Map<String, Topic>,
+        widgetsMap: Map<String, Widget>
     ): LMFeedPostViewData {
         val postCreatorUUID = post.uuid
         val postCreator = usersMap[postCreatorUUID]
@@ -159,7 +177,6 @@ object LMFeedViewDataConvertor {
             .menuItems(convertOverflowMenuItems(post.menuItems))
             .build()
 
-
         //post content view data
         val postContentViewData = LMFeedPostContentViewData.Builder()
             .text(post.text)
@@ -167,7 +184,13 @@ object LMFeedViewDataConvertor {
 
         //post media view data
         val postMediaViewData = LMFeedMediaViewData.Builder()
-            .attachments(convertAttachments(post.attachments, postId))
+            .attachments(
+                convertAttachments(
+                    post.attachments,
+                    postId,
+                    widgetsMap
+                )
+            )
             .build()
 
         //post footer view data
@@ -265,7 +288,8 @@ object LMFeedViewDataConvertor {
      */
     private fun convertAttachments(
         attachments: List<Attachment>?,
-        postId: String
+        postId: String,
+        widgetsMap: Map<String, Widget>
     ): List<LMFeedAttachmentViewData> {
         if (attachments == null) return emptyList()
         return attachments.map { attachment ->
@@ -421,10 +445,15 @@ object LMFeedViewDataConvertor {
      * */
     fun convertActivities(
         activities: List<Activity>,
-        usersMap: Map<String, User>
+        usersMap: Map<String, User>,
+        widgetsMap: Map<String, Widget>
     ): List<LMFeedActivityViewData> {
         return activities.map {
-            convertActivity(it, usersMap)
+            convertActivity(
+                it,
+                usersMap,
+                widgetsMap
+            )
         }
     }
 
@@ -437,7 +466,8 @@ object LMFeedViewDataConvertor {
      * */
     private fun convertActivity(
         activity: Activity,
-        usersMap: Map<String, User>
+        usersMap: Map<String, User>,
+        widgetsMap: Map<String, Widget>
     ): LMFeedActivityViewData {
         val activityByUser = if (activity.actionBy.isNotEmpty()) {
             convertUser(usersMap[activity.actionBy.last()])
@@ -459,7 +489,8 @@ object LMFeedViewDataConvertor {
             .activityEntityData(
                 convertActivityEntityData(
                     activity.activityEntityData,
-                    usersMap
+                    usersMap,
+                    widgetsMap
                 )
             )
             .activityByUser(activityByUser)
@@ -471,7 +502,8 @@ object LMFeedViewDataConvertor {
 
     private fun convertActivityEntityData(
         activityEntityData: ActivityEntityData?,
-        usersMap: Map<String, User>
+        usersMap: Map<String, User>,
+        widgetsMap: Map<String, Widget>
     ): LMFeedActivityEntityViewData? {
 
         if (activityEntityData == null) {
@@ -496,7 +528,8 @@ object LMFeedViewDataConvertor {
             .attachments(
                 convertAttachments(
                     activityEntityData.attachments,
-                    activityEntityData.id
+                    activityEntityData.id,
+                    widgetsMap
                 )
             )
             .communityId(activityEntityData.communityId)

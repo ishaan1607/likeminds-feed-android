@@ -34,13 +34,17 @@ class LMFeedUniversalFeedAdapter(
             LMFeedItemPostLinkViewDataBinder(universalFeedAdapterListener)
         viewDataBinders.add(itemPostLinkViewDataBinder)
 
-        val lmFeedItemPostDocumentsViewDataBinder =
+        val itemPostDocumentsViewDataBinder =
             LMFeedItemPostDocumentsViewDataBinder(universalFeedAdapterListener)
-        viewDataBinders.add(lmFeedItemPostDocumentsViewDataBinder)
+        viewDataBinders.add(itemPostDocumentsViewDataBinder)
 
         val itemPostMultipleMediaViewDataBinder =
             LMFeedItemPostMultipleMediaViewDataBinder(universalFeedAdapterListener)
         viewDataBinders.add(itemPostMultipleMediaViewDataBinder)
+
+        val itemPostPollViewDataBinder =
+            LMFeedItemPostPollViewDataBinder(universalFeedAdapterListener)
+        viewDataBinders.add(itemPostPollViewDataBinder)
 
         return viewDataBinders
     }

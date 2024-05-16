@@ -9,12 +9,14 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_poll_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lm_feed_regular_margin"
+            android:layout_marginEnd="@dimen/lm_feed_small_margin"
             android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_small"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_edit_poll"
             tools:text="@string/lm_feed_poll_sample_question"
             tools:textColor="@color/lm_feed_dark_grey"
             tools:textSize="@dimen/lm_feed_text_medium" />

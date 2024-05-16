@@ -142,7 +142,7 @@
     <string name="lm_feed_sample_link_title">Twitter will soon let you schedule your tweets</string>
     <string name="lm_feed_sample_link_url">www.youtube.com</string>
     <string name="lm_feed_sample_size">23.5 MB</string>
-    <string name="lm_feed_poll_sample_question">23.5 MB</string>
+    <string name="lm_feed_poll_sample_question">What will be the score today?</string>
     <string name="lm_feed_poll_sample_vote_count">10</string>
     <string name="lm_feed_poll_sample_option_text">Raising Hands</string>
 </resources>
