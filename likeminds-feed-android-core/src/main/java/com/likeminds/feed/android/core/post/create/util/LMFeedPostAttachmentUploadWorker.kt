@@ -62,7 +62,7 @@ class LMFeedPostAttachmentUploadWorker(
     // gets list of attachments from DB
     override fun init() {
         runBlocking {
-            val data = lmFeedClient.getTemporaryPost(postId.toString()).data ?: return@runBlocking
+            val data = lmFeedClient.getTemporaryPost("-$postId").data ?: return@runBlocking
             postWithAttachments = data.post
         }
     }
