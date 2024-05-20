@@ -251,6 +251,14 @@ class LMFeedPostViewStyle private constructor(
                         )
                         .pollOptionsViewStyle(
                             LMFeedPostPollOptionViewStyle.Builder()
+                                .pollOptionAddedByTextStyle(
+                                    LMFeedTextStyle.Builder()
+                                        .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                                        .textSize(R.dimen.lm_feed_text_small)
+                                        .textColor(R.color.lm_feed_grey)
+                                        .ellipsize(TextUtils.TruncateAt.END)
+                                        .build()
+                                )
                                 .build()
                         )
                         .build()

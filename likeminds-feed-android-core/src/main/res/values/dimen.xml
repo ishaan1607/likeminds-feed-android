@@ -147,6 +147,8 @@
 
     <!--    Poll-->
     <dimen name="lm_feed_poll_option_min_height">48dp</dimen>
+    <dimen name="lm_feed_poll_add_option_vertical_padding">14dp</dimen>
     <dimen name="lm_feed_poll_submit_vote_width">104dp</dimen>
+    <dimen name="lm_feed_poll_options_list_margin_top">-8dp</dimen>
 
 </resources>

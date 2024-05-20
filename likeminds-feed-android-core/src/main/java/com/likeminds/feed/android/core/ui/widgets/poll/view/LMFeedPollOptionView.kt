@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.ClipDrawable
 import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -82,13 +81,13 @@ class LMFeedPollOptionView : ConstraintLayout {
     }
 
     fun setPollOptionText(pollOptionText: String) {
-        Log.d("PUI", "setPollOptionText: ")
         binding.tvPollOption.text = pollOptionText
     }
 
     fun setPollOptionAddedByText(pollOptionViewData: LMFeedPollOptionViewData) {
         val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
-        postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle ?: return
+        postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle?.pollOptionAddedByTextStyle
+            ?: return
 
         binding.tvAddedBy.apply {
             if (pollOptionViewData.allowAddOption) {
