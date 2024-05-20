@@ -380,19 +380,27 @@ object LMFeedViewDataConvertor {
         val pollLMMeta = pollWidget.lmMeta ?: return null
         val pollMetaData = pollWidget.metadata
 
+        val allowAddOption = pollMetaData.findBooleanOrDefault(
+            "allow_add_option", false
+        )
+
+
         return LMFeedPollViewData.Builder()
             .id(pollId)
             .title(pollMetaData.findStringOrDefault("title", ""))
             .pollAnswerText(pollLMMeta.pollAnswerText ?: "")
             .toShowResults(pollLMMeta.toShowResults ?: false)
-            .options(convertPollOptions(pollLMMeta.options ?: emptyList(), usersMap))
-            .expiryTime(pollMetaData.findLongOrDefault("expiry_time", 0))
-            .isAnonymous(pollMetaData.findBooleanOrDefault("is_anonymous", false))
-            .allowAddOption(
-                pollMetaData.findBooleanOrDefault(
-                    "allow_add_option", false
+            .options(
+                convertPollOptions(
+                    pollLMMeta.options ?: emptyList(),
+                    pollLMMeta.toShowResults ?: false,
+                    allowAddOption,
+                    usersMap
                 )
             )
+            .expiryTime(pollMetaData.findLongOrDefault("expiry_time", 0))
+            .isAnonymous(pollMetaData.findBooleanOrDefault("is_anonymous", false))
+            .allowAddOption(allowAddOption)
             .multipleSelectState(
                 pollMetaData.findStringOrDefault(
                     "multiple_select_state",
@@ -431,6 +439,8 @@ object LMFeedViewDataConvertor {
      * */
     private fun convertPollOptions(
         options: List<PollOption>,
+        toShowResults: Boolean,
+        allowAddOption: Boolean,
         usersMap: Map<String, User>
     ): List<LMFeedPollOptionViewData> {
         return options.map { option ->
@@ -442,6 +452,8 @@ object LMFeedViewDataConvertor {
                 .addedByUser(convertUser(addedByUser))
                 .voteCount(option.voteCount)
                 .text(option.text)
+                .toShowResults(toShowResults)
+                .allowAddOption(allowAddOption)
                 .build()
         }
     }

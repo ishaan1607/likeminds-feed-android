@@ -130,10 +130,12 @@
     <string name="lm_feed_added_by_you">Added by You</string>
     <string name="lm_feed_be_the_first_one_to_vote">Be the first one to vote</string>
     <string name="lm_feed_no_responses">No responses</string>
-    <string name="lm_feed_poll_ended">Poll Ended</string>"
-    <string name="lm_feed_select_exactly_d_options">*Select exactly %d options</string>"
-    <string name="lm_feed_select_at_most_d_options">*Select at most %d options</string>"
-    <string name="lm_feed_select_at_least_d_options">*Select at least %d options</string>"
+    <string name="lm_feed_poll_ended">Poll Ended</string>
+    <string name="lm_feed_select_exactly_d_options">*Select exactly %d options</string>
+    <string name="lm_feed_select_at_most_d_options">*Select at most %d options</string>
+    <string name="lm_feed_select_at_least_d_options">*Select at least %d options</string>
+    <string name="lm_feed_poll_vote_time_left">%s left</string>
+    <string name="lm_feed_added_by_s">Added by %s</string>
 
     <!-- Add sample strings here-->
     <string name="lm_feed_sample_name">Sahil Garg</string>

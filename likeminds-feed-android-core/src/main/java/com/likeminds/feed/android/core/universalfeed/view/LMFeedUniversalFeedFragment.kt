@@ -50,6 +50,7 @@ import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
+import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalSelectedTopicAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
@@ -75,6 +76,7 @@ open class LMFeedUniversalFeedFragment :
     LMFeedAdminDeleteDialogListener,
     LMFeedSelfDeleteDialogListener,
     LMFeedUniversalSelectedTopicAdapterListener,
+    LMFeedPollOptionsAdapterListener,
     LMFeedPostObserver {
 
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
@@ -558,7 +560,7 @@ open class LMFeedUniversalFeedFragment :
     private fun initUniversalFeedRecyclerView() {
         LMFeedProgressBarHelper.showProgress(binding.progressBar)
         binding.rvUniversal.apply {
-            setAdapter(this@LMFeedUniversalFeedFragment)
+            setAdapter(this@LMFeedUniversalFeedFragment, this@LMFeedUniversalFeedFragment)
 
             val paginationScrollListener =
                 object : LMFeedEndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -864,7 +866,8 @@ open class LMFeedUniversalFeedFragment :
                 .build()
 
             binding.rvUniversal.apply {
-                val adapterPosition = getIndexAndPostFromAdapter(updatedPostViewData.id)?.first ?: return
+                val adapterPosition =
+                    getIndexAndPostFromAdapter(updatedPostViewData.id)?.first ?: return
 
                 //updates the [isExpanded] for the document item to true
                 updatePostItem(adapterPosition, updatedPostViewData)

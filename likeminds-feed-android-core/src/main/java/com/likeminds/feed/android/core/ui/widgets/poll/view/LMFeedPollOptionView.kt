@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.drawable.ClipDrawable
 import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -12,8 +13,11 @@ import com.likeminds.feed.android.core.databinding.LmFeedPollOptionViewBinding
 import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
+import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import kotlin.math.roundToInt
 
 class LMFeedPollOptionView : ConstraintLayout {
@@ -77,14 +81,41 @@ class LMFeedPollOptionView : ConstraintLayout {
         }
     }
 
+    fun setPollOptionText(pollOptionText: String) {
+        Log.d("PUI", "setPollOptionText: ")
+        binding.tvPollOption.text = pollOptionText
+    }
+
+    fun setPollOptionAddedByText(pollOptionViewData: LMFeedPollOptionViewData) {
+        val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
+        postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle ?: return
+
+        binding.tvAddedBy.apply {
+            if (pollOptionViewData.allowAddOption) {
+                val addedByUser = pollOptionViewData.addedByUser
+
+                val userPreferences = LMFeedUserPreferences(context)
+                val loggedInUUID = userPreferences.getUUID()
+
+                text = if (addedByUser.sdkClientInfoViewData.uuid == loggedInUUID) {
+                    context.getString(R.string.lm_feed_added_by_you)
+                } else {
+                    context.getString(R.string.lm_feed_added_by_s, addedByUser.name)
+                }
+                show()
+            } else {
+                hide()
+            }
+        }
+    }
+
     /**
      * Sets poll option progress background as per the percentage of votes on the option
      *
-     * @param toShowResults [Boolean] whether to show the poll results or not
      * @param pollOptionViewData [LMFeedPollOptionViewData] data for the poll option
+     * @param pollOptionViewStyle [LMFeedPostPollOptionViewStyle] view style for the poll option
      */
     fun setPollOptionBackgroundProgress(
-        toShowResults: Boolean,
         pollOptionViewData: LMFeedPollOptionViewData,
         pollOptionViewStyle: LMFeedPostPollOptionViewStyle
     ) {
@@ -93,7 +124,7 @@ class LMFeedPollOptionView : ConstraintLayout {
             val clip =
                 drawable.findDrawableByLayerId(R.id.lm_feed_poll_progress_clip) as ClipDrawable
 
-            if (toShowResults) {
+            if (pollOptionViewData.toShowResults) {
                 pbPollBackground.progress = pollOptionViewData.percentage.roundToInt()
             } else {
                 pbPollBackground.progress = 0

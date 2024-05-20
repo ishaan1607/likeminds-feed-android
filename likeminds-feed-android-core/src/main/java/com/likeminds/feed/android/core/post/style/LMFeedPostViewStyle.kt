@@ -6,6 +6,8 @@ import android.widget.ImageView
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.style.LMFeedPostFooterViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.*
@@ -222,6 +224,35 @@ class LMFeedPostViewStyle private constructor(
                 .postMultipleMediaStyle(
                     LMFeedPostMultipleMediaViewStyle.Builder()
                         .indicatorSpacing(R.dimen.lm_feed_indicator_dots_spacing)
+                        .build()
+                )
+                .postPollMediaStyle(
+                    LMFeedPostPollViewStyle.Builder()
+                        .pollInfoTextStyle(
+                            LMFeedTextStyle.Builder()
+                                .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                                .textSize(R.dimen.lm_feed_text_medium)
+                                .textColor(R.color.lm_feed_dusty_grey)
+                                .build()
+                        )
+                        .membersVotedCountTextStyle(
+                            LMFeedTextStyle.Builder()
+                                .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                                .textSize(R.dimen.lm_feed_text_large)
+                                .textColor(LMFeedTheme.getButtonColor())
+                                .build()
+                        )
+                        .pollExpiryTextStyle(
+                            LMFeedTextStyle.Builder()
+                                .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                                .textSize(R.dimen.lm_feed_text_large)
+                                .textColor(R.color.lm_feed_grey)
+                                .build()
+                        )
+                        .pollOptionsViewStyle(
+                            LMFeedPostPollOptionViewStyle.Builder()
+                                .build()
+                        )
                         .build()
                 )
                 .build()

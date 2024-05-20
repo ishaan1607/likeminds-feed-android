@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.universalfeed.adapter.databinders
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemPostPollBinding
+import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils
@@ -11,7 +12,8 @@ import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL
 
 class LMFeedItemPostPollViewDataBinder(
-    private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
+    private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
+    private val pollOptionsAdapter: LMFeedPollOptionsAdapterListener
 ) : LMFeedViewDataBinder<LmFeedItemPostPollBinding, LMFeedPostViewData>() {
 
     override val viewType: Int
@@ -76,7 +78,8 @@ class LMFeedItemPostPollViewDataBinder(
                     //sets the post poll media view
                     LMFeedPostBinderUtils.bindPostPollMediaView(
                         postPollView,
-                        data.mediaViewData
+                        data.mediaViewData,
+                        pollOptionsAdapter
                     )
                 }
             )

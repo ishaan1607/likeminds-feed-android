@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.ui.widgets.poll.style
 
+import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
@@ -35,6 +36,8 @@ class LMFeedPostPollOptionViewStyle private constructor(
             .textSize(R.dimen.lm_feed_text_large)
             .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
             .textColor(R.color.lm_feed_dark_grayish_blue)
+            .ellipsize(TextUtils.TruncateAt.END)
+            .maxLines(2)
             .build()
 
         @ColorRes

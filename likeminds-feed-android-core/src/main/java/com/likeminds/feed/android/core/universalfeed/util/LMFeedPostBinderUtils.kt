@@ -18,6 +18,7 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedChipGroup
 import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
+import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedPostPollView
 import com.likeminds.feed.android.core.ui.widgets.post.postfooterview.view.LMFeedPostFooterView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
@@ -536,11 +537,20 @@ object LMFeedPostBinderUtils {
 
     fun bindPostPollMediaView(
         pollView: LMFeedPostPollView,
-        mediaData: LMFeedMediaViewData
+        mediaData: LMFeedMediaViewData,
+        listener: LMFeedPollOptionsAdapterListener
     ) {
         pollView.apply {
-            // todo: initialize poll options recycler view
+            val pollAttachment = mediaData.attachments.first()
+            val pollViewData = pollAttachment.attachmentMeta.poll ?: return
 
+            setPollTitle(pollViewData.title)
+            setPollInfo(pollViewData.getPollSelectionText(context))
+            setMemberVotedCount(pollViewData.pollAnswerText)
+            setTimeLeft(pollViewData.getTimeLeftInPoll(context))
+            setPollOptions(pollViewData.options, listener)
+            setSubmitButtonVisibility(pollViewData)
+            setAddPollOptionButtonVisibility(pollViewData)
         }
     }
 }

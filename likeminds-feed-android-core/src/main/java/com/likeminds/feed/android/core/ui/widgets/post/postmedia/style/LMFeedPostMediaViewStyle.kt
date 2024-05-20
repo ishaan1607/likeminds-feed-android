@@ -83,5 +83,6 @@ class LMFeedPostMediaViewStyle private constructor(
             .postLinkStyle(postLinkViewStyle)
             .postDocumentsMediaStyle(postDocumentsMediaStyle)
             .postMultipleMediaStyle(postMultipleMediaStyle)
+            .postPollMediaStyle(postPollMediaStyle)
     }
 }

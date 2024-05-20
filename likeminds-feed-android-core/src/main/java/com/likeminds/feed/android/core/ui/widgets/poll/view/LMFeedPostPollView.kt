@@ -5,8 +5,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.likeminds.feed.android.core.databinding.LmFeedPostPollViewBinding
+import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.poll.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -119,6 +121,42 @@ class LMFeedPostPollView : ConstraintLayout {
                 setStyle(editPollIconStyle)
                 show()
             }
+        }
+    }
+
+    fun setPollTitle(pollTitle: String) {
+        binding.tvPollTitle.text = pollTitle
+    }
+
+    fun setPollInfo(pollInfo: String?) {
+        binding.tvPollInfo.apply {
+            if (pollInfo.isNullOrEmpty()) {
+                hide()
+            } else {
+                text = pollInfo
+                show()
+            }
+        }
+    }
+
+    fun setMemberVotedCount(pollAnswerText: String) {
+        binding.apply {
+            tvMemberVotedCount.text = pollAnswerText
+            viewDotTimeLeft.show()
+        }
+    }
+
+    fun setTimeLeft(timeLeft: String) {
+        binding.tvPollTimeLeft.text = timeLeft
+    }
+
+    fun setPollOptions(
+        options: List<LMFeedPollOptionViewData>,
+        listener: LMFeedPollOptionsAdapterListener
+    ) {
+        binding.rvPollOptions.apply {
+            setAdapter(listener)
+            replacePollOptions(options)
         }
     }
 

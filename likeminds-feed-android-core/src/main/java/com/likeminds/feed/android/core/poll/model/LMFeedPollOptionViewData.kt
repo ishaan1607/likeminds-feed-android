@@ -1,6 +1,8 @@
 package com.likeminds.feed.android.core.poll.model
 
 import android.os.Parcelable
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
+import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL_OPTIONS
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import kotlinx.parcelize.Parcelize
 
@@ -11,8 +13,13 @@ class LMFeedPollOptionViewData private constructor(
     val percentage: Float,
     val text: String,
     val voteCount: Int,
-    val addedByUser: LMFeedUserViewData
-) : Parcelable {
+    val addedByUser: LMFeedUserViewData,
+    val toShowResults: Boolean,
+    val allowAddOption: Boolean,
+) : Parcelable, LMFeedBaseViewType {
+
+    override val viewType: Int
+        get() = ITEM_POST_POLL_OPTIONS
 
     class Builder {
         private var id: String = ""
@@ -21,6 +28,8 @@ class LMFeedPollOptionViewData private constructor(
         private var text: String = ""
         private var voteCount: Int = 0
         private var addedByUser: LMFeedUserViewData = LMFeedUserViewData.Builder().build()
+        private var toShowResults: Boolean = false
+        private var allowAddOption: Boolean = false
 
         fun id(id: String) = apply {
             this.id = id
@@ -46,13 +55,23 @@ class LMFeedPollOptionViewData private constructor(
             this.addedByUser = addedByUser
         }
 
+        fun toShowResults(toShowResults: Boolean) = apply {
+            this.toShowResults = toShowResults
+        }
+
+        fun allowAddOption(allowAddOption: Boolean) = apply {
+            this.allowAddOption = allowAddOption
+        }
+
         fun build() = LMFeedPollOptionViewData(
             id,
             isSelected,
             percentage,
             text,
             voteCount,
-            addedByUser
+            addedByUser,
+            toShowResults,
+            allowAddOption
         )
     }
 
@@ -63,5 +82,7 @@ class LMFeedPollOptionViewData private constructor(
             .text(text)
             .voteCount(voteCount)
             .addedByUser(addedByUser)
+            .toShowResults(toShowResults)
+            .allowAddOption(allowAddOption)
     }
 }

@@ -29,6 +29,7 @@ const val ITEM_REASON_CHOOSE = 23
 const val ITEM_TOPIC = 24
 const val ITEM_ALL_TOPICS = 25
 const val ITEM_POST_POLL = 26
+const val ITEM_POST_POLL_OPTIONS = 27
 
 @IntDef(
     ITEM_NONE,
@@ -57,7 +58,8 @@ const val ITEM_POST_POLL = 26
     ITEM_REASON_CHOOSE,
     ITEM_TOPIC,
     ITEM_ALL_TOPICS,
-    ITEM_POST_POLL
+    ITEM_POST_POLL,
+    ITEM_POST_POLL_OPTIONS
 )
 
 @Retention(AnnotationRetention.SOURCE)

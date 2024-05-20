@@ -38,7 +38,10 @@ class LMFeedPollViewData private constructor(
     fun getTimeLeftInPoll(context: Context): String = if (hasPollEnded()) {
         context.getString(R.string.lm_feed_poll_ended)
     } else {
-        LMFeedTimeUtil.getRelativeExpiryTimeInString(expiryTime)
+        context.getString(
+            R.string.lm_feed_poll_vote_time_left,
+            LMFeedTimeUtil.getRelativeExpiryTimeInString(expiryTime)
+        )
     }
 
     fun getPollSelectionText(context: Context): String? =

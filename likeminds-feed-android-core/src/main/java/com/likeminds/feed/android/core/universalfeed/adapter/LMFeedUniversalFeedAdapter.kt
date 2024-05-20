@@ -2,13 +2,15 @@ package com.likeminds.feed.android.core.universalfeed.adapter
 
 import android.view.View
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
+import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
 import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedUniversalFeedAdapter(
-    private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
+    private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
+    private val pollOptionsAdapterListener: LMFeedPollOptionsAdapterListener
 ) : LMFeedBaseRecyclerAdapter<LMFeedBaseViewType>() {
 
     init {
@@ -43,7 +45,10 @@ class LMFeedUniversalFeedAdapter(
         viewDataBinders.add(itemPostMultipleMediaViewDataBinder)
 
         val itemPostPollViewDataBinder =
-            LMFeedItemPostPollViewDataBinder(universalFeedAdapterListener)
+            LMFeedItemPostPollViewDataBinder(
+                universalFeedAdapterListener,
+                pollOptionsAdapterListener
+            )
         viewDataBinders.add(itemPostPollViewDataBinder)
 
         return viewDataBinders
