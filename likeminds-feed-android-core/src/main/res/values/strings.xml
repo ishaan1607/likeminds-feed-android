@@ -136,6 +136,9 @@
     <string name="lm_feed_select_at_least_d_options">*Select at least %d options</string>
     <string name="lm_feed_poll_vote_time_left">%s left</string>
     <string name="lm_feed_added_by_s">Added by %s</string>
+    <string name="lm_feed_add_poll">Add Poll</string>
+    <string name="lm_feed_done">Done</string>
+    <string name="lm_feed_new_poll">New Poll</string>
 
     <!-- Add sample strings here-->
     <string name="lm_feed_sample_name">Sahil Garg</string>
@@ -153,5 +156,4 @@
     <string name="lm_feed_poll_sample_question">What will be the score today?</string>
     <string name="lm_feed_poll_sample_vote_count">10</string>
     <string name="lm_feed_poll_sample_option_text">Raising Hands</string>
-    <string name="lm_feed_add_poll">Add Poll</string>
 </resources>

@@ -8,7 +8,7 @@ import com.likeminds.feed.android.core.databinding.LmFeedActivityPollResultsBind
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.utils.LMFeedExtrasUtil
 
-class LMFeedCreatePollActivity : AppCompatActivity() {
+open class LMFeedCreatePollActivity : AppCompatActivity() {
 
     private lateinit var binding: LmFeedActivityPollResultsBinding
     private var poll: LMFeedPollViewData? = null
@@ -46,6 +46,9 @@ class LMFeedCreatePollActivity : AppCompatActivity() {
 
         //parse extras
         assignExtras()
+
+        //inflate fragment
+        inflateCreatePollFragment()
     }
 
     private fun assignExtras() {
@@ -62,5 +65,13 @@ class LMFeedCreatePollActivity : AppCompatActivity() {
         } else {
             poll = null
         }
+    }
+
+    private fun inflateCreatePollFragment(){
+        val createPollFragment = LMFeedCreatePollFragment.getInstance(poll)
+
+        supportFragmentManager.beginTransaction()
+            .replace(binding.containerPollResults.id, createPollFragment)
+            .commit()
     }
 }
