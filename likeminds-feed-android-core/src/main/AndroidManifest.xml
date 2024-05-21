@@ -66,6 +66,12 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LMFeedAppTheme.NoActionBar" />
+
+        <activity
+            android:name=".poll.create.view.LMFeedCreatePollActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/LMFeedAppTheme.NoActionBar" />
     </application>
 
 </manifest>

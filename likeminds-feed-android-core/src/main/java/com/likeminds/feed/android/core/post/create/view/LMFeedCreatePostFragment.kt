@@ -25,6 +25,7 @@ import com.likeminds.customgallery.media.model.*
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePostBinding
 import com.likeminds.feed.android.core.databinding.LmFeedItemMultipleMediaVideoBinding
+import com.likeminds.feed.android.core.poll.create.view.LMFeedCreatePollActivity
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.LM_FEED_CREATE_POST_EXTRAS
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.POST_ATTACHMENTS_LIMIT
@@ -384,7 +385,16 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         createPostViewModel.sendClickedOnAttachmentEvent("poll")
 
         //start activity to create poll
-        Log.d("LMFeedCreatePostFragment", "onAddPollClicked")
+        val intent = LMFeedCreatePollActivity.getIntent(requireContext())
+        pollLauncher.launch(intent)
+    }
+
+    private val pollLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            Log.d(TAG, "Poll created")
+        } else {
+            Log.d(TAG, "Poll not created")
+        }
     }
 
     private fun startCustomGallery(
