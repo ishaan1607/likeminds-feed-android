@@ -62,7 +62,7 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name=".poll.view.LMFeedPollResultsActivity"
+            android:name=".poll.result.view.LMFeedPollResultsActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/LMFeedAppTheme.NoActionBar" />

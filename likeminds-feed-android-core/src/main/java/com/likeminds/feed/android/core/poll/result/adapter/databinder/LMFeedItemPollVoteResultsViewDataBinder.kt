@@ -1,9 +1,9 @@
-package com.likeminds.feed.android.core.poll.adapter.databinder
+package com.likeminds.feed.android.core.poll.result.adapter.databinder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemPollVoteResultsBinding
-import com.likeminds.feed.android.core.poll.adapter.LMFeedPollVoteResultsAdapterListener
+import com.likeminds.feed.android.core.poll.result.adapter.LMFeedPollVoteResultsAdapterListener
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_USER

@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.poll.view
+package com.likeminds.feed.android.core.poll.result.view
 
 import android.os.Bundle
 import android.view.*
@@ -7,9 +7,9 @@ import androidx.fragment.app.viewModels
 import com.likeminds.feed.android.core.LMFeedCoreApplication
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentPollResultsTabBinding
-import com.likeminds.feed.android.core.poll.adapter.LMFeedPollVoteResultsAdapterListener
-import com.likeminds.feed.android.core.poll.model.LMFeedPollResultsTabExtras
-import com.likeminds.feed.android.core.poll.viewmodel.LMFeedPollResultsViewModel
+import com.likeminds.feed.android.core.poll.result.adapter.LMFeedPollVoteResultsAdapterListener
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollResultsTabExtras
+import com.likeminds.feed.android.core.poll.result.viewmodel.LMFeedPollResultsViewModel
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData

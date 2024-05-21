@@ -3,7 +3,7 @@ package com.likeminds.feed.android.core.ui.widgets.poll.view
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.*
-import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapter
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 

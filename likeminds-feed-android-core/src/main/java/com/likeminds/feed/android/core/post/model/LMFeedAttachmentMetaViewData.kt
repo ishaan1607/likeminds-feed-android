@@ -1,7 +1,7 @@
 package com.likeminds.feed.android.core.post.model
 
 import android.net.Uri
-import com.likeminds.feed.android.core.poll.model.LMFeedPollViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 
 class LMFeedAttachmentMetaViewData private constructor(
     val name: String?,

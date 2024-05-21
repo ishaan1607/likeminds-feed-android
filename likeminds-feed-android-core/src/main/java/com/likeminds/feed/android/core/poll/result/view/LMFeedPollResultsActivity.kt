@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.poll.view
+package com.likeminds.feed.android.core.poll.result.view
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedActivityPollResultsBinding
-import com.likeminds.feed.android.core.poll.model.LMFeedPollResultsExtras
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollResultsExtras
 import com.likeminds.feed.android.core.utils.*
 
 class LMFeedPollResultsActivity : AppCompatActivity() {

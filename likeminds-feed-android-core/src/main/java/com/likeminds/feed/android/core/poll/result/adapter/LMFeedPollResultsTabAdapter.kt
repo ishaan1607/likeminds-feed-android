@@ -1,10 +1,10 @@
-package com.likeminds.feed.android.core.poll.adapter
+package com.likeminds.feed.android.core.poll.result.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
-import com.likeminds.feed.android.core.poll.model.LMFeedPollResultsTabExtras
-import com.likeminds.feed.android.core.poll.view.LMFeedPollResultsTabFragment
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollResultsTabExtras
+import com.likeminds.feed.android.core.poll.result.view.LMFeedPollResultsTabFragment
 
 class LMFeedPollResultsTabAdapter(
     fragment: Fragment,

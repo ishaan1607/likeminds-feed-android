@@ -1,10 +1,10 @@
-package com.likeminds.feed.android.core.poll.view
+package com.likeminds.feed.android.core.poll.result.view
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.*
-import com.likeminds.feed.android.core.poll.adapter.LMFeedPollVoteResultsAdapter
-import com.likeminds.feed.android.core.poll.adapter.LMFeedPollVoteResultsAdapterListener
+import com.likeminds.feed.android.core.poll.result.adapter.LMFeedPollVoteResultsAdapter
+import com.likeminds.feed.android.core.poll.result.adapter.LMFeedPollVoteResultsAdapterListener
 import com.likeminds.feed.android.core.utils.LMFeedEndlessRecyclerViewScrollListener
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 

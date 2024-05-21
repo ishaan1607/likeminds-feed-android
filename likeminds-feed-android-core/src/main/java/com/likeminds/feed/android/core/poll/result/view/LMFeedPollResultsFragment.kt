@@ -1,8 +1,7 @@
-package com.likeminds.feed.android.core.poll.view
+package com.likeminds.feed.android.core.poll.result.view
 
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
@@ -10,9 +9,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentPollResultsBinding
 import com.likeminds.feed.android.core.databinding.LmFeedLayoutPollResultsTabBinding
-import com.likeminds.feed.android.core.poll.adapter.LMFeedPollResultsTabAdapter
-import com.likeminds.feed.android.core.poll.model.LMFeedPollResultsExtras
-import com.likeminds.feed.android.core.poll.view.LMFeedPollResultsActivity.Companion.LM_FEED_POLL_RESULTS_EXTRAS
+import com.likeminds.feed.android.core.poll.result.adapter.LMFeedPollResultsTabAdapter
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollResultsExtras
+import com.likeminds.feed.android.core.poll.result.view.LMFeedPollResultsActivity.Companion.LM_FEED_POLL_RESULTS_EXTRAS
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView

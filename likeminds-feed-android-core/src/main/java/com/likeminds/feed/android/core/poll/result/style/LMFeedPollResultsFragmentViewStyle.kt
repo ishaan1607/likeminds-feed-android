@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.poll.style
+package com.likeminds.feed.android.core.poll.result.style
 
 import android.graphics.Typeface
 import android.text.TextUtils

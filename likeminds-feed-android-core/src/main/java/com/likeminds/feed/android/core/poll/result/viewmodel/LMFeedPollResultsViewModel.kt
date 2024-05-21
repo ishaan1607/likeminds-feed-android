@@ -1,7 +1,7 @@
-package com.likeminds.feed.android.core.poll.viewmodel
+package com.likeminds.feed.android.core.poll.result.viewmodel
 
 import androidx.lifecycle.*
-import com.likeminds.feed.android.core.poll.model.LMFeedPollVoteViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollVoteViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.likemindsfeed.LMFeedClient

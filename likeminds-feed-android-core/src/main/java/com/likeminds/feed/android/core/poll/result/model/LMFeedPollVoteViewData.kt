@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.poll.model
+package com.likeminds.feed.android.core.poll.result.model
 
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 

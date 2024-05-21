@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
@@ -337,26 +338,53 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
     private fun initAddAttachmentsView() {
         binding.apply {
             layoutAttachFiles.setOnClickListener {
-                // sends clicked on attachment event for file
-                createPostViewModel.sendClickedOnAttachmentEvent("file")
-
-                startCustomGallery(documentLauncher, listOf(PDF))
+                onAttachDocumentClicked()
             }
 
             layoutAddImage.setOnClickListener {
-                // sends clicked on attachment event for photo
-                createPostViewModel.sendClickedOnAttachmentEvent("photo")
-
-                startCustomGallery(galleryLauncher, listOf(IMAGE))
+                onAttachImageClicked()
             }
 
             layoutAddVideo.setOnClickListener {
-                // sends clicked on attachment event for video
-                createPostViewModel.sendClickedOnAttachmentEvent("video")
+                onAttachVideoClicked()
+            }
 
-                startCustomGallery(galleryLauncher, listOf(VIDEO))
+            layoutAddPoll.setOnClickListener {
+                onAddPollClicked()
             }
         }
+    }
+
+    //on click of the attach image layout
+    protected open fun onAttachImageClicked() {
+        // sends clicked on attachment event for photo
+        createPostViewModel.sendClickedOnAttachmentEvent("photo")
+
+        startCustomGallery(galleryLauncher, listOf(IMAGE))
+    }
+
+    //on click of the attach video layout
+    protected open fun onAttachVideoClicked() {
+        // sends clicked on attachment event for video
+        createPostViewModel.sendClickedOnAttachmentEvent("video")
+
+        startCustomGallery(galleryLauncher, listOf(VIDEO))
+    }
+
+    //on click of the attach document layout
+    protected open fun onAttachDocumentClicked() {
+        // sends clicked on attachment event for file
+        createPostViewModel.sendClickedOnAttachmentEvent("file")
+
+        startCustomGallery(documentLauncher, listOf(PDF))
+    }
+
+    protected open fun onAddPollClicked() {
+        // sends clicked on attachment event for poll
+        createPostViewModel.sendClickedOnAttachmentEvent("poll")
+
+        //start activity to create poll
+        Log.d("LMFeedCreatePostFragment", "onAddPollClicked")
     }
 
     private fun startCustomGallery(

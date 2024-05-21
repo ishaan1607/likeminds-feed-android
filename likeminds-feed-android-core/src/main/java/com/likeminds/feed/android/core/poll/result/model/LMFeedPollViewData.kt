@@ -1,4 +1,4 @@
-package com.likeminds.feed.android.core.poll.model
+package com.likeminds.feed.android.core.poll.result.model
 
 import android.content.Context
 import android.os.Parcelable

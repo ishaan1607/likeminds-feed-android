@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.likeminds.feed.android.core.databinding.LmFeedPostPollViewBinding
-import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
-import com.likeminds.feed.android.core.poll.model.LMFeedPollViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle

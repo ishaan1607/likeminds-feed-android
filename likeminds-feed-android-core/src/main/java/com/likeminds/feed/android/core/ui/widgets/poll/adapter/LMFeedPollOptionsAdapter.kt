@@ -1,6 +1,6 @@
 package com.likeminds.feed.android.core.ui.widgets.poll.adapter
 
-import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.databinder.LMFeedItemPollOptionsViewDataBinder
 import com.likeminds.feed.android.core.utils.base.*
 
