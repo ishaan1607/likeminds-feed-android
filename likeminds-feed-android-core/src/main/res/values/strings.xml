@@ -153,4 +153,5 @@
     <string name="lm_feed_poll_sample_question">What will be the score today?</string>
     <string name="lm_feed_poll_sample_vote_count">10</string>
     <string name="lm_feed_poll_sample_option_text">Raising Hands</string>
+    <string name="lm_feed_add_poll">Add Poll</string>
 </resources>

@@ -57,8 +57,8 @@
                     android:layout_height="@dimen/lm_feed_small_separator_size"
                     android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
                     android:layout_marginTop="@dimen/lm_feed_large_margin"
-                    android:visibility="gone"
                     android:background="@color/lm_feed_blue_separator"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/topics_group"
@@ -170,7 +170,7 @@
             android:gravity="center_vertical"
             android:paddingHorizontal="@dimen/lm_feed_large_padding"
             android:paddingVertical="@dimen/lm_feed_medium_padding"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/add_file_separator"
             tools:ignore="UnusedAttribute">
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
@@ -188,7 +188,7 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/lm_feed_attach_files"
                 android:textColor="@color/lm_feed_raisin_black"
-                android:textSize="14sp" />
+                android:textSize="@dimen/lm_feed_text_medium" />
 
         </LinearLayout>
 
@@ -225,7 +225,7 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/lm_feed_add_video"
                 android:textColor="@color/lm_feed_raisin_black"
-                android:textSize="14sp" />
+                android:textSize="@dimen/lm_feed_text_medium" />
 
         </LinearLayout>
 
@@ -262,7 +262,42 @@
                 android:fontFamily="@font/roboto_regular"
                 android:text="@string/lm_feed_add_photo"
                 android:textColor="@color/lm_feed_raisin_black"
-                android:textSize="14sp" />
+                android:textSize="@dimen/lm_feed_text_medium" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/add_file_separator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/lm_feed_small_separator_size"
+            android:background="@color/cloudy_blue_50"
+            app:layout_constraintBottom_toTopOf="@+id/layout_add_poll" />
+
+        <LinearLayout
+            android:id="@+id/layout_add_poll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/lm_feed_large_padding"
+            android:paddingVertical="@dimen/lm_feed_medium_padding"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+                android:id="@+id/iv_add_poll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/lm_feed_ic_poll" />
+
+            <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/lm_feed_large_margin"
+                android:fontFamily="@font/lm_feed_roboto"
+                android:text="@string/lm_feed_add_poll"
+                android:textColor="@color/lm_feed_raisin_black"
+                android:textSize="@dimen/lm_feed_text_medium"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
@@ -278,14 +313,14 @@
             android:text="@string/lm_feed_add_more"
             android:textAllCaps="false"
             android:textColor="@color/lm_feed_majorelle_blue"
-            android:textSize="14sp"
+            android:textSize="@dimen/lm_feed_text_medium"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:fontFamily="@font/roboto_medium"
             tools:ignore="UnusedAttribute"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
