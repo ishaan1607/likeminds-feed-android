@@ -20,7 +20,7 @@
             tools:visibility="visible" />
 
 
-        <com.likeminds.feed.android.core.poll.view.LMFeedPollVoteResultsListView
+        <com.likeminds.feed.android.core.poll.result.view.LMFeedPollVoteResultsListView
             android:id="@+id/rv_poll_vote_results"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
