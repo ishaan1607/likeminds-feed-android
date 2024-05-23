@@ -15,6 +15,12 @@
     <dimen name="lm_feed_post_header_title_text_size">20sp</dimen>
     <dimen name="lm_feed_standard_line_height">20sp</dimen>
 
+    <!--    Line Spacing-->
+    <dimen name="lm_feed_line_spacing_standard">20sp</dimen>
+
+    <!--    View Height and Width-->
+    <dimen name="lm_feed_view_large">16dp</dimen>
+
     <!--    Line spacing extra-->
     <dimen name="lm_feed_line_spacing_extra_standard">8sp</dimen>
     <dimen name="lm_feed_line_spacing_extra_small">4sp</dimen>
