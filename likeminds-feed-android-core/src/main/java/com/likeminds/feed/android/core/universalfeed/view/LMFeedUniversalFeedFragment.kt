@@ -978,6 +978,7 @@ open class LMFeedUniversalFeedFragment :
         val pollId = pollAttachment.attachmentMeta.poll?.id ?: return
 
         val addPollOptionExtras = LMFeedAddPollOptionExtras.Builder()
+            .postId(postViewData.id)
             .pollId(pollId)
             .build()
 
@@ -1272,8 +1273,16 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
-    override fun onAddOptionSubmitted(pollId: String, option: String) {
-        universalFeedViewModel.addPollOption(pollId, option)
+    override fun onAddOptionSubmitted(
+        postId: String,
+        pollId: String,
+        option: String
+    ) {
+        universalFeedViewModel.addPollOption(
+            postId,
+            pollId,
+            option
+        )
     }
 
     //customizes the create new post fab

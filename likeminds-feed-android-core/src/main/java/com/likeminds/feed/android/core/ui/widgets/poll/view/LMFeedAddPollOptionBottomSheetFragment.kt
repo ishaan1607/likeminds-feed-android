@@ -158,6 +158,7 @@ open class LMFeedAddPollOptionBottomSheetFragment : BottomSheetDialogFragment() 
 
     protected open fun onAddPollOptionSubmitted() {
         addPollOptionListener?.onAddOptionSubmitted(
+            addPollOptionExtras.postId,
             addPollOptionExtras.pollId,
             binding.etOption.text.toString()
         )
@@ -191,5 +192,9 @@ open class LMFeedAddPollOptionBottomSheetFragment : BottomSheetDialogFragment() 
 
 interface LMFeedAddPollOptionBottomSheetListener {
     //callback when user clicks submit button on add poll option bottom sheet
-    fun onAddOptionSubmitted(pollId: String, option: String)
+    fun onAddOptionSubmitted(
+        postId: String,
+        pollId: String,
+        option: String
+    )
 }

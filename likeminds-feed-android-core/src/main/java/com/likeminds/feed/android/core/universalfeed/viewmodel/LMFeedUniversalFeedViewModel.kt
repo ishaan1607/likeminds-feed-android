@@ -550,7 +550,11 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     }
 
     //calls api to add option on the poll
-    fun addPollOption(pollId: String, optionText: String) {
+    fun addPollOption(
+        postId: String,
+        pollId: String,
+        optionText: String
+    ) {
         viewModelScope.launchIO {
             val request = AddPollOptionRequest.Builder()
                 .pollId(pollId)
@@ -560,7 +564,7 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
             val response = lmFeedClient.addPollOption(request)
 
             if (response.success) {
-                //todo:
+                getPost(postId)
             } else {
                 errorMessageChannel.send(ErrorMessageEvent.AddPollOption(response.errorMessage))
             }

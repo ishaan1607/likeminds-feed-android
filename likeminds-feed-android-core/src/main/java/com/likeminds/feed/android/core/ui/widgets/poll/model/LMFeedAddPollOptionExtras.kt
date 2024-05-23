@@ -5,20 +5,27 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 class LMFeedAddPollOptionExtras private constructor(
+    val postId: String,
     val pollId: String
 ) : Parcelable {
 
     class Builder {
+        private var postId: String = ""
         private var pollId: String = ""
+
+        fun postId(postId: String) = apply {
+            this.postId = postId
+        }
 
         fun pollId(pollId: String) = apply {
             this.pollId = pollId
         }
 
-        fun build() = LMFeedAddPollOptionExtras(pollId)
+        fun build() = LMFeedAddPollOptionExtras(postId, pollId)
     }
 
     fun toBuilder(): Builder {
-        return Builder().pollId(pollId)
+        return Builder().postId(postId)
+            .pollId(pollId)
     }
 }
