@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.universalfeed.adapter.databinders
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemPostPollBinding
+import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
@@ -13,8 +14,8 @@ import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL
 
 class LMFeedItemPostPollViewDataBinder(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-    private val pollOptionsAdapter: LMFeedPollOptionsAdapterListener
-) : LMFeedViewDataBinder<LmFeedItemPostPollBinding, LMFeedPostViewData>() {
+) : LMFeedViewDataBinder<LmFeedItemPostPollBinding, LMFeedPostViewData>(),
+    LMFeedPollOptionsAdapterListener {
 
     override val viewType: Int
         get() = ITEM_POST_POLL
@@ -77,9 +78,10 @@ class LMFeedItemPostPollViewDataBinder(
                 }, executeBinder = {
                     //sets the post poll media view
                     LMFeedPostBinderUtils.bindPostPollMediaView(
+                        position,
                         postPollView,
                         data.mediaViewData,
-                        pollOptionsAdapter
+                        this@LMFeedItemPostPollViewDataBinder
                     )
                 }
             )
@@ -163,5 +165,41 @@ class LMFeedItemPostPollViewDataBinder(
                 universalFeedAdapterListener.onPostShareClicked(position, post)
             }
         }
+    }
+
+    override fun onPollOptionClicked(
+        pollPosition: Int,
+        pollOptionPosition: Int,
+        pollOptionViewData: LMFeedPollOptionViewData
+    ) {
+        super.onPollOptionClicked(
+            pollPosition,
+            pollOptionPosition,
+            pollOptionViewData
+        )
+
+        universalFeedAdapterListener.onPollOptionClicked(
+            pollPosition,
+            pollOptionPosition,
+            pollOptionViewData
+        )
+    }
+
+    override fun onPollOptionVoteCountClicked(
+        pollPosition: Int,
+        pollOptionPosition: Int,
+        pollOptionViewData: LMFeedPollOptionViewData
+    ) {
+        super.onPollOptionVoteCountClicked(
+            pollPosition,
+            pollOptionPosition,
+            pollOptionViewData
+        )
+
+        universalFeedAdapterListener.onPollOptionVoteCountClicked(
+            pollPosition,
+            pollOptionPosition,
+            pollOptionViewData
+        )
     }
 }

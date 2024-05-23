@@ -56,7 +56,7 @@ class LMFeedAddPollOptionBottomSheetFragmentStyle private constructor(
                     .textColor(R.color.lm_feed_white)
                     .build()
             )
-            .cornerRadius(R.dimen.lm_feed_corner_radius_medium)
+            .cornerRadius(R.dimen.lm_feed_poll_option_submit_button_corner_radius)
             .build()
 
         private var addPollOptionCrossIconStyle: LMFeedIconStyle = LMFeedIconStyle.Builder()

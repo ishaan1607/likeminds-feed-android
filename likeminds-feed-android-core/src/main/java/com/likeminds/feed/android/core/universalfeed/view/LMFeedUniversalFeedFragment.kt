@@ -26,6 +26,8 @@ import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
 import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
+import com.likeminds.feed.android.core.poll.model.LMFeedPollResultsExtras
+import com.likeminds.feed.android.core.poll.view.LMFeedPollResultsActivity
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
@@ -51,7 +53,6 @@ import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
-import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.ui.widgets.poll.model.LMFeedAddPollOptionExtras
 import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedAddPollOptionBottomSheetFragment
 import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedAddPollOptionBottomSheetListener
@@ -80,7 +81,6 @@ open class LMFeedUniversalFeedFragment :
     LMFeedAdminDeleteDialogListener,
     LMFeedSelfDeleteDialogListener,
     LMFeedUniversalSelectedTopicAdapterListener,
-    LMFeedPollOptionsAdapterListener,
     LMFeedAddPollOptionBottomSheetListener,
     LMFeedPostObserver {
 
@@ -569,7 +569,7 @@ open class LMFeedUniversalFeedFragment :
     private fun initUniversalFeedRecyclerView() {
         LMFeedProgressBarHelper.showProgress(binding.progressBar)
         binding.rvUniversal.apply {
-            setAdapter(this@LMFeedUniversalFeedFragment, this@LMFeedUniversalFeedFragment)
+            setAdapter(this@LMFeedUniversalFeedFragment)
 
             val paginationScrollListener =
                 object : LMFeedEndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -975,6 +975,23 @@ open class LMFeedUniversalFeedFragment :
     //callback when the poll member voted count is clicked
     override fun onPostMemberVotedCountClicked(position: Int, postViewData: LMFeedPostViewData) {
         super.onPostMemberVotedCountClicked(position, postViewData)
+
+        val pollAttachment = postViewData.mediaViewData.attachments.firstOrNull() ?: return
+        val pollViewData = pollAttachment.attachmentMeta.poll ?: return
+
+        if (pollViewData.toShowResults || pollViewData.hasPollEnded()) {
+            val pollResultsExtras = LMFeedPollResultsExtras.Builder()
+                .pollId(pollViewData.id)
+                .pollOptions(pollViewData.options)
+                .build()
+
+            LMFeedPollResultsActivity.start(requireContext(), pollResultsExtras)
+        } else {
+            LMFeedViewUtils.showShortToast(
+                requireContext(),
+                getString(R.string.the_results_will_be_visible_after_the_poll_has_ended)
+            )
+        }
     }
 
     //callback when the submit poll vote button is clicked
@@ -988,16 +1005,48 @@ open class LMFeedUniversalFeedFragment :
     }
 
     //callback when the poll option is clicked
-    override fun onPollOptionClicked(position: Int, pollOptionViewData: LMFeedPollOptionViewData) {
-        super.onPollOptionClicked(position, pollOptionViewData)
+    override fun onPollOptionClicked(
+        pollPosition: Int,
+        pollOptionPosition: Int,
+        pollOptionViewData: LMFeedPollOptionViewData
+    ) {
+        super.onPollOptionClicked(
+            pollPosition,
+            pollOptionPosition,
+            pollOptionViewData
+        )
     }
 
     //callback when the polls option vote count is clicked
     override fun onPollOptionVoteCountClicked(
-        position: Int,
+        pollPosition: Int,
+        pollOptionPosition: Int,
         pollOptionViewData: LMFeedPollOptionViewData
     ) {
-        super.onPollOptionVoteCountClicked(position, pollOptionViewData)
+        super.onPollOptionVoteCountClicked(
+            pollPosition,
+            pollOptionPosition,
+            pollOptionViewData
+        )
+
+        val postViewData = binding.rvUniversal.allPosts()[pollPosition] as LMFeedPostViewData
+        val attachment = postViewData.mediaViewData.attachments.firstOrNull() ?: return
+        val pollViewData = attachment.attachmentMeta.poll ?: return
+
+        if (pollOptionViewData.toShowResults || pollOptionViewData.hasPollEnded) {
+            val pollResultsExtras = LMFeedPollResultsExtras.Builder()
+                .pollId(pollViewData.id)
+                .pollOptions(pollViewData.options)
+                .selectedPollOptionId(pollOptionViewData.id)
+                .build()
+
+            LMFeedPollResultsActivity.start(requireContext(), pollResultsExtras)
+        } else {
+            LMFeedViewUtils.showShortToast(
+                requireContext(),
+                getString(R.string.the_results_will_be_visible_after_the_poll_has_ended)
+            )
+        }
     }
 
     override fun onAddOptionSubmitted(pollId: String, option: String) {

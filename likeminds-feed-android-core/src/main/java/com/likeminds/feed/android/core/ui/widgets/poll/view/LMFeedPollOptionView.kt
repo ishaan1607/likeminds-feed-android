@@ -3,7 +3,6 @@ package com.likeminds.feed.android.core.ui.widgets.poll.view
 import android.content.Context
 import android.graphics.drawable.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -162,11 +161,6 @@ class LMFeedPollOptionView : ConstraintLayout {
             val optionBackgroundDrawable = binding.clPollOption.background as GradientDrawable
             optionBackgroundDrawable.mutate()
             val strokeWidth = LMFeedViewUtils.dpToPx(1)
-
-            Log.d(
-                "PUI",
-                "setPollOptionBackgroundProgress: ${pollOptionViewData.text} ${pollOptionViewData.toShowResults} ${pollOptionViewData.isSelected}"
-            )
 
             if (pollOptionViewData.toShowResults) {
                 //set progress as per the percentage of votes

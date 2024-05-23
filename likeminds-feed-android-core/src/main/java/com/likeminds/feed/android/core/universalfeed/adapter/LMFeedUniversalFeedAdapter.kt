@@ -1,8 +1,8 @@
 package com.likeminds.feed.android.core.universalfeed.adapter
 
 import android.view.View
+import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
-import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
@@ -10,7 +10,6 @@ import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedUniversalFeedAdapter(
     private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-    private val pollOptionsAdapterListener: LMFeedPollOptionsAdapterListener
 ) : LMFeedBaseRecyclerAdapter<LMFeedBaseViewType>() {
 
     init {
@@ -45,10 +44,7 @@ class LMFeedUniversalFeedAdapter(
         viewDataBinders.add(itemPostMultipleMediaViewDataBinder)
 
         val itemPostPollViewDataBinder =
-            LMFeedItemPostPollViewDataBinder(
-                universalFeedAdapterListener,
-                pollOptionsAdapterListener
-            )
+            LMFeedItemPostPollViewDataBinder(universalFeedAdapterListener)
         viewDataBinders.add(itemPostPollViewDataBinder)
 
         return viewDataBinders
@@ -185,5 +181,21 @@ interface LMFeedUniversalFeedAdapterListener {
 
     fun onPostEditPollVoteClicked(position: Int, postViewData: LMFeedPostViewData) {
         //triggered when the user clicks on edit poll vote
+    }
+
+    fun onPollOptionClicked(
+        pollPosition: Int,
+        pollOptionPosition: Int,
+        pollOptionViewData: LMFeedPollOptionViewData
+    ) {
+        //triggered when a poll option is clicked
+    }
+
+    fun onPollOptionVoteCountClicked(
+        pollPosition: Int,
+        pollOptionPosition: Int,
+        pollOptionViewData: LMFeedPollOptionViewData
+    ) {
+        //triggered when a poll option vote count is clicked
     }
 }

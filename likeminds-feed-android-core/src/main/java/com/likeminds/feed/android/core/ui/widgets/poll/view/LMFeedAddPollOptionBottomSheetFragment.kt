@@ -106,9 +106,12 @@ open class LMFeedAddPollOptionBottomSheetFragment : BottomSheetDialogFragment() 
 
     //customizes the add poll option submit button
     protected open fun customizeAddPollOptionSubmitButton(btnSubmitPollOption: LMFeedButton) {
-        btnSubmitPollOption.setStyle(
-            LMFeedStyleTransformer.addPollOptionBottomSheetFragmentStyle.addOptionSubmitButtonStyle
-        )
+        btnSubmitPollOption.apply {
+            setStyle(
+                LMFeedStyleTransformer.addPollOptionBottomSheetFragmentStyle.addOptionSubmitButtonStyle
+            )
+            isEnabled = false
+        }
     }
 
     //customizes the add poll option cross icon

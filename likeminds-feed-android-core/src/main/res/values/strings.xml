@@ -142,6 +142,7 @@
     </plurals>
     <string name="lm_feed_add_new_poll_option">Add new poll option</string>
     <string name="lm_feed_type_new_option">Type new option</string>
+    <string name="the_results_will_be_visible_after_the_poll_has_ended">The results will be visible after the poll has ended.</string>
 
     <!-- Add sample strings here-->
     <string name="lm_feed_sample_name">Sahil Garg</string>
