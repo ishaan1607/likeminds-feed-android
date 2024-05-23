@@ -12,6 +12,9 @@ class LMFeedCreatePollViewModel : ViewModel() {
 
     val lmFeedClient = LMFeedClient.getInstance()
 
+    var pollExpiryTime: Long? = null
+        private set
+
     private val _loggedInUser by lazy { MutableLiveData<LMFeedUserViewData>() }
     val loggedInUser: LiveData<LMFeedUserViewData> by lazy { _loggedInUser }
 
@@ -40,5 +43,10 @@ class LMFeedCreatePollViewModel : ViewModel() {
                 errorEventChannel.send(ErrorEvent.GetLoggedInUserError(response.errorMessage))
             }
         }
+    }
+
+    // set the poll expiry time
+    fun setPollExpiryTime(expiryTime: Long) {
+        pollExpiryTime = expiryTime
     }
 }
