@@ -110,7 +110,7 @@ open class LMFeedAddPollOptionBottomSheetFragment : BottomSheetDialogFragment() 
             setStyle(
                 LMFeedStyleTransformer.addPollOptionBottomSheetFragmentStyle.addOptionSubmitButtonStyle
             )
-            isEnabled = false
+            setSubmitButtonEnabled(false)
         }
     }
 
@@ -139,7 +139,7 @@ open class LMFeedAddPollOptionBottomSheetFragment : BottomSheetDialogFragment() 
     private fun initListeners() {
         binding.apply {
             etOption.addTextChangedListener {
-                btnSubmitPollOption.isEnabled = it.toString().isNotEmpty()
+                setSubmitButtonEnabled(it.toString().isNotEmpty())
             }
 
             ivCancelAddPollOption.setOnClickListener {
@@ -162,6 +162,30 @@ open class LMFeedAddPollOptionBottomSheetFragment : BottomSheetDialogFragment() 
             binding.etOption.text.toString()
         )
         dismiss()
+    }
+
+    private fun setSubmitButtonEnabled(isEnabled: Boolean) {
+        binding.btnSubmitPollOption.apply {
+            this.isEnabled = isEnabled
+
+            val submitButtonStyle =
+                LMFeedStyleTransformer.addPollOptionBottomSheetFragmentStyle.addOptionSubmitButtonStyle
+            if (isEnabled) {
+                setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        submitButtonStyle.backgroundColor
+                    )
+                )
+            } else {
+                setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        submitButtonStyle.disabledButtonColor
+                    )
+                )
+            }
+        }
     }
 }
 
