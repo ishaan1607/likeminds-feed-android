@@ -162,4 +162,28 @@ interface LMFeedUniversalFeedAdapterListener {
     fun onPostTaggedMemberClicked(position: Int, uuid: String) {
         //triggered when the member tag in the post text content is clicked
     }
+
+    fun onPostEditPollClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on edit poll icon
+    }
+
+    fun onPostClearPollClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on clear poll icon
+    }
+
+    fun onPostAddPollOptionClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on add poll option button
+    }
+
+    fun onPostMemberVotedCountClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on poll's member voted count is clicked
+    }
+
+    fun onPostSubmitPollVoteClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on submit poll vote button
+    }
+
+    fun onPostEditPollVoteClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on edit poll vote
+    }
 }

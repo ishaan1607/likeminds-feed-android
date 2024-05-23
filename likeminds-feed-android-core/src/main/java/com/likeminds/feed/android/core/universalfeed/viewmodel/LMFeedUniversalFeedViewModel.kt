@@ -18,6 +18,8 @@ import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.feed.android.core.utils.user.LMFeedMemberRightsUtil
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.poll.model.AddPollOptionRequest
+import com.likeminds.likemindsfeed.poll.model.SubmitVoteRequest
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
@@ -120,6 +122,10 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
         data class GetUnreadNotificationCount(val errorMessage: String?) : ErrorMessageEvent()
 
         data class AddPost(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class SubmitVote(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class AddPollOption(val errorMessage: String?) : ErrorMessageEvent()
     }
 
     sealed class PostDataEvent {
@@ -474,6 +480,40 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
         val oneTimeWorkRequest = LMFeedPostAttachmentUploadWorker.getInstance(postId, filesCount)
         val workContinuation = WorkManager.getInstance(context).beginWith(oneTimeWorkRequest)
         return Pair(workContinuation, oneTimeWorkRequest.id.toString())
+    }
+
+    //calls api to submit vote on poll
+    fun submitPollVote(pollId: String, optionId: String) {
+        viewModelScope.launchIO {
+            val request = SubmitVoteRequest.Builder()
+                .pollId(pollId)
+                .votes(listOf(optionId))
+                .build()
+
+            val response = lmFeedClient.submitVote(request)
+
+            if (!response.success) {
+                errorMessageChannel.send(ErrorMessageEvent.SubmitVote(response.errorMessage))
+            }
+        }
+    }
+
+    //calls api to add option on the poll
+    fun addPollOption(pollId: String, optionText: String) {
+        viewModelScope.launchIO {
+            val request = AddPollOptionRequest.Builder()
+                .pollId(pollId)
+                .text(optionText)
+                .build()
+
+            val response = lmFeedClient.addPollOption(request)
+
+            if (response.success) {
+                //todo:
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.AddPollOption(response.errorMessage))
+            }
+        }
     }
 
     /**

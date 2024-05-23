@@ -25,6 +25,7 @@ import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
 import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
+import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
@@ -51,6 +52,9 @@ import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderVi
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
+import com.likeminds.feed.android.core.ui.widgets.poll.model.LMFeedAddPollOptionExtras
+import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedAddPollOptionBottomSheetFragment
+import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedAddPollOptionBottomSheetListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalSelectedTopicAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
@@ -77,6 +81,7 @@ open class LMFeedUniversalFeedFragment :
     LMFeedSelfDeleteDialogListener,
     LMFeedUniversalSelectedTopicAdapterListener,
     LMFeedPollOptionsAdapterListener,
+    LMFeedAddPollOptionBottomSheetListener,
     LMFeedPostObserver {
 
     private lateinit var binding: LmFeedFragmentUniversalFeedBinding
@@ -401,6 +406,10 @@ open class LMFeedUniversalFeedFragment :
 
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.GetUnreadNotificationCount -> {
                     binding.headerViewUniversal.setNotificationIconVisibility(false)
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
+                }
+
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.SubmitVote -> {
                     LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
                 }
             }
@@ -944,6 +953,55 @@ open class LMFeedUniversalFeedFragment :
 
         val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
         coreCallback?.openProfileWithUUID(uuid)
+    }
+
+    //callback when add poll option is clicked
+    override fun onPostAddPollOptionClicked(position: Int, postViewData: LMFeedPostViewData) {
+        super.onPostAddPollOptionClicked(position, postViewData)
+
+        val pollAttachment = postViewData.mediaViewData.attachments.firstOrNull() ?: return
+        val pollId = pollAttachment.attachmentMeta.poll?.id ?: return
+
+        val addPollOptionExtras = LMFeedAddPollOptionExtras.Builder()
+            .pollId(pollId)
+            .build()
+
+        LMFeedAddPollOptionBottomSheetFragment.newInstance(
+            childFragmentManager,
+            addPollOptionExtras
+        )
+    }
+
+    //callback when the poll member voted count is clicked
+    override fun onPostMemberVotedCountClicked(position: Int, postViewData: LMFeedPostViewData) {
+        super.onPostMemberVotedCountClicked(position, postViewData)
+    }
+
+    //callback when the submit poll vote button is clicked
+    override fun onPostSubmitPollVoteClicked(position: Int, postViewData: LMFeedPostViewData) {
+        super.onPostSubmitPollVoteClicked(position, postViewData)
+    }
+
+    //callback when the poll edit vote button is clicked
+    override fun onPostEditPollVoteClicked(position: Int, postViewData: LMFeedPostViewData) {
+        super.onPostEditPollVoteClicked(position, postViewData)
+    }
+
+    //callback when the poll option is clicked
+    override fun onPollOptionClicked(position: Int, pollOptionViewData: LMFeedPollOptionViewData) {
+        super.onPollOptionClicked(position, pollOptionViewData)
+    }
+
+    //callback when the polls option vote count is clicked
+    override fun onPollOptionVoteCountClicked(
+        position: Int,
+        pollOptionViewData: LMFeedPollOptionViewData
+    ) {
+        super.onPollOptionVoteCountClicked(position, pollOptionViewData)
+    }
+
+    override fun onAddOptionSubmitted(pollId: String, option: String) {
+        universalFeedViewModel.addPollOption(pollId, option)
     }
 
     //customizes the create new post fab

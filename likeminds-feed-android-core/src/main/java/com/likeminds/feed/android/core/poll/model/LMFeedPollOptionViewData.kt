@@ -16,6 +16,8 @@ class LMFeedPollOptionViewData private constructor(
     val addedByUser: LMFeedUserViewData,
     val toShowResults: Boolean,
     val allowAddOption: Boolean,
+    val isInstantPoll: Boolean,
+    val isMultiChoicePoll: Boolean,
 ) : Parcelable, LMFeedBaseViewType {
 
     override val viewType: Int
@@ -30,6 +32,8 @@ class LMFeedPollOptionViewData private constructor(
         private var addedByUser: LMFeedUserViewData = LMFeedUserViewData.Builder().build()
         private var toShowResults: Boolean = false
         private var allowAddOption: Boolean = false
+        private var isInstantPoll: Boolean = false
+        private var isMultiChoicePoll: Boolean = false
 
         fun id(id: String) = apply {
             this.id = id
@@ -63,6 +67,14 @@ class LMFeedPollOptionViewData private constructor(
             this.allowAddOption = allowAddOption
         }
 
+        fun isInstantPoll(isInstantPoll: Boolean) = apply {
+            this.isInstantPoll = isInstantPoll
+        }
+
+        fun isMultiChoicePoll(isMultiChoicePoll: Boolean) = apply {
+            this.isMultiChoicePoll = isMultiChoicePoll
+        }
+
         fun build() = LMFeedPollOptionViewData(
             id,
             isSelected,
@@ -71,7 +83,9 @@ class LMFeedPollOptionViewData private constructor(
             voteCount,
             addedByUser,
             toShowResults,
-            allowAddOption
+            allowAddOption,
+            isInstantPoll,
+            isMultiChoicePoll
         )
     }
 
@@ -84,5 +98,7 @@ class LMFeedPollOptionViewData private constructor(
             .addedByUser(addedByUser)
             .toShowResults(toShowResults)
             .allowAddOption(allowAddOption)
+            .isInstantPoll(isInstantPoll)
+            .isMultiChoicePoll(isMultiChoicePoll)
     }
 }

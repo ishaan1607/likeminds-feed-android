@@ -102,6 +102,36 @@ class LMFeedItemPostPollViewDataBinder(
                 universalFeedAdapterListener.onPostAuthorHeaderClicked(position, post)
             }
 
+            postPollView.setEditPollClicked {
+                val post = this.postViewData ?: return@setEditPollClicked
+                universalFeedAdapterListener.onPostEditPollClicked(position, post)
+            }
+
+            postPollView.setClearPollClicked {
+                val post = this.postViewData ?: return@setClearPollClicked
+                universalFeedAdapterListener.onPostClearPollClicked(position, post)
+            }
+
+            postPollView.setAddPollOptionClicked {
+                val post = this.postViewData ?: return@setAddPollOptionClicked
+                universalFeedAdapterListener.onPostAddPollOptionClicked(position, post)
+            }
+
+            postPollView.setSubmitPollVoteClicked {
+                val post = this.postViewData ?: return@setSubmitPollVoteClicked
+                universalFeedAdapterListener.onPostSubmitPollVoteClicked(position, post)
+            }
+
+            postPollView.setMemberVotedCountClicked {
+                val post = this.postViewData ?: return@setMemberVotedCountClicked
+                universalFeedAdapterListener.onPostMemberVotedCountClicked(position, post)
+            }
+
+            postPollView.setEditPollVoteClicked {
+                val post = this.postViewData ?: return@setEditPollVoteClicked
+                universalFeedAdapterListener.onPostEditPollVoteClicked(position, post)
+            }
+
             postFooter.setLikeIconClickListener {
                 val post = this.postViewData ?: return@setLikeIconClickListener
                 val updatedPost = LMFeedPostBinderUtils.updatePostForLike(post)

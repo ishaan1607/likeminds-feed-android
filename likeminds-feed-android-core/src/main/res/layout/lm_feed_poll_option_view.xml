@@ -14,7 +14,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/lm_feed_background_poll_item_selected"
             android:minHeight="@dimen/lm_feed_poll_option_min_height"
-            android:padding="@dimen/lm_feed_extra_small_padding"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -39,6 +38,7 @@
                 android:layout_marginStart="@dimen/lm_feed_regular_margin"
                 android:layout_marginTop="@dimen/lm_feed_small_margin"
                 android:layout_marginEnd="@dimen/lm_feed_regular_margin"
+                android:padding="@dimen/lm_feed_small_padding"
                 app:layout_constraintBottom_toTopOf="@+id/tv_added_by"
                 app:layout_constraintEnd_toStartOf="@+id/iv_checked"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,5 +96,12 @@
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_medium"
             tools:visibility="gone" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="left"
+            app:constraint_referenced_ids="cl_poll_option" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

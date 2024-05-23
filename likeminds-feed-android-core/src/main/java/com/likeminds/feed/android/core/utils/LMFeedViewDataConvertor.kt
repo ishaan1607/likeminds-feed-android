@@ -380,47 +380,52 @@ object LMFeedViewDataConvertor {
         val pollLMMeta = pollWidget.lmMeta ?: return null
         val pollMetaData = pollWidget.metadata
 
+        val toShowResults = pollLMMeta.toShowResults ?: false
+
         val allowAddOption = pollMetaData.findBooleanOrDefault(
             "allow_add_option", false
         )
 
+        val pollType = pollMetaData.findStringOrDefault(
+            "poll_type",
+            ""
+        ).getPollType()
 
-        return LMFeedPollViewData.Builder()
+        val multipleSelectState = pollMetaData.findStringOrDefault(
+            "multiple_select_state",
+            ""
+        ).getPollMultiSelectState()
+
+        val multipleSelectNumber = pollMetaData.findIntOrDefault(
+            "multiple_select_number",
+            0
+        )
+
+        var poll = LMFeedPollViewData.Builder()
             .id(pollId)
             .title(pollMetaData.findStringOrDefault("title", ""))
             .pollAnswerText(pollLMMeta.pollAnswerText ?: "")
-            .toShowResults(pollLMMeta.toShowResults ?: false)
-            .options(
-                convertPollOptions(
-                    pollLMMeta.options ?: emptyList(),
-                    pollLMMeta.toShowResults ?: false,
-                    allowAddOption,
-                    usersMap
-                )
-            )
+            .toShowResults(toShowResults)
             .expiryTime(pollMetaData.findLongOrDefault("expiry_time", 0))
             .isAnonymous(pollMetaData.findBooleanOrDefault("is_anonymous", false))
             .allowAddOption(allowAddOption)
-            .multipleSelectState(
-                pollMetaData.findStringOrDefault(
-                    "multiple_select_state",
-                    ""
-                ).getPollMultiSelectState()
-            )
-            .multipleSelectNumber(
-                pollMetaData.findIntOrDefault(
-                    "multiple_select_number",
-                    0
-                )
-            )
-            .pollType(
-                pollMetaData.findStringOrDefault(
-                    "poll_type",
-                    ""
-                ).getPollType()
-            )
+            .multipleSelectState(multipleSelectState)
+            .multipleSelectNumber(multipleSelectNumber)
+            .pollType(pollType)
             .isPollSubmitted(checkIsPollSubmitted(pollLMMeta.options ?: emptyList()))
             .build()
+
+        poll = poll.toBuilder()
+            .options(
+                convertPollOptions(
+                    pollLMMeta.options ?: emptyList(),
+                    poll,
+                    usersMap
+                )
+            )
+            .build()
+
+        return poll
     }
 
     // checks whether the poll is submitted or not
@@ -439,8 +444,7 @@ object LMFeedViewDataConvertor {
      * */
     private fun convertPollOptions(
         options: List<PollOption>,
-        toShowResults: Boolean,
-        allowAddOption: Boolean,
+        poll: LMFeedPollViewData,
         usersMap: Map<String, User>
     ): List<LMFeedPollOptionViewData> {
         return options.map { option ->
@@ -452,8 +456,10 @@ object LMFeedViewDataConvertor {
                 .addedByUser(convertUser(addedByUser))
                 .voteCount(option.voteCount)
                 .text(option.text)
-                .toShowResults(toShowResults)
-                .allowAddOption(allowAddOption)
+                .toShowResults(poll.toShowResults)
+                .allowAddOption(poll.allowAddOption)
+                .isInstantPoll(poll.isInstantPoll())
+                .isMultiChoicePoll(poll.isMultiChoicePoll())
                 .build()
         }
     }

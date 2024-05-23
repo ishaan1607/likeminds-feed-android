@@ -29,6 +29,7 @@
     <dimen name="lm_feed_corner_radius_small">2dp</dimen>
     <dimen name="lm_feed_corner_radius_regular">4dp</dimen>
     <dimen name="lm_feed_corner_radius_medium">8dp</dimen>
+    <dimen name="lm_feed_corner_radius_bottom_sheet">10dp</dimen>
 
     <!--    Padding Size-->
     <dimen name="lm_feed_extra_large_padding">24dp</dimen>
@@ -150,5 +151,8 @@
     <dimen name="lm_feed_poll_add_option_vertical_padding">14dp</dimen>
     <dimen name="lm_feed_poll_submit_vote_width">104dp</dimen>
     <dimen name="lm_feed_poll_options_list_margin_top">-8dp</dimen>
-
+    <dimen name="lm_feed_poll_option_input_text_size">15sp</dimen>
+    <dimen name="lm_feed_poll_option_input_stroke_width">1dp</dimen>
+    <dimen name="lm_feed_poll_option_submit_button_vertical_padding">14dp</dimen>
+    <dimen name="lm_feed_poll_option_submit_button_horizontal_padding">48dp</dimen>
 </resources>

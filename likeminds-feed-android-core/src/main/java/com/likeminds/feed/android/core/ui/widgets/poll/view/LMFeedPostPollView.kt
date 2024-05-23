@@ -163,7 +163,7 @@ class LMFeedPostPollView : ConstraintLayout {
     fun setSubmitButtonVisibility(pollViewData: LMFeedPollViewData) {
         binding.btnSubmitVote.apply {
             //hide submit button if poll is instant and already submitted or poll is deferred with single item selection
-            if ((pollViewData.isPollInstant() && pollViewData.isPollSubmitted) ||
+            if ((pollViewData.isInstantPoll() && pollViewData.isPollSubmitted) ||
                 pollViewData.hasPollEnded()
             ) {
                 hide()
@@ -210,11 +210,11 @@ class LMFeedPostPollView : ConstraintLayout {
     }
 
     /**
-     * Sets click listener on the add poll options button
+     * Sets click listener on the add poll option button
      *
      * @param listener [LMFeedOnClickListener] interface to have click listener
      */
-    fun setAddPollOptionsClicked(listener: LMFeedOnClickListener) {
+    fun setAddPollOptionClicked(listener: LMFeedOnClickListener) {
         binding.btnAddOption.setOnClickListener {
             listener.onClick()
         }
