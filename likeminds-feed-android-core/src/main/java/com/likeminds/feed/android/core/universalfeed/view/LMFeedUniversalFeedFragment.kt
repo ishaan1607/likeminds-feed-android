@@ -54,8 +54,7 @@ import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderVi
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.ui.widgets.overflowmenu.view.LMFeedOverflowMenu
 import com.likeminds.feed.android.core.ui.widgets.poll.model.LMFeedAddPollOptionExtras
-import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedAddPollOptionBottomSheetFragment
-import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedAddPollOptionBottomSheetListener
+import com.likeminds.feed.android.core.ui.widgets.poll.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalSelectedTopicAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
@@ -979,6 +978,11 @@ open class LMFeedUniversalFeedFragment :
         val pollAttachment = postViewData.mediaViewData.attachments.firstOrNull() ?: return
         val pollViewData = pollAttachment.attachmentMeta.poll ?: return
 
+        if (pollViewData.isAnonymous) {
+            LMFeedAnonymousPollDialogFragment.showDialog(childFragmentManager)
+            return
+        }
+
         if (pollViewData.toShowResults || pollViewData.hasPollEnded()) {
             val pollResultsExtras = LMFeedPollResultsExtras.Builder()
                 .pollId(pollViewData.id)
@@ -989,7 +993,7 @@ open class LMFeedUniversalFeedFragment :
         } else {
             LMFeedViewUtils.showShortToast(
                 requireContext(),
-                getString(R.string.the_results_will_be_visible_after_the_poll_has_ended)
+                getString(R.string.lm_feed_the_results_will_be_visible_after_the_poll_has_ended)
             )
         }
     }
@@ -1015,6 +1019,10 @@ open class LMFeedUniversalFeedFragment :
             pollOptionPosition,
             pollOptionViewData
         )
+
+        val postViewData = binding.rvUniversal.allPosts()[pollPosition] as LMFeedPostViewData
+        val attachment = postViewData.mediaViewData.attachments.firstOrNull() ?: return
+        val pollViewData = attachment.attachmentMeta.poll ?: return
     }
 
     //callback when the polls option vote count is clicked
@@ -1033,6 +1041,11 @@ open class LMFeedUniversalFeedFragment :
         val attachment = postViewData.mediaViewData.attachments.firstOrNull() ?: return
         val pollViewData = attachment.attachmentMeta.poll ?: return
 
+        if (pollViewData.isAnonymous) {
+            LMFeedAnonymousPollDialogFragment.showDialog(childFragmentManager)
+            return
+        }
+
         if (pollOptionViewData.toShowResults || pollOptionViewData.hasPollEnded) {
             val pollResultsExtras = LMFeedPollResultsExtras.Builder()
                 .pollId(pollViewData.id)
@@ -1044,7 +1057,7 @@ open class LMFeedUniversalFeedFragment :
         } else {
             LMFeedViewUtils.showShortToast(
                 requireContext(),
-                getString(R.string.the_results_will_be_visible_after_the_poll_has_ended)
+                getString(R.string.lm_feed_the_results_will_be_visible_after_the_poll_has_ended)
             )
         }
     }

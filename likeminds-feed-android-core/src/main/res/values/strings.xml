@@ -142,7 +142,9 @@
     </plurals>
     <string name="lm_feed_add_new_poll_option">Add new poll option</string>
     <string name="lm_feed_type_new_option">Type new option</string>
-    <string name="the_results_will_be_visible_after_the_poll_has_ended">The results will be visible after the poll has ended.</string>
+    <string name="lm_feed_the_results_will_be_visible_after_the_poll_has_ended">The results will be visible after the poll has ended.</string>
+    <string name="lm_feed_anonymous_poll">Anonymous poll</string>
+    <string name="lm_feed_this_being_an_lm_feed_anonymous_poll_the_names_of_the_voters_cannot_be_disclosed">This being an anonymous poll, the names of the voters cannot be disclosed.</string>
 
     <!-- Add sample strings here-->
     <string name="lm_feed_sample_name">Sahil Garg</string>
