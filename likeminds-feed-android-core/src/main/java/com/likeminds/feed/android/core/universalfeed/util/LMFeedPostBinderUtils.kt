@@ -555,6 +555,7 @@ object LMFeedPostBinderUtils {
                 listener
             )
             setSubmitButtonVisibility(pollViewData)
+            setEditPollVoteVisibility(pollViewData)
             setAddPollOptionButtonVisibility(pollViewData)
         }
     }

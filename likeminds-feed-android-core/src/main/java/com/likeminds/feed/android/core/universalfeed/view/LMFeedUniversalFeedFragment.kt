@@ -25,8 +25,7 @@ import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
 import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
-import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
-import com.likeminds.feed.android.core.poll.model.LMFeedPollResultsExtras
+import com.likeminds.feed.android.core.poll.model.*
 import com.likeminds.feed.android.core.poll.view.LMFeedPollResultsActivity
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity
@@ -71,6 +70,7 @@ import com.likeminds.feed.android.core.utils.mediauploader.LMFeedMediaUploadWork
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
+import com.likeminds.likemindsfeed.post.model.PollMultiSelectState
 import kotlinx.coroutines.flow.onEach
 import java.util.UUID
 
@@ -290,6 +290,14 @@ open class LMFeedUniversalFeedFragment :
             LMFeedViewUtils.showShortToast(requireContext(), toastMessage)
         }
 
+        //observers get post response
+        universalFeedViewModel.postResponse.observe(viewLifecycleOwner) { postViewData ->
+            binding.rvUniversal.apply {
+                val index = getIndexAndPostFromAdapter(postViewData.id)?.first ?: return@observe
+                updatePostItem(index, postViewData)
+            }
+        }
+
         universalFeedViewModel.errorMessageEventFlow.onEach { response ->
             when (response) {
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.UniversalFeed -> {
@@ -409,6 +417,14 @@ open class LMFeedUniversalFeedFragment :
                 }
 
                 is LMFeedUniversalFeedViewModel.ErrorMessageEvent.SubmitVote -> {
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
+                }
+
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.AddPollOption -> {
+                    LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
+                }
+
+                is LMFeedUniversalFeedViewModel.ErrorMessageEvent.GetPost -> {
                     LMFeedViewUtils.showErrorMessageToast(requireContext(), response.errorMessage)
                 }
             }
@@ -1001,11 +1017,115 @@ open class LMFeedUniversalFeedFragment :
     //callback when the submit poll vote button is clicked
     override fun onPostSubmitPollVoteClicked(position: Int, postViewData: LMFeedPostViewData) {
         super.onPostSubmitPollVoteClicked(position, postViewData)
+
+        val pollAttachment = postViewData.mediaViewData.attachments.firstOrNull() ?: return
+        val pollViewData = pollAttachment.attachmentMeta.poll ?: return
+
+        val selectedOptions = pollViewData.options.filter { it.isSelected }
+        val selectedOptionIds = selectedOptions.map { it.id }
+
+        validateSelectedPollOptions(pollViewData, selectedOptions.size) {
+            universalFeedViewModel.submitPollVote(
+                postViewData.id,
+                pollViewData.id,
+                selectedOptionIds
+            )
+        }
+    }
+
+    //validates user submitted poll votes for multiple choice poll
+    private fun validateSelectedPollOptions(
+        pollViewData: LMFeedPollViewData,
+        selectedOptionsCount: Int,
+        onValidationSuccess: () -> Unit
+    ) {
+        val multipleSelectNumber = pollViewData.multipleSelectNumber
+        val multipleSelectState = pollViewData.multipleSelectState
+
+        when (multipleSelectState) {
+            PollMultiSelectState.EXACTLY -> {
+                if (selectedOptionsCount != multipleSelectNumber) {
+                    LMFeedViewUtils.showShortSnack(
+                        binding.root,
+                        resources.getQuantityString(
+                            R.plurals.lm_feed_please_select_exactly_d_options,
+                            multipleSelectNumber,
+                            multipleSelectNumber
+                        )
+                    )
+                    return
+                }
+            }
+
+            PollMultiSelectState.AT_MAX -> {
+                if (selectedOptionsCount > multipleSelectNumber) {
+                    LMFeedViewUtils.showShortSnack(
+                        binding.root,
+                        resources.getQuantityString(
+                            R.plurals.lm_feed_please_select_at_most_d_options,
+                            multipleSelectNumber,
+                            multipleSelectNumber
+                        )
+                    )
+                    return
+                }
+            }
+
+            PollMultiSelectState.AT_LEAST -> {
+                if (selectedOptionsCount < multipleSelectNumber) {
+                    LMFeedViewUtils.showShortSnack(
+                        binding.root,
+                        resources.getQuantityString(
+                            R.plurals.lm_feed_please_select_at_least_d_options,
+                            multipleSelectNumber,
+                            multipleSelectNumber
+                        )
+                    )
+                    return
+                }
+            }
+        }
+        onValidationSuccess()
     }
 
     //callback when the poll edit vote button is clicked
     override fun onPostEditPollVoteClicked(position: Int, postViewData: LMFeedPostViewData) {
         super.onPostEditPollVoteClicked(position, postViewData)
+
+        binding.rvUniversal.apply {
+            val postIndex = getIndexAndPostFromAdapter(postViewData.id)?.first ?: return
+
+            val attachment = postViewData.mediaViewData.attachments.firstOrNull() ?: return
+            val pollViewData = attachment.attachmentMeta.poll ?: return
+
+
+            //update the poll view data
+            val updatedPollViewData = pollViewData.toBuilder()
+                .isPollSubmitted(false)
+                .build()
+
+            //update the attachments with the updated poll view data
+            val updatedAttachments = listOf(
+                attachment.toBuilder()
+                    .attachmentMeta(
+                        attachment.attachmentMeta.toBuilder()
+                            .poll(updatedPollViewData)
+                            .build()
+                    )
+                    .build()
+            )
+
+            //update the post view data
+            val updatedPostViewData = postViewData.toBuilder()
+                .mediaViewData(
+                    postViewData.mediaViewData.toBuilder()
+                        .attachments(updatedAttachments)
+                        .build()
+                )
+                .build()
+
+            updatePostItem(postIndex, updatedPostViewData)
+        }
     }
 
     //callback when the poll option is clicked
@@ -1023,6 +1143,96 @@ open class LMFeedUniversalFeedFragment :
         val postViewData = binding.rvUniversal.allPosts()[pollPosition] as LMFeedPostViewData
         val attachment = postViewData.mediaViewData.attachments.firstOrNull() ?: return
         val pollViewData = attachment.attachmentMeta.poll ?: return
+
+        when {
+            pollViewData.hasPollEnded() -> {
+                LMFeedViewUtils.showShortToast(
+                    requireContext(),
+                    getString(R.string.lm_feed_poll_ended_vote_cannot_be_submitted_now)
+                )
+                return
+            }
+
+            (pollViewData.isPollSubmitted && pollViewData.isInstantPoll()) -> {
+                return
+            }
+
+            !pollViewData.isMultiChoicePoll() -> {
+                if (pollViewData.isPollSubmitted) {
+                    return
+                }
+
+                //call api to submit vote
+                universalFeedViewModel.submitPollVote(
+                    postViewData.id,
+                    pollViewData.id,
+                    listOf(pollOptionViewData.id)
+                )
+            }
+
+            else -> {
+                if (pollViewData.isPollSubmitted) {
+                    return
+                }
+
+                //update the clicked poll option view data
+                val updatedPollOptionViewData = if (pollOptionViewData.isSelected) {
+                    pollOptionViewData.toBuilder()
+                        .isSelected(false)
+                        .build()
+                } else {
+                    pollOptionViewData.toBuilder()
+                        .isSelected(true)
+                        .build()
+                }
+
+                //update the poll view data
+                val updatedPollViewData = pollViewData.toBuilder()
+                    .options(
+                        pollViewData.options.map { pollOption ->
+                            if (pollOption.id == pollOptionViewData.id) {
+                                updatedPollOptionViewData
+                            } else {
+                                pollOption
+                            }
+                        }
+                    )
+                    .build()
+
+                //update the attachments with the updated poll view data
+                val updatedAttachments = listOf(
+                    attachment.toBuilder()
+                        .attachmentMeta(
+                            attachment.attachmentMeta.toBuilder()
+                                .poll(updatedPollViewData)
+                                .build()
+                        )
+                        .build()
+                )
+
+                //update the post view data
+                val updatedPostViewData = postViewData.toBuilder()
+                    .mediaViewData(
+                        postViewData.mediaViewData.toBuilder()
+                            .attachments(updatedAttachments)
+                            .build()
+                    )
+                    .build()
+
+                //update the recycler view
+                binding.rvUniversal.updatePostItem(pollPosition, updatedPostViewData)
+            }
+        }
+
+        if (pollViewData.hasPollEnded()) {
+            LMFeedViewUtils.showShortToast(
+                requireContext(),
+                getString(R.string.lm_feed_poll_ended_vote_cannot_be_submitted_now)
+            )
+            return
+        }
+
+
     }
 
     //callback when the polls option vote count is clicked

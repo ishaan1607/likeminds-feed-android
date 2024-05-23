@@ -41,7 +41,7 @@ class LMFeedPostPollOptionViewStyle private constructor(
             .build()
 
         @ColorRes
-        private var pollSelectedOptionColor: Int = R.color.lm_feed_majorelle_blue_20
+        private var pollSelectedOptionColor: Int = R.color.lm_feed_majorelle_blue
 
         @ColorRes
         private var pollOtherOptionColor: Int = R.color.lm_feed_dark_grayish_blue_20

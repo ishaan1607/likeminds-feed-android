@@ -25,7 +25,7 @@ class LMFeedPollViewData private constructor(
 ) : Parcelable {
 
     fun isInstantPoll() = (pollType == PollType.INSTANT)
-    private fun isDeferredPoll() = (pollType == PollType.DEFERRED)
+    fun isDeferredPoll() = (pollType == PollType.DEFERRED)
 
     fun hasPollEnded() = (expiryTime - System.currentTimeMillis()) <= 0
 
@@ -50,22 +50,25 @@ class LMFeedPollViewData private constructor(
         } else {
             when (multipleSelectState) {
                 PollMultiSelectState.EXACTLY -> {
-                    context.getString(
-                        R.string.lm_feed_select_exactly_d_options,
+                    context.resources.getQuantityString(
+                        R.plurals.lm_feed_select_exactly_d_options,
+                        multipleSelectNumber,
                         multipleSelectNumber
                     )
                 }
 
                 PollMultiSelectState.AT_MAX -> {
-                    context.getString(
-                        R.string.lm_feed_select_at_most_d_options,
+                    context.resources.getQuantityString(
+                        R.plurals.lm_feed_select_at_most_d_options,
+                        multipleSelectNumber,
                         multipleSelectNumber
                     )
                 }
 
                 PollMultiSelectState.AT_LEAST -> {
-                    context.getString(
-                        R.string.lm_feed_select_at_least_d_options,
+                    context.resources.getQuantityString(
+                        R.plurals.lm_feed_select_at_least_d_options,
+                        multipleSelectNumber,
                         multipleSelectNumber
                     )
                 }

@@ -98,6 +98,14 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
         _userResponse
     }
 
+    private val _postResponse by lazy {
+        MutableLiveData<LMFeedPostViewData>()
+    }
+
+    val postResponse: LiveData<LMFeedPostViewData> by lazy {
+        _postResponse
+    }
+
     private val errorMessageChannel by lazy {
         Channel<ErrorMessageEvent>(Channel.BUFFERED)
     }
@@ -126,6 +134,8 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
         data class SubmitVote(val errorMessage: String?) : ErrorMessageEvent()
 
         data class AddPollOption(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class GetPost(val errorMessage: String?) : ErrorMessageEvent()
     }
 
     sealed class PostDataEvent {
@@ -139,6 +149,7 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
 
     companion object {
         const val PAGE_SIZE = 20
+        const val GET_POST_PAGE_SIZE = 5
     }
 
     // fetches pending post data from db
@@ -483,17 +494,57 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
     }
 
     //calls api to submit vote on poll
-    fun submitPollVote(pollId: String, optionId: String) {
+    fun submitPollVote(
+        postId: String,
+        pollId: String,
+        optionIds: List<String>
+    ) {
         viewModelScope.launchIO {
             val request = SubmitVoteRequest.Builder()
                 .pollId(pollId)
-                .votes(listOf(optionId))
+                .votes(optionIds)
                 .build()
 
             val response = lmFeedClient.submitVote(request)
 
-            if (!response.success) {
+            if (response.success) {
+                getPost(postId)
+            } else {
                 errorMessageChannel.send(ErrorMessageEvent.SubmitVote(response.errorMessage))
+            }
+        }
+    }
+
+    // to getPost
+    private fun getPost(postId: String) {
+        viewModelScope.launchIO {
+            // builds api request
+            val request = GetPostRequest.Builder()
+                .postId(postId)
+                .page(1)
+                .pageSize(GET_POST_PAGE_SIZE)
+                .build()
+
+            // calls api
+            val response = lmFeedClient.getPost(request)
+
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val post = data.post
+                val users = data.users
+                val topics = data.topics
+                val widgets = data.widgets
+
+                _postResponse.postValue(
+                    LMFeedViewDataConvertor.convertPost(
+                        post,
+                        users,
+                        topics,
+                        widgets
+                    )
+                )
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.GetPost(response.errorMessage))
             }
         }
     }

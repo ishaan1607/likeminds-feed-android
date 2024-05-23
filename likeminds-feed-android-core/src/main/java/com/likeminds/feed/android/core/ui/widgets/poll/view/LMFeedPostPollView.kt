@@ -93,11 +93,14 @@ class LMFeedPostPollView : ConstraintLayout {
     }
 
     private fun configureEditPollVoteText(editPollVoteTextStyle: LMFeedTextStyle?) {
-        binding.tvPollEditVote.apply {
+        binding.apply {
             if (editPollVoteTextStyle == null) {
-                hide()
+                viewDotEditVote.hide()
+                tvPollEditVote.hide()
             } else {
-                show()
+                tvPollEditVote.setStyle(editPollVoteTextStyle)
+                viewDotEditVote.show()
+                tvPollEditVote.show()
             }
         }
     }
@@ -164,9 +167,7 @@ class LMFeedPostPollView : ConstraintLayout {
     fun setSubmitButtonVisibility(pollViewData: LMFeedPollViewData) {
         binding.btnSubmitVote.apply {
             //hide submit button if poll is instant and already submitted or poll is deferred with single item selection
-            if ((pollViewData.isInstantPoll() && pollViewData.isPollSubmitted) ||
-                pollViewData.hasPollEnded()
-            ) {
+            if (pollViewData.isPollSubmitted || pollViewData.hasPollEnded()) {
                 hide()
             } else {
                 if (pollViewData.isMultiChoicePoll()) {
@@ -184,6 +185,20 @@ class LMFeedPostPollView : ConstraintLayout {
                 show()
             } else {
                 hide()
+            }
+        }
+    }
+
+    fun setEditPollVoteVisibility(pollViewData: LMFeedPollViewData) {
+        binding.apply {
+            if (pollViewData.isDeferredPoll() && pollViewData.isPollSubmitted
+                && !pollViewData.hasPollEnded()
+            ) {
+                viewDotEditVote.show()
+                tvPollEditVote.show()
+            } else {
+                viewDotEditVote.hide()
+                tvPollEditVote.hide()
             }
         }
     }

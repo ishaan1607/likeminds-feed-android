@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/lm_feed_regular_margin"
                 android:layout_marginBottom="@dimen/lm_feed_small_margin"
+                android:paddingHorizontal="@dimen/lm_feed_small_padding"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_poll_option"
