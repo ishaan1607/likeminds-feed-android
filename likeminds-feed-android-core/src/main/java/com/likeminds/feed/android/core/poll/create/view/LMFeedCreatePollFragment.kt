@@ -11,6 +11,9 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePollBinding
 import com.likeminds.feed.android.core.poll.create.viewmodel.LMFeedCreatePollViewModel
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
+import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.utils.*
@@ -72,6 +75,9 @@ open class LMFeedCreatePollFragment : Fragment() {
         binding.apply {
             customizeCreatePollHeader(headerViewCreatePoll)
             customizeAuthorView(authorView)
+            customizePollQuestion(tvPollQuestionTitle, etPollQuestion)
+            customizePollExpiryTime(tvPollExpireTitle, tvPollExpireTime)
+            customizePollOptions(tvPollOptionsTitle, tvAddOption)
         }
 
         return binding.root
@@ -100,6 +106,49 @@ open class LMFeedCreatePollFragment : Fragment() {
     protected open fun customizeAuthorView(authorView: LMFeedPostHeaderView) {
         authorView.apply {
             setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.authorViewStyle)
+        }
+    }
+
+    //customize the poll question title and input box
+    protected open fun customizePollQuestion(
+        tvPollQuestionTitle: LMFeedTextView,
+        etPollQuestion: LMFeedEditText
+    ) {
+        //customize the poll question title
+        tvPollQuestionTitle.apply {
+            setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollQuestionTitleViewStyle)
+        }
+
+        //customize the poll question edit text
+        etPollQuestion.apply {
+            setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollQuestionViewStyle)
+        }
+    }
+
+    //customize the poll options title and add option text view
+    protected open fun customizePollOptions(
+        tvPollOptionsTitle: LMFeedTextView,
+        tvAddOption: LMFeedTextView
+    ) {
+        tvPollOptionsTitle.apply {
+            setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollOptionsTitleViewStyle)
+        }
+
+        tvAddOption.apply {
+            setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollAddOptionViewStyle)
+        }
+    }
+
+    protected open fun customizePollExpiryTime(
+        tvPollExpireTitle: LMFeedTextView,
+        tvPollExpireTime: LMFeedTextView
+    ) {
+        tvPollExpireTitle.apply {
+            setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollExpiryTimeTitleViewStyle)
+        }
+
+        tvPollExpireTime.apply {
+            setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollExpiryTimeViewStyle)
         }
     }
 

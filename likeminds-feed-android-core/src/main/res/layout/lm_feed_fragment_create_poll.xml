@@ -154,6 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
                     android:layout_marginTop="@dimen/lm_feed_large_margin"
+                    android:foreground="?selectableItemBackground"
                     android:hint="@string/lm_feed_dd_mm_yyyy_hh_mm"
                     android:textColor="@color/lm_feed_black"
                     android:textColorHint="@color/lm_feed_cloudy_blue"

@@ -39,6 +39,7 @@
     <!--    Padding Size-->
     <dimen name="lm_feed_extra_large_padding">24dp</dimen>
     <dimen name="lm_feed_large_padding">16dp</dimen>
+    <dimen name="lm_feed_drawable_padding">14dp</dimen>
     <dimen name="lm_feed_medium_padding">12dp</dimen>
     <dimen name="lm_feed_regular_padding">8dp</dimen>
     <dimen name="lm_feed_small_padding">4dp</dimen>
