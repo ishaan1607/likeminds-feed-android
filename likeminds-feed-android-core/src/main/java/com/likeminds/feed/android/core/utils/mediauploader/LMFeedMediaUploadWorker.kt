@@ -8,6 +8,7 @@ import com.likeminds.feed.android.core.utils.mediauploader.utils.LMFeedWorkerUti
 import com.likeminds.feed.android.core.utils.mediauploader.utils.LMFeedWorkerUtil.getLongOrNull
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.post.model.Attachment
+import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.*
@@ -127,7 +128,7 @@ abstract class LMFeedMediaUploadWorker(
             val attachmentMeta = attachment.attachmentMeta
             val request = LMFeedGenericFileRequest.Builder()
                 .name(attachmentMeta.name)
-                .fileType(attachment.attachmentType.value)
+                .fileType(attachment.attachmentType.getAttachmentValue())
                 .awsFolderPath(attachmentMeta.awsFolderPath!!)
                 .localFilePath(attachmentMeta.localFilePath)
                 .index(index)
