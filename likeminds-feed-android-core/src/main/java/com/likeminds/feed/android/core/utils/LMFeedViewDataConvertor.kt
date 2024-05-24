@@ -793,14 +793,14 @@ object LMFeedViewDataConvertor {
     --------------------------------*/
 
     fun convertPost(
-        temporaryId: Long,
+        temporaryId: String,
         workerUUID: String,
         text: String?,
         fileUris: List<LMFeedFileUploadViewData>
     ): Post {
         return Post.Builder()
-            .tempId(temporaryId.toString())
-            .id(temporaryId.toString())
+            .tempId(temporaryId)
+            .id(temporaryId)
             .workerUUID(workerUUID)
             .text(text ?: "")
             .attachments(convertAttachments(fileUris))
@@ -883,15 +883,15 @@ object LMFeedViewDataConvertor {
     private fun convertAttachment(fileUri: LMFeedFileUploadViewData): Attachment {
         val attachmentType = when (fileUri.fileType) {
             com.likeminds.customgallery.media.model.IMAGE -> {
-                IMAGE
+                AttachmentType.IMAGE
             }
 
             com.likeminds.customgallery.media.model.VIDEO -> {
-                VIDEO
+                AttachmentType.VIDEO
             }
 
             else -> {
-                DOCUMENT
+                AttachmentType.DOCUMENT
             }
         }
 

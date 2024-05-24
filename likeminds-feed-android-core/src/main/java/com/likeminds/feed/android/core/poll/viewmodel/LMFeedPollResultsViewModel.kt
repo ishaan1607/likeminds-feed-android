@@ -29,13 +29,14 @@ class LMFeedPollResultsViewModel : ViewModel() {
         const val PAGE_SIZE = 20
     }
 
+    //calls api to get the poll votes on the passed option id
     fun getPollVotes(
         pollId: String,
         pollOptionId: String,
         page: Int
     ) {
         viewModelScope.launchIO {
-            //get poll votes request
+            //builds poll votes request
             val request = GetPollVotesRequest.Builder()
                 .votes(listOf(pollOptionId))
                 .pollId(pollId)
@@ -43,6 +44,7 @@ class LMFeedPollResultsViewModel : ViewModel() {
                 .pageSize(PAGE_SIZE)
                 .build()
 
+            //response
             val response = lmFeedClient.getPollVotes(request)
 
             if (response.success) {

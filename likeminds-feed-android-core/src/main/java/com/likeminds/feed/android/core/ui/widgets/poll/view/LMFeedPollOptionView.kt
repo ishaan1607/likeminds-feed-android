@@ -19,6 +19,10 @@ import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
 import kotlin.math.roundToInt
 
+/**
+ * Represents a poll option view
+ * To customize this view use [LMFeedPostPollOptionViewStyle]
+ */
 class LMFeedPollOptionView : ConstraintLayout {
 
     constructor(context: Context) : super(context)

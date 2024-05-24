@@ -15,6 +15,9 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 
+/**
+ * Represents a recycler view with list of posts in the universal feed fragment
+ */
 class LMFeedUniversalFeedListView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

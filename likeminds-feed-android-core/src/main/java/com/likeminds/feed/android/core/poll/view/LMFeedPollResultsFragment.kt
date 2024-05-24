@@ -105,6 +105,7 @@ open class LMFeedPollResultsFragment : Fragment() {
         initPollResultsTabLayout()
     }
 
+    //initializes poll results tab layout
     private fun initPollResultsTabLayout() {
         pollResultsTabAdapter = LMFeedPollResultsTabAdapter(
             this,
@@ -116,6 +117,7 @@ open class LMFeedPollResultsFragment : Fragment() {
             viewPagerPollResults.adapter = pollResultsTabAdapter
 
             val screenWidth = LMFeedViewUtils.getDeviceDimension(requireContext()).first
+
             TabLayoutMediator(
                 tabLayoutPollResults,
                 viewPagerPollResults
@@ -125,6 +127,7 @@ open class LMFeedPollResultsFragment : Fragment() {
                 tabView.apply {
                     customizePollResultsTabTextView(tvPollOptionCount, tvPollOptionText)
 
+                    //max and min width of the poll results tab
                     clPollResultsTab.maxWidth = (screenWidth * 0.48).toInt()
                     clPollResultsTab.minWidth = (screenWidth * 0.33).toInt()
 
@@ -138,10 +141,12 @@ open class LMFeedPollResultsFragment : Fragment() {
 
 
             val tab = if (!pollResultsExtras.selectedPollOptionId.isNullOrEmpty()) {
+                //finds index of option which is selected by user
                 val selectedOptionPosition = pollResultsExtras.pollOptions.indexOfFirst {
                     it.id == pollResultsExtras.selectedPollOptionId
                 }
 
+                //sets the current item in the poll results tab to the selected option
                 viewPagerPollResults.setCurrentItem(selectedOptionPosition, true)
                 tabLayoutPollResults.setScrollPosition(
                     selectedOptionPosition,
@@ -159,6 +164,7 @@ open class LMFeedPollResultsFragment : Fragment() {
                 LMFeedStyleTransformer.pollResultsFragmentViewStyle.selectedPollResultsTabColor
             )
 
+            //adds tab selected click listener on the poll results tab layout
             tabLayoutPollResults.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {
                     onPollResultsTabSelected(tab)
@@ -175,6 +181,7 @@ open class LMFeedPollResultsFragment : Fragment() {
         }
     }
 
+    //processes the event when a poll results tab is selected
     protected open fun onPollResultsTabSelected(tab: TabLayout.Tab?) {
         updatePollResultsTab(
             tab,
@@ -184,6 +191,7 @@ open class LMFeedPollResultsFragment : Fragment() {
         //todo: analytics
     }
 
+    //processes the event when a poll results tab is unselected
     protected open fun onPollResultsTabUnselected(tab: TabLayout.Tab?) {
         updatePollResultsTab(
             tab,
@@ -191,6 +199,7 @@ open class LMFeedPollResultsFragment : Fragment() {
         )
     }
 
+    //processes the event when a poll results tab is reselected
     protected open fun onPollResultsTabReselected(tab: TabLayout.Tab?) {
         updatePollResultsTab(
             tab,

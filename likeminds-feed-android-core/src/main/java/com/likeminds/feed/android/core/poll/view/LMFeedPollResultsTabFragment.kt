@@ -68,6 +68,7 @@ open class LMFeedPollResultsTabFragment : Fragment(), LMFeedPollVoteResultsAdapt
         return binding.root
     }
 
+    //customizes no poll results layout
     protected open fun customizeNoPollResultsLayout(layoutNoResults: LMFeedNoEntityLayoutView) {
         layoutNoResults.apply {
             val noResultsLayoutStyle =
@@ -158,12 +159,14 @@ open class LMFeedPollResultsTabFragment : Fragment(), LMFeedPollVoteResultsAdapt
         }
     }
 
+    //triggered when the user clicks on poll vote result item
     override fun onPollVoteResultItemClicked(
         position: Int,
         pollVoteResultItem: LMFeedUserViewData
     ) {
         super.onPollVoteResultItemClicked(position, pollVoteResultItem)
 
+        //fires user profile callback
         val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
         coreCallback?.openProfile(pollVoteResultItem)
     }

@@ -175,6 +175,7 @@ object LMFeedViewUtils {
         return fallback
     }
 
+    //returns the width and height of the device
     fun getDeviceDimension(context: Context): Pair<Int, Int> {
         val activity = (context as Activity)
         val width: Int
