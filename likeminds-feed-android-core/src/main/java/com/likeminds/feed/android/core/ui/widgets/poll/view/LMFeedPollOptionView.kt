@@ -15,6 +15,10 @@ import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptio
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.listeners.LMFeedOnClickListener
 
+/**
+ * Represents a poll option view
+ * To customize this view use [LMFeedPostPollOptionViewStyle]
+ */
 class LMFeedPollOptionView : ConstraintLayout {
 
     constructor(context: Context) : super(context)
