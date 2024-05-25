@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.poll.create.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -157,6 +158,10 @@ open class LMFeedCreatePollFragment : Fragment() {
         binding.apply {
             headerViewCreatePoll.setNavigationIconClickListener {
                 onNavigationIconClicked()
+            }
+
+            tvAddOption.setOnClickListener {
+                Log.d("TAG","on Add option clicked")
             }
 
             tvPollExpireTime.setOnClickListener {
