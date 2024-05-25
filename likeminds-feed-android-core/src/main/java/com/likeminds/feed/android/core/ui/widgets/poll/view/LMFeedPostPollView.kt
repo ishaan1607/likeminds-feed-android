@@ -131,10 +131,20 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the title of the poll media in the post
+     *
+     * @param pollTitle - string to be set for title of the poll.
+     */
     fun setPollTitle(pollTitle: String) {
         binding.tvPollTitle.text = pollTitle
     }
 
+    /**
+     * Sets the info of the poll media in the post
+     *
+     * @param pollInfo - string to be set for info of the poll.
+     */
     fun setPollInfo(pollInfo: String?) {
         binding.tvPollInfo.apply {
             if (pollInfo.isNullOrEmpty()) {
@@ -146,6 +156,11 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the member voted count of the poll media in the post
+     *
+     * @param pollAnswerText - string to be set for member voted count of the poll.
+     */
     fun setMemberVotedCount(pollAnswerText: String) {
         binding.apply {
             tvMemberVotedCount.text = pollAnswerText
@@ -153,10 +168,22 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the time left in expiry of the poll media in the post
+     *
+     * @param timeLeft - string to be set for time left in expiry of the poll.
+     */
     fun setTimeLeft(timeLeft: String) {
         binding.tvPollTimeLeft.text = timeLeft
     }
 
+    /**
+     * Sets the poll options in the poll media in the post
+     *
+     * @param pollPosition - position of the poll media post in the list.
+     * @param options - list of the options in the poll.
+     * @param listener - click listeners for the poll options.
+     */
     fun setPollOptions(
         pollPosition: Int,
         options: List<LMFeedPollOptionViewData>,
@@ -168,6 +195,11 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the visibility of the submit button of the poll media in the post
+     *
+     * @param pollViewData - data of the poll media.
+     */
     fun setSubmitButtonVisibility(pollViewData: LMFeedPollViewData) {
         binding.btnSubmitVote.apply {
             //hide submit button if poll is instant and already submitted or poll is deferred with single item selection
@@ -183,6 +215,11 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the visibility of the add poll option button of the poll media in the post
+     *
+     * @param pollViewData - data of the poll media.
+     */
     fun setAddPollOptionButtonVisibility(pollViewData: LMFeedPollViewData) {
         binding.btnAddOption.apply {
             if (pollViewData.isAddOptionAllowedForInstantPoll() || pollViewData.isAddOptionAllowedForDeferredPoll()) {
@@ -193,6 +230,11 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the visibility of the edit poll vote button of the poll media in the post
+     *
+     * @param pollViewData - data of the poll media.
+     */
     fun setEditPollVoteVisibility(pollViewData: LMFeedPollViewData) {
         binding.apply {
             if (pollViewData.isDeferredPoll() && pollViewData.isPollSubmitted
@@ -204,6 +246,17 @@ class LMFeedPostPollView : ConstraintLayout {
                 viewDotEditVote.hide()
                 tvPollEditVote.hide()
             }
+        }
+    }
+
+    /**
+     * Sets click listener on the poll title
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener
+     */
+    fun setPollTitleClicked(listener: LMFeedOnClickListener) {
+        binding.tvPollTitle.setOnClickListener {
+            listener.onClick()
         }
     }
 

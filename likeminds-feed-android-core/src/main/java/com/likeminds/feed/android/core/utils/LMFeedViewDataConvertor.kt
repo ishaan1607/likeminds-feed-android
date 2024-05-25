@@ -896,7 +896,7 @@ object LMFeedViewDataConvertor {
         }
 
         return Attachment.Builder()
-            .attachmentType(attachmentType.getAttachmentType())
+            .attachmentType(attachmentType)
             .attachmentMeta(convertAttachmentMeta(fileUri))
             .build()
     }

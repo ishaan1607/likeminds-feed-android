@@ -90,19 +90,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/lm_feed_regular_margin"
             android:layout_marginTop="@dimen/lm_feed_extra_small_margin"
+            android:foreground="?selectableItemBackgroundBorderless"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_poll_option"
+            tools:text="5 votes"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_medium"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="left"
-            app:constraint_referenced_ids="cl_poll_option" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

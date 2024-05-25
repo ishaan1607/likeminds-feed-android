@@ -104,6 +104,11 @@ class LMFeedItemPostPollViewDataBinder(
                 universalFeedAdapterListener.onPostAuthorHeaderClicked(position, post)
             }
 
+            postPollView.setPollTitleClicked {
+                val post = this.postViewData ?: return@setPollTitleClicked
+                universalFeedAdapterListener.onPostPollTitleClicked(position, post)
+            }
+
             postPollView.setEditPollClicked {
                 val post = this.postViewData ?: return@setEditPollClicked
                 universalFeedAdapterListener.onPostEditPollClicked(position, post)

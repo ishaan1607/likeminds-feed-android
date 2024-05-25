@@ -54,7 +54,7 @@ class LMFeedItemPollOptionsViewDataBinder(
             setPollOptionText(data.text)
             setPollOptionAddedByText(data)
             setPollVotesCountText(data)
-            setPollOptionCheckedIcon(data)
+            setPollOptionCheckedIconVisibility(data)
             setPollOptionBackgroundAndProgress(
                 data,
                 pollOptionViewStyle

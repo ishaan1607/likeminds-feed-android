@@ -535,6 +535,7 @@ object LMFeedPostBinderUtils {
         }
     }
 
+    //binds data for the poll media view in the post
     fun bindPostPollMediaView(
         pollPosition: Int,
         pollView: LMFeedPostPollView,

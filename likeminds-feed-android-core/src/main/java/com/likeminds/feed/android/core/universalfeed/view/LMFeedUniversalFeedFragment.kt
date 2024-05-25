@@ -970,6 +970,20 @@ open class LMFeedUniversalFeedFragment :
         coreCallback?.openProfileWithUUID(uuid)
     }
 
+    //callback when the post title is clicked
+    override fun onPostPollTitleClicked(position: Int, postViewData: LMFeedPostViewData) {
+        super.onPostPollTitleClicked(position, postViewData)
+
+        // sends comment list open event
+        LMFeedAnalytics.sendCommentListOpenEvent()
+
+        val postDetailExtras = LMFeedPostDetailExtras.Builder()
+            .postId(postViewData.id)
+            .isEditTextFocused(false)
+            .build()
+        LMFeedPostDetailActivity.start(requireContext(), postDetailExtras)
+    }
+
     //callback when add poll option is clicked
     override fun onPostAddPollOptionClicked(position: Int, postViewData: LMFeedPostViewData) {
         super.onPostAddPollOptionClicked(position, postViewData)
@@ -1232,8 +1246,6 @@ open class LMFeedUniversalFeedFragment :
             )
             return
         }
-
-
     }
 
     //callback when the polls option vote count is clicked
@@ -1273,6 +1285,7 @@ open class LMFeedUniversalFeedFragment :
         }
     }
 
+    //callback when an option is submitted
     override fun onAddOptionSubmitted(
         postId: String,
         pollId: String,

@@ -84,10 +84,20 @@ class LMFeedPollOptionView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the text to the poll option
+     *
+     * @param pollOptionText - string to be set to the poll option.
+     */
     fun setPollOptionText(pollOptionText: String) {
         binding.tvPollOption.text = pollOptionText
     }
 
+    /**
+     * Sets the text of the user who added the poll option
+     *
+     * @param pollOptionViewData - data of the poll option.
+     */
     fun setPollOptionAddedByText(pollOptionViewData: LMFeedPollOptionViewData) {
         val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
         postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle?.pollOptionAddedByTextStyle
@@ -112,7 +122,12 @@ class LMFeedPollOptionView : ConstraintLayout {
         }
     }
 
-    fun setPollOptionCheckedIcon(pollOptionViewData: LMFeedPollOptionViewData) {
+    /**
+     * Sets the visibility of the checked icon of the poll option
+     *
+     * @param pollOptionViewData - data of the poll option.
+     */
+    fun setPollOptionCheckedIconVisibility(pollOptionViewData: LMFeedPollOptionViewData) {
         val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
         postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle?.pollOptionCheckIconStyle
             ?: return
@@ -128,6 +143,11 @@ class LMFeedPollOptionView : ConstraintLayout {
         }
     }
 
+    /**
+     * Sets the text for the votes count on the poll option
+     *
+     * @param pollOptionViewData - data of the poll option.
+     */
     fun setPollVotesCountText(pollOptionViewData: LMFeedPollOptionViewData) {
         val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
         postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle?.pollOptionVotesCountTextStyle

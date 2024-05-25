@@ -17,7 +17,7 @@ class LMFeedUniversalFeedAdapter(
     }
 
     override fun getSupportedViewDataBinder(): MutableList<LMFeedViewDataBinder<*, *>> {
-        val viewDataBinders = ArrayList<LMFeedViewDataBinder<*, *>>(6)
+        val viewDataBinders = ArrayList<LMFeedViewDataBinder<*, *>>(7)
 
         val itemPostTextOnlyBinder =
             LMFeedItemPostTextOnlyViewDataBinder(universalFeedAdapterListener)
@@ -157,6 +157,10 @@ interface LMFeedUniversalFeedAdapterListener {
 
     fun onPostTaggedMemberClicked(position: Int, uuid: String) {
         //triggered when the member tag in the post text content is clicked
+    }
+
+    fun onPostPollTitleClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on poll title
     }
 
     fun onPostEditPollClicked(position: Int, postViewData: LMFeedPostViewData) {
