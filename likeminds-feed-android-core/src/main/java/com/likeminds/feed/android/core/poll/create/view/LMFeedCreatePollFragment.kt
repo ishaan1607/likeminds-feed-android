@@ -13,8 +13,7 @@ import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePollBindi
 import com.likeminds.feed.android.core.poll.create.viewmodel.LMFeedCreatePollViewModel
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
-import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
-import com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.utils.*
@@ -29,6 +28,7 @@ open class LMFeedCreatePollFragment : Fragment() {
     private var poll: LMFeedPollViewData? = null
 
     private val viewModel: LMFeedCreatePollViewModel by viewModels()
+    private var isAdvancedOptionsVisible = false
 
     companion object {
         const val TAG = "LMFeedCreatePollFragment"
@@ -79,6 +79,12 @@ open class LMFeedCreatePollFragment : Fragment() {
             customizePollQuestion(tvPollQuestionTitle, etPollQuestion)
             customizePollExpiryTime(tvPollExpireTitle, tvPollExpireTime)
             customizePollOptions(tvPollOptionsTitle, tvAddOption)
+            customizeAdvancedOptionTitle(tvAdvancedOptions)
+            customizeAdvanceOptionSwitchOptions(
+                switchAnonymousPoll,
+                switchLiveResults,
+                switchAddNewOptions
+            )
         }
 
         return binding.root
@@ -140,6 +146,7 @@ open class LMFeedCreatePollFragment : Fragment() {
         }
     }
 
+    //customize the poll expiry time title and text view
     protected open fun customizePollExpiryTime(
         tvPollExpireTitle: LMFeedTextView,
         tvPollExpireTime: LMFeedTextView
@@ -153,6 +160,32 @@ open class LMFeedCreatePollFragment : Fragment() {
         }
     }
 
+    //customize the advanced options title
+    protected open fun customizeAdvancedOptionTitle(tvAdvancedOptions: LMFeedTextView) {
+        tvAdvancedOptions.apply {
+            setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollAdvanceOptionViewStyle)
+        }
+    }
+
+    //customize the advance option switch options
+    protected open fun customizeAdvanceOptionSwitchOptions(
+        switchAnonymousPoll: LMFeedSwitch,
+        switchLiveResults: LMFeedSwitch,
+        switchAddNewOptions: LMFeedSwitch
+    ) {
+        switchAddNewOptions.apply {
+            setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollAdvanceOptionSwitchViewStyle)
+        }
+
+        switchAnonymousPoll.apply {
+            setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollAdvanceOptionSwitchViewStyle)
+        }
+
+        switchLiveResults.apply {
+            setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollAdvanceOptionSwitchViewStyle)
+        }
+    }
+
     //attaches the listeners
     private fun initListeners() {
         binding.apply {
@@ -161,14 +194,19 @@ open class LMFeedCreatePollFragment : Fragment() {
             }
 
             tvAddOption.setOnClickListener {
-                Log.d("TAG","on Add option clicked")
+                Log.d("TAG", "on Add option clicked")
             }
 
             tvPollExpireTime.setOnClickListener {
                 onPollExpireTimeClicked()
             }
+
+            tvAdvancedOptions.setOnClickListener {
+                onAdvancedOptionsClicked()
+            }
         }
     }
+
 
     //fetches the initial data
     private fun fetchInitialData() {
@@ -193,12 +231,12 @@ open class LMFeedCreatePollFragment : Fragment() {
         }
     }
 
-    //customize the navigation icon
+    //customize click of the navigation icon
     protected open fun onNavigationIconClicked() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 
-    //customize the poll expiry tim
+    //customize the click of poll expiry time
     protected open fun onPollExpireTimeClicked() {
         // calendar instance
         val calendar = Calendar.getInstance()
@@ -251,6 +289,31 @@ open class LMFeedCreatePollFragment : Fragment() {
                     requireContext(),
                     getString(R.string.lm_feed_error_invalid_time)
                 )
+            }
+        }
+    }
+
+    //customize the click of advanced options
+    protected open fun onAdvancedOptionsClicked() {
+        binding.apply {
+            if (isAdvancedOptionsVisible) {
+                isAdvancedOptionsVisible = false
+                tvAdvancedOptions.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    R.drawable.lm_feed_ic_arrow_edge_down,
+                    0
+                )
+                LMFeedAnimationUtils.collapse(clAdvancedOptions)
+            } else {
+                isAdvancedOptionsVisible = true
+                tvAdvancedOptions.setCompoundDrawablesWithIntrinsicBounds(
+                    0,
+                    0,
+                    R.drawable.lm_feed_ic_arrow_edge_up,
+                    0
+                )
+                LMFeedAnimationUtils.expand(clAdvancedOptions)
             }
         }
     }

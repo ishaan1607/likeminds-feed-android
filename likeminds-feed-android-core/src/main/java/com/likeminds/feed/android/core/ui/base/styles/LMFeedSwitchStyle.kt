@@ -78,24 +78,29 @@ class LMFeedSwitchStyle private constructor(
 
     fun apply(switch: LMFeedSwitch) {
         switch.apply {
+            //text related
             textStyle.apply(this)
 
+            //thumb color related
             thumbColor?.let { thumbColor ->
                 thumbTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(context, thumbColor)
                 )
             }
 
+            //track color related
             trackColor?.let { trackColor ->
                 trackTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(context, trackColor)
                 )
             }
 
+            //thumb icon related
             thumbIcon?.let { thumbIcon ->
                 thumbIconDrawable = ContextCompat.getDrawable(context, thumbIcon)
             }
 
+            //thumb icon color related
             thumbIconColor?.let { thumbIconColor ->
                 thumbIconTintList = ColorStateList.valueOf(
                     ContextCompat.getColor(context, thumbIconColor)
@@ -103,4 +108,11 @@ class LMFeedSwitchStyle private constructor(
             }
         }
     }
+}
+
+/**
+ * Util function that helps to apply all the styling [LMFeedSwitchStyle] to [LMFeedSwitch]
+ **/
+fun LMFeedSwitch.setStyle(style: LMFeedSwitchStyle) {
+    style.apply(this)
 }

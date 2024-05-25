@@ -19,6 +19,8 @@ import com.likeminds.feed.android.core.utils.model.LMFeedPadding
  * @property pollAddOptionViewStyle [LMFeedTextStyle] this will help to customize the poll add option view.
  * @property pollExpiryTimeTitleViewStyle [LMFeedTextStyle] this will help to customize the poll expiry time title view.
  * @property pollExpiryTimeViewStyle [LMFeedTextStyle] this will help to customize the poll expiry time view.
+ * @property pollAdvanceOptionViewStyle [LMFeedTextStyle] this will help to customize the poll advance option view.
+ * @property pollAdvanceOptionSwitchViewStyle [LMFeedSwitchStyle] this will help to customize the poll advance option switch view.
  */
 class LMFeedCreatePollFragmentViewStyle private constructor(
     //header view style
@@ -37,6 +39,10 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
     val pollExpiryTimeTitleViewStyle: LMFeedTextStyle,
     //poll expiry time view style
     val pollExpiryTimeViewStyle: LMFeedTextStyle,
+    //poll advance option view style
+    val pollAdvanceOptionViewStyle: LMFeedTextStyle,
+    //poll advance option switch view style
+    val pollAdvanceOptionSwitchViewStyle: LMFeedSwitchStyle,
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -133,6 +139,29 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
             .maxLines(1)
             .build()
 
+        private var pollAdvanceOptionViewStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
+            .textColor(R.color.lm_feed_brown_grey)
+            .textSize(R.dimen.lm_feed_text_small)
+            .textAllCaps(true)
+            .drawableRightSrc(R.drawable.lm_feed_ic_arrow_edge_down)
+            .maxLines(1)
+            .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+            .build()
+
+        private var pollAdvanceOptionSwitchViewStyle: LMFeedSwitchStyle =
+            LMFeedSwitchStyle.Builder()
+                .textStyle(
+                    LMFeedTextStyle.Builder()
+                        .maxLines(1)
+                        .textAllCaps(false)
+                        .textSize(R.dimen.lm_feed_text_large)
+                        .textColor(R.color.lm_feed_black)
+                        .build()
+                )
+                .trackColor(LMFeedTheme.getButtonColor())
+                .thumbColor(R.color.lm_feed_white_smoke)
+                .build()
+
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle): Builder = apply {
             this.headerViewStyle = headerViewStyle
         }
@@ -167,6 +196,16 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
             this.pollExpiryTimeViewStyle = pollExpiryTimeViewStyle
         }
 
+        fun pollAdvanceOptionViewStyle(pollAdvanceOptionViewStyle: LMFeedTextStyle): Builder =
+            apply {
+                this.pollAdvanceOptionViewStyle = pollAdvanceOptionViewStyle
+            }
+
+        fun pollAdvanceOptionSwitchViewStyle(pollAdvanceOptionSwitchViewStyle: LMFeedSwitchStyle): Builder =
+            apply {
+                this.pollAdvanceOptionSwitchViewStyle = pollAdvanceOptionSwitchViewStyle
+            }
+
         fun build() = LMFeedCreatePollFragmentViewStyle(
             headerViewStyle,
             authorViewStyle,
@@ -175,7 +214,9 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
             pollOptionsTitleViewStyle,
             pollAddOptionViewStyle,
             pollExpiryTimeTitleViewStyle,
-            pollExpiryTimeViewStyle
+            pollExpiryTimeViewStyle,
+            pollAdvanceOptionViewStyle,
+            pollAdvanceOptionSwitchViewStyle
         )
     }
 
@@ -189,5 +230,7 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
             .pollAddOptionViewStyle(pollAddOptionViewStyle)
             .pollExpiryTimeTitleViewStyle(pollExpiryTimeTitleViewStyle)
             .pollExpiryTimeViewStyle(pollExpiryTimeViewStyle)
+            .pollAdvanceOptionViewStyle(pollAdvanceOptionViewStyle)
+            .pollAdvanceOptionSwitchViewStyle(pollAdvanceOptionSwitchViewStyle)
     }
 }

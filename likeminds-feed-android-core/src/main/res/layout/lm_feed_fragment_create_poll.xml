@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lm_feed_white">
+        android:background="@color/lm_feed_cloudy_blue">
 
         <com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
             android:id="@+id/header_view_create_poll"
@@ -19,13 +19,14 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_scroll_create_poll"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/lm_feed_small_margin"
+            android:layout_height="wrap_content"
             android:visibility="gone"
+            android:background="@color/lm_feed_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_view_create_poll"
+            app:layout_constraintVertical_bias="0.0"
             tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -179,7 +180,7 @@
                     android:id="@+id/cl_advanced_options"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view_divider_poll_expiry"
@@ -216,6 +217,7 @@
                         android:text="@string/lm_feed_anonymous_poll"
                         android:textColor="@color/lm_feed_black"
                         android:textSize="@dimen/lm_feed_text_large"
+                        app:showText="true"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/divider_bottom_add_new_options" />
@@ -282,7 +284,6 @@
                         android:text="@string/lm_feed_equal_sign"
                         android:textColor="@color/lm_feed_brown_grey"
                         android:textSize="24sp"
-                        app:fontType="regular"
                         app:layout_constraintBottom_toBottomOf="@+id/spinner_multiple_option"
                         app:layout_constraintEnd_toStartOf="@+id/spinner_multiple_option_value"
                         app:layout_constraintStart_toEndOf="@+id/spinner_multiple_option"
@@ -313,7 +314,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:background="@color/lm_feed_cloudy_blue"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_advanced_options"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tv_advanced_options" />
@@ -330,6 +331,7 @@
                     android:textColor="@color/lm_feed_grey"
                     android:textSize="@dimen/lm_feed_text_small"
                     app:drawableEndCompat="@drawable/lm_feed_ic_arrow_edge_down"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cl_advanced_options" />
