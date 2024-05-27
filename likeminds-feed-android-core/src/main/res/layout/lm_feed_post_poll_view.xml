@@ -67,7 +67,7 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedButton
             android:id="@+id/btn_add_option"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lm_feed_large_margin"
@@ -86,7 +86,7 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedButton
             android:id="@+id/btn_submit_vote"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="@dimen/lm_feed_medium_padding"
