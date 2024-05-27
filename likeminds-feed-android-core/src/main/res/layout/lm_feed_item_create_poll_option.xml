@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="create_poll_option"
+            type="com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollOptionViewData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lm_feed_white">
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
+            android:id="@+id/et_option"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="20dp"
+            android:layout_marginStart="@dimen/lm_feed_text_large"
+            android:background="@null"
+            android:ellipsize="end"
+            android:hint="@string/lm_feed_option"
+            android:inputType="textCapSentences"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_cross"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:textColor="@color/lm_feed_black"
+            tools:textColorHint="@color/lm_feed_black_20"
+            tools:textSize="@dimen/lm_feed_text_large" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+            android:id="@+id/iv_cross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/lm_feed_regular_margin"
+            android:foreground="?selectableItemBackground"
+            android:padding="@dimen/lm_feed_regular_padding"
+            app:layout_constraintBottom_toBottomOf="@id/et_option"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_option"
+            tools:src="@drawable/lm_feed_ic_cross_black" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

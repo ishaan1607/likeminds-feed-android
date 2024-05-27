@@ -1,6 +1,8 @@
 package com.likeminds.feed.android.core.poll.create.viewmodel
 
 import androidx.lifecycle.*
+import com.likeminds.feed.android.core.databinding.LmFeedItemCreatePollOptionBinding
+import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollOptionViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
@@ -14,6 +16,10 @@ class LMFeedCreatePollViewModel : ViewModel() {
 
     var pollExpiryTime: Long? = null
         private set
+
+    private val pollOptionItemBindingMap by lazy {
+        LinkedHashMap<Int, LmFeedItemCreatePollOptionBinding>()
+    }
 
     private val _loggedInUser by lazy { MutableLiveData<LMFeedUserViewData>() }
     val loggedInUser: LiveData<LMFeedUserViewData> by lazy { _loggedInUser }
@@ -48,5 +54,17 @@ class LMFeedCreatePollViewModel : ViewModel() {
     // set the poll expiry time
     fun setPollExpiryTime(expiryTime: Long) {
         pollExpiryTime = expiryTime
+    }
+
+    //create the initial poll option list and clear the binding map
+    fun createInitialPollOptionList(): List<LMFeedCreatePollOptionViewData> {
+        // Clear the map
+        pollOptionItemBindingMap.clear()
+
+        // create the list
+        return listOf(
+            LMFeedCreatePollOptionViewData.Builder().build(),
+            LMFeedCreatePollOptionViewData.Builder().build(),
+        )
     }
 }

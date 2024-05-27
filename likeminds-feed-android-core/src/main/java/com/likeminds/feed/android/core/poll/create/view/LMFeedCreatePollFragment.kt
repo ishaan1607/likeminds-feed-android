@@ -10,6 +10,9 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePollBinding
+import com.likeminds.feed.android.core.databinding.LmFeedItemCreatePollOptionBinding
+import com.likeminds.feed.android.core.poll.create.adapter.LMFeedCreatePollOptionAdapterListener
+import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollOptionViewData
 import com.likeminds.feed.android.core.poll.create.viewmodel.LMFeedCreatePollViewModel
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
@@ -22,7 +25,7 @@ import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import java.text.SimpleDateFormat
 import java.util.*
 
-open class LMFeedCreatePollFragment : Fragment() {
+open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterListener {
 
     private lateinit var binding: LmFeedFragmentCreatePollBinding
     private var poll: LMFeedPollViewData? = null
@@ -94,6 +97,7 @@ open class LMFeedCreatePollFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initListeners()
+        initUI()
         fetchInitialData()
         observeData()
     }
@@ -183,6 +187,21 @@ open class LMFeedCreatePollFragment : Fragment() {
 
         switchLiveResults.apply {
             setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollAdvanceOptionSwitchViewStyle)
+        }
+    }
+
+
+    //initializes the UI
+    private fun initUI() {
+        initPollOptionListView()
+    }
+
+    //initializes the poll option list view
+    private fun initPollOptionListView() {
+        binding.rvPollOptions.apply {
+            setAdapter(this@LMFeedCreatePollFragment)
+            replaceOptions(viewModel.createInitialPollOptionList())
+            updatePollItemCacheSize()
         }
     }
 
@@ -316,5 +335,13 @@ open class LMFeedCreatePollFragment : Fragment() {
                 LMFeedAnimationUtils.expand(clAdvancedOptions)
             }
         }
+    }
+
+    override fun onPollOptionRemoved(createPollOptionViewData: LMFeedCreatePollOptionViewData) {
+//        TODO("Not yet implemented")
+    }
+
+    override fun onPollOptionBinded(position: Int, binding: LmFeedItemCreatePollOptionBinding) {
+//        TODO("Not yet implemented")
     }
 }

@@ -97,7 +97,7 @@
                     app:layout_constraintTop_toBottomOf="@id/view_divider_poll_question"
                     tools:textColor="@color/lm_feed_majorelle_blue" />
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.likeminds.feed.android.core.poll.create.view.LMFeedCreatePollOptionListView
                     android:id="@+id/rv_poll_options"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -193,11 +193,11 @@
                         android:checked="false"
                         android:padding="16dp"
                         android:text="@string/lm_feed_allow_voters_to_add_options"
-                        android:textSize="16sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:textColor="@color/lm_feed_black" />
+                        tools:textColor="@color/lm_feed_black"
+                        tools:textSize="16sp" />
 
                     <View
                         android:id="@+id/divider_bottom_add_new_options"
@@ -215,11 +215,11 @@
                         android:checked="false"
                         android:padding="@dimen/lm_feed_large_padding"
                         android:text="@string/lm_feed_anonymous_poll"
-                        android:textColor="@color/lm_feed_black"
-                        android:textSize="@dimen/lm_feed_text_large"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider_bottom_add_new_options" />
+                        app:layout_constraintTop_toBottomOf="@id/divider_bottom_add_new_options"
+                        tools:textColor="@color/lm_feed_black"
+                        tools:textSize="@dimen/lm_feed_text_large" />
 
                     <View
                         android:id="@+id/divider_bottom_anonymous_poll"
@@ -259,11 +259,11 @@
                         android:layout_marginStart="@dimen/lm_feed_large_margin"
                         android:layout_marginTop="@dimen/lm_feed_large_margin"
                         android:text="@string/lm_feed_user_can_vote_for"
-                        android:textColor="@color/lm_feed_brown_grey"
-                        android:textSize="@dimen/lm_feed_text_medium"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/divider_bottom_live_results" />
+                        app:layout_constraintTop_toBottomOf="@id/divider_bottom_live_results"
+                        tools:textColor="@color/lm_feed_brown_grey"
+                        tools:textSize="@dimen/lm_feed_text_medium" />
 
                     <Spinner
                         android:id="@+id/spinner_multiple_option"
