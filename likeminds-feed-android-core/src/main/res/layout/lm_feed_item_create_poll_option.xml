@@ -43,7 +43,7 @@
             app:layout_constraintBottom_toBottomOf="@id/et_option"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/et_option"
-            tools:src="@drawable/lm_feed_ic_cross_black" />
+            tools:src="@drawable/lm_feed_ic_remove_poll_option" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

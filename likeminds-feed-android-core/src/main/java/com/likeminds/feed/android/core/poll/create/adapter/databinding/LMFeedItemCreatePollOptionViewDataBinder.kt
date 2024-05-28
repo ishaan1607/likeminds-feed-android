@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemCreatePollOptionBinding
 import com.likeminds.feed.android.core.poll.create.adapter.LMFeedCreatePollOptionAdapterListener
 import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollOptionViewData
+import com.likeminds.feed.android.core.ui.base.styles.setStyle
+import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_CREATE_POLL_OPTION
 
@@ -22,8 +24,7 @@ class LMFeedItemCreatePollOptionViewDataBinder(
         )
 
         setListeners(binding)
-
-        //todo set styles
+        setViewStyle(binding)
 
         return binding
     }
@@ -63,5 +64,14 @@ class LMFeedItemCreatePollOptionViewDataBinder(
             //call listener
             listener.onPollOptionRemoved(pollOption)
         }
+    }
+
+    //set view style
+    private fun setViewStyle(binding: LmFeedItemCreatePollOptionBinding) {
+        val pollOptionsViewStyle =
+            LMFeedStyleTransformer.createPollFragmentViewStyle.pollOptionsViewStyle
+
+        binding.etOption.setStyle(pollOptionsViewStyle.optionViewStyle)
+        binding.ivCross.setStyle(pollOptionsViewStyle.removeOptionViewStyle)
     }
 }

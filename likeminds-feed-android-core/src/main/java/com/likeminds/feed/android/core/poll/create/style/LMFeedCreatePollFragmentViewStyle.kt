@@ -21,6 +21,7 @@ import com.likeminds.feed.android.core.utils.model.LMFeedPadding
  * @property pollExpiryTimeViewStyle [LMFeedTextStyle] this will help to customize the poll expiry time view.
  * @property pollAdvanceOptionViewStyle [LMFeedTextStyle] this will help to customize the poll advance option view.
  * @property pollAdvanceOptionSwitchViewStyle [LMFeedSwitchStyle] this will help to customize the poll advance option switch view.
+ * @property pollOptionsViewStyle [LMFeedCreatePollOptionViewStyle] this will help to customize the poll options view.
  */
 class LMFeedCreatePollFragmentViewStyle private constructor(
     //header view style
@@ -43,6 +44,8 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
     val pollAdvanceOptionViewStyle: LMFeedTextStyle,
     //poll advance option switch view style
     val pollAdvanceOptionSwitchViewStyle: LMFeedSwitchStyle,
+    //poll options view style
+    val pollOptionsViewStyle: LMFeedCreatePollOptionViewStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -162,6 +165,9 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
                 .thumbColor(R.color.lm_feed_white_smoke)
                 .build()
 
+        private var pollOptionsViewStyle: LMFeedCreatePollOptionViewStyle =
+            LMFeedCreatePollOptionViewStyle.Builder().build()
+
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle): Builder = apply {
             this.headerViewStyle = headerViewStyle
         }
@@ -206,6 +212,11 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
                 this.pollAdvanceOptionSwitchViewStyle = pollAdvanceOptionSwitchViewStyle
             }
 
+        fun pollOptionsViewStyle(pollOptionsViewStyle: LMFeedCreatePollOptionViewStyle): Builder =
+            apply {
+                this.pollOptionsViewStyle = pollOptionsViewStyle
+            }
+
         fun build() = LMFeedCreatePollFragmentViewStyle(
             headerViewStyle,
             authorViewStyle,
@@ -216,7 +227,8 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
             pollExpiryTimeTitleViewStyle,
             pollExpiryTimeViewStyle,
             pollAdvanceOptionViewStyle,
-            pollAdvanceOptionSwitchViewStyle
+            pollAdvanceOptionSwitchViewStyle,
+            pollOptionsViewStyle
         )
     }
 
@@ -232,5 +244,6 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
             .pollExpiryTimeViewStyle(pollExpiryTimeViewStyle)
             .pollAdvanceOptionViewStyle(pollAdvanceOptionViewStyle)
             .pollAdvanceOptionSwitchViewStyle(pollAdvanceOptionSwitchViewStyle)
+            .pollOptionsViewStyle(pollOptionsViewStyle)
     }
 }
