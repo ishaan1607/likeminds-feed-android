@@ -20,8 +20,11 @@ import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.isValidIndex
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
+import kotlinx.coroutines.flow.onEach
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -208,6 +211,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         }
     }
 
+    //initializes the poll multi select state spinner
     private fun initPollMultiSelectStateSpinner() {
         val spinnerAdapter = LMFeedPollAdvancedOptionsAdapter(
             requireContext(),
@@ -220,6 +224,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         }
     }
 
+    //initializes the poll multi select poll option spinner
     private fun initPollMultiSelectPollOptionSpinner() {
         val spinnerAdapter = LMFeedPollAdvancedOptionsAdapter(
             requireContext(),
@@ -263,6 +268,17 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         viewModel.loggedInUser.observe(viewLifecycleOwner) { user ->
             initAuthorView(user)
         }
+
+        viewModel.errorEvent.onEach { response ->
+            when (response) {
+                is LMFeedCreatePollViewModel.ErrorEvent.GetLoggedInUserError -> {
+                    LMFeedViewUtils.showErrorMessageToast(
+                        requireContext(),
+                        response.message
+                    )
+                }
+            }
+        }.observeInLifecycle(viewLifecycleOwner)
     }
 
     //initializes the author view
@@ -287,7 +303,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             addOption(itemCount, viewModel.getEmptyPollOption())
             updatePollItemCacheSize()
         }
-        //todo init spinner options
+        initPollMultiSelectPollOptionSpinner()
     }
 
     //customize the click of poll expiry time
@@ -373,7 +389,11 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     }
 
     override fun onPollOptionRemoved(createPollOptionViewData: LMFeedCreatePollOptionViewData) {
-
+        val index = binding.rvPollOptions.getAllOptions().indexOf(createPollOptionViewData)
+        if (index.isValidIndex()) {
+            binding.rvPollOptions.removeOption(index)
+            viewModel.removeBindingFromMap(index)
+        }
     }
 
     override fun onPollOptionBinded(position: Int, binding: LmFeedItemCreatePollOptionBinding) {

@@ -95,6 +95,15 @@ object LMFeedValueUtils {
         }
     }
 
+    //to check if the index is valid
+    fun Int.isValidIndex(items: List<*>? = null): Boolean {
+        return if (items != null) {
+            this > -1 && this < items.size
+        } else {
+            this > -1
+        }
+    }
+
     //to extract String values from JSONObject
     fun JSONObject.findStringOrDefault(key: String, defaultValue: String): String {
         return this.optString(key, defaultValue)

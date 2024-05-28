@@ -84,6 +84,23 @@ class LMFeedCreatePollViewModel : ViewModel() {
         pollOptionItemBindingMap[position] = binding
     }
 
+    fun removeBindingFromMap(position: Int) {
+        pollOptionItemBindingMap.apply {
+            if (containsKey(position)) {
+                remove(position)
+            }
+
+            keys.filter {
+                it > position
+            }.forEach { position ->
+                val oldItem = pollOptionItemBindingMap.remove(position)
+                oldItem?.let { binding ->
+                    pollOptionItemBindingMap[position - 1] = binding
+                }
+            }
+        }
+    }
+
     //return multi state option list
     fun getMultipleOptionStateList(): ArrayList<String> {
         return arrayListOf(
