@@ -11,6 +11,7 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePollBinding
 import com.likeminds.feed.android.core.databinding.LmFeedItemCreatePollOptionBinding
 import com.likeminds.feed.android.core.poll.create.adapter.LMFeedCreatePollOptionAdapterListener
+import com.likeminds.feed.android.core.poll.create.adapter.LMFeedPollAdvancedOptionsAdapter
 import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollOptionViewData
 import com.likeminds.feed.android.core.poll.create.viewmodel.LMFeedCreatePollViewModel
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
@@ -194,6 +195,8 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     //initializes the UI
     private fun initUI() {
         initPollOptionListView()
+        initPollMultiSelectStateSpinner()
+        initPollMultiSelectPollOptionSpinner()
     }
 
     //initializes the poll option list view
@@ -202,6 +205,30 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             setAdapter(this@LMFeedCreatePollFragment)
             replaceOptions(viewModel.createInitialPollOptionList())
             updatePollItemCacheSize()
+        }
+    }
+
+    private fun initPollMultiSelectStateSpinner() {
+        val spinnerAdapter = LMFeedPollAdvancedOptionsAdapter(
+            requireContext(),
+            viewModel.getMultipleOptionStateList()
+        )
+
+        binding.spinnerMultipleOption.apply {
+            setAdapter(spinnerAdapter)
+            setSelection(0)
+        }
+    }
+
+    private fun initPollMultiSelectPollOptionSpinner() {
+        val spinnerAdapter = LMFeedPollAdvancedOptionsAdapter(
+            requireContext(),
+            viewModel.getMultipleOptionNoList().subList(0, binding.rvPollOptions.itemCount + 1)
+        )
+
+        binding.spinnerMultipleOptionValue.apply {
+            setAdapter(spinnerAdapter)
+            setSelection(0)
         }
     }
 

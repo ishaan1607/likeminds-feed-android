@@ -31,6 +31,12 @@ class LMFeedCreatePollViewModel : ViewModel() {
         data class GetLoggedInUserError(val message: String?) : ErrorEvent()
     }
 
+    companion object {
+        const val MULTIPLE_OPTION_STATE_MAX = "At max"
+        const val MULTIPLE_OPTION_STATE_EXACTLY = "Exactly"
+        const val MULTIPLE_OPTION_STATE_LEAST = "At least"
+    }
+
     // Get the logged in user
     fun getLoggedInUser() {
         viewModelScope.launchIO {
@@ -78,4 +84,29 @@ class LMFeedCreatePollViewModel : ViewModel() {
         pollOptionItemBindingMap[position] = binding
     }
 
+    //return multi state option list
+    fun getMultipleOptionStateList(): ArrayList<String> {
+        return arrayListOf(
+            MULTIPLE_OPTION_STATE_MAX,
+            MULTIPLE_OPTION_STATE_EXACTLY,
+            MULTIPLE_OPTION_STATE_LEAST
+        )
+    }
+
+    //return multi option list
+    fun getMultipleOptionNoList(): ArrayList<String> {
+        return arrayListOf(
+            "Select option",
+            "1 option",
+            "2 options",
+            "3 options",
+            "4 options",
+            "5 options",
+            "6 options",
+            "7 options",
+            "8 options",
+            "9 options",
+            "10 options"
+        )
+    }
 }

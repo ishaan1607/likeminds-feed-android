@@ -45,7 +45,9 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
     //poll advance option switch view style
     val pollAdvanceOptionSwitchViewStyle: LMFeedSwitchStyle,
     //poll options view style
-    val pollOptionsViewStyle: LMFeedCreatePollOptionViewStyle
+    val pollOptionsViewStyle: LMFeedCreatePollOptionViewStyle,
+    //poll dropdown option view style
+    val pollDropdownViewStyle: LMFeedTextStyle
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -168,6 +170,13 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
         private var pollOptionsViewStyle: LMFeedCreatePollOptionViewStyle =
             LMFeedCreatePollOptionViewStyle.Builder().build()
 
+        private var pollDropdownViewStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
+            .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+            .textSize(R.dimen.lm_feed_text_large)
+            .textColor(R.color.lm_feed_black)
+            .maxLines(1)
+            .build()
+
         fun headerViewStyle(headerViewStyle: LMFeedHeaderViewStyle): Builder = apply {
             this.headerViewStyle = headerViewStyle
         }
@@ -217,6 +226,10 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
                 this.pollOptionsViewStyle = pollOptionsViewStyle
             }
 
+        fun pollDropdownViewStyle(pollDropdownViewStyle: LMFeedTextStyle): Builder = apply {
+            this.pollDropdownViewStyle = pollDropdownViewStyle
+        }
+
         fun build() = LMFeedCreatePollFragmentViewStyle(
             headerViewStyle,
             authorViewStyle,
@@ -228,7 +241,8 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
             pollExpiryTimeViewStyle,
             pollAdvanceOptionViewStyle,
             pollAdvanceOptionSwitchViewStyle,
-            pollOptionsViewStyle
+            pollOptionsViewStyle,
+            pollDropdownViewStyle
         )
     }
 
@@ -245,5 +259,6 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
             .pollAdvanceOptionViewStyle(pollAdvanceOptionViewStyle)
             .pollAdvanceOptionSwitchViewStyle(pollAdvanceOptionSwitchViewStyle)
             .pollOptionsViewStyle(pollOptionsViewStyle)
+            .pollDropdownViewStyle(pollDropdownViewStyle)
     }
 }
