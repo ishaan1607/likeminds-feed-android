@@ -113,7 +113,7 @@
                     android:id="@+id/tv_add_option"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
+                    android:paddingHorizontal="@dimen/lm_feed_large_padding"
                     android:drawablePadding="14dp"
                     android:foreground="?selectableItemBackground"
                     android:paddingVertical="20dp"

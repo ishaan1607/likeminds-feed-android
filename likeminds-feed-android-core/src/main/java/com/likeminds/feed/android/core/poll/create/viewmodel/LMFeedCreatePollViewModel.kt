@@ -63,8 +63,19 @@ class LMFeedCreatePollViewModel : ViewModel() {
 
         // create the list
         return listOf(
-            LMFeedCreatePollOptionViewData.Builder().build(),
-            LMFeedCreatePollOptionViewData.Builder().build(),
+            getEmptyPollOption(),
+            getEmptyPollOption(),
         )
     }
+
+    //create a empty poll option view data
+    fun getEmptyPollOption(): LMFeedCreatePollOptionViewData {
+        return LMFeedCreatePollOptionViewData.Builder().build()
+    }
+
+    //add the binding to the map
+    fun addBindingToMap(position: Int, binding: LmFeedItemCreatePollOptionBinding) {
+        pollOptionItemBindingMap[position] = binding
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.likeminds.feed.android.core.poll.create.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -38,6 +37,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         const val LM_FEED_CREATE_POLL_FRAGMENT_EXTRAS = "LM_FEED_CREATE_POLL_FRAGMENT_EXTRAS"
         const val DATE_PICKER_TAG = "DATE_PICKER"
         const val TIME_PICKER_TAG = "TIME_PICKER"
+        const val MAX_OPTIONS = 10
 
         @JvmStatic
         fun getInstance(poll: LMFeedPollViewData?): LMFeedCreatePollFragment {
@@ -213,7 +213,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             }
 
             tvAddOption.setOnClickListener {
-                Log.d("TAG", "on Add option clicked")
+                onAddPollOptionClicked()
             }
 
             tvPollExpireTime.setOnClickListener {
@@ -225,7 +225,6 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             }
         }
     }
-
 
     //fetches the initial data
     private fun fetchInitialData() {
@@ -253,6 +252,15 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     //customize click of the navigation icon
     protected open fun onNavigationIconClicked() {
         requireActivity().onBackPressedDispatcher.onBackPressed()
+    }
+
+    //customize click of the add option text view
+    protected open fun onAddPollOptionClicked() {
+        binding.rvPollOptions.apply {
+            addOption(itemCount, viewModel.getEmptyPollOption())
+            updatePollItemCacheSize()
+        }
+        //todo init spinner options
     }
 
     //customize the click of poll expiry time
@@ -338,10 +346,10 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     }
 
     override fun onPollOptionRemoved(createPollOptionViewData: LMFeedCreatePollOptionViewData) {
-//        TODO("Not yet implemented")
+
     }
 
     override fun onPollOptionBinded(position: Int, binding: LmFeedItemCreatePollOptionBinding) {
-//        TODO("Not yet implemented")
+        viewModel.addBindingToMap(position, binding)
     }
 }

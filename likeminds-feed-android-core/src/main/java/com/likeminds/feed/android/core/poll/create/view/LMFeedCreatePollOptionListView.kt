@@ -48,8 +48,8 @@ class LMFeedCreatePollOptionListView @JvmOverloads constructor(
     }
 
     //add option
-    fun addOption(option: LMFeedCreatePollOptionViewData) {
-        mAdapter.add(option)
+    fun addOption(position: Int, option: LMFeedCreatePollOptionViewData) {
+        mAdapter.add(position, option)
     }
 
     //update the cache size
