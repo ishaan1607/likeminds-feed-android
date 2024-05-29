@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.poll.create.adapter.databinding
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import com.likeminds.feed.android.core.databinding.LmFeedItemCreatePollOptionBinding
 import com.likeminds.feed.android.core.poll.create.adapter.LMFeedCreatePollOptionAdapterListener
 import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollOptionViewData
@@ -43,6 +44,12 @@ class LMFeedItemCreatePollOptionViewDataBinder(
 
             //clear text
             etOption.setText("")
+
+            etOption.doAfterTextChanged { option ->
+                if (!option.isNullOrEmpty()) {
+                    listener.onPollOptionFilled()
+                }
+            }
 
             //set existing data
             val pollOption = data.text

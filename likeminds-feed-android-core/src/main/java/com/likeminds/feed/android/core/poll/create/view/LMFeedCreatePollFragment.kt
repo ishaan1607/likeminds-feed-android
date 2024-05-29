@@ -1,7 +1,9 @@
 package com.likeminds.feed.android.core.poll.create.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.*
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.datepicker.*
@@ -21,6 +23,7 @@ import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderVi
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.isValidIndex
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
@@ -200,6 +203,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         initPollOptionListView()
         initPollMultiSelectStateSpinner()
         initPollMultiSelectPollOptionSpinner()
+        initPollQuestionListeners()
     }
 
     //initializes the poll option list view
@@ -237,6 +241,34 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    private fun initPollQuestionListeners() {
+        binding.etPollQuestion.apply {
+
+            /**
+             * As the scrollable edit text is inside a scroll view,
+             * this touch listener handles the scrolling of the edit text.
+             * When the edit text is touched and has focus then it disables scroll of scroll-view.
+             */
+            setOnTouchListener(View.OnTouchListener { v, event ->
+                if (hasFocus()) {
+                    v.parent.requestDisallowInterceptTouchEvent(true)
+                    when (event.action and MotionEvent.ACTION_MASK) {
+                        MotionEvent.ACTION_SCROLL -> {
+                            v.parent.requestDisallowInterceptTouchEvent(false)
+                            return@OnTouchListener true
+                        }
+                    }
+                }
+                false
+            })
+
+            addTextChangedListener {
+                validatePoll()
+            }
+        }
+    }
+
     //attaches the listeners
     private fun initListeners() {
         binding.apply {
@@ -254,6 +286,10 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
             tvAdvancedOptions.setOnClickListener {
                 onAdvancedOptionsClicked()
+            }
+
+            headerViewCreatePoll.setSubmitButtonClickListener {
+                onPollSubmitClicked()
             }
         }
     }
@@ -304,6 +340,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             updatePollItemCacheSize()
         }
         initPollMultiSelectPollOptionSpinner()
+        validatePollOptionCount()
     }
 
     //customize the click of poll expiry time
@@ -354,6 +391,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             if (calendar.time.after(Date())) {
                 binding.tvPollExpireTime.text = dateString
                 viewModel.setPollExpiryTime(calendar.timeInMillis)
+                validatePoll()
             } else {
                 LMFeedViewUtils.showErrorMessageToast(
                     requireContext(),
@@ -388,15 +426,65 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         }
     }
 
+    //customize the click of submit button
+    protected open fun onPollSubmitClicked() {
+
+    }
+
     override fun onPollOptionRemoved(createPollOptionViewData: LMFeedCreatePollOptionViewData) {
         val index = binding.rvPollOptions.getAllOptions().indexOf(createPollOptionViewData)
         if (index.isValidIndex()) {
             binding.rvPollOptions.removeOption(index)
             viewModel.removeBindingFromMap(index)
+            validatePollOptionCount()
+            validatePoll()
         }
     }
 
     override fun onPollOptionBinded(position: Int, binding: LmFeedItemCreatePollOptionBinding) {
         viewModel.addBindingToMap(position, binding)
+        validatePollOptionCount()
+    }
+
+    override fun onPollOptionFilled() {
+        validatePoll()
+    }
+
+    //validates the poll option count and hide/show add option text view
+    private fun validatePollOptionCount() {
+        val optionCount = binding.rvPollOptions.itemCount
+        if (optionCount == MAX_OPTIONS) {
+            binding.tvAddOption.hide()
+        } else {
+            binding.tvAddOption.show()
+        }
+    }
+
+    //validates the poll and enables/disables submit button
+    private fun validatePoll() {
+        val pollOptionsBinding = viewModel.getPollOptionBindingMap()
+        val pollOptions = ArrayList<String>()
+
+        //get poll options where option is entered
+        pollOptionsBinding.forEach { entry ->
+            val binding = entry.value
+            val pollOption = binding.etOption.text.toString()
+            if (pollOption.isNotEmpty()) {
+                pollOptions.add(pollOption)
+            }
+        }
+
+        //get poll question
+        val pollQuestion = binding.etPollQuestion.text.toString()
+
+        //get poll expiry time
+        val pollExpiryTime = viewModel.pollExpiryTime
+
+        //validate the poll and enable/disable submit button
+        if (pollQuestion.isNotEmpty() && pollOptions.size >= 2 && pollExpiryTime != null) {
+            binding.headerViewCreatePoll.setSubmitButtonEnabled(true)
+        } else {
+            binding.headerViewCreatePoll.setSubmitButtonEnabled(false)
+        }
     }
 }

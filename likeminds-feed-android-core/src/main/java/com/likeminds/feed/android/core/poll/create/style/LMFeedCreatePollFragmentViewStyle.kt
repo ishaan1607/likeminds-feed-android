@@ -62,6 +62,14 @@ class LMFeedCreatePollFragmentViewStyle private constructor(
                     .build()
             )
             .backgroundColor(R.color.lm_feed_white)
+            .submitTextStyle(
+                LMFeedTextStyle.Builder()
+                    .textColor(R.color.lm_feed_grey)
+                    .textSize(R.dimen.lm_feed_text_large)
+                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                    .build()
+            )
+            .activeSubmitColor(LMFeedTheme.getButtonColor())
             .navigationIconStyle(
                 LMFeedIconStyle.Builder()
                     .iconTint(R.color.lm_feed_black)

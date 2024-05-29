@@ -20,7 +20,6 @@ class LMFeedCreatePollOptionListView @JvmOverloads constructor(
         get() = mAdapter.itemCount
 
     init {
-        setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
     }
 

@@ -27,4 +27,6 @@ interface LMFeedCreatePollOptionAdapterListener {
 
     //on poll option binded
     fun onPollOptionBinded(position: Int, binding: LmFeedItemCreatePollOptionBinding)
+
+    fun onPollOptionFilled()
 }

@@ -63,12 +63,12 @@ class LMFeedCreatePollViewModel : ViewModel() {
     }
 
     //create the initial poll option list and clear the binding map
-    fun createInitialPollOptionList(): List<LMFeedCreatePollOptionViewData> {
+    fun createInitialPollOptionList(): MutableList<LMFeedCreatePollOptionViewData> {
         // Clear the map
         pollOptionItemBindingMap.clear()
 
         // create the list
-        return listOf(
+        return mutableListOf(
             getEmptyPollOption(),
             getEmptyPollOption(),
         )
@@ -84,6 +84,7 @@ class LMFeedCreatePollViewModel : ViewModel() {
         pollOptionItemBindingMap[position] = binding
     }
 
+    //remove the binding from the map
     fun removeBindingFromMap(position: Int) {
         pollOptionItemBindingMap.apply {
             if (containsKey(position)) {
@@ -99,6 +100,11 @@ class LMFeedCreatePollViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    //get the poll option binding map
+    fun getPollOptionBindingMap(): HashMap<Int, LmFeedItemCreatePollOptionBinding> {
+        return pollOptionItemBindingMap
     }
 
     //return multi state option list
