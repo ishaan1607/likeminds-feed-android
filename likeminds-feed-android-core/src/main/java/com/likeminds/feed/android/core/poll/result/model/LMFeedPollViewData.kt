@@ -44,6 +44,15 @@ class LMFeedPollViewData private constructor(
         )
     }
 
+    fun getExpireOnDate(context: Context): String = if (hasPollEnded()) {
+        context.getString(R.string.lm_feed_poll_ended)
+    } else {
+        context.getString(
+            R.string.lm_feed_expires_on,
+            LMFeedTimeUtil.getDateFormat(expiryTime)
+        )
+    }
+
     fun getPollSelectionText(context: Context): String? =
         if (multipleSelectState == PollMultiSelectState.EXACTLY && multipleSelectNumber == 1) {
             null

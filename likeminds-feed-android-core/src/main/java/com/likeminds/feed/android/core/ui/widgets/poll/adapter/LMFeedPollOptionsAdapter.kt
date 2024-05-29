@@ -5,7 +5,7 @@ import com.likeminds.feed.android.core.ui.widgets.poll.adapter.databinder.LMFeed
 import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedPollOptionsAdapter(
-    private val pollOptionsAdapterListener: LMFeedPollOptionsAdapterListener
+    private val pollOptionsAdapterListener: LMFeedPollOptionsAdapterListener?
 ) : LMFeedBaseRecyclerAdapter<LMFeedBaseViewType>() {
 
     init {

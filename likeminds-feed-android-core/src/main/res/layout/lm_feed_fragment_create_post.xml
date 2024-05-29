@@ -151,6 +151,15 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/et_post_composer" />
+
+                <com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedPostPollView
+                    android:id="@+id/poll_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/zero_dp"
+                    android:layout_marginTop="@dimen/lm_feed_extra_extra_large_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_post_composer" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
@@ -160,7 +169,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            app:constraint_referenced_ids="layout_add_image, layout_add_video, layout_attach_files, video_image_separator, video_file_separator" />
+            app:constraint_referenced_ids="layout_add_image, layout_add_video, layout_attach_files, video_image_separator, video_file_separator, add_file_separator, layout_add_poll" />
 
         <LinearLayout
             android:id="@+id/layout_attach_files"
@@ -292,12 +301,12 @@
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/lm_feed_large_margin"
                 android:fontFamily="@font/lm_feed_roboto"
                 android:text="@string/lm_feed_add_poll"
                 android:textColor="@color/lm_feed_raisin_black"
-                android:textSize="@dimen/lm_feed_text_medium"
-                android:layout_height="wrap_content"/>
+                android:textSize="@dimen/lm_feed_text_medium" />
 
         </LinearLayout>
 

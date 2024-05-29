@@ -17,6 +17,7 @@ open class LMFeedCreatePollActivity : AppCompatActivity() {
         const val TAG = "LMFeedCreatePollActivity"
         const val LM_FEED_CREATE_POLL_BUNDLE = "LM_FEED_CREATE_POLL_BUNDLE"
         const val LM_FEED_CREATE_POLL_EXTRAS = "LM_FEED_CREATE_POLL_EXTRAS"
+        const val LM_FEED_CREATE_POLL_RESULT = "LM_FEED_CREATE_POLL_RESULT"
 
         @JvmStatic
         fun start(context: Context, poll: LMFeedPollViewData? = null) {

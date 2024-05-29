@@ -152,7 +152,7 @@ class LMFeedPostPollView : ConstraintLayout {
 
     fun setPollOptions(
         options: List<LMFeedPollOptionViewData>,
-        listener: LMFeedPollOptionsAdapterListener
+        listener: LMFeedPollOptionsAdapterListener?
     ) {
         binding.rvPollOptions.apply {
             setAdapter(listener)

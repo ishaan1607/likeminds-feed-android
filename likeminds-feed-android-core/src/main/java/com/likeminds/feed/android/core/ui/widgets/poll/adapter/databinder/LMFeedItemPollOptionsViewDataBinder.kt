@@ -11,7 +11,7 @@ import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL_OPTIONS
 
 class LMFeedItemPollOptionsViewDataBinder(
-    private val listener: LMFeedPollOptionsAdapterListener
+    private val listener: LMFeedPollOptionsAdapterListener?
 ) : LMFeedViewDataBinder<LmFeedItemPollOptionsBinding, LMFeedPollOptionViewData>() {
 
     override val viewType: Int
@@ -62,11 +62,11 @@ class LMFeedItemPollOptionsViewDataBinder(
     ) {
         pollOptionView.apply {
             setPollOptionClicked {
-                listener.onPollOptionClicked(position, pollOptionViewData)
+                listener?.onPollOptionClicked(position, pollOptionViewData)
             }
 
             setPollOptionVotesCountClicked {
-                listener.onPollOptionVoteCountClicked(position, pollOptionViewData)
+                listener?.onPollOptionVoteCountClicked(position, pollOptionViewData)
             }
         }
     }

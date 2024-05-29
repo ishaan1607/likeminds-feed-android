@@ -25,7 +25,9 @@ import com.likeminds.customgallery.media.model.*
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePostBinding
 import com.likeminds.feed.android.core.databinding.LmFeedItemMultipleMediaVideoBinding
+import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollResult
 import com.likeminds.feed.android.core.poll.create.view.LMFeedCreatePollActivity
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.LM_FEED_CREATE_POST_EXTRAS
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.POST_ATTACHMENTS_LIMIT
@@ -87,6 +89,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         ArrayList<LMFeedTopicViewData>()
     }
     private var ogTags: LMFeedLinkOGTagsViewData? = null
+    private var poll: LMFeedPollViewData? = null
 
     companion object {
         const val TAG = "LMFeedCreatePostFragment"
@@ -389,13 +392,24 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         pollLauncher.launch(intent)
     }
 
-    private val pollLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            Log.d(TAG, "Poll created")
-        } else {
-            Log.d(TAG, "Poll not created")
+    private val pollLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val pollResult = LMFeedExtrasUtil.getParcelable(
+                    result.data?.extras,
+                    LMFeedCreatePollActivity.LM_FEED_CREATE_POLL_RESULT,
+                    LMFeedCreatePollResult::class.java
+                )
+
+                poll = pollResult?.pollViewData
+
+                poll?.let {
+                    showPostMedia()
+                }
+            } else {
+                Log.d(TAG, "Poll not created")
+            }
         }
-    }
 
     private fun startCustomGallery(
         launcher: ActivityResultLauncher<Intent>,
@@ -631,6 +645,11 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 showMultiMediaAttachments()
             }
 
+            poll != null -> {
+                ogTags = null
+                showPollAttachments()
+            }
+
             else -> {
                 val text = binding.etPostComposer.text?.trim()
                 if (selectedMediaUris.size == 0 && text != null) {
@@ -740,6 +759,30 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 attachments,
                 true
             )
+        }
+    }
+
+    private fun showPollAttachments() {
+        binding.apply {
+            if (poll != null) {
+                handleAddAttachmentLayouts(false)
+                headerViewCreatePost.setSubmitButtonEnabled(true)
+                pollView.show()
+                postSingleImage.hide()
+                btnAddMoreMedia.hide()
+                postSingleVideo.hide()
+                postLinkView.hide()
+                postDocumentsView.hide()
+                multipleMediaView.hide()
+
+                pollView.apply {
+                    show()
+                    setPollTitle(poll?.title ?: "")
+                    setPollInfo(poll?.getPollSelectionText(requireContext()))
+                    setTimeLeft(poll?.getExpireOnDate(requireContext()) ?: "")
+                    setPollOptions(poll?.options ?: emptyList(), null)
+                }
+            }
         }
     }
 

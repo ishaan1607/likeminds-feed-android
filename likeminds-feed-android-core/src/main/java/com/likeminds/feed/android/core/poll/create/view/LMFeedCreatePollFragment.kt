@@ -1,8 +1,9 @@
 package com.likeminds.feed.android.core.poll.create.view
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -16,6 +17,8 @@ import com.likeminds.feed.android.core.databinding.LmFeedItemCreatePollOptionBin
 import com.likeminds.feed.android.core.poll.create.adapter.LMFeedCreatePollOptionAdapterListener
 import com.likeminds.feed.android.core.poll.create.adapter.LMFeedPollAdvancedOptionsAdapter
 import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollOptionViewData
+import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollResult
+import com.likeminds.feed.android.core.poll.create.view.LMFeedCreatePollActivity.Companion.LM_FEED_CREATE_POLL_RESULT
 import com.likeminds.feed.android.core.poll.create.viewmodel.LMFeedCreatePollViewModel
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.ui.base.styles.setStyle
@@ -309,7 +312,18 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         }
 
         viewModel.poll.observe(viewLifecycleOwner) { poll ->
-            Log.d("PUI", "poll : $poll")
+            if (poll != null) {
+                val intent = Intent().apply {
+                    putExtra(
+                        LM_FEED_CREATE_POLL_RESULT,
+                        LMFeedCreatePollResult.Builder()
+                            .pollViewData(poll)
+                            .build()
+                    )
+                }
+                requireActivity().setResult(Activity.RESULT_OK, intent)
+                requireActivity().finish()
+            }
         }
 
         viewModel.errorEvent.onEach { response ->

@@ -28,7 +28,7 @@ class LMFeedPollOptionsListView @JvmOverloads constructor(
     }
 
     //sets the adapter with the provided [listener] to the poll options recycler view
-    fun setAdapter(listener: LMFeedPollOptionsAdapterListener) {
+    fun setAdapter(listener: LMFeedPollOptionsAdapterListener?) {
         //setting adapter
         pollOptionsAdapter = LMFeedPollOptionsAdapter(listener)
         adapter = pollOptionsAdapter
