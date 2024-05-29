@@ -46,7 +46,7 @@ class LMFeedCommentComposerViewStyle private constructor(
                     .textColor(R.color.lm_feed_dark_grey)
                     .textSize(R.dimen.lm_feed_text_large)
                     .typeface(Typeface.NORMAL)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                    .fontResource(R.font.lm_feed_roboto)
                     .backgroundColor(R.color.lm_feed_white)
                     .build()
             )

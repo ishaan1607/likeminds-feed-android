@@ -25,7 +25,7 @@ class LMFeedCreatePollOptionViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textSize(R.dimen.lm_feed_text_large)
                     .textColor(R.color.lm_feed_black)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                    .fontResource(R.font.lm_feed_roboto)
                     .build()
             )
             .build()

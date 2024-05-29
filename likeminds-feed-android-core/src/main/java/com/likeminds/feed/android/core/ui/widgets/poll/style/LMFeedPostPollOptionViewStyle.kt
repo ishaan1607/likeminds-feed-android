@@ -34,7 +34,7 @@ class LMFeedPostPollOptionViewStyle private constructor(
     class Builder {
         private var pollOptionTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_large)
-            .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+            .fontResource(R.font.lm_feed_roboto)
             .textColor(R.color.lm_feed_dark_grayish_blue)
             .ellipsize(TextUtils.TruncateAt.END)
             .maxLines(2)

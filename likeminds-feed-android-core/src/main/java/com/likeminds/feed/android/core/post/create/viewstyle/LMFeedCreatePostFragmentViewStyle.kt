@@ -6,6 +6,8 @@ import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.style.LMFeedPostHeaderViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
@@ -34,7 +36,7 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
     //add more media button style
     val addMoreButtonStyle: LMFeedButtonStyle,
     //background color of the screen
-    @ColorRes val backgroundColor: Int?
+    @ColorRes val backgroundColor: Int?,
 ) : LMFeedViewStyle {
     class Builder {
         private var headerViewStyle: LMFeedHeaderViewStyle = LMFeedHeaderViewStyle.Builder()
@@ -42,7 +44,7 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                    .fontResource(R.font.lm_feed_roboto_medium)
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
@@ -66,7 +68,7 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_grey)
                     .textSize(R.dimen.lm_feed_text_large)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                    .fontResource(R.font.lm_feed_roboto_medium)
                     .build()
             )
             .activeSubmitColor(LMFeedTheme.getButtonColor())
@@ -82,7 +84,7 @@ class LMFeedCreatePostFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_raisin_black)
                     .textSize(R.dimen.lm_feed_text_large)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                    .fontResource(R.font.lm_feed_roboto_medium)
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()

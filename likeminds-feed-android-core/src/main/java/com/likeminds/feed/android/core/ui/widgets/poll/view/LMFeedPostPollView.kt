@@ -73,8 +73,15 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
-    private fun configureSubmitPollVoteButton(submitPollButtonStyle: LMFeedButtonStyle) {
-        binding.btnSubmitVote.setStyle(submitPollButtonStyle)
+    private fun configureSubmitPollVoteButton(submitPollButtonStyle: LMFeedButtonStyle?) {
+        binding.btnSubmitVote.apply {
+            if (submitPollButtonStyle == null) {
+                hide()
+            } else {
+                show()
+                setStyle(submitPollButtonStyle)
+            }
+        }
     }
 
     private fun configurePollExpiryText(pollExpiryTextStyle: LMFeedTextStyle?) {
@@ -88,8 +95,16 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
-    private fun configureAddPollOptionButton(addPollOptionButtonStyle: LMFeedButtonStyle) {
-        binding.btnAddOption.setStyle(addPollOptionButtonStyle)
+    private fun configureAddPollOptionButton(addPollOptionButtonStyle: LMFeedButtonStyle?) {
+        binding.btnAddOption.apply {
+            if (addPollOptionButtonStyle == null) {
+                hide()
+            } else {
+                show()
+                setStyle(addPollOptionButtonStyle)
+            }
+        }
+
     }
 
     private fun configureEditPollVoteText(editPollVoteTextStyle: LMFeedTextStyle?) {
