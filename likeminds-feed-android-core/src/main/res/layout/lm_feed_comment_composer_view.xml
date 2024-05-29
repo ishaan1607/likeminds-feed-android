@@ -17,7 +17,7 @@
             android:textColor="@color/lm_feed_grey"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/iv_comment_send"
-            tools:text="Replying to Ronald Richards"
+            tools:text="@string/lm_feed_sample_replying_to"
             tools:textSize="@dimen/lm_feed_text_medium"
             tools:visibility="visible" />
 

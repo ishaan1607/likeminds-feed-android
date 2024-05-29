@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginStart="@dimen/lm_feed_large_margin"
             tools:fontFamily="@font/lm_feed_roboto_medium"
-            tools:text="Ronald Richards"
+            tools:text="@string/lm_feed_sample_name"
             tools:textColor="@color/lm_feed_raisin_black"
             tools:textSize="@dimen/lm_feed_text_medium" />
 
@@ -45,7 +45,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_commenter_name"
             tools:fontFamily="@font/lm_feed_roboto"
-            tools:text="Congrats to @talasha.sawant &amp; @kate92kt for being Community Hood CMs Of the Week! They both are founders of @_towardsabetteryou_  that is for mental &amp; emotional wellbeing ... See more"
+            tools:text="@string/lm_feed_sample_text"
             tools:textColor="@color/lm_feed_raisin_black"
             tools:textSize="@dimen/lm_feed_text_medium" />
 
@@ -89,7 +89,7 @@
             app:layout_constraintTop_toTopOf="@id/iv_like"
             tools:fontFamily="@font/lm_feed_roboto"
             tools:ignore="UnusedAttribute"
-            tools:text="39 likes"
+            tools:text="@string/lm_feed_likes"
             tools:textColor="@color/lm_feed_maastricht_blue_40"
             tools:textSize="@dimen/lm_feed_text_small"
             tools:visibility="visible" />
@@ -154,7 +154,7 @@
             app:layout_constraintTop_toTopOf="@id/reply_count_separator"
             tools:fontFamily="@font/lm_feed_roboto"
             tools:ignore="UnusedAttribute"
-            tools:text="18 Replies"
+            tools:text="@string/lm_feed_placeholder_replies"
             tools:textSize="@dimen/lm_feed_text_small"
             tools:visibility="visible" />
 
@@ -198,7 +198,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_reply"
             tools:fontFamily="@font/lm_feed_roboto"
-            tools:text="20m"
+            tools:text="@string/lm_feed_sample_time"
             tools:textColor="@color/lm_feed_maastricht_blue_40"
             tools:textSize="@dimen/lm_feed_text_small" />
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="pollOptionCount"
+            type="String" />
+
+        <variable
+            name="pollOptionText"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_poll_results_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_poll_option_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{pollOptionCount}"
+            android:textColor="@color/lm_feed_grey"
+            android:textSize="@dimen/lm_feed_text_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/lm_feed_poll_sample_vote_count" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_poll_option_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/lm_feed_small_margin"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@{pollOptionText}"
+            android:textColor="@color/lm_feed_grey"
+            android:textSize="@dimen/lm_feed_text_large"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_poll_option_count"
+            tools:text="@string/lm_feed_poll_sample_option_text" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

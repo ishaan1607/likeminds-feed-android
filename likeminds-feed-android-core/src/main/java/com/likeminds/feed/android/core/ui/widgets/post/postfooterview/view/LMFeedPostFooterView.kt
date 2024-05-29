@@ -43,7 +43,7 @@ class LMFeedPostFooterView : ConstraintLayout {
             }
 
             //configures each view in the post footer view with the provided style
-            configuresLikeText(likeTextStyle)
+            configureLikeText(likeTextStyle)
             configureLikesIcon(likeIconStyle)
             configureCommentsText(commentTextStyle)
             configureSaveIcon(saveIconStyle)
@@ -51,7 +51,7 @@ class LMFeedPostFooterView : ConstraintLayout {
         }
     }
 
-    private fun configuresLikeText(likeTextStyle: LMFeedTextStyle?) {
+    private fun configureLikeText(likeTextStyle: LMFeedTextStyle?) {
         binding.tvLikesCount.apply {
             if (likeTextStyle == null) {
                 hide()

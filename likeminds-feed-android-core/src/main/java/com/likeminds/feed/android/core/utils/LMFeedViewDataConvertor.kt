@@ -7,6 +7,7 @@ import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
 import com.likeminds.feed.android.core.delete.model.LMFeedReasonChooseViewData
 import com.likeminds.feed.android.core.likes.model.LMFeedLikeViewData
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
+import com.likeminds.feed.android.core.poll.model.LMFeedPollVoteViewData
 import com.likeminds.feed.android.core.post.create.model.LMFeedFileUploadViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentsCountViewData
@@ -21,6 +22,7 @@ import com.likeminds.likemindsfeed.comment.model.Comment
 import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.Activity
 import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
+import com.likeminds.likemindsfeed.poll.model.PollVote
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentType
 import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
@@ -218,7 +220,7 @@ object LMFeedViewDataConvertor {
     /**
      * Converts [SDKClientInfo] which is a network model to [LMFeedSDKClientInfoViewData] which is view data model
      */
-    fun convertSDKClientInfo(sdkClientInfo: SDKClientInfo): LMFeedSDKClientInfoViewData {
+    private fun convertSDKClientInfo(sdkClientInfo: SDKClientInfo): LMFeedSDKClientInfoViewData {
         return LMFeedSDKClientInfoViewData.Builder()
             .user(sdkClientInfo.user)
             .uuid(sdkClientInfo.uuid)
@@ -261,7 +263,7 @@ object LMFeedViewDataConvertor {
      * @param attachments: list of [Attachment]
      * @param postId: id of the post
      */
-    fun convertAttachments(
+    private fun convertAttachments(
         attachments: List<Attachment>?,
         postId: String
     ): List<LMFeedAttachmentViewData> {
@@ -300,7 +302,11 @@ object LMFeedViewDataConvertor {
      * convert [LinkOGTags] to [LMFeedLinkOGTagsViewData]
      * @param linkOGTags: object of [LinkOGTags]
      **/
-    fun convertLinkOGTags(linkOGTags: LinkOGTags): LMFeedLinkOGTagsViewData {
+    fun convertLinkOGTags(linkOGTags: LinkOGTags?): LMFeedLinkOGTagsViewData {
+        if (linkOGTags == null) {
+            return LMFeedLinkOGTagsViewData.Builder().build()
+        }
+
         return LMFeedLinkOGTagsViewData.Builder()
             .url(linkOGTags.url)
             .description(linkOGTags.description)
@@ -604,6 +610,25 @@ object LMFeedViewDataConvertor {
         }
     }
 
+    // converts list of [PollVote] network model and corresponding users map to list of [LMFeedPollVoteViewData]
+    fun convertPollVotes(
+        votes: List<PollVote>,
+        usersMap: Map<String, User>
+    ): LMFeedPollVoteViewData {
+        val vote = votes.firstOrNull() ?: return LMFeedPollVoteViewData.Builder().build()
+        val usersVoted = vote.userIds
+
+        // get object of users who have voted on the option
+        val userVotedViewData = usersVoted.map { userVoted ->
+            convertUser(usersMap[userVoted])
+        }
+
+        return LMFeedPollVoteViewData.Builder()
+            .id(vote.id)
+            .usersVoted(userVotedViewData)
+            .build()
+    }
+
     /**--------------------------------
      * View Data Model -> Network Model
     --------------------------------*/
@@ -633,7 +658,7 @@ object LMFeedViewDataConvertor {
     }
 
     //creates a network model of attachment from the provided attachment view data
-    fun convertAttachment(
+    private fun convertAttachment(
         attachment: LMFeedAttachmentViewData
     ): Attachment {
         return Attachment.Builder()
@@ -689,7 +714,7 @@ object LMFeedViewDataConvertor {
     }
 
     // converts list of [LMFeedFileUploadViewData] to list of network [Attachment] model
-    fun convertAttachments(fileUris: List<LMFeedFileUploadViewData>): List<Attachment> {
+    private fun convertAttachments(fileUris: List<LMFeedFileUploadViewData>): List<Attachment> {
         return fileUris.map {
             convertAttachment(it)
         }
@@ -712,7 +737,7 @@ object LMFeedViewDataConvertor {
         }
 
         return Attachment.Builder()
-            .attachmentType(attachmentType)
+            .attachmentType(attachmentType.getAttachmentType())
             .attachmentMeta(convertAttachmentMeta(fileUri))
             .build()
     }
@@ -760,6 +785,7 @@ object LMFeedViewDataConvertor {
             .build()
     }
 
+    // converts comments count to [LMFeedCommentsCountViewData]
     fun convertCommentsCount(commentsCount: Int): LMFeedCommentsCountViewData {
         return LMFeedCommentsCountViewData.Builder()
             .commentsCount(commentsCount)

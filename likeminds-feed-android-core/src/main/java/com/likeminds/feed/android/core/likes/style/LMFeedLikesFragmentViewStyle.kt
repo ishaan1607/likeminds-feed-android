@@ -88,7 +88,11 @@ class LMFeedLikesFragmentViewStyle private constructor(
             this.backgroundColor = backgroundColor
         }
 
-        fun build() = LMFeedLikesFragmentViewStyle(headerViewStyle, userViewStyle, backgroundColor)
+        fun build() = LMFeedLikesFragmentViewStyle(
+            headerViewStyle,
+            userViewStyle,
+            backgroundColor
+        )
     }
 
     fun toBuilder(): Builder {

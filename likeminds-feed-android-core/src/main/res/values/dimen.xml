@@ -23,6 +23,7 @@
     <!--    Elevation Size-->
     <dimen name="lm_feed_elevation_big">8dp</dimen>
     <dimen name="lm_feed_elevation_small">4dp</dimen>
+    <dimen name="lm_feed_elevation_extra_small">2dp</dimen>
 
     <!--    Corner radius-->
     <dimen name="lm_feed_corner_radius_small">2dp</dimen>
@@ -143,4 +144,9 @@
     <!--    Create Post-->
     <dimen name="lm_feed_create_post_add_more_padding">24dp</dimen>
     <dimen name="lm_feed_user_tagging_view_elevation">5dp</dimen>
+
+    <!--    Poll-->
+    <dimen name="lm_feed_poll_option_min_height">48dp</dimen>
+    <dimen name="lm_feed_poll_submit_vote_width">104dp</dimen>
+
 </resources>
