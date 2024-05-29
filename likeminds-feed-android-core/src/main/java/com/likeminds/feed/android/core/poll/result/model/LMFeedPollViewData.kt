@@ -164,4 +164,21 @@ class LMFeedPollViewData private constructor(
             .pollType(pollType)
             .isPollSubmitted(isPollSubmitted)
     }
+
+    override fun toString(): String {
+        return buildString {
+            append("LMFeedPollViewData(id='$id'\n")
+            append("title='$title'\n")
+            append("pollAnswerText='$pollAnswerText'\n")
+            append("toShowResults=$toShowResults,\n")
+            append("options=$options,\n")
+            append("expiryTime=$expiryTime,\n")
+            append("isAnonymous=$isAnonymous,\n")
+            append("allowAddOption=$allowAddOption,\n")
+            append("multipleSelectState=$multipleSelectState,\n")
+            append("multipleSelectNumber=$multipleSelectNumber,\n")
+            append("pollType=$pollType,\n")
+            append("isPollSubmitted=$isPollSubmitted)")
+        }
+    }
 }

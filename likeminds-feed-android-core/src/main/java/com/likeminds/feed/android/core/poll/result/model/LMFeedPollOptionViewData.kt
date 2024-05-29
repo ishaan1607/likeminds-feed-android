@@ -75,6 +75,19 @@ class LMFeedPollOptionViewData private constructor(
         )
     }
 
+    override fun toString(): String {
+        return buildString {
+            append("LMFeedPollOptionViewData(id='$id'\n")
+            append("isSelected=$isSelected\n")
+            append("percentage=$percentage\n")
+            append("text='$text'\n")
+            append("voteCount=$voteCount\n")
+            append("addedByUser=$addedByUser\n")
+            append("toShowResults=$toShowResults\n")
+            append("allowAddOption=$allowAddOption)")
+        }
+    }
+
     fun toBuilder(): Builder {
         return Builder().id(id)
             .isSelected(isSelected)

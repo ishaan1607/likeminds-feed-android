@@ -3,12 +3,17 @@ package com.likeminds.feed.android.core.poll.create.viewmodel
 import androidx.lifecycle.*
 import com.likeminds.feed.android.core.databinding.LmFeedItemCreatePollOptionBinding
 import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollOptionViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
 import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.post.model.PollMultiSelectState
+import com.likeminds.likemindsfeed.post.model.PollType
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import java.util.Date
 
 class LMFeedCreatePollViewModel : ViewModel() {
 
@@ -24,11 +29,15 @@ class LMFeedCreatePollViewModel : ViewModel() {
     private val _loggedInUser by lazy { MutableLiveData<LMFeedUserViewData>() }
     val loggedInUser: LiveData<LMFeedUserViewData> by lazy { _loggedInUser }
 
+    private val _poll by lazy { MutableLiveData<LMFeedPollViewData>() }
+    val poll: LiveData<LMFeedPollViewData> by lazy { _poll }
+
     private val errorEventChannel = Channel<ErrorEvent>(Channel.BUFFERED)
     val errorEvent = errorEventChannel.receiveAsFlow()
 
     sealed class ErrorEvent {
         data class GetLoggedInUserError(val message: String?) : ErrorEvent()
+        data class CreatePollError(val message: String?) : ErrorEvent()
     }
 
     companion object {
@@ -102,9 +111,19 @@ class LMFeedCreatePollViewModel : ViewModel() {
         }
     }
 
-    //get the poll option binding map
-    fun getPollOptionBindingMap(): HashMap<Int, LmFeedItemCreatePollOptionBinding> {
-        return pollOptionItemBindingMap
+    fun getPollOptionsFromBindingMap(): ArrayList<String> {
+        val pollOptions = ArrayList<String>()
+
+        //get poll options where option is entered
+        pollOptionItemBindingMap.forEach { entry ->
+            val binding = entry.value
+            val pollOption = binding.etOption.text.toString()
+            if (pollOption.isNotEmpty()) {
+                pollOptions.add(pollOption)
+            }
+        }
+
+        return pollOptions
     }
 
     //return multi state option list
@@ -119,7 +138,6 @@ class LMFeedCreatePollViewModel : ViewModel() {
     //return multi option list
     fun getMultipleOptionNoList(): ArrayList<String> {
         return arrayListOf(
-            "Select option",
             "1 option",
             "2 options",
             "3 options",
@@ -131,5 +149,79 @@ class LMFeedCreatePollViewModel : ViewModel() {
             "9 options",
             "10 options"
         )
+    }
+
+    fun createPoll(
+        pollQuestion: String,
+        pollMultiSelectState: PollMultiSelectState,
+        pollType: PollType,
+        pollMultiSelectNumber: Int,
+        isPollAnonymous: Boolean,
+        isPollAllowAddOption: Boolean,
+        isAdvancedOptionsVisible: Boolean
+    ) {
+        viewModelScope.launchIO {
+            val pollOptions = getPollOptionsFromBindingMap()
+
+            if (pollQuestion.isEmpty()) {
+                errorEventChannel.send(ErrorEvent.CreatePollError("Poll question cannot be empty"))
+                return@launchIO
+            }
+
+            if (pollExpiryTime == null) {
+                errorEventChannel.send(ErrorEvent.CreatePollError("Poll expiry time cannot be empty"))
+                return@launchIO
+            } else if (Date(pollExpiryTime ?: 0L).before(Date())) {
+                errorEventChannel.send(ErrorEvent.CreatePollError("Poll expiry time cannot be in the past"))
+                return@launchIO
+            }
+
+            val containsSimilarText = pollOptions.map {
+                it.lowercase()
+            }.groupBy {
+                it
+            }.values.firstOrNull {
+                it.size > 1
+            } != null
+
+            if (containsSimilarText) {
+                errorEventChannel.send(ErrorEvent.CreatePollError("Poll options cannot contain similar text"))
+                return@launchIO
+            }
+
+            if (isAdvancedOptionsVisible) {
+                when (pollMultiSelectState) {
+                    PollMultiSelectState.EXACTLY, PollMultiSelectState.AT_LEAST -> {
+                        if (pollOptions.size < pollMultiSelectNumber) {
+                            errorEventChannel.send(ErrorEvent.CreatePollError("Poll options cannot be less than $pollMultiSelectNumber"))
+                            return@launchIO
+                        }
+                    }
+
+                    PollMultiSelectState.AT_MAX -> {
+                        //do nothing
+                    }
+                }
+            }
+
+            val optionViewData = pollOptions.map { option ->
+                LMFeedPollOptionViewData.Builder()
+                    .text(option)
+                    .build()
+            }
+
+            val pollViewData = LMFeedPollViewData.Builder()
+                .title(pollQuestion)
+                .options(optionViewData)
+                .expiryTime(pollExpiryTime ?: 0L)
+                .isAnonymous(isPollAnonymous)
+                .allowAddOption(isPollAllowAddOption)
+                .multipleSelectState(pollMultiSelectState)
+                .multipleSelectNumber(pollMultiSelectNumber)
+                .pollType(pollType)
+                .build()
+
+            _poll.postValue(pollViewData)
+        }
     }
 }

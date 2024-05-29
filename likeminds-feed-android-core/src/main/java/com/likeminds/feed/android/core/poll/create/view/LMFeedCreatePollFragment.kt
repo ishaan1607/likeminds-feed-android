@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.poll.create.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -27,6 +28,8 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
+import com.likeminds.likemindsfeed.post.model.PollMultiSelectState
+import com.likeminds.likemindsfeed.post.model.PollType
 import kotlinx.coroutines.flow.onEach
 import java.text.SimpleDateFormat
 import java.util.*
@@ -202,7 +205,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     private fun initUI() {
         initPollOptionListView()
         initPollMultiSelectStateSpinner()
-        initPollMultiSelectPollOptionSpinner()
+        initPollMultiSelectNumberSpinner()
         initPollQuestionListeners()
     }
 
@@ -222,20 +225,20 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             viewModel.getMultipleOptionStateList()
         )
 
-        binding.spinnerMultipleOption.apply {
+        binding.spinnerMultipleSelectState.apply {
             setAdapter(spinnerAdapter)
             setSelection(0)
         }
     }
 
     //initializes the poll multi select poll option spinner
-    private fun initPollMultiSelectPollOptionSpinner() {
+    private fun initPollMultiSelectNumberSpinner() {
         val spinnerAdapter = LMFeedPollAdvancedOptionsAdapter(
             requireContext(),
-            viewModel.getMultipleOptionNoList().subList(0, binding.rvPollOptions.itemCount + 1)
+            viewModel.getMultipleOptionNoList().subList(0, binding.rvPollOptions.itemCount)
         )
 
-        binding.spinnerMultipleOptionValue.apply {
+        binding.spinnerMultipleSelectNumber.apply {
             setAdapter(spinnerAdapter)
             setSelection(0)
         }
@@ -305,9 +308,20 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             initAuthorView(user)
         }
 
+        viewModel.poll.observe(viewLifecycleOwner) { poll ->
+            Log.d("PUI", "poll : $poll")
+        }
+
         viewModel.errorEvent.onEach { response ->
             when (response) {
                 is LMFeedCreatePollViewModel.ErrorEvent.GetLoggedInUserError -> {
+                    LMFeedViewUtils.showErrorMessageToast(
+                        requireContext(),
+                        response.message
+                    )
+                }
+
+                is LMFeedCreatePollViewModel.ErrorEvent.CreatePollError -> {
                     LMFeedViewUtils.showErrorMessageToast(
                         requireContext(),
                         response.message
@@ -339,7 +353,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             addOption(itemCount, viewModel.getEmptyPollOption())
             updatePollItemCacheSize()
         }
-        initPollMultiSelectPollOptionSpinner()
+        initPollMultiSelectNumberSpinner()
         validatePollOptionCount()
     }
 
@@ -428,8 +442,68 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
     //customize the click of submit button
     protected open fun onPollSubmitClicked() {
+        val pollQuestion = binding.etPollQuestion.text.toString()
+        var pollMultiSelectState = PollMultiSelectState.EXACTLY
+        var pollType = PollType.INSTANT
+        var pollMultiSelectNumber = 1
+        var isPollAnonymous = false
+        var isPollAllowAddOption = false
 
+        if (isAdvancedOptionsVisible) {
+            pollType = getPollType()
+            isPollAnonymous = isAnonymousPoll()
+            isPollAllowAddOption = isAddOptionAllowed()
+            pollMultiSelectState = getSelectedPollMultiSelectState()
+            pollMultiSelectNumber = getSelectedPollMultiSelectNumber()
+        }
+
+        LMFeedViewUtils.hideKeyboard(binding.root)
+        viewModel.createPoll(
+            pollQuestion,
+            pollMultiSelectState,
+            pollType,
+            pollMultiSelectNumber,
+            isPollAnonymous,
+            isPollAllowAddOption,
+            isAdvancedOptionsVisible
+        )
     }
+
+    //get poll type
+    private fun getPollType(): PollType {
+        return if (binding.switchLiveResults.isChecked) {
+            PollType.DEFERRED
+        } else {
+            PollType.INSTANT
+        }
+    }
+
+    //get is poll anonymous or not
+    private fun isAnonymousPoll(): Boolean {
+        return binding.switchAnonymousPoll.isChecked
+    }
+
+    //get is add option allowed or not
+    private fun isAddOptionAllowed(): Boolean {
+        return binding.switchAddNewOptions.isChecked
+    }
+
+    //get selected poll multi select state
+    private fun getSelectedPollMultiSelectState(): PollMultiSelectState {
+        val selectedValue = binding.spinnerMultipleSelectState.selectedItem.toString()
+        return when (selectedValue) {
+            LMFeedCreatePollViewModel.MULTIPLE_OPTION_STATE_MAX -> PollMultiSelectState.AT_MAX
+            LMFeedCreatePollViewModel.MULTIPLE_OPTION_STATE_LEAST -> PollMultiSelectState.AT_LEAST
+            LMFeedCreatePollViewModel.MULTIPLE_OPTION_STATE_EXACTLY -> PollMultiSelectState.EXACTLY
+            else -> PollMultiSelectState.EXACTLY
+        }
+    }
+
+    //get selected poll multi select number
+    private fun getSelectedPollMultiSelectNumber(): Int {
+        return binding.spinnerMultipleSelectNumber.selectedItemPosition + 1
+    }
+
 
     override fun onPollOptionRemoved(createPollOptionViewData: LMFeedCreatePollOptionViewData) {
         val index = binding.rvPollOptions.getAllOptions().indexOf(createPollOptionViewData)
@@ -438,6 +512,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             viewModel.removeBindingFromMap(index)
             validatePollOptionCount()
             validatePoll()
+            initPollMultiSelectNumberSpinner()
         }
     }
 
@@ -462,17 +537,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
     //validates the poll and enables/disables submit button
     private fun validatePoll() {
-        val pollOptionsBinding = viewModel.getPollOptionBindingMap()
-        val pollOptions = ArrayList<String>()
-
-        //get poll options where option is entered
-        pollOptionsBinding.forEach { entry ->
-            val binding = entry.value
-            val pollOption = binding.etOption.text.toString()
-            if (pollOption.isNotEmpty()) {
-                pollOptions.add(pollOption)
-            }
-        }
+        val pollOptions = viewModel.getPollOptionsFromBindingMap()
 
         //get poll question
         val pollQuestion = binding.etPollQuestion.text.toString()

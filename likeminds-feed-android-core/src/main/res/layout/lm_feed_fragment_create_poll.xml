@@ -265,7 +265,7 @@
                         tools:textSize="@dimen/lm_feed_text_medium" />
 
                     <Spinner
-                        android:id="@+id/spinner_multiple_option"
+                        android:id="@+id/spinner_multiple_select_state"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="18dp"
@@ -282,19 +282,19 @@
                         android:text="@string/lm_feed_equal_sign"
                         android:textColor="@color/lm_feed_brown_grey"
                         android:textSize="24sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/spinner_multiple_option"
-                        app:layout_constraintEnd_toStartOf="@+id/spinner_multiple_option_value"
-                        app:layout_constraintStart_toEndOf="@+id/spinner_multiple_option"
-                        app:layout_constraintTop_toTopOf="@+id/spinner_multiple_option" />
+                        app:layout_constraintBottom_toBottomOf="@+id/spinner_multiple_select_state"
+                        app:layout_constraintEnd_toStartOf="@+id/spinner_multiple_select_number"
+                        app:layout_constraintStart_toEndOf="@+id/spinner_multiple_select_state"
+                        app:layout_constraintTop_toTopOf="@+id/spinner_multiple_select_state" />
 
                     <Spinner
-                        android:id="@+id/spinner_multiple_option_value"
+                        android:id="@+id/spinner_multiple_select_number"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/tv_equal_to"
-                        app:layout_constraintTop_toTopOf="@+id/spinner_multiple_option" />
+                        app:layout_constraintTop_toTopOf="@+id/spinner_multiple_select_state" />
 
                     <View
                         android:id="@+id/view_divider_user_can_vote"
@@ -304,7 +304,7 @@
                         android:background="@color/lm_feed_white"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/spinner_multiple_option" />
+                        app:layout_constraintTop_toBottomOf="@id/spinner_multiple_select_state" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
