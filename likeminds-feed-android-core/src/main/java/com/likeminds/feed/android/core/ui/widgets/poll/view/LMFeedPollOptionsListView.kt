@@ -7,6 +7,9 @@ import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewDat
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapter
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 
+/**
+ * Represents a recycler view with list of options in the poll
+ */
 class LMFeedPollOptionsListView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -28,9 +31,9 @@ class LMFeedPollOptionsListView @JvmOverloads constructor(
     }
 
     //sets the adapter with the provided [listener] to the poll options recycler view
-    fun setAdapter(listener: LMFeedPollOptionsAdapterListener?) {
+    fun setAdapter(pollPosition: Int, listener: LMFeedPollOptionsAdapterListener?) {
         //setting adapter
-        pollOptionsAdapter = LMFeedPollOptionsAdapter(listener)
+        pollOptionsAdapter = LMFeedPollOptionsAdapter(pollPosition, listener)
         adapter = pollOptionsAdapter
     }
 

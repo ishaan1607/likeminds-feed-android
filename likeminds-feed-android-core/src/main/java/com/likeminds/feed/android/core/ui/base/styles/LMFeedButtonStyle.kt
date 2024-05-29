@@ -21,13 +21,13 @@ import kotlin.math.roundToInt
  * @property strokeWidth: [Int] should be in format of [DimenRes] to add border width of the button | Default value = [null]
  * @property elevation: [Int] should be in format of [DimenRes] to add custom elevation of the button | Default value = [null]
  *
- *
  * @property icon: [Int] should be in format of [DrawableRes] to add custom icon of the button | Default value = [null]
  * @property iconTint:[Int] should be in format of [ColorRes] to change custom icon color | Default value = [null]
  * @property iconSize: [Int] should be in format of [DimenRes] to change custom size of the icon | Default value = [null]
  * @property iconGravity: [Int] should be in format of [IconGravity] to change gravity of the icon | Default value = [ICON_GRAVITY_START]
  * @property iconPadding: [Int] should be in the format of [DimenRes] to change padding of the icon | Default value = [null]
  * @property cornerRadius: [Int] should be in the format of [DimenRes] to change corner radius of the button | Default value = [null]
+ * @property disabledButtonColor: [Int] should be in the format of [ColorRes] to change disabled button color | Default value = [R.color.lm_feed_cloudy_blue]
  **/
 class LMFeedButtonStyle private constructor(
     //text related
@@ -45,7 +45,8 @@ class LMFeedButtonStyle private constructor(
     @DimenRes val iconSize: Int?,
     @IconGravity val iconGravity: Int?,
     @DimenRes val iconPadding: Int?,
-    @DimenRes val cornerRadius: Int?
+    @DimenRes val cornerRadius: Int?,
+    @ColorRes val disabledButtonColor: Int
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -85,6 +86,9 @@ class LMFeedButtonStyle private constructor(
         @DimenRes
         private var cornerRadius: Int? = null
 
+        @ColorRes
+        private var disabledButtonColor: Int = R.color.lm_feed_cloudy_blue
+
         fun textStyle(textStyle: LMFeedTextStyle) = apply { this.textStyle = textStyle }
 
         fun backgroundColor(@ColorRes backgroundColor: Int) =
@@ -108,6 +112,10 @@ class LMFeedButtonStyle private constructor(
 
         fun cornerRadius(@DimenRes cornerRadius: Int?) = apply { this.cornerRadius = cornerRadius }
 
+        fun disabledButtonColor(@ColorRes disabledButtonColor: Int) = apply {
+            this.disabledButtonColor = disabledButtonColor
+        }
+
         fun build() = LMFeedButtonStyle(
             textStyle,
             backgroundColor,
@@ -119,7 +127,8 @@ class LMFeedButtonStyle private constructor(
             iconSize,
             iconGravity,
             iconPadding,
-            cornerRadius
+            cornerRadius,
+            disabledButtonColor
         )
     }
 
@@ -215,6 +224,7 @@ class LMFeedButtonStyle private constructor(
             .iconGravity(iconGravity)
             .iconPadding(iconPadding)
             .cornerRadius(cornerRadius)
+            .disabledButtonColor(disabledButtonColor)
     }
 }
 

@@ -4,6 +4,6 @@
 
     <corners android:radius="@dimen/lm_feed_elevation_small" />
 
-    <solid android:color="#eeeeee" />
+    <solid android:color="@color/lm_feed_light_grey" />
 
 </shape>

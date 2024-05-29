@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 class LMFeedPollOptionViewData private constructor(
     val id: String,
+    val pollId: String,
     val isSelected: Boolean,
     val percentage: Float,
     val text: String,
@@ -16,6 +17,9 @@ class LMFeedPollOptionViewData private constructor(
     val addedByUser: LMFeedUserViewData,
     val toShowResults: Boolean,
     val allowAddOption: Boolean,
+    val isInstantPoll: Boolean,
+    val isMultiChoicePoll: Boolean,
+    val hasPollEnded: Boolean
 ) : Parcelable, LMFeedBaseViewType {
 
     override val viewType: Int
@@ -23,6 +27,7 @@ class LMFeedPollOptionViewData private constructor(
 
     class Builder {
         private var id: String = ""
+        private var pollId: String = ""
         private var isSelected: Boolean = false
         private var percentage: Float = 0f
         private var text: String = ""
@@ -30,9 +35,16 @@ class LMFeedPollOptionViewData private constructor(
         private var addedByUser: LMFeedUserViewData = LMFeedUserViewData.Builder().build()
         private var toShowResults: Boolean = false
         private var allowAddOption: Boolean = false
+        private var isInstantPoll: Boolean = false
+        private var isMultiChoicePoll: Boolean = false
+        private var hasPollEnded: Boolean = false
 
         fun id(id: String) = apply {
             this.id = id
+        }
+
+        fun pollId(pollId: String) = apply {
+            this.pollId = pollId
         }
 
         fun isSelected(isSelected: Boolean) = apply {
@@ -63,15 +75,31 @@ class LMFeedPollOptionViewData private constructor(
             this.allowAddOption = allowAddOption
         }
 
+        fun isInstantPoll(isInstantPoll: Boolean) = apply {
+            this.isInstantPoll = isInstantPoll
+        }
+
+        fun isMultiChoicePoll(isMultiChoicePoll: Boolean) = apply {
+            this.isMultiChoicePoll = isMultiChoicePoll
+        }
+
+        fun hasPollEnded(hasPollEnded: Boolean) = apply {
+            this.hasPollEnded = hasPollEnded
+        }
+
         fun build() = LMFeedPollOptionViewData(
             id,
+            pollId,
             isSelected,
             percentage,
             text,
             voteCount,
             addedByUser,
             toShowResults,
-            allowAddOption
+            allowAddOption,
+            isInstantPoll,
+            isMultiChoicePoll,
+            hasPollEnded
         )
     }
 
@@ -90,6 +118,7 @@ class LMFeedPollOptionViewData private constructor(
 
     fun toBuilder(): Builder {
         return Builder().id(id)
+            .pollId(pollId)
             .isSelected(isSelected)
             .percentage(percentage)
             .text(text)
@@ -97,5 +126,8 @@ class LMFeedPollOptionViewData private constructor(
             .addedByUser(addedByUser)
             .toShowResults(toShowResults)
             .allowAddOption(allowAddOption)
+            .isInstantPoll(isInstantPoll)
+            .isMultiChoicePoll(isMultiChoicePoll)
+            .hasPollEnded(hasPollEnded)
     }
 }

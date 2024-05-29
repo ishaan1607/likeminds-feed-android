@@ -15,6 +15,7 @@ class LMFeedSelfDeleteDialogFragmentStyle private constructor(
     //self delete dialog style
     val selfDeleteDialogStyle: LMFeedAlertDialogViewStyle
 ) : LMFeedViewStyle {
+
     class Builder {
         private var selfDeleteDialogStyle = LMFeedAlertDialogViewStyle.Builder()
             .alertSubtitleText(

@@ -5,6 +5,7 @@ import com.likeminds.feed.android.core.ui.widgets.poll.adapter.databinder.LMFeed
 import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedPollOptionsAdapter(
+    private val pollPosition: Int,
     private val pollOptionsAdapterListener: LMFeedPollOptionsAdapterListener?
 ) : LMFeedBaseRecyclerAdapter<LMFeedBaseViewType>() {
 
@@ -16,7 +17,7 @@ class LMFeedPollOptionsAdapter(
         val viewDataBinders = ArrayList<LMFeedViewDataBinder<*, *>>(1)
 
         val itemPollOptionViewDataBinder =
-            LMFeedItemPollOptionsViewDataBinder(pollOptionsAdapterListener)
+            LMFeedItemPollOptionsViewDataBinder(pollPosition, pollOptionsAdapterListener)
         viewDataBinders.add(itemPollOptionViewDataBinder)
 
         return viewDataBinders
@@ -25,11 +26,19 @@ class LMFeedPollOptionsAdapter(
 
 interface LMFeedPollOptionsAdapterListener {
 
-    fun onPollOptionClicked(position: Int, pollOptionViewData: LMFeedPollOptionViewData) {
+    fun onPollOptionClicked(
+        pollPosition: Int,
+        pollOptionPosition: Int,
+        pollOptionViewData: LMFeedPollOptionViewData
+    ) {
         //triggered when a poll option is clicked
     }
 
-    fun onPollOptionVoteCountClicked(position: Int, pollOptionViewData: LMFeedPollOptionViewData) {
+    fun onPollOptionVoteCountClicked(
+        pollPosition: Int,
+        pollOptionPosition: Int,
+        pollOptionViewData: LMFeedPollOptionViewData
+    ) {
         //triggered when a poll option vote count is clicked
     }
 }

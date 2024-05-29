@@ -29,7 +29,7 @@ class LMFeedPollResultsFragmentViewStyle private constructor(
     val headerViewStyle: LMFeedHeaderViewStyle,
     //elevation of poll results tab layout
     @DimenRes val pollResultsTabElevation: Int,
-    //no activity layout style
+    //no results layout style
     val noResultsLayoutViewStyle: LMFeedNoEntityLayoutViewStyle,
     //color of the selected poll results tab
     @ColorRes val selectedPollResultsTabColor: Int,
@@ -89,6 +89,7 @@ class LMFeedPollResultsFragmentViewStyle private constructor(
                         .fontResource(R.font.lm_feed_roboto_medium)
                         .build()
                 )
+                .backgroundColor(R.color.lm_feed_white)
                 .build()
 
         @ColorRes

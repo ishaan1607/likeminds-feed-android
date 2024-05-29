@@ -2,6 +2,7 @@ package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
@@ -14,6 +15,9 @@ import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.video.LMFeedPostVideoAutoPlayHelper
 
+/**
+ * Represents a recycler view with list of posts in the universal feed fragment
+ */
 class LMFeedUniversalFeedListView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -79,15 +83,9 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     }
 
     //sets the adapter with the provided [listener] to the universal feed recycler view
-    fun setAdapter(
-        universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
-        pollOptionsAdapterListener: LMFeedPollOptionsAdapterListener
-    ) {
+    fun setAdapter(universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener) {
         //setting adapter
-        universalFeedAdapter = LMFeedUniversalFeedAdapter(
-            universalFeedAdapterListener,
-            pollOptionsAdapterListener
-        )
+        universalFeedAdapter = LMFeedUniversalFeedAdapter(universalFeedAdapterListener)
         adapter = universalFeedAdapter
     }
 

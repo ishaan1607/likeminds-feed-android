@@ -131,11 +131,41 @@
     <string name="lm_feed_be_the_first_one_to_vote">Be the first one to vote</string>
     <string name="lm_feed_no_responses">No responses</string>
     <string name="lm_feed_poll_ended">Poll Ended</string>
-    <string name="lm_feed_select_exactly_d_options">*Select exactly %d options</string>
-    <string name="lm_feed_select_at_most_d_options">*Select at most %d options</string>
-    <string name="lm_feed_select_at_least_d_options">*Select at least %d options</string>
+    <plurals name="lm_feed_select_exactly_d_options">
+        <item quantity="one">*Select exactly 1 option</item>
+        <item quantity="other">*Select exactly %d options</item>
+    </plurals>
+    <plurals name="lm_feed_select_at_most_d_options">
+        <item quantity="one">*Select at most 1 option</item>
+        <item quantity="other">*Select at most %d options</item>
+    </plurals>
+    <plurals name="lm_feed_select_at_least_d_options">
+        <item quantity="one">*Select at least 1 option</item>
+        <item quantity="other">*Select at least %d options</item>
+    </plurals>
     <string name="lm_feed_poll_vote_time_left">%s left</string>
     <string name="lm_feed_added_by_s">Added by %s</string>
+    <plurals name="lm_feed_votes_count">
+        <item quantity="one">%d vote</item>
+        <item quantity="other">%d votes</item>
+    </plurals>
+    <string name="lm_feed_add_new_poll_option">Add new poll option</string>
+    <string name="lm_feed_type_new_option">Type new option</string>
+    <string name="lm_feed_the_results_will_be_visible_after_the_poll_has_ended">The results will be visible after the poll has ended.</string>
+    <string name="lm_feed_this_being_an_lm_feed_anonymous_poll_the_names_of_the_voters_cannot_be_disclosed">This being an anonymous poll, the names of the voters cannot be disclosed.</string>
+    <string name="lm_feed_poll_ended_vote_cannot_be_submitted_now">Poll ended. Vote can not be submitted now.</string>
+    <plurals name="lm_feed_please_select_at_most_d_options">
+        <item quantity="one">Please select at most 1 option</item>
+        <item quantity="other">Please select at most %d options</item>
+    </plurals>
+    <plurals name="lm_feed_please_select_at_least_d_options">
+        <item quantity="one">Please select at least 1 option</item>
+        <item quantity="other">Please select at least %d options</item>
+    </plurals>
+    <plurals name="lm_feed_please_select_exactly_d_options">
+        <item quantity="one">Please select exactly 1 option</item>
+        <item quantity="other">Please select exactly %d options</item>
+    </plurals>
     <string name="lm_feed_add_poll">Add Poll</string>
     <string name="lm_feed_done">Done</string>
     <string name="lm_feed_new_poll">New Poll</string>
@@ -148,7 +178,7 @@
     <string name="lm_feed_error_invalid_time">Please select future date as poll expire time.</string>
     <string name="lm_feed_select_poll_expiry_time">Select Poll Expiry Time</string>
     <string name="lm_feed_allow_voters_to_add_options">Allow voters to add options</string>
-    <string name="lm_feed_anonymous_poll">Anonymouse Poll</string>
+    <string name="lm_feed_anonymous_poll">Anonymous Poll</string>
     <string name="lm_feed_live_results">Don\'t show live results</string>
     <string name="lm_feed_user_can_vote_for">User can vote for</string>
     <string name="lm_feed_equal_sign">=</string>
@@ -172,4 +202,6 @@
     <string name="lm_feed_poll_sample_question">What will be the score today?</string>
     <string name="lm_feed_poll_sample_vote_count">10</string>
     <string name="lm_feed_poll_sample_option_text">Raising Hands</string>
+    <string name="lm_feed_submit">Submit</string>
+    <string name="lm_feed_enter_an_option_that_you_think_is_missing_in_this_poll_this_cannot_be_undone">Enter an option that you think is missing in this poll. This cannot be undone.</string>
 </resources>

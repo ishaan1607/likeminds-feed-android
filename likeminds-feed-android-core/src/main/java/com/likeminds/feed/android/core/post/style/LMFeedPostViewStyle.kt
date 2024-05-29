@@ -266,19 +266,25 @@ class LMFeedPostViewStyle private constructor(
                         .membersVotedCountTextStyle(
                             LMFeedTextStyle.Builder()
                                 .fontResource(R.font.lm_feed_roboto)
-                                .textSize(R.dimen.lm_feed_text_large)
+                                .textSize(R.dimen.lm_feed_text_medium)
                                 .textColor(LMFeedTheme.getButtonColor())
                                 .build()
                         )
                         .pollExpiryTextStyle(
                             LMFeedTextStyle.Builder()
                                 .fontResource(R.font.lm_feed_roboto)
-                                .textSize(R.dimen.lm_feed_text_large)
+                                .textSize(R.dimen.lm_feed_text_medium)
                                 .textColor(R.color.lm_feed_grey)
                                 .build()
                         )
                         .pollOptionsViewStyle(
                             LMFeedPostPollOptionViewStyle.Builder()
+                                .pollOptionVotesCountTextStyle(
+                                    LMFeedTextStyle.Builder()
+                                        .textSize(R.dimen.lm_feed_text_medium)
+                                        .textColor(R.color.lm_feed_dusty_grey)
+                                        .build()
+                                )
                                 .pollOptionAddedByTextStyle(
                                     LMFeedTextStyle.Builder()
                                         .fontResource(R.font.lm_feed_roboto)
@@ -287,6 +293,20 @@ class LMFeedPostViewStyle private constructor(
                                         .ellipsize(TextUtils.TruncateAt.END)
                                         .build()
                                 )
+                                .pollOptionCheckIconStyle(
+                                    LMFeedIconStyle.Builder()
+                                        .iconTint(LMFeedTheme.getButtonColor())
+                                        .inActiveSrc(R.drawable.lm_feed_ic_check_circle)
+                                        .build()
+                                )
+                                .build()
+                        )
+                        .editPollVoteTextStyle(
+                            LMFeedTextStyle.Builder()
+                                .textColor(LMFeedTheme.getButtonColor())
+                                .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                                .textSize(R.dimen.lm_feed_text_medium)
+                                .ellipsize(TextUtils.TruncateAt.END)
                                 .build()
                         )
                         .build()

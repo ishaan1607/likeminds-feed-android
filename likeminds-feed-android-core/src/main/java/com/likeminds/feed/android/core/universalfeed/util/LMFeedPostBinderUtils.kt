@@ -535,7 +535,9 @@ object LMFeedPostBinderUtils {
         }
     }
 
+    //binds data for the poll media view in the post
     fun bindPostPollMediaView(
+        pollPosition: Int,
         pollView: LMFeedPostPollView,
         mediaData: LMFeedMediaViewData,
         listener: LMFeedPollOptionsAdapterListener
@@ -548,8 +550,13 @@ object LMFeedPostBinderUtils {
             setPollInfo(pollViewData.getPollSelectionText(context))
             setMemberVotedCount(pollViewData.pollAnswerText)
             setTimeLeft(pollViewData.getTimeLeftInPoll(context))
-            setPollOptions(pollViewData.options, listener)
+            setPollOptions(
+                pollPosition,
+                pollViewData.options,
+                listener
+            )
             setSubmitButtonVisibility(pollViewData)
+            setEditPollVoteVisibility(pollViewData)
             setAddPollOptionButtonVisibility(pollViewData)
         }
     }

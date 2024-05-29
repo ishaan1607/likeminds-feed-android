@@ -12,6 +12,9 @@ import com.likeminds.feed.android.core.poll.result.model.LMFeedPollResultsTabExt
 import com.likeminds.feed.android.core.poll.result.viewmodel.LMFeedPollResultsViewModel
 import com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
 import com.likeminds.feed.android.core.utils.*
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
+import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
+import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import kotlinx.coroutines.flow.onEach
 
@@ -65,6 +68,7 @@ open class LMFeedPollResultsTabFragment : Fragment(), LMFeedPollVoteResultsAdapt
         return binding.root
     }
 
+    //customizes no poll results layout
     protected open fun customizeNoPollResultsLayout(layoutNoResults: LMFeedNoEntityLayoutView) {
         layoutNoResults.apply {
             val noResultsLayoutStyle =
@@ -123,6 +127,7 @@ open class LMFeedPollResultsTabFragment : Fragment(), LMFeedPollVoteResultsAdapt
             val usersVoted = response.second.usersVoted
 
             if (page == 1) {
+                checkForNoResponses(usersVoted)
                 binding.rvPollVoteResults.replacePollVotes(usersVoted)
             } else {
                 binding.rvPollVoteResults.addPollVotes(usersVoted)
@@ -139,12 +144,29 @@ open class LMFeedPollResultsTabFragment : Fragment(), LMFeedPollVoteResultsAdapt
         }
     }
 
+    //checks if there are any votes or not
+    private fun checkForNoResponses(votes: List<LMFeedBaseViewType>) {
+        if (votes.isNotEmpty()) {
+            binding.apply {
+                layoutNoResults.hide()
+                rvPollVoteResults.show()
+            }
+        } else {
+            binding.apply {
+                layoutNoResults.show()
+                rvPollVoteResults.hide()
+            }
+        }
+    }
+
+    //triggered when the user clicks on poll vote result item
     override fun onPollVoteResultItemClicked(
         position: Int,
         pollVoteResultItem: LMFeedUserViewData
     ) {
         super.onPollVoteResultItemClicked(position, pollVoteResultItem)
 
+        //fires user profile callback
         val coreCallback = LMFeedCoreApplication.getLMFeedCoreCallback()
         coreCallback?.openProfile(pollVoteResultItem)
     }

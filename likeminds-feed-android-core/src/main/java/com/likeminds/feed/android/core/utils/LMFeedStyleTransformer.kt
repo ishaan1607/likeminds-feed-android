@@ -12,6 +12,8 @@ import com.likeminds.feed.android.core.post.edit.style.LMFeedEditPostFragmentVie
 import com.likeminds.feed.android.core.post.style.LMFeedPostViewStyle
 import com.likeminds.feed.android.core.report.style.LMFeedReportFragmentViewStyle
 import com.likeminds.feed.android.core.topicselection.style.LMFeedTopicSelectionFragmentViewStyle
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedAddPollOptionBottomSheetFragmentStyle
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedAnonymousPollDialogFragmentStyle
 import com.likeminds.feed.android.core.universalfeed.style.LMFeedUniversalFeedFragmentViewStyle
 
 object LMFeedStyleTransformer {
@@ -62,6 +64,15 @@ object LMFeedStyleTransformer {
     @JvmStatic
     var pollResultsFragmentViewStyle: LMFeedPollResultsFragmentViewStyle =
         LMFeedPollResultsFragmentViewStyle.Builder().build()
+
+    @JvmStatic
+    var addPollOptionBottomSheetFragmentStyle: LMFeedAddPollOptionBottomSheetFragmentStyle =
+        LMFeedAddPollOptionBottomSheetFragmentStyle.Builder().build()
+
+    @JvmStatic
+    var alertDialogAnonymousPoll: LMFeedAnonymousPollDialogFragmentStyle =
+        LMFeedAnonymousPollDialogFragmentStyle.Builder().build()
+
 
     @JvmStatic
     var createPollFragmentViewStyle: LMFeedCreatePollFragmentViewStyle =

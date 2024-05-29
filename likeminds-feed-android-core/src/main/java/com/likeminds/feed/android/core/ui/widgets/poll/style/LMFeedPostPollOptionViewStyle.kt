@@ -37,14 +37,14 @@ class LMFeedPostPollOptionViewStyle private constructor(
             .fontResource(R.font.lm_feed_roboto)
             .textColor(R.color.lm_feed_dark_grayish_blue)
             .ellipsize(TextUtils.TruncateAt.END)
-            .maxLines(2)
+            .maxLines(1)
             .build()
 
         @ColorRes
-        private var pollSelectedOptionColor: Int = R.color.lm_feed_majorelle_blue_20
+        private var pollSelectedOptionColor: Int = R.color.lm_feed_majorelle_blue
 
         @ColorRes
-        private var pollOtherOptionColor: Int = R.color.lm_feed_light_grayish_blue
+        private var pollOtherOptionColor: Int = R.color.lm_feed_dark_grayish_blue_20
 
         private var pollOptionVotesCountTextStyle: LMFeedTextStyle? = null
 

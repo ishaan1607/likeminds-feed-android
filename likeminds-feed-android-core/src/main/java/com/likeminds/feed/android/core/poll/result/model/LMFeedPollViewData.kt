@@ -24,16 +24,16 @@ class LMFeedPollViewData private constructor(
     val isPollSubmitted: Boolean,
 ) : Parcelable {
 
-    fun isPollInstant() = (pollType == PollType.INSTANT)
-    private fun isPollDeferred() = (pollType == PollType.DEFERRED)
+    fun isInstantPoll() = (pollType == PollType.INSTANT)
+    fun isDeferredPoll() = (pollType == PollType.DEFERRED)
 
     fun hasPollEnded() = (expiryTime - System.currentTimeMillis()) <= 0
 
     fun isMultiChoicePoll() =
         !(multipleSelectState == PollMultiSelectState.EXACTLY && multipleSelectNumber == 1)
 
-    fun isAddOptionAllowedForInstantPoll() = (allowAddOption && isPollInstant() && !isPollSubmitted)
-    fun isAddOptionAllowedForDeferredPoll() = (allowAddOption && isPollDeferred())
+    fun isAddOptionAllowedForInstantPoll() = (allowAddOption && isInstantPoll() && !isPollSubmitted)
+    fun isAddOptionAllowedForDeferredPoll() = (allowAddOption && isDeferredPoll())
 
     fun getTimeLeftInPoll(context: Context): String = if (hasPollEnded()) {
         context.getString(R.string.lm_feed_poll_ended)
@@ -59,22 +59,25 @@ class LMFeedPollViewData private constructor(
         } else {
             when (multipleSelectState) {
                 PollMultiSelectState.EXACTLY -> {
-                    context.getString(
-                        R.string.lm_feed_select_exactly_d_options,
+                    context.resources.getQuantityString(
+                        R.plurals.lm_feed_select_exactly_d_options,
+                        multipleSelectNumber,
                         multipleSelectNumber
                     )
                 }
 
                 PollMultiSelectState.AT_MAX -> {
-                    context.getString(
-                        R.string.lm_feed_select_at_most_d_options,
+                    context.resources.getQuantityString(
+                        R.plurals.lm_feed_select_at_most_d_options,
+                        multipleSelectNumber,
                         multipleSelectNumber
                     )
                 }
 
                 PollMultiSelectState.AT_LEAST -> {
-                    context.getString(
-                        R.string.lm_feed_select_at_least_d_options,
+                    context.resources.getQuantityString(
+                        R.plurals.lm_feed_select_at_least_d_options,
+                        multipleSelectNumber,
                         multipleSelectNumber
                     )
                 }

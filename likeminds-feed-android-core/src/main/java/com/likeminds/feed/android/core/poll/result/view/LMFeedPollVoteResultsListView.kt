@@ -5,9 +5,13 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.poll.result.adapter.LMFeedPollVoteResultsAdapter
 import com.likeminds.feed.android.core.poll.result.adapter.LMFeedPollVoteResultsAdapterListener
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedEndlessRecyclerViewScrollListener
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 
+/**
+ * Represents a recycler view with list of votes on the poll
+ */
 class LMFeedPollVoteResultsListView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
