@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemPollOptionsBinding
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
 import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedPollOptionView
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
@@ -12,6 +13,7 @@ import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL_OPTIONS
 
 class LMFeedItemPollOptionsViewDataBinder(
     private val pollPosition: Int,
+    private val optionStyle: LMFeedPostPollOptionViewStyle?,
     private val listener: LMFeedPollOptionsAdapterListener?
 ) : LMFeedViewDataBinder<LmFeedItemPollOptionsBinding, LMFeedPollOptionViewData>() {
 
@@ -27,8 +29,8 @@ class LMFeedItemPollOptionsViewDataBinder(
 
         //set styles to the poll option view
         val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
-        val pollOptionViewStyle = postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle
-            ?: return binding
+        val pollOptionViewStyle =
+            optionStyle ?: postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle ?: return binding
 
         binding.pollOptionView.setStyle(pollOptionViewStyle)
 

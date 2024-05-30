@@ -553,6 +553,7 @@ object LMFeedPostBinderUtils {
             setPollOptions(
                 pollPosition,
                 pollViewData.options,
+                null,
                 listener
             )
             setSubmitButtonVisibility(pollViewData)

@@ -9,6 +9,7 @@ import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewDat
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -204,10 +205,11 @@ class LMFeedPostPollView : ConstraintLayout {
     fun setPollOptions(
         pollPosition: Int,
         options: List<LMFeedPollOptionViewData>,
+        optionStyle: LMFeedPostPollOptionViewStyle?,
         listener: LMFeedPollOptionsAdapterListener?
     ) {
         binding.rvPollOptions.apply {
-            setAdapter(pollPosition, listener)
+            setAdapter(pollPosition, optionStyle, listener)
             replacePollOptions(options)
         }
     }
