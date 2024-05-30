@@ -950,4 +950,29 @@ object LMFeedViewDataConvertor {
             .commentsCount(commentsCount)
             .build()
     }
+
+    // converts [LMFeedPollViewData] to [Attachment]
+    fun convertPoll(poll: LMFeedPollViewData): List<Attachment> {
+        return listOf(
+            Attachment.Builder()
+                .attachmentType(AttachmentType.POLL)
+                .attachmentMeta(convertPollAttachmentMeta(poll))
+                .build()
+        )
+    }
+
+    // converts [LMFeedPollViewData] to [AttachmentMeta]
+    private fun convertPollAttachmentMeta(poll: LMFeedPollViewData): AttachmentMeta {
+        return AttachmentMeta.Builder()
+            .title(poll.title)
+            .expiryTime(poll.expiryTime)
+            .pollOptions(poll.options.map { it.text })
+            .multiSelectState(poll.multipleSelectState)
+            .pollType(poll.pollType)
+            .multiSelectNumber(poll.multipleSelectNumber)
+            .isAnonymous(poll.isAnonymous)
+            .allowAddOption(poll.allowAddOption)
+            .build()
+    }
+
 }

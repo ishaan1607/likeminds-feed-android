@@ -352,7 +352,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             )
             .editPollIconStyle(
                 LMFeedIconStyle.Builder()
-                    .inActiveSrc(R.drawable.lm_feed_ic_edit_topic)
+                    .inActiveSrc(R.drawable.lm_feed_ic_edit_poll)
                     .iconTint(R.color.lm_feed_dark_grey)
                     .build()
             )
@@ -643,29 +643,49 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 val text = etPostComposer.text
                 val updatedText = memberTagging.replaceSelectedMembers(text).trim()
                 LMFeedViewUtils.hideKeyboard(binding.root)
-                if (selectedMediaUris.isNotEmpty()) {
-                    headerViewCreatePost.setSubmitButtonEnabled(
-                        isEnabled = true,
-                        showProgress = true
-                    )
-                    createPostViewModel.addPost(
-                        context = requireContext(),
-                        postTextContent = updatedText,
-                        fileUris = selectedMediaUris,
-                        ogTags = ogTags,
-                        selectedTopics = selectedTopic
-                    )
-                } else if (updatedText.isNotEmpty()) {
-                    headerViewCreatePost.setSubmitButtonEnabled(
-                        isEnabled = true,
-                        showProgress = true
-                    )
-                    createPostViewModel.addPost(
-                        context = requireContext(),
-                        postTextContent = updatedText,
-                        ogTags = ogTags,
-                        selectedTopics = selectedTopic
-                    )
+                when {
+                    selectedMediaUris.isNotEmpty() -> {
+                        headerViewCreatePost.setSubmitButtonEnabled(
+                            isEnabled = true,
+                            showProgress = true
+                        )
+                        createPostViewModel.addPost(
+                            context = requireContext(),
+                            postTextContent = updatedText,
+                            fileUris = selectedMediaUris,
+                            ogTags = ogTags,
+                            selectedTopics = selectedTopic,
+                            poll = poll
+                        )
+                    }
+
+                    updatedText.isNotEmpty() -> {
+                        headerViewCreatePost.setSubmitButtonEnabled(
+                            isEnabled = true,
+                            showProgress = true
+                        )
+                        createPostViewModel.addPost(
+                            context = requireContext(),
+                            postTextContent = updatedText,
+                            ogTags = ogTags,
+                            selectedTopics = selectedTopic,
+                            poll = poll
+                        )
+                    }
+
+                    poll != null -> {
+                        headerViewCreatePost.setSubmitButtonEnabled(
+                            isEnabled = true,
+                            showProgress = true
+                        )
+                        createPostViewModel.addPost(
+                            context = requireContext(),
+                            postTextContent = updatedText,
+                            ogTags = ogTags,
+                            selectedTopics = selectedTopic,
+                            poll = poll
+                        )
+                    }
                 }
             }
         }
@@ -861,7 +881,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                     setPollTitle(poll?.title ?: "")
                     setPollInfo(poll?.getPollSelectionText(requireContext()))
                     setTimeLeft(poll?.getExpireOnDate(requireContext()) ?: "")
-                    setPollOptions(poll?.options ?: emptyList(), null)
+                    setPollOptions(0, poll?.options ?: emptyList(), null)
                 }
             }
         }

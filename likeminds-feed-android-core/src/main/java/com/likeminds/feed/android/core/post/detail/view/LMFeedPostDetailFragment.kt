@@ -18,8 +18,8 @@ import com.likeminds.feed.android.core.delete.view.*
 import com.likeminds.feed.android.core.likes.model.*
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
-import com.likeminds.feed.android.core.poll.model.*
-import com.likeminds.feed.android.core.poll.view.LMFeedPollResultsActivity
+import com.likeminds.feed.android.core.poll.result.model.*
+import com.likeminds.feed.android.core.poll.result.view.LMFeedPollResultsActivity
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedPostDetailAdapterListener
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedReplyAdapterListener
 import com.likeminds.feed.android.core.post.detail.model.*

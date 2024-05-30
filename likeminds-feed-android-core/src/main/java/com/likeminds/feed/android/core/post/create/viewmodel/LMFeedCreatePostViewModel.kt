@@ -7,6 +7,7 @@ import androidx.work.WorkContinuation
 import androidx.work.WorkManager
 import com.likeminds.customgallery.media.model.*
 import com.likeminds.customgallery.utils.file.util.FileUtil
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.post.create.model.LMFeedFileUploadViewData
 import com.likeminds.feed.android.core.post.create.util.LMFeedPostAttachmentUploadWorker
 import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
@@ -183,7 +184,8 @@ class LMFeedCreatePostViewModel : ViewModel() {
         postTextContent: String?,
         fileUris: List<SingleUriData>? = null,
         ogTags: LMFeedLinkOGTagsViewData? = null,
-        selectedTopics: ArrayList<LMFeedTopicViewData>? = null
+        selectedTopics: ArrayList<LMFeedTopicViewData>? = null,
+        poll: LMFeedPollViewData? = null
     ) {
         viewModelScope.launchIO {
             var updatedText = postTextContent?.trim()
@@ -226,6 +228,11 @@ class LMFeedCreatePostViewModel : ViewModel() {
                 if (!topicIds.isNullOrEmpty()) {
                     //if user has selected any topics
                     requestBuilder.topicIds(topicIds)
+                }
+
+                if (poll != null) {
+                    val pollAttachment = LMFeedViewDataConvertor.convertPoll(poll)
+                    requestBuilder.attachments(pollAttachment)
                 }
 
                 val request = requestBuilder.build()

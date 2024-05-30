@@ -70,8 +70,10 @@ class LMFeedPostPollView : ConstraintLayout {
     private fun configureMemberVotedCountText(membersVotedCountTextStyle: LMFeedTextStyle?) {
         binding.tvMemberVotedCount.apply {
             if (membersVotedCountTextStyle == null) {
+                binding.viewDotTimeLeft.hide()
                 hide()
             } else {
+                binding.viewDotTimeLeft.show()
                 setStyle(membersVotedCountTextStyle)
             }
         }
