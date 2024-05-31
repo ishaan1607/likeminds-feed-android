@@ -304,7 +304,7 @@ class LMFeedPostViewStyle private constructor(
                         .editPollVoteTextStyle(
                             LMFeedTextStyle.Builder()
                                 .textColor(LMFeedTheme.getButtonColor())
-                                .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                                .fontResource(R.font.lm_feed_roboto)
                                 .textSize(R.dimen.lm_feed_text_medium)
                                 .ellipsize(TextUtils.TruncateAt.END)
                                 .build()
