@@ -29,7 +29,7 @@ import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollResult
 import com.likeminds.feed.android.core.poll.create.view.LMFeedCreatePollActivity
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
-import com.likeminds.feed.android.core.post.create.util.LMFeedCreatePostViewStyleUtil
+import com.likeminds.feed.android.core.post.create.util.LMFeedCreateEditPostViewStyleUtil
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.LM_FEED_CREATE_POST_EXTRAS
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.POST_ATTACHMENTS_LIMIT
 import com.likeminds.feed.android.core.post.create.viewmodel.LMFeedCreatePostViewModel
@@ -282,7 +282,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
     }
 
     protected open fun customizePostPollAttachment(pollView: LMFeedPostPollView) {
-        val updatedPollStyles = LMFeedCreatePostViewStyleUtil.getUpdatedPollViewStyles()
+        val updatedPollStyles = LMFeedCreateEditPostViewStyleUtil.getUpdatedPollViewStyles(isCreateFlow = true)
         pollView.setStyle(updatedPollStyles)
     }
 
@@ -811,7 +811,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                     setPollOptions(
                         0,
                         poll?.options ?: emptyList(),
-                        LMFeedCreatePostViewStyleUtil.getUpdatedOptionViewStyle(),
+                        LMFeedCreateEditPostViewStyleUtil.getUpdatedOptionViewStyle(),
                         null
                     )
                 }

@@ -23,6 +23,8 @@ import com.likeminds.feed.android.core.LMFeedCoreApplication.Companion.LOG_TAG
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentEditPostBinding
 import com.likeminds.feed.android.core.databinding.LmFeedItemMultipleMediaVideoBinding
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
+import com.likeminds.feed.android.core.post.create.util.LMFeedCreateEditPostViewStyleUtil
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostDisabledTopicsDialogExtras
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity.Companion.LM_FEED_EDIT_POST_EXTRAS
@@ -40,6 +42,7 @@ import com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
 import com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
+import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedPostPollView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
@@ -80,6 +83,7 @@ open class LMFeedEditPostFragment :
 
     private var postMediaViewData: LMFeedMediaViewData? = null
     private var ogTags: LMFeedLinkOGTagsViewData? = null
+    private var poll: LMFeedPollViewData? = null
 
     private var post: LMFeedPostViewData? = null
 
@@ -154,6 +158,7 @@ open class LMFeedEditPostFragment :
             customizePostDocumentsAttachment(documentsAttachment.postDocumentsMediaView)
             customizePostMultipleMedia(multipleMediaAttachment.multipleMediaView)
             customizeEditPostProgressbar(progressBar.progressView)
+            customizePostPollAttachmentView(pollView)
             return binding.root
         }
     }
@@ -247,6 +252,13 @@ open class LMFeedEditPostFragment :
         progressBar.setStyle(LMFeedStyleTransformer.editPostFragmentViewStyle.progressBarStyle)
     }
 
+    //customizes poll view in the post
+    protected open fun customizePostPollAttachmentView(pollView: LMFeedPostPollView) {
+        val updatedPollStyles =
+            LMFeedCreateEditPostViewStyleUtil.getUpdatedPollViewStyles(isCreateFlow = false)
+        pollView.setStyle(updatedPollStyles)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -314,7 +326,8 @@ open class LMFeedEditPostFragment :
                         updatedText,
                         attachments = postMediaViewData?.attachments,
                         ogTags = ogTags,
-                        selectedTopics = topics.toList()
+                        selectedTopics = topics.toList(),
+                        poll = poll
                     )
                 } else {
                     //show dialog for disabled topics
@@ -328,7 +341,8 @@ open class LMFeedEditPostFragment :
                     updatedText,
                     attachments = postMediaViewData?.attachments,
                     ogTags = ogTags,
-                    selectedTopics = topics.toList()
+                    selectedTopics = topics.toList(),
+                    poll = poll
                 )
             }
         }
@@ -505,9 +519,13 @@ open class LMFeedEditPostFragment :
                     showLinkView()
                 }
 
+                ITEM_POST_POLL -> {
+                    poll = post.mediaViewData.attachments.firstOrNull()?.attachmentMeta?.poll
+                    showPollView()
+                }
+
                 else -> {
                     Log.e(LOG_TAG, "invalid view type")
-
                 }
             }
 
@@ -563,7 +581,7 @@ open class LMFeedEditPostFragment :
                 false
             })
 
-            if (postMediaViewData == null) {
+            if (postMediaViewData == null && poll == null) {
                 // text watcher with debounce to add delay in api calls for ogTags
                 textChanges()
                     .debounce(500)
@@ -831,6 +849,22 @@ open class LMFeedEditPostFragment :
                 binding.etPostComposer.removeTextChangedListener(etPostTextChangeListener)
                 clearPreviewLink()
             }
+        }
+    }
+
+    //shows poll view and sets poll data
+    private fun showPollView() {
+        binding.pollView.apply {
+            show()
+            setPollTitle(poll?.title ?: "")
+            setPollInfo(poll?.getPollSelectionText(requireContext()))
+            setTimeLeft(poll?.getExpireOnDate(requireContext()) ?: "")
+            setPollOptions(
+                0,
+                poll?.options ?: emptyList(),
+                LMFeedCreateEditPostViewStyleUtil.getUpdatedOptionViewStyle(),
+                null
+            )
         }
     }
 

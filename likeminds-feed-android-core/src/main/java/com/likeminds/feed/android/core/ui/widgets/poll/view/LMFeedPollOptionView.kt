@@ -11,7 +11,6 @@ import com.likeminds.feed.android.core.databinding.LmFeedPollOptionViewBinding
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
-import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -98,10 +97,11 @@ class LMFeedPollOptionView : ConstraintLayout {
      *
      * @param pollOptionViewData - data of the poll option.
      */
-    fun setPollOptionAddedByText(pollOptionViewData: LMFeedPollOptionViewData) {
-        val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
-        postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle?.pollOptionAddedByTextStyle
-            ?: return
+    fun setPollOptionAddedByText(
+        pollOptionViewData: LMFeedPollOptionViewData,
+        pollOptionViewStyle: LMFeedPostPollOptionViewStyle
+    ) {
+        pollOptionViewStyle.pollOptionAddedByTextStyle ?: return
 
         binding.tvAddedBy.apply {
             if (pollOptionViewData.allowAddOption) {
@@ -127,10 +127,11 @@ class LMFeedPollOptionView : ConstraintLayout {
      *
      * @param pollOptionViewData - data of the poll option.
      */
-    fun setPollOptionCheckedIconVisibility(pollOptionViewData: LMFeedPollOptionViewData) {
-        val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
-        postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle?.pollOptionCheckIconStyle
-            ?: return
+    fun setPollOptionCheckedIconVisibility(
+        pollOptionViewData: LMFeedPollOptionViewData,
+        pollOptionViewStyle: LMFeedPostPollOptionViewStyle
+    ) {
+        pollOptionViewStyle.pollOptionCheckIconStyle ?: return
 
         binding.ivChecked.apply {
             if ((pollOptionViewData.isMultiChoicePoll || !pollOptionViewData.isInstantPoll)
@@ -148,10 +149,11 @@ class LMFeedPollOptionView : ConstraintLayout {
      *
      * @param pollOptionViewData - data of the poll option.
      */
-    fun setPollVotesCountText(pollOptionViewData: LMFeedPollOptionViewData) {
-        val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
-        postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle?.pollOptionVotesCountTextStyle
-            ?: return
+    fun setPollVotesCountText(
+        pollOptionViewData: LMFeedPollOptionViewData,
+        pollOptionViewStyle: LMFeedPostPollOptionViewStyle
+    ) {
+        pollOptionViewStyle.pollOptionVotesCountTextStyle ?: return
 
         binding.tvNoVotes.apply {
             if (pollOptionViewData.toShowResults) {

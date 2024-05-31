@@ -7,9 +7,9 @@ import com.likeminds.feed.android.core.ui.base.styles.LMFeedTextStyle
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle
 
-object LMFeedCreatePostViewStyleUtil {
-    fun getUpdatedPollViewStyles(): LMFeedPostPollViewStyle {
-        return LMFeedPostPollViewStyle.Builder()
+object LMFeedCreateEditPostViewStyleUtil {
+    fun getUpdatedPollViewStyles(isCreateFlow: Boolean): LMFeedPostPollViewStyle {
+        var pollViewStyleBuilder = LMFeedPostPollViewStyle.Builder()
             .pollTitleTextStyle(
                 LMFeedTextStyle.Builder()
                     .maxLines(3)
@@ -41,18 +41,22 @@ object LMFeedCreatePostViewStyleUtil {
                     .build()
             )
             .editPollVoteTextStyle(null)
-            .clearPollIconStyle(
+
+        if (isCreateFlow) {
+            pollViewStyleBuilder = pollViewStyleBuilder.clearPollIconStyle(
                 LMFeedIconStyle.Builder()
                     .inActiveSrc(R.drawable.lm_feed_ic_cross_circle)
                     .build()
             )
-            .editPollIconStyle(
-                LMFeedIconStyle.Builder()
-                    .inActiveSrc(R.drawable.lm_feed_ic_edit_poll)
-                    .iconTint(R.color.lm_feed_dark_grey)
-                    .build()
-            )
-            .build()
+                .editPollIconStyle(
+                    LMFeedIconStyle.Builder()
+                        .inActiveSrc(R.drawable.lm_feed_ic_edit_poll)
+                        .iconTint(R.color.lm_feed_dark_grey)
+                        .build()
+                )
+        }
+
+        return pollViewStyleBuilder.build()
     }
 
     fun getUpdatedOptionViewStyle(): LMFeedPostPollOptionViewStyle {

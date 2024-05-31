@@ -153,6 +153,19 @@
                     app:layout_constraintTop_toBottomOf="@id/et_post_composer"
                     tools:visibility="gone" />
 
+                <com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedPostPollView
+                    android:id="@+id/poll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/zero_dp"
+                    android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
+                    android:layout_marginTop="@dimen/lm_feed_extra_extra_large_margin"
+                    android:background="@drawable/lm_feed_background_document"
+                    android:padding="@dimen/lm_feed_large_padding"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_post_composer" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>

@@ -50,13 +50,13 @@ class LMFeedItemPollOptionsViewDataBinder(
             )
 
             val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
-            val pollOptionViewStyle = postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle
-                ?: return
+            val pollOptionViewStyle =
+                optionStyle ?: postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle ?: return
 
             setPollOptionText(data.text)
-            setPollOptionAddedByText(data)
-            setPollVotesCountText(data)
-            setPollOptionCheckedIconVisibility(data)
+            setPollOptionAddedByText(data,pollOptionViewStyle)
+            setPollVotesCountText(data, pollOptionViewStyle)
+            setPollOptionCheckedIconVisibility(data, pollOptionViewStyle)
             setPollOptionBackgroundAndProgress(
                 data,
                 pollOptionViewStyle
