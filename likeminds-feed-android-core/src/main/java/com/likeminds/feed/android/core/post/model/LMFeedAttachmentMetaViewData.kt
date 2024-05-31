@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.post.model
 
 import android.net.Uri
+import com.likeminds.feed.android.core.poll.model.LMFeedPollViewData
 
 class LMFeedAttachmentMetaViewData private constructor(
     val name: String?,
@@ -13,7 +14,8 @@ class LMFeedAttachmentMetaViewData private constructor(
     val width: Int?,
     val height: Int?,
     val uri: Uri?,
-    val thumbnail: String?
+    val thumbnail: String?,
+    val poll: LMFeedPollViewData?
 ) {
 
     class Builder {
@@ -28,18 +30,55 @@ class LMFeedAttachmentMetaViewData private constructor(
         private var height: Int? = null
         private var uri: Uri? = null
         private var thumbnail: String? = null
+        private var poll: LMFeedPollViewData? = null
 
-        fun name(name: String?) = apply { this.name = name }
-        fun url(url: String?) = apply { this.url = url }
-        fun format(format: String?) = apply { this.format = format }
-        fun size(size: Long?) = apply { this.size = size }
-        fun duration(duration: Int?) = apply { this.duration = duration }
-        fun pageCount(pageCount: Int?) = apply { this.pageCount = pageCount }
-        fun ogTags(ogTags: LMFeedLinkOGTagsViewData) = apply { this.ogTags = ogTags }
-        fun width(width: Int?) = apply { this.width = width }
-        fun height(height: Int?) = apply { this.height = height }
-        fun uri(uri: Uri?) = apply { this.uri = uri }
-        fun thumbnail(thumbnail: String?) = apply { this.thumbnail = thumbnail }
+        fun name(name: String?) = apply {
+            this.name = name
+        }
+
+        fun url(url: String?) = apply {
+            this.url = url
+        }
+
+        fun format(format: String?) = apply {
+            this.format = format
+        }
+
+        fun size(size: Long?) = apply {
+            this.size = size
+        }
+
+        fun duration(duration: Int?) = apply {
+            this.duration = duration
+        }
+
+        fun pageCount(pageCount: Int?) = apply {
+            this.pageCount = pageCount
+        }
+
+        fun ogTags(ogTags: LMFeedLinkOGTagsViewData) = apply {
+            this.ogTags = ogTags
+        }
+
+        fun width(width: Int?) = apply {
+            this.width = width
+        }
+
+        fun height(height: Int?) = apply {
+            this.height = height
+        }
+
+        fun uri(uri: Uri?) = apply {
+            this.uri = uri
+        }
+
+        fun thumbnail(thumbnail: String?) = apply {
+            this.thumbnail = thumbnail
+        }
+
+        fun poll(poll: LMFeedPollViewData?) = apply {
+            this.poll = poll
+        }
 
         fun build() = LMFeedAttachmentMetaViewData(
             name,
@@ -52,7 +91,8 @@ class LMFeedAttachmentMetaViewData private constructor(
             width,
             height,
             uri,
-            thumbnail
+            thumbnail,
+            poll
         )
     }
 
@@ -69,5 +109,6 @@ class LMFeedAttachmentMetaViewData private constructor(
             .height(height)
             .uri(uri)
             .thumbnail(thumbnail)
+            .poll(poll)
     }
 }

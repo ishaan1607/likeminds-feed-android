@@ -12,6 +12,8 @@ import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.comment.model.*
 import com.likeminds.likemindsfeed.helper.model.GetTaggingListRequest
+import com.likeminds.likemindsfeed.poll.model.AddPollOptionRequest
+import com.likeminds.likemindsfeed.poll.model.SubmitVoteRequest
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.usertagging.model.TagUser
 import com.likeminds.usertagging.util.UserTaggingUtil
@@ -31,6 +33,15 @@ class LMFeedPostDetailViewModel : ViewModel() {
 
     val postResponse: LiveData<Pair<Int, LMFeedPostViewData>> by lazy {
         _postResponse
+    }
+
+    // it holds [postViewData]
+    private val _getPostResponse by lazy {
+        MutableLiveData<LMFeedPostViewData>()
+    }
+
+    val getPostResponse: LiveData<LMFeedPostViewData> by lazy {
+        _getPostResponse
     }
 
     private val _addCommentResponse by lazy {
@@ -154,6 +165,10 @@ class LMFeedPostDetailViewModel : ViewModel() {
         data class GetComment(val errorMessage: String?) : ErrorMessageEvent()
 
         data class TaggingList(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class AddPollOption(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class SubmitVote(val errorMessage: String?) : ErrorMessageEvent()
     }
 
     private val errorMessageChannel by lazy {
@@ -166,6 +181,7 @@ class LMFeedPostDetailViewModel : ViewModel() {
 
     companion object {
         const val PAGE_SIZE = 10
+        const val GET_POST_PAGE_SIZE = 5
         const val REPLIES_PAGE_SIZE = 5
     }
 
@@ -187,13 +203,16 @@ class LMFeedPostDetailViewModel : ViewModel() {
                 val post = data.post
                 val users = data.users
                 val topics = data.topics
+                val widgets = data.widgets
+
                 _postResponse.postValue(
                     Pair(
                         page,
                         LMFeedViewDataConvertor.convertPost(
                             post,
                             users,
-                            topics
+                            topics,
+                            widgets
                         )
                     )
                 )
@@ -631,6 +650,84 @@ class LMFeedPostDetailViewModel : ViewModel() {
                 )
             } else {
                 errorMessageChannel.send(ErrorMessageEvent.TaggingList(response.errorMessage))
+            }
+        }
+    }
+
+    private fun getPost(postId: String) {
+        viewModelScope.launchIO {
+            // builds api request
+            val request = GetPostRequest.Builder()
+                .postId(postId)
+                .page(1)
+                .pageSize(GET_POST_PAGE_SIZE)
+                .build()
+
+            // calls api
+            val response = lmFeedClient.getPost(request)
+
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val post = data.post
+                val users = data.users
+                val topics = data.topics
+                val widgets = data.widgets
+
+                _getPostResponse.postValue(
+                    LMFeedViewDataConvertor.convertPost(
+                        post,
+                        users,
+                        topics,
+                        widgets
+                    )
+                )
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.GetPost(response.errorMessage))
+            }
+        }
+    }
+
+    //calls api to add option on the poll
+    fun addPollOption(
+        postId: String,
+        pollId: String,
+        optionText: String
+    ) {
+        viewModelScope.launchIO {
+            val request = AddPollOptionRequest.Builder()
+                .pollId(pollId)
+                .text(optionText)
+                .build()
+
+            val response = lmFeedClient.addPollOption(request)
+
+            if (response.success) {
+                getPost(postId)
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.AddPollOption(response.errorMessage))
+            }
+        }
+    }
+
+
+    //calls api to submit vote on poll
+    fun submitPollVote(
+        postId: String,
+        pollId: String,
+        optionIds: List<String>
+    ) {
+        viewModelScope.launchIO {
+            val request = SubmitVoteRequest.Builder()
+                .pollId(pollId)
+                .votes(optionIds)
+                .build()
+
+            val response = lmFeedClient.submitVote(request)
+
+            if (response.success) {
+                getPost(postId)
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.SubmitVote(response.errorMessage))
             }
         }
     }

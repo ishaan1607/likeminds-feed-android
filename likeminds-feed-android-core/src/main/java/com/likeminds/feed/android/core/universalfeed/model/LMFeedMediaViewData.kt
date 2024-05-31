@@ -18,15 +18,23 @@ class LMFeedMediaViewData private constructor(
         private var attachments: List<LMFeedAttachmentViewData> = listOf()
         private var isExpanded: Boolean = false
         private var temporaryId: Long? = null
-        private var thumbnail: String? = null
         private var workerUUID: String = ""
 
-        fun attachments(attachments: List<LMFeedAttachmentViewData>) =
-            apply { this.attachments = attachments }
+        fun attachments(attachments: List<LMFeedAttachmentViewData>) = apply {
+            this.attachments = attachments
+        }
 
-        fun isExpanded(isExpanded: Boolean) = apply { this.isExpanded = isExpanded }
-        fun temporaryId(temporaryId: Long?) = apply { this.temporaryId = temporaryId }
-        fun workerUUID(workerUUID: String) = apply { this.workerUUID = workerUUID }
+        fun isExpanded(isExpanded: Boolean) = apply {
+            this.isExpanded = isExpanded
+        }
+
+        fun temporaryId(temporaryId: Long?) = apply {
+            this.temporaryId = temporaryId
+        }
+
+        fun workerUUID(workerUUID: String) = apply {
+            this.workerUUID = workerUUID
+        }
 
         fun build() = LMFeedMediaViewData(
             attachments,

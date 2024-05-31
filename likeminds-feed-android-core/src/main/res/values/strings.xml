@@ -130,6 +130,45 @@
     <string name="lm_feed_added_by_you">Added by You</string>
     <string name="lm_feed_be_the_first_one_to_vote">Be the first one to vote</string>
     <string name="lm_feed_no_responses">No responses</string>
+    <string name="lm_feed_poll_ended">Poll Ended</string>
+    <plurals name="lm_feed_select_exactly_d_options">
+        <item quantity="one">*Select exactly 1 option</item>
+        <item quantity="other">*Select exactly %d options</item>
+    </plurals>
+    <plurals name="lm_feed_select_at_most_d_options">
+        <item quantity="one">*Select at most 1 option</item>
+        <item quantity="other">*Select at most %d options</item>
+    </plurals>
+    <plurals name="lm_feed_select_at_least_d_options">
+        <item quantity="one">*Select at least 1 option</item>
+        <item quantity="other">*Select at least %d options</item>
+    </plurals>
+    <string name="lm_feed_poll_vote_time_left">%s left</string>
+    <string name="lm_feed_added_by_s">Added by %s</string>
+    <plurals name="lm_feed_votes_count">
+        <item quantity="one">%d vote</item>
+        <item quantity="other">%d votes</item>
+    </plurals>
+    <string name="lm_feed_add_new_poll_option">Add new poll option</string>
+    <string name="lm_feed_type_new_option">Type new option</string>
+    <string name="lm_feed_the_results_will_be_visible_after_the_poll_has_ended">The results will be visible after the poll has ended.</string>
+    <string name="lm_feed_anonymous_poll">Anonymous poll</string>
+    <string name="lm_feed_this_being_an_lm_feed_anonymous_poll_the_names_of_the_voters_cannot_be_disclosed">This being an anonymous poll, the names of the voters cannot be disclosed.</string>
+    <string name="lm_feed_poll_ended_vote_cannot_be_submitted_now">Poll ended. Vote can not be submitted now.</string>
+    <plurals name="lm_feed_please_select_at_most_d_options">
+        <item quantity="one">Please select at most 1 option</item>
+        <item quantity="other">Please select at most %d options</item>
+    </plurals>
+    <plurals name="lm_feed_please_select_at_least_d_options">
+        <item quantity="one">Please select at least 1 option</item>
+        <item quantity="other">Please select at least %d options</item>
+    </plurals>
+    <plurals name="lm_feed_please_select_exactly_d_options">
+        <item quantity="one">Please select exactly 1 option</item>
+        <item quantity="other">Please select exactly %d options</item>
+    </plurals>
+
+    <!-- Add sample strings here-->
     <string name="lm_feed_sample_name">Sahil Garg</string>
     <string name="lm_feed_sample_replying_to">Replying to Ronald Richards</string>
     <string name="lm_feed_sample_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
@@ -142,7 +181,9 @@
     <string name="lm_feed_sample_link_title">Twitter will soon let you schedule your tweets</string>
     <string name="lm_feed_sample_link_url">www.youtube.com</string>
     <string name="lm_feed_sample_size">23.5 MB</string>
-    <string name="lm_feed_poll_sample_question">23.5 MB</string>
+    <string name="lm_feed_poll_sample_question">What will be the score today?</string>
     <string name="lm_feed_poll_sample_vote_count">10</string>
     <string name="lm_feed_poll_sample_option_text">Raising Hands</string>
+    <string name="lm_feed_submit">Submit</string>
+    <string name="lm_feed_enter_an_option_that_you_think_is_missing_in_this_poll_this_cannot_be_undone">Enter an option that you think is missing in this poll. This cannot be undone.</string>
 </resources>

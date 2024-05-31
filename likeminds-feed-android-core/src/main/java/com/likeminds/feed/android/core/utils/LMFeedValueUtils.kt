@@ -5,6 +5,7 @@ import android.webkit.URLUtil
 import com.likeminds.feed.android.core.utils.pluralize.LMFeedPluralize.pluralize
 import com.likeminds.feed.android.core.utils.pluralize.LMFeedPluralize.singularize
 import com.likeminds.feed.android.core.utils.pluralize.model.LMFeedWordAction
+import org.json.JSONObject
 
 object LMFeedValueUtils {
 
@@ -92,5 +93,25 @@ object LMFeedValueUtils {
                 plural.lowercase()
             }
         }
+    }
+
+    //to extract String values from JSONObject
+    fun JSONObject.findStringOrDefault(key: String, defaultValue: String): String {
+        return this.optString(key, defaultValue)
+    }
+
+    //to extract Int values from JSONObject
+    fun JSONObject.findIntOrDefault(key: String, defaultValue: Int): Int {
+        return this.optInt(key, defaultValue)
+    }
+
+    //to extract Double values from JSONObject
+    fun JSONObject.findLongOrDefault(key: String, defaultValue: Long): Long {
+        return this.optLong(key, defaultValue)
+    }
+
+    //to extract Boolean values from JSONObject
+    fun JSONObject.findBooleanOrDefault(key: String, defaultValue: Boolean): Boolean {
+        return this.optBoolean(key, defaultValue)
     }
 }

@@ -57,10 +57,15 @@ class LMFeedActivityFeedViewModel : ViewModel() {
                 val data = response.data ?: return@launchIO
                 val activities = data.activities
                 val usersMap = data.users
+                val widgetsMap = data.widgets
 
                 //convert to view data
                 val listOfActivityViewData =
-                    LMFeedViewDataConvertor.convertActivities(activities, usersMap)
+                    LMFeedViewDataConvertor.convertActivities(
+                        activities,
+                        usersMap,
+                        widgetsMap
+                    )
 
                 //send it to ui
                 _activityFeedResponse.postValue(Pair(page, listOfActivityViewData))
@@ -71,6 +76,7 @@ class LMFeedActivityFeedViewModel : ViewModel() {
         }
     }
 
+    // mark the activity as read
     fun markReadActivity(activityId: String) {
         viewModelScope.launchIO {
             val request = MarkReadNotificationRequest.Builder()

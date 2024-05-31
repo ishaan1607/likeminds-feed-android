@@ -7,7 +7,7 @@ import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
 import com.likeminds.feed.android.core.delete.model.LMFeedReasonChooseViewData
 import com.likeminds.feed.android.core.likes.model.LMFeedLikeViewData
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
-import com.likeminds.feed.android.core.poll.model.LMFeedPollVoteViewData
+import com.likeminds.feed.android.core.poll.model.*
 import com.likeminds.feed.android.core.post.create.model.LMFeedFileUploadViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentsCountViewData
@@ -15,6 +15,10 @@ import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.report.model.LMFeedReportTagViewData
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.universalfeed.model.*
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.findBooleanOrDefault
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.findIntOrDefault
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.findLongOrDefault
+import com.likeminds.feed.android.core.utils.LMFeedValueUtils.findStringOrDefault
 import com.likeminds.feed.android.core.utils.base.model.*
 import com.likeminds.feed.android.core.utils.mediauploader.utils.LMFeedAWSKeys
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
@@ -23,14 +27,25 @@ import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.Activity
 import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
 import com.likeminds.likemindsfeed.poll.model.PollVote
+import com.likeminds.likemindsfeed.poll.util.PollUtil.getPollMultiSelectState
+import com.likeminds.likemindsfeed.poll.util.PollUtil.getPollType
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentType
 import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
 import com.likeminds.likemindsfeed.topic.model.Topic
+import com.likeminds.likemindsfeed.widgets.model.Widget
 
 object LMFeedViewDataConvertor {
+
+    private const val POLL_ALLOW_ADD_OPTION_KEY = "allow_add_option"
+    private const val POLL_TYPE_KEY = "poll_type"
+    private const val POLL_MULTIPLE_SELECT_STATE_KEY = "multiple_select_state"
+    private const val POLL_MULTIPLE_SELECT_NUMBER_KEY = "multiple_select_number"
+    private const val POLL_TITLE_KEY = "title"
+    private const val POLL_EXPIRY_TIME_KEY = "expiry_time"
+    private const val POLL_IS_ANONYMOUS_KEY = "is_anonymous"
 
     /**--------------------------------
      * Media Model -> View Data Model
@@ -84,7 +99,10 @@ object LMFeedViewDataConvertor {
      * Network Model -> View Data Model
     --------------------------------*/
 
-    fun convertPost(post: Post, topics: List<Topic>): LMFeedPostViewData {
+    fun convertPost(
+        post: Post,
+        topics: List<Topic>
+    ): LMFeedPostViewData {
 
         //post content view data
         val postContentViewData = LMFeedPostContentViewData.Builder()
@@ -93,7 +111,14 @@ object LMFeedViewDataConvertor {
 
         //post media view data
         val postMediaViewData = LMFeedMediaViewData.Builder()
-            .attachments(convertAttachments(post.attachments, post.id))
+            .attachments(
+                convertAttachments(
+                    post.attachments,
+                    post.id,
+                    emptyMap(),
+                    emptyMap()
+                )
+            )
             .workerUUID(post.workerUUID ?: "")
             .temporaryId(post.tempId?.toLong())
             .build()
@@ -110,10 +135,16 @@ object LMFeedViewDataConvertor {
     fun convertUniversalFeedPosts(
         posts: List<Post>,
         usersMap: Map<String, User>,
-        topicsMap: Map<String, Topic>
+        topicsMap: Map<String, Topic>,
+        widgetsMap: Map<String, Widget>
     ): List<LMFeedPostViewData> {
         return posts.map { post ->
-            convertPost(post, usersMap, topicsMap)
+            convertPost(
+                post,
+                usersMap,
+                topicsMap,
+                widgetsMap
+            )
         }
     }
 
@@ -126,7 +157,8 @@ object LMFeedViewDataConvertor {
     fun convertPost(
         post: Post,
         usersMap: Map<String, User>,
-        topicsMap: Map<String, Topic>
+        topicsMap: Map<String, Topic>,
+        widgetsMap: Map<String, Widget>
     ): LMFeedPostViewData {
         val postCreatorUUID = post.uuid
         val postCreator = usersMap[postCreatorUUID]
@@ -159,7 +191,6 @@ object LMFeedViewDataConvertor {
             .menuItems(convertOverflowMenuItems(post.menuItems))
             .build()
 
-
         //post content view data
         val postContentViewData = LMFeedPostContentViewData.Builder()
             .text(post.text)
@@ -167,7 +198,14 @@ object LMFeedViewDataConvertor {
 
         //post media view data
         val postMediaViewData = LMFeedMediaViewData.Builder()
-            .attachments(convertAttachments(post.attachments, postId))
+            .attachments(
+                convertAttachments(
+                    post.attachments,
+                    postId,
+                    usersMap,
+                    widgetsMap
+                )
+            )
             .build()
 
         //post footer view data
@@ -265,13 +303,21 @@ object LMFeedViewDataConvertor {
      */
     private fun convertAttachments(
         attachments: List<Attachment>?,
-        postId: String
+        postId: String,
+        usersMap: Map<String, User>,
+        widgetsMap: Map<String, Widget>
     ): List<LMFeedAttachmentViewData> {
         if (attachments == null) return emptyList()
         return attachments.map { attachment ->
             LMFeedAttachmentViewData.Builder()
                 .attachmentType(attachment.attachmentType.getAttachmentValue())
-                .attachmentMeta(convertAttachmentMeta(attachment.attachmentMeta))
+                .attachmentMeta(
+                    convertAttachmentMeta(
+                        attachment.attachmentMeta,
+                        usersMap,
+                        widgetsMap
+                    )
+                )
                 .postId(postId)
                 .build()
         }
@@ -281,7 +327,11 @@ object LMFeedViewDataConvertor {
      * converts list of [AttachmentMeta] to list of [LMFeedAttachmentMetaViewData]
      * @param attachmentMeta: instance of [AttachmentMeta]
      */
-    private fun convertAttachmentMeta(attachmentMeta: AttachmentMeta?): LMFeedAttachmentMetaViewData {
+    private fun convertAttachmentMeta(
+        attachmentMeta: AttachmentMeta?,
+        usersMap: Map<String, User>,
+        widgetsMap: Map<String, Widget>
+    ): LMFeedAttachmentMetaViewData {
         if (attachmentMeta == null) {
             return LMFeedAttachmentMetaViewData.Builder().build()
         }
@@ -295,6 +345,13 @@ object LMFeedViewDataConvertor {
             .pageCount(attachmentMeta.pageCount)
             .ogTags(convertLinkOGTags(attachmentMeta.ogTags))
             .thumbnail(attachmentMeta.thumbnailUrl)
+            .poll(
+                convertPoll(
+                    attachmentMeta.entityId ?: "",
+                    usersMap,
+                    widgetsMap
+                )
+            )
             .build()
     }
 
@@ -313,6 +370,106 @@ object LMFeedViewDataConvertor {
             .title(linkOGTags.title)
             .image(linkOGTags.image)
             .build()
+    }
+
+    /**
+     * extracts poll from the [widgetsMap] and converts it to [LMFeedPollViewData]
+     * */
+    private fun convertPoll(
+        pollId: String,
+        usersMap: Map<String, User>,
+        widgetsMap: Map<String, Widget>
+    ): LMFeedPollViewData? {
+        if (widgetsMap.isEmpty()) {
+            return null
+        }
+
+        val pollWidget = widgetsMap[pollId] ?: return null
+        val pollLMMeta = pollWidget.lmMeta ?: return null
+        val pollMetaData = pollWidget.metadata
+
+        val toShowResults = pollLMMeta.toShowResults ?: false
+
+        val allowAddOption = pollMetaData.findBooleanOrDefault(
+            POLL_ALLOW_ADD_OPTION_KEY, false
+        )
+
+        val pollType = pollMetaData.findStringOrDefault(
+            POLL_TYPE_KEY,
+            ""
+        ).getPollType()
+
+        val multipleSelectState = pollMetaData.findStringOrDefault(
+            POLL_MULTIPLE_SELECT_STATE_KEY,
+            ""
+        ).getPollMultiSelectState()
+
+        val multipleSelectNumber = pollMetaData.findIntOrDefault(
+            POLL_MULTIPLE_SELECT_NUMBER_KEY,
+            0
+        )
+
+        var poll = LMFeedPollViewData.Builder()
+            .id(pollId)
+            .title(pollMetaData.findStringOrDefault(POLL_TITLE_KEY, ""))
+            .pollAnswerText(pollLMMeta.pollAnswerText ?: "")
+            .toShowResults(toShowResults)
+            .expiryTime(pollMetaData.findLongOrDefault(POLL_EXPIRY_TIME_KEY, 0))
+            .isAnonymous(pollMetaData.findBooleanOrDefault(POLL_IS_ANONYMOUS_KEY, false))
+            .allowAddOption(allowAddOption)
+            .multipleSelectState(multipleSelectState)
+            .multipleSelectNumber(multipleSelectNumber)
+            .pollType(pollType)
+            .isPollSubmitted(checkIsPollSubmitted(pollLMMeta.options ?: emptyList()))
+            .build()
+
+        poll = poll.toBuilder()
+            .options(
+                convertPollOptions(
+                    pollLMMeta.options ?: emptyList(),
+                    poll,
+                    usersMap
+                )
+            )
+            .build()
+
+        return poll
+    }
+
+    // checks whether the poll is submitted or not
+    private fun checkIsPollSubmitted(pollOptions: List<PollOption>): Boolean {
+        pollOptions.forEach {
+            if (it.isSelected) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    /**
+     * converts list of [PollOption] which is a network model to [LMFeedPollOptionViewData] which is view data model
+     * */
+    private fun convertPollOptions(
+        options: List<PollOption>,
+        poll: LMFeedPollViewData,
+        usersMap: Map<String, User>
+    ): List<LMFeedPollOptionViewData> {
+        return options.map { option ->
+            val addedByUser = usersMap[option.uuid]
+            LMFeedPollOptionViewData.Builder()
+                .id(option.id)
+                .isSelected(option.isSelected)
+                .percentage(option.percentage)
+                .addedByUser(convertUser(addedByUser))
+                .voteCount(option.voteCount)
+                .text(option.text)
+                .toShowResults(poll.toShowResults)
+                .allowAddOption(poll.allowAddOption)
+                .isInstantPoll(poll.isInstantPoll())
+                .isMultiChoicePoll(poll.isMultiChoicePoll())
+                .build()
+        }
     }
 
     /**
@@ -421,10 +578,15 @@ object LMFeedViewDataConvertor {
      * */
     fun convertActivities(
         activities: List<Activity>,
-        usersMap: Map<String, User>
+        usersMap: Map<String, User>,
+        widgetsMap: Map<String, Widget>
     ): List<LMFeedActivityViewData> {
         return activities.map {
-            convertActivity(it, usersMap)
+            convertActivity(
+                it,
+                usersMap,
+                widgetsMap
+            )
         }
     }
 
@@ -437,7 +599,8 @@ object LMFeedViewDataConvertor {
      * */
     private fun convertActivity(
         activity: Activity,
-        usersMap: Map<String, User>
+        usersMap: Map<String, User>,
+        widgetsMap: Map<String, Widget>
     ): LMFeedActivityViewData {
         val activityByUser = if (activity.actionBy.isNotEmpty()) {
             convertUser(usersMap[activity.actionBy.last()])
@@ -459,7 +622,8 @@ object LMFeedViewDataConvertor {
             .activityEntityData(
                 convertActivityEntityData(
                     activity.activityEntityData,
-                    usersMap
+                    usersMap,
+                    widgetsMap
                 )
             )
             .activityByUser(activityByUser)
@@ -471,7 +635,8 @@ object LMFeedViewDataConvertor {
 
     private fun convertActivityEntityData(
         activityEntityData: ActivityEntityData?,
-        usersMap: Map<String, User>
+        usersMap: Map<String, User>,
+        widgetsMap: Map<String, Widget>
     ): LMFeedActivityEntityViewData? {
 
         if (activityEntityData == null) {
@@ -496,7 +661,9 @@ object LMFeedViewDataConvertor {
             .attachments(
                 convertAttachments(
                     activityEntityData.attachments,
-                    activityEntityData.id
+                    activityEntityData.id,
+                    usersMap,
+                    widgetsMap
                 )
             )
             .communityId(activityEntityData.communityId)
@@ -737,7 +904,7 @@ object LMFeedViewDataConvertor {
         }
 
         return Attachment.Builder()
-            .attachmentType(attachmentType.getAttachmentType())
+            .attachmentType(attachmentType)
             .attachmentMeta(convertAttachmentMeta(fileUri))
             .build()
     }

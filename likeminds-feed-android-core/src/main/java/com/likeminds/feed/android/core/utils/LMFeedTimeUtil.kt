@@ -12,8 +12,14 @@ object LMFeedTimeUtil {
 
 
     //to get the relative time for post/comment/reply
-    fun getRelativeTimeInString(createdTime: Long): String {
+    fun getRelativeCreationTimeInString(createdTime: Long): String {
         val timeDifference = System.currentTimeMillis() - createdTime
+        return getDaysHoursOrMinutes(timeDifference)
+    }
+
+    //to get the relative time for expiry
+    fun getRelativeExpiryTimeInString(expiryTime: Long): String {
+        val timeDifference = expiryTime - System.currentTimeMillis()
         return getDaysHoursOrMinutes(timeDifference)
     }
 

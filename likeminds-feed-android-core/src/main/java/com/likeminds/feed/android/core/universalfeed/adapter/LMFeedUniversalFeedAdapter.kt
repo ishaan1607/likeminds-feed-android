@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.adapter
 
 import android.view.View
+import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
@@ -8,7 +9,7 @@ import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
 import com.likeminds.feed.android.core.utils.base.*
 
 class LMFeedUniversalFeedAdapter(
-    private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener
+    private val universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener,
 ) : LMFeedBaseRecyclerAdapter<LMFeedBaseViewType>() {
 
     init {
@@ -16,7 +17,7 @@ class LMFeedUniversalFeedAdapter(
     }
 
     override fun getSupportedViewDataBinder(): MutableList<LMFeedViewDataBinder<*, *>> {
-        val viewDataBinders = ArrayList<LMFeedViewDataBinder<*, *>>(6)
+        val viewDataBinders = ArrayList<LMFeedViewDataBinder<*, *>>(7)
 
         val itemPostTextOnlyBinder =
             LMFeedItemPostTextOnlyViewDataBinder(universalFeedAdapterListener)
@@ -34,13 +35,17 @@ class LMFeedUniversalFeedAdapter(
             LMFeedItemPostLinkViewDataBinder(universalFeedAdapterListener)
         viewDataBinders.add(itemPostLinkViewDataBinder)
 
-        val lmFeedItemPostDocumentsViewDataBinder =
+        val itemPostDocumentsViewDataBinder =
             LMFeedItemPostDocumentsViewDataBinder(universalFeedAdapterListener)
-        viewDataBinders.add(lmFeedItemPostDocumentsViewDataBinder)
+        viewDataBinders.add(itemPostDocumentsViewDataBinder)
 
         val itemPostMultipleMediaViewDataBinder =
             LMFeedItemPostMultipleMediaViewDataBinder(universalFeedAdapterListener)
         viewDataBinders.add(itemPostMultipleMediaViewDataBinder)
+
+        val itemPostPollViewDataBinder =
+            LMFeedItemPostPollViewDataBinder(universalFeedAdapterListener)
+        viewDataBinders.add(itemPostPollViewDataBinder)
 
         return viewDataBinders
     }
@@ -152,5 +157,49 @@ interface LMFeedUniversalFeedAdapterListener {
 
     fun onPostTaggedMemberClicked(position: Int, uuid: String) {
         //triggered when the member tag in the post text content is clicked
+    }
+
+    fun onPostPollTitleClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on poll title
+    }
+
+    fun onPostEditPollClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on edit poll icon
+    }
+
+    fun onPostClearPollClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on clear poll icon
+    }
+
+    fun onPostAddPollOptionClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on add poll option button
+    }
+
+    fun onPostMemberVotedCountClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on poll's member voted count is clicked
+    }
+
+    fun onPostSubmitPollVoteClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on submit poll vote button
+    }
+
+    fun onPostEditPollVoteClicked(position: Int, postViewData: LMFeedPostViewData) {
+        //triggered when the user clicks on edit poll vote
+    }
+
+    fun onPollOptionClicked(
+        pollPosition: Int,
+        pollOptionPosition: Int,
+        pollOptionViewData: LMFeedPollOptionViewData
+    ) {
+        //triggered when a poll option is clicked
+    }
+
+    fun onPollOptionVoteCountClicked(
+        pollPosition: Int,
+        pollOptionPosition: Int,
+        pollOptionViewData: LMFeedPollOptionViewData
+    ) {
+        //triggered when a poll option vote count is clicked
     }
 }

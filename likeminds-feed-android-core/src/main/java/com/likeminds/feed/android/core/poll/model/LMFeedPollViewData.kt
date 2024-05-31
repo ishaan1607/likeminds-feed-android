@@ -1,6 +1,9 @@
 package com.likeminds.feed.android.core.poll.model
 
+import android.content.Context
 import android.os.Parcelable
+import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.utils.LMFeedTimeUtil
 import com.likeminds.likemindsfeed.post.model.PollMultiSelectState
 import com.likeminds.likemindsfeed.post.model.PollType
 import kotlinx.parcelize.Parcelize
@@ -17,8 +20,60 @@ class LMFeedPollViewData private constructor(
     val allowAddOption: Boolean,
     val multipleSelectState: PollMultiSelectState,
     val multipleSelectNumber: Int,
-    val pollType: PollType
+    val pollType: PollType,
+    val isPollSubmitted: Boolean,
 ) : Parcelable {
+
+    fun isInstantPoll() = (pollType == PollType.INSTANT)
+    fun isDeferredPoll() = (pollType == PollType.DEFERRED)
+
+    fun hasPollEnded() = (expiryTime - System.currentTimeMillis()) <= 0
+
+    fun isMultiChoicePoll() =
+        !(multipleSelectState == PollMultiSelectState.EXACTLY && multipleSelectNumber == 1)
+
+    fun isAddOptionAllowedForInstantPoll() = (allowAddOption && isInstantPoll() && !isPollSubmitted)
+    fun isAddOptionAllowedForDeferredPoll() = (allowAddOption && isDeferredPoll())
+
+    fun getTimeLeftInPoll(context: Context): String = if (hasPollEnded()) {
+        context.getString(R.string.lm_feed_poll_ended)
+    } else {
+        context.getString(
+            R.string.lm_feed_poll_vote_time_left,
+            LMFeedTimeUtil.getRelativeExpiryTimeInString(expiryTime)
+        )
+    }
+
+    fun getPollSelectionText(context: Context): String? =
+        if (multipleSelectState == PollMultiSelectState.EXACTLY && multipleSelectNumber == 1) {
+            null
+        } else {
+            when (multipleSelectState) {
+                PollMultiSelectState.EXACTLY -> {
+                    context.resources.getQuantityString(
+                        R.plurals.lm_feed_select_exactly_d_options,
+                        multipleSelectNumber,
+                        multipleSelectNumber
+                    )
+                }
+
+                PollMultiSelectState.AT_MAX -> {
+                    context.resources.getQuantityString(
+                        R.plurals.lm_feed_select_at_most_d_options,
+                        multipleSelectNumber,
+                        multipleSelectNumber
+                    )
+                }
+
+                PollMultiSelectState.AT_LEAST -> {
+                    context.resources.getQuantityString(
+                        R.plurals.lm_feed_select_at_least_d_options,
+                        multipleSelectNumber,
+                        multipleSelectNumber
+                    )
+                }
+            }
+        }
 
     class Builder {
         private var id: String = ""
@@ -32,6 +87,7 @@ class LMFeedPollViewData private constructor(
         private var multipleSelectState: PollMultiSelectState = PollMultiSelectState.EXACTLY
         private var multipleSelectNumber: Int = 0
         private var pollType: PollType = PollType.INSTANT
+        private var isPollSubmitted: Boolean = false
 
         fun id(id: String) = apply {
             this.id = id
@@ -77,6 +133,10 @@ class LMFeedPollViewData private constructor(
             this.pollType = pollType
         }
 
+        fun isPollSubmitted(isPollSubmitted: Boolean) = apply {
+            this.isPollSubmitted = isPollSubmitted
+        }
+
         fun build() = LMFeedPollViewData(
             id,
             title,
@@ -88,7 +148,8 @@ class LMFeedPollViewData private constructor(
             allowAddOption,
             multipleSelectState,
             multipleSelectNumber,
-            pollType
+            pollType,
+            isPollSubmitted
         )
     }
 
@@ -104,5 +165,6 @@ class LMFeedPollViewData private constructor(
             .multipleSelectState(multipleSelectState)
             .multipleSelectNumber(multipleSelectNumber)
             .pollType(pollType)
+            .isPollSubmitted(isPollSubmitted)
     }
 }

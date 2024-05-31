@@ -2,9 +2,11 @@ package com.likeminds.feed.android.core.universalfeed.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.*
 import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
@@ -81,9 +83,9 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
     }
 
     //sets the adapter with the provided [listener] to the universal feed recycler view
-    fun setAdapter(listener: LMFeedUniversalFeedAdapterListener) {
+    fun setAdapter(universalFeedAdapterListener: LMFeedUniversalFeedAdapterListener) {
         //setting adapter
-        universalFeedAdapter = LMFeedUniversalFeedAdapter(listener)
+        universalFeedAdapter = LMFeedUniversalFeedAdapter(universalFeedAdapterListener)
         adapter = universalFeedAdapter
     }
 
@@ -120,6 +122,7 @@ class LMFeedUniversalFeedListView @JvmOverloads constructor(
         universalFeedAdapter.removeIndex(index)
     }
 
+    //clears all the posts in the universal feed adapter and notifies the recycler view
     fun clearPostsAndNotify() {
         universalFeedAdapter.clearAndNotify()
     }

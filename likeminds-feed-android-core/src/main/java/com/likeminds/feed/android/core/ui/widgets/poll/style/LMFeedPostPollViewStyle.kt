@@ -80,7 +80,8 @@ class LMFeedPostPollViewStyle private constructor(
                     .build()
             )
             .cornerRadius(R.dimen.lm_feed_corner_radius_medium)
-            .strokeColor(R.color.lm_feed_dusty_grey_20)
+            .strokeColor(R.color.lm_feed_dark_grayish_blue_20)
+            .backgroundColor(R.color.lm_feed_white)
             .build()
 
         private var editPollIconStyle: LMFeedIconStyle? = null
