@@ -39,6 +39,14 @@ import com.likeminds.likemindsfeed.widgets.model.Widget
 
 object LMFeedViewDataConvertor {
 
+    private const val POLL_ALLOW_ADD_OPTION_KEY = "allow_add_option"
+    private const val POLL_TYPE_KEY = "poll_type"
+    private const val POLL_MULTIPLE_SELECT_STATE_KEY = "multiple_select_state"
+    private const val POLL_MULTIPLE_SELECT_NUMBER_KEY = "multiple_select_number"
+    private const val POLL_TITLE_KEY = "title"
+    private const val POLL_EXPIRY_TIME_KEY = "expiry_time"
+    private const val POLL_IS_ANONYMOUS_KEY = "is_anonymous"
+
     /**--------------------------------
      * Media Model -> View Data Model
     --------------------------------*/
@@ -383,31 +391,31 @@ object LMFeedViewDataConvertor {
         val toShowResults = pollLMMeta.toShowResults ?: false
 
         val allowAddOption = pollMetaData.findBooleanOrDefault(
-            "allow_add_option", false
+            POLL_ALLOW_ADD_OPTION_KEY, false
         )
 
         val pollType = pollMetaData.findStringOrDefault(
-            "poll_type",
+            POLL_TYPE_KEY,
             ""
         ).getPollType()
 
         val multipleSelectState = pollMetaData.findStringOrDefault(
-            "multiple_select_state",
+            POLL_MULTIPLE_SELECT_STATE_KEY,
             ""
         ).getPollMultiSelectState()
 
         val multipleSelectNumber = pollMetaData.findIntOrDefault(
-            "multiple_select_number",
+            POLL_MULTIPLE_SELECT_NUMBER_KEY,
             0
         )
 
         var poll = LMFeedPollViewData.Builder()
             .id(pollId)
-            .title(pollMetaData.findStringOrDefault("title", ""))
+            .title(pollMetaData.findStringOrDefault(POLL_TITLE_KEY, ""))
             .pollAnswerText(pollLMMeta.pollAnswerText ?: "")
             .toShowResults(toShowResults)
-            .expiryTime(pollMetaData.findLongOrDefault("expiry_time", 0))
-            .isAnonymous(pollMetaData.findBooleanOrDefault("is_anonymous", false))
+            .expiryTime(pollMetaData.findLongOrDefault(POLL_EXPIRY_TIME_KEY, 0))
+            .isAnonymous(pollMetaData.findBooleanOrDefault(POLL_IS_ANONYMOUS_KEY, false))
             .allowAddOption(allowAddOption)
             .multipleSelectState(multipleSelectState)
             .multipleSelectNumber(multipleSelectNumber)
