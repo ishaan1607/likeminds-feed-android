@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -221,7 +220,6 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     private fun initPollQuestion() {
         poll?.let { poll ->
             binding.etPollQuestion.setText(poll.title)
-            Log.d(TAG, "validate called poll question")
             validatePoll()
         }
     }
@@ -262,8 +260,6 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             //set the text
             binding.tvPollExpireTime.text = dateString
             viewModel.setPollExpiryTime(expiryTime)
-
-            Log.d(TAG, "validate called poll expiry")
             validatePoll()
         }
     }
@@ -278,8 +274,6 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
                     switchAnonymousPoll.isChecked = poll.isAnonymous
                     switchLiveResults.isChecked = poll.isDeferredPoll()
                     switchAddNewOptions.isChecked = poll.allowAddOption
-
-                    Log.d(TAG, "validate called poll advanced")
                     validatePoll()
                 }
             }
@@ -649,15 +643,6 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
         //get poll expiry time
         val pollExpiryTime = viewModel.pollExpiryTime
-
-        Log.d(
-            TAG, """
-            validate called
-            pollOptions: ${pollOptions.size}
-            pollQuestion: $pollQuestion
-            pollExpiryTime: $pollExpiryTime
-        """.trimIndent()
-        )
 
         //validate the poll and enable/disable submit button
         if (pollQuestion.isNotEmpty() && pollOptions.size >= 2 && pollExpiryTime != null) {
