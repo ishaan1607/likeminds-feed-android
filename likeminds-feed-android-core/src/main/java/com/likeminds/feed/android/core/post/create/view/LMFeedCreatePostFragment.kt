@@ -282,7 +282,8 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
     }
 
     protected open fun customizePostPollAttachment(pollView: LMFeedPostPollView) {
-        val updatedPollStyles = LMFeedCreateEditPostViewStyleUtil.getUpdatedPollViewStyles(isCreateFlow = true)
+        val updatedPollStyles =
+            LMFeedCreateEditPostViewStyleUtil.getUpdatedPollViewStyles(isCreateFlow = true)
         pollView.setStyle(updatedPollStyles)
     }
 
@@ -814,8 +815,31 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                         LMFeedCreateEditPostViewStyleUtil.getUpdatedOptionViewStyle(),
                         null
                     )
+
+                    setEditPollClicked {
+                        onPollAttachmentEditClicked()
+                    }
+
+                    setClearPollClicked {
+                        onPollAttachmentCleared()
+                    }
                 }
             }
+        }
+    }
+
+    //start poll launcher for edit created poll
+    protected open fun onPollAttachmentEditClicked() {
+        val intent = LMFeedCreatePollActivity.getIntent(requireContext(), poll)
+        pollLauncher.launch(intent)
+    }
+
+    //removes poll view when clear is cleared
+    protected open fun onPollAttachmentCleared() {
+        binding.pollView.apply {
+            poll = null
+            hide()
+            showPostMedia()
         }
     }
 

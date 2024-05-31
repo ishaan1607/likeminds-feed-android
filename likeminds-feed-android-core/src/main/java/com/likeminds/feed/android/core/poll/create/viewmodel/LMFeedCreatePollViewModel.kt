@@ -151,6 +151,7 @@ class LMFeedCreatePollViewModel : ViewModel() {
         )
     }
 
+    //create the poll
     fun createPoll(
         pollQuestion: String,
         pollMultiSelectState: PollMultiSelectState,
@@ -222,6 +223,25 @@ class LMFeedCreatePollViewModel : ViewModel() {
                 .build()
 
             _poll.postValue(pollViewData)
+        }
+    }
+
+    //return [PollMultiSelectState] from string
+    fun getPollMultiSelectStateValue(selectedValue: String): PollMultiSelectState {
+        return when (selectedValue) {
+            MULTIPLE_OPTION_STATE_MAX -> PollMultiSelectState.AT_MAX
+            MULTIPLE_OPTION_STATE_LEAST -> PollMultiSelectState.AT_LEAST
+            MULTIPLE_OPTION_STATE_EXACTLY -> PollMultiSelectState.EXACTLY
+            else -> PollMultiSelectState.EXACTLY
+        }
+    }
+
+    //return string from [PollMultiSelectState]
+    fun getStringFromPollMultiSelectState(pollMultiSelectState: PollMultiSelectState): String {
+        return when (pollMultiSelectState) {
+            PollMultiSelectState.AT_MAX -> MULTIPLE_OPTION_STATE_MAX
+            PollMultiSelectState.AT_LEAST -> MULTIPLE_OPTION_STATE_LEAST
+            PollMultiSelectState.EXACTLY -> MULTIPLE_OPTION_STATE_EXACTLY
         }
     }
 }

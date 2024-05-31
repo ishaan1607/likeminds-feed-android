@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lm_feed_regular_margin"
             android:layout_marginEnd="@dimen/lm_feed_large_margin"
+            android:foreground="?selectableItemBackground"
             app:layout_constraintEnd_toStartOf="@id/iv_clear_poll"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/lm_feed_ic_edit_poll"
@@ -37,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lm_feed_regular_margin"
             android:layout_marginEnd="@dimen/lm_feed_large_margin"
+            android:foreground="?selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/lm_feed_ic_cross_circle" />

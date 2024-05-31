@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -51,6 +52,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         const val DATE_PICKER_TAG = "DATE_PICKER"
         const val TIME_PICKER_TAG = "TIME_PICKER"
         const val MAX_OPTIONS = 10
+        const val DATE_STRING_FORMAT = "dd-MM-yy HH:mm"
 
         @JvmStatic
         fun getInstance(poll: LMFeedPollViewData?): LMFeedCreatePollFragment {
@@ -206,31 +208,106 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
     //initializes the UI
     private fun initUI() {
+        initPollQuestion()
         initPollOptionListView()
+        initPollExpiryTime()
+        initPollAdvanceOptions()
         initPollMultiSelectStateSpinner()
         initPollMultiSelectNumberSpinner()
         initPollQuestionListeners()
     }
 
+    //set the poll question text if exist
+    private fun initPollQuestion() {
+        poll?.let { poll ->
+            binding.etPollQuestion.setText(poll.title)
+            Log.d(TAG, "validate called poll question")
+            validatePoll()
+        }
+    }
+
     //initializes the poll option list view
     private fun initPollOptionListView() {
         binding.rvPollOptions.apply {
+            //set the adapter
             setAdapter(this@LMFeedCreatePollFragment)
-            replaceOptions(viewModel.createInitialPollOptionList())
+
+            //set the poll options
+            val pollOptions = poll?.options?.map {
+                LMFeedCreatePollOptionViewData.Builder()
+                    .text(it.text)
+                    .build()
+            } ?: viewModel.createInitialPollOptionList()
+            replaceOptions(pollOptions)
+
+            //update the cache size
             updatePollItemCacheSize()
+        }
+    }
+
+    //initializes the poll expiry time and set the date if exist
+    private fun initPollExpiryTime() {
+        poll?.let { poll ->
+            //get simple date format
+            val simpleDateFormat = SimpleDateFormat(
+                DATE_STRING_FORMAT,
+                Locale.getDefault()
+            )
+            //get the expiry time
+            val expiryTime = poll.expiryTime
+
+            //format the date
+            val dateString = simpleDateFormat.format(Date(expiryTime))
+
+            //set the text
+            binding.tvPollExpireTime.text = dateString
+            viewModel.setPollExpiryTime(expiryTime)
+
+            Log.d(TAG, "validate called poll expiry")
+            validatePoll()
+        }
+    }
+
+    //initializes the poll advance options if exist
+    private fun initPollAdvanceOptions() {
+        poll?.let { poll ->
+            if (poll.isAnonymous || poll.allowAddOption || poll.isDeferredPoll() || poll.isMultiChoicePoll()) {
+                binding.apply {
+                    expandAdvancedOptions()
+
+                    switchAnonymousPoll.isChecked = poll.isAnonymous
+                    switchLiveResults.isChecked = poll.isDeferredPoll()
+                    switchAddNewOptions.isChecked = poll.allowAddOption
+
+                    Log.d(TAG, "validate called poll advanced")
+                    validatePoll()
+                }
+            }
         }
     }
 
     //initializes the poll multi select state spinner
     private fun initPollMultiSelectStateSpinner() {
+        val stateList = viewModel.getMultipleOptionStateList()
+
         val spinnerAdapter = LMFeedPollAdvancedOptionsAdapter(
             requireContext(),
-            viewModel.getMultipleOptionStateList()
+            stateList
         )
+
+        var indexToSelect = 0
+        poll?.let { poll ->
+            val state = poll.multipleSelectState
+            val stateValue = viewModel.getStringFromPollMultiSelectState(state)
+
+            indexToSelect = stateList.indexOfFirst {
+                it.equals(stateValue, true)
+            }
+        }
 
         binding.spinnerMultipleSelectState.apply {
             setAdapter(spinnerAdapter)
-            setSelection(0)
+            setSelection(indexToSelect)
         }
     }
 
@@ -241,9 +318,15 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             viewModel.getMultipleOptionNoList().subList(0, binding.rvPollOptions.itemCount)
         )
 
+        var indexToSelect = 0
+        poll?.let { poll ->
+            val number = poll.multipleSelectNumber
+            indexToSelect = number - 1
+        }
+
         binding.spinnerMultipleSelectNumber.apply {
             setAdapter(spinnerAdapter)
-            setSelection(0)
+            setSelection(indexToSelect)
         }
     }
 
@@ -378,7 +461,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
         //date formatter
         val simpleDateFormat = SimpleDateFormat(
-            "dd-MM-yy HH:mm",
+            DATE_STRING_FORMAT,
             Locale.getDefault()
         )
 
@@ -431,26 +514,39 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
     //customize the click of advanced options
     protected open fun onAdvancedOptionsClicked() {
+        if (isAdvancedOptionsVisible) {
+            collapseAdvancedOptions()
+        } else {
+            expandAdvancedOptions()
+        }
+    }
+
+    //collapse the advanced options
+    private fun collapseAdvancedOptions() {
         binding.apply {
-            if (isAdvancedOptionsVisible) {
-                isAdvancedOptionsVisible = false
-                tvAdvancedOptions.setCompoundDrawablesWithIntrinsicBounds(
-                    0,
-                    0,
-                    R.drawable.lm_feed_ic_arrow_edge_down,
-                    0
-                )
-                LMFeedAnimationUtils.collapse(clAdvancedOptions)
-            } else {
-                isAdvancedOptionsVisible = true
-                tvAdvancedOptions.setCompoundDrawablesWithIntrinsicBounds(
-                    0,
-                    0,
-                    R.drawable.lm_feed_ic_arrow_edge_up,
-                    0
-                )
-                LMFeedAnimationUtils.expand(clAdvancedOptions)
-            }
+            isAdvancedOptionsVisible = false
+            tvAdvancedOptions.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.lm_feed_ic_arrow_edge_down,
+                0
+            )
+            LMFeedAnimationUtils.collapse(clAdvancedOptions)
+
+        }
+    }
+
+    //expand the advanced options
+    private fun expandAdvancedOptions() {
+        binding.apply {
+            isAdvancedOptionsVisible = true
+            tvAdvancedOptions.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.lm_feed_ic_arrow_edge_up,
+                0
+            )
+            LMFeedAnimationUtils.expand(clAdvancedOptions)
         }
     }
 
@@ -505,12 +601,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     //get selected poll multi select state
     private fun getSelectedPollMultiSelectState(): PollMultiSelectState {
         val selectedValue = binding.spinnerMultipleSelectState.selectedItem.toString()
-        return when (selectedValue) {
-            LMFeedCreatePollViewModel.MULTIPLE_OPTION_STATE_MAX -> PollMultiSelectState.AT_MAX
-            LMFeedCreatePollViewModel.MULTIPLE_OPTION_STATE_LEAST -> PollMultiSelectState.AT_LEAST
-            LMFeedCreatePollViewModel.MULTIPLE_OPTION_STATE_EXACTLY -> PollMultiSelectState.EXACTLY
-            else -> PollMultiSelectState.EXACTLY
-        }
+        return viewModel.getPollMultiSelectStateValue(selectedValue)
     }
 
     //get selected poll multi select number
@@ -558,6 +649,15 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
         //get poll expiry time
         val pollExpiryTime = viewModel.pollExpiryTime
+
+        Log.d(
+            TAG, """
+            validate called
+            pollOptions: ${pollOptions.size}
+            pollQuestion: $pollQuestion
+            pollExpiryTime: $pollExpiryTime
+        """.trimIndent()
+        )
 
         //validate the poll and enable/disable submit button
         if (pollQuestion.isNotEmpty() && pollOptions.size >= 2 && pollExpiryTime != null) {
