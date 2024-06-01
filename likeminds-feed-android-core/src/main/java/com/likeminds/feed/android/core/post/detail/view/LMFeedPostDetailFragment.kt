@@ -608,6 +608,9 @@ open class LMFeedPostDetailFragment :
 
         postDetailViewModel.getPostResponse.observe(viewLifecycleOwner) { postViewData ->
             binding.rvPostDetails.updateItem(postDataPosition, postViewData)
+
+            //notifies the subscribers about the change in post data
+            postEvent.notify(Pair(postViewData.id, postViewData))
         }
 
         // observes deletePostResponse LiveData
@@ -2041,6 +2044,7 @@ open class LMFeedPostDetailFragment :
 
         validateSelectedPollOptions(pollViewData, selectedOptions.size) {
             postDetailViewModel.submitPollVote(
+                requireContext(),
                 postViewData.id,
                 pollViewData.id,
                 selectedOptionIds
@@ -2176,6 +2180,7 @@ open class LMFeedPostDetailFragment :
 
                 //call api to submit vote
                 postDetailViewModel.submitPollVote(
+                    requireContext(),
                     postViewData.id,
                     pollViewData.id,
                     listOf(pollOptionViewData.id)
@@ -2288,11 +2293,9 @@ open class LMFeedPostDetailFragment :
         pollId: String,
         option: String
     ) {
-        postDetailViewModel.addPollOption(
-            postId,
-            pollId,
-            option
-        )
+        val post = binding.rvPostDetails.getItem(postDataPosition) as LMFeedPostViewData
+
+        postDetailViewModel.addPollOption(post, option)
     }
 
     override fun onDestroyView() {

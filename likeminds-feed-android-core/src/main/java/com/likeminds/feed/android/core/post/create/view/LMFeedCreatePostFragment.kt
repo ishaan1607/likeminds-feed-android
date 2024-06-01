@@ -560,7 +560,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         }.observeInLifecycle(viewLifecycleOwner)
     }
 
-    //inits all the listeners
+    //initializes all the listeners
     private fun initListeners() {
         binding.apply {
             headerViewCreatePost.setNavigationIconClickListener {

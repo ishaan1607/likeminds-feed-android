@@ -1,6 +1,9 @@
 package com.likeminds.feed.android.core.post.detail.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.*
+import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.poll.util.LMFeedPollUtil
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
@@ -689,20 +692,34 @@ class LMFeedPostDetailViewModel : ViewModel() {
 
     //calls api to add option on the poll
     fun addPollOption(
-        postId: String,
-        pollId: String,
-        optionText: String
+        post: LMFeedPostViewData,
+        addedOptionText: String
     ) {
         viewModelScope.launchIO {
+            val pollAttachment = post.mediaViewData.attachments.firstOrNull() ?: return@launchIO
+            val poll = pollAttachment.attachmentMeta.poll ?: return@launchIO
+
+            val isDuplicationOption =
+                LMFeedPollUtil.isDuplicationOption(poll, addedOptionText)
+
+            if (isDuplicationOption) {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.AddPollOption(
+                        "Poll options cannot contain similar text"
+                    )
+                )
+                return@launchIO
+            }
+
             val request = AddPollOptionRequest.Builder()
-                .pollId(pollId)
-                .text(optionText)
+                .pollId(poll.id)
+                .text(addedOptionText)
                 .build()
 
             val response = lmFeedClient.addPollOption(request)
 
             if (response.success) {
-                getPost(postId)
+                getPost(post.id)
             } else {
                 errorMessageChannel.send(ErrorMessageEvent.AddPollOption(response.errorMessage))
             }
@@ -712,11 +729,22 @@ class LMFeedPostDetailViewModel : ViewModel() {
 
     //calls api to submit vote on poll
     fun submitPollVote(
+        context: Context,
         postId: String,
         pollId: String,
         optionIds: List<String>
     ) {
         viewModelScope.launchIO {
+            if (optionIds.isEmpty()) {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.SubmitVote(
+                        context.getString(
+                            R.string.lm_feed_please_select_options_before_submitting_vote
+                        )
+                    )
+                )
+            }
+
             val request = SubmitVoteRequest.Builder()
                 .pollId(pollId)
                 .votes(optionIds)

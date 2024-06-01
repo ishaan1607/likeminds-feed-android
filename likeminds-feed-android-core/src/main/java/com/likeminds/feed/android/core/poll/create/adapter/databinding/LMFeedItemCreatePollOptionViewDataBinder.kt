@@ -46,7 +46,8 @@ class LMFeedItemCreatePollOptionViewDataBinder(
             etOption.setText("")
 
             etOption.doAfterTextChanged { option ->
-                if (!option.isNullOrEmpty()) {
+                val trimmedOptionText = option.toString().trim()
+                if (trimmedOptionText.isNotEmpty()) {
                     listener.onPollOptionFilled()
                 }
             }
