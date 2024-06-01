@@ -312,7 +312,12 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             viewModel.getMultipleOptionNoList().subList(0, binding.rvPollOptions.itemCount)
         )
 
-        var indexToSelect = 0
+        var indexToSelect = if (getSelectedPollMultiSelectNumber() > binding.rvPollOptions.itemCount) {
+            0
+        } else {
+            getSelectedPollMultiSelectNumber() - 1
+        }
+
         poll?.let { poll ->
             val number = poll.multipleSelectNumber
             indexToSelect = number - 1
