@@ -185,6 +185,20 @@
     <string name="lm_feed_advanced">Advanced</string>
     <string name="lm_feed_option">Option</string>
     <string name="lm_feed_expires_on">Expires on %s</string>
+    <string name="lm_feed_submit">Submit</string>
+    <string name="lm_feed_enter_an_option_that_you_think_is_missing_in_this_poll_this_cannot_be_undone">Enter an option that you think is missing in this poll. This cannot be undone.</string>
+    <string-array name="lm_feed_options_numbers">
+        <item>1 option</item>
+        <item>2 options</item>
+        <item>3 options</item>
+        <item>4 options</item>
+        <item>5 options</item>
+        <item>6 options</item>
+        <item>7 options</item>
+        <item>8 options</item>
+        <item>9 options</item>
+        <item>10 options</item>
+    </string-array>
 
     <!-- Add sample strings here-->
     <string name="lm_feed_sample_name">Sahil Garg</string>
@@ -202,6 +216,4 @@
     <string name="lm_feed_poll_sample_question">What will be the score today?</string>
     <string name="lm_feed_poll_sample_vote_count">10</string>
     <string name="lm_feed_poll_sample_option_text">Raising Hands</string>
-    <string name="lm_feed_submit">Submit</string>
-    <string name="lm_feed_enter_an_option_that_you_think_is_missing_in_this_poll_this_cannot_be_undone">Enter an option that you think is missing in this poll. This cannot be undone.</string>
 </resources>

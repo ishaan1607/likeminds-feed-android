@@ -1,6 +1,5 @@
 package com.likeminds.feed.android.core.post.edit.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
@@ -154,11 +153,6 @@ class LMFeedEditPostViewModel : ViewModel() {
         poll: LMFeedPollViewData? = null
     ) {
         viewModelScope.launchIO {
-            Log.d(
-                "PUI", """
-                poll:$poll
-            """.trimIndent()
-            )
             var updatedText = postTextContent?.trim()
             if (updatedText.isNullOrEmpty()) {
                 updatedText = null

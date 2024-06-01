@@ -22,11 +22,17 @@ class LMFeedCreatePollOptionAdapter(private val listener: LMFeedCreatePollOption
 }
 
 interface LMFeedCreatePollOptionAdapterListener {
-    //on poll option removed
-    fun onPollOptionRemoved(createPollOptionViewData: LMFeedCreatePollOptionViewData)
 
-    //on poll option binded
-    fun onPollOptionBinded(position: Int, binding: LmFeedItemCreatePollOptionBinding)
+    fun onPollOptionRemoved(createPollOptionViewData: LMFeedCreatePollOptionViewData){
+        //on poll option removed
+    }
 
-    fun onPollOptionFilled()
+    
+    fun onPollOptionBinded(position: Int, binding: LmFeedItemCreatePollOptionBinding){
+        //on poll option binded
+    }
+
+    fun onPollOptionFilled(){
+        //when user fill the option in input box
+    }
 }

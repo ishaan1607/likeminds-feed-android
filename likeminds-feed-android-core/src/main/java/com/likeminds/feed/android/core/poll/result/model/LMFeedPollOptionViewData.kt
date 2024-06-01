@@ -2,7 +2,7 @@ package com.likeminds.feed.android.core.poll.result.model
 
 import android.os.Parcelable
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
-import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL_OPTIONS
+import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL_OPTION
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import kotlinx.parcelize.Parcelize
 
@@ -23,7 +23,7 @@ class LMFeedPollOptionViewData private constructor(
 ) : Parcelable, LMFeedBaseViewType {
 
     override val viewType: Int
-        get() = ITEM_POST_POLL_OPTIONS
+        get() = ITEM_POST_POLL_OPTION
 
     class Builder {
         private var id: String = ""

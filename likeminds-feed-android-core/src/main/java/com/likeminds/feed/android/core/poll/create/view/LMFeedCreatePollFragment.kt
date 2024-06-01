@@ -17,7 +17,6 @@ import com.likeminds.feed.android.core.databinding.LmFeedItemCreatePollOptionBin
 import com.likeminds.feed.android.core.poll.create.adapter.LMFeedCreatePollOptionAdapterListener
 import com.likeminds.feed.android.core.poll.create.adapter.LMFeedPollAdvancedOptionsAdapter
 import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollOptionViewData
-import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollResult
 import com.likeminds.feed.android.core.poll.create.view.LMFeedCreatePollActivity.Companion.LM_FEED_CREATE_POLL_RESULT
 import com.likeminds.feed.android.core.poll.create.viewmodel.LMFeedCreatePollViewModel
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
@@ -94,7 +93,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             customizeCreatePollHeader(headerViewCreatePoll)
             customizeAuthorView(authorView)
             customizePollQuestion(tvPollQuestionTitle, etPollQuestion)
-            customizePollExpiryTime(tvPollExpireTitle, tvPollExpireTime)
+            customizePollExpiryTime(tvPollExpiryTitle, tvPollExpiryTime)
             customizePollOptions(tvPollOptionsTitle, tvAddOption)
             customizeAdvancedOptionTitle(tvAdvancedOptions)
             customizeAdvanceOptionSwitchOptions(
@@ -166,14 +165,14 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
     //customize the poll expiry time title and text view
     protected open fun customizePollExpiryTime(
-        tvPollExpireTitle: LMFeedTextView,
-        tvPollExpireTime: LMFeedTextView
+        tvPollExpiryTitle: LMFeedTextView,
+        tvPollExpiryTime: LMFeedTextView
     ) {
-        tvPollExpireTitle.apply {
+        tvPollExpiryTitle.apply {
             setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollExpiryTimeTitleViewStyle)
         }
 
-        tvPollExpireTime.apply {
+        tvPollExpiryTime.apply {
             setStyle(LMFeedStyleTransformer.createPollFragmentViewStyle.pollExpiryTimeViewStyle)
         }
     }
@@ -258,7 +257,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             val dateString = simpleDateFormat.format(Date(expiryTime))
 
             //set the text
-            binding.tvPollExpireTime.text = dateString
+            binding.tvPollExpiryTime.text = dateString
             viewModel.setPollExpiryTime(expiryTime)
             validatePoll()
         }
@@ -269,7 +268,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         poll?.let { poll ->
             if (poll.isAnonymous || poll.allowAddOption || poll.isDeferredPoll() || poll.isMultiChoicePoll()) {
                 binding.apply {
-                    expandAdvancedOptions()
+                    expandAdvancedSettings()
 
                     switchAnonymousPoll.isChecked = poll.isAnonymous
                     switchLiveResults.isChecked = poll.isDeferredPoll()
@@ -309,7 +308,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     private fun initPollMultiSelectNumberSpinner() {
         val spinnerAdapter = LMFeedPollAdvancedOptionsAdapter(
             requireContext(),
-            viewModel.getMultipleOptionNoList().subList(0, binding.rvPollOptions.itemCount)
+            viewModel.getMultipleOptionNoList(resources).subList(0, binding.rvPollOptions.itemCount)
         )
 
         var indexToSelect = 0
@@ -363,12 +362,12 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
                 onAddPollOptionClicked()
             }
 
-            tvPollExpireTime.setOnClickListener {
-                onPollExpireTimeClicked()
+            tvPollExpiryTime.setOnClickListener {
+                onPollExpiryTimeClicked()
             }
 
             tvAdvancedOptions.setOnClickListener {
-                onAdvancedOptionsClicked()
+                onAdvancedSettingsClicked()
             }
 
             headerViewCreatePoll.setSubmitButtonClickListener {
@@ -391,12 +390,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         viewModel.poll.observe(viewLifecycleOwner) { poll ->
             if (poll != null) {
                 val intent = Intent().apply {
-                    putExtra(
-                        LM_FEED_CREATE_POLL_RESULT,
-                        LMFeedCreatePollResult.Builder()
-                            .pollViewData(poll)
-                            .build()
-                    )
+                    putExtra(LM_FEED_CREATE_POLL_RESULT, poll)
                 }
                 requireActivity().setResult(Activity.RESULT_OK, intent)
                 requireActivity().finish()
@@ -449,7 +443,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     }
 
     //customize the click of poll expiry time
-    protected open fun onPollExpireTimeClicked() {
+    protected open fun onPollExpiryTimeClicked() {
         // calendar instance
         val calendar = Calendar.getInstance()
 
@@ -494,7 +488,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             val dateString = simpleDateFormat.format(calendar.time)
 
             if (calendar.time.after(Date())) {
-                binding.tvPollExpireTime.text = dateString
+                binding.tvPollExpiryTime.text = dateString
                 viewModel.setPollExpiryTime(calendar.timeInMillis)
                 validatePoll()
             } else {
@@ -507,16 +501,16 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     }
 
     //customize the click of advanced options
-    protected open fun onAdvancedOptionsClicked() {
+    protected open fun onAdvancedSettingsClicked() {
         if (isAdvancedOptionsVisible) {
-            collapseAdvancedOptions()
+            collapseAdvancedSettings()
         } else {
-            expandAdvancedOptions()
+            expandAdvancedSettings()
         }
     }
 
     //collapse the advanced options
-    private fun collapseAdvancedOptions() {
+    private fun collapseAdvancedSettings() {
         binding.apply {
             isAdvancedOptionsVisible = false
             tvAdvancedOptions.setCompoundDrawablesWithIntrinsicBounds(
@@ -525,13 +519,13 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
                 R.drawable.lm_feed_ic_arrow_edge_down,
                 0
             )
-            LMFeedAnimationUtils.collapse(clAdvancedOptions)
+            LMFeedAnimationUtils.collapseView(clAdvancedOptions)
 
         }
     }
 
     //expand the advanced options
-    private fun expandAdvancedOptions() {
+    private fun expandAdvancedSettings() {
         binding.apply {
             isAdvancedOptionsVisible = true
             tvAdvancedOptions.setCompoundDrawablesWithIntrinsicBounds(
@@ -540,7 +534,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
                 R.drawable.lm_feed_ic_arrow_edge_up,
                 0
             )
-            LMFeedAnimationUtils.expand(clAdvancedOptions)
+            LMFeedAnimationUtils.expandView(clAdvancedOptions)
         }
     }
 

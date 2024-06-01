@@ -25,7 +25,6 @@ import com.likeminds.customgallery.media.model.*
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePostBinding
 import com.likeminds.feed.android.core.databinding.LmFeedItemMultipleMediaVideoBinding
-import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollResult
 import com.likeminds.feed.android.core.poll.create.view.LMFeedCreatePollActivity
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
@@ -281,6 +280,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         btnAddMoreMedia.setStyle(addMoreButtonViewStyle)
     }
 
+    //customize poll attachment
     protected open fun customizePostPollAttachment(pollView: LMFeedPostPollView) {
         val updatedPollStyles =
             LMFeedCreateEditPostViewStyleUtil.getUpdatedPollViewStyles(isCreateFlow = true)
@@ -404,13 +404,11 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
     private val pollLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val pollResult = LMFeedExtrasUtil.getParcelable(
+                poll = LMFeedExtrasUtil.getParcelable(
                     result.data?.extras,
                     LMFeedCreatePollActivity.LM_FEED_CREATE_POLL_RESULT,
-                    LMFeedCreatePollResult::class.java
+                    LMFeedPollViewData::class.java
                 )
-
-                poll = pollResult?.pollViewData
 
                 poll?.let {
                     showPostMedia()
@@ -676,7 +674,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
 
             poll != null -> {
                 ogTags = null
-                showPollAttachments()
+                showPollAttachment()
             }
 
             else -> {
@@ -791,7 +789,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         }
     }
 
-    private fun showPollAttachments() {
+    private fun showPollAttachment() {
         binding.apply {
             if (poll != null) {
                 handleAddAttachmentLayouts(false)

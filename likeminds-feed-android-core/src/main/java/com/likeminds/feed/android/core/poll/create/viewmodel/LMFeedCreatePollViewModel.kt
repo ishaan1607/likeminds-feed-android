@@ -1,6 +1,8 @@
 package com.likeminds.feed.android.core.poll.create.viewmodel
 
+import android.content.res.Resources
 import androidx.lifecycle.*
+import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedItemCreatePollOptionBinding
 import com.likeminds.feed.android.core.poll.create.model.LMFeedCreatePollOptionViewData
 import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
@@ -111,6 +113,7 @@ class LMFeedCreatePollViewModel : ViewModel() {
         }
     }
 
+    //get the poll options from the binding map
     fun getPollOptionsFromBindingMap(): ArrayList<String> {
         val pollOptions = ArrayList<String>()
 
@@ -136,19 +139,8 @@ class LMFeedCreatePollViewModel : ViewModel() {
     }
 
     //return multi option list
-    fun getMultipleOptionNoList(): ArrayList<String> {
-        return arrayListOf(
-            "1 option",
-            "2 options",
-            "3 options",
-            "4 options",
-            "5 options",
-            "6 options",
-            "7 options",
-            "8 options",
-            "9 options",
-            "10 options"
-        )
+    fun getMultipleOptionNoList(resources: Resources): ArrayList<String> {
+        return resources.getStringArray(R.array.lm_feed_options_numbers).toCollection(ArrayList())
     }
 
     //create the poll

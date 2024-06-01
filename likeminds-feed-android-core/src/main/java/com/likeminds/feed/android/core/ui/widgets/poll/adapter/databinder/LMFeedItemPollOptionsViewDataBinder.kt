@@ -9,7 +9,7 @@ import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptio
 import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedPollOptionView
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
-import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL_OPTIONS
+import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL_OPTION
 
 class LMFeedItemPollOptionsViewDataBinder(
     private val pollPosition: Int,
@@ -18,7 +18,7 @@ class LMFeedItemPollOptionsViewDataBinder(
 ) : LMFeedViewDataBinder<LmFeedItemPollOptionsBinding, LMFeedPollOptionViewData>() {
 
     override val viewType: Int
-        get() = ITEM_POST_POLL_OPTIONS
+        get() = ITEM_POST_POLL_OPTION
 
     override fun createBinder(parent: ViewGroup): LmFeedItemPollOptionsBinding {
         val binding = LmFeedItemPollOptionsBinding.inflate(

@@ -8,6 +8,8 @@ import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptio
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle
 
 object LMFeedCreateEditPostViewStyleUtil {
+
+    //return the updated view style for the poll view
     fun getUpdatedPollViewStyles(isCreateFlow: Boolean): LMFeedPostPollViewStyle {
         var pollViewStyleBuilder = LMFeedPostPollViewStyle.Builder()
             .pollTitleTextStyle(
@@ -59,6 +61,7 @@ object LMFeedCreateEditPostViewStyleUtil {
         return pollViewStyleBuilder.build()
     }
 
+    //return the updated view style for the poll option view
     fun getUpdatedOptionViewStyle(): LMFeedPostPollOptionViewStyle {
         return LMFeedPostPollOptionViewStyle.Builder()
             .pollOptionTextStyle(

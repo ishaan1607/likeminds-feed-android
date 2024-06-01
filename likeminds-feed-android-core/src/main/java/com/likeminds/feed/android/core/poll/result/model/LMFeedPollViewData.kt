@@ -24,17 +24,26 @@ class LMFeedPollViewData private constructor(
     val isPollSubmitted: Boolean,
 ) : Parcelable {
 
+    //whether poll is instant
     fun isInstantPoll() = (pollType == PollType.INSTANT)
+
+    //whether poll is deferred
     fun isDeferredPoll() = (pollType == PollType.DEFERRED)
 
+    //whether poll has ended
     fun hasPollEnded() = (expiryTime - System.currentTimeMillis()) <= 0
 
+    //whether poll is multi choice
     fun isMultiChoicePoll() =
         !(multipleSelectState == PollMultiSelectState.EXACTLY && multipleSelectNumber == 1)
 
+    //whether poll has allowed to add option in case of instant poll
     fun isAddOptionAllowedForInstantPoll() = (allowAddOption && isInstantPoll() && !isPollSubmitted)
+
+    //whether poll has allowed to add option in case of deferred poll
     fun isAddOptionAllowedForDeferredPoll() = (allowAddOption && isDeferredPoll())
 
+    //get time left in poll in relative from now
     fun getTimeLeftInPoll(context: Context): String = if (hasPollEnded()) {
         context.getString(R.string.lm_feed_poll_ended)
     } else {
@@ -44,6 +53,7 @@ class LMFeedPollViewData private constructor(
         )
     }
 
+    //get expire on date
     fun getExpireOnDate(context: Context): String = if (hasPollEnded()) {
         context.getString(R.string.lm_feed_poll_ended)
     } else {

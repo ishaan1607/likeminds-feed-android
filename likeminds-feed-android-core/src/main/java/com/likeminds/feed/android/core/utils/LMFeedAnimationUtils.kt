@@ -57,8 +57,10 @@ object LMFeedAnimationUtils {
         anim.start()
     }
 
+    //expand view with a reveal animatiom
     @JvmStatic
-    fun expand(view: View){
+    fun expandView(view: View){
+        //calculate the starting height of the view
         val matchParentMeasureSpec =
             View.MeasureSpec.makeMeasureSpec((view.parent as View).width, View.MeasureSpec.EXACTLY)
         val wrapContentMeasureSpec =
@@ -66,8 +68,11 @@ object LMFeedAnimationUtils {
         view.measure(matchParentMeasureSpec, wrapContentMeasureSpec)
         val targetHeight = view.measuredHeight
 
+        //set the height
         view.layoutParams.height = 1
+
         view.visibility = View.VISIBLE
+        //create a new animation object
         val a: Animation = object : Animation() {
             override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
                 view.layoutParams.height =
@@ -83,9 +88,13 @@ object LMFeedAnimationUtils {
         view.startAnimation(a)
     }
 
+
+    //collapse view with a reveal animation
     @JvmStatic
-    fun collapse(view: View){
+    fun collapseView(view: View){
+        //calculate the starting height of the view
         val initialHeight = view.measuredHeight
+        //create a new animation object
         val a: Animation = object : Animation() {
             override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
                 if (interpolatedTime == 1f) {
