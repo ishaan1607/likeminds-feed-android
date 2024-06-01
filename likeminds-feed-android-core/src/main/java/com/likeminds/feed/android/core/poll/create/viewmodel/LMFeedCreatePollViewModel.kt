@@ -129,8 +129,8 @@ class LMFeedCreatePollViewModel : ViewModel() {
     //return multi state option list
     fun getMultipleOptionStateList(): ArrayList<String> {
         return arrayListOf(
-            MULTIPLE_OPTION_STATE_MAX,
             MULTIPLE_OPTION_STATE_EXACTLY,
+            MULTIPLE_OPTION_STATE_MAX,
             MULTIPLE_OPTION_STATE_LEAST
         )
     }

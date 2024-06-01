@@ -42,7 +42,7 @@ object LMFeedTimeUtil {
             days == 0 && hours > 1 -> "${hours}h"
             days == 1 && hours == 0 -> "${days}d"
             days >= 1 -> "${days}d"
-            else -> "Expiring soon"
+            else -> "Just Now"
         }
     }
 
