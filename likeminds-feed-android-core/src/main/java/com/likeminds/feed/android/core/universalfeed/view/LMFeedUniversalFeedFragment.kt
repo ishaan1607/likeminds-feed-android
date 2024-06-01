@@ -1041,6 +1041,7 @@ open class LMFeedUniversalFeedFragment :
 
         validateSelectedPollOptions(pollViewData, selectedOptions.size) {
             universalFeedViewModel.submitPollVote(
+                requireContext(),
                 postViewData.id,
                 pollViewData.id,
                 selectedOptionIds
@@ -1179,6 +1180,7 @@ open class LMFeedUniversalFeedFragment :
 
                 //call api to submit vote
                 universalFeedViewModel.submitPollVote(
+                    requireContext(),
                     postViewData.id,
                     pollViewData.id,
                     listOf(pollOptionViewData.id)
@@ -1291,9 +1293,10 @@ open class LMFeedUniversalFeedFragment :
         pollId: String,
         option: String
     ) {
+        val post = binding.rvUniversal.getIndexAndPostFromAdapter(postId)?.second ?: return
+
         universalFeedViewModel.addPollOption(
-            postId,
-            pollId,
+            post,
             option
         )
     }

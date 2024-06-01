@@ -55,7 +55,6 @@
                 android:id="@+id/tv_added_by"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/lm_feed_regular_margin"
                 android:layout_marginBottom="@dimen/lm_feed_small_margin"
                 android:paddingHorizontal="@dimen/lm_feed_small_padding"
                 android:visibility="gone"
@@ -67,7 +66,7 @@
                 tools:text="@string/lm_feed_added_by_you"
                 tools:textColor="@color/lm_feed_grey"
                 tools:textSize="@dimen/lm_feed_text_small"
-                tools:visibility="gone" />
+                tools:visibility="visible" />
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
                 android:id="@+id/iv_checked"
@@ -86,7 +85,7 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_no_votes"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/lm_feed_regular_margin"
             android:layout_marginTop="@dimen/lm_feed_extra_small_margin"
@@ -96,6 +95,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_poll_option"
             tools:text="5 votes"
+            app:layout_constraintHorizontal_bias="0.0"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_medium"
             tools:visibility="visible" />

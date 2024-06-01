@@ -120,7 +120,7 @@ class LMFeedCreatePollViewModel : ViewModel() {
         //get poll options where option is entered
         pollOptionItemBindingMap.forEach { entry ->
             val binding = entry.value
-            val pollOption = binding.etOption.text.toString()
+            val pollOption = binding.etOption.text.toString().trim()
             if (pollOption.isNotEmpty()) {
                 pollOptions.add(pollOption)
             }
@@ -132,8 +132,8 @@ class LMFeedCreatePollViewModel : ViewModel() {
     //return multi state option list
     fun getMultipleOptionStateList(): ArrayList<String> {
         return arrayListOf(
-            MULTIPLE_OPTION_STATE_MAX,
             MULTIPLE_OPTION_STATE_EXACTLY,
+            MULTIPLE_OPTION_STATE_MAX,
             MULTIPLE_OPTION_STATE_LEAST
         )
     }
@@ -169,9 +169,7 @@ class LMFeedCreatePollViewModel : ViewModel() {
                 return@launchIO
             }
 
-            val containsSimilarText = pollOptions.map {
-                it.lowercase()
-            }.groupBy {
+            val containsSimilarText = pollOptions.groupBy {
                 it
             }.values.firstOrNull {
                 it.size > 1

@@ -241,7 +241,11 @@ class LMFeedPostPollView : ConstraintLayout {
      */
     fun setAddPollOptionButtonVisibility(pollViewData: LMFeedPollViewData) {
         binding.btnAddOption.apply {
-            if (pollViewData.isAddOptionAllowedForInstantPoll() || pollViewData.isAddOptionAllowedForDeferredPoll()) {
+            if (!pollViewData.hasPollEnded()
+                && pollViewData.options.size < 10
+                && (pollViewData.isAddOptionAllowedForInstantPoll()
+                        || pollViewData.isAddOptionAllowedForDeferredPoll())
+            ) {
                 show()
             } else {
                 hide()

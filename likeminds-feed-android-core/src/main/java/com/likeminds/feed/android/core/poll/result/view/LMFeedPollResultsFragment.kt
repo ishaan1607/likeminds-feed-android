@@ -101,7 +101,15 @@ open class LMFeedPollResultsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initListeners()
         initPollResultsTabLayout()
+    }
+
+    //initializes all the listeners
+    private fun initListeners() {
+        binding.headerViewPollResults.setNavigationIconClickListener {
+            onNavigationIconClick()
+        }
     }
 
     //initializes poll results tab layout
@@ -222,5 +230,10 @@ open class LMFeedPollResultsFragment : Fragment() {
         tvPollOptionCount.apply {
             setTextColor(ContextCompat.getColor(requireContext(), tabColor))
         }
+    }
+
+    //customize navigate back icon
+    protected open fun onNavigationIconClick() {
+        requireActivity().onBackPressedDispatcher.onBackPressed()
     }
 }
