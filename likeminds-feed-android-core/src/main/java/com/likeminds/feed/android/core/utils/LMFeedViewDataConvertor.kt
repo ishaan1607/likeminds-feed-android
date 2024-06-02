@@ -972,6 +972,7 @@ object LMFeedViewDataConvertor {
     // converts [LMFeedPollViewData] to [AttachmentMeta]
     private fun convertPollAttachmentMeta(poll: LMFeedPollViewData): AttachmentMeta {
         return AttachmentMeta.Builder()
+            .entityId(poll.id)
             .title(poll.title)
             .expiryTime(poll.expiryTime)
             .pollOptions(poll.options.map { it.text })

@@ -65,11 +65,11 @@ object LMFeedTimeUtil {
 
     /**
      * @param timestamp epoch time in milliseconds
-     * @return time in "dd MMM yyyy HH:mm a" format
+     * @return time in "dd MMM yyyy hh:mm aaa" format
      */
     fun getDateFormat(timestamp: Long): String{
         val sdf = SimpleDateFormat(
-            "dd MMM yyyy HH:mm a",
+            "dd MMM yyyy hh:mm aaa",
             Locale.getDefault()
         )
         return sdf.format(Date(timestamp))

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -311,12 +312,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             viewModel.getMultipleOptionNoList(resources).subList(0, binding.rvPollOptions.itemCount)
         )
 
-        var indexToSelect = if (getSelectedPollMultiSelectNumber() > binding.rvPollOptions.itemCount) {
-            0
-        } else {
-            getSelectedPollMultiSelectNumber() - 1
-        }
-
+        var indexToSelect = 0
         poll?.let { poll ->
             val number = poll.multipleSelectNumber
             indexToSelect = number - 1
@@ -546,19 +542,21 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
     //customize the click of submit button
     protected open fun onPollSubmitClicked() {
         val pollQuestion = binding.etPollQuestion.text.toString()
-        var pollMultiSelectState = PollMultiSelectState.EXACTLY
-        var pollType = PollType.INSTANT
-        var pollMultiSelectNumber = 1
-        var isPollAnonymous = false
-        var isPollAllowAddOption = false
+        val pollType = getPollType()
+        val isPollAnonymous = isAnonymousPoll()
+        val isPollAllowAddOption = isAddOptionAllowed()
+        val pollMultiSelectState = getSelectedPollMultiSelectState()
+        val pollMultiSelectNumber = getSelectedPollMultiSelectNumber()
 
-        if (isAdvancedOptionsVisible) {
-            pollType = getPollType()
-            isPollAnonymous = isAnonymousPoll()
-            isPollAllowAddOption = isAddOptionAllowed()
-            pollMultiSelectState = getSelectedPollMultiSelectState()
-            pollMultiSelectNumber = getSelectedPollMultiSelectNumber()
-        }
+        Log.d("PUI","""
+              pollQuestion: $pollQuestion
+              pollType: $pollType
+              isPollAnonymous: $isPollAnonymous
+              isPollAllowAddOption: $isPollAllowAddOption
+              pollMultiSelectState: $pollMultiSelectState
+              pollMultiSelectNumber: $pollMultiSelectNumber
+        """.trimIndent())
+
 
         LMFeedViewUtils.hideKeyboard(binding.root)
         viewModel.createPoll(

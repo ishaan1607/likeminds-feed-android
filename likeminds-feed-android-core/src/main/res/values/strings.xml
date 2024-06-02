@@ -186,6 +186,7 @@
     <string name="lm_feed_option">Option</string>
     <string name="lm_feed_expires_on">Expires on %s</string>
     <string name="lm_feed_submit">Submit</string>
+    <string name="lm_feed_please_select_options_before_submitting_vote">Please select options before submitting vote.</string>
     <string name="lm_feed_enter_an_option_that_you_think_is_missing_in_this_poll_this_cannot_be_undone">Enter an option that you think is missing in this poll. This cannot be undone.</string>
     <string-array name="lm_feed_options_numbers">
         <item>1 option</item>
