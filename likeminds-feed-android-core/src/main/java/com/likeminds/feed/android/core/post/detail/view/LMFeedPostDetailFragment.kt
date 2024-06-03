@@ -18,8 +18,8 @@ import com.likeminds.feed.android.core.delete.view.*
 import com.likeminds.feed.android.core.likes.model.*
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
-import com.likeminds.feed.android.core.poll.model.*
-import com.likeminds.feed.android.core.poll.view.LMFeedPollResultsActivity
+import com.likeminds.feed.android.core.poll.result.model.*
+import com.likeminds.feed.android.core.poll.result.view.LMFeedPollResultsActivity
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedPostDetailAdapterListener
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedReplyAdapterListener
 import com.likeminds.feed.android.core.post.detail.model.*
@@ -608,6 +608,9 @@ open class LMFeedPostDetailFragment :
 
         postDetailViewModel.getPostResponse.observe(viewLifecycleOwner) { postViewData ->
             binding.rvPostDetails.updateItem(postDataPosition, postViewData)
+
+            //notifies the subscribers about the change in post data
+            postEvent.notify(Pair(postViewData.id, postViewData))
         }
 
         // observes deletePostResponse LiveData
@@ -2041,6 +2044,7 @@ open class LMFeedPostDetailFragment :
 
         validateSelectedPollOptions(pollViewData, selectedOptions.size) {
             postDetailViewModel.submitPollVote(
+                requireContext(),
                 postViewData.id,
                 pollViewData.id,
                 selectedOptionIds
@@ -2176,6 +2180,7 @@ open class LMFeedPostDetailFragment :
 
                 //call api to submit vote
                 postDetailViewModel.submitPollVote(
+                    requireContext(),
                     postViewData.id,
                     pollViewData.id,
                     listOf(pollOptionViewData.id)
@@ -2288,11 +2293,9 @@ open class LMFeedPostDetailFragment :
         pollId: String,
         option: String
     ) {
-        postDetailViewModel.addPollOption(
-            postId,
-            pollId,
-            option
-        )
+        val post = binding.rvPostDetails.getItem(postDataPosition) as LMFeedPostViewData
+
+        postDetailViewModel.addPollOption(post, option)
     }
 
     override fun onDestroyView() {

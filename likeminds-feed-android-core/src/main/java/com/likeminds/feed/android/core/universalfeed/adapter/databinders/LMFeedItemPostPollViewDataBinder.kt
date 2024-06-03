@@ -3,7 +3,7 @@ package com.likeminds.feed.android.core.universalfeed.adapter.databinders
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemPostPollBinding
-import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData

@@ -32,8 +32,8 @@ public abstract class LMFeedBaseRecyclerAdapter<T extends LMFeedBaseViewType> ex
 
     public void initViewDataBinders() {
         for (LMFeedViewDataBinder viewDataBinder : getSupportedViewDataBinder()) {
-        supportedViewBinderResolverMap.put(viewDataBinder.getViewType(), viewDataBinder);
-    }
+            supportedViewBinderResolverMap.put(viewDataBinder.getViewType(), viewDataBinder);
+        }
     }
 
     @Override

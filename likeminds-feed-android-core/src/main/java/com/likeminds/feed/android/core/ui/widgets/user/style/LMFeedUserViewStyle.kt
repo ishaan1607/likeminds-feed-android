@@ -29,7 +29,7 @@ class LMFeedUserViewStyle private constructor(
             .maxLines(1)
             .textColor(R.color.lm_feed_dark_grey)
             .textSize(R.dimen.lm_feed_text_large)
-            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+            .fontResource(R.font.lm_feed_roboto_medium)
             .build()
 
         private var userTitleViewStyle: LMFeedTextStyle? = null

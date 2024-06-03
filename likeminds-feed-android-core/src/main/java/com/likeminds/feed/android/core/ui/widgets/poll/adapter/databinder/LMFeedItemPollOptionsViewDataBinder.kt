@@ -3,20 +3,22 @@ package com.likeminds.feed.android.core.ui.widgets.poll.adapter.databinder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.likeminds.feed.android.core.databinding.LmFeedItemPollOptionsBinding
-import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
 import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedPollOptionView
 import com.likeminds.feed.android.core.utils.LMFeedStyleTransformer
 import com.likeminds.feed.android.core.utils.base.LMFeedViewDataBinder
-import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL_OPTIONS
+import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_POLL_OPTION
 
 class LMFeedItemPollOptionsViewDataBinder(
     private val pollPosition: Int,
-    private val listener: LMFeedPollOptionsAdapterListener
+    private val optionStyle: LMFeedPostPollOptionViewStyle?,
+    private val listener: LMFeedPollOptionsAdapterListener?
 ) : LMFeedViewDataBinder<LmFeedItemPollOptionsBinding, LMFeedPollOptionViewData>() {
 
     override val viewType: Int
-        get() = ITEM_POST_POLL_OPTIONS
+        get() = ITEM_POST_POLL_OPTION
 
     override fun createBinder(parent: ViewGroup): LmFeedItemPollOptionsBinding {
         val binding = LmFeedItemPollOptionsBinding.inflate(
@@ -27,8 +29,8 @@ class LMFeedItemPollOptionsViewDataBinder(
 
         //set styles to the poll option view
         val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
-        val pollOptionViewStyle = postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle
-            ?: return binding
+        val pollOptionViewStyle =
+            optionStyle ?: postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle ?: return binding
 
         binding.pollOptionView.setStyle(pollOptionViewStyle)
 
@@ -48,13 +50,14 @@ class LMFeedItemPollOptionsViewDataBinder(
             )
 
             val postMediaStyle = LMFeedStyleTransformer.postViewStyle.postMediaViewStyle
-            val pollOptionViewStyle = postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle
-                ?: return
+            val pollOptionViewStyle =
+                optionStyle ?: postMediaStyle.postPollMediaStyle?.pollOptionsViewStyle ?: return
+
 
             setPollOptionText(data.text)
-            setPollOptionAddedByText(data)
-            setPollVotesCountText(data)
-            setPollOptionCheckedIconVisibility(data)
+            setPollOptionAddedByText(data, pollOptionViewStyle)
+            setPollVotesCountText(data, pollOptionViewStyle)
+            setPollOptionCheckedIconVisibility(data, pollOptionViewStyle)
             setPollOptionBackgroundAndProgress(
                 data,
                 pollOptionViewStyle
@@ -69,7 +72,7 @@ class LMFeedItemPollOptionsViewDataBinder(
     ) {
         pollOptionView.apply {
             setPollOptionClicked {
-                listener.onPollOptionClicked(
+                listener?.onPollOptionClicked(
                     pollPosition,
                     position,
                     pollOptionViewData
@@ -77,7 +80,7 @@ class LMFeedItemPollOptionsViewDataBinder(
             }
 
             setPollOptionVotesCountClicked {
-                listener.onPollOptionVoteCountClicked(
+                listener?.onPollOptionVoteCountClicked(
                     pollPosition,
                     position,
                     pollOptionViewData

@@ -139,7 +139,7 @@ open class LMFeedAddPollOptionBottomSheetFragment : BottomSheetDialogFragment() 
     private fun initListeners() {
         binding.apply {
             etOption.addTextChangedListener {
-                setSubmitButtonEnabled(it.toString().isNotEmpty())
+                setSubmitButtonEnabled(it.toString().trim().isNotEmpty())
             }
 
             ivCancelAddPollOption.setOnClickListener {
@@ -160,7 +160,7 @@ open class LMFeedAddPollOptionBottomSheetFragment : BottomSheetDialogFragment() 
         addPollOptionListener?.onAddOptionSubmitted(
             addPollOptionExtras.postId,
             addPollOptionExtras.pollId,
-            binding.etOption.text.toString()
+            binding.etOption.text.toString().trim()
         )
         dismiss()
     }

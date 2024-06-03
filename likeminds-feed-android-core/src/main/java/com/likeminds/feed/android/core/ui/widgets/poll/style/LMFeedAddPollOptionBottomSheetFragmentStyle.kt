@@ -24,13 +24,13 @@ class LMFeedAddPollOptionBottomSheetFragmentStyle private constructor(
 
     class Builder {
         private var addOptionTitleTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
-            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+            .fontResource(R.font.lm_feed_roboto_medium)
             .textSize(R.dimen.lm_feed_text_large)
             .textColor(R.color.lm_feed_black)
             .build()
 
         private var addOptionSubtitleTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
-            .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+            .fontResource(R.font.lm_feed_roboto)
             .textSize(R.dimen.lm_feed_text_medium)
             .textColor(R.color.lm_feed_grey)
             .build()
@@ -40,7 +40,7 @@ class LMFeedAddPollOptionBottomSheetFragmentStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_dark_grey)
                     .textSize(R.dimen.lm_feed_poll_option_input_text_size)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
+                    .fontResource(R.font.lm_feed_roboto)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
             )
@@ -52,7 +52,7 @@ class LMFeedAddPollOptionBottomSheetFragmentStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textAllCaps(true)
                     .textSize(R.dimen.lm_feed_text_medium)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                    .fontResource(R.font.lm_feed_roboto_medium)
                     .textColor(R.color.lm_feed_white)
                     .build()
             )

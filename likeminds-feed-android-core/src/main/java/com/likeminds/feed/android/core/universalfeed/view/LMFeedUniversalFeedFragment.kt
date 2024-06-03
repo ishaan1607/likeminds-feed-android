@@ -25,8 +25,8 @@ import com.likeminds.feed.android.core.likes.model.LMFeedLikesScreenExtras
 import com.likeminds.feed.android.core.likes.model.POST
 import com.likeminds.feed.android.core.likes.view.LMFeedLikesActivity
 import com.likeminds.feed.android.core.overflowmenu.model.*
-import com.likeminds.feed.android.core.poll.model.*
-import com.likeminds.feed.android.core.poll.view.LMFeedPollResultsActivity
+import com.likeminds.feed.android.core.poll.result.model.*
+import com.likeminds.feed.android.core.poll.result.view.LMFeedPollResultsActivity
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity
 import com.likeminds.feed.android.core.post.detail.model.LMFeedPostDetailExtras
@@ -1041,6 +1041,7 @@ open class LMFeedUniversalFeedFragment :
 
         validateSelectedPollOptions(pollViewData, selectedOptions.size) {
             universalFeedViewModel.submitPollVote(
+                requireContext(),
                 postViewData.id,
                 pollViewData.id,
                 selectedOptionIds
@@ -1179,6 +1180,7 @@ open class LMFeedUniversalFeedFragment :
 
                 //call api to submit vote
                 universalFeedViewModel.submitPollVote(
+                    requireContext(),
                     postViewData.id,
                     pollViewData.id,
                     listOf(pollOptionViewData.id)
@@ -1291,9 +1293,10 @@ open class LMFeedUniversalFeedFragment :
         pollId: String,
         option: String
     ) {
+        val post = binding.rvUniversal.getIndexAndPostFromAdapter(postId)?.second ?: return
+
         universalFeedViewModel.addPollOption(
-            postId,
-            pollId,
+            post,
             option
         )
     }

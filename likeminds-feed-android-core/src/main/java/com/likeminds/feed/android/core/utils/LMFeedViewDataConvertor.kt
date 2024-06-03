@@ -7,7 +7,7 @@ import com.likeminds.feed.android.core.activityfeed.model.LMFeedActivityViewData
 import com.likeminds.feed.android.core.delete.model.LMFeedReasonChooseViewData
 import com.likeminds.feed.android.core.likes.model.LMFeedLikeViewData
 import com.likeminds.feed.android.core.overflowmenu.model.LMFeedOverflowMenuItemViewData
-import com.likeminds.feed.android.core.poll.model.*
+import com.likeminds.feed.android.core.poll.result.model.*
 import com.likeminds.feed.android.core.post.create.model.LMFeedFileUploadViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentsCountViewData
@@ -958,4 +958,30 @@ object LMFeedViewDataConvertor {
             .commentsCount(commentsCount)
             .build()
     }
+
+    // converts [LMFeedPollViewData] to [Attachment]
+    fun convertPoll(poll: LMFeedPollViewData): List<Attachment> {
+        return listOf(
+            Attachment.Builder()
+                .attachmentType(AttachmentType.POLL)
+                .attachmentMeta(convertPollAttachmentMeta(poll))
+                .build()
+        )
+    }
+
+    // converts [LMFeedPollViewData] to [AttachmentMeta]
+    private fun convertPollAttachmentMeta(poll: LMFeedPollViewData): AttachmentMeta {
+        return AttachmentMeta.Builder()
+            .entityId(poll.id)
+            .title(poll.title)
+            .expiryTime(poll.expiryTime)
+            .pollOptions(poll.options.map { it.text })
+            .multiSelectState(poll.multipleSelectState)
+            .pollType(poll.pollType)
+            .multiSelectNumber(poll.multipleSelectNumber)
+            .isAnonymous(poll.isAnonymous)
+            .allowAddOption(poll.allowAddOption)
+            .build()
+    }
+
 }

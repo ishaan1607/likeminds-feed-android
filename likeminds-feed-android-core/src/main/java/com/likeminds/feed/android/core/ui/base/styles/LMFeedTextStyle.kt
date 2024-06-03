@@ -246,6 +246,10 @@ class LMFeedTextStyle private constructor(
         applyImpl(lmFeedFAB)
     }
 
+    fun apply(lmFeedSwitch: LMFeedSwitch){
+        applyImpl(lmFeedSwitch)
+    }
+
     private fun applyImpl(textView: TextView) {
         textView.apply {
             val textColor = ContextCompat.getColor(context, this@LMFeedTextStyle.textColor)

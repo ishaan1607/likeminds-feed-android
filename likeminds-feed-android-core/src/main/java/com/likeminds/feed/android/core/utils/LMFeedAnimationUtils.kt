@@ -1,8 +1,9 @@
 package com.likeminds.feed.android.core.utils
 
 import android.animation.AnimatorListenerAdapter
-import android.view.View
-import android.view.ViewAnimationUtils
+import android.view.*
+import android.view.animation.Animation
+import android.view.animation.Transformation
 import kotlin.math.hypot
 
 object LMFeedAnimationUtils {
@@ -54,5 +55,64 @@ object LMFeedAnimationUtils {
 
         // start the animation
         anim.start()
+    }
+
+    //expand view with a reveal animatiom
+    @JvmStatic
+    fun expandView(view: View){
+        //calculate the starting height of the view
+        val matchParentMeasureSpec =
+            View.MeasureSpec.makeMeasureSpec((view.parent as View).width, View.MeasureSpec.EXACTLY)
+        val wrapContentMeasureSpec =
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        view.measure(matchParentMeasureSpec, wrapContentMeasureSpec)
+        val targetHeight = view.measuredHeight
+
+        //set the height
+        view.layoutParams.height = 1
+
+        view.visibility = View.VISIBLE
+        //create a new animation object
+        val a: Animation = object : Animation() {
+            override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
+                view.layoutParams.height =
+                    if (interpolatedTime == 1f) ViewGroup.LayoutParams.WRAP_CONTENT else (targetHeight * interpolatedTime).toInt()
+                view.requestLayout()
+            }
+
+            override fun willChangeBounds(): Boolean {
+                return true
+            }
+        }
+        a.duration = ((targetHeight / view.context.resources.displayMetrics.density).toLong())
+        view.startAnimation(a)
+    }
+
+
+    //collapse view with a reveal animation
+    @JvmStatic
+    fun collapseView(view: View){
+        //calculate the starting height of the view
+        val initialHeight = view.measuredHeight
+        //create a new animation object
+        val a: Animation = object : Animation() {
+            override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
+                if (interpolatedTime == 1f) {
+                    view.visibility = View.GONE
+                } else {
+                    view.layoutParams.height =
+                        initialHeight - (initialHeight * interpolatedTime).toInt()
+                    view.requestLayout()
+                }
+            }
+
+            override fun willChangeBounds(): Boolean {
+                return true
+            }
+        }
+
+        // Collapse speed of 1dp/ms
+        a.duration = ((initialHeight / view.context.resources.displayMetrics.density).toLong())
+        view.startAnimation(a)
     }
 }

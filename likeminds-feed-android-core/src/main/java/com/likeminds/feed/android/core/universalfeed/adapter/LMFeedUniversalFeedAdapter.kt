@@ -1,7 +1,7 @@
 package com.likeminds.feed.android.core.universalfeed.adapter
 
 import android.view.View
-import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
 import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData

@@ -5,10 +5,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.likeminds.feed.android.core.databinding.LmFeedPostPollViewBinding
-import com.likeminds.feed.android.core.poll.model.LMFeedPollOptionViewData
-import com.likeminds.feed.android.core.poll.model.LMFeedPollViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollOptionViewData
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.ui.base.styles.*
 import com.likeminds.feed.android.core.ui.widgets.poll.adapter.LMFeedPollOptionsAdapterListener
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollOptionViewStyle
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
@@ -70,15 +71,24 @@ class LMFeedPostPollView : ConstraintLayout {
     private fun configureMemberVotedCountText(membersVotedCountTextStyle: LMFeedTextStyle?) {
         binding.tvMemberVotedCount.apply {
             if (membersVotedCountTextStyle == null) {
+                binding.viewDotTimeLeft.hide()
                 hide()
             } else {
+                binding.viewDotTimeLeft.show()
                 setStyle(membersVotedCountTextStyle)
             }
         }
     }
 
-    private fun configureSubmitPollVoteButton(submitPollButtonStyle: LMFeedButtonStyle) {
-        binding.btnSubmitVote.setStyle(submitPollButtonStyle)
+    private fun configureSubmitPollVoteButton(submitPollButtonStyle: LMFeedButtonStyle?) {
+        binding.btnSubmitVote.apply {
+            if (submitPollButtonStyle == null) {
+                hide()
+            } else {
+                show()
+                setStyle(submitPollButtonStyle)
+            }
+        }
     }
 
     private fun configurePollExpiryText(pollExpiryTextStyle: LMFeedTextStyle?) {
@@ -92,8 +102,16 @@ class LMFeedPostPollView : ConstraintLayout {
         }
     }
 
-    private fun configureAddPollOptionButton(addPollOptionButtonStyle: LMFeedButtonStyle) {
-        binding.btnAddOption.setStyle(addPollOptionButtonStyle)
+    private fun configureAddPollOptionButton(addPollOptionButtonStyle: LMFeedButtonStyle?) {
+        binding.btnAddOption.apply {
+            if (addPollOptionButtonStyle == null) {
+                hide()
+            } else {
+                show()
+                setStyle(addPollOptionButtonStyle)
+            }
+        }
+
     }
 
     private fun configureEditPollVoteText(editPollVoteTextStyle: LMFeedTextStyle?) {
@@ -187,10 +205,11 @@ class LMFeedPostPollView : ConstraintLayout {
     fun setPollOptions(
         pollPosition: Int,
         options: List<LMFeedPollOptionViewData>,
-        listener: LMFeedPollOptionsAdapterListener
+        optionStyle: LMFeedPostPollOptionViewStyle?,
+        listener: LMFeedPollOptionsAdapterListener?
     ) {
         binding.rvPollOptions.apply {
-            setAdapter(pollPosition, listener)
+            setAdapter(pollPosition, optionStyle, listener)
             replacePollOptions(options)
         }
     }
@@ -222,7 +241,11 @@ class LMFeedPostPollView : ConstraintLayout {
      */
     fun setAddPollOptionButtonVisibility(pollViewData: LMFeedPollViewData) {
         binding.btnAddOption.apply {
-            if (pollViewData.isAddOptionAllowedForInstantPoll() || pollViewData.isAddOptionAllowedForDeferredPoll()) {
+            if (!pollViewData.hasPollEnded()
+                && pollViewData.options.size < 10
+                && (pollViewData.isAddOptionAllowedForInstantPoll()
+                        || pollViewData.isAddOptionAllowedForDeferredPoll())
+            ) {
                 show()
             } else {
                 hide()

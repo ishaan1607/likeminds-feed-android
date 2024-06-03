@@ -152,7 +152,6 @@
     <string name="lm_feed_add_new_poll_option">Add new poll option</string>
     <string name="lm_feed_type_new_option">Type new option</string>
     <string name="lm_feed_the_results_will_be_visible_after_the_poll_has_ended">The results will be visible after the poll has ended.</string>
-    <string name="lm_feed_anonymous_poll">Anonymous poll</string>
     <string name="lm_feed_this_being_an_lm_feed_anonymous_poll_the_names_of_the_voters_cannot_be_disclosed">This being an anonymous poll, the names of the voters cannot be disclosed.</string>
     <string name="lm_feed_poll_ended_vote_cannot_be_submitted_now">Poll ended. Vote can not be submitted now.</string>
     <plurals name="lm_feed_please_select_at_most_d_options">
@@ -167,6 +166,40 @@
         <item quantity="one">Please select exactly 1 option</item>
         <item quantity="other">Please select exactly %d options</item>
     </plurals>
+    <string name="lm_feed_add_poll">Add Poll</string>
+    <string name="lm_feed_done">Done</string>
+    <string name="lm_feed_new_poll">New Poll</string>
+    <string name="lm_feed_poll_question">Poll Question</string>
+    <string name="lm_feed_ask_a_question">Ask a question</string>
+    <string name="lm_feed_answer_options">Answer options</string>
+    <string name="lm_feed_add_an_option">Add an option…</string>
+    <string name="lm_feed_poll_expire">Poll expires on</string>
+    <string name="lm_feed_dd_mm_yyyy_hh_mm">DD-MM-YYYY hh:mm</string>
+    <string name="lm_feed_error_invalid_time">Please select future date as poll expire time.</string>
+    <string name="lm_feed_select_poll_expiry_time">Select Poll Expiry Time</string>
+    <string name="lm_feed_allow_voters_to_add_options">Allow voters to add options</string>
+    <string name="lm_feed_anonymous_poll">Anonymous Poll</string>
+    <string name="lm_feed_live_results">Don\'t show live results</string>
+    <string name="lm_feed_user_can_vote_for">User can vote for</string>
+    <string name="lm_feed_equal_sign">=</string>
+    <string name="lm_feed_advanced">Advanced</string>
+    <string name="lm_feed_option">Option</string>
+    <string name="lm_feed_expires_on">Expires on %s</string>
+    <string name="lm_feed_submit">Submit</string>
+    <string name="lm_feed_please_select_options_before_submitting_vote">Please select options before submitting vote.</string>
+    <string name="lm_feed_enter_an_option_that_you_think_is_missing_in_this_poll_this_cannot_be_undone">Enter an option that you think is missing in this poll. This cannot be undone.</string>
+    <string-array name="lm_feed_options_numbers">
+        <item>1 option</item>
+        <item>2 options</item>
+        <item>3 options</item>
+        <item>4 options</item>
+        <item>5 options</item>
+        <item>6 options</item>
+        <item>7 options</item>
+        <item>8 options</item>
+        <item>9 options</item>
+        <item>10 options</item>
+    </string-array>
 
     <!-- Add sample strings here-->
     <string name="lm_feed_sample_name">Sahil Garg</string>
@@ -184,6 +217,4 @@
     <string name="lm_feed_poll_sample_question">What will be the score today?</string>
     <string name="lm_feed_poll_sample_vote_count">10</string>
     <string name="lm_feed_poll_sample_option_text">Raising Hands</string>
-    <string name="lm_feed_submit">Submit</string>
-    <string name="lm_feed_enter_an_option_that_you_think_is_missing_in_this_poll_this_cannot_be_undone">Enter an option that you think is missing in this poll. This cannot be undone.</string>
 </resources>
