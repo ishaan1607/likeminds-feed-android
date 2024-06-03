@@ -3,10 +3,25 @@ package com.likeminds.feed.android.core.ui.widgets.poll.style
 import android.text.TextUtils
 import androidx.annotation.ColorRes
 import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.post.detail.style.LMFeedPostDetailFragmentViewStyle
 import com.likeminds.feed.android.core.ui.base.styles.*
+import com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.style.LMFeedCommentComposerViewStyle
+import com.likeminds.feed.android.core.ui.widgets.comment.commentlayout.view.LMFeedCommentViewStyle
+import com.likeminds.feed.android.core.ui.widgets.headerview.style.LMFeedHeaderViewStyle
+import com.likeminds.feed.android.core.ui.widgets.noentitylayout.style.LMFeedNoEntityLayoutViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 import com.likeminds.feed.android.core.utils.model.LMFeedPadding
 
+/**
+ * [LMFeedAddPollOptionBottomSheetFragmentStyle] helps you to customize the post detail fragment [LMFeedAddPollOptionBottomSheetFragment]
+ *
+ * @property addOptionTitleTextStyle : [LMFeedTextStyle] this will help you to customize the title text in the add poll option bottom sheet
+ * @property addOptionSubtitleTextStyle : [LMFeedTextStyle] this will help you to customize the subtitle text in the add poll option bottom sheet
+ * @property addOptionInputBoxStyle: [LMFeedEditTextStyle] this will help you to customize the input box in the add poll option bottom sheet
+ * @property addOptionSubmitButtonStyle: [LMFeedButtonStyle] this will help you to customize the submit button in the add poll option bottom sheet
+ * @property addPollOptionCrossIconStyle: [LMFeedIconStyle] this will help you to the cross icon in the add poll option bottom sheet
+ * @property backgroundColor: [Int] should be in format of [ColorRes] to customize the background color of the add option bottom sheet | Default value = null
+ * */
 class LMFeedAddPollOptionBottomSheetFragmentStyle private constructor(
     //add option title text style
     val addOptionTitleTextStyle: LMFeedTextStyle,

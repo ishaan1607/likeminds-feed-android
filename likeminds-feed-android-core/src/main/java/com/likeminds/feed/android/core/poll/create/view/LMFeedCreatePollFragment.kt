@@ -647,15 +647,9 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         //get poll expiry time
         val pollExpiryTime = viewModel.pollExpiryTime
 
-        val validationOptionSize = if (binding.rvPollOptions.itemCount > 2) {
-            binding.rvPollOptions.itemCount
-        } else {
-            2
-        }
-
 
         //validate the poll and enable/disable submit button
-        if (pollQuestion.isNotEmpty() && pollOptions.size >= validationOptionSize && pollExpiryTime != null) {
+        if (pollQuestion.isNotEmpty() && pollOptions.size >= 2 && pollExpiryTime != null) {
             binding.headerViewCreatePoll.setSubmitButtonEnabled(true)
         } else {
             binding.headerViewCreatePoll.setSubmitButtonEnabled(false)

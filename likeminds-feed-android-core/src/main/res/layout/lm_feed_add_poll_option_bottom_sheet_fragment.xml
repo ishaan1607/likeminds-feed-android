@@ -4,7 +4,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/lm_feed_white">
 
         <View
             android:id="@+id/view"
@@ -15,7 +16,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_add_poll_option_title"
@@ -29,10 +29,9 @@
             tools:textColor="@color/lm_feed_black"
             tools:textSize="@dimen/lm_feed_text_large" />
 
-
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_add_poll_option_subtitle"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/lm_feed_extra_large_margin"
             android:layout_marginTop="@dimen/lm_feed_small_margin"
@@ -59,7 +58,7 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
             android:id="@+id/et_option"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
             android:layout_marginTop="@dimen/lm_feed_extra_extra_large_margin"

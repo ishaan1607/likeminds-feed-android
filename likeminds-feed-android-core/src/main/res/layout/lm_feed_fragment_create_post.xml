@@ -19,7 +19,7 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_scroll_create_post"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_dp"
+            android:layout_height="@dimen/lm_feed_zero_dp"
             android:layout_marginTop="@dimen/lm_feed_small_margin"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,7 +87,7 @@
 
                 <com.likeminds.usertagging.view.UserTaggingSuggestionListView
                     android:id="@+id/user_tagging_view"
-                    android:layout_width="@dimen/zero_dp"
+                    android:layout_width="@dimen/lm_feed_zero_dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/lm_feed_small_margin"
                     android:translationZ="@dimen/lm_feed_user_tagging_view_elevation"
@@ -104,7 +104,7 @@
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostImageMediaView
                     android:id="@+id/post_single_image"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/zero_dp"
+                    android:layout_height="@dimen/lm_feed_zero_dp"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +113,7 @@
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostVideoMediaView
                     android:id="@+id/post_single_video"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/zero_dp"
+                    android:layout_height="@dimen/lm_feed_zero_dp"
                     android:layout_marginTop="@dimen/lm_feed_medium_margin"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -124,7 +124,7 @@
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostLinkMediaView
                     android:id="@+id/post_link_view"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/zero_dp"
+                    android:layout_height="@dimen/lm_feed_zero_dp"
                     android:layout_marginTop="@dimen/lm_feed_large_margin"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -135,7 +135,7 @@
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentsMediaView
                     android:id="@+id/post_documents_view"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/zero_dp"
+                    android:layout_height="@dimen/lm_feed_zero_dp"
                     android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
                     android:layout_marginTop="@dimen/lm_feed_large_margin"
                     android:visibility="gone"
@@ -147,7 +147,7 @@
                 <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostMultipleMediaView
                     android:id="@+id/multiple_media_view"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/zero_dp"
+                    android:layout_height="@dimen/lm_feed_zero_dp"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

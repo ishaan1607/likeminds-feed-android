@@ -21,7 +21,7 @@ import com.likeminds.feed.android.core.utils.model.LMFeedPadding
  * @property replyViewStyle: [LMFeedCommentViewStyle] this will help you to customize the reply view in the post detail fragment
  * @property noCommentsFoundViewStyle: [LMFeedNoEntityLayoutViewStyle] this will help you to customize the no comments found view in the post detail fragment
  * @property commentComposerStyle: [LMFeedCommentComposerViewStyle] this will help you to customize the comment composer view in the post detail fragment
- * @property viewMoreReplyStyle: [LMFeedViewMoreStyle] this will help you to customize the view more reply view in the post detail fragment
+ * @property viewMoreReplyStyle: [LMFeedViewMoreViewStyle] this will help you to customize the view more reply view in the post detail fragment
  * */
 class LMFeedPostDetailFragmentViewStyle private constructor(
     //header

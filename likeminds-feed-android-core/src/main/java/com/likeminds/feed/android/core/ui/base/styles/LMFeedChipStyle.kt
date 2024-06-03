@@ -150,7 +150,7 @@ class LMFeedChipStyle private constructor(
 
             //chip stroke width
             if (this@LMFeedChipStyle.chipStrokeWidth == null) {
-                setChipStrokeWidthResource(R.dimen.zero_dp)
+                setChipStrokeWidthResource(R.dimen.lm_feed_zero_dp)
             } else {
                 setChipStrokeWidthResource(this@LMFeedChipStyle.chipStrokeWidth)
             }

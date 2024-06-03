@@ -179,7 +179,7 @@ class LMFeedPostViewStyle private constructor(
                         )
                         .linkBoxStrokeWidth(R.dimen.lm_feed_link_box_stroke_width)
                         .linkBoxStrokeColor(R.color.lm_feed_light_grayish_blue)
-                        .linkBoxElevation(R.dimen.zero_dp)
+                        .linkBoxElevation(R.dimen.lm_feed_zero_dp)
                         .linkBoxCornerRadius(R.dimen.lm_feed_link_box_corner_radius)
                         .build()
                 )
