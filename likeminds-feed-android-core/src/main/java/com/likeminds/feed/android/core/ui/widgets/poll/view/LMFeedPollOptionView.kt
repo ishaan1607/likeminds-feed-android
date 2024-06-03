@@ -191,7 +191,13 @@ class LMFeedPollOptionView : ConstraintLayout {
             if (pollOptionViewData.toShowResults) {
                 //set progress as per the percentage of votes
                 pbPollBackground.max = 100
-                pbPollBackground.progress = pollOptionViewData.percentage.roundToInt()
+                pbPollBackground.progress = if (pollOptionViewData.percentage.roundToInt() == 0) {
+                    pbPollBackground.hide()
+                    0
+                } else {
+                    pbPollBackground.show()
+                    pollOptionViewData.percentage.roundToInt()
+                }
             } else {
                 //set progress to 0 if results are not to be shown
                 pbPollBackground.progress = 0
