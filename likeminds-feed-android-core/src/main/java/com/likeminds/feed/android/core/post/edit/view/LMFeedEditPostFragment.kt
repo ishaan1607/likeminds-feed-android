@@ -520,7 +520,18 @@ open class LMFeedEditPostFragment :
                 }
 
                 ITEM_POST_POLL -> {
-                    poll = post.mediaViewData.attachments.firstOrNull()?.attachmentMeta?.poll
+                    val pollAttachment =
+                        post.mediaViewData.attachments.firstOrNull()?.attachmentMeta?.poll ?: return
+                    val options = pollAttachment.options
+                    val updatedOptions = options.map {
+                        it.toBuilder().toShowResults(false).build()
+                    }
+
+                    poll = pollAttachment.toBuilder()
+                        .toShowResults(false)
+                        .options(updatedOptions)
+                        .build()
+
                     showPollView()
                 }
 

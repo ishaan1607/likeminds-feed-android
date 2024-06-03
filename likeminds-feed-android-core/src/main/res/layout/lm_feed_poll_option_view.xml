@@ -25,8 +25,6 @@
                 android:layout_height="@dimen/zero_dp"
                 android:layout_margin="@dimen/lm_feed_extra_small_margin"
                 android:indeterminate="false"
-                android:max="100"
-                android:progress="0"
                 android:progressDrawable="@drawable/lm_feed_poll_result_background_selected"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

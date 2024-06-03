@@ -207,13 +207,14 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
     //initializes the UI
     private fun initUI() {
-        initPollQuestion()
         initPollOptionListView()
+        initPollQuestion()
         initPollExpiryTime()
         initPollAdvanceOptions()
         initPollMultiSelectStateSpinner()
         initPollMultiSelectNumberSpinner()
         initPollQuestionListeners()
+        poll = null
     }
 
     //set the poll question text if exist
@@ -312,7 +313,20 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
             viewModel.getMultipleOptionNoList(resources).subList(0, binding.rvPollOptions.itemCount)
         )
 
-        var indexToSelect = 0
+        //if (getSelectedPollMultiSelectNumber() > binding.rvPollOptions.itemCount) {
+        //                0
+        //            } else {
+        //                getSelectedPollMultiSelectNumber() - 1
+        //            }
+
+        var indexToSelect = when {
+            getSelectedPollMultiSelectNumber() == 0 -> 0
+            getSelectedPollMultiSelectNumber() > binding.rvPollOptions.itemCount -> 0
+            else -> getSelectedPollMultiSelectNumber() - 1
+        }
+
+        Log.d("PUI", "index to Select $indexToSelect")
+
         poll?.let { poll ->
             val number = poll.multipleSelectNumber
             indexToSelect = number - 1
@@ -441,6 +455,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         }
         initPollMultiSelectNumberSpinner()
         validatePollOptionCount()
+        validatePoll()
     }
 
     //customize the click of poll expiry time
@@ -541,7 +556,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
     //customize the click of submit button
     protected open fun onPollSubmitClicked() {
-        val pollQuestion = binding.etPollQuestion.text.toString()
+        val pollQuestion = binding.etPollQuestion.text?.trim().toString()
         val pollType = getPollType()
         val isPollAnonymous = isAnonymousPoll()
         val isPollAllowAddOption = isAddOptionAllowed()
@@ -587,6 +602,7 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
 
     //get selected poll multi select number
     private fun getSelectedPollMultiSelectNumber(): Int {
+        Log.d("PUI", "${binding.spinnerMultipleSelectNumber.selectedItemPosition}")
         return binding.spinnerMultipleSelectNumber.selectedItemPosition + 1
     }
 
@@ -631,8 +647,15 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         //get poll expiry time
         val pollExpiryTime = viewModel.pollExpiryTime
 
+        val validationOptionSize = if (binding.rvPollOptions.itemCount > 2) {
+            binding.rvPollOptions.itemCount
+        } else {
+            2
+        }
+
+
         //validate the poll and enable/disable submit button
-        if (pollQuestion.isNotEmpty() && pollOptions.size >= 2 && pollExpiryTime != null) {
+        if (pollQuestion.isNotEmpty() && pollOptions.size >= validationOptionSize && pollExpiryTime != null) {
             binding.headerViewCreatePoll.setSubmitButtonEnabled(true)
         } else {
             binding.headerViewCreatePoll.setSubmitButtonEnabled(false)

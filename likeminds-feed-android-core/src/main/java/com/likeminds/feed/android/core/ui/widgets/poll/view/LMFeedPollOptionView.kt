@@ -186,20 +186,14 @@ class LMFeedPollOptionView : ConstraintLayout {
             val optionBackgroundDrawable = clPollOption.background as GradientDrawable
             optionBackgroundDrawable.mutate()
             val strokeWidth = LMFeedViewUtils.dpToPx(1)
+            progressClip.mutate()
 
             if (pollOptionViewData.toShowResults) {
                 //set progress as per the percentage of votes
                 pbPollBackground.max = 100
-                pbPollBackground.progress = if (pollOptionViewData.percentage.roundToInt() == 0) {
-                    pbPollBackground.hide()
-                    0
-                } else {
-                    pbPollBackground.show()
-                    pollOptionViewData.percentage.roundToInt()
-                }
+                pbPollBackground.progress = pollOptionViewData.percentage.roundToInt()
             } else {
                 //set progress to 0 if results are not to be shown
-                pbPollBackground.hide()
                 pbPollBackground.progress = 0
             }
 
