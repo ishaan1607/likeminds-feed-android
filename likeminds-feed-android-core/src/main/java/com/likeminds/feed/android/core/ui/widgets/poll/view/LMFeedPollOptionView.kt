@@ -183,18 +183,27 @@ class LMFeedPollOptionView : ConstraintLayout {
             val progressDrawable = pbPollBackground.progressDrawable as LayerDrawable
             val progressClip =
                 progressDrawable.findDrawableByLayerId(R.id.lm_feed_poll_progress_clip) as ClipDrawable
-
-            val optionBackgroundDrawable = binding.clPollOption.background as GradientDrawable
+            val optionBackgroundDrawable = clPollOption.background as GradientDrawable
             optionBackgroundDrawable.mutate()
             val strokeWidth = LMFeedViewUtils.dpToPx(1)
 
             if (pollOptionViewData.toShowResults) {
                 //set progress as per the percentage of votes
-                pbPollBackground.progress = pollOptionViewData.percentage.roundToInt()
+                pbPollBackground.max = 100
+                pbPollBackground.progress = if (pollOptionViewData.percentage.roundToInt() == 0) {
+                    pbPollBackground.hide()
+                    0
+                } else {
+                    pbPollBackground.show()
+                    pollOptionViewData.percentage.roundToInt()
+                }
             } else {
                 //set progress to 0 if results are not to be shown
+                pbPollBackground.hide()
                 pbPollBackground.progress = 0
             }
+
+
 
             if (pollOptionViewData.isSelected) {
                 //set progress clip color to selected option color

@@ -548,16 +548,6 @@ open class LMFeedCreatePollFragment : Fragment(), LMFeedCreatePollOptionAdapterL
         val pollMultiSelectState = getSelectedPollMultiSelectState()
         val pollMultiSelectNumber = getSelectedPollMultiSelectNumber()
 
-        Log.d("PUI","""
-              pollQuestion: $pollQuestion
-              pollType: $pollType
-              isPollAnonymous: $isPollAnonymous
-              isPollAllowAddOption: $isPollAllowAddOption
-              pollMultiSelectState: $pollMultiSelectState
-              pollMultiSelectNumber: $pollMultiSelectNumber
-        """.trimIndent())
-
-
         LMFeedViewUtils.hideKeyboard(binding.root)
         viewModel.createPoll(
             pollQuestion,

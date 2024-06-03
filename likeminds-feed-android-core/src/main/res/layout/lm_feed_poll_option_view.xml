@@ -18,12 +18,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
+            <ProgressBar
                 android:id="@+id/pb_poll_background"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="@dimen/zero_dp"
                 android:layout_height="@dimen/zero_dp"
                 android:layout_margin="@dimen/lm_feed_extra_small_margin"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"
                 android:progressDrawable="@drawable/lm_feed_poll_result_background_selected"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -92,10 +95,10 @@
             android:foreground="?selectableItemBackgroundBorderless"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_poll_option"
             tools:text="5 votes"
-            app:layout_constraintHorizontal_bias="0.0"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_medium"
             tools:visibility="visible" />
