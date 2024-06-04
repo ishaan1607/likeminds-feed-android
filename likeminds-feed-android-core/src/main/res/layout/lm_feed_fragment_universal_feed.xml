@@ -36,7 +36,7 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_dp"
+            android:layout_height="@dimen/lm_feed_zero_dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,8 +58,8 @@
 
                 <com.likeminds.feed.android.core.universalfeed.view.LMFeedUniversalFeedListView
                     android:id="@+id/rv_universal"
-                    android:layout_width="@dimen/zero_dp"
-                    android:layout_height="@dimen/zero_dp"
+                    android:layout_width="@dimen/lm_feed_zero_dp"
+                    android:layout_height="@dimen/lm_feed_zero_dp"
                     android:clipToPadding="false"
                     android:descendantFocusability="blocksDescendants"
                     android:overScrollMode="never"
@@ -86,7 +86,7 @@
             android:id="@+id/progress_bar"
             layout="@layout/lm_feed_layout_progress_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_dp"
+            android:layout_height="@dimen/lm_feed_zero_dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

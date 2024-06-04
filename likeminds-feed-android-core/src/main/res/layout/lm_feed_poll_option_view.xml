@@ -10,7 +10,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_poll_option"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="wrap_content"
             android:background="@drawable/lm_feed_background_poll_item_selected"
             android:minHeight="@dimen/lm_feed_poll_option_min_height"
@@ -21,8 +21,8 @@
             <ProgressBar
                 android:id="@+id/pb_poll_background"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="@dimen/zero_dp"
+                android:layout_width="@dimen/lm_feed_zero_dp"
+                android:layout_height="@dimen/lm_feed_zero_dp"
                 android:layout_margin="@dimen/lm_feed_extra_small_margin"
                 android:indeterminate="false"
                 android:progressDrawable="@drawable/lm_feed_poll_result_background_selected"
@@ -34,7 +34,7 @@
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:id="@+id/tv_poll_option"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/lm_feed_zero_dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/lm_feed_regular_margin"
                 android:layout_marginTop="@dimen/lm_feed_small_margin"

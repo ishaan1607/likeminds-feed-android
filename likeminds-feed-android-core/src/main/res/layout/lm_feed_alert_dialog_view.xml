@@ -26,7 +26,7 @@
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:id="@+id/tv_alert_title"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/lm_feed_zero_dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_standard"
@@ -41,7 +41,7 @@
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:id="@+id/tv_alert_subtitle"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/lm_feed_zero_dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/lm_feed_large_margin"
                 android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_standard"
@@ -56,7 +56,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_alert_selector"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/lm_feed_zero_dp"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/lm_feed_large_margin"
                 android:elevation="@dimen/lm_feed_elevation_small"
@@ -84,7 +84,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_alert_input"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/lm_feed_zero_dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/lm_feed_small_margin"
                 android:layout_marginTop="@dimen/lm_feed_large_margin"

@@ -11,7 +11,7 @@
         <com.likeminds.feed.android.core.ui.widgets.noentitylayout.view.LMFeedNoEntityLayoutView
             android:id="@+id/layout_no_results"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_dp"
+            android:layout_height="@dimen/lm_feed_zero_dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

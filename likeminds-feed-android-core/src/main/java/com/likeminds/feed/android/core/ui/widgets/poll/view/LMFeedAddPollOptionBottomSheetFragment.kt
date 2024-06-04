@@ -69,7 +69,8 @@ open class LMFeedAddPollOptionBottomSheetFragment : BottomSheetDialogFragment() 
 
             //set background color
             val backgroundColor =
-                LMFeedStyleTransformer.pollResultsFragmentViewStyle.backgroundColor
+                LMFeedStyleTransformer.addPollOptionBottomSheetFragmentStyle.backgroundColor
+
             backgroundColor?.let { color ->
                 root.setBackgroundColor(
                     ContextCompat.getColor(
