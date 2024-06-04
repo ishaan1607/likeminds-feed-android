@@ -62,7 +62,6 @@ class LMFeedPostViewStyle private constructor(
                         .textColor(R.color.lm_feed_white)
                         .textSize(R.dimen.lm_feed_text_small)
                         .maxLines(1)
-                        .ellipsize(TextUtils.TruncateAt.END)
                         .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
                         .backgroundColor(LMFeedTheme.getButtonColor())
                         .build()

@@ -105,7 +105,7 @@
             tools:textColor="@color/lm_feed_grey"
             tools:textSize="@dimen/lm_feed_text_medium"
             tools:textStyle="normal"
-            tools:visibility="visible" />
+            tools:visibility="gon" />
 
         <View
             android:id="@+id/view_meta_dot_2"
