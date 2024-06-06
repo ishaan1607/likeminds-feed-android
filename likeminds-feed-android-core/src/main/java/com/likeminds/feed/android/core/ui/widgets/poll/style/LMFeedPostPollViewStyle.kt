@@ -2,7 +2,6 @@ package com.likeminds.feed.android.core.ui.widgets.poll.style
 
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.ui.base.styles.*
-import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
@@ -29,11 +28,11 @@ class LMFeedPostPollViewStyle private constructor(
     //poll info text style
     val pollInfoTextStyle: LMFeedTextStyle?,
     //submit poll button style
-    val submitPollVoteButtonStyle: LMFeedButtonStyle,
+    val submitPollVoteButtonStyle: LMFeedButtonStyle?,
     //poll expiry text style
     val pollExpiryTextStyle: LMFeedTextStyle?,
     //add option on poll text style
-    val addPollOptionButtonStyle: LMFeedButtonStyle,
+    val addPollOptionButtonStyle: LMFeedButtonStyle?,
     //edit poll icon style
     val editPollIconStyle: LMFeedIconStyle?,
     //clear poll icon style
@@ -46,7 +45,7 @@ class LMFeedPostPollViewStyle private constructor(
         private var pollTitleTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_large)
             .textColor(R.color.lm_feed_dark_grey)
-            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+            .fontResource(R.font.lm_feed_roboto_medium)
             .build()
 
         private var pollOptionsViewStyle: LMFeedPostPollOptionViewStyle =
@@ -56,32 +55,11 @@ class LMFeedPostPollViewStyle private constructor(
 
         private var pollInfoTextStyle: LMFeedTextStyle? = null
 
-        private var submitPollVoteButtonStyle: LMFeedButtonStyle = LMFeedButtonStyle.Builder()
-            .textStyle(
-                LMFeedTextStyle.Builder()
-                    .textColor(R.color.lm_feed_white)
-                    .textSize(R.dimen.lm_feed_text_large)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
-                    .build()
-            )
-            .backgroundColor(LMFeedTheme.getButtonColor())
-            .cornerRadius(R.dimen.lm_feed_corner_radius_medium)
-            .build()
+        private var submitPollVoteButtonStyle: LMFeedButtonStyle? = null
 
         private var pollExpiryTextStyle: LMFeedTextStyle? = null
 
-        private var addPollOptionButtonStyle: LMFeedButtonStyle = LMFeedButtonStyle.Builder()
-            .textStyle(
-                LMFeedTextStyle.Builder()
-                    .textSize(R.dimen.lm_feed_text_large)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-regular.ttf")
-                    .textColor(R.color.lm_feed_dark_grayish_blue)
-                    .textAllCaps(false)
-                    .build()
-            )
-            .cornerRadius(R.dimen.lm_feed_corner_radius_medium)
-            .strokeColor(R.color.lm_feed_dusty_grey_20)
-            .build()
+        private var addPollOptionButtonStyle: LMFeedButtonStyle? = null
 
         private var editPollIconStyle: LMFeedIconStyle? = null
 
@@ -105,7 +83,7 @@ class LMFeedPostPollViewStyle private constructor(
             this.pollInfoTextStyle = pollInfoTextStyle
         }
 
-        fun submitPollVoteButtonStyle(submitPollVoteButtonStyle: LMFeedButtonStyle) = apply {
+        fun submitPollVoteButtonStyle(submitPollVoteButtonStyle: LMFeedButtonStyle?) = apply {
             this.submitPollVoteButtonStyle = submitPollVoteButtonStyle
         }
 
@@ -113,7 +91,7 @@ class LMFeedPostPollViewStyle private constructor(
             this.pollExpiryTextStyle = pollExpiryTextStyle
         }
 
-        fun addPollOptionButtonStyle(addPollOptionButtonStyle: LMFeedButtonStyle) = apply {
+        fun addPollOptionButtonStyle(addPollOptionButtonStyle: LMFeedButtonStyle?) = apply {
             this.addPollOptionButtonStyle = addPollOptionButtonStyle
         }
 

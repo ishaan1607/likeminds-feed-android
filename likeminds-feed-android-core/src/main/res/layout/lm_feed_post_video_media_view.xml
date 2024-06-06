@@ -9,8 +9,8 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedVideoView
             android:id="@+id/video_view"
-            android:layout_width="@dimen/zero_dp"
-            android:layout_height="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
+            android:layout_height="@dimen/lm_feed_zero_dp"
             android:keepScreenOn="true"
             android:scaleType="centerCrop"
             android:visibility="invisible"
@@ -23,8 +23,8 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedImageView
             android:id="@+id/iv_video_thumbnail"
-            android:layout_width="@dimen/zero_dp"
-            android:layout_height="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
+            android:layout_height="@dimen/lm_feed_zero_dp"
             android:translationZ="@dimen/lm_feed_elevation_small"
             android:visibility="gone"
             app:layout_constraintDimensionRatio="1:1"

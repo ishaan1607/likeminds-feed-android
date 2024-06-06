@@ -24,7 +24,7 @@ class LMFeedViewMoreViewStyle private constructor(
         private var viewMoreTextStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textColor(R.color.lm_feed_dark_grayish_blue)
             .textSize(R.dimen.lm_feed_text_medium)
-            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+            .fontResource(R.font.lm_feed_roboto_medium)
             .build()
 
         private var visibleCountTextStyle: LMFeedTextStyle? = null

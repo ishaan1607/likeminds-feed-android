@@ -17,6 +17,7 @@ import com.likeminds.feed.android.core.utils.model.LMFeedPadding
  *
  * @property headerViewStyle : [LMFeedHeaderViewStyle] this will help you to customize the header view in the activity feed fragment
  * @property activityViewStyle : [LMFeedActivityViewStyle] this will help you to customize the activity feed item view
+ * @property noActivityLayoutViewStyle : [LMFeedNoEntityLayoutViewStyle] this will help you to customize the no activity layout in the activity feed fragment
  * @property backgroundColor: [Int] should be in format of [ColorRes] this will help you to customize the background color of the activity feed fragment | Default value = [null]
  * */
 class LMFeedActivityFeedFragmentViewStyle private constructor(
@@ -37,7 +38,7 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
                     .maxLines(1)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                    .fontResource(R.font.lm_feed_roboto_medium)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
             )
@@ -86,7 +87,7 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
                         .textColor(R.color.lm_feed_dark_grey)
                         .textSize(R.dimen.lm_feed_text_medium)
                         .typeface(Typeface.NORMAL)
-                        .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                        .fontResource(R.font.lm_feed_roboto_medium)
                         .build()
                 )
                 .build()
@@ -120,7 +121,8 @@ class LMFeedActivityFeedFragmentViewStyle private constructor(
     }
 
     fun toBuilder(): Builder {
-        return Builder().headerViewStyle(headerViewStyle)
+        return Builder()
+            .headerViewStyle(headerViewStyle)
             .activityViewStyle(activityViewStyle)
             .noActivityLayoutViewStyle(noActivityLayoutViewStyle)
             .backgroundColor(backgroundColor)

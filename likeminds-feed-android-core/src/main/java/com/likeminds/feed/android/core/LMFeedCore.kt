@@ -76,7 +76,7 @@ object LMFeedCore {
             .userName(userName)
             .uuid(uuid)
             .deviceId(deviceId)
-            .apiKey(apiKey ?: "")
+            .apiKey(apiKey)
             .enablePushNotifications(enablePushNotifications)
             .build()
 

@@ -6,26 +6,25 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_poll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/lm_feed_small_margin"
-        android:layout_marginBottom="@dimen/lm_feed_small_margin">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_poll_option"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="wrap_content"
             android:background="@drawable/lm_feed_background_poll_item_selected"
             android:minHeight="@dimen/lm_feed_poll_option_min_height"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.likeminds.feed.android.core.ui.base.views.LMFeedProgressBar
+            <ProgressBar
                 android:id="@+id/pb_poll_background"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="@dimen/zero_dp"
-                android:layout_height="@dimen/zero_dp"
-                android:layout_marginEnd="@dimen/lm_feed_extra_small_margin"
+                android:layout_width="@dimen/lm_feed_zero_dp"
+                android:layout_height="@dimen/lm_feed_zero_dp"
+                android:layout_margin="@dimen/lm_feed_extra_small_margin"
+                android:indeterminate="false"
                 android:progressDrawable="@drawable/lm_feed_poll_result_background_selected"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -35,11 +34,12 @@
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:id="@+id/tv_poll_option"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/lm_feed_zero_dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/lm_feed_regular_margin"
                 android:layout_marginTop="@dimen/lm_feed_small_margin"
                 android:layout_marginEnd="@dimen/lm_feed_regular_margin"
+                android:padding="@dimen/lm_feed_small_padding"
                 app:layout_constraintBottom_toTopOf="@+id/tv_added_by"
                 app:layout_constraintEnd_toStartOf="@+id/iv_checked"
                 app:layout_constraintStart_toStartOf="parent"
@@ -56,8 +56,8 @@
                 android:id="@+id/tv_added_by"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/lm_feed_regular_margin"
                 android:layout_marginBottom="@dimen/lm_feed_small_margin"
+                android:paddingHorizontal="@dimen/lm_feed_small_padding"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tv_poll_option"
@@ -67,7 +67,7 @@
                 tools:text="@string/lm_feed_added_by_you"
                 tools:textColor="@color/lm_feed_grey"
                 tools:textSize="@dimen/lm_feed_text_small"
-                tools:visibility="gone" />
+                tools:visibility="visible" />
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
                 android:id="@+id/iv_checked"
@@ -86,16 +86,20 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_no_votes"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/lm_feed_regular_margin"
             android:layout_marginTop="@dimen/lm_feed_extra_small_margin"
+            android:foreground="?selectableItemBackgroundBorderless"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cl_poll_option"
+            tools:text="5 votes"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_medium"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

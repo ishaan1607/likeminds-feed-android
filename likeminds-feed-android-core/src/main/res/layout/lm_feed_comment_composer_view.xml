@@ -38,7 +38,7 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
             android:id="@+id/et_comment"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="wrap_content"
             android:inputType="textCapSentences|textMultiLine"
             android:paddingStart="@dimen/lm_feed_large_padding"
@@ -58,7 +58,7 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_restricted"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_small"

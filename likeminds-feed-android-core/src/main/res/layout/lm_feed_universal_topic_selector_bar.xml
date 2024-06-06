@@ -29,8 +29,8 @@
 
         <com.likeminds.feed.android.core.universalfeed.view.LMFeedUniversalSelectedTopicListView
             android:id="@+id/rv_selected_topics"
-            android:layout_width="@dimen/zero_dp"
-            android:layout_height="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
+            android:layout_height="@dimen/lm_feed_zero_dp"
             android:layout_marginVertical="@dimen/lm_feed_regular_margin"
             android:layout_marginStart="@dimen/lm_feed_large_margin"
             android:visibility="gone"

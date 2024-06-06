@@ -1,6 +1,7 @@
 package com.likeminds.feed.android.core.ui.widgets.post.postmedia.style
 
 import com.likeminds.feed.android.core.ui.base.styles.LMFeedImageStyle
+import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedPostPollViewStyle
 import com.likeminds.feed.android.core.utils.LMFeedViewStyle
 
 /**
@@ -22,7 +23,9 @@ class LMFeedPostMediaViewStyle private constructor(
     //style for documents media in a post
     val postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle?,
     //style for multiple media carousel in a post
-    val postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle?
+    val postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle?,
+    //style for poll media in a post
+    val postPollMediaStyle: LMFeedPostPollViewStyle?
 ) : LMFeedViewStyle {
 
     class Builder {
@@ -35,6 +38,8 @@ class LMFeedPostMediaViewStyle private constructor(
         private var postDocumentsMediaStyle: LMFeedPostDocumentsMediaViewStyle? = null
 
         private var postMultipleMediaStyle: LMFeedPostMultipleMediaViewStyle? = null
+
+        private var postPollMediaStyle: LMFeedPostPollViewStyle? = null
 
         fun postImageMediaStyle(postImageMediaStyle: LMFeedPostImageMediaViewStyle?) = apply {
             this.postImageMediaStyle = postImageMediaStyle
@@ -58,12 +63,17 @@ class LMFeedPostMediaViewStyle private constructor(
                 this.postMultipleMediaStyle = postMultipleMediaStyle
             }
 
+        fun postPollMediaStyle(postPollMediaStyle: LMFeedPostPollViewStyle?) = apply {
+            this.postPollMediaStyle = postPollMediaStyle
+        }
+
         fun build() = LMFeedPostMediaViewStyle(
             postImageMediaStyle,
             postVideoMediaStyle,
             postLinkStyle,
             postDocumentsMediaStyle,
-            postMultipleMediaStyle
+            postMultipleMediaStyle,
+            postPollMediaStyle
         )
     }
 
@@ -73,5 +83,6 @@ class LMFeedPostMediaViewStyle private constructor(
             .postLinkStyle(postLinkViewStyle)
             .postDocumentsMediaStyle(postDocumentsMediaStyle)
             .postMultipleMediaStyle(postMultipleMediaStyle)
+            .postPollMediaStyle(postPollMediaStyle)
     }
 }
