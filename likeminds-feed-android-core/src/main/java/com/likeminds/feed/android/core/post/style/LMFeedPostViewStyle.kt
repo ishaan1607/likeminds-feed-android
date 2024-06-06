@@ -64,7 +64,6 @@ class LMFeedPostViewStyle private constructor(
                         .textColor(R.color.lm_feed_white)
                         .textSize(R.dimen.lm_feed_text_small)
                         .maxLines(1)
-                        .ellipsize(TextUtils.TruncateAt.END)
                         .fontResource(R.font.lm_feed_roboto_medium)
                         .backgroundColor(LMFeedTheme.getButtonColor())
                         .build()

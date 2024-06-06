@@ -47,7 +47,7 @@ class LMFeedItemNoCommentsFoundViewDataBinder :
         //showing static data
         binding.layoutNoComments.apply {
             setTitleText(context.getString(R.string.lm_feed_no_comments_found))
-            setSubtitleText(context.getString(R.string.lm_feed_be_the_first_one_to_comment))
+            setSubtitleText(context.getString(R.string.lm_feed_be_the_first_one_to_create_a_comment))
         }
     }
 }
