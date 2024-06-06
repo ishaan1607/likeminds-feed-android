@@ -8,7 +8,7 @@
 
     <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
         android:id="@+id/tv_message"
-        android:layout_width="@dimen/zero_dp"
+        android:layout_width="@dimen/lm_feed_zero_dp"
         android:layout_height="wrap_content"
         android:background="@color/lm_feed_faux_charcoal"
         android:gravity="start"
@@ -18,5 +18,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Your order has been placed!" />
+        tools:text="@string/lm_feed_no_topics_yet" />
 </merge>

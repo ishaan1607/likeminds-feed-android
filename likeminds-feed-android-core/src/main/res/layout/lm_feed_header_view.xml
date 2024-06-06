@@ -43,7 +43,7 @@
                 app:layout_constraintStart_toEndOf="@id/iv_header_navigation"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:text="Post" />
+                tools:text="@string/lm_feed_s_post" />
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:id="@+id/tv_header_subtitle"
@@ -58,7 +58,7 @@
                 app:layout_constraintStart_toStartOf="@id/tv_header_title"
                 app:layout_constraintTop_toBottomOf="@id/tv_header_title"
                 app:layout_constraintVertical_chainStyle="packed"
-                tools:text="14 comments" />
+                tools:text="@string/lm_feed_comment" />
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
                 android:id="@+id/iv_header_notification"
@@ -88,7 +88,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/iv_header_notification"
                 app:layout_constraintEnd_toEndOf="@id/iv_header_notification"
                 app:layout_constraintTop_toTopOf="@id/iv_header_notification"
-                tools:text="1"
+                tools:text="@string/lm_feed_nine_nine_plus"
                 tools:textColor="@color/lm_feed_white"
                 tools:textSize="@dimen/lm_feed_notification_badge_text_size"
                 tools:visibility="visible" />

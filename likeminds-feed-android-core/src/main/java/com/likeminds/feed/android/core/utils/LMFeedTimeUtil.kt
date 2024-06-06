@@ -3,6 +3,9 @@ package com.likeminds.feed.android.core.utils
 import android.content.Context
 import android.text.format.DateUtils
 import com.likeminds.feed.android.core.R
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 object LMFeedTimeUtil {
 
@@ -12,8 +15,14 @@ object LMFeedTimeUtil {
 
 
     //to get the relative time for post/comment/reply
-    fun getRelativeTimeInString(createdTime: Long): String {
+    fun getRelativeCreationTimeInString(createdTime: Long): String {
         val timeDifference = System.currentTimeMillis() - createdTime
+        return getDaysHoursOrMinutes(timeDifference)
+    }
+
+    //to get the relative time for expiry
+    fun getRelativeExpiryTimeInString(expiryTime: Long): String {
+        val timeDifference = expiryTime - System.currentTimeMillis()
         return getDaysHoursOrMinutes(timeDifference)
     }
 
@@ -52,5 +61,17 @@ object LMFeedTimeUtil {
         } else {
             relativeTime
         }
+    }
+
+    /**
+     * @param timestamp epoch time in milliseconds
+     * @return time in "dd MMM yyyy hh:mm aaa" format
+     */
+    fun getDateFormat(timestamp: Long): String{
+        val sdf = SimpleDateFormat(
+            "dd MMM yyyy hh:mm aaa",
+            Locale.getDefault()
+        )
+        return sdf.format(Date(timestamp))
     }
 }

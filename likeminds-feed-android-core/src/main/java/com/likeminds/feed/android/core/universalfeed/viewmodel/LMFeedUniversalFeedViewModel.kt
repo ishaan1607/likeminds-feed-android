@@ -5,6 +5,8 @@ import android.content.Context
 import androidx.lifecycle.*
 import androidx.work.WorkContinuation
 import androidx.work.WorkManager
+import com.likeminds.feed.android.core.R
+import com.likeminds.feed.android.core.poll.util.LMFeedPollUtil
 import com.likeminds.feed.android.core.post.create.util.LMFeedPostAttachmentUploadWorker
 import com.likeminds.feed.android.core.post.model.IMAGE
 import com.likeminds.feed.android.core.post.model.VIDEO
@@ -18,6 +20,8 @@ import com.likeminds.feed.android.core.utils.coroutine.launchIO
 import com.likeminds.feed.android.core.utils.user.LMFeedMemberRightsUtil
 import com.likeminds.feed.android.core.utils.user.LMFeedUserViewData
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.poll.model.AddPollOptionRequest
+import com.likeminds.likemindsfeed.poll.model.SubmitVoteRequest
 import com.likeminds.likemindsfeed.post.model.*
 import com.likeminds.likemindsfeed.topic.model.GetTopicRequest
 import com.likeminds.likemindsfeed.universalfeed.model.GetFeedRequest
@@ -96,6 +100,14 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
         _userResponse
     }
 
+    private val _postResponse by lazy {
+        MutableLiveData<LMFeedPostViewData>()
+    }
+
+    val postResponse: LiveData<LMFeedPostViewData> by lazy {
+        _postResponse
+    }
+
     private val errorMessageChannel by lazy {
         Channel<ErrorMessageEvent>(Channel.BUFFERED)
     }
@@ -120,6 +132,12 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
         data class GetUnreadNotificationCount(val errorMessage: String?) : ErrorMessageEvent()
 
         data class AddPost(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class SubmitVote(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class AddPollOption(val errorMessage: String?) : ErrorMessageEvent()
+
+        data class GetPost(val errorMessage: String?) : ErrorMessageEvent()
     }
 
     sealed class PostDataEvent {
@@ -133,6 +151,7 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
 
     companion object {
         const val PAGE_SIZE = 20
+        const val GET_POST_PAGE_SIZE = 5
     }
 
     // fetches pending post data from db
@@ -145,7 +164,10 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
 
             postDataEventChannel.send(
                 PostDataEvent.PostDbData(
-                    LMFeedViewDataConvertor.convertPost(post, topics)
+                    LMFeedViewDataConvertor.convertPost(
+                        post,
+                        topics
+                    )
                 )
             )
         }
@@ -180,10 +202,15 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
             val response = lmFeedClient.addPost(request)
             if (response.success) {
                 val data = response.data ?: return@launchIO
+                val usersMap = data.users
+                val topicsMap = data.topics
+                val widgetsMap = data.widgets
+
                 val postViewData = LMFeedViewDataConvertor.convertPost(
                     data.post,
-                    data.users,
-                    data.topics
+                    usersMap,
+                    topicsMap,
+                    widgetsMap
                 )
 
                 // sends post creation completed event
@@ -212,10 +239,16 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
                 val posts = data.posts
                 val usersMap = data.users
                 val topicsMap = data.topics
+                val widgetsMap = data.widgets
 
                 //convert to view data
                 val listOfPostViewData =
-                    LMFeedViewDataConvertor.convertUniversalFeedPosts(posts, usersMap, topicsMap)
+                    LMFeedViewDataConvertor.convertUniversalFeedPosts(
+                        posts,
+                        usersMap,
+                        topicsMap,
+                        widgetsMap
+                    )
 
                 //send it to ui
                 _universalFeedResponse.postValue(Pair(page, listOfPostViewData))
@@ -460,6 +493,109 @@ class LMFeedUniversalFeedViewModel : ViewModel() {
         val oneTimeWorkRequest = LMFeedPostAttachmentUploadWorker.getInstance(postId, filesCount)
         val workContinuation = WorkManager.getInstance(context).beginWith(oneTimeWorkRequest)
         return Pair(workContinuation, oneTimeWorkRequest.id.toString())
+    }
+
+    //calls api to submit vote on poll
+    fun submitPollVote(
+        context: Context,
+        postId: String,
+        pollId: String,
+        optionIds: List<String>
+    ) {
+        viewModelScope.launchIO {
+            if (optionIds.isEmpty()) {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.SubmitVote(
+                        context.getString(
+                            R.string.lm_feed_please_select_options_before_submitting_vote
+                        )
+                    )
+                )
+            }
+
+            val request = SubmitVoteRequest.Builder()
+                .pollId(pollId)
+                .votes(optionIds)
+                .build()
+
+            val response = lmFeedClient.submitVote(request)
+
+            if (response.success) {
+                getPost(postId)
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.SubmitVote(response.errorMessage))
+            }
+        }
+    }
+
+    // to getPost
+    private fun getPost(postId: String) {
+        viewModelScope.launchIO {
+            // builds api request
+            val request = GetPostRequest.Builder()
+                .postId(postId)
+                .page(1)
+                .pageSize(GET_POST_PAGE_SIZE)
+                .build()
+
+            // calls api
+            val response = lmFeedClient.getPost(request)
+
+            if (response.success) {
+                val data = response.data ?: return@launchIO
+                val post = data.post
+                val users = data.users
+                val topics = data.topics
+                val widgets = data.widgets
+
+                _postResponse.postValue(
+                    LMFeedViewDataConvertor.convertPost(
+                        post,
+                        users,
+                        topics,
+                        widgets
+                    )
+                )
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.GetPost(response.errorMessage))
+            }
+        }
+    }
+
+    //calls api to add option on the poll
+    fun addPollOption(
+        post: LMFeedPostViewData,
+        addedOptionText: String
+    ) {
+        viewModelScope.launchIO {
+            val pollAttachment = post.mediaViewData.attachments.firstOrNull() ?: return@launchIO
+            val poll = pollAttachment.attachmentMeta.poll ?: return@launchIO
+
+            val isDuplicationOption =
+                LMFeedPollUtil.isDuplicationOption(poll, addedOptionText)
+
+            if (isDuplicationOption) {
+                errorMessageChannel.send(
+                    ErrorMessageEvent.AddPollOption(
+                        "Poll options cannot contain similar text"
+                    )
+                )
+                return@launchIO
+            }
+
+            val request = AddPollOptionRequest.Builder()
+                .pollId(poll.id)
+                .text(addedOptionText)
+                .build()
+
+            val response = lmFeedClient.addPollOption(request)
+
+            if (response.success) {
+                getPost(post.id)
+            } else {
+                errorMessageChannel.send(ErrorMessageEvent.AddPollOption(response.errorMessage))
+            }
+        }
     }
 
     /**

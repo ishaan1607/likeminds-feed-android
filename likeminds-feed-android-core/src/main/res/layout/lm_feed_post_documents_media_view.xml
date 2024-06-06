@@ -9,9 +9,10 @@
 
         <com.likeminds.feed.android.core.universalfeed.view.LMFeedDocumentListView
             android:id="@+id/rv_documents"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants"
+            android:nestedScrollingEnabled="false"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,11 +27,10 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_documents"
             tools:fontFamily="@font/lm_feed_roboto"
-            tools:text="+1 more"
             tools:textColor="@color/lm_feed_majorelle_blue"
             tools:textSize="@dimen/lm_feed_text_large"
             tools:textStyle="normal"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

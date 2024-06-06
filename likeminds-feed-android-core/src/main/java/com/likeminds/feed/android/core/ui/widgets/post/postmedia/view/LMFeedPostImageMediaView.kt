@@ -53,10 +53,21 @@ class LMFeedPostImageMediaView : ConstraintLayout {
         }
     }
 
-    fun setImage(imageSrc: Any, lmFeedPostImageMediaViewStyle: LMFeedPostImageMediaViewStyle) {
-        binding.imageView.setImage(imageSrc, lmFeedPostImageMediaViewStyle.imageStyle)
+    /**
+     * Sets the image to the image media of the post
+     *
+     * @param imageSrc - source to be set for the image media view of the post.
+     * @param postImageMediaViewStyle - view style for the image media of the post.
+     */
+    fun setImage(imageSrc: Any, postImageMediaViewStyle: LMFeedPostImageMediaViewStyle) {
+        binding.imageView.setImage(imageSrc, postImageMediaViewStyle.imageStyle)
     }
 
+    /**
+     * Sets click listener on the remove icon on the image media of the post
+     *
+     * @param listener [LMFeedOnClickListener] interface to have click listener.
+     */
     fun setRemoveIconClickListener(listener: LMFeedOnClickListener) {
         binding.ivCross.setOnClickListener {
             listener.onClick()

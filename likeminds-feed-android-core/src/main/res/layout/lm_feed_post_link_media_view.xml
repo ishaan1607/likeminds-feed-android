@@ -41,7 +41,7 @@
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:id="@+id/tv_link_title"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/lm_feed_zero_dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
                 android:layout_marginTop="@dimen/lm_feed_large_margin"
@@ -50,13 +50,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_link"
-                tools:text="Twitter will soon let you schedule your tweets"
+                tools:text="@string/lm_feed_sample_link_title"
                 tools:textColor="@color/lm_feed_grey"
                 tools:textSize="@dimen/lm_feed_text_large" />
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:id="@+id/tv_link_description"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/lm_feed_zero_dp"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:lineSpacingExtra="@dimen/lm_feed_line_spacing_extra_extra_small"
@@ -64,13 +64,13 @@
                 app:layout_constraintEnd_toEndOf="@+id/tv_link_title"
                 app:layout_constraintStart_toStartOf="@+id/tv_link_title"
                 app:layout_constraintTop_toBottomOf="@+id/tv_link_title"
-                tools:text="The new feature has already been implemented in the United States and Other Eu…"
+                tools:text="@string/lm_feed_sample_text"
                 tools:textColor="@color/lm_feed_grey"
                 tools:textSize="@dimen/lm_feed_text_small" />
 
             <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
                 android:id="@+id/tv_link_url"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/lm_feed_zero_dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/lm_feed_large_margin"
                 android:gravity="center_vertical"
@@ -80,7 +80,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/tv_link_title"
                 app:layout_constraintStart_toStartOf="@+id/tv_link_title"
                 app:layout_constraintTop_toBottomOf="@+id/tv_link_description"
-                tools:text="www.youtube.com"
+                tools:text="@string/lm_feed_sample_link_url"
                 tools:textColor="@color/lm_feed_grey"
                 tools:textSize="@dimen/lm_feed_text_small" />
 

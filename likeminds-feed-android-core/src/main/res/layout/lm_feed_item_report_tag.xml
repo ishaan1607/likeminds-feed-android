@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ellipsize="end"
             tools:maxLines="1"
-            tools:text="Inappropriate Language"
+            tools:text="@string/lm_feed_sample_report_tag"
             tools:textSize="@dimen/lm_feed_text_large" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,12 +6,7 @@ import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedIte
 import com.likeminds.feed.android.core.post.detail.adapter.databinders.LMFeedItemNoCommentsFoundViewDataBinder
 import com.likeminds.feed.android.core.post.detail.model.LMFeedCommentViewData
 import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostDocumentsViewDataBinder
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostLinkViewDataBinder
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostMultipleMediaViewDataBinder
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostSingleImageViewDataBinder
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostSingleVideoViewDataBinder
-import com.likeminds.feed.android.core.universalfeed.adapter.databinders.LMFeedItemPostTextOnlyViewDataBinder
+import com.likeminds.feed.android.core.universalfeed.adapter.databinders.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getItemInList
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseRecyclerAdapter
 import com.likeminds.feed.android.core.utils.base.LMFeedBaseViewType
@@ -28,7 +23,7 @@ class LMFeedPostDetailAdapter(
     }
 
     override fun getSupportedViewDataBinder(): MutableList<LMFeedViewDataBinder<*, *>> {
-        val viewDataBinders = ArrayList<LMFeedViewDataBinder<*, *>>(8)
+        val viewDataBinders = ArrayList<LMFeedViewDataBinder<*, *>>(10)
 
         val itemCommentsCountViewDataBinder = LMFeedItemCommentsCountViewDataBinder()
         viewDataBinders.add(itemCommentsCountViewDataBinder)
@@ -60,6 +55,10 @@ class LMFeedPostDetailAdapter(
         val itemPostMultipleMediaViewDataBinder =
             LMFeedItemPostMultipleMediaViewDataBinder(universalFeedAdapterListener)
         viewDataBinders.add(itemPostMultipleMediaViewDataBinder)
+
+        val itemPostPollViewDataBinder =
+            LMFeedItemPostPollViewDataBinder(universalFeedAdapterListener)
+        viewDataBinders.add(itemPostPollViewDataBinder)
 
         val itemNoCommentsFoundBinder = LMFeedItemNoCommentsFoundViewDataBinder()
         viewDataBinders.add(itemNoCommentsFoundBinder)

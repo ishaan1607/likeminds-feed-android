@@ -41,7 +41,7 @@ class LMFeedPostHeaderViewStyle private constructor(
             .textColor(R.color.lm_feed_raisin_black)
             .maxLines(1)
             .ellipsize(TextUtils.TruncateAt.END)
-            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+            .fontResource(R.font.lm_feed_roboto_medium)
             .build()
 
         private var timestampTextStyle: LMFeedTextStyle? = null

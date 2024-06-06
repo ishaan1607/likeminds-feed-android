@@ -21,7 +21,7 @@ import com.likeminds.feed.android.core.utils.model.LMFeedPadding
  * @property replyViewStyle: [LMFeedCommentViewStyle] this will help you to customize the reply view in the post detail fragment
  * @property noCommentsFoundViewStyle: [LMFeedNoEntityLayoutViewStyle] this will help you to customize the no comments found view in the post detail fragment
  * @property commentComposerStyle: [LMFeedCommentComposerViewStyle] this will help you to customize the comment composer view in the post detail fragment
- * @property viewMoreReplyStyle: [LMFeedViewMoreStyle] this will help you to customize the view more reply view in the post detail fragment
+ * @property viewMoreReplyStyle: [LMFeedViewMoreViewStyle] this will help you to customize the view more reply view in the post detail fragment
  * */
 class LMFeedPostDetailFragmentViewStyle private constructor(
     //header
@@ -46,7 +46,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                    .fontResource(R.font.lm_feed_roboto_medium)
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
@@ -79,7 +79,7 @@ class LMFeedPostDetailFragmentViewStyle private constructor(
         private var commentsCountViewStyle: LMFeedTextStyle = LMFeedTextStyle.Builder()
             .textSize(R.dimen.lm_feed_text_medium)
             .textColor(R.color.lm_feed_raisin_black)
-            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+            .fontResource(R.font.lm_feed_roboto_medium)
             .build()
 
         private var commentViewStyle: LMFeedCommentViewStyle = LMFeedCommentViewStyle.Builder()

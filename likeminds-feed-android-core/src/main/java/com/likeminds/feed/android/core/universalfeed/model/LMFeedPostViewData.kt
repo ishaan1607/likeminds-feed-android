@@ -40,6 +40,10 @@ class  LMFeedPostViewData private constructor(
                 ITEM_POST_LINK
             }
 
+            (mediaViewData.attachments.size == 1 && mediaViewData.attachments.first().attachmentType == POLL) -> {
+                ITEM_POST_POLL
+            }
+
             else -> {
                 ITEM_POST_TEXT_ONLY
             }

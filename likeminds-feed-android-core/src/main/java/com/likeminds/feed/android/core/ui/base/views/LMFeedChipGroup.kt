@@ -41,8 +41,8 @@ class LMFeedChipGroup @JvmOverloads constructor(
         chipBinding.chip.apply {
             //text related
             if (chipText == null) {
-                textStartPadding = resources.getDimension(R.dimen.zero_dp)
-                textEndPadding = resources.getDimension(R.dimen.zero_dp)
+                textStartPadding = resources.getDimension(R.dimen.lm_feed_zero_dp)
+                textEndPadding = resources.getDimension(R.dimen.lm_feed_zero_dp)
             } else {
                 text = chipText
             }

@@ -58,31 +58,34 @@ class LMFeedPostDocumentView : ConstraintLayout {
     }
 
     private fun configureDocumentPageCount(documentPageCountStyle: LMFeedTextStyle?) {
-        binding.tvDocumentPages.apply {
+        binding.apply {
             if (documentPageCountStyle == null) {
-                hide()
+                tvDocumentPages.hide()
+                viewMetaDot1.hide()
             } else {
-                setStyle(documentPageCountStyle)
+                tvDocumentPages.setStyle(documentPageCountStyle)
             }
         }
     }
 
     private fun configureDocumentSize(documentSizeStyle: LMFeedTextStyle?) {
-        binding.tvDocumentSize.apply {
+        binding.apply {
             if (documentSizeStyle == null) {
-                hide()
+                tvDocumentSize.hide()
+                viewMetaDot1.hide()
             } else {
-                setStyle(documentSizeStyle)
+                tvDocumentSize.setStyle(documentSizeStyle)
             }
         }
     }
 
     private fun configureDocumentType(documentTypeStyle: LMFeedTextStyle?) {
-        binding.tvDocumentType.apply {
+        binding.apply {
             if (documentTypeStyle == null) {
-                hide()
+                tvDocumentType.hide()
+                viewMetaDot2.hide()
             } else {
-                setStyle(documentTypeStyle)
+                tvDocumentType.setStyle(documentTypeStyle)
             }
         }
     }
@@ -113,18 +116,20 @@ class LMFeedPostDocumentView : ConstraintLayout {
      * @param documentPages - number of pages in the document.
      */
     fun setDocumentPages(documentPages: Int?) {
-        binding.tvDocumentPages.apply {
+        binding.apply {
             val noOfPage = documentPages ?: 0
 
             if (noOfPage > 0) {
-                show()
-                text = context.resources.getQuantityString(
+                tvDocumentPages.show()
+                viewMetaDot1.show()
+                tvDocumentPages.text = context.resources.getQuantityString(
                     R.plurals.lm_feed_placeholder_pages,
                     noOfPage,
                     noOfPage
                 )
             } else {
-                hide()
+                tvDocumentPages.hide()
+                viewMetaDot1.hide()
             }
         }
     }
@@ -139,7 +144,7 @@ class LMFeedPostDocumentView : ConstraintLayout {
             if (documentSize != null) {
                 tvDocumentSize.show()
                 tvDocumentSize.text = MediaUtils.getFileSizeText(documentSize)
-                if (tvDocumentSize.isVisible) {
+                if (tvDocumentPages.isVisible) {
                     viewMetaDot1.show()
                 } else {
                     viewMetaDot1.hide()

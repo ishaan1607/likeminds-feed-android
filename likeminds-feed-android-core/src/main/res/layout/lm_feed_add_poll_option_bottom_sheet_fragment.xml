@@ -1,0 +1,92 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lm_feed_white">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="@dimen/lm_feed_report_bottom_sheet_top_bar_width"
+            android:layout_height="@dimen/lm_feed_report_bottom_sheet_top_bar_height"
+            android:layout_margin="@dimen/lm_feed_regular_margin"
+            android:background="@drawable/lm_feed_bg_sheet_handle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_add_poll_option_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lm_feed_extra_large_margin"
+            android:layout_marginTop="@dimen/lm_feed_large_margin"
+            android:text="@string/lm_feed_add_new_poll_option"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:textColor="@color/lm_feed_black"
+            tools:textSize="@dimen/lm_feed_text_large" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
+            android:id="@+id/tv_add_poll_option_subtitle"
+            android:layout_width="@dimen/lm_feed_zero_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/lm_feed_extra_large_margin"
+            android:layout_marginTop="@dimen/lm_feed_small_margin"
+            android:layout_marginEnd="@dimen/lm_feed_extra_large_margin"
+            android:alpha="0.5"
+            android:text="@string/lm_feed_enter_an_option_that_you_think_is_missing_in_this_poll_this_cannot_be_undone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_poll_option_title"
+            tools:textColor="@color/lm_feed_black"
+            tools:textSize="@dimen/lm_feed_text_medium" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedIcon
+            android:id="@+id/iv_cancel_add_poll_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/lm_feed_small_margin"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/lm_feed_ic_cross_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:ignore="ContentDescription"
+            tools:padding="@dimen/lm_feed_medium_padding" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
+            android:id="@+id/et_option"
+            android:layout_width="@dimen/lm_feed_zero_dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/lm_feed_large_margin"
+            android:layout_marginTop="@dimen/lm_feed_extra_extra_large_margin"
+            android:background="@drawable/lm_feed_bg_input_add_poll_option"
+            android:hint="@string/lm_feed_type_new_option"
+            android:importantForAutofill="no"
+            android:includeFontPadding="false"
+            android:inputType="textCapSentences"
+            android:padding="@dimen/lm_feed_large_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_poll_option_subtitle" />
+
+        <com.likeminds.feed.android.core.ui.base.views.LMFeedButton
+            android:id="@+id/btn_submit_poll_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/lm_feed_extra_large_margin"
+            android:enabled="false"
+            android:paddingHorizontal="@dimen/lm_feed_poll_option_submit_button_horizontal_padding"
+            android:paddingVertical="@dimen/lm_feed_poll_option_submit_button_vertical_padding"
+            android:text="@string/lm_feed_submit"
+            android:textColor="@color/lm_feed_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_option"
+            tools:textSize="@dimen/lm_feed_text_medium" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

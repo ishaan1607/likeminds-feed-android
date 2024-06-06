@@ -35,8 +35,7 @@ class LMFeedActivityFeedActivity : AppCompatActivity() {
 
     private fun inflateActivityFeedFragment() {
         //gets activity feed fragment instance
-        val activityFeedFragment =
-            LMFeedActivityFeedFragment.getInstance()
+        val activityFeedFragment = LMFeedActivityFeedFragment.getInstance()
 
         //commits fragment replace transaction
         supportFragmentManager.beginTransaction()

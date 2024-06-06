@@ -54,13 +54,13 @@
             app:layout_constraintTop_toTopOf="@id/iv_user_image"
             tools:ellipsize="end"
             tools:fontFamily="@font/lm_feed_roboto"
-            tools:text="Nishkarsh Kaushik commented on your post: “Here is a list of social media tools to help yousdfs sdfsd f sdf sfsdfds sdf sdfsdf sfsdfsfd sdfsdfsd  sdff”"
+            tools:text="@string/lm_feed_sample_text"
             tools:textColor="@color/lm_feed_dark_grey"
             tools:textSize="@dimen/lm_feed_text_medium" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_activity_date"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lm_feed_activity_date_margin"
             app:layout_constrainedWidth="true"
@@ -69,8 +69,7 @@
             app:layout_constraintStart_toStartOf="@id/tv_activity_content"
             app:layout_constraintTop_toBottomOf="@+id/tv_activity_content"
             tools:fontFamily="@font/lm_feed_roboto"
-            tools:text="4 days ago"
-            tools:visibility="visible"
+            tools:visibility="gone"
             tools:textColor="@color/lm_feed_brown_grey"
             tools:textSize="@dimen/lm_feed_text_medium" />
 

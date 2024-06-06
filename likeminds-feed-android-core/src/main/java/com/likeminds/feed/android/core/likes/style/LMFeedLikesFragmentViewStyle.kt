@@ -31,7 +31,7 @@ class LMFeedLikesFragmentViewStyle private constructor(
                 LMFeedTextStyle.Builder()
                     .textColor(R.color.lm_feed_black)
                     .textSize(R.dimen.lm_feed_header_view_title_text_size)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                    .fontResource(R.font.lm_feed_roboto_medium)
                     .maxLines(1)
                     .ellipsize(TextUtils.TruncateAt.END)
                     .build()
@@ -68,7 +68,7 @@ class LMFeedLikesFragmentViewStyle private constructor(
                     .maxLines(1)
                     .textColor(LMFeedTheme.getButtonColor())
                     .textSize(R.dimen.lm_feed_text_medium)
-                    .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+                    .fontResource(R.font.lm_feed_roboto_medium)
                     .build()
             )
             .build()
@@ -88,7 +88,11 @@ class LMFeedLikesFragmentViewStyle private constructor(
             this.backgroundColor = backgroundColor
         }
 
-        fun build() = LMFeedLikesFragmentViewStyle(headerViewStyle, userViewStyle, backgroundColor)
+        fun build() = LMFeedLikesFragmentViewStyle(
+            headerViewStyle,
+            userViewStyle,
+            backgroundColor
+        )
     }
 
     fun toBuilder(): Builder {

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
@@ -24,7 +25,10 @@ import com.likeminds.customgallery.media.model.*
 import com.likeminds.feed.android.core.R
 import com.likeminds.feed.android.core.databinding.LmFeedFragmentCreatePostBinding
 import com.likeminds.feed.android.core.databinding.LmFeedItemMultipleMediaVideoBinding
+import com.likeminds.feed.android.core.poll.create.view.LMFeedCreatePollActivity
+import com.likeminds.feed.android.core.poll.result.model.LMFeedPollViewData
 import com.likeminds.feed.android.core.post.create.model.LMFeedCreatePostExtras
+import com.likeminds.feed.android.core.post.create.util.LMFeedCreateEditPostViewStyleUtil
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.LM_FEED_CREATE_POST_EXTRAS
 import com.likeminds.feed.android.core.post.create.view.LMFeedCreatePostActivity.Companion.POST_ATTACHMENTS_LIMIT
 import com.likeminds.feed.android.core.post.create.viewmodel.LMFeedCreatePostViewModel
@@ -39,6 +43,7 @@ import com.likeminds.feed.android.core.ui.base.styles.setStyle
 import com.likeminds.feed.android.core.ui.base.views.*
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderView
+import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedPostPollView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostImageMediaViewStyle
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
@@ -85,6 +90,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         ArrayList<LMFeedTopicViewData>()
     }
     private var ogTags: LMFeedLinkOGTagsViewData? = null
+    private var poll: LMFeedPollViewData? = null
 
     companion object {
         const val TAG = "LMFeedCreatePostFragment"
@@ -139,6 +145,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             customizePostDocumentsAttachment(postDocumentsView)
             customizePostMultipleMedia(multipleMediaView)
             customizeAddMoreButton(btnAddMoreMedia)
+            customizePostPollAttachment(pollView)
 
             //set background color
             val backgroundColor =
@@ -273,6 +280,13 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         btnAddMoreMedia.setStyle(addMoreButtonViewStyle)
     }
 
+    //customize poll attachment
+    protected open fun customizePostPollAttachment(pollView: LMFeedPostPollView) {
+        val updatedPollStyles =
+            LMFeedCreateEditPostViewStyleUtil.getUpdatedPollViewStyles(isCreateFlow = true)
+        pollView.setStyle(updatedPollStyles)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -337,27 +351,72 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
     private fun initAddAttachmentsView() {
         binding.apply {
             layoutAttachFiles.setOnClickListener {
-                // sends clicked on attachment event for file
-                createPostViewModel.sendClickedOnAttachmentEvent("file")
-
-                startCustomGallery(documentLauncher, listOf(PDF))
+                onAttachDocumentClicked()
             }
 
             layoutAddImage.setOnClickListener {
-                // sends clicked on attachment event for photo
-                createPostViewModel.sendClickedOnAttachmentEvent("photo")
-
-                startCustomGallery(galleryLauncher, listOf(IMAGE))
+                onAttachImageClicked()
             }
 
             layoutAddVideo.setOnClickListener {
-                // sends clicked on attachment event for video
-                createPostViewModel.sendClickedOnAttachmentEvent("video")
+                onAttachVideoClicked()
+            }
 
-                startCustomGallery(galleryLauncher, listOf(VIDEO))
+            layoutAddPoll.setOnClickListener {
+                onAddPollClicked()
             }
         }
     }
+
+    //on click of the attach image layout
+    protected open fun onAttachImageClicked() {
+        // sends clicked on attachment event for photo
+        createPostViewModel.sendClickedOnAttachmentEvent("photo")
+
+        startCustomGallery(galleryLauncher, listOf(IMAGE))
+    }
+
+    //on click of the attach video layout
+    protected open fun onAttachVideoClicked() {
+        // sends clicked on attachment event for video
+        createPostViewModel.sendClickedOnAttachmentEvent("video")
+
+        startCustomGallery(galleryLauncher, listOf(VIDEO))
+    }
+
+    //on click of the attach document layout
+    protected open fun onAttachDocumentClicked() {
+        // sends clicked on attachment event for file
+        createPostViewModel.sendClickedOnAttachmentEvent("file")
+
+        startCustomGallery(documentLauncher, listOf(PDF))
+    }
+
+    protected open fun onAddPollClicked() {
+        // sends clicked on attachment event for poll
+        createPostViewModel.sendClickedOnAttachmentEvent("poll")
+
+        //start activity to create poll
+        val intent = LMFeedCreatePollActivity.getIntent(requireContext())
+        pollLauncher.launch(intent)
+    }
+
+    private val pollLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                poll = LMFeedExtrasUtil.getParcelable(
+                    result.data?.extras,
+                    LMFeedCreatePollActivity.LM_FEED_CREATE_POLL_RESULT,
+                    LMFeedPollViewData::class.java
+                )
+
+                poll?.let {
+                    showPostMedia()
+                }
+            } else {
+                Log.d(TAG, "Poll not created")
+            }
+        }
 
     private fun startCustomGallery(
         launcher: ActivityResultLauncher<Intent>,
@@ -499,7 +558,7 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
         }.observeInLifecycle(viewLifecycleOwner)
     }
 
-    //inits all the listeners
+    //initializes all the listeners
     private fun initListeners() {
         binding.apply {
             headerViewCreatePost.setNavigationIconClickListener {
@@ -510,29 +569,49 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 val text = etPostComposer.text
                 val updatedText = memberTagging.replaceSelectedMembers(text).trim()
                 LMFeedViewUtils.hideKeyboard(binding.root)
-                if (selectedMediaUris.isNotEmpty()) {
-                    headerViewCreatePost.setSubmitButtonEnabled(
-                        isEnabled = true,
-                        showProgress = true
-                    )
-                    createPostViewModel.addPost(
-                        context = requireContext(),
-                        postTextContent = updatedText,
-                        fileUris = selectedMediaUris,
-                        ogTags = ogTags,
-                        selectedTopics = selectedTopic
-                    )
-                } else if (updatedText.isNotEmpty()) {
-                    headerViewCreatePost.setSubmitButtonEnabled(
-                        isEnabled = true,
-                        showProgress = true
-                    )
-                    createPostViewModel.addPost(
-                        context = requireContext(),
-                        postTextContent = updatedText,
-                        ogTags = ogTags,
-                        selectedTopics = selectedTopic
-                    )
+                when {
+                    selectedMediaUris.isNotEmpty() -> {
+                        headerViewCreatePost.setSubmitButtonEnabled(
+                            isEnabled = true,
+                            showProgress = true
+                        )
+                        createPostViewModel.addPost(
+                            context = requireContext(),
+                            postTextContent = updatedText,
+                            fileUris = selectedMediaUris,
+                            ogTags = ogTags,
+                            selectedTopics = selectedTopic,
+                            poll = poll
+                        )
+                    }
+
+                    updatedText.isNotEmpty() -> {
+                        headerViewCreatePost.setSubmitButtonEnabled(
+                            isEnabled = true,
+                            showProgress = true
+                        )
+                        createPostViewModel.addPost(
+                            context = requireContext(),
+                            postTextContent = updatedText,
+                            ogTags = ogTags,
+                            selectedTopics = selectedTopic,
+                            poll = poll
+                        )
+                    }
+
+                    poll != null -> {
+                        headerViewCreatePost.setSubmitButtonEnabled(
+                            isEnabled = true,
+                            showProgress = true
+                        )
+                        createPostViewModel.addPost(
+                            context = requireContext(),
+                            postTextContent = updatedText,
+                            ogTags = ogTags,
+                            selectedTopics = selectedTopic,
+                            poll = poll
+                        )
+                    }
                 }
             }
         }
@@ -591,6 +670,11 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
             selectedMediaUris.size >= 1 -> {
                 ogTags = null
                 showMultiMediaAttachments()
+            }
+
+            poll != null -> {
+                ogTags = null
+                showPollAttachment()
             }
 
             else -> {
@@ -702,6 +786,58 @@ open class LMFeedCreatePostFragment : Fragment(), LMFeedUniversalFeedAdapterList
                 attachments,
                 true
             )
+        }
+    }
+
+    private fun showPollAttachment() {
+        binding.apply {
+            if (poll != null) {
+                handleAddAttachmentLayouts(false)
+                headerViewCreatePost.setSubmitButtonEnabled(true)
+                pollView.show()
+                postSingleImage.hide()
+                btnAddMoreMedia.hide()
+                postSingleVideo.hide()
+                postLinkView.hide()
+                postDocumentsView.hide()
+                multipleMediaView.hide()
+
+                pollView.apply {
+                    show()
+                    setPollTitle(poll?.title ?: "")
+                    setPollInfo(poll?.getPollSelectionText(requireContext()))
+                    setTimeLeft(poll?.getExpireOnDate(requireContext()) ?: "")
+                    setPollOptions(
+                        0,
+                        poll?.options ?: emptyList(),
+                        LMFeedCreateEditPostViewStyleUtil.getUpdatedOptionViewStyle(),
+                        null
+                    )
+
+                    setEditPollClicked {
+                        onPollAttachmentEditClicked()
+                    }
+
+                    setClearPollClicked {
+                        onPollAttachmentCleared()
+                    }
+                }
+            }
+        }
+    }
+
+    //start poll launcher for edit created poll
+    protected open fun onPollAttachmentEditClicked() {
+        val intent = LMFeedCreatePollActivity.getIntent(requireContext(), poll)
+        pollLauncher.launch(intent)
+    }
+
+    //removes poll view when clear is cleared
+    protected open fun onPollAttachmentCleared() {
+        binding.pollView.apply {
+            poll = null
+            hide()
+            showPostMedia()
         }
     }
 

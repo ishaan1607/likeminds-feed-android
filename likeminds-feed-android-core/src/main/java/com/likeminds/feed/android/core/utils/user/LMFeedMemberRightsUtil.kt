@@ -60,11 +60,11 @@ object LMFeedMemberRightsUtil {
         memberRights: List<ManagementRightPermissionData>,
         rightState: Int,
     ): Boolean {
-        var value = false
+        var value = true
         memberRights.singleOrNull {
             it.state == rightState
         }?.let {
-            value = it.isSelected && (it.isLocked == false)
+            value = it.isSelected
         }
         return value
     }
