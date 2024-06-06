@@ -156,7 +156,7 @@ class LMFeedPostHeaderView : ConstraintLayout {
      * @param createdAtTimeStamp - timestamp when the post was created.
      */
     fun setTimestamp(createdAtTimeStamp: Long) {
-        binding.tvTime.text = LMFeedTimeUtil.getRelativeTimeInString(createdAtTimeStamp)
+        binding.tvTime.text = LMFeedTimeUtil.getRelativeCreationTimeInString(createdAtTimeStamp)
     }
 
     /**

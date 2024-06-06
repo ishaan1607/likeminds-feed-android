@@ -51,7 +51,7 @@ class LMFeedAlertDialogViewStyle private constructor(
             .ellipsize(TextUtils.TruncateAt.END)
             .textSize(R.dimen.lm_feed_text_medium)
             .textColor(R.color.lm_feed_black_87)
-            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+            .fontResource(R.font.lm_feed_roboto_medium)
             .typeface(Typeface.NORMAL)
             .build()
 

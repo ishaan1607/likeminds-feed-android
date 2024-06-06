@@ -129,16 +129,92 @@
     <string name="lm_feed_community_manager">Community Manager</string>
     <string name="lm_feed_added_by_you">Added by You</string>
     <string name="lm_feed_be_the_first_one_to_vote">Be the first one to vote</string>
+    <string name="lm_feed_no_responses">No responses</string>
+    <string name="lm_feed_poll_ended">Poll Ended</string>
+    <plurals name="lm_feed_select_exactly_d_options">
+        <item quantity="one">*Select exactly 1 option</item>
+        <item quantity="other">*Select exactly %d options</item>
+    </plurals>
+    <plurals name="lm_feed_select_at_most_d_options">
+        <item quantity="one">*Select at most 1 option</item>
+        <item quantity="other">*Select at most %d options</item>
+    </plurals>
+    <plurals name="lm_feed_select_at_least_d_options">
+        <item quantity="one">*Select at least 1 option</item>
+        <item quantity="other">*Select at least %d options</item>
+    </plurals>
+    <string name="lm_feed_poll_vote_time_left">%s left</string>
+    <string name="lm_feed_added_by_s">Added by %s</string>
+    <plurals name="lm_feed_votes_count">
+        <item quantity="one">%d vote</item>
+        <item quantity="other">%d votes</item>
+    </plurals>
+    <string name="lm_feed_add_new_poll_option">Add new poll option</string>
+    <string name="lm_feed_type_new_option">Type new option</string>
+    <string name="lm_feed_the_results_will_be_visible_after_the_poll_has_ended">The results will be visible after the poll has ended.</string>
+    <string name="lm_feed_this_being_an_lm_feed_anonymous_poll_the_names_of_the_voters_cannot_be_disclosed">This being an anonymous poll, the names of the voters cannot be disclosed.</string>
+    <string name="lm_feed_poll_ended_vote_cannot_be_submitted_now">Poll ended. Vote can not be submitted now.</string>
+    <plurals name="lm_feed_please_select_at_most_d_options">
+        <item quantity="one">Please select at most 1 option</item>
+        <item quantity="other">Please select at most %d options</item>
+    </plurals>
+    <plurals name="lm_feed_please_select_at_least_d_options">
+        <item quantity="one">Please select at least 1 option</item>
+        <item quantity="other">Please select at least %d options</item>
+    </plurals>
+    <plurals name="lm_feed_please_select_exactly_d_options">
+        <item quantity="one">Please select exactly 1 option</item>
+        <item quantity="other">Please select exactly %d options</item>
+    </plurals>
+    <string name="lm_feed_add_poll">Add Poll</string>
+    <string name="lm_feed_done">Done</string>
+    <string name="lm_feed_new_poll">New Poll</string>
+    <string name="lm_feed_poll_question">Poll Question</string>
+    <string name="lm_feed_ask_a_question">Ask a question</string>
+    <string name="lm_feed_answer_options">Answer options</string>
+    <string name="lm_feed_add_an_option">Add an option…</string>
+    <string name="lm_feed_poll_expire">Poll expires on</string>
+    <string name="lm_feed_dd_mm_yyyy_hh_mm">DD-MM-YYYY hh:mm</string>
+    <string name="lm_feed_error_invalid_time">Please select future date as poll expire time.</string>
+    <string name="lm_feed_select_poll_expiry_time">Select Poll Expiry Time</string>
+    <string name="lm_feed_allow_voters_to_add_options">Allow voters to add options</string>
+    <string name="lm_feed_anonymous_poll">Anonymous Poll</string>
+    <string name="lm_feed_live_results">Don\'t show live results</string>
+    <string name="lm_feed_user_can_vote_for">User can vote for</string>
+    <string name="lm_feed_equal_sign">=</string>
+    <string name="lm_feed_advanced">Advanced</string>
+    <string name="lm_feed_option">Option</string>
+    <string name="lm_feed_expires_on">Expires on %s</string>
+    <string name="lm_feed_submit">Submit</string>
+    <string name="lm_feed_please_select_options_before_submitting_vote">Please select options before submitting vote.</string>
+    <string name="lm_feed_enter_an_option_that_you_think_is_missing_in_this_poll_this_cannot_be_undone">Enter an option that you think is missing in this poll. This cannot be undone.</string>
+    <string-array name="lm_feed_options_numbers">
+        <item>1 option</item>
+        <item>2 options</item>
+        <item>3 options</item>
+        <item>4 options</item>
+        <item>5 options</item>
+        <item>6 options</item>
+        <item>7 options</item>
+        <item>8 options</item>
+        <item>9 options</item>
+        <item>10 options</item>
+    </string-array>
+
+    <!-- Add sample strings here-->
     <string name="lm_feed_sample_name">Sahil Garg</string>
     <string name="lm_feed_sample_replying_to">Replying to Ronald Richards</string>
     <string name="lm_feed_sample_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="lm_feed_sample_time">20m</string>
     <string name="lm_feed_sample_time_left">5d left</string>
     <string name="lm_feed_poll_select_exactly_sample">*Select exactly 2 options.</string>
+    <string name="lm_feed_poll_results">Poll Results</string>
     <string name="lm_feed_sample_topic">Alternative rock</string>
     <string name="lm_feed_sample_report_tag">Spam</string>
     <string name="lm_feed_sample_link_title">Twitter will soon let you schedule your tweets</string>
     <string name="lm_feed_sample_link_url">www.youtube.com</string>
     <string name="lm_feed_sample_size">23.5 MB</string>
-    <string name="lm_feed_poll_sample_question">23.5 MB</string>
+    <string name="lm_feed_poll_sample_question">What will be the score today?</string>
+    <string name="lm_feed_poll_sample_vote_count">10</string>
+    <string name="lm_feed_poll_sample_option_text">Raising Hands</string>
 </resources>

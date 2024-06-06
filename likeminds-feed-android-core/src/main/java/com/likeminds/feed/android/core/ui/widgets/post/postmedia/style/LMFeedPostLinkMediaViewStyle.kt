@@ -50,7 +50,7 @@ class LMFeedPostLinkMediaViewStyle private constructor(
             .ellipsize(TextUtils.TruncateAt.END)
             .textSize(R.dimen.lm_feed_text_large)
             .maxLines(2)
-            .fontAssetsPath("fonts/lm_feed_montserrat-medium.ttf")
+            .fontResource(R.font.lm_feed_roboto_medium)
             .textColor(R.color.lm_feed_grey)
             .build()
 

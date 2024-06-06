@@ -37,7 +37,7 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_document_name"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/lm_feed_medium_margin"
             android:layout_marginEnd="@dimen/lm_feed_regular_margin"

@@ -11,8 +11,8 @@ object LMFeedTheme {
 
     //font related
     @FontRes
-    private var fontResource: Int? = null
-    private var fontAssetsPath: String? = "fonts/lm_feed_montserrat-regular.ttf"
+    private var fontResource: Int? = R.font.lm_feed_roboto
+    private var fontAssetsPath: String? = null
 
     //text link color
     @ColorRes

@@ -28,7 +28,7 @@
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedEditText
             android:id="@+id/et_search"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="match_parent"
             android:hint="@string/lm_feed_search_hint_text"
             android:imeOptions="actionSearch|flagNoExtractUi"

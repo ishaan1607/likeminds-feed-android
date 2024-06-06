@@ -19,7 +19,7 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_dp"
+            android:layout_height="@dimen/lm_feed_zero_dp"
             app:layout_constraintBottom_toTopOf="@id/comment_composer"
             app:layout_constraintTop_toBottomOf="@id/header_view_post_detail">
 
@@ -45,7 +45,7 @@
 
         <com.likeminds.usertagging.view.UserTaggingSuggestionListView
             android:id="@+id/user_tagging_view"
-            android:layout_width="@dimen/zero_dp"
+            android:layout_width="@dimen/lm_feed_zero_dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/lm_feed_small_margin"
             android:translationZ="@dimen/lm_feed_user_tagging_view_elevation"
@@ -62,7 +62,7 @@
         <com.likeminds.feed.android.core.ui.widgets.comment.commentcomposer.view.LMFeedCommentComposerView
             android:id="@+id/comment_composer"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/zero_dp"
+            android:layout_height="@dimen/lm_feed_zero_dp"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <include
