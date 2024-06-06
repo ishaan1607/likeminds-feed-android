@@ -19,7 +19,6 @@
 
         <com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.LMFeedPostDocumentView
             android:id="@+id/document_item"
-            android:nestedScrollingEnabled="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent" />
