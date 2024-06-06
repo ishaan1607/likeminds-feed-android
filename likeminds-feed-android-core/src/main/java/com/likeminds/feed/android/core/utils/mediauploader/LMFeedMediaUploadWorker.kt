@@ -127,7 +127,7 @@ abstract class LMFeedMediaUploadWorker(
             val attachmentMeta = attachment.attachmentMeta
             val request = LMFeedGenericFileRequest.Builder()
                 .name(attachmentMeta.name)
-                .fileType(attachment.attachmentType)
+                .fileType(attachment.attachmentType.value)
                 .awsFolderPath(attachmentMeta.awsFolderPath!!)
                 .localFilePath(attachmentMeta.localFilePath)
                 .index(index)

@@ -22,6 +22,8 @@ import com.likeminds.likemindsfeed.moderation.model.ReportTag
 import com.likeminds.likemindsfeed.notificationfeed.model.Activity
 import com.likeminds.likemindsfeed.notificationfeed.model.ActivityEntityData
 import com.likeminds.likemindsfeed.post.model.*
+import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentType
+import com.likeminds.likemindsfeed.post.util.AttachmentUtil.getAttachmentValue
 import com.likeminds.likemindsfeed.sdk.model.SDKClientInfo
 import com.likeminds.likemindsfeed.sdk.model.User
 import com.likeminds.likemindsfeed.topic.model.Topic
@@ -216,7 +218,7 @@ object LMFeedViewDataConvertor {
     /**
      * Converts [SDKClientInfo] which is a network model to [LMFeedSDKClientInfoViewData] which is view data model
      */
-    fun convertSDKClientInfo(sdkClientInfo: SDKClientInfo): LMFeedSDKClientInfoViewData {
+    private fun convertSDKClientInfo(sdkClientInfo: SDKClientInfo): LMFeedSDKClientInfoViewData {
         return LMFeedSDKClientInfoViewData.Builder()
             .user(sdkClientInfo.user)
             .uuid(sdkClientInfo.uuid)
@@ -259,14 +261,14 @@ object LMFeedViewDataConvertor {
      * @param attachments: list of [Attachment]
      * @param postId: id of the post
      */
-    fun convertAttachments(
+    private fun convertAttachments(
         attachments: List<Attachment>?,
         postId: String
     ): List<LMFeedAttachmentViewData> {
         if (attachments == null) return emptyList()
         return attachments.map { attachment ->
             LMFeedAttachmentViewData.Builder()
-                .attachmentType(attachment.attachmentType)
+                .attachmentType(attachment.attachmentType.getAttachmentValue())
                 .attachmentMeta(convertAttachmentMeta(attachment.attachmentMeta))
                 .postId(postId)
                 .build()
@@ -298,7 +300,11 @@ object LMFeedViewDataConvertor {
      * convert [LinkOGTags] to [LMFeedLinkOGTagsViewData]
      * @param linkOGTags: object of [LinkOGTags]
      **/
-    fun convertLinkOGTags(linkOGTags: LinkOGTags): LMFeedLinkOGTagsViewData {
+    fun convertLinkOGTags(linkOGTags: LinkOGTags?): LMFeedLinkOGTagsViewData {
+        if (linkOGTags == null) {
+            return LMFeedLinkOGTagsViewData.Builder().build()
+        }
+
         return LMFeedLinkOGTagsViewData.Builder()
             .url(linkOGTags.url)
             .description(linkOGTags.description)
@@ -631,11 +637,11 @@ object LMFeedViewDataConvertor {
     }
 
     //creates a network model of attachment from the provided attachment view data
-    fun convertAttachment(
+    private fun convertAttachment(
         attachment: LMFeedAttachmentViewData
     ): Attachment {
         return Attachment.Builder()
-            .attachmentType(attachment.attachmentType)
+            .attachmentType(attachment.attachmentType.getAttachmentType())
             .attachmentMeta(convertAttachmentMeta(attachment.attachmentMeta))
             .build()
     }
@@ -659,7 +665,7 @@ object LMFeedViewDataConvertor {
     ): List<Attachment> {
         return listOf(
             Attachment.Builder()
-                .attachmentType(LINK)
+                .attachmentType(AttachmentType.LINK)
                 .attachmentMeta(convertAttachmentMeta(linkOGTagsViewData))
                 .build()
         )
@@ -687,7 +693,7 @@ object LMFeedViewDataConvertor {
     }
 
     // converts list of [LMFeedFileUploadViewData] to list of network [Attachment] model
-    fun convertAttachments(fileUris: List<LMFeedFileUploadViewData>): List<Attachment> {
+    private fun convertAttachments(fileUris: List<LMFeedFileUploadViewData>): List<Attachment> {
         return fileUris.map {
             convertAttachment(it)
         }
@@ -710,7 +716,7 @@ object LMFeedViewDataConvertor {
         }
 
         return Attachment.Builder()
-            .attachmentType(attachmentType)
+            .attachmentType(attachmentType.getAttachmentType())
             .attachmentMeta(convertAttachmentMeta(fileUri))
             .build()
     }

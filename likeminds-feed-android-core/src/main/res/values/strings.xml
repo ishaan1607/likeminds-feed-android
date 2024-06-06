@@ -2,6 +2,7 @@
 <resources>
     <string name="lm_feed_app_name">LikeMinds-Android-Feed</string>
     <string name="lm_feed_new_s">New %s</string>
+    <string name="lm_feed_no_posts_s_to_show">No %s to show</string>
     <string name="lm_feed_feed">Feed</string>
     <string name="lm_feed_no_s_to_show">No %s to show</string>
     <string name="lm_feed_be_the_first_one_to_s_here">Be the first one to create %s here</string>
@@ -122,4 +123,22 @@
     <string name="lm_feed_create_s">Create %s</string>
     <string name="lm_feed_create">Create</string>
     <string name="lm_feed_please_set_domain">Please set your domain while setting up the Feed Core</string>
+    <string name="lm_feed_plus_add_an_option">+ Add an option</string>
+    <string name="lm_feed_submit_vote">Submit Vote</string>
+    <string name="lm_feed_edit_vote">Edit vote</string>
+    <string name="lm_feed_community_manager">Community Manager</string>
+    <string name="lm_feed_added_by_you">Added by You</string>
+    <string name="lm_feed_be_the_first_one_to_vote">Be the first one to vote</string>
+    <string name="lm_feed_sample_name">Sahil Garg</string>
+    <string name="lm_feed_sample_replying_to">Replying to Ronald Richards</string>
+    <string name="lm_feed_sample_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="lm_feed_sample_time">20m</string>
+    <string name="lm_feed_sample_time_left">5d left</string>
+    <string name="lm_feed_poll_select_exactly_sample">*Select exactly 2 options.</string>
+    <string name="lm_feed_sample_topic">Alternative rock</string>
+    <string name="lm_feed_sample_report_tag">Spam</string>
+    <string name="lm_feed_sample_link_title">Twitter will soon let you schedule your tweets</string>
+    <string name="lm_feed_sample_link_url">www.youtube.com</string>
+    <string name="lm_feed_sample_size">23.5 MB</string>
+    <string name="lm_feed_poll_sample_question">23.5 MB</string>
 </resources>

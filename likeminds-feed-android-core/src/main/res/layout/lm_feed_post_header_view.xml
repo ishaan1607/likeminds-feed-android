@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="@+id/iv_author_image"
             tools:fontFamily="@font/lm_feed_roboto_medium"
             tools:ignore="UnusedAttribute"
-            tools:text="sfldsfdsafasdfafsdfdsfdsfdfasfskfldsdfsdfkfsdfsd" />
+            tools:text="@string/lm_feed_sample_name" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
             android:id="@+id/tv_custom_title"
@@ -55,7 +55,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/tv_author_name"
             app:layout_constraintTop_toTopOf="@id/tv_author_name"
-            tools:text="Community Manager"
+            tools:text="@string/lm_feed_community_manager"
             tools:visibility="visible" />
 
         <com.likeminds.feed.android.core.ui.base.views.LMFeedTextView
@@ -69,7 +69,7 @@
             app:layout_constraintStart_toStartOf="@+id/tv_author_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_author_name"
             tools:fontFamily="@font/lm_feed_roboto"
-            tools:text="2d" />
+            tools:text="@string/lm_feed_sample_time" />
 
         <View
             android:id="@+id/view_dot_edited"
