@@ -195,7 +195,7 @@ class LMFeedConnectUser private constructor(
             val lmFeedClient = LMFeedClient.getInstance()
 
             //get member state response and update the user with its rights in DB
-            lmFeedClient.getMemberState().data
+            lmFeedClient.getMemberState()
         }
     }
 }
