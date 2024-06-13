@@ -562,6 +562,27 @@ open class LMFeedUniversalFeedFragment :
     // initializes new post fab
     private fun initNewPostClick(hasCreatePostRights: Boolean) {
         binding.apply {
+
+            if (hasCreatePostRights) {
+                val fabButtonColor =
+                    LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle.backgroundColor
+
+                //sets color of fab button as per user rights
+                layoutNoPost.setActionFABColor(fabButtonColor)
+                fabNewPost.backgroundTintList =
+                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), fabButtonColor))
+            } else {
+                //sets color of fab button as per user rights
+                layoutNoPost.setActionFABColor(R.color.lm_feed_grey)
+                fabNewPost.backgroundTintList =
+                    ColorStateList.valueOf(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.lm_feed_grey
+                        )
+                    )
+            }
+
             layoutNoPost.setActionFABClickListener {
                 onCreateNewPostClick(hasCreatePostRights)
             }
@@ -1337,14 +1358,6 @@ open class LMFeedUniversalFeedFragment :
     protected open fun onCreateNewPostClick(hasCreatePostRights: Boolean) {
         binding.apply {
             if (hasCreatePostRights) {
-                val fabButtonColor =
-                    LMFeedStyleTransformer.universalFeedFragmentViewStyle.createNewPostButtonViewStyle.backgroundColor
-
-                //sets color of fab button as per user rights
-                layoutNoPost.setActionFABColor(fabButtonColor)
-                fabNewPost.backgroundTintList =
-                    ColorStateList.valueOf(ContextCompat.getColor(requireContext(), fabButtonColor))
-
                 if (alreadyPosting) {
                     LMFeedViewUtils.showShortToast(
                         requireContext(),
@@ -1369,16 +1382,6 @@ open class LMFeedUniversalFeedFragment :
                     createPostLauncher.launch(intent)
                 }
             } else {
-                //sets color of fab button as per user rights
-                layoutNoPost.setActionFABColor(R.color.lm_feed_grey)
-                fabNewPost.backgroundTintList =
-                    ColorStateList.valueOf(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.lm_feed_grey
-                        )
-                    )
-
                 LMFeedViewUtils.showShortSnack(
                     root,
                     getString(
