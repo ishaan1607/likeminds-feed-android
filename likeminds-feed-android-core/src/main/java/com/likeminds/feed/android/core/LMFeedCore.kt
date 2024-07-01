@@ -2,18 +2,20 @@ package com.likeminds.feed.android.core
 
 import android.app.Application
 import android.content.Context
+import com.google.android.exoplayer2.util.Log
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.theme.model.LMFeedSetThemeRequest
 import com.likeminds.feed.android.core.utils.user.LMFeedConnectUser
 import com.likeminds.feed.android.core.utils.user.LMFeedUserPreferences
-import com.likeminds.likemindsfeed.user.model.InitiateUserResponse
+import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.user.model.*
+import kotlinx.coroutines.*
 
 object LMFeedCore {
 
     /**
      * Initial setup function for customers and blocker function
      * @param application: Instance of the application class
-     * @param apiKey: API Key of the Customer, generated from [here](https://dashboard.likeminds.community/auth)
      * @param lmFeedTheme: Object of [LMFeedTheme] to add your customizable theme in whole feed
      * @param lmFeedCoreCallback: Instance of [LMFeedCoreCallback] so that we can share data/events to customers code
      */
@@ -30,26 +32,77 @@ object LMFeedCore {
     }
 
     fun showFeed(
-        context: Context,
         apiKey: String,
+        uuid: String,
         userName: String,
-        uuid: String?,
-        deviceId: String,
-        enablePushNotifications: Boolean,
-        success: ((InitiateUserResponse?) -> Unit)? = null,
-        error: ((String?) -> Unit)? = null
+        success: (() -> Unit)?,
+        error: ((String?) -> Unit)?
     ) {
-        //Call initiate API
-        initiateUser(
-            context,
-            apiKey,
-            userName,
-            uuid,
-            deviceId,
-            enablePushNotifications,
-            success,
-            error
-        )
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.d(
+                "PUI",
+                "calling show feed (without Security) with api key: $apiKey and uuid: $uuid and userName: $userName"
+            )
+
+            val lmFeedClient = LMFeedClient.getInstance()
+            val tokens = lmFeedClient.getTokens().data
+
+            if (tokens?.first == null || tokens.second == null) {
+                Log.d("PUI", "tokens are not present")
+                val initiateUserRequest = InitiateUserRequest.Builder()
+                    .apiKey(apiKey)
+                    .userName(userName)
+                    .uuid(uuid)
+                    .build()
+
+                val response = lmFeedClient.initiateUser(initiateUserRequest)
+                if (response.success) {
+                    success?.let {
+
+                        it()
+                    }
+                } else {
+                    error?.let { it(response.errorMessage) }
+                }
+            } else {
+                Log.d("PUI", "tokens are present")
+                showFeed(tokens.first, tokens.second, success, error)
+            }
+        }
+    }
+
+    fun showFeed(
+        accessToken: String?,
+        refreshToken: String?,
+        success: (() -> Unit)?,
+        error: ((String?) -> Unit)?
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.d(
+                "PUI",
+                "calling show feed (with Security): access token: $accessToken and refresh token: $refreshToken"
+            )
+            val lmFeedClient = LMFeedClient.getInstance()
+            val tokens = if (accessToken == null || refreshToken == null) {
+                Log.d("PUI", "tokens are not received")
+                lmFeedClient.getTokens().data ?: Pair("", "")
+            } else {
+                Log.d("PUI", "tokens are received")
+                Pair(accessToken, refreshToken)
+            }
+
+            val validateUserRequest = ValidateUserRequest.Builder()
+                .accessToken(tokens.first)
+                .refreshToken(tokens.second)
+                .build()
+
+            val response = lmFeedClient.validateUser(validateUserRequest)
+            if (response.success) {
+                success?.let { it() }
+            } else {
+                error?.let { it(response.errorMessage) }
+            }
+        }
     }
 
     /**

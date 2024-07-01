@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core
 import android.app.Application
 import android.content.Context
 import android.util.Base64
+import android.util.Log
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
@@ -10,10 +11,14 @@ import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3Client
 import com.likeminds.feed.android.core.utils.mediauploader.utils.LMFeedAWSKeys
-import com.likeminds.likemindsfeed.LMCallback
 import com.likeminds.likemindsfeed.LMFeedClient
+import com.likeminds.likemindsfeed.LMFeedSDKCallback
+import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
+import kotlinx.coroutines.runBlocking
 
-class LMFeedCoreApplication : LMCallback {
+class LMFeedCoreApplication : LMFeedSDKCallback {
+
+    private lateinit var mClient: LMFeedClient
 
     companion object {
         const val LOG_TAG = "LikeMindsFeedCore"
@@ -91,7 +96,7 @@ class LMFeedCoreApplication : LMCallback {
         lmFeedCoreCallback: LMFeedCoreCallback?,
         domain: String? = null
     ) {
-        LMFeedClient.Builder(application)
+        mClient = LMFeedClient.Builder(application)
             .lmCallback(this)
             .build()
 
@@ -100,7 +105,58 @@ class LMFeedCoreApplication : LMCallback {
     }
 
     override fun login() {
-        super.login()
         lmFeedCoreCallback?.login()
+    }
+
+    override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
+        Log.d(
+            "PUI", """
+            Core Layer Callback -> onAccessTokenExpiredAndRefreshed
+            accessToken: $accessToken
+            refreshToken: $refreshToken
+        """.trimIndent()
+        )
+        lmFeedCoreCallback?.onAccessTokenExpiredAndRefreshed(accessToken, refreshToken)
+    }
+
+    override fun onRefreshTokenExpired(): Pair<String?, String?> {
+        //todo formalize code and remove runBlocking{} to callback functions
+        Log.d(
+            "PUI", """
+            Core Layer Callback -> onRefreshTokenExpired
+        """.trimIndent()
+        )
+        val apiKey = mClient.getAPIKey().data
+        return if (apiKey != null) {
+            Log.d("PUI", "API Key not null: $apiKey")
+            runBlocking {
+                val user = mClient.getLoggedInUserWithRights().data?.user
+                if (user != null) {
+                    Log.d("PUI", "User not null")
+                    val initiateUserRequest = InitiateUserRequest.Builder()
+                        .apiKey(apiKey)
+                        .userName(user.name)
+                        .uuid(user.sdkClientInfo.uuid)
+                        .build()
+                    val response = mClient.initiateUser(initiateUserRequest)
+
+                    if (response.success) {
+                        Log.d("PUI", "Initiate User Success")
+                        val accessToken = response.data?.accessToken ?: ""
+                        val refreshToken = response.data?.refreshToken ?: ""
+                        Pair(accessToken, refreshToken)
+                    } else {
+                        Log.d("PUI", "Initiate User Failed")
+                        Pair("", "")
+                    }
+                } else {
+                    Log.d("PUI", "User null")
+                    Pair("", "")
+                }
+            }
+        } else {
+            Log.d("PUI", "API Key null")
+            lmFeedCoreCallback?.onRefreshTokenExpired() ?: Pair(null, null)
+        }
     }
 }

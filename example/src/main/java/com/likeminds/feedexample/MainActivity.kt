@@ -17,17 +17,15 @@ class MainActivity : AppCompatActivity() {
 
         authPreferences = AuthPreferences(this)
 
-        LMFeedCore.initiateUser(
-            this,
+        LMFeedCore.showFeed(
             authPreferences.getApiKey(),
             authPreferences.getUserName(),
             authPreferences.getUserId(),
-            authPreferences.getDeviceId(),
             success = {
                 replaceFragment()
             },
             error = {
-                Log.d("Example", "$it")
+                Log.e("Example", "$it")
             }
         )
     }
