@@ -16,7 +16,6 @@ class GetTokensTask {
 
     suspend fun getTokens(context: Context, isProd: Boolean): Pair<String, String> {
         return withContext(Dispatchers.IO) {
-
             //get api url
             val apiUrl = if (isProd) {
                 "https://auth.likeminds.community/sdk/initiate"

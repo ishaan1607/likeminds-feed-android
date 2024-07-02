@@ -11,6 +11,7 @@ import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3Client
 import com.likeminds.feed.android.core.utils.mediauploader.utils.LMFeedAWSKeys
+import com.likeminds.feed.android.core.utils.user.LMFeedUserMetaData
 import com.likeminds.likemindsfeed.LMFeedClient
 import com.likeminds.likemindsfeed.LMFeedSDKCallback
 import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
@@ -27,8 +28,6 @@ class LMFeedCoreApplication : LMFeedSDKCallback {
         private lateinit var transferUtility: TransferUtility
         private var credentialsProvider: CognitoCachingCredentialsProvider? = null
         private var s3Client: AmazonS3Client? = null
-
-        var domain: String? = null
 
         /**
          * @return Singleton Instance of Core Application class
@@ -94,14 +93,17 @@ class LMFeedCoreApplication : LMFeedSDKCallback {
     fun initCoreApplication(
         application: Application,
         lmFeedCoreCallback: LMFeedCoreCallback?,
-        domain: String? = null
+        domain: String? = null,
+        enablePushNotifications: Boolean = false,
+        deviceId: String? = null
     ) {
         mClient = LMFeedClient.Builder(application)
             .lmCallback(this)
             .build()
-
-        LMFeedCoreApplication.domain = domain
         LMFeedCoreApplication.lmFeedCoreCallback = lmFeedCoreCallback
+
+        val userMetaData = LMFeedUserMetaData.getInstance()
+        userMetaData.init(domain, enablePushNotifications, deviceId)
     }
 
     override fun login() {

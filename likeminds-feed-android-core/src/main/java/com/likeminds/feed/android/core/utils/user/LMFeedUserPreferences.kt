@@ -1,8 +1,6 @@
 package com.likeminds.feed.android.core.utils.user
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.provider.Settings
 import com.likeminds.feed.android.core.utils.sharedpreferences.LMFeedBasePreferences
 import javax.inject.Singleton
 
@@ -15,7 +13,6 @@ class LMFeedUserPreferences(
         const val LM_FEED_USER_PREFS = "LM_FEED_USER_PREFS"
         const val LM_FEED_USER_NAME = "LM_FEED_USER_NAME"
         const val LM_FEED_UUID = "LM_FEED_UUID"
-        const val LM_FEED_PUSH_NOTIFICATIONS_ENABLED = "LM_FEED_PUSH_NOTIFICATIONS_ENABLED"
     }
 
     fun getUserName(): String {
@@ -32,20 +29,6 @@ class LMFeedUserPreferences(
 
     fun saveUUID(uuid: String) {
         putPreference(LM_FEED_UUID, uuid)
-    }
-
-    fun savePushNotificationsEnabled(pushNotificationsEnabled: Boolean) {
-        putPreference(LM_FEED_PUSH_NOTIFICATIONS_ENABLED, pushNotificationsEnabled)
-    }
-
-    fun getPushNotificationsEnabled(): Boolean {
-        return getPreference(LM_FEED_PUSH_NOTIFICATIONS_ENABLED, false)
-    }
-
-    @SuppressLint("HardwareIds")
-    fun getDeviceId(): String {
-        return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
-            ?: ""
     }
 
     fun clearPrefs() {
