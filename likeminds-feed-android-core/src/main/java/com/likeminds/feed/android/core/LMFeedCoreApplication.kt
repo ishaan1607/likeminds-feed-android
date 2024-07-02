@@ -122,7 +122,6 @@ class LMFeedCoreApplication : LMFeedSDKCallback {
     }
 
     override fun onRefreshTokenExpired(): Pair<String?, String?> {
-        //todo formalize code and remove runBlocking{} to callback functions
         Log.d(
             "PUI", """
             Core Layer Callback -> onRefreshTokenExpired
