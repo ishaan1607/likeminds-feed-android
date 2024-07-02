@@ -15,16 +15,7 @@ class LMFeedUserPreferences(
         const val LM_FEED_USER_PREFS = "LM_FEED_USER_PREFS"
         const val LM_FEED_USER_NAME = "LM_FEED_USER_NAME"
         const val LM_FEED_UUID = "LM_FEED_UUID"
-        const val LM_FEED_API_KEY = "LM_FEED_API_KEY"
         const val LM_FEED_PUSH_NOTIFICATIONS_ENABLED = "LM_FEED_PUSH_NOTIFICATIONS_ENABLED"
-    }
-
-    fun getApiKey(): String {
-        return getPreference(LM_FEED_API_KEY, "") ?: ""
-    }
-
-    fun saveApiKey(apiKey: String) {
-        putPreference(LM_FEED_API_KEY, apiKey)
     }
 
     fun getUserName(): String {

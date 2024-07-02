@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.feed.android.core.LMFeedCore
 import com.likeminds.feedexample.auth.util.AuthPreferences
 import com.likeminds.feedexample.universalfeed.CustomLMUniversalFeedAdminFragment
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,19 +16,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        authPreferences = AuthPreferences(this)
-
-        LMFeedCore.showFeed(
-            authPreferences.getApiKey(),
-            authPreferences.getUserName(),
-            authPreferences.getUserId(),
-            success = {
-                replaceFragment()
-            },
-            error = {
-                Log.e("Example", "$it")
-            }
-        )
+        callInitiateUser { accessToken, refreshToken ->
+            LMFeedCore.showFeed(
+                this,
+                accessToken,
+                refreshToken,
+                success = {
+                    replaceFragment()
+                },
+                error = {
+                    Log.e("Example", "$it")
+                }
+            )
+        }
     }
 
     private fun replaceFragment() {
@@ -37,5 +38,14 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(containerViewId, fragment, containerViewId.toString())
         transaction.commit()
+    }
+
+    private fun callInitiateUser(callback: (String, String) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val task = GetTokensTask()
+            val tokens = task.getTokens(applicationContext, false)
+            Log.d("Example", "tokens: $tokens")
+            callback(tokens.first, tokens.second)
+        }
     }
 }

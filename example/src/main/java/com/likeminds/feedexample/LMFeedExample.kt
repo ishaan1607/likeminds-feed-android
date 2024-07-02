@@ -4,9 +4,6 @@ import android.app.Application
 import android.util.Log
 import com.likeminds.feed.android.core.LMFeedCore
 import com.likeminds.feed.android.core.LMFeedCoreCallback
-import com.likeminds.feedexample.auth.util.AuthPreferences
-import com.likeminds.likemindsfeed.LMFeedClient
-import com.likeminds.likemindsfeed.user.model.InitiateUserRequest
 import kotlinx.coroutines.runBlocking
 
 
@@ -40,35 +37,10 @@ class LMFeedExample : Application(), LMFeedCoreCallback {
             """.trimIndent()
             )
 
-            val mClient = LMFeedClient.getInstance()
-
-            val authPreferences = AuthPreferences(applicationContext)
-
-            val user = mClient.getLoggedInUserWithRights().data?.user
-            if (user != null) {
-                Log.d("PUI", "User not null")
-                val initiateUserRequest = InitiateUserRequest.Builder()
-                    .apiKey(authPreferences.getApiKey())
-                    .userName(user.name)
-                    .uuid(user.sdkClientInfo.uuid)
-                    .build()
-                val response = mClient.initiateUser(initiateUserRequest)
-
-                if (response.success) {
-                    Log.d("PUI", "Initiate User Success")
-                    val accessToken = response.data?.accessToken ?: ""
-                    val refreshToken = response.data?.refreshToken ?: ""
-                    Pair(accessToken, refreshToken)
-                } else {
-                    Log.d("PUI", "Initiate User Failed")
-                    Pair("", "")
-                }
-            } else {
-                Log.d("PUI", "User null")
-                Pair("", "")
-            }
-
-            Pair("", "")
+            val task = GetTokensTask()
+            val tokens = task.getTokens(applicationContext, false)
+            Log.d("Example", "abc: $tokens")
+            tokens
         }
     }
 }

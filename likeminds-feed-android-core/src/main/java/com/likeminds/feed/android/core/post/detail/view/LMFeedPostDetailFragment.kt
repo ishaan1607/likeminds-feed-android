@@ -254,17 +254,10 @@ open class LMFeedPostDetailFragment :
         if (postDetailExtras.source == LMFeedAnalytics.Source.NOTIFICATION ||
             postDetailExtras.source == LMFeedAnalytics.Source.DEEP_LINK
         ) {
-
-            //todo change logic as per API Key Security
-            val userPreferences = LMFeedUserPreferences(requireContext())
-
-            LMFeedCore.initiateUser(
-                requireContext(),
-                userPreferences.getApiKey(), //todo replace from lmFeedClient
-                userPreferences.getUserName(),
-                userPreferences.getUUID(),
-                userPreferences.getDeviceId(),
-                userPreferences.getPushNotificationsEnabled(),
+            LMFeedCore.showFeed(
+                context = requireContext(),
+                accessToken = null,
+                refreshToken = null,
                 success = {
                     postDetailViewModel.getPost(postDetailExtras.postId, 1)
                 },
