@@ -14,6 +14,7 @@ class GetTokensTask {
 
     private lateinit var authPreferences: AuthPreferences
 
+    // Get tokens from the server
     suspend fun getTokens(context: Context, isProd: Boolean): Pair<String, String> {
         return withContext(Dispatchers.IO) {
             //get api url

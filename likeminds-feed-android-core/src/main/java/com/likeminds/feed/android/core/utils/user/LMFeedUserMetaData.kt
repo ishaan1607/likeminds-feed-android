@@ -28,6 +28,7 @@ class LMFeedUserMetaData {
         }
     }
 
+    //initializes the user meta data
     fun init(
         domain: String?,
         enablePushNotifications: Boolean,
@@ -38,6 +39,7 @@ class LMFeedUserMetaData {
         this.deviceId = deviceId
     }
 
+    //perform actions post user session is initiated
     fun onPostSessionInit(context: Context, userName: String?, uuid: String?) {
         saveUserPreferences(context, userName, uuid)
         getMemberState()
@@ -45,6 +47,7 @@ class LMFeedUserMetaData {
         getCommunityConfiguration()
     }
 
+    //save user meta in preferences
     private fun saveUserPreferences(
         context: Context,
         userName: String?,
@@ -58,6 +61,7 @@ class LMFeedUserMetaData {
         }
     }
 
+    //get community configuration
     private fun getCommunityConfiguration() {
         CoroutineScope(Dispatchers.IO).launch {
             val lmFeedClient = LMFeedClient.getInstance()
@@ -87,6 +91,7 @@ class LMFeedUserMetaData {
         }
     }
 
+    //get member state
     private fun getMemberState() {
         CoroutineScope(Dispatchers.IO).launch {
             val lmFeedClient = LMFeedClient.getInstance()
