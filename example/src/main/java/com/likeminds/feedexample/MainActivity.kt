@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.likeminds.feed.android.core.LMFeedCore
+import com.likeminds.feedexample.LMFeedExample.Companion.LM_FEED_EXAMPLE_TAG
 import com.likeminds.feedexample.auth.util.AuthPreferences
 import com.likeminds.feedexample.universalfeed.CustomLMUniversalFeedAdminFragment
 import kotlinx.coroutines.*
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment()
                 },
                 error = {
-                    Log.e("Example", "$it")
+                    Log.e(LM_FEED_EXAMPLE_TAG, "$it")
                 }
             )
         }
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val task = GetTokensTask()
             val tokens = task.getTokens(applicationContext, false)
-            Log.d("Example", "tokens: $tokens")
+            Log.d(LM_FEED_EXAMPLE_TAG, "tokens: $tokens")
             callback(tokens.first, tokens.second)
         }
     }

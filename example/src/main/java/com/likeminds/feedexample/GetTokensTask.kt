@@ -2,6 +2,7 @@ package com.likeminds.feedexample
 
 import android.content.Context
 import android.util.Log
+import com.likeminds.feedexample.LMFeedExample.Companion.LM_FEED_EXAMPLE_TAG
 import com.likeminds.feedexample.auth.util.AuthPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -76,7 +77,7 @@ class GetTokensTask {
                 val refreshToken = data.getString("refresh_token")
                 Pair(accessToken, refreshToken)
             } else {
-                Log.e("Example", "Error: HTTP $responseCode")
+                Log.e(LM_FEED_EXAMPLE_TAG, "Error: HTTP $responseCode")
                 Pair("", "")
             }
         }

@@ -11,6 +11,10 @@ import kotlinx.coroutines.runBlocking
 
 class LMFeedExample : Application(), LMFeedCoreCallback {
 
+    companion object {
+        const val LM_FEED_EXAMPLE_TAG = "LMFeedExample"
+    }
+
     @SuppressLint("HardwareIds")
     override fun onCreate() {
         super.onCreate()
@@ -27,7 +31,7 @@ class LMFeedExample : Application(), LMFeedCoreCallback {
 
     override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
         Log.d(
-            "Example", """
+            LM_FEED_EXAMPLE_TAG, """
             Example Layer Callback -> onAccessTokenExpiredAndRefreshed
             accessToken: $accessToken
             refreshToken: $refreshToken
@@ -38,14 +42,14 @@ class LMFeedExample : Application(), LMFeedCoreCallback {
     override fun onRefreshTokenExpired(): Pair<String?, String?> {
         return runBlocking {
             Log.d(
-                "Example", """
+                LM_FEED_EXAMPLE_TAG, """
                 Example Layer Callback -> onRefreshTokenExpired
             """.trimIndent()
             )
 
             val task = GetTokensTask()
             val tokens = task.getTokens(applicationContext, false)
-            Log.d("Example", "tokens: $tokens")
+            Log.d(LM_FEED_EXAMPLE_TAG, "tokens: $tokens")
             tokens
         }
     }
