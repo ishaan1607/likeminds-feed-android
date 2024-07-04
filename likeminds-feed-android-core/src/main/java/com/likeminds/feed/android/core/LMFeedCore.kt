@@ -2,7 +2,6 @@ package com.likeminds.feed.android.core
 
 import android.app.Application
 import android.content.Context
-import com.google.android.exoplayer2.util.Log
 import com.likeminds.feed.android.core.ui.theme.LMFeedTheme
 import com.likeminds.feed.android.core.ui.theme.model.LMFeedSetThemeRequest
 import com.likeminds.feed.android.core.utils.user.*
@@ -50,11 +49,6 @@ object LMFeedCore {
         error: ((String?) -> Unit)?
     ) {
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d(
-                "PUI",
-                "calling show feed (without Security) with api key: $apiKey and uuid: $uuid and userName: $userName"
-            )
-
             val lmFeedClient = LMFeedClient.getInstance()
             val tokens = lmFeedClient.getTokens().data
 
@@ -62,7 +56,6 @@ object LMFeedCore {
             val deviceId = userMeta.deviceId
 
             if (tokens?.first == null || tokens.second == null) {
-                Log.d("PUI", "tokens are not present")
                 val initiateUserRequest = InitiateUserRequest.Builder()
                     .apiKey(apiKey)
                     .userName(userName)
@@ -86,7 +79,6 @@ object LMFeedCore {
                     error?.let { it(response.errorMessage) }
                 }
             } else {
-                Log.d("PUI", "tokens are present")
                 showFeed(context, tokens.first, tokens.second, success, error)
             }
         }
@@ -100,20 +92,13 @@ object LMFeedCore {
         error: ((String?) -> Unit)?
     ) {
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d(
-                "PUI",
-                "calling show feed (with Security): access token: $accessToken and refresh token: $refreshToken"
-            )
-
             val userMeta = LMFeedUserMetaData.getInstance()
             val deviceId = userMeta.deviceId
 
             val lmFeedClient = LMFeedClient.getInstance()
             val tokens = if (accessToken == null || refreshToken == null) {
-                Log.d("PUI", "tokens are not received")
                 lmFeedClient.getTokens().data ?: Pair("", "")
             } else {
-                Log.d("PUI", "tokens are received")
                 Pair(accessToken, refreshToken)
             }
 

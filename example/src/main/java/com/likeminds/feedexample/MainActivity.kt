@@ -16,6 +16,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        authPreferences = AuthPreferences(this)
+
+        //without API Key Security
+//        LMFeedCore.showFeed(
+//            this,
+//            apiKey = authPreferences.getApiKey(),
+//            uuid = authPreferences.getUserId(),
+//            userName = authPreferences.getUserName(),
+//            success = {
+//                replaceFragment()
+//            },
+//            error = {
+//                Log.e("Example", "$it")
+//            }
+//        )
+
+        //with API Key Security
         callInitiateUser { accessToken, refreshToken ->
             LMFeedCore.showFeed(
                 this,

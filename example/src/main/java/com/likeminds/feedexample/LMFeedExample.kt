@@ -27,7 +27,7 @@ class LMFeedExample : Application(), LMFeedCoreCallback {
 
     override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
         Log.d(
-            "PUI", """
+            "Example", """
             Example Layer Callback -> onAccessTokenExpiredAndRefreshed
             accessToken: $accessToken
             refreshToken: $refreshToken
@@ -38,14 +38,14 @@ class LMFeedExample : Application(), LMFeedCoreCallback {
     override fun onRefreshTokenExpired(): Pair<String?, String?> {
         return runBlocking {
             Log.d(
-                "PUI", """
+                "Example", """
                 Example Layer Callback -> onRefreshTokenExpired
             """.trimIndent()
             )
 
             val task = GetTokensTask()
             val tokens = task.getTokens(applicationContext, false)
-            Log.d("Example", "abc: $tokens")
+            Log.d("Example", "tokens: $tokens")
             tokens
         }
     }

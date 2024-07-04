@@ -52,9 +52,6 @@ class GetTokensTask {
                 put("rtm_token_expiry_beta", 2)
             }
 
-            Log.d("Example", "connection request: ${connection.requestProperties}")
-            Log.d("Example", "initiate request: $request")
-
             // Write POST data
             val writer = OutputStreamWriter(connection.outputStream)
             writer.write(request.toString())

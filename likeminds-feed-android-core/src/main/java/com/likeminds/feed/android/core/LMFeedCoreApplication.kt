@@ -3,7 +3,6 @@ package com.likeminds.feed.android.core
 import android.app.Application
 import android.content.Context
 import android.util.Base64
-import android.util.Log
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
@@ -106,34 +105,16 @@ class LMFeedCoreApplication : LMFeedSDKCallback {
         userMetaData.init(domain, enablePushNotifications, deviceId)
     }
 
-    override fun login() {
-        lmFeedCoreCallback?.login()
-    }
-
     override fun onAccessTokenExpiredAndRefreshed(accessToken: String, refreshToken: String) {
-        Log.d(
-            "PUI", """
-            Core Layer Callback -> onAccessTokenExpiredAndRefreshed
-            accessToken: $accessToken
-            refreshToken: $refreshToken
-        """.trimIndent()
-        )
         lmFeedCoreCallback?.onAccessTokenExpiredAndRefreshed(accessToken, refreshToken)
     }
 
     override fun onRefreshTokenExpired(): Pair<String?, String?> {
-        Log.d(
-            "PUI", """
-            Core Layer Callback -> onRefreshTokenExpired
-        """.trimIndent()
-        )
         val apiKey = mClient.getAPIKey().data
         return if (apiKey != null) {
-            Log.d("PUI", "API Key not null: $apiKey")
             runBlocking {
                 val user = mClient.getLoggedInUserWithRights().data?.user
                 if (user != null) {
-                    Log.d("PUI", "User not null")
                     val initiateUserRequest = InitiateUserRequest.Builder()
                         .apiKey(apiKey)
                         .userName(user.name)
@@ -142,21 +123,17 @@ class LMFeedCoreApplication : LMFeedSDKCallback {
                     val response = mClient.initiateUser(initiateUserRequest)
 
                     if (response.success) {
-                        Log.d("PUI", "Initiate User Success")
                         val accessToken = response.data?.accessToken ?: ""
                         val refreshToken = response.data?.refreshToken ?: ""
                         Pair(accessToken, refreshToken)
                     } else {
-                        Log.d("PUI", "Initiate User Failed")
                         Pair("", "")
                     }
                 } else {
-                    Log.d("PUI", "User null")
                     Pair("", "")
                 }
             }
         } else {
-            Log.d("PUI", "API Key null")
             lmFeedCoreCallback?.onRefreshTokenExpired() ?: Pair(null, null)
         }
     }
