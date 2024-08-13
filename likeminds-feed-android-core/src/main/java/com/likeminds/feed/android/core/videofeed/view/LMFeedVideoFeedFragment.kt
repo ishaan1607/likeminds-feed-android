@@ -232,6 +232,7 @@ open class LMFeedVideoFeedFragment :
         }
     }
 
+    //initializes the refresh layout
     private fun initSwipeRefreshLayout() {
         mSwipeRefreshLayout = binding.swipeRefreshLayout
         mSwipeRefreshLayout.apply {
@@ -480,7 +481,6 @@ open class LMFeedVideoFeedFragment :
         super.onPostVideoFeedCaughtUpClicked()
 
         binding.vp2VideoFeed.apply {
-//            setCurrentItem(0, true)
             onFeedRefreshed()
         }
     }
