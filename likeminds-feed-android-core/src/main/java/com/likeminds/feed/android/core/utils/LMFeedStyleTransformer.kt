@@ -10,17 +10,19 @@ import com.likeminds.feed.android.core.post.create.viewstyle.LMFeedCreatePostFra
 import com.likeminds.feed.android.core.post.detail.style.LMFeedPostDetailFragmentViewStyle
 import com.likeminds.feed.android.core.post.edit.style.LMFeedEditPostFragmentViewStyle
 import com.likeminds.feed.android.core.post.style.LMFeedPostViewStyle
+import com.likeminds.feed.android.core.postmenu.style.LMFeedPostMenuViewStyle
 import com.likeminds.feed.android.core.report.style.LMFeedReportFragmentViewStyle
+import com.likeminds.feed.android.core.socialfeed.style.LMFeedSocialFeedFragmentViewStyle
 import com.likeminds.feed.android.core.topicselection.style.LMFeedTopicSelectionFragmentViewStyle
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedAddPollOptionBottomSheetFragmentStyle
 import com.likeminds.feed.android.core.ui.widgets.poll.style.LMFeedAnonymousPollDialogFragmentStyle
-import com.likeminds.feed.android.core.universalfeed.style.LMFeedUniversalFeedFragmentViewStyle
+import com.likeminds.feed.android.core.videofeed.viewstyle.LMFeedVideoFeedFragmentViewStyle
 
 object LMFeedStyleTransformer {
 
     @JvmStatic
-    var universalFeedFragmentViewStyle: LMFeedUniversalFeedFragmentViewStyle =
-        LMFeedUniversalFeedFragmentViewStyle.Builder().build()
+    var socialFeedFragmentViewStyle: LMFeedSocialFeedFragmentViewStyle =
+        LMFeedSocialFeedFragmentViewStyle.Builder().build()
 
     @JvmStatic
     var postViewStyle: LMFeedPostViewStyle = LMFeedPostViewStyle.Builder().build()
@@ -73,8 +75,14 @@ object LMFeedStyleTransformer {
     var alertDialogAnonymousPoll: LMFeedAnonymousPollDialogFragmentStyle =
         LMFeedAnonymousPollDialogFragmentStyle.Builder().build()
 
-
     @JvmStatic
     var createPollFragmentViewStyle: LMFeedCreatePollFragmentViewStyle =
         LMFeedCreatePollFragmentViewStyle.Builder().build()
+
+    @JvmStatic
+    var videoFeedFragmentViewStyle: LMFeedVideoFeedFragmentViewStyle =
+        LMFeedVideoFeedFragmentViewStyle.Builder().build()
+
+    @JvmStatic
+    var postMenuViewStyle: LMFeedPostMenuViewStyle = LMFeedPostMenuViewStyle.Builder().build()
 }

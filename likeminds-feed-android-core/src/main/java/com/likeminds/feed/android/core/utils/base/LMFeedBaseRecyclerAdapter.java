@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.likeminds.feed.android.core.databinding.LmFeedItemPostVideoFeedBinding;
 import com.likeminds.feed.android.core.utils.base.model.LMFeedViewType;
+import com.likeminds.feed.android.core.videofeed.adapter.databinders.LMFeedItemPostVideoFeedViewDataBinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ public abstract class LMFeedBaseRecyclerAdapter<T extends LMFeedBaseViewType> ex
 
     private static final String TAG = "BaseRecyclerAdapter";
     private List<T> dataList;
-    private final SparseArray<LMFeedViewDataBinder> supportedViewBinderResolverMap;
+    public SparseArray<LMFeedViewDataBinder> supportedViewBinderResolverMap;
 
     public LMFeedBaseRecyclerAdapter() {
         dataList = new ArrayList<>(1);

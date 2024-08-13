@@ -29,9 +29,12 @@ import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostDisabledTop
 import com.likeminds.feed.android.core.post.edit.model.LMFeedEditPostExtras
 import com.likeminds.feed.android.core.post.edit.view.LMFeedEditPostActivity.Companion.LM_FEED_EDIT_POST_EXTRAS
 import com.likeminds.feed.android.core.post.edit.viewmodel.LMFeedEditPostViewModel
-import com.likeminds.feed.android.core.post.model.LMFeedAttachmentViewData
-import com.likeminds.feed.android.core.post.model.LMFeedLinkOGTagsViewData
+import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.post.util.LMFeedPostEvent
+import com.likeminds.feed.android.core.socialfeed.adapter.LMFeedPostAdapterListener
+import com.likeminds.feed.android.core.socialfeed.model.LMFeedMediaViewData
+import com.likeminds.feed.android.core.socialfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.socialfeed.util.LMFeedPostBinderUtils.customizePostTopicsGroup
 import com.likeminds.feed.android.core.topics.model.LMFeedTopicViewData
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionExtras
 import com.likeminds.feed.android.core.topicselection.model.LMFeedTopicSelectionResultExtras
@@ -45,16 +48,13 @@ import com.likeminds.feed.android.core.ui.widgets.headerview.view.LMFeedHeaderVi
 import com.likeminds.feed.android.core.ui.widgets.poll.view.LMFeedPostPollView
 import com.likeminds.feed.android.core.ui.widgets.post.postheaderview.view.LMFeedPostHeaderView
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.view.*
-import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedMediaViewData
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
-import com.likeminds.feed.android.core.universalfeed.util.LMFeedPostBinderUtils.customizePostTopicsGroup
 import com.likeminds.feed.android.core.utils.*
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.getUrlIfExist
 import com.likeminds.feed.android.core.utils.LMFeedValueUtils.pluralizeOrCapitalize
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.hide
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils.show
 import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics
+import com.likeminds.feed.android.core.utils.analytics.LMFeedAnalytics.LMFeedScreenNames
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
 import com.likeminds.feed.android.core.utils.base.model.*
 import com.likeminds.feed.android.core.utils.coroutine.observeInLifecycle
@@ -72,10 +72,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
+import org.json.JSONObject
 
 open class LMFeedEditPostFragment :
     Fragment(),
-    LMFeedUniversalFeedAdapterListener {
+    LMFeedPostAdapterListener {
 
     private lateinit var binding: LmFeedFragmentEditPostBinding
 
@@ -84,6 +85,7 @@ open class LMFeedEditPostFragment :
     private var postMediaViewData: LMFeedMediaViewData? = null
     private var ogTags: LMFeedLinkOGTagsViewData? = null
     private var poll: LMFeedPollViewData? = null
+    private var widgetData: Pair<String, JSONObject>? = null
 
     private var post: LMFeedPostViewData? = null
 
@@ -281,7 +283,8 @@ open class LMFeedEditPostFragment :
                 super.onUserTagged(user)
                 LMFeedAnalytics.sendUserTagEvent(
                     user.uuid,
-                    memberTagging.getTaggedMemberCount()
+                    memberTagging.getTaggedMemberCount(),
+                    LMFeedScreenNames.EDIT_POST
                 )
             }
         }
@@ -317,17 +320,24 @@ open class LMFeedEditPostFragment :
             val updatedText = memberTagging.replaceSelectedMembers(text).trim()
             val topics = selectedTopic.values
 
+            //get media attachments from post
+            val mediaAttachments = postMediaViewData?.attachments?.filter {
+                it.attachmentType != CUSTOM_WIDGET
+            }
+
             if (selectedTopic.isNotEmpty()) {
                 if (disabledTopics.isEmpty()) {
                     //call api as all topics are enabled
                     headerViewEditPost.setSubmitButtonEnabled(isEnabled = true, showProgress = true)
+
                     editPostViewModel.editPost(
                         editPostExtras.postId,
                         updatedText,
-                        attachments = postMediaViewData?.attachments,
+                        attachments = mediaAttachments,
                         ogTags = ogTags,
                         selectedTopics = topics.toList(),
-                        poll = poll
+                        poll = poll,
+                        widgetData = widgetData
                     )
                 } else {
                     //show dialog for disabled topics
@@ -336,13 +346,15 @@ open class LMFeedEditPostFragment :
             } else {
                 //call api as no topics are enabled
                 headerViewEditPost.setSubmitButtonEnabled(isEnabled = true, showProgress = true)
+
                 editPostViewModel.editPost(
                     editPostExtras.postId,
                     updatedText,
-                    attachments = postMediaViewData?.attachments,
+                    attachments = mediaAttachments,
                     ogTags = ogTags,
                     selectedTopics = topics.toList(),
-                    poll = poll
+                    poll = poll,
+                    widgetData = widgetData
                 )
             }
         }
@@ -478,6 +490,23 @@ open class LMFeedEditPostFragment :
             val mediaViewData = post.mediaViewData
             val topics = post.topicsViewData
 
+            //get custom widget attachment
+            val customWidgetAttachment = mediaViewData.attachments.firstOrNull {
+                it.attachmentType == CUSTOM_WIDGET
+            }?.attachmentMeta?.widgetViewData
+
+            //get widget data id and metadata
+            widgetData = if (customWidgetAttachment != null) {
+                val entityId = customWidgetAttachment.id
+                val data = customWidgetAttachment.metadata.optJSONObject("meta") ?: JSONObject()
+                Pair(
+                    entityId,
+                    data
+                )
+            } else {
+                null
+            }
+
             LMFeedProgressBarHelper.hideProgress(progressBar)
             nestedScroll.show()
 
@@ -515,7 +544,9 @@ open class LMFeedEditPostFragment :
 
                 ITEM_POST_LINK -> {
                     postMediaViewData = mediaViewData
-                    ogTags = postMediaViewData?.attachments?.first()?.attachmentMeta?.ogTags
+                    ogTags = postMediaViewData?.attachments?.firstOrNull {
+                        it.attachmentType == LINK
+                    }?.attachmentMeta?.ogTags
                     showLinkView()
                 }
 
@@ -533,6 +564,10 @@ open class LMFeedEditPostFragment :
                         .build()
 
                     showPollView()
+                }
+
+                ITEM_POST_CUSTOM_WIDGET -> {
+
                 }
 
                 else -> {
@@ -592,7 +627,11 @@ open class LMFeedEditPostFragment :
                 false
             })
 
-            if (postMediaViewData == null && poll == null) {
+            val postContainsOGTags = postMediaViewData?.attachments?.find {
+                it.attachmentType == LINK
+            } != null
+
+            if (postContainsOGTags && poll == null) {
                 // text watcher with debounce to add delay in api calls for ogTags
                 textChanges()
                     .debounce(500)
@@ -775,7 +814,9 @@ open class LMFeedEditPostFragment :
     //shows single image preview
     private fun showSingleImagePreview() {
         binding.headerViewEditPost.setSubmitButtonEnabled(isEnabled = true)
-        val attachmentUrl = postMediaViewData?.attachments?.first()?.attachmentMeta?.url ?: return
+        val attachmentUrl = postMediaViewData?.attachments?.firstOrNull {
+            it.attachmentType == IMAGE
+        }?.attachmentMeta?.url ?: return
 
         binding.singleImageAttachment.apply {
             root.show()
@@ -790,7 +831,9 @@ open class LMFeedEditPostFragment :
 
     //shows single video preview
     private fun showSingleVideoPreview() {
-        val videoAttachment = postMediaViewData?.attachments?.first()
+        val videoAttachment = postMediaViewData?.attachments?.firstOrNull {
+            it.attachmentType == VIDEO
+        }
         binding.singleVideoAttachment.apply {
             root.show()
             val meta = videoAttachment?.attachmentMeta
@@ -848,7 +891,7 @@ open class LMFeedEditPostFragment :
         val link = data.url ?: ""
 
         // sends link attached event with the link
-        LMFeedAnalytics.sendLinkAttachedEvent(link)
+        LMFeedAnalytics.sendLinkAttachedEvent(link, LMFeedScreenNames.EDIT_POST)
 
         binding.linkPreview.root.show()
 
@@ -882,6 +925,7 @@ open class LMFeedEditPostFragment :
     // clears link preview
     private fun clearPreviewLink() {
         ogTags = null
+        postMediaViewData = null
         binding.linkPreview.apply {
             root.hide()
         }

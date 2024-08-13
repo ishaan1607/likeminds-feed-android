@@ -8,8 +8,8 @@ import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.likeminds.feed.android.core.databinding.LmFeedPostMultipleMediaViewBinding
 import com.likeminds.feed.android.core.post.model.*
 import com.likeminds.feed.android.core.ui.widgets.post.postmedia.style.LMFeedPostMultipleMediaViewStyle
-import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedMultipleMediaPostAdapter
-import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapterListener
+import com.likeminds.feed.android.core.socialfeed.adapter.LMFeedMultipleMediaPostAdapter
+import com.likeminds.feed.android.core.socialfeed.adapter.LMFeedPostAdapterListener
 import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_IMAGE
 import com.likeminds.feed.android.core.utils.base.model.ITEM_MULTIPLE_MEDIA_VIDEO
 
@@ -83,7 +83,7 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
     //sets the view pager to the multiple media type post with the provided listeners and attachments
     fun setViewPager(
         parentPosition: Int,
-        listener: LMFeedUniversalFeedAdapterListener,
+        listener: LMFeedPostAdapterListener,
         attachments: List<LMFeedAttachmentViewData>,
         isMediaRemovable: Boolean = false
     ) {
@@ -129,20 +129,24 @@ class LMFeedPostMultipleMediaView : ConstraintLayout {
 
     //returns the updated attachments list for multiple media view
     private fun getUpdatedAttachmentsForMultipleMedia(attachments: List<LMFeedAttachmentViewData>): List<LMFeedAttachmentViewData> {
-        return attachments.map {
-            when (it.attachmentType) {
-                IMAGE -> {
-                    it.toBuilder().dynamicViewType(ITEM_MULTIPLE_MEDIA_IMAGE).build()
-                }
+        return attachments
+            .filter {
+                it.attachmentType == IMAGE || it.attachmentType == VIDEO
+            }
+            .map {
+                when (it.attachmentType) {
+                    IMAGE -> {
+                        it.toBuilder().dynamicViewType(ITEM_MULTIPLE_MEDIA_IMAGE).build()
+                    }
 
-                VIDEO -> {
-                    it.toBuilder().dynamicViewType(ITEM_MULTIPLE_MEDIA_VIDEO).build()
-                }
+                    VIDEO -> {
+                        it.toBuilder().dynamicViewType(ITEM_MULTIPLE_MEDIA_VIDEO).build()
+                    }
 
-                else -> {
-                    it
+                    else -> {
+                        it
+                    }
                 }
             }
-        }
     }
 }

@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.likeminds.feed.android.core.databinding.*
 import com.likeminds.feed.android.core.post.detail.adapter.LMFeedPostDetailAdapter
+import com.likeminds.feed.android.core.post.model.VIDEO
 import com.likeminds.feed.android.core.ui.base.views.LMFeedVideoView
-import com.likeminds.feed.android.core.universalfeed.adapter.LMFeedUniversalFeedAdapter
-import com.likeminds.feed.android.core.universalfeed.model.LMFeedPostViewData
+import com.likeminds.feed.android.core.socialfeed.adapter.LMFeedSocialFeedAdapter
+import com.likeminds.feed.android.core.socialfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewUtils
 import com.likeminds.feed.android.core.utils.base.LMFeedDataBoundViewHolder
 import com.likeminds.feed.android.core.utils.base.model.ITEM_POST_MULTIPLE_MEDIA
@@ -42,7 +43,7 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
 
             when (recyclerView.adapter) {
                 // the recycler view is of [FeedFragment]
-                is LMFeedUniversalFeedAdapter -> {
+                is LMFeedSocialFeedAdapter -> {
                     playMostVisibleItem()
                 }
 
@@ -196,7 +197,7 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
     private fun attachVideoPlayerAt(pos: Int) {
         recyclerView.adapter.apply {
             when (this) {
-                is LMFeedUniversalFeedAdapter -> {
+                is LMFeedSocialFeedAdapter -> {
                     val item = this[pos]
                     handleVideoPlay(
                         pos,
@@ -236,7 +237,9 @@ class LMFeedPostVideoAutoPlayHelper private constructor(private val recyclerView
                 val videoView = itemPostSingleVideoBinding.postVideoView.videoView
 
                 if (lastPlayerView == null || lastPlayerView != videoView) {
-                    val attachmentMeta = data.mediaViewData.attachments.first().attachmentMeta
+                    val attachmentMeta = data.mediaViewData.attachments.first {
+                        it.attachmentType == VIDEO
+                    }.attachmentMeta
 
                     itemPostSingleVideoBinding.postVideoView.playVideo(
                         Uri.parse(attachmentMeta.url),
