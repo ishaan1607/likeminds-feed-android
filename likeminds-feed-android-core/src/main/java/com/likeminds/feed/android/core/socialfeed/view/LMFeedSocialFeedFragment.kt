@@ -140,6 +140,16 @@ open class LMFeedSocialFeedFragment :
         binding.rvSocial.initiateVideoAutoPlayer()
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+
+        if (hidden) {
+            binding.rvSocial.destroyVideoAutoPlayer()
+        } else {
+            binding.rvSocial.initiateVideoAutoPlayer()
+        }
+    }
+
     private fun fetchData() {
         socialFeedViewModel.getLoggedInUser()
         socialFeedViewModel.getCreatePostRights()
