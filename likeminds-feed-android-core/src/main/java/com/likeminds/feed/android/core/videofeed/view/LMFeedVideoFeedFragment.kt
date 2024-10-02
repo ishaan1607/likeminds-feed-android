@@ -419,8 +419,10 @@ open class LMFeedVideoFeedFragment :
         super.onHiddenChanged(hidden)
 
         if (hidden) {
+            // remove the player when fragment is hidden
             postVideoPreviewAutoPlayHelper.removePlayer()
         } else {
+            // play the video when fragment is not hidden
             val currentItem = binding.vp2VideoFeed.currentItem
 
             if (currentItem >= 0

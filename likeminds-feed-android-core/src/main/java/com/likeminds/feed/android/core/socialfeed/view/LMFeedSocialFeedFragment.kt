@@ -144,8 +144,10 @@ open class LMFeedSocialFeedFragment :
         super.onHiddenChanged(hidden)
 
         if (hidden) {
+            // destroy the video player when fragment is not hidden
             binding.rvSocial.destroyVideoAutoPlayer()
         } else {
+            // initiate the video player when fragment is not hidden
             binding.rvSocial.initiateVideoAutoPlayer()
         }
     }
