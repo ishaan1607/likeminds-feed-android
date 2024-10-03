@@ -415,6 +415,25 @@ open class LMFeedVideoFeedFragment :
         }
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+
+        if (hidden) {
+            // remove the player when fragment is hidden
+            postVideoPreviewAutoPlayHelper.removePlayer()
+        } else {
+            // play the video when fragment is not hidden
+            val currentItem = binding.vp2VideoFeed.currentItem
+
+            if (currentItem >= 0
+                && videoFeedAdapter.itemCount > currentItem
+                && videoFeedAdapter.items()[currentItem] != null
+            ) {
+                playVideoInViewPager(currentItem)
+            }
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         postVideoPreviewAutoPlayHelper.removePlayer()
