@@ -1,5 +1,6 @@
 package com.likeminds.feed.android.core.videofeed.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.likeminds.feed.android.core.socialfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
@@ -17,17 +18,26 @@ class LMFeedVideoFeedViewModel : ViewModel() {
         const val PAGE_SIZE = 20
     }
 
+    private var pageToCall = 0
+    var previousTotal: Int = 0
+    val adapterItems: MutableList<LMFeedPostViewData> = mutableListOf()
+    var adapterPosition = 0
+
     private val lmFeedClient: LMFeedClient by lazy {
         LMFeedClient.getInstance()
     }
 
-    private val _videoFeedResponse by lazy {
-        MutableLiveData<Pair<Int, List<LMFeedPostViewData>>>()
+    override fun onCleared() {
+        super.onCleared()
+
+        Log.e("PUI", "onCleared: ")
     }
 
-    val videoFeedResponse: LiveData<Pair<Int, List<LMFeedPostViewData>>> by lazy {
+    private val _videoFeedResponse =
+        MutableLiveData<Pair<Int, List<LMFeedPostViewData>>>()
+
+    val videoFeedResponse: LiveData<Pair<Int, List<LMFeedPostViewData>>> =
         _videoFeedResponse
-    }
 
     private val errorMessageChannel by lazy {
         Channel<ErrorMessageEvent>(Channel.BUFFERED)
@@ -44,10 +54,14 @@ class LMFeedVideoFeedViewModel : ViewModel() {
     }
 
     //gets video feed
-    fun getFeed(page: Int, topicsIds: List<String>? = null) {
+    fun getFeed(isRefreshed: Boolean = false, topicsIds: List<String>? = null) {
         viewModelScope.launchIO {
+            if (isRefreshed) {
+                pageToCall = 0
+            }
+            pageToCall++
             val request = GetFeedRequest.Builder()
-                .page(page)
+                .page(pageToCall)
                 .pageSize(PAGE_SIZE)
                 .topicIds(topicsIds)
                 .build()
@@ -72,9 +86,10 @@ class LMFeedVideoFeedViewModel : ViewModel() {
                     )
 
                 //send it to ui
-                _videoFeedResponse.postValue(Pair(page, listOfPostViewData))
+                _videoFeedResponse.postValue(Pair(pageToCall, listOfPostViewData))
             } else {
                 //for error
+                pageToCall--
                 errorMessageChannel.send(ErrorMessageEvent.VideoFeed(response.errorMessage))
             }
         }
@@ -111,5 +126,10 @@ class LMFeedVideoFeedViewModel : ViewModel() {
                 )
             }
         }
+    }
+
+    fun setViewPagerState(position: Int, items: List<LMFeedPostViewData>) {
+        adapterPosition = position
+        adapterItems.addAll(items)
     }
 }
