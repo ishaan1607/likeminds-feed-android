@@ -121,6 +121,7 @@ class LMFeedVideoFeedViewModel : ViewModel() {
         }
     }
 
+    // stores the state of the view pager by saving the current position and items in adapter
     fun setViewPagerState(position: Int, items: List<LMFeedPostViewData>) {
         adapterPosition = position
         adapterItems.clear()
