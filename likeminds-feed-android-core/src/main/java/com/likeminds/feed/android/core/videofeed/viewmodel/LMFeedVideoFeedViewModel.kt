@@ -20,6 +20,7 @@ class LMFeedVideoFeedViewModel : ViewModel() {
     private var pageToCall = 0
     var previousTotal: Int = 0
     val adapterItems: MutableList<LMFeedPostViewData> = mutableListOf()
+    var postsFinished = false
     var adapterPosition = 0
 
     private val lmFeedClient: LMFeedClient by lazy {
@@ -77,6 +78,11 @@ class LMFeedVideoFeedViewModel : ViewModel() {
                         topicsMap,
                         widgetsMap
                     )
+
+                // update the variable that no new posts are available now
+                if (listOfPostViewData.isEmpty()) {
+                    postsFinished = true
+                }
 
                 //send it to ui
                 _videoFeedResponse.postValue(Pair(pageToCall, listOfPostViewData))

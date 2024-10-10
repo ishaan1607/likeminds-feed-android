@@ -3,6 +3,7 @@ package com.likeminds.feed.android.core.videofeed.view
 import android.app.Activity
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -188,8 +189,8 @@ open class LMFeedVideoFeedFragment :
 
                     // Call API if the [VIDEO_PRELOAD_THRESHOLD] is reached
                     if (currentItem > 0 && currentItem >= size - VIDEO_PRELOAD_THRESHOLD) {
-                        if (videoFeedAdapter.itemCount > videoFeedViewModel.previousTotal) {
-                            videoFeedViewModel.previousTotal = videoFeedAdapter.itemCount
+                        if (size > videoFeedViewModel.previousTotal && !videoFeedViewModel.postsFinished) {
+                            videoFeedViewModel.previousTotal = size
                             fetchData()
                         }
                     }
