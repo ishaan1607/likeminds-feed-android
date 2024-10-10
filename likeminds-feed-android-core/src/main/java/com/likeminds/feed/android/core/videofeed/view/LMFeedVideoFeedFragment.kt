@@ -10,7 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.util.containsKey
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -64,7 +64,7 @@ open class LMFeedVideoFeedFragment :
 
     lateinit var videoFeedAdapter: LMFeedVideoFeedAdapter
 
-    private val videoFeedViewModel: LMFeedVideoFeedViewModel by activityViewModels()
+    private val videoFeedViewModel: LMFeedVideoFeedViewModel by viewModels()
 
     private val postVideoPreviewAutoPlayHelper by lazy {
         LMFeedPostVideoPreviewAutoPlayHelper.getInstance()
@@ -84,10 +84,11 @@ open class LMFeedVideoFeedFragment :
         binding = LmFeedFragmentVideoFeedBinding.inflate(layoutInflater)
 
         setVerticalVideoPostViewStyle()
-        initViewPager()
+        setupVideoFeed()
         binding.apply {
             customizeVideoFeedListView(binding.vp2VideoFeed, videoFeedAdapter)
         }
+        setViewPagerAdapter()
 
         return binding.root
     }
@@ -153,35 +154,7 @@ open class LMFeedVideoFeedFragment :
             .build()
     }
 
-    protected open fun customizeVideoFeedListView(
-        vp2VideoFeed: ViewPager2,
-        videoFeedAdapter: LMFeedVideoFeedAdapter
-    ) {
-        //customize video feed view here
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        if (videoFeedViewModel.adapterItems.isEmpty()) {
-            fetchData()
-        } else {
-            videoFeedAdapter.replace(videoFeedViewModel.adapterItems.toList())
-            binding.vp2VideoFeed.post {
-                binding.vp2VideoFeed.setCurrentItem(videoFeedViewModel.adapterPosition, true)
-            }
-        }
-        initSwipeRefreshLayout()
-        observeResponses()
-    }
-
-    //calls the getFeed() function to fetch feed videos
-    private fun fetchData() {
-        videoFeedViewModel.getFeed()
-    }
-
-    //initializes the view pager
-    private fun initViewPager() {
+    private fun setupVideoFeed() {
         binding.vp2VideoFeed.apply {
             for (i in 0 until childCount) {
                 if (getChildAt(i) is RecyclerView) {
@@ -224,9 +197,41 @@ open class LMFeedVideoFeedFragment :
             })
 
             videoFeedAdapter = LMFeedVideoFeedAdapter(this@LMFeedVideoFeedFragment)
-
-            adapter = videoFeedAdapter
         }
+    }
+
+    protected open fun customizeVideoFeedListView(
+        vp2VideoFeed: ViewPager2,
+        videoFeedAdapter: LMFeedVideoFeedAdapter
+    ) {
+        //customize video feed view here
+    }
+
+    //sets adapter to the view pager
+    private fun setViewPagerAdapter() {
+        binding.vp2VideoFeed.adapter = videoFeedAdapter
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (videoFeedViewModel.adapterItems.isEmpty()) {
+            fetchData()
+        } else {
+            videoFeedAdapter.replace(videoFeedViewModel.adapterItems.toList())
+            binding.vp2VideoFeed.apply {
+                post {
+                    setCurrentItem(videoFeedViewModel.adapterPosition, true)
+                }
+            }
+        }
+        initSwipeRefreshLayout()
+        observeResponses()
+    }
+
+    //calls the getFeed() function to fetch feed videos
+    private fun fetchData() {
+        videoFeedViewModel.getFeed()
     }
 
     //initializes the refresh layout

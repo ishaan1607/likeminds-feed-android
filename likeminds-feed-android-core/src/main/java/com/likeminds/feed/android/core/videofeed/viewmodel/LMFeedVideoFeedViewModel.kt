@@ -1,6 +1,5 @@
 package com.likeminds.feed.android.core.videofeed.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.likeminds.feed.android.core.socialfeed.model.LMFeedPostViewData
 import com.likeminds.feed.android.core.utils.LMFeedViewDataConvertor
@@ -25,12 +24,6 @@ class LMFeedVideoFeedViewModel : ViewModel() {
 
     private val lmFeedClient: LMFeedClient by lazy {
         LMFeedClient.getInstance()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-
-        Log.e("PUI", "onCleared: ")
     }
 
     private val _videoFeedResponse =
@@ -130,6 +123,7 @@ class LMFeedVideoFeedViewModel : ViewModel() {
 
     fun setViewPagerState(position: Int, items: List<LMFeedPostViewData>) {
         adapterPosition = position
+        adapterItems.clear()
         adapterItems.addAll(items)
     }
 }
