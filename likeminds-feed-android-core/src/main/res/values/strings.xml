@@ -172,7 +172,7 @@
     <string name="lm_feed_done">Done</string>
     <string name="lm_feed_new_poll">New Poll</string>
     <string name="lm_feed_poll_question">Poll Question</string>
-    <string name="lm_feed_ask_a_question">Ask a question</string>
+    <string name="lm_feed_ask_a_question">Ask a question and relax</string>
     <string name="lm_feed_answer_options">Answer options</string>
     <string name="lm_feed_add_an_option">Add an option…</string>
     <string name="lm_feed_poll_expire">Poll expires on</string>
